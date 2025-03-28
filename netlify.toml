@@ -1,4 +1,6 @@
+[build]
+  command = "npm install --no-optional && npm run build"
+  publish = "out"
+
 [build.environment]
-  NODE_ENV = "development"
-  NPM_FLAGS = "--loglevel verbose"
-  DEBUG = "*"
+  NODE_VERSION = "18"
