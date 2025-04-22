@@ -80,7 +80,7 @@ export default function RootLayout({
               var v = d.createElement(t), s = d.getElementsByTagName(t)[0];
               v.onload = function() {
                 window.voiceflow.chat.load({
-                  verify: { projectID: '6807a37af5b859583df1dd36' },
+                  verify: { projectID: '6807c446ff2e1848c8bfe41a' },
                   url: 'https://general-runtime.voiceflow.com',
                   versionID: 'production',
                   voice: {
