@@ -140,7 +140,8 @@ const caseStudies = [
       "Real-time sentiment analysis",
       "Custom insurance knowledge base",
       "Intelligent call routing system"
-    ]
+    ],
+    videoSrc: "https://www.youtube.com/embed/o1H-4kebbQM"
   },
   {
     title: "Financial Process Automation",
