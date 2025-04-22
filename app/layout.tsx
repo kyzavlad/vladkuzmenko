@@ -1,7 +1,7 @@
 import './globals.css';
 import type { Metadata } from 'next';
 import { ThemeProviderWrapper } from '@/components/theme-provider-wrapper';
-import Script from 'next/script'; // добавлено для подключения внешнего скрипта
+import Script from 'next/script';
 
 const description = "Transform your business with AI-powered automation solutions for customer support, email marketing, and content creation. Our enterprise-grade AI platform helps you engage customers, streamline operations, and drive growth without complexity.";
 
@@ -73,27 +73,24 @@ export default function RootLayout({
           {children}
         </ThemeProviderWrapper>
 
-        {/* Voiceflow Chatbot Script */}
-        <Script id="voiceflow-chat" strategy="afterInteractive">
-          {`
-            (function(d, t) {
-              var v = d.createElement(t), s = d.getElementsByTagName(t)[0];
-              v.onload = function() {
-                window.voiceflow.chat.load({
-                  verify: { projectID: '6807c446ff2e1848c8bfe41a' },
-                  url: 'https://general-runtime.voiceflow.com',
-                  versionID: 'production',
-                  voice: {
-                    url: "https://runtime-api.voiceflow.com"
-                  }
-                });
-              };
-              v.src = "https://cdn.voiceflow.com/widget-next/bundle.mjs";
-              v.type = "text/javascript";
-              s.parentNode.insertBefore(v, s);
-            })(document, 'script');
-          `}
-        </Script>
+        {/* ✅ Voiceflow Chatbot Embed */}
+        <Script
+          strategy="afterInteractive"
+          src="https://cdn.voiceflow.com/widget-next/bundle.mjs"
+          type="text/javascript"
+          onLoad={() => {
+            if (window.voiceflow && window.voiceflow.chat) {
+              window.voiceflow.chat.load({
+                verify: { projectID: '6807c446ff2e1848c8bfe41a' },
+                url: 'https://general-runtime.voiceflow.com',
+                versionID: 'production',
+                voice: {
+                  url: "https://runtime-api.voiceflow.com"
+                }
+              });
+            }
+          }}
+        />
       </body>
     </html>
   );
