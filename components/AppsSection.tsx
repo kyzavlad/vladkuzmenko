@@ -17,7 +17,7 @@ export function AppsSection() {
           {/* Custom Video Dialog with Rainbow Animation */}
           <div className="max-w-4xl mx-auto mb-8">
             <CustomVideoDialog 
-              videoSrc="https://www.youtube.com/embed/meZ8FE65nLQ?si=yrVQP9r8B2Qg703F"
+              videoSrc="https://www.youtube.com/embed/70bESZ4d2Y8?si=m3bQ2nxkqtAxx_mN"
               title="AI Automation Introduction"
             />
           </div>
