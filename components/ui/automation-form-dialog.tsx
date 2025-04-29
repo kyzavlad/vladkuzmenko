@@ -66,14 +66,14 @@ const formSteps: FormStep[] = [
         label: "Phone Number",
         type: "text",
         placeholder: "+1 (555) 123-4567",
-        required: false
+        required: true
       },
       {
         id: "websiteOrSocial",
         label: "Website or Social Media Link",
         type: "text",
         placeholder: "https://yourcompany.com or Instagram profile",
-        required: false
+        required: true
       }
     ]
   },
