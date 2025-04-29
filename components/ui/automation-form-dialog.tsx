@@ -184,7 +184,7 @@ export function AutomationFormDialog({ children, className }: AutomationFormDial
   const handleSubmit = async () => {
     setIsSubmitting(true);
     try {
-      const response = await fetch("https://n8n.vladkuzmenkoai.com/webhook-test/b60f2736-ecb9-451a-b38e-5018c3935013", {
+      const response = await fetch("https://n8n.vladkuzmenkoai.com/webhook/b60f2736-ecb9-451a-b38e-5018c3935013", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
