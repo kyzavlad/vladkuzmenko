@@ -1,17 +1,34 @@
 "use client";
 
 import Marquee from "react-fast-marquee";
-import ReactPlayer from "react-player";
 import { useState } from "react";
 
 export function TestimonialsSection() {
   const testimonials = [
-    { title: "Law Firm", url: "https://youtu.be/F2c6znHQnzE" },
-    { title: "Kid's School Camp", url: "https://youtu.be/HTUyqpaqiaw" },
-    { title: "Fashion Clothes Store", url: "https://youtu.be/NDCsos_f7zo" },
-    { title: "Auto Dealership", url: "https://youtu.be/PZ3ANMCcbRw" },
-    { title: "Car Showroom Business", url: "https://youtu.be/SzTgz9TP4Ho" },
-    { title: "E-commerce Candle Shop", url: "https://youtu.be/ENZzYovQQsw" }
+    {
+      title: "Law Firm",
+      embedUrl: "https://www.youtube.com/embed/F2c6znHQnzE?rel=0&modestbranding=1&showinfo=0&controls=0&mute=1&autoplay=1&loop=1&playlist=F2c6znHQnzE"
+    },
+    {
+      title: "Kid's School Camp",
+      embedUrl: "https://www.youtube.com/embed/HTUyqpaqiaw?rel=0&modestbranding=1&showinfo=0&controls=0&mute=1&autoplay=1&loop=1&playlist=HTUyqpaqiaw"
+    },
+    {
+      title: "Fashion Clothes Store",
+      embedUrl: "https://www.youtube.com/embed/NDCsos_f7zo?rel=0&modestbranding=1&showinfo=0&controls=0&mute=1&autoplay=1&loop=1&playlist=NDCsos_f7zo"
+    },
+    {
+      title: "Auto Dealership",
+      embedUrl: "https://www.youtube.com/embed/PZ3ANMCcbRw?rel=0&modestbranding=1&showinfo=0&controls=0&mute=1&autoplay=1&loop=1&playlist=PZ3ANMCcbRw"
+    },
+    {
+      title: "Car Showroom Business",
+      embedUrl: "https://www.youtube.com/embed/SzTgz9TP4Ho?rel=0&modestbranding=1&showinfo=0&controls=0&mute=1&autoplay=1&loop=1&playlist=SzTgz9TP4Ho"
+    },
+    {
+      title: "E-commerce Candle Shop",
+      embedUrl: "https://www.youtube.com/embed/ENZzYovQQsw?rel=0&modestbranding=1&showinfo=0&controls=0&mute=1&autoplay=1&loop=1&playlist=ENZzYovQQsw"
+    }
   ];
 
   const [selectedVideo, setSelectedVideo] = useState<string | null>(null);
@@ -30,41 +47,37 @@ export function TestimonialsSection() {
           <div
             key={index}
             className="flex flex-col items-center mx-6 w-64 cursor-pointer"
-            onClick={() => setSelectedVideo(item.url)}
+            onClick={() => setSelectedVideo(item.embedUrl)}
           >
             <div className="rounded-lg overflow-hidden shadow-lg w-full aspect-video mb-2">
-              <ReactPlayer
-                url={item.url}
+              <iframe
                 width="100%"
                 height="100%"
-                controls={false}
-                playing={true}
-                muted={true}
-                loop={true}
-                config={{ youtube: { playerVars: { cc_load_policy: 0 } } }} // ✂️ убираем субтитры
-              />
+                src={item.embedUrl}
+                frameBorder="0"
+                allow="autoplay; encrypted-media"
+                allowFullScreen
+              ></iframe>
             </div>
             <span className="text-sm font-medium">{item.title}</span>
           </div>
         ))}
       </Marquee>
 
-      {/* Модальное окно с видео на весь экран */}
       {selectedVideo && (
         <div
           className="fixed inset-0 bg-black bg-opacity-80 flex justify-center items-center z-50"
           onClick={() => setSelectedVideo(null)}
         >
           <div className="w-full h-full max-w-6xl">
-            <ReactPlayer
-              url={selectedVideo}
+            <iframe
               width="100%"
               height="100%"
-              controls={true}
-              playing={true}
-              muted={false}
-              config={{ youtube: { playerVars: { cc_load_policy: 0 } } }} // ✂️ убираем субтитры
-            />
+              src={selectedVideo.replace('controls=0', 'controls=1').replace('mute=1', 'mute=0')}
+              frameBorder="0"
+              allow="autoplay; encrypted-media"
+              allowFullScreen
+            ></iframe>
           </div>
         </div>
       )}
