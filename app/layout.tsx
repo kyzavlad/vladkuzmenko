@@ -8,72 +8,100 @@ import TranslateSwitcher from '@/components/translate-switcher'
 
 export const metadata: Metadata = {
   title: 'AI Automation Solutions | VladKuzmenko.com',
-  description: "Transform your business with AI-powered automation...",
+  description: 'Transform your business with AI-powered automation solutions that streamline operations, engage customers, and drive growth.',
+  applicationName: 'VladKuzmenko.com',
+  authors: [{ name: 'Vladislav Kuzmenko', url: 'https://vladkuzmenko.com' }],
+  generator: 'Next.js',
+  keywords: ['AI automation', 'business automation', 'AI solutions', 'workflow automation', 'Vlad Kuzmenko'],
+  themeColor: [
+    { media: '(prefers-color-scheme: light)', color: '#ffffff' },
+    { media: '(prefers-color-scheme: dark)',  color: '#000000' },
+  ],
+  icons: {
+    icon: '/VladKuzmenkoFavicon.png',
+    shortcut: '/VladKuzmenkoFavicon.png',
+    apple: '/VladKuzmenkoFavicon.png',
+  },
+  openGraph: {
+    title: 'AI Automation Solutions | VladKuzmenko.com',
+    description: 'Transform your business with AI-powered automation solutions that streamline operations, engage customers, and drive growth.',
+    url: 'https://vladkuzmenko.com',
+    siteName: 'VladKuzmenko.com',
+    images: [
+      {
+        url: 'https://vladkuzmenko.com/og-image.png',
+        width: 1200,
+        height: 630,
+        alt: 'AI Automation Solutions by Vlad Kuzmenko'
+      }
+    ],
+    locale: 'en_US',
+    type: 'website',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'AI Automation Solutions | VladKuzmenko.com',
+    description: 'Transform your business with AI-powered automation solutions that streamline operations, engage customers, and drive growth.',
+    creator: '@VladKuzmenko',
+    images: ['https://vladkuzmenko.com/twitter-card.png'],
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-video-preview': -1,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+    },
+  },
 }
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" suppressHydrationWarning className="font-sans">
       <head>
-        {/* 0) Кука только один раз */}
+        {/* Если хотите дублировать <link> вручную, раскомментируйте: */}
+        {/*
+        <link rel="icon" href="/VladKuzmenkoFavicon.png" />
+        <link rel="shortcut icon" href="/VladKuzmenkoFavicon.png" />
+        <link rel="apple-touch-icon" href="/VladKuzmenkoFavicon.png" />
+        */}
+        {/* Google Translate setup (куки + скрытие UI) */}
         <Script id="gt-set-cookie" strategy="beforeInteractive">
           {`
-            (function() {
+            (function(){
               if (!document.cookie.includes('googtrans=')) {
                 var lang = (navigator.language||'en').split('-')[0];
                 document.cookie = 'googtrans=/en/'+lang+';path=/';
                 document.cookie = 'googtrans=/en/'+lang+';path=/;domain=' + location.hostname;
               }
-            })();
+            })()
           `}
         </Script>
-
-        {/* 1) Инициализация */}
         <Script id="gt-init" strategy="beforeInteractive">
           {`
-            function googleTranslateElementInit() {
-              new google.translate.TranslateElement(
-                {pageLanguage:'en', autoDisplay:true},
-                'google_translate_element'
-              );
+            function googleTranslateElementInit(){
+              new google.translate.TranslateElement({pageLanguage:'en',autoDisplay:true},'google_translate_element');
             }
           `}
         </Script>
-
-        {/* 2) Подключаем */}
         <Script
           src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"
           strategy="afterInteractive"
         />
-
-        {/* 3) Полное скрытие всего Google-UI */}
         <style>{`
-          /* баннер сверху */
-          .goog-te-banner-frame, .goog-te-banner-frame.skiptranslate { display:none !important; }
-          /* меню языков */
-          .goog-te-menu-frame, .goog-te-menu-frame.skiptranslate { display:none !important; }
-          /* значки, селекты, линки */
-          #google_translate_element,
-          .goog-logo-link,
-          .goog-te-gadget,
-          .goog-te-gadget-icon,
-          .goog-te-combo {
-            display:none !important;
-            visibility:hidden !important;
-          }
-          /* Сброс top у body */
+          .goog-te-banner-frame, .goog-te-menu-frame,
+          #google_translate_element, .goog-logo-link, .goog-te-gadget,
+          .goog-te-gadget-icon, .goog-te-combo { display:none !important; }
           body { top:0 !important; }
         `}</style>
       </head>
-
       <body suppressHydrationWarning>
-        {/* контейнер нужен для скрипта, но он скрыт */}
         <div id="google_translate_element" />
-
         <ThemeProviderWrapper>{children}</ThemeProviderWrapper>
         <VoiceflowScript />
-
-        {/* наша обновлённая форма переключения */}
         <TranslateSwitcher />
       </body>
     </html>
