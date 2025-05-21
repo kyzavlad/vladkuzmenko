@@ -4,6 +4,7 @@ import type { Metadata } from 'next'
 import Script from 'next/script'
 import { ThemeProviderWrapper } from '@/components/theme-provider-wrapper'
 import { VoiceflowScript } from '@/components/voiceflow-script'
+import TranslateSwitcher from '@/components/translate-switcher'  // ваш новый компонент
 
 export const metadata: Metadata = {
   title: 'AI Automation Solutions | VladKuzmenko.com',
@@ -14,19 +15,18 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en" suppressHydrationWarning className="font-sans">
       <head>
-        {/* 0) Ставим куку на авто-перевод: */}
+        {/* Ставим куку ДО загрузки скрипта */}
         <Script id="gt-set-cookie" strategy="beforeInteractive">
           {`
             (function() {
-              const lang = (navigator.language || 'en').split('-')[0];
-              // ставим куку для всех путей и поддоменов
+              var lang = (navigator.language || 'en').split('-')[0];
               document.cookie = 'googtrans=/en/' + lang + ';path=/';
               document.cookie = 'googtrans=/en/' + lang + ';path=/;domain=' + location.hostname;
             })();
           `}
         </Script>
 
-        {/* 1) Регистрируем колбэк */}
+        {/* Инициализация Google Translate */}
         <Script id="gt-init" strategy="beforeInteractive">
           {`
             function googleTranslateElementInit() {
@@ -38,34 +38,35 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           `}
         </Script>
 
-        {/* 2) Подключаем библиотеку */}
+        {/* Подключаем библиотеку */}
         <Script
           src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"
           strategy="afterInteractive"
         />
 
-        {/* 3) Скрываем родной UI и баннер через CSS */}
+        {/* Скрываем весь дефолтный UI и баннер */}
         <style>{`
-          /* скрыть весь интерфейс Google Translate */
-          #google_translate_element, 
+          #google_translate_element,
           .goog-te-gadget-icon,
-          .goog-te-combo {
+          .goog-te-combo,
+          .goog-te-banner-frame.skiptranslate {
             display: none !important;
           }
-          /* убрать сдвиг страницы баннером */
-          .goog-te-banner-frame.skiptranslate { display: none !important; }
           body { top: 0 !important; }
         `}</style>
       </head>
 
       <body suppressHydrationWarning>
-        {/* контейнер нужен, но скрыт через CSS */}
+        {/* Невидимый контейнер Google (он нужен, но UI скрыт) */}
         <div id="google_translate_element" />
 
         <ThemeProviderWrapper>
           {children}
         </ThemeProviderWrapper>
         <VoiceflowScript />
+
+        {/* Наш красивый переключатель */}
+        <TranslateSwitcher />
       </body>
     </html>
   )
