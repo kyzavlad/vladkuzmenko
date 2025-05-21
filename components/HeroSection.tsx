@@ -90,12 +90,13 @@ export function HeroSection() {
             </p>
             
             <div className="flex flex-col sm:flex-row gap-3 mt-8">
-              <ContactDialog triggerText="Schedule a consultation">
+              <a href="https://cal.com/vladkuzmenko.com/call" target="_blank" rel="noopener noreferrer">
                 <Button variant="outline" size="lg" className="flex items-center gap-2">
                   <PhoneCall className="h-4 w-4" />
-                  Schedule a consultation
+                  Schedule a free consultation
                 </Button>
-              </ContactDialog>
+              </a>
+
               <ContactDialog triggerText="Get started now">
                 <Button size="lg" className="flex items-center gap-2">
                   Get started now
