@@ -6,29 +6,30 @@ const LANGUAGES = [
   { code: 'en', label: 'English' },
   { code: 'ru', label: 'Русский' },
   { code: 'uk', label: 'Українська' },
-  // …добавьте другие по нужде
+  // …другие языки
 ]
 
 export default function TranslateSwitcher() {
   const [current, setCurrent] = useState('en')
 
-  // Читаем из куки, чтобы знать текущий язык
+  // прочитаем куку единожды
   useEffect(() => {
-    const m = document.cookie.match(/googtrans=\/en\/([^;]+)/)
-    if (m) setCurrent(m[1])
+    const match = document.cookie.match(/googtrans=\/en\/([^;]+)/)
+    if (match) setCurrent(match[1])
   }, [])
 
-  // Смена языка: ставим куку и перезагружаем страницу
+  // меняем куку и перезагружаем
   function switchLang(lang: string) {
     document.cookie = `googtrans=/en/${lang};path=/`
     document.cookie = `googtrans=/en/${lang};path=/;domain=${location.hostname}`
+    // только reload, без новой установки в beforeInteractive
     location.reload()
   }
 
   return (
     <div
       className="
-        fixed bottom-4 right-4 z-50
+        fixed bottom-16 right-4 z-[9999]
         bg-white bg-opacity-90 backdrop-blur-sm
         border border-gray-200 rounded-lg p-2
         flex items-center space-x-2 shadow-lg
