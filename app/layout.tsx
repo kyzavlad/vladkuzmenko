@@ -14,58 +14,53 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en" suppressHydrationWarning className="font-sans">
       <head>
-        {/* 1) Регистрация колбэка ДО того, как загрузится сам скрипт */}
+        {/* 0) Ставим куку на авто-перевод: */}
+        <Script id="gt-set-cookie" strategy="beforeInteractive">
+          {`
+            (function() {
+              const lang = (navigator.language || 'en').split('-')[0];
+              // ставим куку для всех путей и поддоменов
+              document.cookie = 'googtrans=/en/' + lang + ';path=/';
+              document.cookie = 'googtrans=/en/' + lang + ';path=/;domain=' + location.hostname;
+            })();
+          `}
+        </Script>
+
+        {/* 1) Регистрируем колбэк */}
         <Script id="gt-init" strategy="beforeInteractive">
           {`
             function googleTranslateElementInit() {
               new google.translate.TranslateElement(
-                { pageLanguage: 'en', autoDisplay: false },
+                { pageLanguage: 'en', autoDisplay: true },
                 'google_translate_element'
               );
             }
           `}
         </Script>
 
-        {/* 2) Подгрузка Google Translate */}
+        {/* 2) Подключаем библиотеку */}
         <Script
           src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"
           strategy="afterInteractive"
         />
 
-        {/* 3) Авто-переключатель после полной загрузки страницы */}
-        <Script id="gt-autoswitch" strategy="afterInteractive">
-          {`
-            window.addEventListener('load', () => {
-              const lang = (navigator.language || 'en').split('-')[0];
-              const sel = document.querySelector('#google_translate_element select');
-              if (sel) {
-                const opt = sel.querySelector('option[value="'+lang+'"]');
-                if (opt) {
-                  sel.value = lang;
-                  sel.dispatchEvent(new Event('change'));
-                }
-              }
-            });
-          `}
-        </Script>
+        {/* 3) Скрываем родной UI и баннер через CSS */}
+        <style>{`
+          /* скрыть весь интерфейс Google Translate */
+          #google_translate_element, 
+          .goog-te-gadget-icon,
+          .goog-te-combo {
+            display: none !important;
+          }
+          /* убрать сдвиг страницы баннером */
+          .goog-te-banner-frame.skiptranslate { display: none !important; }
+          body { top: 0 !important; }
+        `}</style>
       </head>
 
       <body suppressHydrationWarning>
-        {/* 
-          1) Временно УБЕРИ display:none, чтобы видеть селектор 
-          2) Как только проверишь, что он загружается — вернёшь display:none
-        */}
-        <div
-          id="google_translate_element"
-          style={{
-            position: 'fixed',
-            top: 10,
-            right: 10,
-            zIndex: 9999,
-            background: 'white',
-            border: '1px solid #ddd',
-          }}
-        />
+        {/* контейнер нужен, но скрыт через CSS */}
+        <div id="google_translate_element" />
 
         <ThemeProviderWrapper>
           {children}
