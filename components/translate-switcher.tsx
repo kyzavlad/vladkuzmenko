@@ -2,19 +2,24 @@
 
 import { useEffect, useState } from 'react'
 
-const LANGUAGES = [
-  { code: 'en', label: 'English' },
-  { code: 'ru', label: 'Русский' },
-  { code: 'uk', label: 'Українська' },
-  // …другие
-]
-
 export default function TranslateSwitcher() {
+  const [langs, setLangs] = useState([
+    { code: 'en', label: 'English' },
+    { code: 'ru', label: 'Русский' },
+    { code: 'uk', label: 'Українська' },
+  ])
   const [current, setCurrent] = useState('en')
 
   useEffect(() => {
+    // 1) Подхватываем ранее выбранный язык (если есть)
     const m = document.cookie.match(/googtrans=\/en\/([^;]+)/)
     if (m) setCurrent(m[1])
+
+    // 2) Динамически вставляем язык браузера в начало списка
+    const userLang = navigator.language.split('-')[0]
+    if (userLang !== 'en' && !langs.find(l => l.code === userLang)) {
+      setLangs(prev => [{ code: userLang, label: userLang.toUpperCase() }, ...prev])
+    }
   }, [])
 
   function switchLang(lang: string) {
@@ -25,7 +30,6 @@ export default function TranslateSwitcher() {
 
   return (
     <div className="fixed bottom-24 right-4 z-[9999]">
-      {/* анимированная градиентная рамка */}
       <div className="relative p-[2px] rounded-xl overflow-hidden animate-gradient">
         <div className="bg-white bg-opacity-90 backdrop-blur-md rounded-lg flex items-center space-x-2 px-4 py-2 shadow-lg">
           <select
@@ -33,23 +37,17 @@ export default function TranslateSwitcher() {
             onChange={e => switchLang(e.target.value)}
             className="px-3 py-1 border border-gray-300 rounded focus:outline-none"
           >
-            {LANGUAGES.map(l => (
+            {langs.map(l => (
               <option key={l.code} value={l.code}>{l.label}</option>
             ))}
           </select>
-
           {current !== 'en' && (
-            <button
-              onClick={() => switchLang('en')}
-              className="text-sm underline"
-            >
-              Оригинал
+            <button onClick={() => switchLang('en')} className="text-sm underline">
+              Original
             </button>
           )}
         </div>
       </div>
-
-      {/* градиентная анимация через global CSS */}
       <style jsx>{`
         @keyframes gradientBG {
           0% { background-position: 0% 50%; }
