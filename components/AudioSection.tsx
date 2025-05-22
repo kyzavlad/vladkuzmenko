@@ -20,7 +20,7 @@ const voiceSamples = [
     id: "assistant-friendly",
     name: "Friendly Guide",
     description: "Warm, approachable voice with conversational style",
-    audioSrc: "/0304-1.MP3",
+    audioSrc: "/voice_assistant.MP3",
     color: "color-1",
     features: ["Conversational tone", "Friendly approach", "Natural pauses", "Engaging style"]
   },
@@ -28,7 +28,7 @@ const voiceSamples = [
     id: "assistant-technical",
     name: "Technical Expert",
     description: "Precise, authoritative voice for technical explanations",
-    audioSrc: "/0304-2.MP3",
+    audioSrc: "/voice_assistant1.MP3",
     color: "color-3",
     features: ["Technical accuracy", "Clear articulation", "Authoritative tone", "Complex terminology"]
   }
