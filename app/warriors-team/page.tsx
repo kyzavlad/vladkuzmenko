@@ -5,25 +5,27 @@ import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import Image from 'next/image';
 import { ChevronRight, Users, ShieldCheck, MapPin, Tv, MessageSquareHeart, CheckCircle, ThumbsUp, Zap, Globe } from 'lucide-react';
-import { useEffect } from 'react'; // Если будете динамически менять document.title
+import { useEffect } from 'react';
 
 // Хелпер для секций
-const Section: React.FC<{ id?: string; className?: string; children: React.ReactNode; useContainer?: boolean, fullWidthBg?: boolean }> = ({ id, className, children, useContainer = true, fullWidthBg = false }) => (
-  <section id={id} className={`relative ${fullWidthBg ? '' : 'py-16 md:py-24'} ${className}`}>
+const Section: React.FC<{ id?: string; className?: string; children: React.ReactNode; useContainer?: boolean, sectionClassName?: string }> = 
+  ({ id, className = "", children, useContainer = true, sectionClassName = "" }) => (
+  // Секция по умолчанию прозрачна, чтобы был виден глобальный фон.
+  // Класс для фона секции (например, bg-card, bg-black/20) передается через sectionClassName
+  <section id={id} className={`relative ${sectionClassName} ${useContainer ? 'py-16 md:py-24' : ''} ${className}`}>
     {useContainer ? (
-      <div className={`container mx-auto px-4 sm:px-6 lg:px-8 relative z-10 ${fullWidthBg ? 'py-16 md:py-24' : ''}`}>
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         {children}
       </div>
     ) : (
-      <div className={`relative z-10 ${fullWidthBg ? 'py-16 md:py-24' : ''}`}>
-        {children}
-      </div>
+      <div className="relative z-10">{children}</div>
     )}
   </section>
 );
 
 // Хелпер для заголовков секций
-const SectionHeader: React.FC<{ title: string; strokeText?: string; description?: string; align?: 'left' | 'center' | 'right' }> = ({ title, strokeText, description, align = 'center'}) => (
+const SectionHeader: React.FC<{ title: string; strokeText?: string; description?: string; align?: 'left' | 'center' | 'right' }> = 
+  ({ title, strokeText, description, align = 'center'}) => (
   <div className={`mb-12 md:mb-16 ${align === 'center' ? 'text-center' : align === 'left' ? 'text-left' : 'text-right'}`}>
     <div className="relative inline-block py-2">
       <h2 className="text-3xl md:text-4xl lg:text-5xl font-black tracking-tight text-white relative z-10 uppercase">
@@ -47,22 +49,23 @@ const SectionHeader: React.FC<{ title: string; strokeText?: string; description?
 );
 
 export default function WarriorsTeamPage() {
-  // Если нужно динамически менять title документа на клиентской стороне
   useEffect(() => {
     document.title = 'Warriors Team | VladKuzmenko.com';
   }, []);
 
   return (
-    // Фон будет наследоваться от <html> из globals.css.
-    // Класс !bg-neutral-950 здесь для дополнительной гарантии темного фона для этой страницы,
-    // если тема по умолчанию на сайте светлая.
-    <div className="!bg-neutral-950 text-white selection:bg-red-500/30 min-h-screen relative">
+    // Корневой div страницы ТЕПЕРЬ НЕ ИМЕЕТ СОБСТВЕННОГО ФОНА (!bg-neutral-950 убран).
+    // Он будет использовать глобальный фон, заданный для <html> в globals.css.
+    // text-white оставлен, так как глобальный фон темный.
+    <div className="text-white selection:bg-red-500/30 min-h-screen relative">
       
       {/* Hero Section */}
       <Section 
         id="hero" 
+        // Hero секция растягивается на весь экран и центрует контент.
+        // Отступы и min-h-screen заданы здесь, а не в общем Section, т.к. это уникально для Hero.
         className="min-h-screen flex flex-col justify-center items-center text-center px-4 pt-24 pb-12 md:pt-32 md:pb-20"
-        useContainer={false} 
+        useContainer={false} // Контент Hero уже использует свой внутренний контейнер
       >
         <div className="container mx-auto relative z-10">
           <h1 
@@ -83,8 +86,8 @@ export default function WarriorsTeamPage() {
               size="lg" 
               className="group relative flex items-center gap-2 px-8 py-3 md:px-10 md:py-4 
                          text-sm md:text-base font-bold uppercase tracking-wider
-                         !bg-black hover:!bg-neutral-800 !text-white 
-                         border-2 !border-black hover:!border-neutral-700
+                         bg-black hover:bg-neutral-800 text-white 
+                         border-2 border-black hover:border-neutral-700
                          rounded-md shadow-lg hover:shadow-xl transition-all duration-300"
             >
               <Link href="/checkout"> {/* ЗАМЕНИТЕ ЭТУ ССЫЛКУ НА АКТУАЛЬНУЮ */}
@@ -113,36 +116,30 @@ export default function WarriorsTeamPage() {
       </Section>
 
       {/* Video Section */}
-      <Section id="experience-video" className="bg-black/20 backdrop-blur-sm py-16 md:py-24">
+      {/* Если этой секции нужен свой фон (отличный от глобального), задаем его через sectionClassName */}
+      <Section id="experience-video" sectionClassName="bg-black/20 backdrop-blur-sm">
         <SectionHeader title="EXPERIENCE THE WARRIORS TEAM" strokeText="THE TEAM" />
-        <div className="max-w-4xl mx-auto aspect-video bg-neutral-800/50 rounded-xl shadow-2xl flex flex-col items-center justify-center text-neutral-400 border border-neutral-700 p-8">
-          <Tv size={64} className="opacity-70 mb-4"/>
+        <div className="max-w-4xl mx-auto aspect-video bg-neutral-800/70 rounded-xl shadow-2xl flex flex-col items-center justify-center text-neutral-300 border border-neutral-700 p-8">
+          <Tv size={64} className="opacity-80 mb-4"/>
           <p className="text-lg">Placeholder for Introductory Video</p>
           <p className="text-sm mt-2">Showcasing the energy, the network, and the results.</p>
-          {/* <iframe src="YOUR_VIDEO_URL_HERE" className="w-full h-full rounded-xl" allow="autoplay; encrypted-media" allowFullScreen title="Warriors Team Experience"></iframe> */}
         </div>
       </Section>
       
-      {/* Main Intro Text Section */}
-      <Section id="manifesto" className="py-16 md:py-24">
+      {/* Main Intro Text Section - будет использовать глобальный фон */}
+      <Section id="manifesto">
           <div className="max-w-3xl mx-auto text-center space-y-6 text-lg md:text-xl leading-relaxed text-neutral-300">
-            <p>
-              <span className="font-bold text-white">99.9% of modern-day men will never experience the power of Brotherhood and Community.</span>
-            </p>
-            <p>
-              They will never experience what it's like to have other ambitious, hard working, diligent, and dutiful men at their side.
-            </p>
+            <p><span className="font-bold text-white">99.9% of modern-day men will never experience the power of Brotherhood and Community.</span></p>
+            <p>They will never experience what it's like to have other ambitious, hard working, diligent, and dutiful men at their side.</p>
             <p>To experience being surrounded by <span className="font-bold text-white">success stories,</span></p>
             <p>To be among the <span className="font-bold text-white">most energetic</span> and <span className="font-bold text-white">purposeful Men in the world.</span></p>
-            <p>
-              Inside <span className="font-bold text-white">Warriors Team</span> you will access <span className="font-bold text-white">knowledge</span> that will spark your genius and compel you to <span className="font-bold text-white">work your hardest</span> to keep up.
-            </p>
+            <p>Inside <span className="font-bold text-white">Warriors Team</span> you will access <span className="font-bold text-white">knowledge</span> that will spark your genius and compel you to <span className="font-bold text-white">work your hardest</span> to keep up.</p>
             <p>There is no other place on earth with Men of this caliber.</p>
           </div>
       </Section>
 
       {/* Where is the Warriors Team? Section */}
-      <Section id="global-network" className="bg-black/20 backdrop-blur-sm py-16 md:py-24">
+      <Section id="global-network" sectionClassName="bg-black/20 backdrop-blur-sm">
         <SectionHeader 
           title="WHERE IS THE WARRIORS TEAM?" 
           strokeText="EVERYWHERE" 
@@ -151,12 +148,12 @@ export default function WarriorsTeamPage() {
         <div className="text-center text-neutral-300">
           <Globe size={64} className="mx-auto mb-6 text-brand" />
           <p className="text-xl mb-2">Our network spans continents, connecting motivated individuals worldwide.</p>
-          <p className="text-base text-neutral-400">(Placeholder for Image Slider or Interactive Map Showcasing Global Presence / Member Gatherings)</p>
+          <p className="text-base text-neutral-400">(Placeholder for Image Slider or Interactive Map)</p>
         </div>
       </Section>
 
       {/* Who are our members? Section */}
-      <Section id="members" className="py-16 md:py-24">
+      <Section id="members">
         <SectionHeader 
           title="WHO ARE OUR MEMBERS?" 
           strokeText="OUR MEMBERS?" 
@@ -164,7 +161,7 @@ export default function WarriorsTeamPage() {
         />
         <div className="max-w-4xl mx-auto mb-12">
           <Image 
-            src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Nnx8Z3JvdXAlMjBvZCUyMHBlb3BsZXxlbnwwfHwwfHx8MA%3D%3D&auto=format&fit=crop&w=1000&q=80" 
+            src="https://images.unsplash.com/photo-1560264280-88b68371db39?ixlib=rb-4.0.3&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=1000&fit=max" 
             alt="Warriors Team Members Group" 
             width={1000} 
             height={600} 
@@ -174,7 +171,7 @@ export default function WarriorsTeamPage() {
         <div className="max-w-3xl mx-auto text-center space-y-6 text-lg md:text-xl text-neutral-300">
           <p><span className="font-bold text-white">Our ongoing Mission</span> is to ceaselessly empower Men like you,</p>
           <p>To become the very best versions of themselves through <span className="font-bold text-white">physical, mental, emotional, spiritual</span>, and <span className="font-bold text-white">financial development</span>.</p>
-          <div className="bg-black/30 backdrop-blur-md p-6 md:p-8 rounded-xl shadow-lg border border-neutral-700 mt-8 inline-block">
+          <div className="bg-black/40 backdrop-blur-md p-6 md:p-8 rounded-xl shadow-lg border border-neutral-700 mt-8 inline-block">
             <p className="text-xl md:text-2xl font-semibold text-white italic">"We hold that</p>
             <p className="mt-2 text-neutral-200 leading-relaxed">
               <span className="font-bold text-white">ALL Men should be strong, positive, law-abiding citizens</span> who are <span className="font-bold text-white">reliable</span> and <span className="font-bold text-white">dependable</span> for their families, friends, and communities."
@@ -184,7 +181,7 @@ export default function WarriorsTeamPage() {
       </Section>
       
       {/* "Not Ready?" Section */}
-      <Section id="not-ready" className="bg-black/20 backdrop-blur-sm py-16 md:py-24">
+      <Section id="not-ready" sectionClassName="bg-black/20 backdrop-blur-sm">
         <SectionHeader 
           title="“I DON'T THINK I AM READY FOR THE WARRIORS TEAM.”" 
           strokeText="NOT READY???" 
@@ -193,12 +190,12 @@ export default function WarriorsTeamPage() {
           <div className="space-y-6 text-neutral-300 text-lg leading-relaxed">
             <p className="text-xl font-semibold text-white">I want you to understand something.</p>
             <p><span className="font-bold text-white">NONE</span> of you reading this are ready for the Warriors Team.</p>
-            <p><span className="font-bold text-white">NONE</span> of you reading this will truly revolutionize what we have inside.</p>
+            <p className="text-neutral-400">NONE of you reading this will truly revolutionize what we have inside.</p> {/* Изменено на neutral-400 для акцента */}
             <h3 className="text-2xl md:text-3xl font-bold text-white mt-6">If you had that capability, <span className="text-brand">we'd already know who you are.</span></h3>
           </div>
           <div className="text-center">
             <Image 
-              src="https://images.unsplash.com/photo-1503437313881-503a91226c02?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTR8fGNoYWxsZW5nZXxlbnwwfHwwfHx8MA%3D%3D&auto=format&fit=crop&w=800&q=60" 
+              src="https://images.unsplash.com/photo-1503437313881-503a91226c02?ixlib=rb-4.0.3&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=800&fit=max" 
               alt="Challenge Concept" 
               width={500} 
               height={350} 
@@ -207,7 +204,7 @@ export default function WarriorsTeamPage() {
           </div>
         </div>
         <div className="max-w-4xl mx-auto text-center mt-12 md:mt-16 text-lg md:text-xl text-neutral-300 space-y-6">
-            <p className="text-neutral-400">
+            <p className="text-neutral-400 text-base">
               - You make 20k a month and have a business you are scaling?<br/>
               - You make 2k a month and are working a job?
             </p>
@@ -230,12 +227,12 @@ export default function WarriorsTeamPage() {
       </Section>
 
       {/* Two Roads Ahead Section */}
-      <Section id="two-roads" className="py-16 md:py-24">
+      <Section id="two-roads">
         <SectionHeader title="TWO ROADS AHEAD." strokeText="TWO ROADS" />
          <div className="grid md:grid-cols-2 gap-10 lg:gap-16 items-center mb-12">
             <div>
                 <Image 
-                    src="https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OHx8c3RyYXRlZ3l8ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&w=1000&q=80" 
+                    src="https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?ixlib=rb-4.0.3&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=1000&fit=max" 
                     alt="Strategic Choice" 
                     width={1000} 
                     height={600} 
@@ -243,15 +240,9 @@ export default function WarriorsTeamPage() {
                 />
             </div>
             <div className="space-y-4 text-lg text-neutral-300 leading-relaxed">
-                <p>
-                Over the <span className="font-bold text-white">last years</span>, we have acquired connections for any capability, all over the world.
-                </p>
-                <p>
-                We have <span className="font-bold text-white">a growing number of members worldwide</span>, with <span className="font-bold text-white">specialists, experts,</span> and <span className="font-bold text-white">professionals in every field imaginable.</span>
-                </p>
-                <p>
-                All dedicated to the <span className="font-bold text-white">pursuit of excellence in all areas of life.</span>
-                </p>
+                <p>Over the <span className="font-bold text-white">last years</span>, we have acquired connections for any capability, all over the world.</p>
+                <p>We have <span className="font-bold text-white">a growing number of members worldwide</span>, with <span className="font-bold text-white">specialists, experts,</span> and <span className="font-bold text-white">professionals in every field imaginable.</span></p>
+                <p>All dedicated to the <span className="font-bold text-white">pursuit of excellence in all areas of life.</span></p>
             </div>
         </div>
         <div className="text-center">
@@ -277,32 +268,9 @@ export default function WarriorsTeamPage() {
       </Section>
 
       {/* Testimonials Placeholder Section */}
-      <Section id="testimonials-section" className="bg-black/20 backdrop-blur-sm py-16 md:py-24">
+      <Section id="testimonials-section" sectionClassName="bg-black/20 backdrop-blur-sm">
         <SectionHeader title="WHAT OUR MEMBERS HAVE ACHIEVED." strokeText="ACHIEVED" />
         <div className="text-center text-neutral-400">
             <ThumbsUp size={64} className="mx-auto mb-6 text-brand" />
             <p className="text-lg mb-2">(Placeholder for Testimonials / Member Achievements Gallery)</p>
-            <p className="text-sm">Real stories from real members who transformed their lives within the Warriors Team.</p>
-        </div>
-      </Section>
-
-      {/* Final CTA Section */}
-      <Section id="join-final-cta" className="text-center !pt-12 !pb-20 md:!pt-16 md:!pb-28">
-        <Button 
-            asChild 
-            size="lg" 
-            className="group relative flex items-center gap-3 px-10 py-5 md:px-16 md:py-8 
-                       text-lg md:text-2xl font-bold uppercase tracking-wider
-                       !bg-black hover:!bg-neutral-800 !text-white 
-                       border-2 !border-black hover:!border-neutral-700
-                       rounded-lg shadow-xl hover:shadow-2xl transform hover:scale-105 transition-all duration-300"
-            >
-            <Link href="/checkout"> {/* ЗАМЕНИТЕ ЭТУ ССЫЛКУ */}
-                JOIN <strong className="ml-1 font-extrabold">THE WARRIORS TEAM</strong>
-                <Zap className="w-6 h-6 opacity-75 group-hover:opacity-100 group-hover:animate-ping" />
-            </Link>
-        </Button>
-      </Section>
-    </div>
-  );
-}
+            <p className="text-sm">Real stories from real members who transformed their lives within the Warriors Team.</p
