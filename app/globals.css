@@ -6,29 +6,33 @@
 @font-face {
   font-family: 'Inter';
   font-style: normal;
-  font-weight: 100 900;
-  font-display: swap;
-  src: url('/_next/static/media/a34f9d1faa5f3315-s.p.woff2') format('woff2');
+  font-weight: 100 900; /* Defines a weight range for the font */
+  font-display: swap; /* Ensures text remains visible during font loading */
+  src: url('/_next/static/media/a34f9d1faa5f3315-s.p.woff2') format('woff2'); /* Path to your self-hosted font file */
 }
 
+/* Basic color variables for light theme (fallback) */
 :root {
-  --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 220;
-  --background-end-rgb: 255, 255, 255;
+  --foreground-rgb: 0, 0, 0; /* Black text */
+  --background-start-rgb: 214, 219, 220; /* Light gray gradient start */
+  --background-end-rgb: 255, 255, 255; /* White gradient end */
 }
 
+/* Color variables for dark theme */
 @media (prefers-color-scheme: dark) {
   :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
+    --foreground-rgb: 255, 255, 255; /* White text */
+    --background-start-rgb: 0, 0, 0; /* Black gradient start */
+    --background-end-rgb: 0, 0, 0; /* Black gradient end */
   }
 }
 
+/* Shadcn/ui theme variables and base styles */
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 0 0% 3.9%;
+    /* Light theme variables (HSL format) */
+    --background: 0 0% 100%; /* white */
+    --foreground: 0 0% 3.9%; /* near black */
     --card: 0 0% 100%;
     --card-foreground: 0 0% 3.9%;
     --popover: 0 0% 100%;
@@ -51,8 +55,8 @@
     --chart-3: 197 37% 24%;
     --chart-4: 43 74% 66%;
     --chart-5: 27 87% 67%;
-    --radius: 0.5rem;
-    --brand: 210 100% 50%;
+    --radius: 0.5rem; /* Default border radius */
+    --brand: 210 100% 50%; /* Custom brand color */
     --brand-foreground: 213 100% 60%;
     --brand-rgb: 0, 122, 255;
     --color-1: 0 100% 63%;
@@ -64,7 +68,9 @@
     --gold-medium: 40 100% 50%;
     --gold-dark: 36 100% 40%;
   }
+
   .dark {
+    /* Dark theme variable overrides */
     --background: 0 0% 3.9%;
     --foreground: 0 0% 98%;
     --card: 0 0% 3.9%;
@@ -92,51 +98,57 @@
     --brand: 213 100% 60%;
     --brand-foreground: 210 100% 50%;
     --brand-rgb: 51, 153, 255;
-    --color-1: 0 100% 63%;
-    --color-2: 270 100% 63%;
-    --color-3: 210 100% 63%;
-    --color-4: 195 100% 63%;
-    --color-5: 90 100% 63%;
-    --gold-light: 45 100% 60%;
-    --gold-medium: 40 100% 50%;
-    --gold-dark: 36 100% 40%;
+    /* color-1 to color-5 and gold colors remain the same for dark theme as per original */
   }
 }
 
+/* Base HTML and Body element styling */
 @layer base {
   * {
-    @apply border-border;
-    box-sizing: border-box;
+    @apply border-border; /* Applies default border color from theme variables */
+    box-sizing: border-box; /* Ensures padding and border don't add to element's total width/height */
   }
+
+  html,
   body {
-    @apply bg-background text-foreground overflow-x-hidden;
-    width: 100%;
-    max-width: 100vw;
+    width: 100%; /* Ensures html and body take up full available width */
+    max-width: 100%; /* Prevents them from exceeding viewport width */
+    overflow-x: hidden; /* **CRITICAL: Hides horizontal scrollbars globally** */
+    /* position: relative; /* Can sometimes help if child absolute elements cause issues, use with caution */
   }
+
+  body {
+    @apply bg-background text-foreground; /* Applies background and text color from theme variables */
+    /* Other body-specific styles can go here if needed */
+    -webkit-font-smoothing: antialiased; /* Improves font rendering on WebKit browsers */
+    -moz-osx-font-smoothing: grayscale; /* Improves font rendering on Firefox */
+  }
+
+  /* Standard container class for centering content with padding */
   .container {
-    @apply px-4 sm:px-6 lg:px-8 mx-auto w-full max-w-full;
+    @apply w-full max-w-full mx-auto px-4 sm:px-6 lg:px-8; /* Full width, auto margins for centering, responsive padding */
   }
 }
 
+/* Loader styles */
 .loader {
   width: 48px;
   height: 48px;
-  border: 5px solid #FFF;
+  border: 5px solid hsl(var(--card)); /* Use theme variable for border color */
   border-bottom-color: transparent;
   border-radius: 50%;
   display: inline-block;
-  box-sizing: border-box;
+  /* box-sizing: border-box; /* Already applied globally by * selector */
   animation: rotation 1s linear infinite;
 }
 
 .loader-sm {
   width: 16px;
   height: 16px;
-  border: 2px solid #FFF;
+  border: 2px solid hsl(var(--card)); /* Use theme variable */
   border-bottom-color: transparent;
   border-radius: 50%;
   display: inline-block;
-  box-sizing: border-box;
   animation: rotation 1s linear infinite;
 }
 
@@ -149,6 +161,7 @@
   }
 }
 
+/* Gradient animation styles */
 @keyframes gradient {
   0% {
     background-position: 0% 50%;
@@ -163,10 +176,10 @@
 
 .animate-gradient {
   animation: gradient 3s ease infinite;
-  background-size: 200% 200%;
+  background-size: 200% 200%; /* Ensures gradient has space to move */
 }
 
-/* Utility classes */
+/* Utility classes for text gradients and other effects */
 @layer utilities {
   .text-gradient {
     @apply bg-clip-text text-transparent bg-gradient-to-b from-foreground via-foreground/90 to-muted-foreground;
@@ -175,8 +188,10 @@
   .text-gold-gradient {
     @apply bg-clip-text text-transparent bg-gradient-to-b from-[#FFD700] via-[#FFC107] to-[#FF9800];
   }
+  /* Add other custom utilities here if needed */
 }
 
+/* Keyframes for various animations */
 @keyframes appear {
   0% {
     opacity: 0;
@@ -204,7 +219,7 @@
     background-position: 0%;
   }
   100% {
-    background-position: 200%;
+    background-position: 200%; /* For a smoother or wider rainbow effect */
   }
 }
 
@@ -224,10 +239,11 @@
     transform: translateX(0);
   }
   100% {
-    transform: translateX(calc(-100% - var(--gap)));
+    transform: translateX(calc(-100% - var(--gap, 1rem))); /* Use CSS variable for gap */
   }
 }
 
+/* Animation utility classes */
 .animate-appear {
   animation: appear 0.5s ease-out forwards;
 }
@@ -237,7 +253,7 @@
 }
 
 .animate-rainbow {
-  animation: rainbow var(--speed, 2s) infinite linear;
+  animation: rainbow var(--speed, 2s) infinite linear; /* Use CSS variable for speed */
 }
 
 .animate-sparkle {
@@ -245,29 +261,38 @@
 }
 
 .animate-marquee {
-  animation: marquee var(--duration, 40s) linear infinite;
+  animation: marquee var(--duration, 40s) linear infinite; /* Use CSS variable for duration */
 }
 
-/* Custom font for logo */
+/* Custom font for logo (Elegant Script) */
+/* Consider using Next/Font for better performance and font loading for Google Fonts */
 @font-face {
   font-family: 'Elegant Script';
-  src: url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@1,700&display=swap');
-  font-weight: normal;
-  font-style: normal;
+  /* src: url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@1,700&display=swap'); /* This is not how @font-face src works for Google Fonts CSS link */
+  /* If you want to use Playfair Display, it's better to import it via <link> in layout.tsx or use Next/Font */
+  /* For self-hosting 'Elegant Script', you'd provide a local path like the 'Inter' font above. */
+  /* Example if Playfair Display was meant to be named Elegant Script and self-hosted: */
+  /* src: url('/path/to/elegant-script.woff2') format('woff2'); */
+  font-weight: normal; /* Or specific weight if available */
+  font-style: normal;  /* Or specific style if available */
 }
 
+
+/* Styles for the logo container */
 .logo-container {
   position: relative;
-  overflow: visible;
+  overflow: hidden; /* **CRITICAL CHANGE: Prevents content from visually spilling out** */
 }
 
+/* Decorative ::after element for the logo container */
 .logo-container::after {
   content: '';
   position: absolute;
-  bottom: -4px;
+  bottom: -4px; /* Position below the container */
   left: 0;
-  width: 100%;
+  width: 100%; /* Full width of the logo container */
   height: 2px;
-  background: linear-gradient(90deg, transparent, hsl(var(--gold-light)), transparent);
+  background: linear-gradient(90deg, transparent, hsl(var(--gold-light)), transparent); /* Gradient line */
   opacity: 0.6;
+  pointer-events: none; /* Ensures it doesn't interfere with clicks */
 }
