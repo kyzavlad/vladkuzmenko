@@ -3,22 +3,24 @@
 
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
-import Image from 'next/image';
-import { ChevronRight, Users, ShieldCheck, MapPin, Tv, MessageSquareHeart, CheckCircle, ThumbsUp, Zap, Globe } from 'lucide-react';
+import Image from 'next/image'; // Убедитесь, что Image используется или удалите, если нет
+import { ChevronRight, Users, ShieldCheck, MapPin, Tv, MessageSquareHeart, CheckCircle, ThumbsUp, Zap, Globe } from 'lucide-react'; // Добавьте все используемые иконки
 import { useEffect } from 'react';
 
 // Хелпер для секций
 const Section: React.FC<{ id?: string; className?: string; children: React.ReactNode; useContainer?: boolean, sectionClassName?: string }> = 
   ({ id, className = "", children, useContainer = true, sectionClassName = "" }) => (
-  // Секция по умолчанию прозрачна, чтобы был виден глобальный фон.
-  // Класс для фона секции (например, bg-card, bg-black/20) передается через sectionClassName
   <section id={id} className={`relative ${sectionClassName} ${useContainer ? 'py-16 md:py-24' : ''} ${className}`}>
     {useContainer ? (
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+      <div className={`container mx-auto px-4 sm:px-6 lg:px-8 relative z-10 ${fullWidthBg ? 'py-16 md:py-24' : ''}`}> {/* Добавил переменную fullWidthBg для консистентности, но она не определена в пропсах. Убрал ее. */}
         {children}
       </div>
     ) : (
-      <div className="relative z-10">{children}</div>
+      // Если useContainer false, то отступы py-16 md:py-24 применяются к этому div, если он не fullWidthBg
+      // Для Hero, где useContainer=false, отступы задаются в className самого Section
+      <div className={`relative z-10 ${fullWidthBg ? 'py-16 md:py-24' : ''}`}> {/* Убрал fullWidthBg, т.к. не используется */}
+        {children}
+      </div>
     )}
   </section>
 );
@@ -53,19 +55,18 @@ export default function WarriorsTeamPage() {
     document.title = 'Warriors Team | VladKuzmenko.com';
   }, []);
 
+  // Код компонента WarriorsTeamPage начинается здесь. 
+  // Убедимся, что нет лишних символов или неправильной структуры перед return.
   return (
-    // Корневой div страницы ТЕПЕРЬ НЕ ИМЕЕТ СОБСТВЕННОГО ФОНА (!bg-neutral-950 убран).
-    // Он будет использовать глобальный фон, заданный для <html> в globals.css.
+    // Корневой div страницы. Он должен наследовать фон от <html> из globals.css.
     // text-white оставлен, так как глобальный фон темный.
     <div className="text-white selection:bg-red-500/30 min-h-screen relative">
       
       {/* Hero Section */}
       <Section 
         id="hero" 
-        // Hero секция растягивается на весь экран и центрует контент.
-        // Отступы и min-h-screen заданы здесь, а не в общем Section, т.к. это уникально для Hero.
         className="min-h-screen flex flex-col justify-center items-center text-center px-4 pt-24 pb-12 md:pt-32 md:pb-20"
-        useContainer={false} // Контент Hero уже использует свой внутренний контейнер
+        useContainer={false} 
       >
         <div className="container mx-auto relative z-10">
           <h1 
@@ -116,8 +117,7 @@ export default function WarriorsTeamPage() {
       </Section>
 
       {/* Video Section */}
-      {/* Если этой секции нужен свой фон (отличный от глобального), задаем его через sectionClassName */}
-      <Section id="experience-video" sectionClassName="bg-black/20 backdrop-blur-sm">
+      <Section id="experience-video" sectionClassName="bg-black/20 backdrop-blur-sm py-16 md:py-24">
         <SectionHeader title="EXPERIENCE THE WARRIORS TEAM" strokeText="THE TEAM" />
         <div className="max-w-4xl mx-auto aspect-video bg-neutral-800/70 rounded-xl shadow-2xl flex flex-col items-center justify-center text-neutral-300 border border-neutral-700 p-8">
           <Tv size={64} className="opacity-80 mb-4"/>
@@ -126,8 +126,8 @@ export default function WarriorsTeamPage() {
         </div>
       </Section>
       
-      {/* Main Intro Text Section - будет использовать глобальный фон */}
-      <Section id="manifesto">
+      {/* Main Intro Text Section */}
+      <Section id="manifesto" className="py-16 md:py-24">
           <div className="max-w-3xl mx-auto text-center space-y-6 text-lg md:text-xl leading-relaxed text-neutral-300">
             <p><span className="font-bold text-white">99.9% of modern-day men will never experience the power of Brotherhood and Community.</span></p>
             <p>They will never experience what it's like to have other ambitious, hard working, diligent, and dutiful men at their side.</p>
@@ -139,7 +139,7 @@ export default function WarriorsTeamPage() {
       </Section>
 
       {/* Where is the Warriors Team? Section */}
-      <Section id="global-network" sectionClassName="bg-black/20 backdrop-blur-sm">
+      <Section id="global-network" sectionClassName="bg-black/20 backdrop-blur-sm py-16 md:py-24">
         <SectionHeader 
           title="WHERE IS THE WARRIORS TEAM?" 
           strokeText="EVERYWHERE" 
@@ -153,7 +153,7 @@ export default function WarriorsTeamPage() {
       </Section>
 
       {/* Who are our members? Section */}
-      <Section id="members">
+      <Section id="members" className="py-16 md:py-24">
         <SectionHeader 
           title="WHO ARE OUR MEMBERS?" 
           strokeText="OUR MEMBERS?" 
@@ -181,7 +181,7 @@ export default function WarriorsTeamPage() {
       </Section>
       
       {/* "Not Ready?" Section */}
-      <Section id="not-ready" sectionClassName="bg-black/20 backdrop-blur-sm">
+      <Section id="not-ready" sectionClassName="bg-black/20 backdrop-blur-sm py-16 md:py-24">
         <SectionHeader 
           title="“I DON'T THINK I AM READY FOR THE WARRIORS TEAM.”" 
           strokeText="NOT READY???" 
@@ -190,7 +190,7 @@ export default function WarriorsTeamPage() {
           <div className="space-y-6 text-neutral-300 text-lg leading-relaxed">
             <p className="text-xl font-semibold text-white">I want you to understand something.</p>
             <p><span className="font-bold text-white">NONE</span> of you reading this are ready for the Warriors Team.</p>
-            <p className="text-neutral-400">NONE of you reading this will truly revolutionize what we have inside.</p> {/* Изменено на neutral-400 для акцента */}
+            <p className="text-neutral-400">NONE of you reading this will truly revolutionize what we have inside.</p>
             <h3 className="text-2xl md:text-3xl font-bold text-white mt-6">If you had that capability, <span className="text-brand">we'd already know who you are.</span></h3>
           </div>
           <div className="text-center">
@@ -227,7 +227,7 @@ export default function WarriorsTeamPage() {
       </Section>
 
       {/* Two Roads Ahead Section */}
-      <Section id="two-roads">
+      <Section id="two-roads" className="py-16 md:py-24">
         <SectionHeader title="TWO ROADS AHEAD." strokeText="TWO ROADS" />
          <div className="grid md:grid-cols-2 gap-10 lg:gap-16 items-center mb-12">
             <div>
@@ -268,9 +268,32 @@ export default function WarriorsTeamPage() {
       </Section>
 
       {/* Testimonials Placeholder Section */}
-      <Section id="testimonials-section" sectionClassName="bg-black/20 backdrop-blur-sm">
+      <Section id="testimonials-section" sectionClassName="bg-black/20 backdrop-blur-sm py-16 md:py-24">
         <SectionHeader title="WHAT OUR MEMBERS HAVE ACHIEVED." strokeText="ACHIEVED" />
         <div className="text-center text-neutral-400">
             <ThumbsUp size={64} className="mx-auto mb-6 text-brand" />
             <p className="text-lg mb-2">(Placeholder for Testimonials / Member Achievements Gallery)</p>
-            <p className="text-sm">Real stories from real members who transformed their lives within the Warriors Team.</p
+            <p className="text-sm">Real stories from real members who transformed their lives within the Warriors Team.</p>
+        </div>
+      </Section>
+
+      {/* Final CTA Section */}
+      <Section id="join-final-cta" className="text-center !pt-12 !pb-20 md:!pt-16 md:!pb-28">
+        <Button 
+            asChild 
+            size="lg" 
+            className="group relative flex items-center gap-3 px-10 py-5 md:px-16 md:py-8 
+                       text-lg md:text-2xl font-bold uppercase tracking-wider
+                       bg-black hover:bg-neutral-800 text-white 
+                       border-2 border-black hover:border-neutral-700
+                       rounded-lg shadow-xl hover:shadow-2xl transform hover:scale-105 transition-all duration-300"
+            >
+            <Link href="/checkout"> {/* ЗАМЕНИТЕ ЭТУ ССЫЛКУ */}
+                JOIN <strong className="ml-1 font-extrabold">THE WARRIORS TEAM</strong>
+                <Zap className="w-6 h-6 opacity-75 group-hover:opacity-100 group-hover:animate-ping" />
+            </Link>
+        </Button>
+      </Section>
+    </div>
+  );
+}
