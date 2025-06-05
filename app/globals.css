@@ -11,10 +11,9 @@
   src: url('/_next/static/media/a34f9d1faa5f3315-s.p.woff2') format('woff2');
 }
 
-/* --- ИСХОДНЫЕ ПЕРЕМЕННЫЕ ДЛЯ СИСТЕМНОЙ ТЕМЫ (ОСТАВЛЯЕМ КАК ЕСТЬ) --- */
 :root {
   --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 220; /* Эти переменные могут использоваться для градиентного фона по умолчанию, если нет других */
+  --background-start-rgb: 214, 219, 220;
   --background-end-rgb: 255, 255, 255;
 }
 
@@ -26,16 +25,10 @@
   }
 }
 
-/* --- ЦВЕТОВЫЕ ПЕРЕМЕННЫЕ ДЛЯ ТЕМ И ФОНА --- */
 @layer base {
   :root {
-    /* Светлая тема по умолчанию (если next-themes не установит .dark) */
-    --background: 0 0% 100%; /* белый */
-    --foreground: 0 0% 3.9%; /* почти черный */
-    /* Для линий на светлом фоне используем цвет текста с низкой прозрачностью */
-    --lines-color: rgba(0, 0, 0, 0.05); /* Темные линии, очень прозрачные */
-    
-    /* Все ваши остальные переменные для :root остаются без изменений */
+    --background: 0 0% 100%;
+    --foreground: 0 0% 3.9%;
     --card: 0 0% 100%;
     --card-foreground: 0 0% 3.9%;
     --popover: 0 0% 100%;
@@ -45,7 +38,7 @@
     --secondary: 0 0% 96.1%;
     --secondary-foreground: 0 0% 9%;
     --muted: 0 0% 96.1%;
-    --muted-foreground: 0 0% 45.1%; /* Этот цвет используется для контактов в футере */
+    --muted-foreground: 0 0% 45.1%;
     --accent: 0 0% 96.1%;
     --accent-foreground: 0 0% 9%;
     --destructive: 0 84.2% 60.2%;
@@ -71,15 +64,9 @@
     --gold-medium: 40 100% 50%;
     --gold-dark: 36 100% 40%;
   }
-
   .dark {
-    /* Темная тема */
-    --background: 0 0% 3.9%; /* почти черный */
-    --foreground: 0 0% 98%; /* почти белый */
-    /* Для линий на темном фоне используем белый цвет с низкой прозрачностью */
-    --lines-color: rgba(255, 255, 255, 0.04); /* Светлые линии, очень прозрачные */
-
-    /* Все ваши остальные переменные для .dark остаются без изменений */
+    --background: 0 0% 3.9%;
+    --foreground: 0 0% 98%;
     --card: 0 0% 3.9%;
     --card-foreground: 0 0% 98%;
     --popover: 0 0% 3.9%;
@@ -89,7 +76,7 @@
     --secondary: 0 0% 14.9%;
     --secondary-foreground: 0 0% 98%;
     --muted: 0 0% 14.9%;
-    --muted-foreground: 0 0% 63.9%; /* Для контактов в футере на темном фоне */
+    --muted-foreground: 0 0% 63.9%;
     --accent: 0 0% 14.9%;
     --accent-foreground: 0 0% 98%;
     --destructive: 0 62.8% 30.6%;
@@ -116,89 +103,99 @@
   }
 }
 
-/* --- БАЗОВЫЕ СТИЛИ И ФОН ДЛЯ HTML и BODY --- */
 @layer base {
   * {
-    @apply border-border; /* Это уже было, оставляем */
-    box-sizing: border-box; /* Это уже было, оставляем */
+    @apply border-border;
+    box-sizing: border-box;
   }
-
-  html {
-    width: 100%;
-    max-width: 100%; 
-    overflow-x: hidden; /* Это уже было, важно для предотвращения прокрутки */
-    -webkit-font-smoothing: antialiased; /* Улучшение рендеринга шрифтов */
-    -moz-osx-font-smoothing: grayscale; /* Улучшение рендеринга шрифтов */
-    
-    /* ГЛОБАЛЬНЫЙ ФОН ПРИМЕНЯЕТСЯ К HTML */
-    background-color: hsl(var(--background)); /* Основной цвет фона из CSS переменной темы */
-    /* Узор с вертикальными линиями */
-    background-image: repeating-linear-gradient(
-      to right,
-      var(--lines-color),
-      var(--lines-color) 1px, /* Толщина линии 1px */
-      transparent 1px,
-      transparent 50px /* Расстояние между линиями (1px линия + 49px прозрачности) */
-    );
-    background-attachment: fixed; /* Фон не прокручивается вместе с контентом */
-  }
-
   body {
-    /* ИСХОДНЫЕ СТИЛИ ДЛЯ BODY:
     @apply bg-background text-foreground overflow-x-hidden;
     width: 100%;
     max-width: 100vw;
-    */
-
-    /* ИЗМЕНЕННЫЕ СТИЛИ ДЛЯ BODY: */
-    @apply text-foreground; /* Применяем только цвет текста из темы */
-    width: 100%; /* width: 100% уже был на html, но для body тоже не помешает */
-    min-height: 100vh; /* Чтобы фон занимал всю высоту, если контента мало */
-    position: relative; /* Для корректного позиционирования дочерних элементов, если нужно */
-    /* ВАЖНО: Body ДОЛЖЕН БЫТЬ прозрачным, чтобы был виден фон html */
-    background-color: transparent !important; 
-    /* overflow-x: hidden; уже применен к html, здесь можно не дублировать, но не помешает */
-    overflow-x: hidden; 
+    /* ДОБАВЛЕННЫЕ ЛИНИИ НА ФОН */
+    position: relative;
   }
-
-  .container { /* Ваш существующий стиль для .container */
+  /* НОВЫЙ КОД ДЛЯ ЛИНИЙ НА ФОНЕ */
+  body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    pointer-events: none;
+    z-index: 1;
+    background-image: 
+      repeating-linear-gradient(
+        45deg,
+        transparent,
+        transparent 100px,
+        rgba(255, 255, 255, 0.03) 100px,
+        rgba(255, 255, 255, 0.03) 101px,
+        transparent 101px,
+        transparent 200px
+      ),
+      repeating-linear-gradient(
+        -45deg,
+        transparent,
+        transparent 100px,
+        rgba(255, 255, 255, 0.02) 100px,
+        rgba(255, 255, 255, 0.02) 101px,
+        transparent 101px,
+        transparent 200px
+      );
+  }
+  /* Для светлой темы */
+  body:not(.dark)::before {
+    background-image: 
+      repeating-linear-gradient(
+        45deg,
+        transparent,
+        transparent 100px,
+        rgba(0, 0, 0, 0.03) 100px,
+        rgba(0, 0, 0, 0.03) 101px,
+        transparent 101px,
+        transparent 200px
+      ),
+      repeating-linear-gradient(
+        -45deg,
+        transparent,
+        transparent 100px,
+        rgba(0, 0, 0, 0.02) 100px,
+        rgba(0, 0, 0, 0.02) 101px,
+        transparent 101px,
+        transparent 200px
+      );
+  }
+  /* Обеспечиваем правильную работу z-index для контента */
+  body > * {
+    position: relative;
+    z-index: 2;
+  }
+  .container {
     @apply px-4 sm:px-6 lg:px-8 mx-auto w-full max-w-full;
   }
-
-  /* Если у ваших секций (<section>) есть свои фоны, они перекроют глобальный фон. */
-  /* Чтобы глобальный фон был виден СКВОЗЬ секции, они должны быть прозрачными. */
-  /* Вы можете добавить это правило, если хотите, чтобы все <section> по умолчанию были прозрачными: */
-  /*
-  section {
-    background-color: transparent;
-  }
-  */
-  /* Но лучше управлять фоном каждой секции индивидуально через Tailwind классы в JSX. */
-  /* Если секция должна иметь свой фон (например, bg-card), это нормально, глобальный фон будет виден между секциями. */
 }
-
-/* --- ВСЕ ОСТАЛЬНЫЕ ВАШИ СТИЛИ НИЖЕ ОСТАЮТСЯ БЕЗ ИЗМЕНЕНИЙ --- */
-/* (лоадеры, анимации, утилиты, стили для .logo-container и т.д.) */
 
 .loader {
   width: 48px;
   height: 48px;
-  border: 5px solid #FFF; /* Можно заменить #FFF на hsl(var(--card-foreground)) или hsl(var(--primary)) для адаптивности к теме */
+  border: 5px solid #FFF;
   border-bottom-color: transparent;
   border-radius: 50%;
   display: inline-block;
-  box-sizing: border-box; /* Уже есть в * { box-sizing: border-box; } */
+  box-sizing: border-box;
   animation: rotation 1s linear infinite;
 }
 
 .loader-sm {
   width: 16px;
   height: 16px;
-  border: 2px solid #FFF; /* Аналогично, можно заменить на переменную темы */
+  border: 2px solid #FFF;
   border-bottom-color: transparent;
   border-radius: 50%;
   display: inline-block;
-  box-sizing: border-box; /* Уже есть в * { box-sizing: border-box; } */
+  box-sizing: border-box;
   animation: rotation 1s linear infinite;
 }
 
@@ -320,7 +317,7 @@
 
 .logo-container {
   position: relative;
-  overflow: visible; /* Как вы просили, для сохранения вида логотипа */
+  overflow: visible;
 }
 
 .logo-container::after {
@@ -332,5 +329,4 @@
   height: 2px;
   background: linear-gradient(90deg, transparent, hsl(var(--gold-light)), transparent);
   opacity: 0.6;
-  pointer-events: none; /* Добавлено, чтобы не мешало кликам, если вдруг перекроет что-то */
 }
