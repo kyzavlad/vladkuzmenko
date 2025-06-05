@@ -1,55 +1,40 @@
 // app/warriors-team/page.tsx
-import { Metadata } from 'next';
+"use client"; // <--- ВАЖНО: Добавлено из-за использования <style jsx global>
+
+import { Metadata } from 'next'; // Metadata можно использовать и в клиентских компонентах, но значения будут статичны после сборки
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
-// Убедитесь, что все используемые иконки импортированы, например:
-// import { ChevronRight, Globe, ShieldCheck, Users, Zap, BarChart, MessageSquareHeart, ThumbsUp } from 'lucide-react'; 
+// Вам нужно будет импортировать все иконки, которые вы планируете использовать в ПОЛНОЙ версии этой страницы
+// Например: import { ChevronRight, Globe, ShieldCheck, Users, Zap, BarChart, MessageSquareHeart, ThumbsUp } from 'lucide-react'; 
 
-export const metadata: Metadata = {
-  title: 'Warriors Team | VladKuzmenko.com',
-  description: 'Warriors Team is a global network in which exemplars of individualism work to free the modern man from socially induced incarceration.',
-  openGraph: { 
-    title: 'Warriors Team',
-    description: 'Warriors Team is a global network...',
-    // ЗАМЕНИТЕ НА ВАШЕ РЕАЛЬНОЕ ИЗОБРАЖЕНИЕ ДЛЯ ПРЕВЬЮ
-    images: [{ url: 'https://vladkuzmenko.com/placeholder-og-warriors.jpg' }] 
-  },
-  twitter: {
-    card: 'summary_large_image',
-    title: 'Warriors Team',
-    description: 'Warriors Team is a global network...',
-    // ЗАМЕНИТЕ НА ВАШЕ РЕАЛЬНОЕ ИЗОБРАЖЕНИЕ ДЛЯ ПРЕВЬЮ
-    images: ['https://vladkuzmenko.com/placeholder-twitter-warriors.jpg']
-  },
-};
-
-// --- ЕДИНСТВЕННОЕ ОПРЕДЕЛЕНИЕ VerticalLinesBackground ---
-// Этот компонент теперь будет использовать линии из глобального фона (--background-pattern),
-// если вы хотите отдельные линии только для этой страницы, его нужно будет изменить.
-// Для глобального фона этот компонент не нужен, если фон применяется к <html> в globals.css
-// Если же вы хотите уникальный фон ТОЛЬКО для этой страницы, тогда используйте его.
-// Пока я его закомментирую, так как мы стремимся к глобальному фону через globals.css.
-// Если фон из globals.css не сработает, можно будет вернуть этот компонент и применить его 
-// к корневому div этой страницы, убрав !bg-neutral-950.
-
-// const VerticalLinesBackground = () => {
-//   return (
-//     <div 
-//       className="fixed inset-0 -z-10 h-full w-full overflow-hidden pointer-events-none"
-//     >
-//       <div className="container mx-auto h-full relative">
-//         <div className="absolute inset-0 grid grid-cols-5 h-full">
-//           {[...Array(5)].map((_, i) => (
-//             <div
-//               key={`vline-${i}`}
-//               className="h-full w-px bg-white opacity-5" 
-//             ></div>
-//           ))}
-//         </div>
-//       </div>
-//     </div>
-//   );
+// Metadata лучше определять в файле layout.tsx для этого маршрута, если это клиентский компонент,
+// или если страница статическая, то можно и здесь. Для динамического title/description из клиентского компонента нужны другие подходы.
+// Так как это page.tsx, определение metadata здесь допустимо, но оно будет статическим.
+// export const metadata: Metadata = { // Закомментируем, так как для Client Component metadata экспортируется иначе или из layout
+//   title: 'Warriors Team | VladKuzmenko.com',
+//   description: 'Warriors Team is a global network in which exemplars of individualism work to free the modern man from socially induced incarceration.',
 // };
+
+
+// Компонент для фона с вертикальными линиями. Он не использует клиентские хуки, поэтому может оставаться здесь.
+const VerticalLinesBackground = () => {
+  return (
+    <div 
+      className="fixed inset-0 -z-10 h-full w-full overflow-hidden pointer-events-none"
+    >
+      <div className="container mx-auto h-full relative">
+        <div className="absolute inset-0 grid grid-cols-5 h-full">
+          {[...Array(5)].map((_, i) => (
+            <div
+              key={`vline-${i}`}
+              className="h-full w-px bg-white opacity-5" 
+            ></div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+};
 
 // Хелпер для секций
 const Section: React.FC<{ id?: string; className?: string; children: React.ReactNode; useContainer?: boolean }> = ({ id, className, children, useContainer = true }) => (
@@ -59,13 +44,15 @@ const Section: React.FC<{ id?: string; className?: string; children: React.React
 );
 
 export default function WarriorsTeamPage() {
+  // Если вам нужно динамически менять title/description на этой клиентской странице,
+  // используйте useEffect и document.title, или сторонние библиотеки для управления head.
+  // useEffect(() => {
+  //   document.title = 'Warriors Team | VladKuzmenko.com';
+  // }, []);
+
   return (
-    // Этот div будет использовать глобальный фон, заданный для <html> в globals.css.
-    // Если нужен уникальный фон для этой страницы, раскомментируйте VerticalLinesBackground
-    // и уберите !bg-transparent, если хотите, чтобы он перекрыл глобальный.
-    // Для соответствия "The War Room", который весь темный, можно оставить !bg-neutral-950.
     <div className="!bg-neutral-950 text-white selection:bg-red-500/30 min-h-screen relative">
-      {/* <VerticalLinesBackground /> Если вы хотите этот специфичный фон для страницы поверх глобального или вместо */}
+      <VerticalLinesBackground />
       
       <Section 
         id="hero" 
@@ -75,7 +62,10 @@ export default function WarriorsTeamPage() {
         <div className="container mx-auto relative z-10">
           <h1 
             className="text-5xl sm:text-6xl md:text-7xl lg:text-[88px] font-black tracking-tight uppercase mb-4"
-            style={{ color: '#FFFFFF', textShadow: '0px 3px 5px rgba(0,0,0,0.3)' }}
+            style={{ 
+              color: '#FFFFFF',
+              textShadow: '0px 3px 5px rgba(0,0,0,0.3)'
+            }}
           >
             WARRIORS TEAM
           </h1>
@@ -110,6 +100,7 @@ export default function WarriorsTeamPage() {
               ></div>
             </div>
           </div>
+          {/* Блок <style jsx global> требует, чтобы компонент был клиентским */}
           <style jsx global>{`
             @keyframes bounceSimple_hero_scroll {
               0%, 20%, 50%, 80%, 100% { transform: translate(-50%, 0); }
@@ -121,17 +112,23 @@ export default function WarriorsTeamPage() {
       </Section>
 
       {/* ЗАПОЛНИТЕ ОСТАЛЬНЫЕ СЕКЦИИ ПО АНАЛОГИИ С HTML-ФАЙЛОМ "THE WAR ROOM.HTM" */}
-      {/* Пример заглушки для следующей секции */}
-      <Section id="where-is-warriors-team" className="py-16 md:py-24 bg-neutral-900"> {/* Пример другого фона для секции */}
+      <Section id="about-team" className="py-16 md:py-24">
          <div className="text-center container mx-auto px-4">
-            <h2 className="text-4xl font-bold uppercase">Where is The Warriors Team?</h2>
-            <p className="text-2xl text-neutral-300 mt-4">Everywhere.</p>
-            {/* Здесь должен быть ваш слайдер или галерея изображений */}
+            <h2 className="text-4xl font-bold uppercase">About The Warriors Team</h2>
+            <p className="text-neutral-300 mt-4 max-w-2xl mx-auto">
+              Inspired by the ethos of elite networks, the Warriors Team is a curated global collective... 
+              {/* ЗАПОЛНИТЕ ЭТОТ И ДРУГИЕ ТЕКСТЫ В СТИЛЕ "THE WAR ROOM" */}
+            </p>
          </div>
       </Section>
       
-      {/* Добавьте остальные секции: Who are our members, Not Ready, Two Roads, Testimonials, CTA */}
-
+      <Section id="member-benefits" className="py-16 md:py-24 bg-neutral-900">
+         <div className="text-center container mx-auto px-4">
+            <h2 className="text-4xl font-bold uppercase">Member Benefits</h2>
+            <p className="text-neutral-300 mt-4">Access to knowledge, network, and opportunities...</p>
+         </div>
+      </Section>
+      {/* ... и так далее, все секции ... */}
     </div>
   );
 }
