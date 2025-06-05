@@ -112,11 +112,9 @@
     @apply bg-background text-foreground overflow-x-hidden;
     width: 100%;
     max-width: 100vw;
-    /* ДОБАВЛЕННЫЕ ЛИНИИ НА ФОН */
-    position: relative;
   }
-  /* НОВЫЙ КОД ДЛЯ ЛИНИЙ НА ФОНЕ */
-  body::before {
+  /* ВЕРТИКАЛЬНЫЕ ЛИНИИ ПОВЕРХ ВСЕГО */
+  body::after {
     content: '';
     position: fixed;
     top: 0;
@@ -124,53 +122,52 @@
     right: 0;
     bottom: 0;
     pointer-events: none;
-    z-index: 1;
+    z-index: 9999;
     background-image: 
-      repeating-linear-gradient(
-        45deg,
-        transparent,
-        transparent 100px,
-        rgba(255, 255, 255, 0.03) 100px,
-        rgba(255, 255, 255, 0.03) 101px,
-        transparent 101px,
-        transparent 200px
-      ),
-      repeating-linear-gradient(
-        -45deg,
-        transparent,
-        transparent 100px,
-        rgba(255, 255, 255, 0.02) 100px,
-        rgba(255, 255, 255, 0.02) 101px,
-        transparent 101px,
-        transparent 200px
+      linear-gradient(to right, 
+        transparent 0%, 
+        transparent calc(20% - 0.5px), 
+        rgba(255, 255, 255, 0.08) calc(20% - 0.5px), 
+        rgba(255, 255, 255, 0.08) calc(20% + 0.5px), 
+        transparent calc(20% + 0.5px),
+        transparent calc(40% - 0.5px),
+        rgba(255, 255, 255, 0.08) calc(40% - 0.5px),
+        rgba(255, 255, 255, 0.08) calc(40% + 0.5px),
+        transparent calc(40% + 0.5px),
+        transparent calc(60% - 0.5px),
+        rgba(255, 255, 255, 0.08) calc(60% - 0.5px),
+        rgba(255, 255, 255, 0.08) calc(60% + 0.5px),
+        transparent calc(60% + 0.5px),
+        transparent calc(80% - 0.5px),
+        rgba(255, 255, 255, 0.08) calc(80% - 0.5px),
+        rgba(255, 255, 255, 0.08) calc(80% + 0.5px),
+        transparent calc(80% + 0.5px),
+        transparent 100%
       );
   }
   /* Для светлой темы */
-  body:not(.dark)::before {
+  body:not(.dark)::after {
     background-image: 
-      repeating-linear-gradient(
-        45deg,
-        transparent,
-        transparent 100px,
-        rgba(0, 0, 0, 0.03) 100px,
-        rgba(0, 0, 0, 0.03) 101px,
-        transparent 101px,
-        transparent 200px
-      ),
-      repeating-linear-gradient(
-        -45deg,
-        transparent,
-        transparent 100px,
-        rgba(0, 0, 0, 0.02) 100px,
-        rgba(0, 0, 0, 0.02) 101px,
-        transparent 101px,
-        transparent 200px
+      linear-gradient(to right, 
+        transparent 0%, 
+        transparent calc(20% - 0.5px), 
+        rgba(0, 0, 0, 0.06) calc(20% - 0.5px), 
+        rgba(0, 0, 0, 0.06) calc(20% + 0.5px), 
+        transparent calc(20% + 0.5px),
+        transparent calc(40% - 0.5px),
+        rgba(0, 0, 0, 0.06) calc(40% - 0.5px),
+        rgba(0, 0, 0, 0.06) calc(40% + 0.5px),
+        transparent calc(40% + 0.5px),
+        transparent calc(60% - 0.5px),
+        rgba(0, 0, 0, 0.06) calc(60% - 0.5px),
+        rgba(0, 0, 0, 0.06) calc(60% + 0.5px),
+        transparent calc(60% + 0.5px),
+        transparent calc(80% - 0.5px),
+        rgba(0, 0, 0, 0.06) calc(80% - 0.5px),
+        rgba(0, 0, 0, 0.06) calc(80% + 0.5px),
+        transparent calc(80% + 0.5px),
+        transparent 100%
       );
-  }
-  /* Обеспечиваем правильную работу z-index для контента */
-  body > * {
-    position: relative;
-    z-index: 2;
   }
   .container {
     @apply px-4 sm:px-6 lg:px-8 mx-auto w-full max-w-full;
