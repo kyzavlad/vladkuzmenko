@@ -11,24 +11,15 @@
   src: url('/_next/static/media/a34f9d1faa5f3315-s.p.woff2') format('woff2');
 }
 
-:root {
-  --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 220;
-  --background-end-rgb: 255, 255, 255;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
-  }
-}
-
+/* --- Цветовые переменные для тем --- */
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 0 0% 3.9%;
+    /* Основные цвета для СВЕТЛОЙ темы (HSL формат для Shadcn/ui) */
+    --background: 0 0% 100%; /* белый */
+    --foreground: 0 0% 3.9%; /* почти черный */
+    /* Переменные для цвета текста, используемые в фоне-узоре */
+    --foreground-rgb: 0, 0, 0; /* черный для текста в светлой теме */
+    
     --card: 0 0% 100%;
     --card-foreground: 0 0% 3.9%;
     --popover: 0 0% 100%;
@@ -64,9 +55,14 @@
     --gold-medium: 40 100% 50%;
     --gold-dark: 36 100% 40%;
   }
+
   .dark {
-    --background: 0 0% 3.9%;
-    --foreground: 0 0% 98%;
+    /* Основные цвета для ТЕМНОЙ темы */
+    --background: 0 0% 3.9%; /* почти черный */
+    --foreground: 0 0% 98%; /* почти белый */
+    /* Переменные для цвета текста, используемые в фоне-узоре */
+    --foreground-rgb: 255, 255, 255; /* белый для текста в темной теме */
+
     --card: 0 0% 3.9%;
     --card-foreground: 0 0% 98%;
     --popover: 0 0% 3.9%;
@@ -92,10 +88,18 @@
     --brand: 213 100% 60%;
     --brand-foreground: 210 100% 50%;
     --brand-rgb: 51, 153, 255;
-    /* ... остальные переменные для темной темы ... */
+    --color-1: 0 100% 63%;
+    --color-2: 270 100% 63%;
+    --color-3: 210 100% 63%;
+    --color-4: 195 100% 63%;
+    --color-5: 90 100% 63%;
+    --gold-light: 45 100% 60%;
+    --gold-medium: 40 100% 50%;
+    --gold-dark: 36 100% 40%;
   }
 }
 
+/* --- Базовые стили и новый фон для body --- */
 @layer base {
   * {
     @apply border-border;
@@ -105,14 +109,38 @@
   html,
   body {
     width: 100%;
-    max-width: 100%; /* Гарантирует, что ширина не превысит ширину viewport */
-    overflow-x: hidden; /* **КЛЮЧЕВОЕ ИЗМЕНЕНИЕ для предотвращения горизонтальной прокрутки** */
+    max-width: 100%; 
+    overflow-x: hidden; 
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    background-color: hsl(var(--background)); /* Базовый цвет фона из темы */
   }
 
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground; /* Применяет основной цвет фона и текста из темы */
+    position: relative; 
+    
+    /* Вариант 1: Тонкие диагональные полоски (оставлен активным) */
+    background-image: repeating-linear-gradient(
+      45deg,
+      rgba(var(--foreground-rgb), 0.03),
+      rgba(var(--foreground-rgb), 0.03) 1px,
+      transparent 1px,
+      transparent 15px 
+    );
+
+    /* Вариант 2: Очень тонкие вертикальные линии */
+    /* background-image: repeating-linear-gradient(
+      to right,
+      rgba(var(--foreground-rgb), 0.04), 
+      rgba(var(--foreground-rgb), 0.04) 1px,
+      transparent 1px,
+      transparent 40px
+    ); */
+
+    /* Вариант 3: Узор "точки" */
+    /* background-image: radial-gradient(rgba(var(--foreground-rgb), 0.05) 0.5px, transparent 0.5px); */
+    /* background-size: 10px 10px; */
   }
 
   .container {
@@ -120,50 +148,163 @@
   }
 }
 
-/* ... ваши стили для loader, animations, utilities ... */
-.loader { /* ... */ }
-.loader-sm { /* ... */ }
-@keyframes rotation { /* ... */ }
-@keyframes gradient { /* ... */ }
-.animate-gradient { /* ... */ }
-@layer utilities { /* ... */ }
-@keyframes appear { /* ... */ }
-@keyframes appear-zoom { /* ... */ }
-@keyframes rainbow { /* ... */ }
-@keyframes sparkle { /* ... */ }
-@keyframes marquee { /* ... */ }
-.animate-appear { /* ... */ }
-.animate-appear-zoom { /* ... */ }
-.animate-rainbow { /* ... */ }
-.animate-sparkle { /* ... */ }
-.animate-marquee { /* ... */ }
+/* Loader styles */
+.loader {
+  width: 48px;
+  height: 48px;
+  border: 5px solid hsl(var(--card)); 
+  border-bottom-color: transparent;
+  border-radius: 50%;
+  display: inline-block;
+  animation: rotation 1s linear infinite;
+}
 
+.loader-sm {
+  width: 16px;
+  height: 16px;
+  border: 2px solid hsl(var(--card)); 
+  border-bottom-color: transparent;
+  border-radius: 50%;
+  display: inline-block;
+  animation: rotation 1s linear infinite;
+}
+
+@keyframes rotation {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/* Gradient animation styles */
+@keyframes gradient {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.animate-gradient {
+  animation: gradient 3s ease infinite;
+  background-size: 200% 200%; 
+}
+
+/* Utility classes for text gradients and other effects */
+@layer utilities {
+  .text-gradient {
+    @apply bg-clip-text text-transparent bg-gradient-to-b from-foreground via-foreground/90 to-muted-foreground;
+  }
+  
+  .text-gold-gradient {
+    @apply bg-clip-text text-transparent bg-gradient-to-b from-[#FFD700] via-[#FFC107] to-[#FF9800];
+  }
+}
+
+/* Keyframes for various animations */
+@keyframes appear {
+  0% {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes appear-zoom {
+  0% {
+    opacity: 0;
+    transform: scale(0.98);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes rainbow {
+  0% {
+    background-position: 0%;
+  }
+  100% {
+    background-position: 200%;
+  }
+}
+
+@keyframes sparkle {
+  0%, 100% {
+    opacity: 0.2;
+    transform: scale(0.8);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.2);
+  }
+}
+
+@keyframes marquee {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(calc(-100% - var(--gap, 1rem))); 
+  }
+}
+
+/* Animation utility classes */
+.animate-appear {
+  animation: appear 0.5s ease-out forwards;
+}
+
+.animate-appear-zoom {
+  animation: appear-zoom 0.8s ease-out forwards;
+}
+
+.animate-rainbow {
+  animation: rainbow var(--speed, 2s) infinite linear; 
+}
+
+.animate-sparkle {
+  animation: sparkle 2s infinite ease-in-out;
+}
+
+.animate-marquee {
+  animation: marquee var(--duration, 40s) linear infinite; 
+}
 
 /* Custom font for logo */
 @font-face {
   font-family: 'Elegant Script';
-  /* src: url('.../elegant-script.woff2') format('woff2'); Укажите правильный путь, если это локальный шрифт */
-  /* Если это Playfair Display из Google Fonts, лучше подключить через <link> в layout.tsx или next/font */
+  /* src: url('/path/to/your/elegant-script.woff2') format('woff2'); */
+  /* Укажите правильный путь к файлу шрифта, если он у вас локальный, */
+  /* или подключите Google Fonts (например, Playfair Display) через <link> в layout.tsx / next/font */
   font-weight: normal;
   font-style: normal;
 }
 
+/* Styles for the logo container */
 .logo-container {
   position: relative;
-  /* ИЗМЕНЕНИЕ: Возвращаем visible, как было у вас. 
-     НО! Если прокрутка вернется, значит логотип (текст или полоска ::after) шире своего блока.
-     Тогда лучше вернуть overflow: hidden; и адаптировать сам логотип. */
-  overflow: visible; 
+  overflow: visible; /* Возвращено по вашей просьбе. Если прокрутка вернется, измените на hidden */
 }
 
+/* Decorative ::after element for the logo container */
 .logo-container::after {
   content: '';
   position: absolute;
   bottom: -4px;
   left: 0;
-  width: 100%; /* Ширина полоски = 100% от .logo-container */
+  width: 100%;
   height: 2px;
   background: linear-gradient(90deg, transparent, hsl(var(--gold-light)), transparent);
   opacity: 0.6;
-  pointer-events: none; /* Чтобы не мешала кликам */
+  pointer-events: none; 
 }
