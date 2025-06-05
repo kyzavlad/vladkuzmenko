@@ -1,17 +1,16 @@
-// components/MensCommunitySection.tsx (или где у вас этот файл)
+// components/MensCommunitySection.tsx
 "use client";
 
-import { motion } from "framer-motion"; // Убедимся, что импорт есть
+import { motion } from "framer-motion"; // Импорт для framer-motion
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Shield, Star, Zap } from "lucide-react";
 import Link from "next/link";
 
 export function MensCommunitySection() {
   return (
-    // Оставляем w-full, так как это секция на всю ширину, внутренний контейнер ограничивает контент
     <div className="w-full py-16 md:py-20 bg-background"> 
-      <div className="container mx-auto"> {/* Этот контейнер уже имеет отступы и max-width из globals.css */}
-        <div className="max-w-5xl mx-auto"> {/* Дополнительное ограничение ширины контента, если нужно */}
+      <div className="container mx-auto">
+        <div className="max-w-5xl mx-auto">
           {/* Header */}
           <div className="text-center mb-12">
             <h2 className="text-4xl md:text-6xl font-bold mb-6 text-gradient">
@@ -27,7 +26,7 @@ export function MensCommunitySection() {
           </div>
 
           {/* Content Grid */}
-          <div className="grid md:grid-cols-2 gap-12 items-start"> {/* Добавил items-start для выравнивания колонок */}
+          <div className="grid md:grid-cols-2 gap-12 items-start">
             {/* Left Column - Text */}
             <div className="space-y-8">
               <div>
@@ -65,25 +64,24 @@ export function MensCommunitySection() {
             </div>
 
             {/* Right Column - Images */}
-            {/* Убедитесь, что изображения существуют в папке public/ или используйте next/image */}
             <div className="space-y-6">
               <div className="w-full aspect-video rounded-lg overflow-hidden shadow-xl">
                 <img
-                  src="/team-meeting-1.webp" // Убедитесь, что путь правильный из папки public
+                  src="/team-meeting-1.webp" // Убедитесь, что путь правильный (из папки public)
                   alt="Warriors Team Meeting"
                   className="w-full h-full object-cover"
                 />
               </div>
               <div className="w-full aspect-video rounded-lg overflow-hidden shadow-xl">
                 <img
-                  src="/team-training-1.webp" // Убедитесь, что путь правильный из папки public
+                  src="/team-training-1.webp" // Убедитесь, что путь правильный
                   alt="Team Training"
                   className="w-full h-full object-cover"
                 />
               </div>
               <div className="w-full aspect-video rounded-lg overflow-hidden shadow-xl">
                 <img
-                  src="/team-success-1.webp" // Убедитесь, что путь правильный из папки public
+                  src="/team-success-1.webp" // Убедитесь, что путь правильный
                   alt="Team Success"
                   className="w-full h-full object-cover"
                 />
@@ -92,7 +90,7 @@ export function MensCommunitySection() {
           </div>
 
           {/* CTA */}
-          <div className="text-center mt-16 md:mt-20"> {/* Увеличил отступ */}
+          <div className="text-center mt-16 md:mt-20">
             <h3 className="text-2xl md:text-3xl font-bold mb-6">
               The World Needs Men Like You
             </h3>
@@ -100,15 +98,15 @@ export function MensCommunitySection() {
               If you have the drive, the ambition, and the commitment to excellence, 
               you belong here. Join a brotherhood of men who are redefining what's possible.
             </p>
-            {/* ИЗМЕНЕННАЯ ССЫЛКА */}
+            {/* ИСПРАВЛЕННАЯ ССЫЛКА */}
             <Link href="/warriors-team" passHref legacyBehavior>
-              <a target="_blank" rel="noopener noreferrer">
+              <a target="_blank" rel="noopener noreferrer" aria-label="Join The Warriors Team">
                 <Button 
                   size="lg"
-                  className="bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white group text-base md:text-lg px-8 py-4" // Добавил размеры шрифта и отступы
+                  className="bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white group text-base md:text-lg px-8 py-4"
                 >
                   Join The Warriors Team
-                  <ArrowRight className="ml-2 h-5 w-5 transition-transform group-hover:translate-x-1" /> {/* Увеличил иконку */}
+                  <ArrowRight className="ml-2 h-5 w-5 transition-transform group-hover:translate-x-1" />
                 </Button>
               </a>
             </Link>
