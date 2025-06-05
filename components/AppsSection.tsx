@@ -1,6 +1,6 @@
 "use client";
 
-import { Icons } from "@/components/ui/icons";
+import { Icons } from "@/components/ui/icons"; // Этот импорт остается, так как может использоваться другими компонентами ContactDialog или внутри него.
 import { ContactDialog } from "@/components/ui/contact-dialog";
 import { CustomVideoDialog } from "@/components/ui/custom-video-dialog";
 
@@ -24,7 +24,8 @@ export function AppsSection() {
           
           <div className="flex flex-wrap justify-center gap-4 mt-8">
             <ContactDialog triggerText="Get Started" className="w-full md:w-auto" />
-            <ContactDialog triggerText="View Demo" variant="outline" className="w-full md:w-auto" />
+            {/* Кнопка "View Demo" была здесь и теперь удалена */}
+            {/* <ContactDialog triggerText="View Demo" variant="outline" className="w-full md:w-auto" /> */}
           </div>
         </div>
       </div>
