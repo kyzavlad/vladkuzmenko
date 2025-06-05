@@ -3,22 +3,21 @@
 
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
-import Image from 'next/image'; // Убедитесь, что Image используется или удалите, если нет
-import { ChevronRight, Users, ShieldCheck, MapPin, Tv, MessageSquareHeart, CheckCircle, ThumbsUp, Zap, Globe } from 'lucide-react'; // Добавьте все используемые иконки
-import { useEffect } from 'react';
+import Image from 'next/image';
+import { Play, Scroll, Globe, Users, Target, Zap, ChevronDown } from 'lucide-react';
+import { useEffect, useState } from 'react';
+import { Header } from "@/components/ui/header";
 
 // Хелпер для секций
 const Section: React.FC<{ id?: string; className?: string; children: React.ReactNode; useContainer?: boolean, sectionClassName?: string }> = 
   ({ id, className = "", children, useContainer = true, sectionClassName = "" }) => (
   <section id={id} className={`relative ${sectionClassName} ${useContainer ? 'py-16 md:py-24' : ''} ${className}`}>
     {useContainer ? (
-      <div className={`container mx-auto px-4 sm:px-6 lg:px-8 relative z-10 ${fullWidthBg ? 'py-16 md:py-24' : ''}`}> {/* Добавил переменную fullWidthBg для консистентности, но она не определена в пропсах. Убрал ее. */}
+      <div className={`container mx-auto px-4 sm:px-6 lg:px-8 relative z-10`}>
         {children}
       </div>
     ) : (
-      // Если useContainer false, то отступы py-16 md:py-24 применяются к этому div, если он не fullWidthBg
-      // Для Hero, где useContainer=false, отступы задаются в className самого Section
-      <div className={`relative z-10 ${fullWidthBg ? 'py-16 md:py-24' : ''}`}> {/* Убрал fullWidthBg, т.к. не используется */}
+      <div className={`relative z-10`}>
         {children}
       </div>
     )}
@@ -51,16 +50,22 @@ const SectionHeader: React.FC<{ title: string; strokeText?: string; description?
 );
 
 export default function WarriorsTeamPage() {
+  const [isVideoPlaying, setIsVideoPlaying] = useState(false);
+  
   useEffect(() => {
     document.title = 'Warriors Team | VladKuzmenko.com';
   }, []);
 
-  // Код компонента WarriorsTeamPage начинается здесь. 
-  // Убедимся, что нет лишних символов или неправильной структуры перед return.
+  const scrollToNext = () => {
+    window.scrollTo({
+      top: window.innerHeight,
+      behavior: 'smooth'
+    });
+  };
+
   return (
-    // Корневой div страницы. Он должен наследовать фон от <html> из globals.css.
-    // text-white оставлен, так как глобальный фон темный.
     <div className="text-white selection:bg-red-500/30 min-h-screen relative">
+      <Header />
       
       {/* Hero Section */}
       <Section 
@@ -70,44 +75,56 @@ export default function WarriorsTeamPage() {
       >
         <div className="container mx-auto relative z-10">
           <h1 
-            className="text-5xl sm:text-6xl md:text-7xl lg:text-[88px] font-black tracking-tight uppercase mb-4 animate-appear-zoom [animation-delay:200ms]"
-            style={{ color: '#FFFFFF', textShadow: '0px 3px 5px rgba(0,0,0,0.3)' }}
+            className="text-5xl sm:text-6xl md:text-7xl lg:text-[120px] font-black tracking-wider uppercase mb-6 animate-appear-zoom [animation-delay:200ms]"
+            style={{ color: '#FFFFFF', textShadow: '0px 4px 8px rgba(0,0,0,0.4)' }}
           >
-            WARRIORS TEAM
+            THE WARRIORS TEAM
           </h1>
           <p 
             className="max-w-xl md:max-w-2xl lg:max-w-3xl mx-auto text-lg md:text-xl lg:text-2xl text-neutral-300 mb-10 leading-relaxed font-light animate-appear [animation-delay:400ms]"
             style={{ textShadow: '0 1px 2px rgba(0,0,0,0.5)'}}
           >
-            No Great Man in History became Exceptional <em className="font-bold text-white not-italic">alone.</em>
+            No Great Leader in History achieved Excellence <em className="font-bold text-white not-italic">alone.</em>
           </p>
-          <div className="animate-appear [animation-delay:600ms]">
-            <Button 
-              asChild 
-              size="lg" 
-              className="group relative flex items-center gap-2 px-8 py-3 md:px-10 md:py-4 
-                         text-sm md:text-base font-bold uppercase tracking-wider
-                         bg-black hover:bg-neutral-800 text-white 
-                         border-2 border-black hover:border-neutral-700
-                         rounded-md shadow-lg hover:shadow-xl transition-all duration-300"
-            >
-              <Link href="/checkout"> {/* ЗАМЕНИТЕ ЭТУ ССЫЛКУ НА АКТУАЛЬНУЮ */}
-                JOIN <strong className="ml-1 font-bold">THE WARRIORS TEAM</strong>
-              </Link>
-            </Button>
+          
+          {/* Video Placeholder */}
+          <div className="mt-16 relative max-w-4xl mx-auto animate-appear [animation-delay:600ms]">
+            <div className="relative bg-neutral-900 rounded-lg overflow-hidden aspect-video shadow-2xl border border-neutral-800">
+              {!isVideoPlaying ? (
+                <button 
+                  onClick={() => setIsVideoPlaying(true)}
+                  className="absolute inset-0 flex items-center justify-center hover:bg-white/5 transition-colors"
+                >
+                  <div className="w-20 h-20 bg-white rounded-full flex items-center justify-center shadow-lg hover:scale-110 transition-transform">
+                    <Play className="w-8 h-8 text-black ml-1" fill="black" />
+                  </div>
+                </button>
+              ) : (
+                <iframe
+                  src="https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=1"
+                  className="w-full h-full"
+                  allow="autoplay; encrypted-media"
+                  allowFullScreen
+                ></iframe>
+              )}
+            </div>
           </div>
           
-          <div className="absolute bottom-8 sm:bottom-10 text-center w-full left-0 animate-appear [animation-delay:800ms]">
-            <div className="inline-block text-sm text-neutral-400 mb-2">Scroll for more</div>
+          {/* Scroll indicator */}
+          <button
+            onClick={scrollToNext}
+            className="absolute bottom-8 sm:bottom-10 left-1/2 -translate-x-1/2 animate-appear [animation-delay:800ms]"
+          >
+            <div className="text-sm text-neutral-400 mb-2">Scroll for more</div>
             <div className="w-5 h-9 border-2 border-neutral-500 rounded-full mx-auto relative">
               <div 
                 className="w-1 h-1.5 bg-neutral-400 rounded-full absolute top-2 left-1/2 -translate-x-1/2"
-                style={{ animation: `bounceSimple_hero_scroll 1.5s infinite cubic-bezier(0.5, 0, 0.1, 1)` }}
+                style={{ animation: `bounceSimple_scroll 1.5s infinite cubic-bezier(0.5, 0, 0.1, 1)` }}
               ></div>
             </div>
-          </div>
+          </button>
           <style jsx global>{`
-            @keyframes bounceSimple_hero_scroll {
+            @keyframes bounceSimple_scroll {
               0%, 20%, 50%, 80%, 100% { transform: translate(-50%, 0); }
               40% { transform: translate(-50%, 8px); }
               60% { transform: translate(-50%, 4px); }
@@ -116,183 +133,431 @@ export default function WarriorsTeamPage() {
         </div>
       </Section>
 
-      {/* Video Section */}
-      <Section id="experience-video" sectionClassName="bg-black/20 backdrop-blur-sm py-16 md:py-24">
-        <SectionHeader title="EXPERIENCE THE WARRIORS TEAM" strokeText="THE TEAM" />
-        <div className="max-w-4xl mx-auto aspect-video bg-neutral-800/70 rounded-xl shadow-2xl flex flex-col items-center justify-center text-neutral-300 border border-neutral-700 p-8">
-          <Tv size={64} className="opacity-80 mb-4"/>
-          <p className="text-lg">Placeholder for Introductory Video</p>
-          <p className="text-sm mt-2">Showcasing the energy, the network, and the results.</p>
+      {/* Brotherhood Section */}
+      <Section id="brotherhood" className="py-16 md:py-24">
+        <div className="grid md:grid-cols-2 gap-12 items-center">
+          <div className="relative order-2 md:order-1">
+            <Image 
+              src="https://images.unsplash.com/photo-1556155092-490a1ba16284?w=800" 
+              alt="Brotherhood meeting"
+              width={800}
+              height={500}
+              className="rounded-xl shadow-2xl object-cover"
+            />
+          </div>
+          
+          <div className="space-y-6 text-lg md:text-xl text-neutral-300 order-1 md:order-2">
+            <h2 className="text-3xl md:text-4xl lg:text-5xl font-black text-white mb-8">
+              99.7% of modern leaders will never experience the power
+              of true Brotherhood and Strategic Alliance.
+            </h2>
+            
+            <p>
+              They will never know what it's like to have other
+              ambitious, driven, intelligent, and capable leaders at their
+              side.
+            </p>
+            
+            <p>
+              To experience being surrounded by <span className="font-bold text-white">breakthrough stories.</span>
+            </p>
+            
+            <p>
+              To be among the <span className="font-bold text-white">most driven</span> and <span className="font-bold text-white">fortunate Leaders in the world.</span>
+            </p>
+            
+            <div className="space-y-4 pt-4">
+              <p>
+                Inside <span className="font-bold text-white">The Warriors Team</span> you will access <span className="font-bold text-white">strategies</span> that will
+                ignite your potential and push you to <span className="font-bold text-white">excel beyond limits</span> to
+                keep pace.
+              </p>
+              
+              <p className="font-semibold text-white">
+                There is no other alliance on earth with Leaders of this caliber.
+              </p>
+            </div>
+            
+            <div className="pt-8">
+              <Button 
+                asChild 
+                size="lg" 
+                className="group relative flex items-center gap-2 px-8 py-3 md:px-10 md:py-4 
+                           text-sm md:text-base font-bold uppercase tracking-wider
+                           bg-black hover:bg-neutral-800 text-white 
+                           border-2 border-black hover:border-neutral-700
+                           rounded-md shadow-lg hover:shadow-xl transition-all duration-300"
+              >
+                <Link href="https://cal.com/vladkuzmenko.com/call">
+                  APPLY FOR THE WARRIORS TEAM
+                </Link>
+              </Button>
+              
+              <p className="text-sm text-neutral-400 italic mt-4">
+                *Personal interview required - I conduct each interview myself to ensure the right fit
+              </p>
+            </div>
+          </div>
         </div>
       </Section>
-      
-      {/* Main Intro Text Section */}
-      <Section id="manifesto" className="py-16 md:py-24">
-          <div className="max-w-3xl mx-auto text-center space-y-6 text-lg md:text-xl leading-relaxed text-neutral-300">
-            <p><span className="font-bold text-white">99.9% of modern-day men will never experience the power of Brotherhood and Community.</span></p>
-            <p>They will never experience what it's like to have other ambitious, hard working, diligent, and dutiful men at their side.</p>
-            <p>To experience being surrounded by <span className="font-bold text-white">success stories,</span></p>
-            <p>To be among the <span className="font-bold text-white">most energetic</span> and <span className="font-bold text-white">purposeful Men in the world.</span></p>
-            <p>Inside <span className="font-bold text-white">Warriors Team</span> you will access <span className="font-bold text-white">knowledge</span> that will spark your genius and compel you to <span className="font-bold text-white">work your hardest</span> to keep up.</p>
-            <p>There is no other place on earth with Men of this caliber.</p>
-          </div>
-      </Section>
 
-      {/* Where is the Warriors Team? Section */}
+      {/* Global Network Section */}
       <Section id="global-network" sectionClassName="bg-black/20 backdrop-blur-sm py-16 md:py-24">
         <SectionHeader 
           title="WHERE IS THE WARRIORS TEAM?" 
           strokeText="EVERYWHERE" 
-          description="The globalization of the world has made it critical to be a part of a world-spanning network." 
         />
-        <div className="text-center text-neutral-300">
-          <Globe size={64} className="mx-auto mb-6 text-brand" />
-          <p className="text-xl mb-2">Our network spans continents, connecting motivated individuals worldwide.</p>
-          <p className="text-base text-neutral-400">(Placeholder for Image Slider or Interactive Map)</p>
+        <div className="text-center mb-12">
+          <p className="text-3xl md:text-4xl font-bold mb-8">Everywhere.</p>
+          <p className="text-xl text-neutral-300 max-w-3xl mx-auto">
+            The globalization of business has made it essential to
+            be part of a worldwide strategic network.
+          </p>
+        </div>
+        
+        {/* Photo Grid */}
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-2 mb-16 max-w-6xl mx-auto">
+          {[
+            "https://images.unsplash.com/photo-1542744173-8e7e53415bb0?w=400",
+            "https://images.unsplash.com/photo-1517048676732-d65bc937f952?w=400",
+            "https://images.unsplash.com/photo-1600880292203-757bb62b4baf?w=400",
+            "https://images.unsplash.com/photo-1552664730-d307ca884978?w=400",
+            "https://images.unsplash.com/photo-1542744095-291d1f67b221?w=400",
+            "https://images.unsplash.com/photo-1556761175-5973dc0f32e7?w=400",
+            "https://images.unsplash.com/photo-1559136555-9303baea8ebd?w=400",
+            "https://images.unsplash.com/photo-1598257006458-087169a1f08d?w=400"
+          ].map((src, i) => (
+            <div key={i} className="relative overflow-hidden group rounded-lg">
+              <Image
+                src={src} 
+                alt="Warriors Team global presence"
+                width={400}
+                height={300}
+                className="w-full h-48 object-cover group-hover:scale-110 transition-transform duration-300"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
+            </div>
+          ))}
         </div>
       </Section>
 
-      {/* Who are our members? Section */}
-      <Section id="members" className="py-16 md:py-24">
+      {/* Information Network Section */}
+      <Section id="information-network" className="py-16 md:py-24">
+        <div className="grid md:grid-cols-2 gap-16 items-center">
+          <div className="space-y-6 text-lg md:text-xl text-neutral-300">
+            <p>
+              <span className="font-bold text-white">Misinformation is everywhere.</span> The modern era demands
+              trusted insights from the field to accurately evaluate risks and
+              opportunities.
+            </p>
+            
+            <p>
+              In an <span className="font-bold text-white">interconnected, global marketplace</span>, accurate insider
+              intelligence becomes invaluable, whether for
+              <span className="font-bold text-white"> strategic opportunities</span> or simply identifying the optimal location
+              for you and your enterprise.
+            </p>
+            
+            <p>
+              <span className="font-bold text-white">The Warriors Team</span> network provides you <span className="font-bold text-white">access to thousands</span> of
+              highly skilled professionals monitoring your interests. A <span className="font-bold text-white">network</span>
+              with diverse expertise and capabilities; each
+              member driven and succeeding at becoming an <span className="font-bold text-white">exceptional
+              leader.</span>
+            </p>
+          </div>
+          
+          <div className="space-y-8 bg-neutral-900/50 backdrop-blur-sm p-8 rounded-xl border border-neutral-800">
+            <div>
+              <h3 className="text-2xl font-bold mb-4 text-white">
+                Expanding into Singapore and need insider knowledge on market dynamics?
+              </h3>
+              <p className="text-neutral-400">
+                Connect with a member who has navigated Singapore's business landscape for
+                <span className="font-bold text-white"> two decades.</span>
+              </p>
+            </div>
+            
+            <div>
+              <h3 className="text-2xl font-bold mb-4 text-white">
+                Want to discover how leaders in your sector are leveraging AI?
+              </h3>
+              <p className="text-neutral-400">
+                Speak with an industry pioneer who has direct experience with the innovators.
+              </p>
+            </div>
+            
+            <Button 
+              asChild 
+              size="lg" 
+              className="w-full md:w-auto group relative flex items-center gap-2 px-8 py-3 
+                         text-sm md:text-base font-bold uppercase tracking-wider
+                         bg-black hover:bg-neutral-800 text-white 
+                         border-2 border-black hover:border-neutral-700
+                         rounded-md shadow-lg hover:shadow-xl transition-all duration-300"
+            >
+              <Link href="https://cal.com/vladkuzmenko.com/call">
+                SCHEDULE YOUR INTERVIEW
+              </Link>
+            </Button>
+          </div>
+        </div>
+      </Section>
+
+      {/* Members Section */}
+      <Section id="members" sectionClassName="bg-black/20 backdrop-blur-sm py-16 md:py-24">
         <SectionHeader 
           title="WHO ARE OUR MEMBERS?" 
-          strokeText="OUR MEMBERS?" 
-          description="They were just like you - looking for something more. And within the Warriors Team, they found it." 
+          strokeText="OUR MEMBERS" 
         />
-        <div className="max-w-4xl mx-auto mb-12">
+        
+        <div className="text-center mb-12">
+          <p className="text-2xl md:text-3xl font-bold mb-4">
+            They were just like you –<br />
+            seeking something greater.
+          </p>
+          
+          <p className="text-xl text-neutral-300">
+            And within <span className="font-bold text-white">the Warriors Team</span>, they discovered it.
+          </p>
+        </div>
+        
+        <div className="relative mb-16 max-w-5xl mx-auto">
           <Image 
-            src="https://images.unsplash.com/photo-1560264280-88b68371db39?ixlib=rb-4.0.3&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=1000&fit=max" 
-            alt="Warriors Team Members Group" 
-            width={1000} 
-            height={600} 
-            className="rounded-xl shadow-2xl object-cover aspect-video" 
+            src="https://images.unsplash.com/photo-1556745757-8d76bdb6984b?w=1200" 
+            alt="Warriors Team gathering"
+            width={1200}
+            height={600}
+            className="w-full rounded-xl shadow-2xl"
           />
         </div>
-        <div className="max-w-3xl mx-auto text-center space-y-6 text-lg md:text-xl text-neutral-300">
-          <p><span className="font-bold text-white">Our ongoing Mission</span> is to ceaselessly empower Men like you,</p>
-          <p>To become the very best versions of themselves through <span className="font-bold text-white">physical, mental, emotional, spiritual</span>, and <span className="font-bold text-white">financial development</span>.</p>
-          <div className="bg-black/40 backdrop-blur-md p-6 md:p-8 rounded-xl shadow-lg border border-neutral-700 mt-8 inline-block">
-            <p className="text-xl md:text-2xl font-semibold text-white italic">"We hold that</p>
-            <p className="mt-2 text-neutral-200 leading-relaxed">
-              <span className="font-bold text-white">ALL Men should be strong, positive, law-abiding citizens</span> who are <span className="font-bold text-white">reliable</span> and <span className="font-bold text-white">dependable</span> for their families, friends, and communities."
+        
+        <div className="max-w-4xl mx-auto space-y-8 text-center">
+          <p className="text-xl text-neutral-300">
+            <span className="font-bold text-white">Our relentless Mission</span> is to continuously empower Leaders like
+            you,
+          </p>
+          
+          <p className="text-xl text-neutral-300">
+            To achieve the absolute best versions of themselves through
+            <span className="font-bold text-white"> physical, mental, emotional, spiritual</span>, and <span className="font-bold text-white">financial
+            growth</span>.
+          </p>
+          
+          <div className="bg-black/40 backdrop-blur-md p-8 rounded-xl shadow-lg border border-neutral-700 mt-12 inline-block">
+            <p className="text-2xl font-bold italic mb-4 text-white">We believe that</p>
+            
+            <p className="text-lg md:text-xl text-neutral-200">
+              <span className="font-bold text-white">ALL Leaders should be strong, principled, ethical professionals</span><br />
+              who are <span className="font-bold text-white">reliable</span> and <span className="font-bold text-white">trustworthy</span> for their teams, partners,<br />
+              and communities.
             </p>
+          </div>
+          
+          <div className="pt-8">
+            <Button 
+              asChild 
+              size="lg" 
+              className="group relative flex items-center gap-2 px-8 py-4 
+                         text-base md:text-lg font-bold uppercase tracking-wider
+                         bg-black hover:bg-neutral-800 text-white 
+                         border-2 border-black hover:border-neutral-700
+                         rounded-md shadow-lg hover:shadow-xl transition-all duration-300"
+            >
+              <Link href="https://cal.com/vladkuzmenko.com/call">
+                APPLY FOR THE WARRIORS TEAM
+              </Link>
+            </Button>
           </div>
         </div>
       </Section>
-      
-      {/* "Not Ready?" Section */}
-      <Section id="not-ready" sectionClassName="bg-black/20 backdrop-blur-sm py-16 md:py-24">
+
+      {/* Not Ready Section */}
+      <Section id="not-ready" className="py-16 md:py-24">
         <SectionHeader 
-          title="“I DON'T THINK I AM READY FOR THE WARRIORS TEAM.”" 
+          title=""I DON'T THINK I'M READY FOR THE WARRIORS TEAM."" 
           strokeText="NOT READY???" 
         />
-        <div className="grid md:grid-cols-2 gap-10 lg:gap-16 items-center">
-          <div className="space-y-6 text-neutral-300 text-lg leading-relaxed">
-            <p className="text-xl font-semibold text-white">I want you to understand something.</p>
-            <p><span className="font-bold text-white">NONE</span> of you reading this are ready for the Warriors Team.</p>
-            <p className="text-neutral-400">NONE of you reading this will truly revolutionize what we have inside.</p>
-            <h3 className="text-2xl md:text-3xl font-bold text-white mt-6">If you had that capability, <span className="text-brand">we'd already know who you are.</span></h3>
+        
+        <div className="grid md:grid-cols-2 gap-12 items-start max-w-6xl mx-auto">
+          <div className="space-y-6 text-lg text-neutral-300">
+            <p className="text-2xl font-bold text-white">
+              I need you to understand something.
+            </p>
+            
+            <p className="text-xl">
+              <span className="font-bold text-white">NONE</span> of you reading this are ready for the Warriors
+              Team.
+            </p>
+            
+            <p className="text-xl">
+              <span className="font-bold text-white">NONE</span> of you reading this will truly transform
+              what we have inside.
+            </p>
+            
+            <p className="text-2xl font-bold text-white mt-8">
+              If you had that capability, <span className="text-brand">we'd
+              already know who you are..</span>
+            </p>
+            
+            <div className="py-12">
+              <p className="text-2xl font-bold mb-8 text-white">
+                You are left with only two choices.
+              </p>
+              
+              <div className="space-y-8">
+                <div className="flex items-center gap-4">
+                  <span className="text-neutral-500">Try to become exceptional</span>
+                  <span className="text-xl italic font-bold text-white">outside</span>
+                </div>
+                
+                <div className="flex items-center gap-8">
+                  <div className="w-20 h-20 relative">
+                    <svg viewBox="0 0 100 100" className="w-full h-full">
+                      <path d="M20,50 L40,30 L60,50 L80,30" stroke="white" strokeWidth="2" fill="none" />
+                    </svg>
+                  </div>
+                  
+                  <div className="text-center px-8">
+                    <span className="text-xl">Try to become exceptional</span>
+                    <span className="text-xl italic font-bold text-brand"> inside</span>
+                  </div>
+                  
+                  <div className="w-20 h-20 relative">
+                    <svg viewBox="0 0 100 100" className="w-full h-full">
+                      <path d="M20,30 L40,50 L60,30 L80,50" stroke="white" strokeWidth="2" fill="none" />
+                    </svg>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
-          <div className="text-center">
+          
+          <div className="space-y-8">
             <Image 
-              src="https://images.unsplash.com/photo-1503437313881-503a91226c02?ixlib=rb-4.0.3&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=800&fit=max" 
-              alt="Challenge Concept" 
-              width={500} 
-              height={350} 
-              className="rounded-xl shadow-xl object-cover aspect-[4/3] mx-auto" 
+              src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=600" 
+              alt="Success meeting"
+              width={600}
+              height={400}
+              className="w-full rounded-xl shadow-2xl"
             />
+            
+            <div className="space-y-4 text-neutral-400">
+              <p className="text-lg">
+                <span className="font-bold text-white">– You make 20k monthly with a growing business?</span>
+              </p>
+              
+              <p className="text-lg">
+                <span className="font-bold text-white">– You make 2k monthly working for someone else?</span>
+              </p>
+              
+              <p className="text-lg">
+                Those two income levels are so similar, so close to each
+                other, that it's meaningless to say there is ANY distinction.
+              </p>
+              
+              <p className="text-lg">
+                Money is SIMPLE, TRIVIAL in the true spheres of INFLUENCE.
+              </p>
+              
+              <p className="text-lg">
+                You think $1 million is remarkable??
+              </p>
+              
+              <p className="text-lg font-bold text-white">
+                NONE of you are ready for the Warriors Team<br />
+                NONE of you are prepared<br />
+                No member has ever joined "prepared".
+              </p>
+            </div>
           </div>
-        </div>
-        <div className="max-w-4xl mx-auto text-center mt-12 md:mt-16 text-lg md:text-xl text-neutral-300 space-y-6">
-            <p className="text-neutral-400 text-base">
-              - You make 20k a month and have a business you are scaling?<br/>
-              - You make 2k a month and are working a job?
-            </p>
-            <p>Those two levels of money are so similar, so close to each other, that it’s trivial to say there is ANY difference.</p>
-            <p>Money is EASY, TRIVIAL in the true realms of POWER.</p>
-            <p className="font-bold text-white">NONE of you are worthy of the Warriors Team.<br/>NONE of you are ready.<br/>No member has ever joined “ready”.</p>
-            <h3 className="text-3xl font-bold text-white pt-6">You are left with only two options.</h3>
-            <div className="flex flex-col sm:flex-row justify-center items-center gap-6 mt-6">
-                <div className="text-center p-4">
-                    <div className="w-16 h-16 bg-blue-600/20 border-2 border-blue-500 rounded-full mx-auto mb-2 flex items-center justify-center text-blue-400 text-2xl">1</div>
-                    <p>Try to become worthy <strong className="text-white">outside</strong></p>
-                </div>
-                <div className="text-2xl font-bold text-neutral-500">OR</div>
-                <div className="text-center p-4">
-                    <div className="w-16 h-16 bg-red-600/20 border-2 border-red-500 rounded-full mx-auto mb-2 flex items-center justify-center text-red-400 text-2xl">2</div>
-                    <p>Try to become worthy <strong className="text-brand">inside</strong></p>
-                </div>
-            </div>
-        </div>
-      </Section>
-
-      {/* Two Roads Ahead Section */}
-      <Section id="two-roads" className="py-16 md:py-24">
-        <SectionHeader title="TWO ROADS AHEAD." strokeText="TWO ROADS" />
-         <div className="grid md:grid-cols-2 gap-10 lg:gap-16 items-center mb-12">
-            <div>
-                <Image 
-                    src="https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?ixlib=rb-4.0.3&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=1000&fit=max" 
-                    alt="Strategic Choice" 
-                    width={1000} 
-                    height={600} 
-                    className="rounded-xl shadow-2xl object-cover aspect-video" 
-                />
-            </div>
-            <div className="space-y-4 text-lg text-neutral-300 leading-relaxed">
-                <p>Over the <span className="font-bold text-white">last years</span>, we have acquired connections for any capability, all over the world.</p>
-                <p>We have <span className="font-bold text-white">a growing number of members worldwide</span>, with <span className="font-bold text-white">specialists, experts,</span> and <span className="font-bold text-white">professionals in every field imaginable.</span></p>
-                <p>All dedicated to the <span className="font-bold text-white">pursuit of excellence in all areas of life.</span></p>
-            </div>
-        </div>
-        <div className="text-center">
-            <p className="text-2xl md:text-3xl font-semibold text-white mb-10">
-                After learning all of this, <span className="text-brand">you now have two possible versions of yourself.</span>
-            </p>
-            <div className="grid sm:grid-cols-2 gap-8 max-w-4xl mx-auto">
-                <div className="bg-neutral-800/50 p-6 rounded-xl shadow-lg border border-neutral-700 flex flex-col items-center">
-                    <div className="w-16 h-16 bg-neutral-700 rounded-full flex items-center justify-center text-neutral-400 text-2xl font-bold mb-4">1</div>
-                    <p className="text-lg text-neutral-300 text-center">
-                        One who continues playing life alone, without a tribe, and without the means to truly make a difference in his life and others’.
-                    </p>
-                </div>
-                <div className="bg-brand/10 p-6 rounded-xl shadow-lg border border-brand flex flex-col items-center">
-                     <div className="w-16 h-16 bg-brand/30 rounded-full flex items-center justify-center text-brand text-2xl font-bold mb-4">2</div>
-                    <p className="text-lg text-white text-center">
-                        <span className="font-bold">Or one who understands that no great Man ever succeeded without a tribe.</span>
-                    </p>
-                </div>
-            </div>
-             <p className="mt-16 text-3xl md:text-4xl font-black text-white uppercase tracking-wider">WHICH VERSION WILL YOU PURSUE?</p>
-        </div>
-      </Section>
-
-      {/* Testimonials Placeholder Section */}
-      <Section id="testimonials-section" sectionClassName="bg-black/20 backdrop-blur-sm py-16 md:py-24">
-        <SectionHeader title="WHAT OUR MEMBERS HAVE ACHIEVED." strokeText="ACHIEVED" />
-        <div className="text-center text-neutral-400">
-            <ThumbsUp size={64} className="mx-auto mb-6 text-brand" />
-            <p className="text-lg mb-2">(Placeholder for Testimonials / Member Achievements Gallery)</p>
-            <p className="text-sm">Real stories from real members who transformed their lives within the Warriors Team.</p>
         </div>
       </Section>
 
       {/* Final CTA Section */}
-      <Section id="join-final-cta" className="text-center !pt-12 !pb-20 md:!pt-16 md:!pb-28">
-        <Button 
-            asChild 
-            size="lg" 
-            className="group relative flex items-center gap-3 px-10 py-5 md:px-16 md:py-8 
-                       text-lg md:text-2xl font-bold uppercase tracking-wider
-                       bg-black hover:bg-neutral-800 text-white 
-                       border-2 border-black hover:border-neutral-700
-                       rounded-lg shadow-xl hover:shadow-2xl transform hover:scale-105 transition-all duration-300"
+      <Section id="two-roads" sectionClassName="bg-gradient-to-b from-neutral-900/20 to-black py-16 md:py-24">
+        <SectionHeader 
+          title="TWO PATHS FORWARD." 
+          strokeText="TWO PATHS" 
+        />
+        
+        <div className="mb-16 max-w-2xl mx-auto">
+          <Image 
+            src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=800" 
+            alt="Leaders"
+            width={800}
+            height={400}
+            className="w-full rounded-xl shadow-2xl"
+          />
+        </div>
+        
+        <div className="max-w-4xl mx-auto space-y-12 text-center">
+          <p className="text-xl text-neutral-300">
+            We have <span className="font-bold text-white">over 3,500 members globally</span>, with
+            <span className="font-bold text-white"> specialists, experts</span>, and <span className="font-bold text-white">professionals in every
+            field conceivable.</span>
+          </p>
+          
+          <p className="text-xl text-neutral-300">
+            All committed to the <span className="font-bold text-white">pursuit of excellence in all
+            aspects of life.</span>
+          </p>
+          
+          <div className="py-12">
+            <p className="text-2xl md:text-3xl font-bold text-white mb-12">
+              After understanding all of this, <span className="text-brand">you now have
+              two possible versions of yourself.</span>
+            </p>
+            
+            <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto mb-16">
+              <div className="bg-neutral-800/50 p-8 rounded-xl shadow-lg border border-neutral-700">
+                <div className="w-12 h-12 rounded-full border-2 border-blue-500 flex items-center justify-center mb-4 mx-auto">
+                  <span className="text-xl font-bold">1</span>
+                </div>
+                <p className="text-lg text-neutral-300">
+                  One who continues navigating life solo,
+                  without a brotherhood, and without the
+                  resources to truly create impact in
+                  their life and others'.
+                </p>
+              </div>
+              
+              <div className="bg-brand/10 p-8 rounded-xl shadow-lg border border-brand">
+                <div className="w-12 h-12 rounded-full border-2 border-orange-500 flex items-center justify-center mb-4 mx-auto">
+                  <span className="text-xl font-bold">2</span>
+                </div>
+                <p className="text-lg text-white font-semibold">
+                  Or one who recognizes that no
+                  exceptional Leader ever achieved greatness without
+                  a strategic alliance.
+                </p>
+              </div>
+            </div>
+            
+            <h3 className="text-3xl md:text-4xl font-black text-white mb-12 uppercase tracking-wider">
+              WHICH PATH WILL YOU CHOOSE?
+            </h3>
+            
+            <Button 
+              asChild 
+              size="lg" 
+              className="group relative inline-flex items-center gap-3 px-12 py-5 md:px-16 md:py-6 
+                         text-lg md:text-xl font-bold uppercase tracking-wider
+                         bg-black hover:bg-neutral-800 text-white 
+                         border-2 border-black hover:border-neutral-700
+                         rounded-lg shadow-xl hover:shadow-2xl transform hover:scale-105 transition-all duration-300"
             >
-            <Link href="/checkout"> {/* ЗАМЕНИТЕ ЭТУ ССЫЛКУ */}
-                JOIN <strong className="ml-1 font-extrabold">THE WARRIORS TEAM</strong>
-                <Zap className="w-6 h-6 opacity-75 group-hover:opacity-100 group-hover:animate-ping" />
-            </Link>
-        </Button>
+              <Link href="https://cal.com/vladkuzmenko.com/call">
+                APPLY FOR THE WARRIORS TEAM
+                <Zap className="w-6 h-6 opacity-75 group-hover:opacity-100 group-hover:animate-pulse" />
+              </Link>
+            </Button>
+            
+            <p className="text-sm text-neutral-400 mt-6 italic">
+              Schedule your personal interview - Every member is vetted by me personally
+            </p>
+          </div>
+        </div>
       </Section>
     </div>
   );
