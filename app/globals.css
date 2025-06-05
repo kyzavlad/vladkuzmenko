@@ -14,74 +14,114 @@
 /* --- Цветовые переменные для тем --- */
 @layer base {
   :root {
-    /* Изначально используем темную тему как базу для премиального фона */
-    --background: 224 71% 4%; /* Очень темный сине-серый (пример) */
+    /* Темная тема по умолчанию, как вы просили */
+    --background: 224 71% 4%; /* Очень темный сине-серый (пример из вашего исходного файла) */
     --foreground: 210 20% 98%; /* Очень светлый (почти белый) */
-    --foreground-rgb: 240, 240, 250; /* Соответствующий RGB для foreground */
+    --foreground-rgb: 240, 240, 250; /* Соответствующий RGB для --foreground в темной теме */
 
-    /* Премиальный градиентный фон */
+    /* Премиальный градиентный фон для темной темы */
     --premium-background-gradient: linear-gradient(
       145deg,
       hsl(230, 35%, 7%) 0%,    /* Глубокий темно-синий */
-      hsl(220, 25%, 12%) 35%,   /* Чуть светлее, но все еще темный */
-      hsl(210, 20%, 10%) 60%,   /* Еще один оттенок темного */
-      hsl(240, 30%, 5%) 100%    /* Почти черный с синим отливом */
+      hsl(220, 25%, 10%) 35%,   /* Темно-серый с синим отливом */
+      hsl(210, 20%, 8%) 60%,   /* Еще темнее */
+      hsl(240, 30%, 5%) 100%    /* Почти черный с фиолетовым отливом */
     );
 
-    /* Легкие современные линии (например, очень тонкая сетка или диагональные) */
-    /* Вариант: едва заметные диагональные линии */
+    /* Легкие современные линии (диагональные) для темной темы */
     --subtle-lines-pattern: repeating-linear-gradient(
-      -45deg,
-      hsla(var(--foreground-rgb-components), 0.02), /* Используем цвет текста компонентов для линий */
-      hsla(var(--foreground-rgb-components), 0.02) 1px,
+      45deg,
+      rgba(255, 255, 255, 0.025), /* Очень светлые, почти невидимые линии */
+      rgba(255, 255, 255, 0.025) 1px,
       transparent 1px,
-      transparent 35px /* Увеличим расстояние для более "дорогого" вида */
+      transparent 40px /* Расстояние между линиями */
     );
-    /* Или едва заметные вертикальные линии (ближе к The War Room) */
-    /* --subtle-lines-pattern: repeating-linear-gradient(
-      to right,
-      hsla(var(--foreground-rgb-components), 0.03),
-      hsla(var(--foreground-rgb-components), 0.03) 1px,
-      transparent 1px,
-      transparent 60px
-    ); */
 
-
-    /* Переменные из вашего файла, адаптированные или оставленные как есть */
-    --card: 224 71% 9%; /* Карточки чуть светлее основного фона */
-    --card-foreground: 210 20% 95%;
-    --popover: 220 70% 7%;
-    --popover-foreground: 210 20% 95%;
+    /* Переменные из вашего файла, адаптированные для темной темы по умолчанию */
+    --card: 220 15% 9%; /* Карточки чуть светлее основного фона */
+    --card-foreground: 0 0% 95%;
+    --popover: 220 15% 7%;
+    --popover-foreground: 0 0% 95%;
     
     --primary: 210 100% 60%; /* Яркий синий для акцентов */
-    --primary-foreground: 20 0% 100%; /* Белый для текста на primary */
+    --primary-foreground: 0 0% 100%; 
     
-    --secondary: 210 20% 30%;
-    --secondary-foreground: 210 20% 90%;
+    --secondary: 210 20% 25%;
+    --secondary-foreground: 0 0% 90%;
     
-    --muted: 210 20% 25%;
-    --muted-foreground: 210 20% 65%;
+    --muted: 210 20% 18%;
+    --muted-foreground: 0 0% 65%;
     
-    --accent: 260 100% 70%; /* Яркий фиолетовый для акцентов */
+    --accent: 260 100% 70%; 
     --accent-foreground: 0 0% 100%;
 
     --destructive: 0 70% 55%;
     --destructive-foreground: 0 0% 100%;
     
-    --border: 210 20% 20%; /* Границы темнее */
-    --input: 210 20% 22%;
-    --ring: 210 100% 65%; /* Цвет для кольца фокуса */
+    --border: 210 20% 15%; 
+    --input: 210 20% 12%;
+    --ring: 210 100% 65%; 
     
     --radius: 0.5rem;
     
-    /* RGB версия для foreground (используется в --subtle-lines-pattern) */
-    /* Для темной темы это будет цвет текста, для светлой - тоже цвет текста */
-    /* Но так как мы хотим светлые линии на темном фоне, используем --foreground-rgb от светлой темы или фиксированный светлый цвет */
-    --foreground-rgb-components: 220, 220, 230; /* Светло-серый для линий */
+    --brand: 210 100% 50%; 
+    --brand-foreground: 213 100% 60%;
+    --brand-rgb: 0, 122, 255;
+    --color-1: 0 100% 63%;
+    --color-2: 270 100% 63%;
+    --color-3: 210 100% 63%;
+    --color-4: 195 100% 63%;
+    --color-5: 90 100% 63%;
+    --gold-light: 45 100% 70%; /* Сделал золото чуть ярче для темного фона */
+    --gold-medium: 40 100% 60%;
+    --gold-dark: 36 100% 50%;
+    --chart-1: 12 76% 70%;
+    --chart-2: 173 58% 50%;
+    --chart-3: 197 37% 40%;
+    --chart-4: 43 74% 70%;
+    --chart-5: 27 87% 70%;
+  }
 
+  .light { /* Светлая тема, если включена через ThemeProviderWrapper */
+    --background: 0 0% 100%; 
+    --foreground: 0 0% 3.9%; 
+    --foreground-rgb: 10, 10, 15;
 
-    /* Остальные переменные из вашего файла */
-    --brand: 210 100% 50%; /* Этот brand синий, возможно, стоит его сделать ярче или использовать --primary */
+    --premium-background-gradient: linear-gradient(
+      145deg,
+      hsl(0, 0%, 98%) 0%,    /* Очень светлый серый */
+      hsl(220, 25%, 95%) 35%, 
+      hsl(210, 30%, 97%) 60%,  
+      hsl(0, 0%, 100%) 100%    /* Белый */
+    );
+    --subtle-lines-pattern: repeating-linear-gradient(
+      45deg,
+      rgba(var(--foreground-rgb), 0.03), /* Темные линии на светлом фоне */
+      rgba(var(--foreground-rgb), 0.03) 1px,
+      transparent 1px,
+      transparent 40px
+    );
+
+    /* Переопределение остальных переменных для светлой темы, как было у вас */
+    --card: 0 0% 100%;
+    --card-foreground: 0 0% 3.9%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 0 0% 3.9%;
+    --primary: 0 0% 9%;
+    --primary-foreground: 0 0% 98%;
+    --secondary: 0 0% 96.1%;
+    --secondary-foreground: 0 0% 9%;
+    --muted: 0 0% 96.1%;
+    --muted-foreground: 0 0% 45.1%;
+    --accent: 0 0% 96.1%;
+    --accent-foreground: 0 0% 9%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 0 0% 89.8%;
+    --input: 0 0% 89.8%;
+    --ring: 0 0% 3.9%;
+    /* --radius: 0.5rem; уже есть в :root */
+    --brand: 210 100% 50%;
     --brand-foreground: 213 100% 60%;
     --brand-rgb: 0, 122, 255;
     --color-1: 0 100% 63%;
@@ -98,51 +138,12 @@
     --chart-4: 43 74% 66%;
     --chart-5: 27 87% 67%;
   }
-
-  .light { /* Определяем светлую тему, если она понадобится */
-    --background: 0 0% 98%;
-    --foreground: 0 0% 10%;
-    --foreground-rgb: 20, 20, 25;
-    --premium-background: linear-gradient(
-      145deg,
-      hsl(220, 60%, 98%) 0%,
-      hsl(210, 50%, 96%) 35%,
-      hsl(190, 40%, 94%) 60%,
-      hsl(170, 30%, 92%) 100%
-    );
-    --subtle-lines-pattern: repeating-linear-gradient(
-      -45deg,
-      hsla(var(--foreground-rgb-components), 0.04), /* Чуть более заметные линии на светлом */
-      hsla(var(--foreground-rgb-components), 0.04) 1px,
-      transparent 1px,
-      transparent 35px
-    );
-    --card: 0 0% 100%;
-    --card-foreground: 0 0% 10%;
-    --popover: 0 0% 100%;
-    --popover-foreground: 0 0% 10%;
-    --primary: 220 90% 55%;
-    --primary-foreground: 0 0% 100%;
-    --secondary: 0 0% 90%;
-    --secondary-foreground: 0 0% 10%;
-    --muted: 0 0% 95%;
-    --muted-foreground: 0 0% 40%;
-    --accent: 300 80% 65%;
-    --accent-foreground: 0 0% 100%;
-    --destructive: 0 80% 60%;
-    --destructive-foreground: 0 0% 100%;
-    --border: 0 0% 85%;
-    --input: 0 0% 85%;
-    --ring: 220 90% 60%;
-    --foreground-rgb-components: 30, 30, 40; /* Темно-серый для линий на светлом фоне */
-     /* ... и так далее для всех переменных, если они должны отличаться в светлой теме ... */
-  }
 }
 
 /* --- Базовые стили и фон для html и body --- */
 @layer base {
   * {
-    @apply border-border; /* Применяет цвет рамки из переменных темы */
+    @apply border-border;
     box-sizing: border-box;
   }
 
@@ -155,18 +156,21 @@
     
     /* Применяем составной фон: сначала градиент, потом линии поверх него */
     background-image: var(--subtle-lines-pattern), var(--premium-background-gradient);
-    background-color: hsl(var(--background)); /* Фоновый цвет, если градиенты не загрузятся или для областей вне градиента */
-    background-size: 35px 35px, cover; /* Размер для паттерна линий и cover для градиента */
-    background-repeat: repeat, no-repeat; /* Линии повторяются, градиент - нет */
+    /* Базовый цвет фона (если градиенты не загрузятся). Он также будет виден, если градиент не полностью непрозрачный. */
+    background-color: hsl(var(--background)); 
+    /* Градиент покрывает всю область, линии повторяются */
+    background-size: 40px 40px, cover; /* Размер для паттерна линий (если они не repeating-linear-gradient) и cover для градиента. Для repeating-linear-gradient размер задается в самом градиенте. */
+                                        /* Для repeating-linear-gradient, background-size не нужен, если шаг задан в самом градиенте. Оставим для примера, если решите использовать другой тип линий. */
+    background-repeat: repeat, no-repeat; /* Линии повторяются (если это паттерн), градиент - нет */
     background-attachment: fixed; /* Чтобы фон не скроллился вместе с контентом */
   }
 
   body {
-    @apply text-foreground; /* Цвет текста из темы */
+    @apply text-foreground; /* Только цвет текста из темы для body */
     width: 100%;
     min-height: 100vh; 
     position: relative; 
-    /* Body должен быть прозрачным, чтобы был виден фон html */
+    /* Фон body должен быть прозрачным, чтобы был виден фон html */
     background-color: transparent !important; 
   }
 
