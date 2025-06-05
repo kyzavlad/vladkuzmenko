@@ -9,8 +9,7 @@ import { useEffect, useState } from 'react';
 import { Header } from "@/components/ui/header";
 
 // Хелпер для секций
-const Section: React.FC<{ id?: string; className?: string; children: React.ReactNode; useContainer?: boolean, sectionClassName?: string }> = 
-  ({ id, className = "", children, useContainer = true, sectionClassName = "" }) => (
+const Section = ({ id, className = "", children, useContainer = true, sectionClassName = "" }) => (
   <section id={id} className={`relative ${sectionClassName} ${useContainer ? 'py-16 md:py-24' : ''} ${className}`}>
     {useContainer ? (
       <div className={`container mx-auto px-4 sm:px-6 lg:px-8 relative z-10`}>
@@ -25,8 +24,7 @@ const Section: React.FC<{ id?: string; className?: string; children: React.React
 );
 
 // Хелпер для заголовков секций
-const SectionHeader: React.FC<{ title: string; strokeText?: string; description?: string; align?: 'left' | 'center' | 'right' }> = 
-  ({ title, strokeText, description, align = 'center'}) => (
+const SectionHeader = ({ title, strokeText, description, align = 'center'}) => (
   <div className={`mb-12 md:mb-16 ${align === 'center' ? 'text-center' : align === 'left' ? 'text-left' : 'text-right'}`}>
     <div className="relative inline-block py-2">
       <h2 className="text-3xl md:text-4xl lg:text-5xl font-black tracking-tight text-white relative z-10 uppercase">
