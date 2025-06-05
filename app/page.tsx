@@ -22,8 +22,8 @@ export default function Home() {
       <AppsSection />
       <FeaturesSection />
       <EnterpriseAISection />
-      <ProjectsSection />
       <AudioSection />
+      <ProjectsSection />
       <PricingSection />
       <TestimonialsSection />
       <MapSection />
