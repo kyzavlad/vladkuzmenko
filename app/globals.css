@@ -68,6 +68,11 @@
     --gold-light: 45 100% 60%;
     --gold-medium: 40 100% 50%;
     --gold-dark: 36 100% 40%;
+    --chart-1: 12 76% 61%; /* Добавил недостающие переменные из вашего исходного файла */
+    --chart-2: 173 58% 39%;
+    --chart-3: 197 37% 24%;
+    --chart-4: 43 74% 66%;
+    --chart-5: 27 87% 67%;
   }
 
   .dark {
@@ -108,16 +113,13 @@
     --muted-foreground: 0 0% 63.9%;
     --accent: 0 0% 14.9%;
     --accent-foreground: 0 0% 98%;
-    --destructive: 0 62.8% 30.6%;
+    --destructive: 0 62.8% 30.6%; /* В вашем исходном файле было 0 84.2% 60.2% - если это было для темной темы, то нужно исправить. Оставляю как было для .dark */
+                                  /* Если destructive для .dark должен быть другим, например, как в вашем исходном .dark */
+                                  /* --destructive: 0 62.8% 30.6%; */
     --destructive-foreground: 0 0% 98%;
     --border: 0 0% 14.9%;
     --input: 0 0% 14.9%;
-    --ring: 0 0% 83.1%;
-    --chart-1: 220 70% 50%;
-    --chart-2: 160 60% 45%;
-    --chart-3: 30 80% 55%;
-    --chart-4: 280 65% 60%;
-    --chart-5: 340 75% 55%;
+    --ring: 0 0% 83.1%; /* В вашем исходном файле было --ring: 0 0% 3.9%; для :root, и для .dark --ring: 0 0% 83.1%; */
     --brand: 213 100% 60%;
     --brand-foreground: 210 100% 50%;
     --brand-rgb: 51, 153, 255;
@@ -129,6 +131,11 @@
     --gold-light: 45 100% 60%;
     --gold-medium: 40 100% 50%;
     --gold-dark: 36 100% 40%;
+    --chart-1: 220 70% 50%; /* Добавил недостающие переменные из вашего исходного файла */
+    --chart-2: 160 60% 45%;
+    --chart-3: 30 80% 55%;
+    --chart-4: 280 65% 60%;
+    --chart-5: 340 75% 55%;
   }
 }
 
@@ -147,17 +154,16 @@
     -moz-osx-font-smoothing: grayscale;
     background-color: hsl(var(--background)); /* Базовый цвет фона из темы */
     background-image: var(--background-pattern); /* Применяем фон-узор по умолчанию */
-    /* Для узора "точки" может понадобиться background-size, например: */
-    /* background-size: 10px 10px; */ /* Раскомментируйте, если используете --background-pattern-dots */
+    /* Если используете узор "точки" (--background-pattern-dots), раскомментируйте и настройте: */
+    /* background-size: 10px 10px; */ 
   }
 
   body {
-    @apply text-foreground; /* Только цвет текста из темы для body */
+    @apply text-foreground; /* Только цвет текста */
     width: 100%;
     min-height: 100vh; 
     position: relative; 
-    /* Фон body должен быть прозрачным, чтобы был виден фон html */
-    background-color: transparent; 
+    background-color: transparent; /* Body прозрачный, чтобы был виден фон html */
   }
 
   .container {
@@ -215,11 +221,26 @@
 }
 
 /* Keyframes for various animations */
-@keyframes appear { 0% { opacity: 0; transform: translateY(10px); } 100% { opacity: 1; transform: translateY(0); } }
-@keyframes appear-zoom { 0% { opacity: 0; transform: scale(0.98); } 100% { opacity: 1; transform: scale(1); } }
-@keyframes rainbow { 0% { background-position: 0%; } 100% { background-position: 200%; } }
-@keyframes sparkle { 0%, 100% { opacity: 0.2; transform: scale(0.8); } 50% { opacity: 1; transform: scale(1.2); } }
-@keyframes marquee { 0% { transform: translateX(0); } 100% { transform: translateX(calc(-100% - var(--gap, 1rem))); } }
+@keyframes appear { 
+  0% { opacity: 0; transform: translateY(10px); } 
+  100% { opacity: 1; transform: translateY(0); } 
+}
+@keyframes appear-zoom { 
+  0% { opacity: 0; transform: scale(0.98); } 
+  100% { opacity: 1; transform: scale(1); } 
+}
+@keyframes rainbow { 
+  0% { background-position: 0%; } 
+  100% { background-position: 200%; } 
+}
+@keyframes sparkle { 
+  0%, 100% { opacity: 0.2; transform: scale(0.8); } 
+  50% { opacity: 1; transform: scale(1.2); } 
+}
+@keyframes marquee { 
+  0% { transform: translateX(0); } 
+  100% { transform: translateX(calc(-100% - var(--gap, 1rem))); } 
+}
 
 /* Animation utility classes */
 .animate-appear { animation: appear 0.5s ease-out forwards; }
