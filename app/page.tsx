@@ -20,8 +20,8 @@ export default function Home() {
       <Header />
       <HeroSection />
       <AppsSection />
-      <EnterpriseAISection />
       <FeaturesSection />
+      <EnterpriseAISection />
       <ProjectsSection />
       <AudioSection />
       <PricingSection />
