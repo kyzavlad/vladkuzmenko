@@ -1,40 +1,52 @@
 // app/warriors-team/page.tsx
 "use client"; // <--- ВАЖНО: Добавлено из-за использования <style jsx global>
 
-import { Metadata } from 'next'; // Metadata можно использовать и в клиентских компонентах, но значения будут статичны после сборки
+import { Metadata } from 'next'; // Metadata можно объявлять, но для динамического обновления title/description в Client Component нужны хуки
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
-// Вам нужно будет импортировать все иконки, которые вы планируете использовать в ПОЛНОЙ версии этой страницы
-// Например: import { ChevronRight, Globe, ShieldCheck, Users, Zap, BarChart, MessageSquareHeart, ThumbsUp } from 'lucide-react'; 
+// Убедитесь, что все используемые иконки импортированы, если они понадобятся для ПОЛНОЙ страницы.
+// Например, если вы будете добавлять иконки в другие секции:
+// import { ChevronRight, Globe, ShieldCheck, Users, Zap, BarChart, MessageSquareHeart, ThumbsUp } from 'lucide-react'; 
 
-// Metadata лучше определять в файле layout.tsx для этого маршрута, если это клиентский компонент,
-// или если страница статическая, то можно и здесь. Для динамического title/description из клиентского компонента нужны другие подходы.
-// Так как это page.tsx, определение metadata здесь допустимо, но оно будет статическим.
-// export const metadata: Metadata = { // Закомментируем, так как для Client Component metadata экспортируется иначе или из layout
+// Для КЛИЕНТСКИХ КОМПОНЕНТОВ, экспорт metadata статичен и будет применен во время сборки.
+// Если вам нужно ДИНАМИЧЕСКИ менять title/description на этой странице, используйте useEffect:
+// import { useEffect } from 'react';
+// useEffect(() => {
+//   document.title = 'Warriors Team | VladKuzmenko.com';
+//   // Вы можете также обновлять мета-теги description здесь, если это необходимо,
+//   // хотя это менее эффективно для SEO, чем серверный рендеринг метаданных.
+// }, []);
+
+// Статическое определение metadata все еще может быть полезно для начального значения
+// или если Next.js сможет его подхватить на этапе сборки для Client Components.
+// Однако, если будут проблемы, лучше управлять title через useEffect.
+// export const metadata: Metadata = { // Пока оставим закомментированным, чтобы избежать возможных конфликтов со сборкой Client Component
 //   title: 'Warriors Team | VladKuzmenko.com',
 //   description: 'Warriors Team is a global network in which exemplars of individualism work to free the modern man from socially induced incarceration.',
 // };
 
 
-// Компонент для фона с вертикальными линиями. Он не использует клиентские хуки, поэтому может оставаться здесь.
-const VerticalLinesBackground = () => {
-  return (
-    <div 
-      className="fixed inset-0 -z-10 h-full w-full overflow-hidden pointer-events-none"
-    >
-      <div className="container mx-auto h-full relative">
-        <div className="absolute inset-0 grid grid-cols-5 h-full">
-          {[...Array(5)].map((_, i) => (
-            <div
-              key={`vline-${i}`}
-              className="h-full w-px bg-white opacity-5" 
-            ></div>
-          ))}
-        </div>
-      </div>
-    </div>
-  );
-};
+// Компонент для фона с вертикальными линиями. 
+// Так как фон теперь глобальный из globals.css, этот компонент здесь больше не нужен, если только вы не хотите уникальный фон для ЭТОЙ страницы.
+// Я его закомментирую, предполагая, что вы используете глобальный фон.
+// const VerticalLinesBackground = () => {
+//   return (
+//     <div 
+//       className="fixed inset-0 -z-10 h-full w-full overflow-hidden pointer-events-none"
+//     >
+//       <div className="container mx-auto h-full relative">
+//         <div className="absolute inset-0 grid grid-cols-5 h-full">
+//           {[...Array(5)].map((_, i) => (
+//             <div
+//               key={`vline-${i}`}
+//               className="h-full w-px bg-white opacity-5" 
+//             ></div>
+//           ))}
+//         </div>
+//       </div>
+//     </div>
+//   );
+// };
 
 // Хелпер для секций
 const Section: React.FC<{ id?: string; className?: string; children: React.ReactNode; useContainer?: boolean }> = ({ id, className, children, useContainer = true }) => (
@@ -44,27 +56,31 @@ const Section: React.FC<{ id?: string; className?: string; children: React.React
 );
 
 export default function WarriorsTeamPage() {
-  // Если вам нужно динамически менять title/description на этой клиентской странице,
-  // используйте useEffect и document.title, или сторонние библиотеки для управления head.
+  // Если метаданные были закомментированы выше, можно установить заголовок здесь:
   // useEffect(() => {
   //   document.title = 'Warriors Team | VladKuzmenko.com';
   // }, []);
 
   return (
+    // Этот div будет использовать глобальный фон, заданный для <html> в globals.css.
+    // Если вы раскомментировали VerticalLinesBackground выше и хотите его использовать,
+    // то этому div можно убрать !bg-neutral-950 или сделать его фон прозрачным.
+    // Для соответствия "The War Room", который весь темный, класс !bg-neutral-950 принудительно задает темный фон для этой страницы.
     <div className="!bg-neutral-950 text-white selection:bg-red-500/30 min-h-screen relative">
-      <VerticalLinesBackground />
+      {/* <VerticalLinesBackground />  Если нужен специфичный фон для этой страницы */}
       
+      {/* Hero Section - Стилизация под скриншот "The War Room" */}
       <Section 
         id="hero" 
         className="min-h-screen flex flex-col justify-center items-center text-center px-4 pt-20 pb-10 md:pt-24 md:pb-16"
         useContainer={false} 
       >
-        <div className="container mx-auto relative z-10">
+        <div className="container mx-auto relative z-10"> {/* Внутренний контейнер для контента Hero */}
           <h1 
             className="text-5xl sm:text-6xl md:text-7xl lg:text-[88px] font-black tracking-tight uppercase mb-4"
             style={{ 
-              color: '#FFFFFF',
-              textShadow: '0px 3px 5px rgba(0,0,0,0.3)'
+              color: '#FFFFFF', 
+              textShadow: '0px 3px 5px rgba(0,0,0,0.3)' 
             }}
           >
             WARRIORS TEAM
@@ -85,7 +101,7 @@ export default function WarriorsTeamPage() {
                          border-2 !border-black hover:!border-neutral-700
                          rounded-md shadow-lg hover:shadow-xl transition-all duration-300"
             >
-              <Link href="/checkout"> {/* ЗАМЕНИТЕ ссылку */}
+              <Link href="/checkout"> {/* ЗАМЕНИТЕ ссылку, если нужно */}
                 JOIN <strong className="ml-1 font-bold">THE WARRIORS TEAM</strong>
               </Link>
             </Button>
@@ -100,7 +116,7 @@ export default function WarriorsTeamPage() {
               ></div>
             </div>
           </div>
-          {/* Блок <style jsx global> требует, чтобы компонент был клиентским */}
+          {/* Блок <style jsx global> требует, чтобы компонент был клиентским ("use client") */}
           <style jsx global>{`
             @keyframes bounceSimple_hero_scroll {
               0%, 20%, 50%, 80%, 100% { transform: translate(-50%, 0); }
@@ -112,6 +128,7 @@ export default function WarriorsTeamPage() {
       </Section>
 
       {/* ЗАПОЛНИТЕ ОСТАЛЬНЫЕ СЕКЦИИ ПО АНАЛОГИИ С HTML-ФАЙЛОМ "THE WAR ROOM.HTM" */}
+      {/* Пример заглушек для других секций */}
       <Section id="about-team" className="py-16 md:py-24">
          <div className="text-center container mx-auto px-4">
             <h2 className="text-4xl font-bold uppercase">About The Warriors Team</h2>
@@ -122,7 +139,7 @@ export default function WarriorsTeamPage() {
          </div>
       </Section>
       
-      <Section id="member-benefits" className="py-16 md:py-24 bg-neutral-900">
+      <Section id="member-benefits" className="py-16 md:py-24 bg-neutral-900"> {/* Пример другого фона для секции */}
          <div className="text-center container mx-auto px-4">
             <h2 className="text-4xl font-bold uppercase">Member Benefits</h2>
             <p className="text-neutral-300 mt-4">Access to knowledge, network, and opportunities...</p>
