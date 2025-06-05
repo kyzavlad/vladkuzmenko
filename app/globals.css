@@ -14,10 +14,10 @@
 /* --- Цветовые переменные для тем --- */
 @layer base {
   :root {
-    /* Темная тема по умолчанию, как вы просили */
-    --background: 224 71% 4%; /* Очень темный сине-серый (пример из вашего исходного файла) */
-    --foreground: 210 20% 98%; /* Очень светлый (почти белый) */
-    --foreground-rgb: 240, 240, 250; /* Соответствующий RGB для --foreground в темной теме */
+    /* Темная тема по умолчанию, как вы просили (стиль "The War Room") */
+    --background: 220 20% 4%; /* Очень темный, почти черный, холодный оттенок */
+    --foreground: 0 0% 95%;   /* Светло-серый/белый для текста */
+    --foreground-rgb: 240, 242, 245; /* Соответствующий RGB для --foreground в темной теме */
 
     /* Премиальный градиентный фон для темной темы */
     --premium-background-gradient: linear-gradient(
@@ -30,40 +30,41 @@
 
     /* Легкие современные линии (диагональные) для темной темы */
     --subtle-lines-pattern: repeating-linear-gradient(
-      45deg,
-      rgba(255, 255, 255, 0.025), /* Очень светлые, почти невидимые линии */
-      rgba(255, 255, 255, 0.025) 1px,
-      transparent 1px,
-      transparent 40px /* Расстояние между линиями */
+      45deg, /* Угол наклона полосок */
+      rgba(255, 255, 255, 0.02), /* Очень светлые, почти невидимые белые линии */
+      rgba(255, 255, 255, 0.02) 1px, /* Толщина линий */
+      transparent 1px, /* Начало прозрачного промежутка */
+      transparent 40px /* Расстояние между линиями - можно настроить */
     );
-
-    /* Переменные из вашего файла, адаптированные для темной темы по умолчанию */
-    --card: 220 15% 9%; /* Карточки чуть светлее основного фона */
-    --card-foreground: 0 0% 95%;
-    --popover: 220 15% 7%;
-    --popover-foreground: 0 0% 95%;
     
-    --primary: 210 100% 60%; /* Яркий синий для акцентов */
+    /* Основные цвета для UI элементов в темной теме */
+    --card: 220 15% 9%; 
+    --card-foreground: 0 0% 90%;
+    --popover: 220 15% 7%;
+    --popover-foreground: 0 0% 90%;
+    
+    --primary: 210 100% 60%; 
     --primary-foreground: 0 0% 100%; 
     
     --secondary: 210 20% 25%;
-    --secondary-foreground: 0 0% 90%;
+    --secondary-foreground: 0 0% 85%;
     
     --muted: 210 20% 18%;
-    --muted-foreground: 0 0% 65%;
+    --muted-foreground: 0 0% 60%;
     
-    --accent: 260 100% 70%; 
+    --accent: 260 90% 65%; 
     --accent-foreground: 0 0% 100%;
 
-    --destructive: 0 70% 55%;
+    --destructive: 0 70% 50%;
     --destructive-foreground: 0 0% 100%;
     
-    --border: 210 20% 15%; 
-    --input: 210 20% 12%;
+    --border: 210 20% 12%; 
+    --input: 210 20% 10%;
     --ring: 210 100% 65%; 
     
     --radius: 0.5rem;
     
+    /* Ваши кастомные цвета из исходного файла */
     --brand: 210 100% 50%; 
     --brand-foreground: 213 100% 60%;
     --brand-rgb: 0, 122, 255;
@@ -72,43 +73,43 @@
     --color-3: 210 100% 63%;
     --color-4: 195 100% 63%;
     --color-5: 90 100% 63%;
-    --gold-light: 45 100% 70%; /* Сделал золото чуть ярче для темного фона */
+    --gold-light: 45 100% 70%; 
     --gold-medium: 40 100% 60%;
     --gold-dark: 36 100% 50%;
-    --chart-1: 12 76% 70%;
-    --chart-2: 173 58% 50%;
-    --chart-3: 197 37% 40%;
-    --chart-4: 43 74% 70%;
-    --chart-5: 27 87% 70%;
+    --chart-1: 12 76% 61%;
+    --chart-2: 173 58% 39%;
+    --chart-3: 197 37% 24%;
+    --chart-4: 43 74% 66%;
+    --chart-5: 27 87% 67%;
   }
 
-  .light { /* Светлая тема, если включена через ThemeProviderWrapper */
-    --background: 0 0% 100%; 
-    --foreground: 0 0% 3.9%; 
-    --foreground-rgb: 10, 10, 15;
-
+  .light { /* Светлая тема, если будет использоваться */
+    --background: 0 0% 98%;
+    --foreground: 0 0% 10%;
+    --foreground-rgb: 20, 20, 25;
+    
     --premium-background-gradient: linear-gradient(
       145deg,
-      hsl(0, 0%, 98%) 0%,    /* Очень светлый серый */
+      hsl(0, 0%, 98%) 0%,
       hsl(220, 25%, 95%) 35%, 
       hsl(210, 30%, 97%) 60%,  
-      hsl(0, 0%, 100%) 100%    /* Белый */
+      hsl(0, 0%, 100%) 100%
     );
     --subtle-lines-pattern: repeating-linear-gradient(
       45deg,
-      rgba(var(--foreground-rgb), 0.03), /* Темные линии на светлом фоне */
-      rgba(var(--foreground-rgb), 0.03) 1px,
+      rgba(var(--foreground-rgb), 0.04), /* Темные линии на светлом фоне */
+      rgba(var(--foreground-rgb), 0.04) 1px,
       transparent 1px,
       transparent 40px
     );
 
-    /* Переопределение остальных переменных для светлой темы, как было у вас */
+    /* Остальные переменные для светлой темы (как были в вашем файле) */
     --card: 0 0% 100%;
     --card-foreground: 0 0% 3.9%;
     --popover: 0 0% 100%;
     --popover-foreground: 0 0% 3.9%;
-    --primary: 0 0% 9%;
-    --primary-foreground: 0 0% 98%;
+    --primary: 0 0% 9%; /* Из вашего :root, адаптировано */
+    --primary-foreground: 0 0% 98%; /* Из вашего :root, адаптировано */
     --secondary: 0 0% 96.1%;
     --secondary-foreground: 0 0% 9%;
     --muted: 0 0% 96.1%;
@@ -154,23 +155,23 @@
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     
-    /* Применяем составной фон: сначала градиент, потом линии поверх него */
-    background-image: var(--subtle-lines-pattern), var(--premium-background-gradient);
-    /* Базовый цвет фона (если градиенты не загрузятся). Он также будет виден, если градиент не полностью непрозрачный. */
+    /* Применяем составной фон: сначала основной цвет, потом градиент, потом линии поверх */
     background-color: hsl(var(--background)); 
-    /* Градиент покрывает всю область, линии повторяются */
-    background-size: 40px 40px, cover; /* Размер для паттерна линий (если они не repeating-linear-gradient) и cover для градиента. Для repeating-linear-gradient размер задается в самом градиенте. */
-                                        /* Для repeating-linear-gradient, background-size не нужен, если шаг задан в самом градиенте. Оставим для примера, если решите использовать другой тип линий. */
-    background-repeat: repeat, no-repeat; /* Линии повторяются (если это паттерн), градиент - нет */
-    background-attachment: fixed; /* Чтобы фон не скроллился вместе с контентом */
+    background-image: var(--subtle-lines-pattern), var(--premium-background-gradient);
+    /* Градиент покрывает всю область, линии повторяются. 
+       Размер для repeating-linear-gradient задается внутри самого градиента (40px).
+       Размер для градиента --premium-background-gradient по умолчанию cover.
+    */
+    background-repeat: repeat, no-repeat; 
+    background-attachment: fixed; /* Фон не скроллится с контентом */
   }
 
   body {
-    @apply text-foreground; /* Только цвет текста из темы для body */
+    @apply text-foreground; 
     width: 100%;
     min-height: 100vh; 
     position: relative; 
-    /* Фон body должен быть прозрачным, чтобы был виден фон html */
+    /* Body ДОЛЖЕН БЫТЬ прозрачным, чтобы был виден фон html */
     background-color: transparent !important; 
   }
 
@@ -180,26 +181,71 @@
 }
 
 /* Loader styles */
-.loader { width: 48px; height: 48px; border: 5px solid hsl(var(--card)); border-bottom-color: transparent; border-radius: 50%; display: inline-block; animation: rotation 1s linear infinite; }
-.loader-sm { width: 16px; height: 16px; border: 2px solid hsl(var(--card)); border-bottom-color: transparent; border-radius: 50%; display: inline-block; animation: rotation 1s linear infinite; }
-@keyframes rotation { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+.loader { 
+  width: 48px; 
+  height: 48px; 
+  border: 5px solid hsl(var(--card)); 
+  border-bottom-color: transparent; 
+  border-radius: 50%; 
+  display: inline-block; 
+  animation: rotation 1s linear infinite; 
+}
+.loader-sm { 
+  width: 16px; 
+  height: 16px; 
+  border: 2px solid hsl(var(--card)); 
+  border-bottom-color: transparent; 
+  border-radius: 50%; 
+  display: inline-block; 
+  animation: rotation 1s linear infinite; 
+}
+@keyframes rotation { 
+  0% { transform: rotate(0deg); } 
+  100% { transform: rotate(360deg); } 
+}
 
 /* Gradient animation styles (если где-то используется animate-gradient) */
-@keyframes gradient { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
-.animate-gradient { animation: gradient 3s ease infinite; background-size: 200% 200%; }
+@keyframes gradient { 
+  0% { background-position: 0% 50%; } 
+  50% { background-position: 100% 50%; } 
+  100% { background-position: 0% 50%; } 
+}
+.animate-gradient { 
+  animation: gradient 3s ease infinite; 
+  background-size: 200% 200%; 
+}
 
 /* Utility classes for text gradients and other effects */
 @layer utilities {
-  .text-gradient { @apply bg-clip-text text-transparent bg-gradient-to-b from-foreground via-foreground/90 to-muted-foreground; }
-  .text-gold-gradient { @apply bg-clip-text text-transparent bg-gradient-to-b from-[#FFD700] via-[#FFC107] to-[#FF9800]; }
+  .text-gradient { 
+    @apply bg-clip-text text-transparent bg-gradient-to-b from-foreground via-foreground/90 to-muted-foreground; 
+  }
+  .text-gold-gradient { 
+    @apply bg-clip-text text-transparent bg-gradient-to-b from-[#FFD700] via-[#FFC107] to-[#FF9800]; 
+  }
 }
 
 /* Keyframes for various animations */
-@keyframes appear { 0% { opacity: 0; transform: translateY(10px); } 100% { opacity: 1; transform: translateY(0); } }
-@keyframes appear-zoom { 0% { opacity: 0; transform: scale(0.98); } 100% { opacity: 1; transform: scale(1); } }
-@keyframes rainbow { 0% { background-position: 0%; } 100% { background-position: 200%; } }
-@keyframes sparkle { 0%, 100% { opacity: 0.2; transform: scale(0.8); } 50% { opacity: 1; transform: scale(1.2); } }
-@keyframes marquee { 0% { transform: translateX(0); } 100% { transform: translateX(calc(-100% - var(--gap, 1rem))); } }
+@keyframes appear { 
+  0% { opacity: 0; transform: translateY(10px); } 
+  100% { opacity: 1; transform: translateY(0); } 
+}
+@keyframes appear-zoom { 
+  0% { opacity: 0; transform: scale(0.98); } 
+  100% { opacity: 1; transform: scale(1); } 
+}
+@keyframes rainbow { 
+  0% { background-position: 0%; } 
+  100% { background-position: 200%; } 
+}
+@keyframes sparkle { 
+  0%, 100% { opacity: 0.2; transform: scale(0.8); } 
+  50% { opacity: 1; transform: scale(1.2); } 
+}
+@keyframes marquee { 
+  0% { transform: translateX(0); } 
+  100% { transform: translateX(calc(-100% - var(--gap, 1rem))); } 
+}
 
 /* Animation utility classes */
 .animate-appear { animation: appear 0.5s ease-out forwards; }
@@ -211,7 +257,10 @@
 /* Custom font for logo */
 @font-face {
   font-family: 'Elegant Script';
-  /* src: url('/path/to/your/elegant-script.woff2') format('woff2'); */
+  /* Если вы используете этот шрифт, убедитесь, что файл шрифта доступен по указанному пути
+     или подключите его корректно (например, через next/font для Google Fonts).
+     src: url('/path/to/your/elegant-script.woff2') format('woff2'); 
+  */
   font-weight: normal;
   font-style: normal;
 }
@@ -219,7 +268,7 @@
 /* Styles for the logo container */
 .logo-container {
   position: relative;
-  overflow: visible; 
+  overflow: visible; /* Как вы просили. Если вернется горизонтальная прокрутка, измените на hidden. */
 }
 
 .logo-container::after {
