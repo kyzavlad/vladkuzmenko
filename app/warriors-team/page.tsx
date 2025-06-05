@@ -118,18 +118,10 @@ export default function WarriorsTeamPage() {
             <div className="text-sm text-neutral-400 mb-2">Scroll for more</div>
             <div className="w-5 h-9 border-2 border-neutral-500 rounded-full mx-auto relative">
               <div 
-                className="w-1 h-1.5 bg-neutral-400 rounded-full absolute top-2 left-1/2 -translate-x-1/2"
-                style={{ animation: `bounceSimple_scroll 1.5s infinite cubic-bezier(0.5, 0, 0.1, 1)` }}
+                className="w-1 h-1.5 bg-neutral-400 rounded-full absolute top-2 left-1/2 -translate-x-1/2 animate-bounce"
               ></div>
             </div>
           </button>
-          <style jsx global>{`
-            @keyframes bounceSimple_scroll {
-              0%, 20%, 50%, 80%, 100% { transform: translate(-50%, 0); }
-              40% { transform: translate(-50%, 8px); }
-              60% { transform: translate(-50%, 4px); }
-            }
-          `}</style>
         </div>
       </Section>
 
