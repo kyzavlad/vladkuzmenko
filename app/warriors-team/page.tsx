@@ -3,19 +3,11 @@
 
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
-import Image from 'next/image'; // Для изображений
-import { ChevronRight, Users, ShieldCheck, MapPin, Tv, MessageCircle, CheckCircle, ThumbsUp, Zap } from 'lucide-react'; // Примерный набор иконок
+import Image from 'next/image';
+import { ChevronRight, Users, ShieldCheck, MapPin, Tv, MessageSquareHeart, CheckCircle, ThumbsUp, Zap, Globe } from 'lucide-react';
+import { useEffect } from 'react'; // Если будете динамически менять document.title
 
-// Метаданные лучше определять в файле app/warriors-team/layout.tsx (если он есть)
-// или оставить статичными в корневом layout.tsx, если это возможно для вашего случая.
-// Экспорт metadata из клиентского компонента страницы может не работать так, как ожидается для SEO.
-// import { Metadata } from 'next';
-// export const metadata: Metadata = {
-//   title: 'Warriors Team | VladKuzmenko.com',
-//   description: 'Warriors Team is a global network in which exemplars of individualism work to free the modern man from socially induced incarceration.',
-// };
-
-// Хелпер для секций (можно вынести в отдельный файл компонентов)
+// Хелпер для секций
 const Section: React.FC<{ id?: string; className?: string; children: React.ReactNode; useContainer?: boolean, fullWidthBg?: boolean }> = ({ id, className, children, useContainer = true, fullWidthBg = false }) => (
   <section id={id} className={`relative ${fullWidthBg ? '' : 'py-16 md:py-24'} ${className}`}>
     {useContainer ? (
@@ -30,19 +22,17 @@ const Section: React.FC<{ id?: string; className?: string; children: React.React
   </section>
 );
 
-// Хелпер для заголовков секций в стиле "The War Room"
+// Хелпер для заголовков секций
 const SectionHeader: React.FC<{ title: string; strokeText?: string; description?: string; align?: 'left' | 'center' | 'right' }> = ({ title, strokeText, description, align = 'center'}) => (
   <div className={`mb-12 md:mb-16 ${align === 'center' ? 'text-center' : align === 'left' ? 'text-left' : 'text-right'}`}>
-    <div className="relative inline-block py-2"> {/* Добавлен padding для strokeText */}
+    <div className="relative inline-block py-2">
       <h2 className="text-3xl md:text-4xl lg:text-5xl font-black tracking-tight text-white relative z-10 uppercase">
         {title}
       </h2>
       {strokeText && (
         <div 
-            className="absolute -top-3 bottom-0 left-1/2 -translate-x-1/2 
-                       text-5xl md:text-7xl lg:text-8xl font-black 
-                       text-transparent opacity-10 select-none pointer-events-none z-0 uppercase whitespace-nowrap"
-            style={{ WebkitTextStroke: `1px rgba(255,255,255,0.1)` }} // Используем более светлый stroke
+            className="absolute -top-3 bottom-0 left-1/2 -translate-x-1/2 text-5xl md:text-7xl lg:text-8xl font-black text-transparent opacity-10 select-none pointer-events-none z-0 uppercase whitespace-nowrap"
+            style={{ WebkitTextStroke: `1px rgba(255,255,255,0.1)` }}
         >
           {strokeText}
         </div>
@@ -56,22 +46,22 @@ const SectionHeader: React.FC<{ title: string; strokeText?: string; description?
   </div>
 );
 
-
 export default function WarriorsTeamPage() {
-  // useEffect(() => { // Если нужно динамически менять title на клиентской стороне
-  //   document.title = 'Warriors Team | VladKuzmenko.com';
-  // }, []);
+  // Если нужно динамически менять title документа на клиентской стороне
+  useEffect(() => {
+    document.title = 'Warriors Team | VladKuzmenko.com';
+  }, []);
 
   return (
-    // Для этой страницы используется глобальный фон из globals.css (темный градиент + линии)
-    // Класс !bg-neutral-950 text-white можно убрать, если глобальный фон из html работает корректно.
-    // Оставим его для гарантии темного фона, если что-то пойдет не так с наследованием от html.
+    // Фон будет наследоваться от <html> из globals.css.
+    // Класс !bg-neutral-950 здесь для дополнительной гарантии темного фона для этой страницы,
+    // если тема по умолчанию на сайте светлая.
     <div className="!bg-neutral-950 text-white selection:bg-red-500/30 min-h-screen relative">
       
       {/* Hero Section */}
       <Section 
         id="hero" 
-        className="min-h-screen flex flex-col justify-center items-center text-center px-4 pt-24 pb-12 md:pt-32 md:pb-20" // Увеличен верхний отступ, уменьшен нижний
+        className="min-h-screen flex flex-col justify-center items-center text-center px-4 pt-24 pb-12 md:pt-32 md:pb-20"
         useContainer={false} 
       >
         <div className="container mx-auto relative z-10">
@@ -103,7 +93,6 @@ export default function WarriorsTeamPage() {
             </Button>
           </div>
           
-          {/* Индикатор скролла */}
           <div className="absolute bottom-8 sm:bottom-10 text-center w-full left-0 animate-appear [animation-delay:800ms]">
             <div className="inline-block text-sm text-neutral-400 mb-2">Scroll for more</div>
             <div className="w-5 h-9 border-2 border-neutral-500 rounded-full mx-auto relative">
@@ -124,18 +113,18 @@ export default function WarriorsTeamPage() {
       </Section>
 
       {/* Video Section */}
-      <Section id="experience-video" className="bg-neutral-900"> {/* Пример фона для секции */}
+      <Section id="experience-video" className="bg-black/20 backdrop-blur-sm py-16 md:py-24">
         <SectionHeader title="EXPERIENCE THE WARRIORS TEAM" strokeText="THE TEAM" />
-        <div className="max-w-4xl mx-auto aspect-video bg-black rounded-xl shadow-2xl flex items-center justify-center text-neutral-500 border border-neutral-700">
-          {/* ЗАМЕНИТЕ ЭТО НА ВАШ IFRAME ИЛИ ВИДЕОКОМПОНЕНТ */}
-          <Tv size={64} className="opacity-50"/>
-          <p className="ml-4 text-lg">Placeholder for Introductory Video</p>
+        <div className="max-w-4xl mx-auto aspect-video bg-neutral-800/50 rounded-xl shadow-2xl flex flex-col items-center justify-center text-neutral-400 border border-neutral-700 p-8">
+          <Tv size={64} className="opacity-70 mb-4"/>
+          <p className="text-lg">Placeholder for Introductory Video</p>
+          <p className="text-sm mt-2">Showcasing the energy, the network, and the results.</p>
           {/* <iframe src="YOUR_VIDEO_URL_HERE" className="w-full h-full rounded-xl" allow="autoplay; encrypted-media" allowFullScreen title="Warriors Team Experience"></iframe> */}
         </div>
       </Section>
       
       {/* Main Intro Text Section */}
-      <Section id="manifesto">
+      <Section id="manifesto" className="py-16 md:py-24">
           <div className="max-w-3xl mx-auto text-center space-y-6 text-lg md:text-xl leading-relaxed text-neutral-300">
             <p>
               <span className="font-bold text-white">99.9% of modern-day men will never experience the power of Brotherhood and Community.</span>
@@ -153,31 +142,29 @@ export default function WarriorsTeamPage() {
       </Section>
 
       {/* Where is the Warriors Team? Section */}
-      <Section id="global-network" className="bg-neutral-900/50 backdrop-blur-sm">
+      <Section id="global-network" className="bg-black/20 backdrop-blur-sm py-16 md:py-24">
         <SectionHeader 
           title="WHERE IS THE WARRIORS TEAM?" 
           strokeText="EVERYWHERE" 
           description="The globalization of the world has made it critical to be a part of a world-spanning network." 
         />
-        <div className="text-center text-neutral-400">
+        <div className="text-center text-neutral-300">
           <Globe size={64} className="mx-auto mb-6 text-brand" />
-          <p className="text-lg mb-2">Our network spans continents, connecting motivated individuals worldwide.</p>
-          <p className="text-sm">(Placeholder for Image Slider or Interactive Map Showcasing Global Presence / Member Gatherings)</p>
-          {/* Если у вас есть компонент слайдера, используйте его здесь */}
+          <p className="text-xl mb-2">Our network spans continents, connecting motivated individuals worldwide.</p>
+          <p className="text-base text-neutral-400">(Placeholder for Image Slider or Interactive Map Showcasing Global Presence / Member Gatherings)</p>
         </div>
       </Section>
 
       {/* Who are our members? Section */}
-      <Section id="members">
+      <Section id="members" className="py-16 md:py-24">
         <SectionHeader 
           title="WHO ARE OUR MEMBERS?" 
           strokeText="OUR MEMBERS?" 
           description="They were just like you - looking for something more. And within the Warriors Team, they found it." 
         />
         <div className="max-w-4xl mx-auto mb-12">
-          {/* ЗАМЕНИТЕ ИЗОБРАЖЕНИЕ */}
           <Image 
-            src="https://images.unsplash.com/photo-1560264280-88b68371db39?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTJ8fGJ1c2luZXNzJTIwbmV0d29ya2luZ3xlbnwwfHwwfHx8MA%3D%3D&auto=format&fit=crop&w=1000&q=80" 
+            src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Nnx8Z3JvdXAlMjBvZCUyMHBlb3BsZXxlbnwwfHwwfHx8MA%3D%3D&auto=format&fit=crop&w=1000&q=80" 
             alt="Warriors Team Members Group" 
             width={1000} 
             height={600} 
@@ -197,7 +184,7 @@ export default function WarriorsTeamPage() {
       </Section>
       
       {/* "Not Ready?" Section */}
-      <Section id="not-ready" className="bg-neutral-900/70 backdrop-blur-sm">
+      <Section id="not-ready" className="bg-black/20 backdrop-blur-sm py-16 md:py-24">
         <SectionHeader 
           title="“I DON'T THINK I AM READY FOR THE WARRIORS TEAM.”" 
           strokeText="NOT READY???" 
@@ -210,10 +197,9 @@ export default function WarriorsTeamPage() {
             <h3 className="text-2xl md:text-3xl font-bold text-white mt-6">If you had that capability, <span className="text-brand">we'd already know who you are.</span></h3>
           </div>
           <div className="text-center">
-            {/* ЗАМЕНИТЕ ИЗОБРАЖЕНИЕ */}
             <Image 
-              src="https://images.unsplash.com/photo-1556157382-97eda2d62296?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Nnx8YnVzaW5lc3NtYW58ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&w=800&q=60" 
-              alt="Man contemplating a choice" 
+              src="https://images.unsplash.com/photo-1503437313881-503a91226c02?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTR8fGNoYWxsZW5nZXxlbnwwfHwwfHx8MA%3D%3D&auto=format&fit=crop&w=800&q=60" 
+              alt="Challenge Concept" 
               width={500} 
               height={350} 
               className="rounded-xl shadow-xl object-cover aspect-[4/3] mx-auto" 
@@ -231,13 +217,11 @@ export default function WarriorsTeamPage() {
             <h3 className="text-3xl font-bold text-white pt-6">You are left with only two options.</h3>
             <div className="flex flex-col sm:flex-row justify-center items-center gap-6 mt-6">
                 <div className="text-center p-4">
-                    {/* Placeholder for a "blue pill" type image/icon */}
                     <div className="w-16 h-16 bg-blue-600/20 border-2 border-blue-500 rounded-full mx-auto mb-2 flex items-center justify-center text-blue-400 text-2xl">1</div>
                     <p>Try to become worthy <strong className="text-white">outside</strong></p>
                 </div>
                 <div className="text-2xl font-bold text-neutral-500">OR</div>
                 <div className="text-center p-4">
-                    {/* Placeholder for a "red pill" type image/icon */}
                     <div className="w-16 h-16 bg-red-600/20 border-2 border-red-500 rounded-full mx-auto mb-2 flex items-center justify-center text-red-400 text-2xl">2</div>
                     <p>Try to become worthy <strong className="text-brand">inside</strong></p>
                 </div>
@@ -246,11 +230,10 @@ export default function WarriorsTeamPage() {
       </Section>
 
       {/* Two Roads Ahead Section */}
-      <Section id="two-roads">
+      <Section id="two-roads" className="py-16 md:py-24">
         <SectionHeader title="TWO ROADS AHEAD." strokeText="TWO ROADS" />
          <div className="grid md:grid-cols-2 gap-10 lg:gap-16 items-center mb-12">
             <div>
-                {/* ЗАМЕНИТЕ ИЗОБРАЖЕНИЕ */}
                 <Image 
                     src="https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OHx8c3RyYXRlZ3l8ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&w=1000&q=80" 
                     alt="Strategic Choice" 
@@ -294,7 +277,7 @@ export default function WarriorsTeamPage() {
       </Section>
 
       {/* Testimonials Placeholder Section */}
-      <Section id="testimonials-section" className="bg-neutral-900/50 backdrop-blur-md">
+      <Section id="testimonials-section" className="bg-black/20 backdrop-blur-sm py-16 md:py-24">
         <SectionHeader title="WHAT OUR MEMBERS HAVE ACHIEVED." strokeText="ACHIEVED" />
         <div className="text-center text-neutral-400">
             <ThumbsUp size={64} className="mx-auto mb-6 text-brand" />
@@ -304,7 +287,7 @@ export default function WarriorsTeamPage() {
       </Section>
 
       {/* Final CTA Section */}
-      <Section id="join-final-cta" className="text-center !pt-12 !pb-20 md:!pt-16 md:!pb-28"> {/* Уменьшенные отступы для последней CTA */}
+      <Section id="join-final-cta" className="text-center !pt-12 !pb-20 md:!pt-16 md:!pb-28">
         <Button 
             asChild 
             size="lg" 
