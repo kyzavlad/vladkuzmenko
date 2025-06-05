@@ -1,5 +1,5 @@
 // components/MensCommunitySection.tsx
-"use client"; // ВАЖНО: Добавлено для решения ошибки сборки
+"use client"; // <--- ВАЖНО: Добавлено для решения ошибки сборки
 
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
@@ -98,7 +98,6 @@ export function MensCommunitySection() {
               If you have the drive, the ambition, and the commitment to excellence, 
               you belong here. Join a brotherhood of men who are redefining what's possible.
             </p>
-            {/* ИСПРАВЛЕННАЯ ССЫЛКА */}
             <Link href="/warriors-team" passHref legacyBehavior>
               <a target="_blank" rel="noopener noreferrer" aria-label="Join The Warriors Team">
                 <Button 
