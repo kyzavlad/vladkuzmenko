@@ -11,7 +11,7 @@ export default function WarriorsTeamPage() {
   const [isVideoPlaying, setIsVideoPlaying] = useState(false);
   
   useEffect(() => {
-    document.title = 'The War Room | Warriors Team';
+    document.title = 'Warriors Team | VladKuzmenko.com';
     // Force dark theme for this page
     document.documentElement.classList.add('dark');
   }, []);
@@ -23,33 +23,35 @@ export default function WarriorsTeamPage() {
         <Header />
       </div>
       
-      {/* Hero Section */}
-      <section className="min-h-screen flex flex-col justify-center items-center text-center px-4 pt-20">
+      {/* Hero Section - Reduced padding */}
+      <section className="min-h-screen flex flex-col justify-center items-center text-center px-4 pt-8">
         <div className="container mx-auto relative z-10 max-w-6xl">
           <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-black tracking-wider mb-8">
-            THE WAR ROOM
+            WARRIORS TEAM
           </h1>
           <p className="max-w-3xl mx-auto text-xl md:text-2xl lg:text-3xl text-neutral-300 mb-16 leading-relaxed">
             No Great Man in History became<br />
             Exceptional <em className="font-normal text-white not-italic">alone.</em>
           </p>
           
-          {/* Video Player */}
+          {/* Video Player with Premium Style */}
           <div className="mt-12 relative max-w-5xl mx-auto">
-            <div className="relative bg-black rounded-2xl overflow-hidden aspect-video shadow-2xl border border-neutral-800">
+            <div className="relative bg-black rounded-lg overflow-hidden aspect-video shadow-[0_20px_60px_-15px_rgba(255,255,255,0.3)] border border-neutral-800">
               {!isVideoPlaying ? (
-                <div className="absolute inset-0 flex items-center justify-center">
+                <div className="absolute inset-0 flex items-center justify-center cursor-pointer group">
                   <Image
-                    src="/warroom-video-thumb.jpg"
-                    alt="War Room Video Thumbnail"
+                    src="/warriors-video-preview.jpg"
+                    alt="Warriors Team Video Preview"
                     fill
                     className="object-cover"
+                    priority
                   />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
                   <button 
                     onClick={() => setIsVideoPlaying(true)}
-                    className="absolute inset-0 flex items-center justify-center hover:bg-black/20 transition-colors z-10"
+                    className="absolute inset-0 flex items-center justify-center z-10"
                   >
-                    <div className="w-24 h-24 bg-white rounded-full flex items-center justify-center shadow-2xl hover:scale-110 transition-transform">
+                    <div className="w-24 h-24 bg-white/90 backdrop-blur rounded-full flex items-center justify-center shadow-2xl group-hover:scale-110 group-hover:bg-white transition-all duration-300">
                       <Play className="w-10 h-10 text-black ml-2" fill="black" />
                     </div>
                   </button>
@@ -71,23 +73,23 @@ export default function WarriorsTeamPage() {
       <section className="py-24 px-4">
         <div className="container mx-auto max-w-7xl">
           <div className="flex justify-center mb-16">
-            <Button 
-              asChild 
-              variant="outline"
-              className="px-8 py-4 text-lg font-bold tracking-wider bg-black border-2 border-white text-white hover:bg-white hover:text-black transition-all uppercase"
-            >
-              <Link href="#join">JOIN THE WAR ROOM</Link>
-            </Button>
+            <Link href="https://cal.com/vladkuzmenko.com/call" target="_blank">
+              <Button 
+                className="relative px-10 py-6 text-lg font-bold tracking-wider bg-gradient-to-r from-red-600 to-red-700 text-white hover:from-red-700 hover:to-red-800 transition-all duration-300 uppercase rounded-none shadow-[0_10px_30px_-10px_rgba(220,38,38,0.6)] hover:shadow-[0_15px_40px_-10px_rgba(220,38,38,0.8)] hover:scale-105"
+              >
+                JOIN WARRIORS TEAM
+              </Button>
+            </Link>
           </div>
 
           <div className="grid lg:grid-cols-2 gap-16 items-center">
             <div className="relative">
               <Image 
-                src="/warroom-group-photo.jpg" 
-                alt="War Room Brotherhood"
+                src="/warriors-group-photo.jpg" 
+                alt="Warriors Team Brotherhood"
                 width={800}
                 height={600}
-                className="rounded-xl shadow-2xl w-full"
+                className="rounded-lg shadow-[0_20px_60px_-15px_rgba(255,255,255,0.2)] w-full"
               />
             </div>
             
@@ -114,7 +116,7 @@ export default function WarriorsTeamPage() {
                 
                 <div className="pt-4">
                   <p>
-                    Inside <span className="font-bold text-white">The War Room</span> you will access <span className="font-bold text-white">knowledge</span> that will
+                    Inside <span className="font-bold text-white">Warriors Team</span> you will access <span className="font-bold text-white">knowledge</span> that will
                     spark your genius and compel you to <span className="font-bold text-white">work your hardest</span> to
                     keep up.
                   </p>
@@ -128,7 +130,7 @@ export default function WarriorsTeamPage() {
           </div>
           
           <div className="flex justify-center mt-16">
-            <div className="w-12 h-24 border-2 border-white rounded-full flex items-center justify-center">
+            <div className="w-12 h-24 border-2 border-white/30 rounded-full flex items-center justify-center">
               <div className="w-3 h-3 bg-white rounded-full animate-bounce" />
             </div>
           </div>
@@ -138,16 +140,16 @@ export default function WarriorsTeamPage() {
 
       {/* Global Network Section */}
       <section className="py-24 px-4 relative">
-        <div className="absolute inset-0 opacity-10">
+        <div className="absolute inset-0 opacity-5">
           <div className="text-[200px] font-black text-neutral-500 leading-none text-center">
-            THE WAR ROOM?
+            WARRIORS TEAM?
           </div>
         </div>
         
         <div className="container mx-auto max-w-7xl relative z-10">
           <div className="text-center mb-16">
             <h2 className="text-4xl md:text-5xl lg:text-6xl font-black mb-8">
-              WHERE IS THE WAR ROOM?
+              WHERE IS WARRIORS TEAM?
             </h2>
             <p className="text-3xl md:text-4xl font-bold mb-4">Everywhere.</p>
             <p className="text-xl text-neutral-300 max-w-3xl mx-auto">
@@ -158,14 +160,14 @@ export default function WarriorsTeamPage() {
           
           {/* Photo Collage */}
           <div className="grid grid-cols-6 gap-1 max-w-6xl mx-auto mb-16">
-            <Image src="/warroom-location-1.jpg" alt="Location 1" width={200} height={150} className="col-span-2 h-40 w-full object-cover" />
-            <Image src="/warroom-location-2.jpg" alt="Location 2" width={200} height={150} className="h-40 w-full object-cover" />
-            <Image src="/warroom-location-3.jpg" alt="Location 3" width={200} height={150} className="h-40 w-full object-cover" />
-            <Image src="/warroom-location-4.jpg" alt="Location 4" width={200} height={150} className="col-span-2 h-40 w-full object-cover" />
-            <Image src="/warroom-location-5.jpg" alt="Location 5" width={200} height={150} className="h-40 w-full object-cover" />
-            <Image src="/warroom-location-6.jpg" alt="Location 6" width={200} height={150} className="col-span-2 h-40 w-full object-cover" />
-            <Image src="/warroom-location-7.jpg" alt="Location 7" width={200} height={150} className="h-40 w-full object-cover" />
-            <Image src="/warroom-location-8.jpg" alt="Location 8" width={200} height={150} className="col-span-2 h-40 w-full object-cover" />
+            <Image src="/warriors-location-1.jpg" alt="Location 1" width={200} height={150} className="col-span-2 h-40 w-full object-cover" />
+            <Image src="/warriors-location-2.jpg" alt="Location 2" width={200} height={150} className="h-40 w-full object-cover" />
+            <Image src="/warriors-location-3.jpg" alt="Location 3" width={200} height={150} className="h-40 w-full object-cover" />
+            <Image src="/warriors-location-4.jpg" alt="Location 4" width={200} height={150} className="col-span-2 h-40 w-full object-cover" />
+            <Image src="/warriors-location-5.jpg" alt="Location 5" width={200} height={150} className="h-40 w-full object-cover" />
+            <Image src="/warriors-location-6.jpg" alt="Location 6" width={200} height={150} className="col-span-2 h-40 w-full object-cover" />
+            <Image src="/warriors-location-7.jpg" alt="Location 7" width={200} height={150} className="h-40 w-full object-cover" />
+            <Image src="/warriors-location-8.jpg" alt="Location 8" width={200} height={150} className="col-span-2 h-40 w-full object-cover" />
           </div>
         </div>
       </section>
@@ -188,7 +190,7 @@ export default function WarriorsTeamPage() {
             </p>
             
             <p className="text-xl md:text-2xl">
-              <span className="font-bold">The War Room</span> network gives you <span className="font-bold">access to thousands</span> of<br />
+              <span className="font-bold">Warriors Team</span> network gives you <span className="font-bold">access to thousands</span> of<br />
               well trained eyes looking out for your interests. A <span className="font-bold">network</span><br />
               with wide-ranging perspectives and capabilities; each<br />
               member aspiring and succeeding at becoming a <span className="font-bold">great<br />
@@ -199,11 +201,11 @@ export default function WarriorsTeamPage() {
           <div className="grid md:grid-cols-2 gap-12 items-center mt-20">
             <div className="relative">
               <Image 
-                src="/warroom-discussion.jpg" 
-                alt="War Room Discussion"
+                src="/warriors-discussion.jpg" 
+                alt="Warriors Team Discussion"
                 width={600}
                 height={400}
-                className="rounded-xl shadow-2xl w-full"
+                className="rounded-lg shadow-[0_20px_60px_-15px_rgba(255,255,255,0.2)] w-full"
               />
             </div>
             
@@ -229,13 +231,13 @@ export default function WarriorsTeamPage() {
                 </p>
               </div>
               
-              <Button 
-                asChild 
-                variant="outline"
-                className="px-8 py-4 text-lg font-bold tracking-wider bg-black border-2 border-white text-white hover:bg-white hover:text-black transition-all uppercase inline-flex"
-              >
-                <Link href="#join">JOIN THE WAR ROOM</Link>
-              </Button>
+              <Link href="https://cal.com/vladkuzmenko.com/call" target="_blank">
+                <Button 
+                  className="px-10 py-6 text-lg font-bold tracking-wider bg-gradient-to-r from-red-600 to-red-700 text-white hover:from-red-700 hover:to-red-800 transition-all duration-300 uppercase rounded-none shadow-[0_10px_30px_-10px_rgba(220,38,38,0.6)] hover:shadow-[0_15px_40px_-10px_rgba(220,38,38,0.8)] hover:scale-105 inline-flex"
+                >
+                  JOIN WARRIORS TEAM
+                </Button>
+              </Link>
             </div>
           </div>
         </div>
@@ -243,7 +245,7 @@ export default function WarriorsTeamPage() {
 
       {/* Members Section */}
       <section className="py-24 px-4 relative">
-        <div className="absolute inset-0 opacity-10">
+        <div className="absolute inset-0 opacity-5">
           <div className="text-[180px] font-black text-neutral-500 leading-none text-center">
             OUR MEMBERS?
           </div>
@@ -259,17 +261,17 @@ export default function WarriorsTeamPage() {
               looking for something more.
             </p>
             <p className="text-xl text-neutral-300">
-              And within <span className="font-bold text-white">the War Room</span>, they found it.
+              And within <span className="font-bold text-white">Warriors Team</span>, they found it.
             </p>
           </div>
           
           <div className="relative max-w-6xl mx-auto mb-16">
             <Image 
-              src="/warroom-members-lounge.jpg" 
-              alt="War Room Members"
+              src="/warriors-members-lounge.jpg" 
+              alt="Warriors Team Members"
               width={1200}
               height={600}
-              className="rounded-xl shadow-2xl w-full"
+              className="rounded-lg shadow-[0_20px_60px_-15px_rgba(255,255,255,0.2)] w-full"
             />
           </div>
           
@@ -296,13 +298,13 @@ export default function WarriorsTeamPage() {
             </p>
             
             <div className="flex justify-center mt-16">
-              <Button 
-                asChild 
-                variant="outline"
-                className="px-8 py-4 text-lg font-bold tracking-wider bg-black border-2 border-white text-white hover:bg-white hover:text-black transition-all uppercase"
-              >
-                <Link href="#join">JOIN THE WAR ROOM</Link>
-              </Button>
+              <Link href="https://cal.com/vladkuzmenko.com/call" target="_blank">
+                <Button 
+                  className="px-10 py-6 text-lg font-bold tracking-wider bg-gradient-to-r from-red-600 to-red-700 text-white hover:from-red-700 hover:to-red-800 transition-all duration-300 uppercase rounded-none shadow-[0_10px_30px_-10px_rgba(220,38,38,0.6)] hover:shadow-[0_15px_40px_-10px_rgba(220,38,38,0.8)] hover:scale-105"
+                >
+                  JOIN WARRIORS TEAM
+                </Button>
+              </Link>
             </div>
           </div>
         </div>
@@ -310,7 +312,7 @@ export default function WarriorsTeamPage() {
 
       {/* Not Ready Section */}
       <section className="py-24 px-4 relative">
-        <div className="absolute inset-0 opacity-10">
+        <div className="absolute inset-0 opacity-5">
           <div className="text-[140px] font-black text-neutral-500 leading-none text-center">
             NOT READY???
           </div>
@@ -320,7 +322,7 @@ export default function WarriorsTeamPage() {
           <div className="text-center mb-16">
             <h2 className="text-4xl md:text-5xl lg:text-6xl font-black mb-16">
               "I DON'T THINK I AM READY<br />
-              FOR THE WAR ROOM."
+              FOR WARRIORS TEAM."
             </h2>
           </div>
           
@@ -329,8 +331,8 @@ export default function WarriorsTeamPage() {
               <p className="font-semibold">I want you to understand something.</p>
               
               <p>
-                <span className="font-bold">NONE</span> of you reading this are ready for the War<br />
-                Room.
+                <span className="font-bold">NONE</span> of you reading this are ready for Warriors<br />
+                Team.
               </p>
               
               <p>
@@ -348,14 +350,14 @@ export default function WarriorsTeamPage() {
                 
                 <div className="flex items-center gap-8 mb-8">
                   <div className="flex items-center gap-4">
-                    <Image src="/icon-hand-up.png" alt="Outside" width={60} height={60} />
+                    <Image src="/blue-pill.png" alt="Blue Pill" width={60} height={60} className="drop-shadow-[0_0_20px_rgba(59,130,246,0.8)]" />
                     <p className="text-xl">Try to become worthy <em>outside</em></p>
                   </div>
                 </div>
                 
                 <div className="flex items-center gap-8">
                   <div className="flex items-center gap-4">
-                    <Image src="/icon-hand-shake.png" alt="Inside" width={60} height={60} />
+                    <Image src="/red-pill.png" alt="Red Pill" width={60} height={60} className="drop-shadow-[0_0_20px_rgba(220,38,38,0.8)]" />
                     <p className="text-xl">Try to become worthy <em className="font-bold not-italic">inside</em></p>
                   </div>
                 </div>
@@ -364,11 +366,11 @@ export default function WarriorsTeamPage() {
             
             <div className="relative">
               <Image 
-                src="/warroom-yacht-meeting.jpg" 
-                alt="War Room Meeting"
+                src="/warriors-yacht-meeting.jpg" 
+                alt="Warriors Team Meeting"
                 width={700}
                 height={500}
-                className="rounded-xl shadow-2xl w-full"
+                className="rounded-lg shadow-[0_20px_60px_-15px_rgba(255,255,255,0.2)] w-full"
               />
             </div>
           </div>
@@ -391,19 +393,19 @@ export default function WarriorsTeamPage() {
             <p>You think $1 million is impressive??</p>
             
             <p className="font-bold">
-              NONE of you are worthy of the War Room<br />
+              NONE of you are worthy of Warriors Team<br />
               NONE of you are ready<br />
               No member has ever joined "ready".
             </p>
             
             <div className="flex justify-center mt-16">
-              <Button 
-                asChild 
-                variant="outline"
-                className="px-8 py-4 text-lg font-bold tracking-wider bg-black border-2 border-white text-white hover:bg-white hover:text-black transition-all uppercase"
-              >
-                <Link href="#join">JOIN THE WAR ROOM</Link>
-              </Button>
+              <Link href="https://cal.com/vladkuzmenko.com/call" target="_blank">
+                <Button 
+                  className="px-10 py-6 text-lg font-bold tracking-wider bg-gradient-to-r from-red-600 to-red-700 text-white hover:from-red-700 hover:to-red-800 transition-all duration-300 uppercase rounded-none shadow-[0_10px_30px_-10px_rgba(220,38,38,0.6)] hover:shadow-[0_15px_40px_-10px_rgba(220,38,38,0.8)] hover:scale-105"
+                >
+                  JOIN WARRIORS TEAM
+                </Button>
+              </Link>
             </div>
           </div>
         </div>
@@ -411,7 +413,7 @@ export default function WarriorsTeamPage() {
 
       {/* Final CTA Section */}
       <section className="py-24 px-4 relative min-h-screen flex items-center">
-        <div className="absolute inset-0 opacity-10">
+        <div className="absolute inset-0 opacity-5">
           <div className="text-[200px] font-black text-neutral-500 leading-none text-center">
             TWO ROADS AHEAD.
           </div>
@@ -424,11 +426,11 @@ export default function WarriorsTeamPage() {
           
           <div className="max-w-4xl mx-auto mb-16">
             <Image 
-              src="/warroom-leaders.jpg" 
-              alt="War Room Leaders"
+              src="/warriors-leaders.jpg" 
+              alt="Warriors Team Leaders"
               width={800}
               height={400}
-              className="w-full rounded-xl shadow-2xl mb-12"
+              className="w-full rounded-lg shadow-[0_20px_60px_-15px_rgba(255,255,255,0.2)] mb-12"
             />
             
             <div className="text-center space-y-6 text-xl">
@@ -452,8 +454,14 @@ export default function WarriorsTeamPage() {
           
           <div className="grid md:grid-cols-2 gap-8 max-w-5xl mx-auto mb-20">
             <div className="text-center">
-              <div className="w-16 h-16 rounded-full border-4 border-blue-500 flex items-center justify-center mb-6 mx-auto">
-                <span className="text-2xl font-bold">1</span>
+              <div className="w-20 h-20 mx-auto mb-6">
+                <Image 
+                  src="/blue-pill.png" 
+                  alt="Blue Pill" 
+                  width={80} 
+                  height={80} 
+                  className="drop-shadow-[0_0_30px_rgba(59,130,246,0.8)]" 
+                />
               </div>
               <p className="text-lg">
                 One who continues playing life alone,<br />
@@ -464,8 +472,14 @@ export default function WarriorsTeamPage() {
             </div>
             
             <div className="text-center">
-              <div className="w-16 h-16 rounded-full border-4 border-orange-500 flex items-center justify-center mb-6 mx-auto">
-                <span className="text-2xl font-bold">2</span>
+              <div className="w-20 h-20 mx-auto mb-6">
+                <Image 
+                  src="/red-pill.png" 
+                  alt="Red Pill" 
+                  width={80} 
+                  height={80} 
+                  className="drop-shadow-[0_0_30px_rgba(220,38,38,0.8)]" 
+                />
               </div>
               <p className="text-lg font-bold">
                 Or one who understands that no<br />
@@ -480,15 +494,14 @@ export default function WarriorsTeamPage() {
               WHICH VERSION WILL YOU PURSUE?
             </h3>
             
-            <Button 
-              asChild 
-              size="lg"
-              className="px-12 py-6 text-xl font-black tracking-wider bg-black border-4 border-white text-white hover:bg-white hover:text-black transition-all uppercase"
-            >
-              <Link href="#join" id="join">
-                JOIN THE WAR ROOM
-              </Link>
-            </Button>
+            <Link href="https://cal.com/vladkuzmenko.com/call" target="_blank">
+              <Button 
+                size="lg"
+                className="px-16 py-8 text-2xl font-black tracking-wider bg-gradient-to-r from-red-600 to-red-700 text-white hover:from-red-700 hover:to-red-800 transition-all duration-300 uppercase rounded-none shadow-[0_15px_40px_-10px_rgba(220,38,38,0.8)] hover:shadow-[0_20px_50px_-10px_rgba(220,38,38,1)] hover:scale-105"
+              >
+                JOIN WARRIORS TEAM
+              </Button>
+            </Link>
           </div>
         </div>
       </section>
