@@ -103,20 +103,31 @@
   }
 }
 
+/* --- ИЗМЕНЕНИЯ ВНЕСЕНЫ ТОЛЬКО В ЭТОТ БЛОК --- */
 @layer base {
   * {
     @apply border-border;
     box-sizing: border-box;
   }
-  body {
-    @apply bg-background text-foreground overflow-x-hidden;
-    width: 100%;
-    max-width: 100vw;
+
+  /* ДОБАВЛЕНО ПРАВИЛО ДЛЯ HTML */
+  html {
+    overflow-x: hidden;
   }
+  
+  body {
+    @apply bg-background text-foreground;
+    /* ИЗМЕНЕНИЕ: overflow-x-hidden добавлен сюда, а max-width изменен на 100% */
+    width: 100%;
+    max-width: 100%; /* Заменяем 100vw на 100% для большей надежности */
+    overflow-x: hidden; /* **КЛЮЧЕВОЕ ИЗМЕНЕНИЕ: предотвращает горизонтальную прокрутку** */
+  }
+
   .container {
     @apply px-4 sm:px-6 lg:px-8 mx-auto w-full max-w-full;
   }
 }
+/* --- КОНЕЦ ИЗМЕНЕНИЙ --- */
 
 .loader {
   width: 48px;
