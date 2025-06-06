@@ -75,7 +75,6 @@ export function Header() {
 
   return (
     <>
-      {/* Blur overlay for Choose Path menu */}
       {isChoosePathOpen && (
         <div
           className="fixed inset-0 bg-black/60 backdrop-blur-sm z-40"
@@ -83,7 +82,6 @@ export function Header() {
         />
       )}
 
-      {/* Choose Path Menu popup */}
       {isChoosePathOpen && (
         <div className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-50 w-full max-w-lg px-4">
           <div className="bg-background/95 backdrop-blur-sm border border-border/40 rounded-2xl p-6 space-y-4">
@@ -153,7 +151,7 @@ export function Header() {
         */}
         <div className="container relative mx-auto py-4 md:py-5 flex flex-row items-center justify-between lg:grid lg:grid-cols-[1fr_auto_1fr] lg:gap-x-4">
           
-          {/* Левая часть (Навигация для десктопа) - будет видима только на lg экранах и больше */}
+          {/* Левая часть (Навигация для десктопа) */}
           <div className="hidden lg:flex justify-start items-center">
             <NavigationMenu>
               <NavigationMenuList className="flex flex-row gap-1">
@@ -229,7 +227,7 @@ export function Header() {
           </div>
 
           {/* Правая часть (Кнопки для десктопа и иконка меню для мобильных) */}
-          {/* ИСПРАВЛЕНИЕ: Этот блок теперь один, и он управляет видимостью своих дочерних элементов */}
+          {/* ИСПРАВЛЕНИЕ: Этот блок теперь один, и он управляет видимостью своих дочерних элементов, решая проблему с пустым w-full div */}
           <div className="flex justify-end items-center">
             {/* Кнопки для десктопа: видимы только на экранах md и больше */}
             <div className="hidden md:flex items-center gap-2">
