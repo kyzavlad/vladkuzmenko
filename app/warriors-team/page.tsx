@@ -1,4 +1,5 @@
-"use client"; 
+// app/warriors-team/page.tsx
+"use client";
 
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
