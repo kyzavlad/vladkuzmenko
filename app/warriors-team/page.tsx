@@ -1,4 +1,3 @@
-// app/warriors-team/page.tsx
 "use client"; 
 
 import Link from 'next/link';
@@ -73,20 +72,20 @@ export default function WarriorsTeamPage() {
       >
         <div className="container mx-auto relative z-10">
           <h1 
-            className="text-5xl sm:text-6xl md:text-7xl lg:text-[120px] font-black tracking-wider uppercase mb-6 animate-appear-zoom [animation-delay:200ms]"
-            style={{ color: '#FFFFFF', textShadow: '0px 4px 8px rgba(0,0,0,0.4)' }}
+            className="text-5xl sm:text-6xl md:text-7xl lg:text-[120px] font-black tracking-wider uppercase mb-6 animate-appear-zoom"
+            style={{ color: '#FFFFFF', textShadow: '0px 4px 8px rgba(0,0,0,0.4)', animationDelay: '200ms' }}
           >
             THE WARRIORS TEAM
           </h1>
           <p 
-            className="max-w-xl md:max-w-2xl lg:max-w-3xl mx-auto text-lg md:text-xl lg:text-2xl text-neutral-300 mb-10 leading-relaxed font-light animate-appear [animation-delay:400ms]"
-            style={{ textShadow: '0 1px 2px rgba(0,0,0,0.5)'}}
+            className="max-w-xl md:max-w-2xl lg:max-w-3xl mx-auto text-lg md:text-xl lg:text-2xl text-neutral-300 mb-10 leading-relaxed font-light animate-appear"
+            style={{ textShadow: '0 1px 2px rgba(0,0,0,0.5)', animationDelay: '400ms' }}
           >
             No Great Leader in History achieved Excellence <em className="font-bold text-white not-italic">alone.</em>
           </p>
           
           {/* Video Placeholder */}
-          <div className="mt-16 relative max-w-4xl mx-auto animate-appear [animation-delay:600ms]">
+          <div className="mt-16 relative max-w-4xl mx-auto animate-appear" style={{ animationDelay: '600ms' }}>
             <div className="relative bg-neutral-900 rounded-lg overflow-hidden aspect-video shadow-2xl border border-neutral-800">
               {!isVideoPlaying ? (
                 <button 
@@ -111,7 +110,8 @@ export default function WarriorsTeamPage() {
           {/* Scroll indicator */}
           <button
             onClick={scrollToNext}
-            className="absolute bottom-8 sm:bottom-10 left-1/2 -translate-x-1/2 animate-appear [animation-delay:800ms]"
+            className="absolute bottom-8 sm:bottom-10 left-1/2 -translate-x-1/2 animate-appear"
+            style={{ animationDelay: '800ms' }}
           >
             <div className="text-sm text-neutral-400 mb-2">Scroll for more</div>
             <div className="w-5 h-9 border-2 border-neutral-500 rounded-full mx-auto relative">
