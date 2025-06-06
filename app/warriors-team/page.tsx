@@ -23,8 +23,13 @@ export default function WarriorsTeamPage() {
         <Header />
       </div>
       
-      {/* Hero Section - Reduced padding */}
-      <section className="min-h-screen flex flex-col justify-center items-center text-center px-4 pt-8">
+      {/* Hero Section - Increased padding */}
+      <section className="min-h-screen flex flex-col justify-center items-center text-center px-4 pt-32 relative">
+        <div className="absolute inset-0 opacity-15">
+          <div className="text-[300px] font-black text-neutral-500 leading-none text-center -mt-20">
+            WARRIORS
+          </div>
+        </div>
         <div className="container mx-auto relative z-10 max-w-6xl">
           <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-black tracking-wider mb-8">
             WARRIORS TEAM
@@ -70,12 +75,17 @@ export default function WarriorsTeamPage() {
       </section>
 
       {/* Brotherhood Section */}
-      <section className="py-24 px-4">
-        <div className="container mx-auto max-w-7xl">
+      <section className="py-24 px-4 relative">
+        <div className="absolute inset-0 opacity-15">
+          <div className="text-[200px] font-black text-neutral-500 leading-none text-center">
+            BROTHERHOOD
+          </div>
+        </div>
+        <div className="container mx-auto max-w-7xl relative z-10">
           <div className="flex justify-center mb-16">
             <Link href="https://cal.com/vladkuzmenko.com/call" target="_blank">
               <Button 
-                className="relative px-10 py-6 text-lg font-bold tracking-wider bg-gradient-to-r from-red-600 to-red-700 text-white hover:from-red-700 hover:to-red-800 transition-all duration-300 uppercase rounded-none shadow-[0_10px_30px_-10px_rgba(220,38,38,0.6)] hover:shadow-[0_15px_40px_-10px_rgba(220,38,38,0.8)] hover:scale-105"
+                className="relative px-10 py-6 text-lg font-bold tracking-wider bg-transparent text-white border-2 border-white hover:bg-white hover:text-black transition-all duration-300 uppercase rounded-none shadow-[0_10px_30px_-10px_rgba(255,255,255,0.3)] hover:shadow-[0_15px_40px_-10px_rgba(255,255,255,0.5)] hover:scale-105"
               >
                 JOIN WARRIORS TEAM
               </Button>
@@ -140,7 +150,7 @@ export default function WarriorsTeamPage() {
 
       {/* Global Network Section */}
       <section className="py-24 px-4 relative">
-        <div className="absolute inset-0 opacity-5">
+        <div className="absolute inset-0 opacity-15">
           <div className="text-[200px] font-black text-neutral-500 leading-none text-center">
             WARRIORS TEAM?
           </div>
@@ -173,8 +183,13 @@ export default function WarriorsTeamPage() {
       </section>
 
       {/* Disinformation Section */}
-      <section className="py-24 px-4">
-        <div className="container mx-auto max-w-5xl">
+      <section className="py-24 px-4 relative">
+        <div className="absolute inset-0 opacity-15">
+          <div className="text-[150px] font-black text-neutral-500 leading-none text-center">
+            NETWORK
+          </div>
+        </div>
+        <div className="container mx-auto max-w-5xl relative z-10">
           <div className="text-center mb-16 space-y-8">
             <p className="text-xl md:text-2xl">
               <span className="font-bold">Disinformation is rampant.</span> The Post-Truth era requires<br />
@@ -233,7 +248,7 @@ export default function WarriorsTeamPage() {
               
               <Link href="https://cal.com/vladkuzmenko.com/call" target="_blank">
                 <Button 
-                  className="px-10 py-6 text-lg font-bold tracking-wider bg-gradient-to-r from-red-600 to-red-700 text-white hover:from-red-700 hover:to-red-800 transition-all duration-300 uppercase rounded-none shadow-[0_10px_30px_-10px_rgba(220,38,38,0.6)] hover:shadow-[0_15px_40px_-10px_rgba(220,38,38,0.8)] hover:scale-105 inline-flex"
+                  className="px-10 py-6 text-lg font-bold tracking-wider bg-transparent text-white border-2 border-white hover:bg-white hover:text-black transition-all duration-300 uppercase rounded-none shadow-[0_10px_30px_-10px_rgba(255,255,255,0.3)] hover:shadow-[0_15px_40px_-10px_rgba(255,255,255,0.5)] hover:scale-105 inline-flex"
                 >
                   JOIN WARRIORS TEAM
                 </Button>
@@ -245,7 +260,7 @@ export default function WarriorsTeamPage() {
 
       {/* Members Section */}
       <section className="py-24 px-4 relative">
-        <div className="absolute inset-0 opacity-5">
+        <div className="absolute inset-0 opacity-15">
           <div className="text-[180px] font-black text-neutral-500 leading-none text-center">
             OUR MEMBERS?
           </div>
@@ -300,7 +315,7 @@ export default function WarriorsTeamPage() {
             <div className="flex justify-center mt-16">
               <Link href="https://cal.com/vladkuzmenko.com/call" target="_blank">
                 <Button 
-                  className="px-10 py-6 text-lg font-bold tracking-wider bg-gradient-to-r from-red-600 to-red-700 text-white hover:from-red-700 hover:to-red-800 transition-all duration-300 uppercase rounded-none shadow-[0_10px_30px_-10px_rgba(220,38,38,0.6)] hover:shadow-[0_15px_40px_-10px_rgba(220,38,38,0.8)] hover:scale-105"
+                  className="px-10 py-6 text-lg font-bold tracking-wider bg-transparent text-white border-2 border-white hover:bg-white hover:text-black transition-all duration-300 uppercase rounded-none shadow-[0_10px_30px_-10px_rgba(255,255,255,0.3)] hover:shadow-[0_15px_40px_-10px_rgba(255,255,255,0.5)] hover:scale-105"
                 >
                   JOIN WARRIORS TEAM
                 </Button>
@@ -312,7 +327,7 @@ export default function WarriorsTeamPage() {
 
       {/* Not Ready Section */}
       <section className="py-24 px-4 relative">
-        <div className="absolute inset-0 opacity-5">
+        <div className="absolute inset-0 opacity-15">
           <div className="text-[140px] font-black text-neutral-500 leading-none text-center">
             NOT READY???
           </div>
@@ -401,7 +416,7 @@ export default function WarriorsTeamPage() {
             <div className="flex justify-center mt-16">
               <Link href="https://cal.com/vladkuzmenko.com/call" target="_blank">
                 <Button 
-                  className="px-10 py-6 text-lg font-bold tracking-wider bg-gradient-to-r from-red-600 to-red-700 text-white hover:from-red-700 hover:to-red-800 transition-all duration-300 uppercase rounded-none shadow-[0_10px_30px_-10px_rgba(220,38,38,0.6)] hover:shadow-[0_15px_40px_-10px_rgba(220,38,38,0.8)] hover:scale-105"
+                  className="px-10 py-6 text-lg font-bold tracking-wider bg-transparent text-white border-2 border-white hover:bg-white hover:text-black transition-all duration-300 uppercase rounded-none shadow-[0_10px_30px_-10px_rgba(255,255,255,0.3)] hover:shadow-[0_15px_40px_-10px_rgba(255,255,255,0.5)] hover:scale-105"
                 >
                   JOIN WARRIORS TEAM
                 </Button>
@@ -413,7 +428,7 @@ export default function WarriorsTeamPage() {
 
       {/* Final CTA Section */}
       <section className="py-24 px-4 relative min-h-screen flex items-center">
-        <div className="absolute inset-0 opacity-5">
+        <div className="absolute inset-0 opacity-15">
           <div className="text-[200px] font-black text-neutral-500 leading-none text-center">
             TWO ROADS AHEAD.
           </div>
@@ -497,7 +512,7 @@ export default function WarriorsTeamPage() {
             <Link href="https://cal.com/vladkuzmenko.com/call" target="_blank">
               <Button 
                 size="lg"
-                className="px-16 py-8 text-2xl font-black tracking-wider bg-gradient-to-r from-red-600 to-red-700 text-white hover:from-red-700 hover:to-red-800 transition-all duration-300 uppercase rounded-none shadow-[0_15px_40px_-10px_rgba(220,38,38,0.8)] hover:shadow-[0_20px_50px_-10px_rgba(220,38,38,1)] hover:scale-105"
+                className="px-16 py-8 text-2xl font-black tracking-wider bg-transparent text-white border-4 border-white hover:bg-white hover:text-black transition-all duration-300 uppercase rounded-none shadow-[0_15px_40px_-10px_rgba(255,255,255,0.5)] hover:shadow-[0_20px_50px_-10px_rgba(255,255,255,0.7)] hover:scale-105"
               >
                 JOIN WARRIORS TEAM
               </Button>
