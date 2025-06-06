@@ -1,4 +1,4 @@
-// app/Header.tsx (или где у вас лежит этот компонент)
+// app/Header.tsx (или ваш путь к компоненту)
 "use client";
 
 import { Button } from "@/components/ui/button";
@@ -24,9 +24,9 @@ export function Header() {
     { title: "Home", href: "/" },
     {
       title: "Product",
-      description: "Explore our AI automation solutions for your business.", // Этот текст можно будет поменять, если "Warriors Team" не про AI
+      description: "Explore our AI automation solutions for your business.",
       items: [
-        { title: "AI Solutions", href: "#board-section" }, // И эти тоже
+        { title: "AI Solutions", href: "#board-section" },
         { title: "Features", href: "#features-section" },
         { title: "Voice Assistant", href: "#audio-section" },
         { title: "Pricing", href: "#pricing-section" },
@@ -56,9 +56,7 @@ export function Header() {
         element.scrollIntoView({ behavior: "smooth" });
       }
     } else {
-      // Для внешних ссылок или других страниц
-      // Если используете Next.js router, лучше router.push(href)
-      window.location.href = href; 
+      window.location.href = href;
     }
   };
   
@@ -99,12 +97,8 @@ export function Header() {
                 <X className="h-5 w-5" />
               </Button>
             </div>
-
             <Link href="/#pricing-section" onClick={(e) => { handleNavClick(e, "/#pricing-section"); setChoosePathOpen(false); }}>
-              <StarBorder
-                className="w-full mb-4 hover:scale-[1.02] transition-transform cursor-pointer"
-                color="hsl(var(--brand))"
-              >
+              <StarBorder className="w-full mb-4 hover:scale-[1.02] transition-transform cursor-pointer" color="hsl(var(--brand))">
                 <div className="flex items-center justify-between">
                   <div className="text-left">
                     <h3 className="font-semibold text-lg">Our Services</h3>
@@ -114,12 +108,8 @@ export function Header() {
                 </div>
               </StarBorder>
             </Link>
-
             <div onClick={() => { window.open('https://vladkuzmenkoai.com', '_blank'); setChoosePathOpen(false); }} className="cursor-pointer">
-              <StarBorder
-                className="w-full mb-4 hover:scale-[1.02] transition-transform"
-                color="hsl(var(--color-2))"
-              >
+              <StarBorder className="w-full mb-4 hover:scale-[1.02] transition-transform" color="hsl(var(--color-2))">
                 <div className="flex items-center justify-between">
                   <div className="text-left">
                     <h3 className="font-semibold text-lg">AI Automation Platform</h3>
@@ -129,17 +119,15 @@ export function Header() {
                 </div>
               </StarBorder>
             </div>
-            
-            {/* ИЗМЕНЕННАЯ ССЫЛКА ДЛЯ WARRIORS TEAM */}
             <Link href="/warriors-team" passHref legacyBehavior>
               <a 
                 target="_blank" 
                 rel="noopener noreferrer" 
                 onClick={() => setChoosePathOpen(false)}
-                className="block cursor-pointer" 
+                className="block cursor-pointer"
               >
                 <StarBorder 
-                  className="w-full hover:scale-[1.02] transition-transform" // Убрал mb-4, если это последний элемент
+                  className="w-full hover:scale-[1.02] transition-transform"
                   color="hsl(var(--color-3))"
                 >
                   <div className="flex items-center justify-between">
@@ -157,17 +145,18 @@ export function Header() {
       )}
 
       <header className="w-full z-30 fixed top-0 left-0 bg-background/95 backdrop-blur-sm border-b border-border/40">
-        {/* КОНТЕЙНЕР ХЕДЕРА:
-          - На мобильных (<lg): flex flex-row items-center justify-between. Логотип слева, иконка меню справа.
-          - На десктопах (lg+): lg:grid lg:grid-cols-[auto_1fr_auto] lg:gap-x-4. 
-            Боковые колонки (auto) по ширине содержимого, центральная (1fr) для логотипа занимает остальное место.
+        {/*
+          ИСПРАВЛЕНИЕ:
+          - На мобильных (<lg): `flex flex-row items-center justify-between`. Логотип будет слева, иконка меню - справа.
+          - На десктопах (lg+): `lg:grid lg:grid-cols-[1fr_auto_1fr]`. Создаем три колонки. 
+            Боковые занимают равное свободное пространство (1fr), а центральная (auto) - по ширине логотипа.
         */}
-        <div className="container relative mx-auto py-4 md:py-5 flex flex-row items-center justify-between lg:grid lg:grid-cols-[auto_minmax(0,1fr)_auto] lg:gap-x-4">
+        <div className="container relative mx-auto py-4 md:py-5 flex flex-row items-center justify-between lg:grid lg:grid-cols-[1fr_auto_1fr] lg:gap-x-4">
           
-          {/* Left side (Desktop navigation) */}
+          {/* Левая часть (Навигация для десктопа) - будет видима только на lg экранах и больше */}
           <div className="hidden lg:flex justify-start items-center">
             <NavigationMenu>
-              <NavigationMenuList className="flex flex-row gap-1"> {/* Уменьшен gap */}
+              <NavigationMenuList className="flex flex-row gap-1">
                 {navigationItems.map((item) => (
                   <NavigationMenuItem key={item.title}>
                     {item.href ? (
@@ -186,7 +175,6 @@ export function Header() {
                           {item.title}
                         </NavigationMenuTrigger>
                         <NavigationMenuContent className="!w-[450px] p-4">
-                          {/* ... Содержимое NavigationMenuContent ... (оставляем ваш код) */}
                           <div className="flex flex-col lg:grid grid-cols-2 gap-4">
                             <div className="flex flex-col h-full justify-between">
                               <div>
@@ -226,15 +214,13 @@ export function Header() {
             </NavigationMenu>
           </div>
 
-          {/* Center (Logo) */}
-          {/* Обертка логотипа: min-w-0 позволяет ей сжиматься. justify-center для грид-колонки. */}
-          <div className="flex justify-center items-center min-w-0"> 
-            {/* Класс 'logo-container' используется из globals.css. Tailwind класс 'overflow-hidden' здесь не нужен. */}
-            <div className="logo-container relative"> 
+          {/* Центральная часть (Логотип) */}
+          {/* ИСПРАВЛЕНИЕ: Обертка логотипа получила min-w-0, чтобы текст мог сжиматься и не расширял страницу */}
+          <div className="flex lg:justify-center items-center min-w-0">
+            <div className="logo-container relative">
               <a href="/" className="flex items-center" aria-label="VladKuzmenko.com Home">
                 <span 
                   className="text-xl sm:text-2xl font-bold tracking-tighter bg-clip-text text-transparent bg-gradient-to-r from-foreground via-foreground to-foreground/30 dark:from-white dark:via-white dark:to-white/30 font-serif italic"
-                  // Убран 'whitespace-nowrap', текст будет переноситься по необходимости (как в вашем оригинале)
                 >
                   VladKuzmenko.com
                 </span>
@@ -242,9 +228,10 @@ export function Header() {
             </div>
           </div>
 
-          {/* Right side (Desktop buttons & Mobile Menu Icon) */}
+          {/* Правая часть (Кнопки для десктопа и иконка меню для мобильных) */}
+          {/* ИСПРАВЛЕНИЕ: Этот блок теперь один, и он управляет видимостью своих дочерних элементов */}
           <div className="flex justify-end items-center">
-            {/* Desktop Buttons: Видимы на md экранах и выше */}
+            {/* Кнопки для десктопа: видимы только на экранах md и больше */}
             <div className="hidden md:flex items-center gap-2">
               <Button
                 variant="ghost"
@@ -252,13 +239,13 @@ export function Header() {
               >
                 Choose Path
               </Button>
-              <div className="border-r h-6 mx-1 self-center"></div> {/* Вертикальная черта */}
+              <div className="border-r h-6 mx-1 self-center"></div>
               <ContactDialog triggerText="Get started">
                 <Button>Get started</Button>
               </ContactDialog>
             </div>
 
-            {/* Mobile menu button: Видима на экранах меньше md */}
+            {/* Иконка меню для мобильных: видима только на экранах меньше md */}
             <div className="flex items-center md:hidden">
               <Button variant="ghost" size="icon" onClick={() => setMobileMenuOpen(!isMobileMenuOpen)} aria-label="Toggle menu">
                 {isMobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
@@ -267,14 +254,13 @@ export function Header() {
           </div>
         </div>
 
-        {/* Mobile navigation menu popup */}
+        {/* Выпадающее меню для мобильных */}
         {isMobileMenuOpen && (
-          // ... (код вашего мобильного выпадающего меню без изменений) ...
-          <div className="absolute top-[calc(var(--header-height,72px)-1px)] left-0 right-0 border-t bg-background shadow-lg py-4 px-4 flex flex-col gap-4 z-20 md:hidden">
+          <div className="absolute top-[calc(100%-1px)] left-0 right-0 border-t bg-background shadow-lg py-4 px-4 flex flex-col gap-4 z-20 md:hidden">
             {navigationItems.map((item) => (
               <div key={item.title} className="py-2 border-b border-border/20 last:border-b-0">
                 {item.href ? (
-                  <a href={item.href} onClick={(e) => handleNavClick(e, item.href!)} className="flex justify-between items-center text-foreground hover:text-primary transition-colors w-full py-1" >
+                  <a href={item.href} onClick={(e) => handleNavClick(e, item.href!)} className="flex justify-between items-center text-foreground hover:text-primary transition-colors w-full py-1">
                     <span className="text-base font-medium">{item.title}</span>
                     <MoveRight className="w-4 h-4 text-muted-foreground" />
                   </a>
@@ -283,7 +269,7 @@ export function Header() {
                     <p className="text-base font-medium text-foreground py-1">{item.title}</p>
                     <div className="pl-2 flex flex-col gap-1 mt-1">
                       {item.items?.map((subItem) => (
-                        <a key={subItem.title} href={subItem.href} onClick={(e) => handleNavClick(e, subItem.href)} className="flex justify-between items-center text-muted-foreground hover:text-primary transition-colors w-full py-1" >
+                        <a key={subItem.title} href={subItem.href} onClick={(e) => handleNavClick(e, subItem.href)} className="flex justify-between items-center text-muted-foreground hover:text-primary transition-colors w-full py-1">
                           <span>{subItem.title}</span>
                           <MoveRight className="w-4 h-4 stroke-1" />
                         </a>
@@ -294,7 +280,7 @@ export function Header() {
               </div>
             ))}
             <div className="pt-4 flex flex-col gap-3">
-              <Button className="w-full" onClick={() => { setChoosePathOpen(true); setMobileMenuOpen(false); }} >
+              <Button className="w-full" onClick={() => { setChoosePathOpen(true); setMobileMenuOpen(false); }}>
                 Choose Path
               </Button>
               <ContactDialog triggerText="Get started">
