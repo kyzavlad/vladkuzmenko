@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:wght@300;400;500;600;700;800;900&family=Playfair+Display:ital,wght@0,400;0,700;1,400;1,700&display=swap');
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -63,6 +64,8 @@
     --gold-light: 45 100% 60%;
     --gold-medium: 40 100% 50%;
     --gold-dark: 36 100% 40%;
+    --gold: 43 100% 50%;
+    --gold-rgb: 255, 215, 0;
   }
   .dark {
     --background: 0 0% 3.9%;
@@ -100,34 +103,36 @@
     --gold-light: 45 100% 60%;
     --gold-medium: 40 100% 50%;
     --gold-dark: 36 100% 40%;
+    --gold: 43 100% 50%;
+    --gold-rgb: 255, 215, 0;
   }
 }
 
-/* --- ИЗМЕНЕНИЯ ВНЕСЕНЫ ТОЛЬКО В ЭТОТ БЛОК --- */
 @layer base {
   * {
     @apply border-border;
     box-sizing: border-box;
   }
 
-  /* ДОБАВЛЕНО ПРАВИЛО ДЛЯ HTML */
   html {
     overflow-x: hidden;
   }
   
   body {
     @apply bg-background text-foreground;
-    /* ИЗМЕНЕНИЕ: overflow-x-hidden добавлен сюда, а max-width изменен на 100% */
     width: 100%;
-    max-width: 100%; /* Заменяем 100vw на 100% для большей надежности */
-    overflow-x: hidden; /* **КЛЮЧЕВОЕ ИЗМЕНЕНИЕ: предотвращает горизонтальную прокрутку** */
+    max-width: 100%;
+    overflow-x: hidden;
+    background: #000000;
+    background-image: 
+      radial-gradient(ellipse at top, rgba(255, 215, 0, 0.02) 0%, transparent 50%),
+      radial-gradient(ellipse at bottom, rgba(255, 215, 0, 0.01) 0%, transparent 50%);
   }
 
   .container {
     @apply px-4 sm:px-6 lg:px-8 mx-auto w-full max-w-full;
   }
 }
-/* --- КОНЕЦ ИЗМЕНЕНИЙ --- */
 
 .loader {
   width: 48px;
@@ -281,4 +286,183 @@
   height: 2px;
   background: linear-gradient(90deg, transparent, hsl(var(--gold-light)), transparent);
   opacity: 0.6;
+}
+
+/* Премиальные золотые градиенты */
+.gold-gradient {
+  background: linear-gradient(
+    135deg,
+    #FFD700 0%,
+    #FFC107 25%,
+    #FFD700 50%,
+    #FFC107 75%,
+    #FFD700 100%
+  );
+  background-size: 400% 400%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: gradient-shift 8s ease infinite;
+}
+
+@keyframes gradient-shift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* Премиальные тени */
+.premium-shadow {
+  box-shadow: 
+    0 0 20px rgba(255, 215, 0, 0.1),
+    0 5px 40px rgba(0, 0, 0, 0.4);
+}
+
+/* Премиальный скроллбар */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.1);
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, #FFD700, #FFC107);
+  border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, #FFC107, #FFD700);
+}
+
+/* Holographic эффекты */
+.holographic {
+  position: relative;
+  background: linear-gradient(45deg, #000, #111);
+  overflow: hidden;
+}
+
+.holographic::before {
+  content: '';
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  right: -2px;
+  bottom: -2px;
+  background: linear-gradient(
+    45deg,
+    #FFD700,
+    #FFC107,
+    #FFD700,
+    #FF9800,
+    #FFD700
+  );
+  border-radius: inherit;
+  z-index: -1;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  animation: holographic-rotate 3s linear infinite;
+}
+
+.holographic:hover::before {
+  opacity: 1;
+}
+
+@keyframes holographic-rotate {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Hover эффекты в стиле Warriors Team */
+.hover-lift {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.hover-lift:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 20px 40px rgba(255, 215, 0, 0.2);
+}
+
+/* Свечение для кнопок */
+.glow-effect {
+  position: relative;
+  overflow: hidden;
+}
+
+.glow-effect::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle, rgba(255, 215, 0, 0.3) 0%, transparent 70%);
+  transform: translate(-50%, -50%) scale(0);
+  transition: transform 0.5s ease;
+}
+
+.glow-effect:hover::before {
+  transform: translate(-50%, -50%) scale(1);
+}
+
+/* Path Visualizer стили */
+.path-node {
+  position: relative;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #FFD700, #FFC107);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.path-node:hover {
+  transform: scale(1.2);
+  box-shadow: 0 0 30px rgba(255, 215, 0, 0.5);
+}
+
+.path-line {
+  position: absolute;
+  height: 2px;
+  background: linear-gradient(90deg, #FFD700, transparent);
+  transform-origin: left center;
+}
+
+/* Live Counter стили */
+.revenue-counter {
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: "tnum";
+  font-weight: bold;
+  background: linear-gradient(135deg, #FFD700, #FFC107);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Neural Network Background */
+.neural-network {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  opacity: 0.1;
+}
+
+.neural-node {
+  position: absolute;
+  width: 4px;
+  height: 4px;
+  background: #FFD700;
+  border-radius: 50%;
+  box-shadow: 0 0 10px #FFD700;
+}
+
+.neural-connection {
+  position: absolute;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, #FFD700, transparent);
+  transform-origin: left center;
 }
