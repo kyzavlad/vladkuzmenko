@@ -1,58 +1,88 @@
 'use client';
+import React, { useRef } from 'react';
+import Image from 'next/image';
+import { Button } from './ui/button';
+import Link from 'next/link';
+import { ArrowDown } from 'lucide-react';
+import { motion, useScroll, useTransform } from 'framer-motion';
+import { SparklesCore } from './ui/sparkles';
 
-import React from 'react';
-import { motion } from 'framer-motion';
-import { AuroraBackground } from './ui/aurora-background';
-
-// Именованный экспорт, как в вашем коде
 export const PersonalBrandHero = () => {
-  return (
-    // AuroraBackground обеспечивает плавный фон
-    <AuroraBackground>
-        <section
-            className="relative w-full h-screen flex flex-col items-center justify-center text-white text-center p-4 overflow-hidden"
-        >
-            {/* Фоновое изображение с эффектами */}
-            <div 
-                className="absolute inset-0 bg-center bg-cover brightness-50 contrast-125"
-                style={{ 
-                    backgroundImage: "url('/warriors-bg.jpg')", // УКАЖИТЕ ПРАВИЛЬНЫЙ ПУТЬ К ВАШЕМУ ФОНУ
-                    transform: 'scale(1.1)', // Небольшое увеличение для эффекта
-                }}
-            />
-            {/* Градиентный оверлей для плавного затемнения краев */}
-            <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-transparent to-black/80"></div>
+  const targetRef = useRef<HTMLDivElement | null>(null);
+  const { scrollYProgress } = useScroll({
+    target: targetRef,
+    offset: ['end end', 'end start'],
+  });
+  const opacity = useTransform(scrollYProgress, [0, 0.5], [1, 0]);
+  const scale = useTransform(scrollYProgress, [0, 0.5], [1, 0.8]);
 
-            <div className="relative z-10 flex flex-col items-center">
-                <motion.h1 
-                    className="text-5xl md:text-7xl font-bold tracking-tight text-shadow-lg"
-                    style={{textShadow: '0px 4px 15px rgba(0,0,0,0.5)'}}
-                    initial={{ opacity: 0, y: 30 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
-                >
-                    VLAD KUZMENKO
-                </motion.h1>
-                <motion.p 
-                    className="mt-4 text-lg md:text-xl text-gray-200 max-w-2xl text-shadow"
-                     style={{textShadow: '0px 2px 10px rgba(0,0,0,0.7)'}}
-                    initial={{ opacity: 0, y: 30 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.8, delay: 0.4, ease: "easeOut" }}
-                >
-                    I build systems that generate money and freedom. This is where you learn to do the same.
-                </motion.p>
-                <motion.div 
-                    className="mt-8 flex flex-col sm:flex-row gap-4"
-                    initial={{ opacity: 0, y: 30 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.8, delay: 0.6, ease: "easeOut" }}
-                >
-                    <button className="px-8 py-3 rounded-md bg-white text-black font-semibold hover:bg-gray-200 transition-all transform hover:scale-105">Start Learning</button>
-                    <button className="px-8 py-3 rounded-md border border-white/50 text-white font-semibold hover:bg-white/10 transition-all transform hover:scale-105">Join The Warriors Team</button>
-                </motion.div>
-            </div>
-        </section>
-    </AuroraBackground>
+  const scrollToEducation = () => {
+    const educationSection = document.getElementById('education');
+    if (educationSection) {
+      educationSection.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
+  return (
+    <motion.section 
+      style={{ opacity }}
+      ref={targetRef}
+      className="relative w-full h-screen text-white overflow-hidden bg-black"
+    >
+      <div className="absolute inset-0 z-0">
+        <Image
+          src="/warriors-yacht-meeting.jpg" // Твое фото с командой на яхте
+          alt="Warriors Team Meeting"
+          fill={true}
+          style={{objectFit: 'cover'}}
+          className="opacity-20"
+          priority
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-background via-background/80 to-transparent z-10"></div>
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full">
+            <SparklesCore
+            id="tsparticlesfullpage"
+            background="transparent"
+            minSize={0.6}
+            maxSize={1.4}
+            particleDensity={50}
+            className="w-full h-full"
+            particleColor="#FFFFFF"
+            />
+        </div>
+      </div>
+      <motion.div 
+        style={{ scale }}
+        className="relative z-20 flex flex-col items-center justify-center h-full text-center px-4"
+      >
+        <h1 className="text-5xl md:text-7xl lg:text-8xl font-black uppercase tracking-wider">
+          VLAD KUZMENKO
+        </h1>
+        <p className="mt-4 text-lg md:text-2xl text-muted-foreground max-w-3xl">
+          I build systems that generate money and freedom.
+          <br />
+          This is where you learn how to build your own.
+        </p>
+        <div className="mt-8 flex flex-col sm:flex-row gap-4">
+          <Button size="lg" className="w-full sm:w-auto" onClick={scrollToEducation}>
+            Explore The University
+          </Button>
+          <Link href="/warriors-team" passHref target="_blank" rel="noopener noreferrer">
+            <Button size="lg" variant="outline" className="w-full sm:w-auto">
+              Join The Warriors Team
+            </Button>
+          </Link>
+        </div>
+        <motion.div
+            initial={{ y: -20, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            transition={{ duration: 0.5, delay: 1.5, repeat: Infinity, repeatType: 'reverse' }}
+            className="absolute bottom-10 cursor-pointer"
+            onClick={scrollToEducation}
+        >
+            <ArrowDown className="h-8 w-8 text-muted-foreground" />
+        </motion.div>
+      </motion.div>
+    </section>
   );
 };
