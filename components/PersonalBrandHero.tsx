@@ -27,11 +27,11 @@ export const PersonalBrandHero = () => {
     <motion.section 
       style={{ opacity }}
       ref={targetRef}
-      className="relative w-full h-screen text-white overflow-hidden"
+      className="relative w-full h-screen text-white overflow-hidden bg-black"
     >
       <div className="absolute inset-0 z-0">
         <Image
-          src="/warriors-yacht-meeting.jpg"
+          src="/warriors-yacht-meeting.jpg" // Твое фото с командой на яхте
           alt="Warriors Team Meeting"
           layout="fill"
           objectFit="cover"
@@ -86,3 +86,4 @@ export const PersonalBrandHero = () => {
     </section>
   );
 };
+
