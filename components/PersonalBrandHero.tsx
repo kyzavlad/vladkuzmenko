@@ -36,17 +36,20 @@ export const PersonalBrandHero = () => {
           layout="fill"
           objectFit="cover"
           className="opacity-20"
+          priority
         />
         <div className="absolute inset-0 bg-gradient-to-t from-background via-background/80 to-transparent z-10"></div>
-        <SparklesCore
-          id="tsparticlesfullpage"
-          background="transparent"
-          minSize={0.6}
-          maxSize={1.4}
-          particleDensity={50}
-          className="w-full h-full"
-          particleColor="#FFFFFF"
-        />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full">
+            <SparklesCore
+            id="tsparticlesfullpage"
+            background="transparent"
+            minSize={0.6}
+            maxSize={1.4}
+            particleDensity={50}
+            className="w-full h-full"
+            particleColor="#FFFFFF"
+            />
+        </div>
       </div>
       <motion.div 
         style={{ scale }}
@@ -74,12 +77,12 @@ export const PersonalBrandHero = () => {
             initial={{ y: -20, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             transition={{ duration: 0.5, delay: 1.5, repeat: Infinity, repeatType: 'reverse' }}
-            className="absolute bottom-10"
+            className="absolute bottom-10 cursor-pointer"
+            onClick={scrollToEducation}
         >
-            <ArrowDown className="h-8 w-8 text-muted-foreground cursor-pointer" onClick={scrollToEducation} />
+            <ArrowDown className="h-8 w-8 text-muted-foreground" />
         </motion.div>
       </motion.div>
     </section>
   );
 };
-
