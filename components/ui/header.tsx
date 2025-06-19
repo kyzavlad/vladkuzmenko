@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -9,315 +9,301 @@ import {
   NavigationMenuList,
   NavigationMenuTrigger,
 } from "@/components/ui/navigation-menu";
-import { Menu, MoveRight, X, Sparkles, BrainCircuit, Users, BookOpen } from "lucide-react";
+import { Menu, MoveRight, X } from "lucide-react";
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { ContactDialog } from "@/components/ui/contact-dialog";
-import { motion, AnimatePresence } from "framer-motion";
+import { StarBorder } from "@/components/ui/star-border";
 
 export function Header() {
   const [isMobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [isChoosePathOpen, setChoosePathOpen] = useState(false);
-  const [scrolled, setScrolled] = useState(false);
-
-  useEffect(() => {
-    const handleScroll = () => {
-      setScrolled(window.scrollY > 20);
-    };
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
 
   const navigationItems = [
-    { 
-      title: "Home", 
-      href: "/" 
-    },
+    { title: "Home", href: "/" },
     {
-      title: "Services",
+      title: "Product",
       description: "Explore our ecosystem of products and services",
       items: [
-        { title: "The University", href: "#education", icon: <BookOpen className="h-4 w-4" /> },
-        { title: "AI Automation", href: "/automation", icon: <BrainCircuit className="h-4 w-4" /> },
-        { title: "Warriors Team", href: "/warriors-team", icon: <Users className="h-4 w-4" /> },
-        { title: "Elite Equipment", href: "#merch", icon: <Sparkles className="h-4 w-4" /> },
+        { title: "The University", href: "#education" },
+        { title: "AI Automation", href: "#automation-teaser" },
+        { title: "Content Platform", href: "#saas-launch-section" },
+        { title: "Elite Equipment", href: "#merch" },
       ],
     },
     {
-      title: "Platform",
-      href: "#saas-launch-section"
-    },
-    {
-      title: "About",
-      description: "Learn about Vlad and the mission",
+      title: "Company",
+      description: "Learn more about our company and success stories.",
       items: [
         { title: "About Vlad", href: "#about" },
-        { title: "Success Stories", href: "#education" },
+        { title: "Warriors Team", href: "#warriors-team" },
+        { title: "Testimonials", href: "#testimonials" },
         { title: "Contact", href: "#contact" },
       ],
     },
   ];
 
-  const businessModels = [
-    {
-      icon: <BookOpen className="h-8 w-8 text-orange-500" />,
-      title: "The University",
-      description: "Master high-income skills",
-      href: "#education",
-      color: "from-orange-500/20 to-orange-600/10"
-    },
-    {
-      icon: <BrainCircuit className="h-8 w-8 text-purple-500" />,
-      title: "AI Automation Agency",
-      description: "Transform your business with AI",
-      href: "/automation",
-      color: "from-purple-500/20 to-purple-600/10"
-    },
-    {
-      icon: <Sparkles className="h-8 w-8 text-blue-500" />,
-      title: "Content Platform",
-      description: "Multiply your content output",
-      href: "#saas-launch-section",
-      color: "from-blue-500/20 to-blue-600/10"
-    },
-    {
-      icon: <Users className="h-8 w-8 text-red-500" />,
-      title: "Warriors Team",
-      description: "Join the brotherhood",
-      href: "/warriors-team",
-      color: "from-red-500/20 to-red-600/10"
-    }
-  ];
-
-  const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
+  const handleNavClick = (
+    e: React.MouseEvent<HTMLAnchorElement>,
+    href: string
+  ) => {
+    e.preventDefault();
+    setMobileMenuOpen(false);
     if (href.startsWith("#")) {
-      e.preventDefault();
       const element = document.querySelector(href);
       if (element) {
         element.scrollIntoView({ behavior: "smooth" });
       }
+    } else {
+      window.location.href = href; 
     }
-    setMobileMenuOpen(false);
   };
+  
+  useEffect(() => {
+    const handleEsc = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') {
+        setMobileMenuOpen(false);
+        setChoosePathOpen(false);
+      }
+    };
+    window.addEventListener('keydown', handleEsc);
+    return () => {
+      window.removeEventListener('keydown', handleEsc);
+    };
+  }, []);
 
   return (
     <>
-      {/* Choose Path Modal */}
-      <AnimatePresence>
-        {isChoosePathOpen && (
-          <>
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              className="fixed inset-0 bg-black/80 backdrop-blur-sm z-50"
-              onClick={() => setChoosePathOpen(false)}
-            />
-            <motion.div
-              initial={{ opacity: 0, scale: 0.95 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 0.95 }}
-              className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-50 w-full max-w-4xl px-4"
-            >
-              <div className="bg-zinc-950/95 backdrop-blur-sm border border-zinc-800 rounded-3xl p-8 premium-shadow">
-                <div className="flex justify-between items-center mb-8">
-                  <h2 className="text-3xl font-bold">Choose Your Path</h2>
-                  <Button
-                    variant="ghost"
-                    size="icon"
-                    onClick={() => setChoosePathOpen(false)}
-                    className="hover:bg-zinc-800"
-                  >
-                    <X className="h-5 w-5" />
-                  </Button>
-                </div>
+      {/* Blur overlay for Choose Path menu */}
+      {isChoosePathOpen && (
+        <div
+          className="fixed inset-0 bg-black/60 backdrop-blur-sm z-40"
+          onClick={() => setChoosePathOpen(false)}
+        />
+      )}
 
-                <div className="grid md:grid-cols-2 gap-6">
-                  {businessModels.map((model, index) => (
-                    <Link
-                      key={model.title}
-                      href={model.href}
-                      onClick={(e) => {
-                        handleNavClick(e, model.href);
-                        setChoosePathOpen(false);
-                      }}
-                    >
-                      <motion.div
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ delay: index * 0.1 }}
-                        className={`p-6 rounded-xl bg-gradient-to-r ${model.color} border border-zinc-800 hover:border-zinc-700 transition-all duration-300 hover-lift cursor-pointer group`}
-                      >
-                        <div className="flex items-start gap-4">
-                          <div className="flex-shrink-0">{model.icon}</div>
-                          <div className="flex-grow">
-                            <h3 className="text-xl font-bold mb-2 group-hover:text-orange-500 transition-colors">
-                              {model.title}
-                            </h3>
-                            <p className="text-gray-400">{model.description}</p>
-                          </div>
-                          <MoveRight className="h-5 w-5 text-gray-400 group-hover:text-white transition-colors" />
-                        </div>
-                      </motion.div>
-                    </Link>
-                  ))}
-                </div>
-              </div>
-            </motion.div>
-          </>
-        )}
-      </AnimatePresence>
+      {/* Choose Path Menu popup */}
+      {isChoosePathOpen && (
+        <div className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-50 w-full max-w-lg px-4">
+          <div className="bg-background/95 backdrop-blur-sm border border-border/40 rounded-2xl p-6 space-y-4">
+            <div className="flex justify-between items-center mb-6">
+              <h2 className="text-xl font-bold">Choose Your Path</h2>
+              <Button
+                variant="ghost"
+                size="icon"
+                onClick={() => setChoosePathOpen(false)}
+              >
+                <X className="h-5 w-5" />
+              </Button>
+            </div>
 
-      <header className={`w-full z-40 fixed top-0 left-0 transition-all duration-300 ${
-        scrolled ? 'bg-black/95 backdrop-blur-md border-b border-zinc-800' : 'bg-transparent'
-      }`}>
-        <div className="container mx-auto px-4">
-          <div className="flex items-center justify-between h-20">
-            {/* Left - Navigation */}
-            <div className="hidden lg:flex items-center flex-1">
-              <NavigationMenu>
-                <NavigationMenuList>
-                  {navigationItems.map((item) => (
-                    <NavigationMenuItem key={item.title}>
-                      {item.href ? (
-                        <Link href={item.href} passHref legacyBehavior>
-                          <NavigationMenuLink className="px-4 py-2 text-sm font-medium hover:text-orange-500 transition-colors">
-                            {item.title}
-                          </NavigationMenuLink>
-                        </Link>
-                      ) : (
-                        <>
-                          <NavigationMenuTrigger className="text-sm font-medium">
-                            {item.title}
-                          </NavigationMenuTrigger>
-                          <NavigationMenuContent>
-                            <div className="w-96 p-6">
-                              <p className="text-sm text-gray-400 mb-4">{item.description}</p>
-                              <div className="space-y-2">
-                                {item.items?.map((subItem) => (
-                                  <a
-                                    key={subItem.title}
-                                    href={subItem.href}
-                                    onClick={(e) => handleNavClick(e, subItem.href)}
-                                    className="flex items-center gap-3 p-3 rounded-lg hover:bg-zinc-900 transition-colors group"
-                                  >
-                                    {subItem.icon && subItem.icon}
-                                    <div className="flex-grow">
-                                      <span className="font-medium group-hover:text-orange-500 transition-colors">
-                                        {subItem.title}
-                                      </span>
-                                    </div>
-                                    <MoveRight className="w-4 h-4 text-gray-400 group-hover:text-orange-500 transition-colors" />
-                                  </a>
-                                ))}
+            <Link href="/#education" onClick={(e) => { handleNavClick(e, "/#education"); setChoosePathOpen(false); }}>
+              <StarBorder
+                className="w-full mb-4 hover:scale-[1.02] transition-transform cursor-pointer"
+                color="hsl(var(--gold))"
+              >
+                <div className="flex items-center justify-between">
+                  <div className="text-left">
+                    <h3 className="font-semibold text-lg">The University</h3>
+                    <p className="text-muted-foreground text-sm">Master high-income skills and build your empire</p>
+                  </div>
+                  <MoveRight className="h-5 w-5 text-muted-foreground" />
+                </div>
+              </StarBorder>
+            </Link>
+
+            <Link href="/automation" onClick={(e) => { window.open('/automation', '_blank'); setChoosePathOpen(false); e.preventDefault(); }}>
+              <StarBorder
+                className="w-full mb-4 hover:scale-[1.02] transition-transform cursor-pointer"
+                color="hsl(var(--color-2))"
+              >
+                <div className="flex items-center justify-between">
+                  <div className="text-left">
+                    <h3 className="font-semibold text-lg">AI Automation Agency</h3>
+                    <p className="text-muted-foreground text-sm">Transform your business with AI</p>
+                  </div>
+                  <MoveRight className="h-5 w-5 text-muted-foreground" />
+                </div>
+              </StarBorder>
+            </Link>
+
+            <Link href="/#saas-launch-section" onClick={(e) => { handleNavClick(e, "/#saas-launch-section"); setChoosePathOpen(false); }}>
+              <StarBorder
+                className="w-full mb-4 hover:scale-[1.02] transition-transform cursor-pointer"
+                color="hsl(var(--color-3))"
+              >
+                <div className="flex items-center justify-between">
+                  <div className="text-left">
+                    <h3 className="font-semibold text-lg">Content Platform</h3>
+                    <p className="text-muted-foreground text-sm">Multiply your content output with AI</p>
+                  </div>
+                  <MoveRight className="h-5 w-5 text-muted-foreground" />
+                </div>
+              </StarBorder>
+            </Link>
+            
+            <Link href="/warriors-team" passHref legacyBehavior>
+              <a 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                onClick={() => setChoosePathOpen(false)}
+                className="block cursor-pointer" 
+              >
+                <StarBorder 
+                  className="w-full hover:scale-[1.02] transition-transform"
+                  color="hsl(var(--color-1))"
+                >
+                  <div className="flex items-center justify-between">
+                    <div className="text-left">
+                      <h3 className="font-semibold text-lg">Warriors Team</h3>
+                      <p className="text-muted-foreground text-sm">Join our elite community</p>
+                    </div>
+                    <MoveRight className="h-5 w-5 text-muted-foreground" />
+                  </div>
+                </StarBorder>
+              </a>
+            </Link>
+          </div>
+        </div>
+      )}
+
+      <header className="w-full z-30 fixed top-0 left-0 bg-background/95 backdrop-blur-sm border-b border-border/40">
+        <div className="container relative mx-auto py-4 md:py-5 flex flex-row items-center justify-between lg:grid lg:grid-cols-[auto_minmax(0,1fr)_auto] lg:gap-x-4">
+          
+          {/* Left side (Desktop navigation) */}
+          <div className="hidden lg:flex justify-start items-center">
+            <NavigationMenu>
+              <NavigationMenuList className="flex flex-row gap-1">
+                {navigationItems.map((item) => (
+                  <NavigationMenuItem key={item.title}>
+                    {item.href ? (
+                      <NavigationMenuLink asChild>
+                        <a
+                          href={item.href}
+                          onClick={(e) => handleNavClick(e, item.href!)}
+                          className="inline-flex h-10 items-center justify-center whitespace-nowrap rounded-md px-3 py-2 text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground focus:outline-none disabled:pointer-events-none disabled:opacity-50"
+                        >
+                          {item.title}
+                        </a>
+                      </NavigationMenuLink>
+                    ) : (
+                      <>
+                        <NavigationMenuTrigger className="h-10 px-3 py-2 font-medium text-sm">
+                          {item.title}
+                        </NavigationMenuTrigger>
+                        <NavigationMenuContent className="!w-[450px] p-4">
+                          <div className="flex flex-col lg:grid grid-cols-2 gap-4">
+                            <div className="flex flex-col h-full justify-between">
+                              <div>
+                                <p className="text-base font-semibold">{item.title}</p>
+                                <p className="text-muted-foreground text-sm mt-1">
+                                  {item.description}
+                                </p>
+                              </div>
+                              <div>
+                                <ContactDialog triggerText="Book a call today">
+                                  <Button size="sm" className="mt-6 w-full md:w-auto">
+                                    Book a call today
+                                  </Button>
+                                </ContactDialog>
                               </div>
                             </div>
-                          </NavigationMenuContent>
-                        </>
-                      )}
-                    </NavigationMenuItem>
-                  ))}
-                </NavigationMenuList>
-              </NavigationMenu>
-            </div>
+                            <div className="flex flex-col text-sm gap-1">
+                              {item.items?.map((subItem) => (
+                                <a
+                                  href={subItem.href}
+                                  key={subItem.title}
+                                  onClick={(e) => handleNavClick(e, subItem.href)}
+                                  className="flex flex-row justify-between items-center hover:bg-accent hover:text-accent-foreground py-2 px-3 rounded-md transition-colors"
+                                >
+                                  <span>{subItem.title}</span>
+                                  <MoveRight className="w-4 h-4 text-muted-foreground" />
+                                </a>
+                              ))}
+                            </div>
+                          </div>
+                        </NavigationMenuContent>
+                      </>
+                    )}
+                  </NavigationMenuItem>
+                ))}
+              </NavigationMenuList>
+            </NavigationMenu>
+          </div>
 
-            {/* Center - Logo */}
-            <div className="flex-shrink-0">
-              <Link href="/" className="flex items-center">
-                <span className="text-2xl font-display font-bold animated-gradient">
-                  VladKuzmenko
+          {/* Center (Logo) */}
+          <div className="flex justify-center items-center min-w-0"> 
+            <div className="logo-container relative"> 
+              <a href="/" className="flex items-center" aria-label="VladKuzmenko.com Home">
+                <span 
+                  className="text-xl sm:text-2xl font-bold tracking-tighter bg-clip-text text-transparent bg-gradient-to-r from-foreground via-foreground to-foreground/30 dark:from-white dark:via-white dark:to-white/30 font-serif italic"
+                >
+                  VladKuzmenko.com
                 </span>
-              </Link>
+              </a>
             </div>
+          </div>
 
-            {/* Right - Actions */}
-            <div className="hidden lg:flex items-center gap-4 flex-1 justify-end">
+          {/* Right side (Desktop buttons & Mobile Menu Icon) */}
+          <div className="flex justify-end items-center">
+            {/* Desktop Buttons */}
+            <div className="hidden md:flex items-center gap-2">
               <Button
                 variant="ghost"
                 onClick={() => setChoosePathOpen(true)}
-                className="hover:text-orange-500"
               >
                 Choose Path
               </Button>
-              <ContactDialog triggerText="Get Started">
-                <Button className="bg-gradient-to-r from-orange-600 to-orange-500 hover:from-orange-500 hover:to-orange-400">
-                  Get Started
-                </Button>
+              <div className="border-r h-6 mx-1 self-center"></div>
+              <ContactDialog triggerText="Get started">
+                <Button>Get started</Button>
               </ContactDialog>
             </div>
 
-            {/* Mobile Menu Button */}
-            <div className="flex lg:hidden">
-              <Button 
-                variant="ghost" 
-                size="icon" 
-                onClick={() => setMobileMenuOpen(!isMobileMenuOpen)}
-              >
-                {isMobileMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+            {/* Mobile menu button */}
+            <div className="flex items-center md:hidden">
+              <Button variant="ghost" size="icon" onClick={() => setMobileMenuOpen(!isMobileMenuOpen)} aria-label="Toggle menu">
+                {isMobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
               </Button>
             </div>
           </div>
         </div>
 
-        {/* Mobile Menu */}
-        <AnimatePresence>
-          {isMobileMenuOpen && (
-            <motion.div
-              initial={{ opacity: 0, height: 0 }}
-              animate={{ opacity: 1, height: 'auto' }}
-              exit={{ opacity: 0, height: 0 }}
-              className="lg:hidden bg-black/95 backdrop-blur-md border-t border-zinc-800"
-            >
-              <div className="container mx-auto px-4 py-6 space-y-4">
-                {navigationItems.map((item) => (
-                  <div key={item.title}>
-                    {item.href ? (
-                      <a
-                        href={item.href}
-                        onClick={(e) => handleNavClick(e, item.href)}
-                        className="block py-2 text-lg font-medium hover:text-orange-500 transition-colors"
-                      >
-                        {item.title}
-                      </a>
-                    ) : (
-                      <div>
-                        <p className="py-2 text-lg font-medium">{item.title}</p>
-                        <div className="pl-4 space-y-2">
-                          {item.items?.map((subItem) => (
-                            <a
-                              key={subItem.title}
-                              href={subItem.href}
-                              onClick={(e) => handleNavClick(e, subItem.href)}
-                              className="block py-1 text-gray-400 hover:text-orange-500 transition-colors"
-                            >
-                              {subItem.title}
-                            </a>
-                          ))}
-                        </div>
-                      </div>
-                    )}
+        {/* Mobile navigation menu popup */}
+        {isMobileMenuOpen && (
+          <div className="absolute top-[calc(var(--header-height,72px)-1px)] left-0 right-0 border-t bg-background shadow-lg py-4 px-4 flex flex-col gap-4 z-20 md:hidden">
+            {navigationItems.map((item) => (
+              <div key={item.title} className="py-2 border-b border-border/20 last:border-b-0">
+                {item.href ? (
+                  <a href={item.href} onClick={(e) => handleNavClick(e, item.href!)} className="flex justify-between items-center text-foreground hover:text-primary transition-colors w-full py-1" >
+                    <span className="text-base font-medium">{item.title}</span>
+                    <MoveRight className="w-4 h-4 text-muted-foreground" />
+                  </a>
+                ) : (
+                  <div>
+                    <p className="text-base font-medium text-foreground py-1">{item.title}</p>
+                    <div className="pl-2 flex flex-col gap-1 mt-1">
+                      {item.items?.map((subItem) => (
+                        <a key={subItem.title} href={subItem.href} onClick={(e) => handleNavClick(e, subItem.href)} className="flex justify-between items-center text-muted-foreground hover:text-primary transition-colors w-full py-1" >
+                          <span>{subItem.title}</span>
+                          <MoveRight className="w-4 h-4 stroke-1" />
+                        </a>
+                      ))}
+                    </div>
                   </div>
-                ))}
-                <div className="pt-4 space-y-3">
-                  <Button 
-                    className="w-full"
-                    onClick={() => {
-                      setChoosePathOpen(true);
-                      setMobileMenuOpen(false);
-                    }}
-                  >
-                    Choose Path
-                  </Button>
-                  <ContactDialog triggerText="Get Started">
-                    <Button variant="outline" className="w-full">
-                      Get Started
-                    </Button>
-                  </ContactDialog>
-                </div>
+                )}
               </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
+            ))}
+            <div className="pt-4 flex flex-col gap-3">
+              <Button className="w-full" onClick={() => { setChoosePathOpen(true); setMobileMenuOpen(false); }} >
+                Choose Path
+              </Button>
+              <ContactDialog triggerText="Get started">
+                <Button variant="outline" className="w-full">Get started</Button>
+              </ContactDialog>
+            </div>
+          </div>
+        )}
       </header>
     </>
   );
