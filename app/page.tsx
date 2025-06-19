@@ -7,15 +7,13 @@ import { MerchPreviewSection } from "@/components/MerchPreviewSection";
 
 export default function Home() {
   return (
-    <> {/* Используем Fragment, так как Header и Footer теперь в layout.tsx */}
-      
+    // Header и Footer теперь в layout.tsx, так что основной контент здесь
+    <> 
       {/* 1. Твой новый главный экран */}
       <PersonalBrandHero />
       
       {/* 2. Детальный блок образовательной платформы - главный продукт */}
       <EducationPlatformSection />
-
-      {/* Я убрал TestimonialsSection и заменил старые тизеры на новые */}
       
       {/* 3. Новый, мощный тизер Агентства */}
       <AutomationTeaserSection />
@@ -28,8 +26,6 @@ export default function Home() {
 
       {/* 6. Превью Мерча */}
       <MerchPreviewSection />
-      
     </>
   );
 }
-
