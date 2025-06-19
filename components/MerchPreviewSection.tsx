@@ -1,41 +1,45 @@
+'use client';
 import React from 'react';
 import Image from 'next/image';
 import { Button } from './ui/button';
-import Link from 'next/link';
+import { ShoppingCart } from 'lucide-react';
+import { useCart } from './EducationPlatformSection'; // Импортируем хук корзины
 
 const merchItems = [
-    {
-        name: 'VK Performance Tee',
-        image: '/images/merch/tshirt.png', // Замени на путь к мокапу футболки
-    },
-    {
-        name: 'WARRIOR FUEL Whey Protein',
-        image: '/images/merch/protein.png', // Замени на путь к мокапу спортпита
-    },
+    { name: 'VK Performance Tee', image: '/images/merch/tshirt.png', price: 45.00, category: 'Apparel' },
+    { name: 'WARRIOR FUEL Whey Protein', image: '/images/merch/protein.png', price: 69.99, category: 'Supplements' },
+    { name: 'VK Boxing Gloves', image: '/images/merch/gloves.png', price: 89.00, category: 'Equipment' },
+    { name: 'Nasal Breathing Strips', image: '/images/merch/nasal-strips.png', price: 29.99, category: 'Performance Gear' },
 ];
 
 export const MerchPreviewSection = () => {
+    const { addToCart } = useCart();
+    
     return (
-        <section id="merch" className="py-20 lg:py-32">
+        <section id="merch" className="py-20 lg:py-32 bg-secondary/30">
             <div className="container mx-auto px-4 text-center">
-                <h2 className="text-4xl lg:text-5xl font-bold mb-4">EQUIPMENT</h2>
+                <h2 className="text-4xl lg:text-5xl font-black uppercase mb-4 tracking-wider">EQUIPMENT & APPAREL</h2>
                 <p className="text-lg text-muted-foreground max-w-2xl mx-auto mb-12">
-                    High-performance apparel and supplements for those who operate at peak level.
+                    High-performance gear for those who operate at peak level.
                 </p>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
                     {merchItems.map((item) => (
-                        <div key={item.name} className="bg-secondary/30 border border-border/50 rounded-lg p-6">
-                            <div className="aspect-square bg-background rounded-md mb-4 flex items-center justify-center">
-                                <Image src={item.image} alt={item.name} width={400} height={400} className="object-contain" />
+                        <div key={item.name} className="group relative bg-background border border-border/50 rounded-lg p-4 flex flex-col text-left transition-all duration-300 hover:shadow-primary/20 hover:shadow-2xl">
+                            <div className="aspect-square bg-secondary/30 rounded-md mb-4 overflow-hidden">
+                                <Image src={item.image} alt={item.name} width={400} height={400} className="object-cover group-hover:scale-105 transition-transform duration-300" />
                             </div>
-                            <h3 className="text-2xl font-bold">{item.name}</h3>
+                            <div className="flex-grow">
+                                <p className="text-sm text-muted-foreground">{item.category}</p>
+                                <h3 className="text-xl font-bold mt-1">{item.name}</h3>
+                            </div>
+                            <div className="flex items-center justify-between mt-4">
+                                <p className="text-2xl font-bold">${item.price.toFixed(2)}</p>
+                                <Button size="icon" onClick={() => addToCart(item)}>
+                                    <ShoppingCart className="h-5 w-5" />
+                                </Button>
+                            </div>
                         </div>
                     ))}
-                </div>
-                <div className="mt-12">
-                    <Link href="/merch-waitlist" passHref>
-                        <Button size="lg" variant="secondary">Get Notified on Launch</Button>
-                    </Link>
                 </div>
             </div>
         </section>
