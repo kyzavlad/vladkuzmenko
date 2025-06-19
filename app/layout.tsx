@@ -35,7 +35,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"
           strategy="afterInteractive"
         />
-        {/* Скрываем дефолтный UI */}
         <style>{`
           .goog-te-banner-frame, .goog-te-menu-frame,
           #google_translate_element,
@@ -47,13 +46,13 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         `}</style>
       </head>
       <body suppressHydrationWarning>
-        <CartProvider> {/* <-- ОБЕРНУЛИ В ПРОВАЙДЕР КОРЗИНЫ */}
+        <CartProvider>
           <ThemeProviderWrapper>
             <div id="google_translate_element" className="hidden" />
             {children}
             <VoiceflowScript />
             <TranslateSwitcher />
-            <ShoppingCartSidebar /> {/* <-- ДОБАВИЛИ САМУ КОРЗИНУ */}
+            <ShoppingCartSidebar />
           </ThemeProviderWrapper>
         </CartProvider>
       </body>
