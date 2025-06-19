@@ -33,8 +33,8 @@ export const PersonalBrandHero = () => {
         <Image
           src="/warriors-yacht-meeting.jpg" // Твое фото с командой на яхте
           alt="Warriors Team Meeting"
-          layout="fill"
-          objectFit="cover"
+          fill={true}
+          style={{objectFit: 'cover'}}
           className="opacity-20"
           priority
         />
