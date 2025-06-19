@@ -8,7 +8,7 @@ import { motion } from 'framer-motion';
 
 const automationOffers = [
   {
-    icon: <MessageSquare className="h-10 w-10 text-orange-500" />,
+    icon: <MessageSquare className="h-10 w-10 text-[#FFD700]" />,
     title: "AI Chat Lead Capture",
     subtitle: "24/7 Lead Converter",
     price: "$2,500",
@@ -21,7 +21,7 @@ const automationOffers = [
     ]
   },
   {
-    icon: <Phone className="h-10 w-10 text-orange-500" />,
+    icon: <Phone className="h-10 w-10 text-[#FFD700]" />,
     title: "AI Calling Assistant",
     subtitle: "Never Miss a Call",
     price: "$3,000",
@@ -34,7 +34,7 @@ const automationOffers = [
     ]
   },
   {
-    icon: <Video className="h-10 w-10 text-orange-500" />,
+    icon: <Video className="h-10 w-10 text-[#FFD700]" />,
     title: "Content Automation System",
     subtitle: "Content Multiplication",
     price: "$2,000",
@@ -47,7 +47,7 @@ const automationOffers = [
     ]
   },
   {
-    icon: <BrainCircuit className="h-10 w-10 text-orange-500" />,
+    icon: <BrainCircuit className="h-10 w-10 text-[#FFD700]" />,
     title: "Full AI Business System",
     subtitle: "Complete Transformation",
     price: "From $15,000",
@@ -63,103 +63,91 @@ const automationOffers = [
 
 export const AutomationTeaserSection = () => {
   return (
-    <section id="automation-teaser" className="py-20 lg:py-32 bg-gradient-to-b from-black to-zinc-950 section-transition">
-      <div className="container mx-auto px-4">
-        <motion.div 
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="text-center max-w-4xl mx-auto mb-16"
-        >
-          <p className="text-orange-500 font-semibold mb-4 uppercase tracking-wider">For Established Businesses</p>
-          <h2 className="text-5xl lg:text-7xl font-heading uppercase mb-6">
-            AI <span className="text-orange-500">Automation</span> Agency
-          </h2>
-          <p className="text-xl text-gray-300 leading-relaxed">
-            We don't just implement tools. We architect <span className="text-white font-semibold">intelligent systems</span> that 
-            transform your operations and multiply your revenue while you sleep.
-          </p>
-        </motion.div>
+    <section id="automation-teaser" className="w-full py-24 md:py-32 bg-background relative overflow-hidden">
+      {/* Background gradient */}
+      <div className="absolute inset-0 opacity-5">
+        <div className="absolute top-[20%] -right-[10%] w-[50%] h-[50%] bg-gradient-radial from-[#FFD700] to-transparent blur-3xl"></div>
+        <div className="absolute -bottom-[20%] -left-[10%] w-[40%] h-[40%] bg-gradient-radial from-[#FFC107] to-transparent blur-3xl"></div>
+      </div>
+      
+      <div className="container mx-auto relative z-10">
+        <div className="max-w-7xl mx-auto">
+          {/* Header */}
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="text-center mb-20"
+          >
+            <p className="text-[#FFD700] font-semibold mb-4 uppercase tracking-wider">For Established Businesses</p>
+            <h2 className="text-5xl md:text-7xl font-black mb-8 tracking-tight">
+              AI <span className="gold-gradient">AUTOMATION</span> AGENCY
+            </h2>
+            <p className="text-2xl md:text-3xl font-semibold mb-6 text-foreground/90 max-w-4xl mx-auto">
+              We don't just implement tools. We architect <span className="font-bold text-foreground">intelligent systems</span>.
+            </p>
+            <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
+              Transform your operations and multiply your revenue while you sleep.
+            </p>
+          </motion.div>
 
-        {/* Offers Grid */}
-        <div className="grid md:grid-cols-2 gap-8 mb-16 max-w-6xl mx-auto">
-          {automationOffers.map((offer, index) => (
+          {/* Offers Grid */}
+          <div className="space-y-24">
+            <div className="grid md:grid-cols-2 gap-8 max-w-6xl mx-auto">
+              {automationOffers.map((offer, index) => (
+                <motion.div
+                  key={offer.title}
+                  initial={{ opacity: 0, y: 30 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: index * 0.1 }}
+                  className="relative group"
+                >
+                  <div className="absolute -inset-1 bg-gradient-to-r from-[#FFD700]/20 to-[#FFC107]/20 rounded-2xl blur-xl group-hover:blur-2xl transition-all duration-500 opacity-70"></div>
+                  <div className="relative bg-zinc-900/50 rounded-2xl p-8 border border-zinc-800 hover:border-[#FFD700]/30 transition-all duration-300 hover-lift holographic">
+                    <div className="flex items-start justify-between mb-6">
+                      <div>
+                        {offer.icon}
+                        <h3 className="text-2xl font-bold mt-4">{offer.title}</h3>
+                        <p className="text-[#FFD700] font-semibold">{offer.subtitle}</p>
+                      </div>
+                      <span className="text-2xl font-bold text-[#FFD700]">{offer.price}</span>
+                    </div>
+                    
+                    <p className="text-gray-400 mb-6">{offer.description}</p>
+                    
+                    <ul className="space-y-2">
+                      {offer.features.map((feature) => (
+                        <li key={feature} className="flex items-center gap-2 text-sm text-gray-300">
+                          <CheckCircle className="h-4 w-4 text-green-500 flex-shrink-0" />
+                          <span>{feature}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                </motion.div>
+              ))}
+            </div>
+
+            {/* Stats */}
             <motion.div
-              key={offer.title}
-              initial={{ opacity: 0, y: 30 }}
+              initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ delay: index * 0.1 }}
-              className="bg-zinc-900/50 rounded-2xl p-8 border border-zinc-800 hover:border-orange-500/30 transition-all duration-300 hover-lift"
+              className="grid grid-cols-2 md:grid-cols-4 gap-8 max-w-4xl mx-auto"
             >
-              <div className="flex items-start justify-between mb-6">
-                <div>
-                  {offer.icon}
-                  <h3 className="text-2xl font-bold mt-4">{offer.title}</h3>
-                  <p className="text-orange-500 font-semibold">{offer.subtitle}</p>
-                </div>
-                <span className="text-2xl font-bold text-orange-500">{offer.price}</span>
+              <div className="text-center">
+                <p className="text-5xl font-bold gold-gradient">300+</p>
+                <p className="text-gray-400 mt-2">Active Clients</p>
               </div>
-              
-              <p className="text-gray-400 mb-6">{offer.description}</p>
-              
-              <ul className="space-y-2">
-                {offer.features.map((feature) => (
-                  <li key={feature} className="flex items-center gap-2 text-sm text-gray-300">
-                    <CheckCircle className="h-4 w-4 text-green-500 flex-shrink-0" />
-                    <span>{feature}</span>
-                  </li>
-                ))}
-              </ul>
-            </motion.div>
-          ))}
-        </div>
-
-        {/* Stats */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-16 max-w-4xl mx-auto"
-        >
-          <div className="text-center">
-            <p className="text-5xl font-bold text-orange-500">300+</p>
-            <p className="text-gray-400 mt-2">Active Clients</p>
-          </div>
-          <div className="text-center">
-            <p className="text-5xl font-bold text-orange-500">95%</p>
-            <p className="text-gray-400 mt-2">Automation Rate</p>
-          </div>
-          <div className="text-center">
-            <p className="text-5xl font-bold text-orange-500">3.2x</p>
-            <p className="text-gray-400 mt-2">Average ROI</p>
-          </div>
-          <div className="text-center">
-            <p className="text-5xl font-bold text-orange-500">24/7</p>
-            <p className="text-gray-400 mt-2">System Uptime</p>
-          </div>
-        </motion.div>
-
-        {/* CTA */}
-        <motion.div
-          initial={{ opacity: 0, scale: 0.95 }}
-          whileInView={{ opacity: 1, scale: 1 }}
-          viewport={{ once: true }}
-          className="text-center"
-        >
-          <Link href="/automation" target="_blank" rel="noopener noreferrer">
-            <Button 
-              size="lg" 
-              className="bg-gradient-to-r from-orange-600 to-orange-500 hover:from-orange-500 hover:to-orange-400 px-12 py-6 text-lg font-semibold"
-            >
-              Explore All Services →
-            </Button>
-          </Link>
-          <p className="text-sm text-gray-500 mt-4">
-            Free AI opportunity audit for qualified businesses
-          </p>
-        </motion.div>
-      </div>
-    </section>
-  );
-};
+              <div className="text-center">
+                <p className="text-5xl font-bold gold-gradient">95%</p>
+                <p className="text-gray-400 mt-2">Automation Rate</p>
+              </div>
+              <div className="text-center">
+                <p className="text-5xl font-bold gold-gradient">3.2x</p>
+                <p className="text-gray-400 mt-2">Average ROI</p>
+              </div>
+              <div className="text-center">
+                <p className="text-5xl font-bold gold-gradient">24/7</p>
+                <p className="text-gray-400 mt-2
