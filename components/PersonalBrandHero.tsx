@@ -6,9 +6,11 @@ import Link from 'next/link';
 import { Button } from './ui/button';
 import { motion } from 'framer-motion';
 import { ArrowRight, Play } from 'lucide-react';
+import { SuccessPathVisualizer } from './SuccessPathVisualizer';
 
 export const PersonalBrandHero = () => {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+  const [showPathVisualizer, setShowPathVisualizer] = useState(false);
 
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
@@ -19,55 +21,42 @@ export const PersonalBrandHero = () => {
   }, []);
 
   return (
-    <section className="relative w-full min-h-screen text-white overflow-hidden bg-gradient-to-b from-black via-zinc-950 to-black">
-      {/* Динамический фон с параллаксом */}
-      <div className="absolute inset-0 z-0">
-        <motion.div
-          className="absolute inset-0"
-          style={{
-            x: mousePosition.x * 0.02,
-            y: mousePosition.y * 0.02,
-          }}
-        >
-          <Image
-            src="/vlad-hero-bg.jpg"
-            alt="Vlad Kuzmenko"
-            fill
-            className="object-cover hero-image-mask"
-            priority
-            quality={100}
+    <section className="relative w-full min-h-screen text-white overflow-hidden bg-black">
+      {/* Neural Network Background */}
+      <div className="neural-network">
+        {[...Array(50)].map((_, i) => (
+          <motion.div
+            key={`node-${i}`}
+            className="neural-node"
+            initial={{ 
+              x: Math.random() * window.innerWidth,
+              y: Math.random() * window.innerHeight,
+            }}
+            animate={{
+              x: Math.random() * window.innerWidth,
+              y: Math.random() * window.innerHeight,
+            }}
+            transition={{
+              duration: Math.random() * 20 + 10,
+              repeat: Infinity,
+              repeatType: "reverse",
+            }}
           />
-        </motion.div>
-        
-        {/* Градиентные слои для эффекта глубины */}
-        <div className="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent opacity-80" />
-        <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-transparent to-black/80" />
-        
-        {/* Анимированные частицы */}
-        <div className="absolute inset-0">
-          {[...Array(20)].map((_, i) => (
-            <motion.div
-              key={i}
-              className="absolute w-1 h-1 bg-orange-500/30 rounded-full"
-              animate={{
-                x: [0, Math.random() * 1000 - 500],
-                y: [0, Math.random() * 1000 - 500],
-              }}
-              transition={{
-                duration: Math.random() * 20 + 10,
-                repeat: Infinity,
-                repeatType: "reverse",
-              }}
-              style={{
-                left: `${Math.random() * 100}%`,
-                top: `${Math.random() * 100}%`,
-              }}
-            />
-          ))}
-        </div>
+        ))}
       </div>
 
-      {/* Контент */}
+      {/* Background Image with Overlay */}
+      <div className="absolute inset-0 z-0">
+        <Image
+          src="/warriors-yacht-meeting.jpg"
+          alt="Background"
+          fill
+          className="object-cover opacity-20"
+        />
+        <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/50 to-black/70" />
+      </div>
+
+      {/* Content */}
       <div className="relative z-10 min-h-screen flex flex-col items-center justify-center px-4 py-20">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
@@ -75,80 +64,53 @@ export const PersonalBrandHero = () => {
           transition={{ duration: 1, delay: 0.2 }}
           className="text-center"
         >
-          {/* Премиальное имя с анимацией */}
-          <h1 className="relative mb-8">
-            <span className="block text-6xl md:text-8xl lg:text-9xl font-display font-bold tracking-tight">
-              <span className="animated-gradient">VLAD</span>
-            </span>
-            <span className="block text-5xl md:text-7xl lg:text-8xl font-display font-light italic mt-2">
-              <span className="text-white/90">KUZMENKO</span>
-            </span>
-            
-            {/* Декоративные элементы */}
-            <div className="absolute -top-10 -left-10 w-20 h-20 border-t-2 border-l-2 border-orange-500/30" />
-            <div className="absolute -bottom-10 -right-10 w-20 h-20 border-b-2 border-r-2 border-orange-500/30" />
+          {/* Premium Name with Gold Gradient */}
+          <h1 className="text-5xl md:text-7xl lg:text-8xl font-bold text-center mb-6">
+            <span className="gold-gradient">VLAD KUZMENKO</span>
           </h1>
 
-          {/* Подзаголовок */}
-          <motion.p
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 1, delay: 0.5 }}
-            className="text-xl md:text-2xl lg:text-3xl max-w-4xl mx-auto mb-12 text-gray-300 font-light leading-relaxed"
-          >
-            I build <span className="text-orange-500 font-semibold">systems</span> that generate{" "}
-            <span className="text-orange-500 font-semibold">money</span> and{" "}
-            <span className="text-orange-500 font-semibold">freedom</span>.
+          <p className="text-xl md:text-2xl text-center max-w-3xl mb-8 text-gray-300">
+            I build systems that generate money and freedom.
             <br />
             This is where you learn to do the same.
-          </motion.p>
+          </p>
 
-          {/* CTA кнопки */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.8 }}
-            className="flex flex-col sm:flex-row gap-6 justify-center"
-          >
+          <div className="flex flex-col sm:flex-row gap-4 justify-center mb-8">
             <Link href="#education">
               <Button 
                 size="lg" 
-                className="group bg-gradient-to-r from-orange-600 to-orange-500 hover:from-orange-500 hover:to-orange-400 text-white px-8 py-6 text-lg font-semibold glow-effect"
+                className="bg-gradient-to-r from-[#FFD700] to-[#FFC107] hover:from-[#FFC107] to-[#FFD700] text-black font-bold glow-effect"
               >
                 Start Learning
-                <ArrowRight className="ml-2 h-5 w-5 transition-transform group-hover:translate-x-1" />
+                <ArrowRight className="ml-2 h-5 w-5" />
               </Button>
             </Link>
-            
             <Link href="/warriors-team">
               <Button 
                 size="lg" 
                 variant="outline" 
-                className="border-2 border-orange-500/50 text-white hover:bg-orange-500/10 hover:border-orange-500 px-8 py-6 text-lg font-semibold backdrop-blur-sm"
+                className="border-[#FFD700] text-white hover:bg-[#FFD700]/10 hover:border-[#FFC107]"
               >
-                Join Warriors Team
-                <Play className="ml-2 h-5 w-5" />
+                Join The Warriors Team
               </Button>
             </Link>
-          </motion.div>
+          </div>
 
-          {/* Индикатор скролла */}
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 1, delay: 1.2 }}
-            className="absolute bottom-10 left-1/2 transform -translate-x-1/2"
+          {/* Interactive Success Path Button */}
+          <Button
+            variant="ghost"
+            onClick={() => setShowPathVisualizer(true)}
+            className="text-[#FFD700] hover:text-[#FFC107] underline-offset-4 hover:underline"
           >
-            <div className="w-6 h-10 border-2 border-white/30 rounded-full p-1">
-              <motion.div
-                className="w-1 h-2 bg-white/50 rounded-full mx-auto"
-                animate={{ y: [0, 20, 0] }}
-                transition={{ duration: 1.5, repeat: Infinity }}
-              />
-            </div>
-          </motion.div>
+            Visualize Your Success Path →
+          </Button>
         </motion.div>
       </div>
+
+      {/* Success Path Visualizer Modal */}
+      {showPathVisualizer && (
+        <SuccessPathVisualizer onClose={() => setShowPathVisualizer(false)} />
+      )}
     </section>
   );
 };
