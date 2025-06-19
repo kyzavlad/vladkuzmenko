@@ -9,17 +9,18 @@ import {
   NavigationMenuList,
   NavigationMenuTrigger,
 } from "@/components/ui/navigation-menu";
-import { Menu, MoveRight, X, ShoppingCart } from "lucide-react"; // <-- Добавлена иконка ShoppingCart
+import { Menu, MoveRight, X, ShoppingCart } from "lucide-react";
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { ContactDialog } from "@/components/ui/contact-dialog";
 import { StarBorder } from "@/components/ui/star-border";
-import { useCart } from "@/context/cart-context"; // <-- Добавлен импорт хука корзины
+import { useCart } from "@/context/cart-context";
 
-export default function Header() { // <-- ИЗМЕНЕНО: export default
+export const Header = () => {
   const [isMobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [isChoosePathOpen, setChoosePathOpen] = useState(false);
-  const { totalItems, setIsOpen } = useCart(); // <-- Добавлено получение данных из корзины
+  const { cartItems, setIsCartOpen } = useCart();
+  const totalItems = cartItems.reduce((sum, item) => sum + item.quantity, 0);
 
   const navigationItems = [
     { title: "Home", href: "/" },
@@ -97,7 +98,7 @@ export default function Header() { // <-- ИЗМЕНЕНО: export default
               </Button>
             </div>
 
-            <Link href="/#pricing-section" onClick={(e) => { handleNavClick(e, "/#pricing-section"); setChoosePathOpen(false); }}>
+            <Link href="/#pricing-section" onClick={(e) => { handleNavClick(e as any, "/#pricing-section"); setChoosePathOpen(false); }}>
               <StarBorder
                 className="w-full mb-4 hover:scale-[1.02] transition-transform cursor-pointer"
                 color="hsl(var(--brand))"
@@ -229,20 +230,26 @@ export default function Header() { // <-- ИЗМЕНЕНО: export default
 
           <div className="flex justify-end items-center">
             <div className="hidden md:flex items-center gap-2">
+                <Button
+                    variant="ghost"
+                    size="icon"
+                    className="relative"
+                    onClick={() => setIsCartOpen(true)}
+                    aria-label="Open shopping cart"
+                >
+                    <ShoppingCart className="h-5 w-5" />
+                    {totalItems > 0 && (
+                        <span className="absolute -top-1 -right-1 flex h-4 w-4 items-center justify-center rounded-full bg-primary text-primary-foreground text-xs">
+                            {totalItems}
+                        </span>
+                    )}
+                </Button>
+
               <Button
                 variant="ghost"
                 onClick={() => setChoosePathOpen(true)}
               >
                 Choose Path
-              </Button>
-              {/* === КНОПКА КОРЗИНЫ (ДЕСКТОП) === */}
-              <Button variant="ghost" size="icon" className="relative" onClick={() => setIsOpen(true)}>
-                <ShoppingCart className="h-5 w-5" />
-                {totalItems > 0 && (
-                  <span className="absolute -top-1 -right-1 flex h-5 w-5 items-center justify-center rounded-full bg-blue-600 text-xs text-white">
-                    {totalItems}
-                  </span>
-                )}
               </Button>
               <div className="border-r h-6 mx-1 self-center"></div>
               <ContactDialog triggerText="Get started">
@@ -251,6 +258,20 @@ export default function Header() { // <-- ИЗМЕНЕНО: export default
             </div>
 
             <div className="flex items-center md:hidden">
+                <Button
+                    variant="ghost"
+                    size="icon"
+                    className="relative mr-2"
+                    onClick={() => setIsCartOpen(true)}
+                    aria-label="Open shopping cart"
+                >
+                    <ShoppingCart className="h-5 w-5" />
+                     {totalItems > 0 && (
+                        <span className="absolute -top-1 -right-1 flex h-4 w-4 items-center justify-center rounded-full bg-primary text-primary-foreground text-xs">
+                            {totalItems}
+                        </span>
+                    )}
+                </Button>
               <Button variant="ghost" size="icon" onClick={() => setMobileMenuOpen(!isMobileMenuOpen)} aria-label="Toggle menu">
                 {isMobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
               </Button>
@@ -283,16 +304,6 @@ export default function Header() { // <-- ИЗМЕНЕНО: export default
               </div>
             ))}
             <div className="pt-4 flex flex-col gap-3">
-              {/* === КНОПКА КОРЗИНЫ (МОБИЛЬНАЯ ВЕРСИЯ) === */}
-               <Button variant="outline" className="w-full relative justify-center" onClick={() => { setIsOpen(true); setMobileMenuOpen(false); }}>
-                <ShoppingCart className="w-4 h-4 mr-2" />
-                Корзина
-                {totalItems > 0 && (
-                  <span className="absolute right-4 top-1/2 -translate-y-1/2 flex h-5 w-5 items-center justify-center rounded-full bg-blue-600 text-xs text-white">
-                    {totalItems}
-                  </span>
-                )}
-              </Button>
               <Button className="w-full" onClick={() => { setChoosePathOpen(true); setMobileMenuOpen(false); }} >
                 Choose Path
               </Button>
@@ -305,4 +316,4 @@ export default function Header() { // <-- ИЗМЕНЕНО: export default
       </header>
     </>
   );
-}
+};
