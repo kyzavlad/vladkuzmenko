@@ -1,88 +1,154 @@
 'use client';
-import React, { useRef } from 'react';
+
+import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
-import { Button } from './ui/button';
 import Link from 'next/link';
-import { ArrowDown } from 'lucide-react';
-import { motion, useScroll, useTransform } from 'framer-motion';
-import { SparklesCore } from './ui/sparkles';
+import { Button } from './ui/button';
+import { motion } from 'framer-motion';
+import { ArrowRight, Play } from 'lucide-react';
 
 export const PersonalBrandHero = () => {
-  const targetRef = useRef<HTMLDivElement | null>(null);
-  const { scrollYProgress } = useScroll({
-    target: targetRef,
-    offset: ['end end', 'end start'],
-  });
-  const opacity = useTransform(scrollYProgress, [0, 0.5], [1, 0]);
-  const scale = useTransform(scrollYProgress, [0, 0.5], [1, 0.8]);
+  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
 
-  const scrollToEducation = () => {
-    const educationSection = document.getElementById('education');
-    if (educationSection) {
-      educationSection.scrollIntoView({ behavior: 'smooth' });
-    }
-  };
+  useEffect(() => {
+    const handleMouseMove = (e: MouseEvent) => {
+      setMousePosition({ x: e.clientX, y: e.clientY });
+    };
+    window.addEventListener('mousemove', handleMouseMove);
+    return () => window.removeEventListener('mousemove', handleMouseMove);
+  }, []);
 
   return (
-    <motion.section 
-      style={{ opacity }}
-      ref={targetRef}
-      className="relative w-full h-screen text-white overflow-hidden bg-black"
-    >
+    <section className="relative w-full min-h-screen text-white overflow-hidden bg-gradient-to-b from-black via-zinc-950 to-black">
+      {/* Динамический фон с параллаксом */}
       <div className="absolute inset-0 z-0">
-        <Image
-          src="/warriors-yacht-meeting.jpg" // Твое фото с командой на яхте
-          alt="Warriors Team Meeting"
-          fill={true}
-          style={{objectFit: 'cover'}}
-          className="opacity-20"
-          priority
-        />
-        <div className="absolute inset-0 bg-gradient-to-t from-background via-background/80 to-transparent z-10"></div>
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full">
-            <SparklesCore
-            id="tsparticlesfullpage"
-            background="transparent"
-            minSize={0.6}
-            maxSize={1.4}
-            particleDensity={50}
-            className="w-full h-full"
-            particleColor="#FFFFFF"
+        <motion.div
+          className="absolute inset-0"
+          style={{
+            x: mousePosition.x * 0.02,
+            y: mousePosition.y * 0.02,
+          }}
+        >
+          <Image
+            src="/vlad-hero-bg.jpg"
+            alt="Vlad Kuzmenko"
+            fill
+            className="object-cover hero-image-mask"
+            priority
+            quality={100}
+          />
+        </motion.div>
+        
+        {/* Градиентные слои для эффекта глубины */}
+        <div className="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent opacity-80" />
+        <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-transparent to-black/80" />
+        
+        {/* Анимированные частицы */}
+        <div className="absolute inset-0">
+          {[...Array(20)].map((_, i) => (
+            <motion.div
+              key={i}
+              className="absolute w-1 h-1 bg-orange-500/30 rounded-full"
+              animate={{
+                x: [0, Math.random() * 1000 - 500],
+                y: [0, Math.random() * 1000 - 500],
+              }}
+              transition={{
+                duration: Math.random() * 20 + 10,
+                repeat: Infinity,
+                repeatType: "reverse",
+              }}
+              style={{
+                left: `${Math.random() * 100}%`,
+                top: `${Math.random() * 100}%`,
+              }}
             />
+          ))}
         </div>
       </div>
-      <motion.div 
-        style={{ scale }}
-        className="relative z-20 flex flex-col items-center justify-center h-full text-center px-4"
-      >
-        <h1 className="text-5xl md:text-7xl lg:text-8xl font-black uppercase tracking-wider">
-          VLAD KUZMENKO
-        </h1>
-        <p className="mt-4 text-lg md:text-2xl text-muted-foreground max-w-3xl">
-          I build systems that generate money and freedom.
-          <br />
-          This is where you learn how to build your own.
-        </p>
-        <div className="mt-8 flex flex-col sm:flex-row gap-4">
-          <Button size="lg" className="w-full sm:w-auto" onClick={scrollToEducation}>
-            Explore The University
-          </Button>
-          <Link href="/warriors-team" passHref target="_blank" rel="noopener noreferrer">
-            <Button size="lg" variant="outline" className="w-full sm:w-auto">
-              Join The Warriors Team
-            </Button>
-          </Link>
-        </div>
+
+      {/* Контент */}
+      <div className="relative z-10 min-h-screen flex flex-col items-center justify-center px-4 py-20">
         <motion.div
-            initial={{ y: -20, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            transition={{ duration: 0.5, delay: 1.5, repeat: Infinity, repeatType: 'reverse' }}
-            className="absolute bottom-10 cursor-pointer"
-            onClick={scrollToEducation}
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 1, delay: 0.2 }}
+          className="text-center"
         >
-            <ArrowDown className="h-8 w-8 text-muted-foreground" />
+          {/* Премиальное имя с анимацией */}
+          <h1 className="relative mb-8">
+            <span className="block text-6xl md:text-8xl lg:text-9xl font-display font-bold tracking-tight">
+              <span className="animated-gradient">VLAD</span>
+            </span>
+            <span className="block text-5xl md:text-7xl lg:text-8xl font-display font-light italic mt-2">
+              <span className="text-white/90">KUZMENKO</span>
+            </span>
+            
+            {/* Декоративные элементы */}
+            <div className="absolute -top-10 -left-10 w-20 h-20 border-t-2 border-l-2 border-orange-500/30" />
+            <div className="absolute -bottom-10 -right-10 w-20 h-20 border-b-2 border-r-2 border-orange-500/30" />
+          </h1>
+
+          {/* Подзаголовок */}
+          <motion.p
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 1, delay: 0.5 }}
+            className="text-xl md:text-2xl lg:text-3xl max-w-4xl mx-auto mb-12 text-gray-300 font-light leading-relaxed"
+          >
+            I build <span className="text-orange-500 font-semibold">systems</span> that generate{" "}
+            <span className="text-orange-500 font-semibold">money</span> and{" "}
+            <span className="text-orange-500 font-semibold">freedom</span>.
+            <br />
+            This is where you learn to do the same.
+          </motion.p>
+
+          {/* CTA кнопки */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.8 }}
+            className="flex flex-col sm:flex-row gap-6 justify-center"
+          >
+            <Link href="#education">
+              <Button 
+                size="lg" 
+                className="group bg-gradient-to-r from-orange-600 to-orange-500 hover:from-orange-500 hover:to-orange-400 text-white px-8 py-6 text-lg font-semibold glow-effect"
+              >
+                Start Learning
+                <ArrowRight className="ml-2 h-5 w-5 transition-transform group-hover:translate-x-1" />
+              </Button>
+            </Link>
+            
+            <Link href="/warriors-team">
+              <Button 
+                size="lg" 
+                variant="outline" 
+                className="border-2 border-orange-500/50 text-white hover:bg-orange-500/10 hover:border-orange-500 px-8 py-6 text-lg font-semibold backdrop-blur-sm"
+              >
+                Join Warriors Team
+                <Play className="ml-2 h-5 w-5" />
+              </Button>
+            </Link>
+          </motion.div>
+
+          {/* Индикатор скролла */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 1, delay: 1.2 }}
+            className="absolute bottom-10 left-1/2 transform -translate-x-1/2"
+          >
+            <div className="w-6 h-10 border-2 border-white/30 rounded-full p-1">
+              <motion.div
+                className="w-1 h-2 bg-white/50 rounded-full mx-auto"
+                animate={{ y: [0, 20, 0] }}
+                transition={{ duration: 1.5, repeat: Infinity }}
+              />
+            </div>
+          </motion.div>
         </motion.div>
-      </motion.div>
+      </div>
     </section>
   );
 };
