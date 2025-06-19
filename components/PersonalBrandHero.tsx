@@ -1,48 +1,62 @@
 'use client';
 
-import React from 'react';
-import Image from 'next/image';
-import Link from 'next/link';
-import { Button } from './ui/button';
+import React, { useRef } from 'react';
+import { motion, useScroll, useTransform } from 'framer-motion';
+import { AuroraBackground } from './ui/aurora-background'; // Импортируем фон
 
-export const PersonalBrandHero = () => {
+export default function PersonalBrandHero() {
+  const targetRef = useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: targetRef,
+    offset: ['start start', 'end start'],
+  });
+
+  const opacity = useTransform(scrollYProgress, [0, 0.5, 0.8], [1, 0.5, 0]);
+  const scale = useTransform(scrollYProgress, [0, 0.5], [1, 0.9]);
+  const position = useTransform(scrollYProgress, (pos) => (pos >= 1 ? 'relative' : 'fixed'));
+
   return (
-    <section className="relative w-full h-screen text-white overflow-hidden bg-black">
-      {/* Background Image with Overlay */}
-      <div className="absolute inset-0 z-0">
-        <Image
-          src="/warriors-yacht-meeting.jpg"
-          alt="Background"
-          fill
-          className="object-cover opacity-20"
-          priority
-        />
-        <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/50 to-black/70" />
-      </div>
-
-      {/* Content */}
-      <div className="relative z-10 h-full flex flex-col items-center justify-center px-4">
-        <h1 className="text-5xl md:text-7xl lg:text-8xl font-bold text-center mb-6">
-          VLAD KUZMENKO
-        </h1>
-        <p className="text-xl md:text-2xl text-center max-w-3xl mb-8 text-gray-300">
-          I build systems that generate money and freedom.
-          <br />
-          This is where you learn to do the same.
-        </p>
-        <div className="flex flex-col sm:flex-row gap-4">
-          <Link href="#education">
-            <Button size="lg" className="bg-white text-black hover:bg-gray-200">
-              Start Learning
-            </Button>
-          </Link>
-          <Link href="/warriors-team">
-            <Button size="lg" variant="outline" className="border-white text-white hover:bg-white hover:text-black">
-              Join The Warriors Team
-            </Button>
-          </Link>
+    <AuroraBackground>
+        <motion.section
+        ref={targetRef}
+        className="relative w-full h-screen flex flex-col items-center justify-center text-white text-center p-4"
+        >
+        {/* Фоновое изображение с оверлеем */}
+        <div 
+            className="absolute inset-0 bg-center bg-cover"
+            style={{ backgroundImage: "url('/path-to-your-background.jpg')", zIndex: 0 }} // <-- УКАЖИТЕ ПУТЬ К ВАШЕМУ ФОНУ
+        >
+          <div className="absolute inset-0 bg-black/60"></div> {/* Полупрозрачный оверлей */}
         </div>
-      </div>
-    </section>
+
+        <motion.div style={{ scale, opacity }} className="relative z-10 flex flex-col items-center">
+            <motion.h1 
+                className="text-5xl md:text-7xl font-bold tracking-tight bg-clip-text text-transparent bg-gradient-to-b from-white to-gray-400"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8, delay: 0.2 }}
+            >
+                VLAD KUZMENKO
+            </motion.h1>
+            <motion.p 
+                className="mt-4 text-lg md:text-xl text-gray-300 max-w-2xl"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8, delay: 0.4 }}
+            >
+                I build systems that generate money and freedom. This is where you learn to do the same.
+            </motion.p>
+            <motion.div 
+                className="mt-8 flex gap-4"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8, delay: 0.6 }}
+            >
+                <button className="px-6 py-2 rounded-md bg-white text-black font-semibold hover:bg-gray-200 transition-colors">Start Learning</button>
+                <button className="px-6 py-2 rounded-md border border-white/50 text-white font-semibold hover:bg-white/10 transition-colors">Join The Warriors Team</button>
+            </motion.div>
+        </motion.div>
+        </motion.section>
+    </AuroraBackground>
   );
-};
+}
