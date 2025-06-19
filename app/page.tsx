@@ -1,4 +1,5 @@
 import { PersonalBrandHero } from "@/components/PersonalBrandHero";
+import { AboutMeSection } from "@/components/AboutMeSection";
 import { EducationPlatformSection } from "@/components/EducationPlatformSection";
 import { AutomationTeaserSection } from "@/components/AutomationTeaserSection";
 import { SaasLaunchSection } from "@/components/SaasLaunchSection";
@@ -12,6 +13,7 @@ export default function Home() {
     <> 
       <Header />
       <PersonalBrandHero />
+      <AboutMeSection />
       <EducationPlatformSection />
       <AutomationTeaserSection />
       <SaasLaunchSection />
