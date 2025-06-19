@@ -1,40 +1,36 @@
-import { Header } from "@/components/ui/header";
 import { PersonalBrandHero } from "@/components/PersonalBrandHero";
 import { EducationPlatformSection } from "@/components/EducationPlatformSection";
-import { TestimonialsSection } from "@/components/TestimonialsSection";
 import { AutomationTeaserSection } from "@/components/AutomationTeaserSection";
 import { SaasLaunchSection } from "@/components/SaasLaunchSection";
 import { MensCommunitySection } from "@/components/MensCommunitySection";
 import { MerchPreviewSection } from "@/components/MerchPreviewSection";
-import { FooterSection } from "@/components/FooterSection";
+import { TestimonialsSection } from "@/components/TestimonialsSection"; // Можешь удалить этот импорт, если компонент больше нигде не используется
 
 export default function Home() {
   return (
-    <main className="min-h-screen bg-background">
-      <Header />
+    <> {/* Используем Fragment, так как Header и Footer теперь в layout.tsx */}
       
       {/* 1. Твой новый главный экран */}
       <PersonalBrandHero />
       
-      {/* 2. Детальный блок образовательной платформы */}
+      {/* 2. Детальный блок образовательной платформы - главный продукт */}
       <EducationPlatformSection />
 
-      {/* 3. Отзывы как социальное доказательство */}
-      <TestimonialsSection />
-
-      {/* 4. Тизер Агентства */}
+      {/* Я убрал TestimonialsSection и заменил старые тизеры на новые */}
+      
+      {/* 3. Новый, мощный тизер Агентства */}
       <AutomationTeaserSection />
 
-      {/* 5. Тизер SaaS */}
+      {/* 4. Тизер SaaS */}
       <SaasLaunchSection />
 
-      {/* 6. Тизер Warriors Team */}
+      {/* 5. Тизер Warriors Team */}
       <MensCommunitySection />
 
-      {/* 7. Превью Мерча */}
+      {/* 6. Превью Мерча */}
       <MerchPreviewSection />
       
-      <FooterSection />
-    </main>
+    </>
   );
 }
+
