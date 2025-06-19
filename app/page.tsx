@@ -4,7 +4,6 @@ import { AutomationTeaserSection } from "@/components/AutomationTeaserSection";
 import { SaasLaunchSection } from "@/components/SaasLaunchSection";
 import { MensCommunitySection } from "@/components/MensCommunitySection";
 import { MerchPreviewSection } from "@/components/MerchPreviewSection";
-import { TestimonialsSection } from "@/components/TestimonialsSection"; // Можешь удалить этот импорт, если компонент больше нигде не используется
 
 export default function Home() {
   return (
