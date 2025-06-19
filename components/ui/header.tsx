@@ -1,4 +1,3 @@
-// app/Header.tsx (или где у вас лежит этот компонент)
 "use client";
 
 import { Button } from "@/components/ui/button";
@@ -10,23 +9,25 @@ import {
   NavigationMenuList,
   NavigationMenuTrigger,
 } from "@/components/ui/navigation-menu";
-import { Menu, MoveRight, X } from "lucide-react";
+import { Menu, MoveRight, X, ShoppingCart } from "lucide-react"; // <-- Добавлена иконка ShoppingCart
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { ContactDialog } from "@/components/ui/contact-dialog";
 import { StarBorder } from "@/components/ui/star-border";
+import { useCart } from "@/context/cart-context"; // <-- Добавлен импорт хука корзины
 
-export function Header() {
+export default function Header() { // <-- ИЗМЕНЕНО: export default
   const [isMobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [isChoosePathOpen, setChoosePathOpen] = useState(false);
+  const { totalItems, setIsOpen } = useCart(); // <-- Добавлено получение данных из корзины
 
   const navigationItems = [
     { title: "Home", href: "/" },
     {
       title: "Product",
-      description: "Explore our AI automation solutions for your business.", // Этот текст можно будет поменять, если "Warriors Team" не про AI
+      description: "Explore our AI automation solutions for your business.",
       items: [
-        { title: "AI Solutions", href: "#board-section" }, // И эти тоже
+        { title: "AI Solutions", href: "#board-section" },
         { title: "Features", href: "#features-section" },
         { title: "Voice Assistant", href: "#audio-section" },
         { title: "Pricing", href: "#pricing-section" },
@@ -56,12 +57,10 @@ export function Header() {
         element.scrollIntoView({ behavior: "smooth" });
       }
     } else {
-      // Для внешних ссылок или других страниц
-      // Если используете Next.js router, лучше router.push(href)
-      window.location.href = href; 
+      window.location.href = href;
     }
   };
-  
+
   useEffect(() => {
     const handleEsc = (event: KeyboardEvent) => {
       if (event.key === 'Escape') {
@@ -77,7 +76,6 @@ export function Header() {
 
   return (
     <>
-      {/* Blur overlay for Choose Path menu */}
       {isChoosePathOpen && (
         <div
           className="fixed inset-0 bg-black/60 backdrop-blur-sm z-40"
@@ -85,7 +83,6 @@ export function Header() {
         />
       )}
 
-      {/* Choose Path Menu popup */}
       {isChoosePathOpen && (
         <div className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-50 w-full max-w-lg px-4">
           <div className="bg-background/95 backdrop-blur-sm border border-border/40 rounded-2xl p-6 space-y-4">
@@ -130,16 +127,15 @@ export function Header() {
               </StarBorder>
             </div>
             
-            {/* ИЗМЕНЕННАЯ ССЫЛКА ДЛЯ WARRIORS TEAM */}
             <Link href="/warriors-team" passHref legacyBehavior>
-              <a 
-                target="_blank" 
-                rel="noopener noreferrer" 
+              <a
+                target="_blank"
+                rel="noopener noreferrer"
                 onClick={() => setChoosePathOpen(false)}
-                className="block cursor-pointer" 
+                className="block cursor-pointer"
               >
-                <StarBorder 
-                  className="w-full hover:scale-[1.02] transition-transform" // Убрал mb-4, если это последний элемент
+                <StarBorder
+                  className="w-full hover:scale-[1.02] transition-transform"
                   color="hsl(var(--color-3))"
                 >
                   <div className="flex items-center justify-between">
@@ -157,17 +153,11 @@ export function Header() {
       )}
 
       <header className="w-full z-30 fixed top-0 left-0 bg-background/95 backdrop-blur-sm border-b border-border/40">
-        {/* КОНТЕЙНЕР ХЕДЕРА:
-          - На мобильных (<lg): flex flex-row items-center justify-between. Логотип слева, иконка меню справа.
-          - На десктопах (lg+): lg:grid lg:grid-cols-[auto_1fr_auto] lg:gap-x-4. 
-            Боковые колонки (auto) по ширине содержимого, центральная (1fr) для логотипа занимает остальное место.
-        */}
         <div className="container relative mx-auto py-4 md:py-5 flex flex-row items-center justify-between lg:grid lg:grid-cols-[auto_minmax(0,1fr)_auto] lg:gap-x-4">
           
-          {/* Left side (Desktop navigation) */}
           <div className="hidden lg:flex justify-start items-center">
             <NavigationMenu>
-              <NavigationMenuList className="flex flex-row gap-1"> {/* Уменьшен gap */}
+              <NavigationMenuList className="flex flex-row gap-1">
                 {navigationItems.map((item) => (
                   <NavigationMenuItem key={item.title}>
                     {item.href ? (
@@ -186,7 +176,6 @@ export function Header() {
                           {item.title}
                         </NavigationMenuTrigger>
                         <NavigationMenuContent className="!w-[450px] p-4">
-                          {/* ... Содержимое NavigationMenuContent ... (оставляем ваш код) */}
                           <div className="flex flex-col lg:grid grid-cols-2 gap-4">
                             <div className="flex flex-col h-full justify-between">
                               <div>
@@ -226,15 +215,11 @@ export function Header() {
             </NavigationMenu>
           </div>
 
-          {/* Center (Logo) */}
-          {/* Обертка логотипа: min-w-0 позволяет ей сжиматься. justify-center для грид-колонки. */}
-          <div className="flex justify-center items-center min-w-0"> 
-            {/* Класс 'logo-container' используется из globals.css. Tailwind класс 'overflow-hidden' здесь не нужен. */}
-            <div className="logo-container relative"> 
+          <div className="flex justify-center items-center min-w-0">
+            <div className="logo-container relative">
               <a href="/" className="flex items-center" aria-label="VladKuzmenko.com Home">
-                <span 
+                <span
                   className="text-xl sm:text-2xl font-bold tracking-tighter bg-clip-text text-transparent bg-gradient-to-r from-foreground via-foreground to-foreground/30 dark:from-white dark:via-white dark:to-white/30 font-serif italic"
-                  // Убран 'whitespace-nowrap', текст будет переноситься по необходимости (как в вашем оригинале)
                 >
                   VladKuzmenko.com
                 </span>
@@ -242,9 +227,7 @@ export function Header() {
             </div>
           </div>
 
-          {/* Right side (Desktop buttons & Mobile Menu Icon) */}
           <div className="flex justify-end items-center">
-            {/* Desktop Buttons: Видимы на md экранах и выше */}
             <div className="hidden md:flex items-center gap-2">
               <Button
                 variant="ghost"
@@ -252,13 +235,21 @@ export function Header() {
               >
                 Choose Path
               </Button>
-              <div className="border-r h-6 mx-1 self-center"></div> {/* Вертикальная черта */}
+              {/* === КНОПКА КОРЗИНЫ (ДЕСКТОП) === */}
+              <Button variant="ghost" size="icon" className="relative" onClick={() => setIsOpen(true)}>
+                <ShoppingCart className="h-5 w-5" />
+                {totalItems > 0 && (
+                  <span className="absolute -top-1 -right-1 flex h-5 w-5 items-center justify-center rounded-full bg-blue-600 text-xs text-white">
+                    {totalItems}
+                  </span>
+                )}
+              </Button>
+              <div className="border-r h-6 mx-1 self-center"></div>
               <ContactDialog triggerText="Get started">
                 <Button>Get started</Button>
               </ContactDialog>
             </div>
 
-            {/* Mobile menu button: Видима на экранах меньше md */}
             <div className="flex items-center md:hidden">
               <Button variant="ghost" size="icon" onClick={() => setMobileMenuOpen(!isMobileMenuOpen)} aria-label="Toggle menu">
                 {isMobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
@@ -267,9 +258,7 @@ export function Header() {
           </div>
         </div>
 
-        {/* Mobile navigation menu popup */}
         {isMobileMenuOpen && (
-          // ... (код вашего мобильного выпадающего меню без изменений) ...
           <div className="absolute top-[calc(var(--header-height,72px)-1px)] left-0 right-0 border-t bg-background shadow-lg py-4 px-4 flex flex-col gap-4 z-20 md:hidden">
             {navigationItems.map((item) => (
               <div key={item.title} className="py-2 border-b border-border/20 last:border-b-0">
@@ -294,6 +283,16 @@ export function Header() {
               </div>
             ))}
             <div className="pt-4 flex flex-col gap-3">
+              {/* === КНОПКА КОРЗИНЫ (МОБИЛЬНАЯ ВЕРСИЯ) === */}
+               <Button variant="outline" className="w-full relative justify-center" onClick={() => { setIsOpen(true); setMobileMenuOpen(false); }}>
+                <ShoppingCart className="w-4 h-4 mr-2" />
+                Корзина
+                {totalItems > 0 && (
+                  <span className="absolute right-4 top-1/2 -translate-y-1/2 flex h-5 w-5 items-center justify-center rounded-full bg-blue-600 text-xs text-white">
+                    {totalItems}
+                  </span>
+                )}
+              </Button>
               <Button className="w-full" onClick={() => { setChoosePathOpen(true); setMobileMenuOpen(false); }} >
                 Choose Path
               </Button>
