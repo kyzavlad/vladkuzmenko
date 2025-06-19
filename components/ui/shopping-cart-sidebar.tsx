@@ -1,88 +1,79 @@
-'use client';
+"use client";
 
-import { useCart } from '@/context/cart-context';
-import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetFooter } from '@/components/ui/sheet';
-import { Button } from '@/components/ui/button';
-import { ScrollArea } from '@/components/ui/scroll-area';
-import { Trash2, Plus, Minus } from 'lucide-react';
-import Image from 'next/image';
+import { useCart, CartItem } from '@/context/cart-context';
+import { Button } from "@/components/ui/button";
+import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetFooter } from "@/components/ui/sheet";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import Image from "next/image";
+import { X, Plus, Minus } from "lucide-react";
 
-export function ShoppingCartSidebar() {
-  const {
-    isOpen,
-    setIsOpen,
-    items,
-    removeItem,
-    updateItemQuantity,
-    totalPrice,
-    totalItems,
-    clearCart
-  } = useCart();
-
-  const handleQuantityChange = (id: string, currentQuantity: number, change: number) => {
-    const newQuantity = currentQuantity + change;
-    if (newQuantity > 0) {
-      updateItemQuantity(id, newQuantity);
-    } else {
-      removeItem(id);
-    }
-  };
+export const ShoppingCartSidebar = () => {
+  const { isCartOpen, setIsCartOpen, cartItems, removeFromCart, updateQuantity, totalPrice, clearCart } = useCart();
 
   return (
-    <Sheet open={isOpen} onOpenChange={setIsOpen}>
-      <SheetContent className="flex flex-col bg-black/80 backdrop-blur-lg text-white border-gray-800">
-        <SheetHeader>
-          <SheetTitle className="text-white text-2xl font-bold">Ваша Корзина ({totalItems})</SheetTitle>
+    <Sheet open={isCartOpen} onOpenChange={setIsCartOpen}>
+      <SheetContent className="flex w-full flex-col pr-0 sm:max-w-lg">
+        <SheetHeader className="px-6 pt-6">
+          <SheetTitle>Cart ({cartItems.reduce((acc, item) => acc + item.quantity, 0)})</SheetTitle>
         </SheetHeader>
-        {items.length > 0 ? (
-          <>
-            <ScrollArea className="flex-grow my-4 pr-4">
-              <div className="flex flex-col gap-4">
-                {items.map((item) => (
-                  <div key={item.id} className="flex items-center gap-4 p-2 rounded-lg bg-gray-900/50">
-                    <Image
-                      src={item.image}
-                      alt={item.name}
-                      width={64}
-                      height={64}
-                      className="rounded-md object-cover"
-                    />
-                    <div className="flex-grow">
-                      <p className="font-semibold">{item.name}</p>
-                      <p className="text-gray-400 text-sm">${item.price.toFixed(2)}</p>
-                      <div className="flex items-center gap-2 mt-2">
-                        <Button variant="outline" size="icon" className="h-6 w-6" onClick={() => handleQuantityChange(item.id, item.quantity, -1)}>
-                          <Minus className="h-4 w-4" />
+        
+        <div className="flex-1 overflow-y-auto">
+            <ScrollArea className="h-full">
+                {cartItems.length === 0 ? (
+                    <div className="flex flex-col items-center justify-center h-full text-center p-6">
+                        <p className="text-muted-foreground">Your cart is empty.</p>
+                        <Button variant="outline" className="mt-4" onClick={() => setIsCartOpen(false)}>
+                            Continue Shopping
                         </Button>
-                        <span>{item.quantity}</span>
-                        <Button variant="outline" size="icon" className="h-6 w-6" onClick={() => handleQuantityChange(item.id, item.quantity, 1)}>
-                          <Plus className="h-4 w-4" />
-                        </Button>
-                      </div>
                     </div>
-                    <Button variant="ghost" size="icon" onClick={() => removeItem(item.id)}>
-                      <Trash2 className="h-5 w-5 text-red-500" />
-                    </Button>
-                  </div>
-                ))}
-              </div>
+                ) : (
+                    <div className="pr-6">
+                        {cartItems.map((item: CartItem) => (
+                        <div key={item.id} className="flex items-center space-x-4 py-4 px-6 border-b">
+                            <div className="relative h-16 w-16 overflow-hidden rounded">
+                            <Image
+                                src={item.image || "https://placehold.co/64x64/222/fff?text=?"}
+                                alt={item.name}
+                                fill
+                                style={{objectFit:"cover"}}
+                            />
+                            </div>
+                            <div className="flex-1">
+                            <p className="font-medium">{item.name}</p>
+                            <p className="text-sm text-muted-foreground">${item.price.toFixed(2)}</p>
+                            <div className="flex items-center space-x-2 mt-2">
+                                <Button variant="outline" size="icon" className="h-6 w-6" onClick={() => updateQuantity(item.id, item.quantity - 1)}>
+                                    <Minus className="h-3 w-3" />
+                                </Button>
+                                <span className="w-8 text-center">{item.quantity}</span>
+                                 <Button variant="outline" size="icon" className="h-6 w-6" onClick={() => updateQuantity(item.id, item.quantity + 1)}>
+                                    <Plus className="h-3 w-3" />
+                                </Button>
+                            </div>
+                            </div>
+                            <Button variant="ghost" size="icon" onClick={() => removeFromCart(item.id)}>
+                                <X className="h-4 w-4" />
+                            </Button>
+                        </div>
+                        ))}
+                    </div>
+                )}
             </ScrollArea>
-            <SheetFooter className="flex flex-col gap-4 mt-auto pt-4 border-t border-gray-800">
-                <div className="flex justify-between items-center text-xl font-bold">
-                    <span>Итого:</span>
+        </div>
+        
+        {cartItems.length > 0 && (
+          <SheetFooter className="p-6 border-t bg-background/95 backdrop-blur-sm">
+            <div className="w-full space-y-4">
+                 <div className="flex justify-between font-semibold">
+                    <span>Total</span>
                     <span>${totalPrice.toFixed(2)}</span>
                 </div>
-                <Button size="lg" className="w-full bg-blue-600 hover:bg-blue-700">Оформить заказ</Button>
-                <Button size="lg" variant="outline" className="w-full" onClick={clearCart}>Очистить корзину</Button>
-            </SheetFooter>
-          </>
-        ) : (
-          <div className="flex-grow flex flex-col items-center justify-center text-center">
-            <p className="text-2xl font-semibold">Ваша корзина пуста</p>
-            <p className="text-gray-400 mt-2">Добавьте товары, чтобы они появились здесь.</p>
-          </div>
+                <Button className="w-full">Proceed to Checkout</Button>
+                <Button variant="outline" className="w-full" onClick={clearCart}>Clear Cart</Button>
+            </div>
+          </SheetFooter>
         )}
       </SheetContent>
     </Sheet>
   );
-}
+};
