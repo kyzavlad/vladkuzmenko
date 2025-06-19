@@ -8,8 +8,8 @@ import { useCart } from './EducationPlatformSection'; // Импортируем 
 const merchItems = [
     { name: 'VK Performance Tee', image: '/images/merch/tshirt.png', price: 45.00, category: 'Apparel' },
     { name: 'WARRIOR FUEL Whey Protein', image: '/images/merch/protein.png', price: 69.99, category: 'Supplements' },
-    { name: 'VK Boxing Gloves', image: '/images/merch/gloves.png', price: 89.00, category: 'Equipment' },
-    { name: 'Nasal Breathing Strips', image: '/images/merch/nasal-strips.png', price: 29.99, category: 'Performance Gear' },
+    { name: 'VK Pro Boxing Gloves', image: '/images/merch/gloves.png', price: 89.00, category: 'Equipment' },
+    { name: 'AURA Breathing Strips', image: '/images/merch/nasal-strips.png', price: 29.99, category: 'Performance Gear' },
 ];
 
 export const MerchPreviewSection = () => {
@@ -24,7 +24,7 @@ export const MerchPreviewSection = () => {
                 </p>
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
                     {merchItems.map((item) => (
-                        <div key={item.name} className="group relative bg-background border border-border/50 rounded-lg p-4 flex flex-col text-left transition-all duration-300 hover:shadow-primary/20 hover:shadow-2xl">
+                        <div key={item.name} className="group relative bg-background border border-border/50 rounded-lg p-4 flex flex-col text-left transition-all duration-300 hover:shadow-primary/20 hover:shadow-2xl hover:-translate-y-2">
                             <div className="aspect-square bg-secondary/30 rounded-md mb-4 overflow-hidden">
                                 <Image src={item.image} alt={item.name} width={400} height={400} className="object-cover group-hover:scale-105 transition-transform duration-300" />
                             </div>
@@ -45,4 +45,3 @@ export const MerchPreviewSection = () => {
         </section>
     );
 };
-
