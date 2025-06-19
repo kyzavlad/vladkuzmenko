@@ -1,8 +1,7 @@
 'use client';
-import React, { useState, createContext, useContext } from 'react';
+import React, { useState, createContext, useContext, useEffect } from 'react';
 import { Button } from './ui/button';
-import Link from 'next/link';
-import { CheckCircle, ShoppingCart, X } from 'lucide-react';
+import { CheckCircle, ShoppingCart, X, CreditCard } from 'lucide-react';
 import { AnimatePresence, motion } from 'framer-motion';
 
 // Создаем контекст для корзины
@@ -23,15 +22,13 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
 
   const addToCart = (item: any) => {
     setCartItems((prevItems) => {
-      // Проверяем, есть ли уже товар в корзине
       const existingItem = prevItems.find(i => i.name === item.name);
       if (existingItem) {
-        // Если да, можно увеличить количество или просто ничего не делать
-        return prevItems; 
+        return prevItems.map(i => i.name === item.name ? { ...i, quantity: i.quantity + 1 } : i);
       }
       return [...prevItems, { ...item, quantity: 1 }];
     });
-    setIsCartOpen(true); // Открываем корзину при добавлении товара
+    setIsCartOpen(true);
   };
 
   const removeFromCart = (itemName: string) => {
@@ -51,6 +48,18 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
 export const ShoppingCartSidebar = () => {
     const { isCartOpen, toggleCart, cartItems, removeFromCart } = useCart();
     const totalPrice = cartItems.reduce((total, item) => total + (item.price * item.quantity), 0);
+    
+    useEffect(() => {
+        if (isCartOpen) {
+            document.body.style.overflow = 'hidden';
+        } else {
+            document.body.style.overflow = 'auto';
+        }
+        return () => {
+            document.body.style.overflow = 'auto';
+        };
+    }, [isCartOpen]);
+
 
     return (
         <AnimatePresence>
@@ -71,7 +80,7 @@ export const ShoppingCartSidebar = () => {
                         className="fixed top-0 right-0 h-full w-full max-w-md bg-background border-l border-border z-50 flex flex-col"
                     >
                         <div className="flex items-center justify-between p-6 border-b border-border">
-                            <h2 className="text-2xl font-bold">Your Cart</h2>
+                            <h2 className="text-2xl font-bold flex items-center gap-2"><ShoppingCart /> Your Cart</h2>
                             <Button variant="ghost" size="icon" onClick={toggleCart}>
                                 <X className="h-6 w-6" />
                             </Button>
@@ -82,12 +91,17 @@ export const ShoppingCartSidebar = () => {
                             ) : (
                                 <ul className="space-y-4">
                                     {cartItems.map(item => (
-                                        <li key={item.name} className="flex items-center justify-between">
+                                        <li key={item.name} className="flex items-center justify-between gap-4">
                                             <div>
                                                 <h3 className="font-semibold">{item.name}</h3>
-                                                <p className="text-sm text-muted-foreground">${item.price.toFixed(2)}</p>
+                                                <p className="text-sm text-muted-foreground">${item.price.toFixed(2)} x {item.quantity}</p>
                                             </div>
-                                            <Button variant="destructive" size="sm" onClick={() => removeFromCart(item.name)}>Remove</Button>
+                                            <div className="flex items-center gap-2">
+                                                <p className="font-bold">${(item.price * item.quantity).toFixed(2)}</p>
+                                                <Button variant="outline" size="icon" className="w-8 h-8" onClick={() => removeFromCart(item.name)}>
+                                                    <X className="h-4 w-4" />
+                                                </Button>
+                                            </div>
                                         </li>
                                     ))}
                                 </ul>
@@ -99,7 +113,9 @@ export const ShoppingCartSidebar = () => {
                                     <span>Total:</span>
                                     <span>${totalPrice.toFixed(2)}</span>
                                 </div>
-                                <Button size="lg" className="w-full">Proceed to Checkout</Button>
+                                <Button size="lg" className="w-full">
+                                    <CreditCard className="mr-2 h-5 w-5" /> Proceed to Checkout
+                                </Button>
                             </div>
                          )}
                     </motion.div>
@@ -167,7 +183,7 @@ export const EducationPlatformSection = () => {
                         </ul>
                     </div>
                      <div className="bg-secondary/30 border border-border/50 rounded-lg p-8 text-center">
-                        <h4 className="text-3xl font-bold">Lifetime Access.</h4>
+                        <h4 className="text-3xl font-bold">LIFETIME ACCESS</h4>
                         <p className="text-muted-foreground my-4">One payment. All current and future knowledge.</p>
                         <div className="my-8">
                             <span className="text-6xl font-black">$97</span>
