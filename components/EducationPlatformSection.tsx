@@ -1,6 +1,7 @@
 'use client';
 import React, { useState, createContext, useContext, useEffect } from 'react';
 import { Button } from './ui/button';
+import Link from 'next/link';
 import { CheckCircle, ShoppingCart, X, CreditCard } from 'lucide-react';
 import { AnimatePresence, motion } from 'framer-motion';
 
@@ -90,8 +91,8 @@ export const ShoppingCartSidebar = () => {
                                 <p className="text-muted-foreground">Your cart is empty.</p>
                             ) : (
                                 <ul className="space-y-4">
-                                    {cartItems.map(item => (
-                                        <li key={item.name} className="flex items-center justify-between gap-4">
+                                    {cartItems.map((item, index) => (
+                                        <li key={index} className="flex items-center justify-between gap-4">
                                             <div>
                                                 <h3 className="font-semibold">{item.name}</h3>
                                                 <p className="text-sm text-muted-foreground">${item.price.toFixed(2)} x {item.quantity}</p>
@@ -199,4 +200,3 @@ export const EducationPlatformSection = () => {
         </section>
     );
 };
-
