@@ -1,9 +1,9 @@
-'use client';
+"use client";
 
-import React, { createContext, useContext, useState, ReactNode, useCallback, useMemo } from 'react';
+import React, { createContext, useContext, useState, ReactNode } from 'react';
 import { toast } from "sonner";
 
-interface CartItem {
+export interface CartItem {
   id: string;
   name: string;
   price: number;
@@ -12,80 +12,83 @@ interface CartItem {
 }
 
 interface CartContextType {
-  items: CartItem[];
-  isOpen: boolean;
-  setIsOpen: (isOpen: boolean) => void;
-  addItem: (item: Omit<CartItem, 'quantity'>) => void;
-  removeItem: (id: string) => void;
-  updateItemQuantity: (id: string, quantity: number) => void;
+  cartItems: CartItem[];
+  addToCart: (item: Omit<CartItem, 'quantity'>) => void;
+  removeFromCart: (id: string) => void;
+  updateQuantity: (id: string, quantity: number) => void;
   clearCart: () => void;
-  totalItems: number;
+  isCartOpen: boolean;
+  setIsCartOpen: (isOpen: boolean) => void;
   totalPrice: number;
 }
 
 const CartContext = createContext<CartContextType | undefined>(undefined);
 
-interface CartProviderProps {
-  children: ReactNode;
-}
-
-export const CartProvider = ({ children }: CartProviderProps) => {
-  const [items, setItems] = useState<CartItem[]>([]);
-  const [isOpen, setIsOpen] = useState(false);
-
-  const addItem = useCallback((item: Omit<CartItem, 'quantity'>) => {
-    setItems((prevItems) => {
-      const existingItem = prevItems.find((i) => i.id === item.id);
-      if (existingItem) {
-        return prevItems.map((i) =>
-          i.id === item.id ? { ...i, quantity: i.quantity + 1 } : i
-        );
-      }
-      return [...prevItems, { ...item, quantity: 1 }];
-    });
-    toast.success(`${item.name} добавлен в корзину!`);
-    setIsOpen(true);
-  }, []);
-
-  const removeItem = useCallback((id: string) => {
-    setItems((prevItems) => prevItems.filter((item) => item.id !== id));
-    toast.error("Товар удален из корзины.");
-  }, []);
-
-  const updateItemQuantity = useCallback((id: string, quantity: number) => {
-    setItems((prevItems) => {
-      if (quantity <= 0) {
-        return prevItems.filter(item => item.id !== id);
-      }
-      return prevItems.map((item) =>
-        item.id === id ? { ...item, quantity } : item
-      );
-    });
-  }, []);
-
-  const clearCart = useCallback(() => {
-    setItems([]);
-    toast.info("Корзина очищена.");
-  }, []);
-
-  const totalItems = useMemo(() => items.reduce((total, item) => total + item.quantity, 0), [items]);
-  const totalPrice = useMemo(() => items.reduce((total, item) => total + item.price * item.quantity, 0), [items]);
-
-  const value = useMemo(() => ({
-    items, isOpen, setIsOpen, addItem, removeItem, updateItemQuantity, clearCart, totalItems, totalPrice,
-  }), [items, isOpen, addItem, removeItem, updateItemQuantity, clearCart, totalItems, totalPrice]);
-
-  return (
-    <CartContext.Provider value={value}>
-      {children}
-    </CartContext.Provider>
-  );
-};
-
-export const useCart = (): CartContextType => {
+export const useCart = () => {
   const context = useContext(CartContext);
   if (context === undefined) {
     throw new Error('useCart must be used within a CartProvider');
   }
   return context;
 };
+
+interface CartProviderProps {
+  children: ReactNode;
+}
+
+export const CartProvider = ({ children }: CartProviderProps) => {
+  const [cartItems, setCartItems] = useState<CartItem[]>([]);
+  const [isCartOpen, setIsCartOpen] = useState(false);
+
+  const addToCart = (item: Omit<CartItem, 'quantity'>) => {
+    setCartItems(prevItems => {
+      const existingItem = prevItems.find(i => i.id === item.id);
+      if (existingItem) {
+        toast.info(`"${item.name}" is already in the cart.`);
+        return prevItems.map(i =>
+          i.id === item.id ? { ...i, quantity: i.quantity + 1 } : i
+        );
+      } else {
+        toast.success(`Added "${item.name}" to cart!`);
+        return [...prevItems, { ...item, quantity: 1 }];
+      }
+    });
+    setIsCartOpen(true);
+  };
+
+  const removeFromCart = (id: string) => {
+    setCartItems(prevItems => {
+      const itemToRemove = prevItems.find(item => item.id === id);
+      if (itemToRemove) {
+          toast.error(`Removed "${itemToRemove.name}" from cart.`);
+      }
+      return prevItems.filter(item => item.id !== id);
+    });
+  };
+
+  const updateQuantity = (id: string, quantity: number) => {
+    if (quantity < 1) {
+      removeFromCart(id);
+      return;
+    }
+    setCartItems(prevItems =>
+      prevItems.map(item =>
+        item.id === id ? { ...item, quantity } : item
+      )
+    );
+  };
+
+  const clearCart = () => {
+    setCartItems([]);
+    toast.info("Cart has been cleared.");
+  };
+  
+  const totalPrice = cartItems.reduce((total, item) => total + item.price * item.quantity, 0);
+
+  return (
+    <CartContext.Provider value={{ cartItems, addToCart, removeFromCart, updateQuantity, clearCart, isCartOpen, setIsCartOpen, totalPrice }}>
+      {children}
+    </CartContext.Provider>
+  );
+};
+
