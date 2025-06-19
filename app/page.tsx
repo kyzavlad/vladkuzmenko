@@ -9,17 +9,17 @@ import { FooterSection } from "@/components/FooterSection";
 
 export default function Home() {
   return (
-    <main className="flex flex-col min-h-screen bg-background">
+    <div className="flex flex-col min-h-screen bg-background">
       <Header />
-      <div className="flex-grow pt-[72px]">
+      <main className="flex-grow pt-[72px]">
         <PersonalBrandHero />
         <EducationPlatformSection />
         <AutomationTeaserSection />
         <SaasLaunchSection />
         <MensCommunitySection />
         <MerchPreviewSection />
-      </div>
+      </main>
       <FooterSection />
-    </main>
+    </div>
   );
 }
