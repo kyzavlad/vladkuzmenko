@@ -1,5 +1,4 @@
-// components/MensCommunitySection.tsx
-"use client";
+'use client';
 
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
@@ -9,174 +8,204 @@ import Image from "next/image";
 
 export function MensCommunitySection() {
   return (
-    <div className="w-full py-24 md:py-32 bg-background relative overflow-hidden">
-      {/* Subtle background gradient */}
-      <div className="absolute inset-0 opacity-5">
-        <div className="absolute top-[20%] -right-[10%] w-[50%] h-[50%] bg-gradient-radial from-red-500 to-transparent blur-3xl"></div>
-        <div className="absolute -bottom-[20%] -left-[10%] w-[40%] h-[40%] bg-gradient-radial from-orange-500 to-transparent blur-3xl"></div>
+    <div id="warriors-team" className="w-full min-h-screen bg-background relative overflow-hidden">
+      {/* Background gradient */}
+      <div className="absolute inset-0 opacity-10">
+        <div className="absolute top-[20%] -right-[10%] w-[50%] h-[50%] bg-gradient-radial from-[#D4AF37] to-transparent blur-3xl"></div>
+        <div className="absolute -bottom-[20%] -left-[10%] w-[40%] h-[40%] bg-gradient-radial from-[#B8860B] to-transparent blur-3xl"></div>
       </div>
-      
-      <div className="container mx-auto relative z-10">
+
+      <div className="container mx-auto py-24 md:py-32 relative z-10">
         <div className="max-w-7xl mx-auto">
-          {/* Header */}
-          <div className="text-center mb-20">
+          {/* Header Section */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+            className="text-center mb-20"
+          >
+            <div className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-[#D4AF37]/10 border border-[#D4AF37]/30 mb-8">
+              <Flame className="h-5 w-5 text-[#D4AF37] animate-pulse" />
+              <span className="text-sm font-bold uppercase tracking-wider">Elite Brotherhood</span>
+            </div>
+            
             <h2 className="text-5xl md:text-7xl font-black mb-8 tracking-tight">
-              WARRIORS TEAM
+              WARRIORS <span className="gold-gradient">TEAM</span>
             </h2>
+            
             <p className="text-2xl md:text-3xl font-semibold mb-6 text-foreground/90 max-w-4xl mx-auto">
-              99.9% of modern-day men will never experience the power of Brotherhood and Community.
+              Where ambitious men forge unbreakable bonds and build empires together.
             </p>
+            
             <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
-              They will never experience what it's like to have other ambitious, hard working, diligent, and dutiful men at their side.
+              3,500+ elite men worldwide pushing boundaries and achieving the impossible.
             </p>
-          </div>
+          </motion.div>
 
-          {/* Content Sections */}
-          <div className="space-y-24">
-            {/* Section 1 - Brotherhood */}
-            <motion.div 
-              className="grid md:grid-cols-2 gap-12 items-center"
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6 }}
-              viewport={{ once: true }}
+          {/* Features Grid */}
+          <div className="grid md:grid-cols-3 gap-8 mb-24">
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.2 }}
+              className="text-center p-8 bg-zinc-900/50 rounded-2xl border border-zinc-800 hover-lift holographic"
             >
-              <div className="space-y-6">
-                <div className="flex items-center gap-4 mb-6">
-                  <div className="p-3 bg-red-500/10 rounded-lg">
-                    <Users className="h-8 w-8 text-red-500" />
-                  </div>
-                  <h3 className="text-3xl md:text-4xl font-bold">The Power of Brotherhood</h3>
-                </div>
-                <p className="text-lg md:text-xl text-muted-foreground leading-relaxed">
-                  Inside <span className="font-bold text-foreground">Warriors Team</span> you will access <span className="font-bold text-foreground">knowledge</span> that will
-                  spark your genius and compel you to <span className="font-bold text-foreground">work your hardest</span> to
-                  keep up.
-                </p>
-                <p className="text-lg md:text-xl text-muted-foreground leading-relaxed">
-                  There is no other place on earth with Men of this caliber. A network
-                  with wide-ranging perspectives and capabilities; each
-                  member aspiring and succeeding at becoming a <span className="font-bold text-foreground">great man.</span>
-                </p>
-              </div>
-              <div className="relative group">
-                <div className="absolute -inset-1 bg-gradient-to-r from-red-500/20 to-orange-500/20 rounded-lg blur-xl group-hover:blur-2xl transition-all duration-500 opacity-70"></div>
-                <div className="relative rounded-lg overflow-hidden shadow-2xl">
-                  <Image
-                    src="/warriors-group-photo.jpg"
-                    alt="Warriors Team Brotherhood"
-                    width={800}
-                    height={600}
-                    className="w-full h-full object-cover"
-                  />
-                </div>
-              </div>
+              <Crown className="h-16 w-16 text-[#D4AF37] mx-auto mb-6" />
+              <h3 className="text-2xl font-bold mb-4">Elite Mentorship</h3>
+              <p className="text-gray-400">
+                Direct access to millionaire mentors who've built multiple successful businesses
+              </p>
             </motion.div>
 
-            {/* Section 2 - Success Stories */}
-            <motion.div 
-              className="grid md:grid-cols-2 gap-12 items-center"
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6 }}
-              viewport={{ once: true }}
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.3 }}
+              className="text-center p-8 bg-zinc-900/50 rounded-2xl border border-zinc-800 hover-lift holographic"
             >
-              <div className="relative group md:order-1">
-                <div className="absolute -inset-1 bg-gradient-to-r from-orange-500/20 to-red-500/20 rounded-lg blur-xl group-hover:blur-2xl transition-all duration-500 opacity-70"></div>
-                <div className="relative rounded-lg overflow-hidden shadow-2xl">
-                  <Image
-                    src="/warriors-yacht-meeting.jpg"
-                    alt="Warriors Team Success"
-                    width={800}
-                    height={600}
-                    className="w-full h-full object-cover"
-                  />
-                </div>
-              </div>
-              <div className="space-y-6 md:order-2">
-                <div className="flex items-center gap-4 mb-6">
-                  <div className="p-3 bg-orange-500/10 rounded-lg">
-                    <Crown className="h-8 w-8 text-orange-500" />
-                  </div>
-                  <h3 className="text-3xl md:text-4xl font-bold">Surrounded by Success</h3>
-                </div>
-                <p className="text-lg md:text-xl text-muted-foreground leading-relaxed">
-                  To experience being surrounded by <span className="font-bold text-foreground">success stories</span>.
-                  To be among the <span className="font-bold text-foreground">most energetic</span> and <span className="font-bold text-foreground">lucky Men in the world.</span>
-                </p>
-                <p className="text-lg md:text-xl text-muted-foreground leading-relaxed">
-                  We have <span className="font-bold text-foreground">over 3,500 members worldwide</span>, with
-                  specialists, experts, and professionals in every
-                  field imaginable. All dedicated to the <span className="font-bold text-foreground">pursuit of excellence in all
-                  areas of life.</span>
-                </p>
-              </div>
+              <Users className="h-16 w-16 text-[#D4AF37] mx-auto mb-6" />
+              <h3 className="text-2xl font-bold mb-4">Global Network</h3>
+              <p className="text-gray-400">
+                Connect with driven entrepreneurs from every corner of the world
+              </p>
             </motion.div>
 
-            {/* Section 3 - Transformation */}
-            <motion.div 
-              className="grid md:grid-cols-2 gap-12 items-center"
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6 }}
-              viewport={{ once: true }}
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.4 }}
+              className="text-center p-8 bg-zinc-900/50 rounded-2xl border border-zinc-800 hover-lift holographic"
             >
-              <div className="space-y-6">
-                <div className="flex items-center gap-4 mb-6">
-                  <div className="p-3 bg-red-500/10 rounded-lg">
-                    <Flame className="h-8 w-8 text-red-500" />
-                  </div>
-                  <h3 className="text-3xl md:text-4xl font-bold">Your Transformation Awaits</h3>
-                </div>
-                <p className="text-lg md:text-xl text-muted-foreground leading-relaxed">
-                  <span className="font-bold text-foreground">Our ongoing Mission</span> is to ceaselessly empower Men like
-                  you to become the very best versions of themselves through
-                  <span className="font-bold text-foreground"> physical, mental, emotional, spiritual</span>, and <span className="font-bold text-foreground">financial
-                  development</span>.
-                </p>
-                <p className="text-lg md:text-xl text-muted-foreground leading-relaxed">
-                  <span className="font-bold text-foreground">ALL Men should be strong, positive, law-abiding citizens</span> who are <span className="font-bold text-foreground">reliable</span> and <span className="font-bold text-foreground">dependable</span> for their families, friends,
-                  and communities.
-                </p>
-              </div>
-              <div className="relative group">
-                <div className="absolute -inset-1 bg-gradient-to-r from-red-500/20 to-orange-500/20 rounded-lg blur-xl group-hover:blur-2xl transition-all duration-500 opacity-70"></div>
-                <div className="relative rounded-lg overflow-hidden shadow-2xl">
-                  <Image
-                    src="/warriors-leaders.jpg"
-                    alt="Warriors Team Leaders"
-                    width={800}
-                    height={600}
-                    className="w-full h-full object-cover"
-                  />
-                </div>
-              </div>
+              <Flame className="h-16 w-16 text-[#D4AF37] mx-auto mb-6" />
+              <h3 className="text-2xl font-bold mb-4">Daily Accountability</h3>
+              <p className="text-gray-400">
+                Push yourself beyond limits with brothers who hold you to the highest standards
+              </p>
             </motion.div>
           </div>
 
-          {/* CTA */}
-          <div className="text-center mt-24">
-            <h3 className="text-3xl md:text-4xl font-bold mb-8">
-              Which Version Will You Pursue?
-            </h3>
-            <p className="text-muted-foreground mb-12 max-w-2xl mx-auto text-lg md:text-xl">
-              Or one who understands that no great Man ever succeeded without a tribe.
-              Join a brotherhood of men who are redefining what's possible.
+          {/* Image Gallery */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ delay: 0.5 }}
+            className="grid md:grid-cols-3 gap-6 mb-24"
+          >
+            <div className="relative aspect-video overflow-hidden rounded-xl premium-shadow">
+              <Image
+                src="/warriors-group-photo.jpg"
+                alt="Warriors Team Meeting"
+                fill
+                className="object-cover hover:scale-110 transition-transform duration-500"
+              />
+            </div>
+            <div className="relative aspect-video overflow-hidden rounded-xl premium-shadow">
+              <Image
+                src="/warriors-yacht-meeting.jpg"
+                alt="Warriors Yacht Meeting"
+                fill
+                className="object-cover hover:scale-110 transition-transform duration-500"
+              />
+            </div>
+            <div className="relative aspect-video overflow-hidden rounded-xl premium-shadow">
+              <Image
+                src="/warriors-leaders.jpg"
+                alt="Warriors Leaders"
+                fill
+                className="object-cover hover:scale-110 transition-transform duration-500"
+              />
+            </div>
+          </motion.div>
+
+          {/* What You Get */}
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.6 }}
+            className="bg-gradient-to-r from-zinc-900 to-zinc-950 rounded-3xl p-12 border border-zinc-800 mb-24"
+          >
+            <h3 className="text-3xl font-bold text-center mb-12">What You Get as a Warrior</h3>
+            <div className="grid md:grid-cols-2 gap-8">
+              <div className="space-y-4">
+                <div className="flex items-start gap-4">
+                  <div className="w-2 h-2 bg-[#D4AF37] rounded-full mt-2"></div>
+                  <div>
+                    <h4 className="font-semibold mb-1">Weekly Mastermind Calls</h4>
+                    <p className="text-gray-400 text-sm">Strategy sessions with successful entrepreneurs</p>
+                  </div>
+                </div>
+                <div className="flex items-start gap-4">
+                  <div className="w-2 h-2 bg-[#D4AF37] rounded-full mt-2"></div>
+                  <div>
+                    <h4 className="font-semibold mb-1">24/7 Private Community</h4>
+                    <p className="text-gray-400 text-sm">Get instant help and feedback anytime</p>
+                  </div>
+                </div>
+                <div className="flex items-start gap-4">
+                  <div className="w-2 h-2 bg-[#D4AF37] rounded-full mt-2"></div>
+                  <div>
+                    <h4 className="font-semibold mb-1">Exclusive Events</h4>
+                    <p className="text-gray-400 text-sm">Private meetups in major cities worldwide</p>
+                  </div>
+                </div>
+              </div>
+              <div className="space-y-4">
+                <div className="flex items-start gap-4">
+                  <div className="w-2 h-2 bg-[#D4AF37] rounded-full mt-2"></div>
+                  <div>
+                    <h4 className="font-semibold mb-1">Business Partnerships</h4>
+                    <p className="text-gray-400 text-sm">Find co-founders and business partners</p>
+                  </div>
+                </div>
+                <div className="flex items-start gap-4">
+                  <div className="w-2 h-2 bg-[#D4AF37] rounded-full mt-2"></div>
+                  <div>
+                    <h4 className="font-semibold mb-1">Fitness Challenges</h4>
+                    <p className="text-gray-400 text-sm">Push your physical limits with the team</p>
+                  </div>
+                </div>
+                <div className="flex items-start gap-4">
+                  <div className="w-2 h-2 bg-[#D4AF37] rounded-full mt-2"></div>
+                  <div>
+                    <h4 className="font-semibold mb-1">Investment Opportunities</h4>
+                    <p className="text-gray-400 text-sm">Access to exclusive deals and ventures</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </motion.div>
+
+          {/* CTA Section */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ delay: 0.7 }}
+            className="text-center"
+          >
+            <h3 className="text-4xl font-bold mb-6">Ready to Join the Elite?</h3>
+            <p className="text-xl text-gray-300 mb-12 max-w-2xl mx-auto">
+              This isn't for everyone. Only those committed to excellence need apply.
             </p>
-            <Link href="/warriors-team" passHref legacyBehavior>
-              <a target="_blank" rel="noopener noreferrer" aria-label="Join The Warriors Team">
-                <Button 
-                  size="lg"
-                  className="bg-transparent text-foreground border-2 border-foreground hover:bg-foreground hover:text-background transition-all duration-300 uppercase font-bold text-base md:text-lg px-12 py-6 group shadow-[0_10px_30px_-10px_rgba(0,0,0,0.3)] hover:shadow-[0_15px_40px_-10px_rgba(0,0,0,0.5)] hover:scale-105"
-                >
-                  Join Warriors Team
-                  <ArrowRight className="ml-3 h-5 w-5 transition-transform group-hover:translate-x-1" />
-                </Button>
-              </a>
+            
+            <Link href="/warriors-team" target="_blank" rel="noopener noreferrer">
+              <Button 
+                size="lg" 
+                className="bg-gradient-to-r from-[#D4AF37] to-[#B8860B] hover:from-[#B8860B] hover:to-[#D4AF37] text-black px-12 py-6 text-xl font-bold glow-effect premium-shadow"
+              >
+                Apply to Join Warriors Team
+                <ArrowRight className="ml-2 h-6 w-6" />
+              </Button>
             </Link>
-          </div>
+            
+            <p className="text-sm text-gray-500 mt-6">
+              Limited spots available • Application required • $297/month
+            </p>
+          </motion.div>
         </div>
       </div>
+      
+      {/* Smooth transition to next section */}
+      <div className="section-transition" />
     </div>
   );
 }
