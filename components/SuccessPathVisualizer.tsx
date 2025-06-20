@@ -2,8 +2,9 @@
 
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, Target, TrendingUp, Award, Crown } from 'lucide-react';
+import { X, Target, TrendingUp, Award, Crown, Sparkles } from 'lucide-react';
 import { Button } from './ui/button';
+import Link from 'next/link';
 
 interface PathNode {
   id: string;
@@ -13,6 +14,7 @@ interface PathNode {
   position: { x: number; y: number };
   connections: string[];
   product?: string;
+  href?: string;
 }
 
 export const SuccessPathVisualizer = ({ onClose }: { onClose: () => void }) => {
@@ -23,52 +25,56 @@ export const SuccessPathVisualizer = ({ onClose }: { onClose: () => void }) => {
     {
       id: 'start',
       title: 'Your Current Position',
-      description: 'Where you are now - ready for transformation',
-      icon: <Target className="h-6 w-6" />,
+      description: 'Ready to transform your life and build your empire',
+      icon: <Target className="h-8 w-8" />,
       position: { x: 50, y: 80 },
       connections: ['skill', 'mindset'],
     },
     {
       id: 'skill',
       title: 'Master High-Income Skills',
-      description: 'Learn AI, sales, content creation',
-      icon: <TrendingUp className="h-6 w-6" />,
+      description: 'Learn AI automation, sales mastery, and content creation',
+      icon: <TrendingUp className="h-8 w-8" />,
       position: { x: 30, y: 50 },
       connections: ['automation', 'community'],
       product: 'The University',
+      href: '/#education',
     },
     {
       id: 'mindset',
-      title: 'Develop Warrior Mindset',
-      description: 'Build discipline and mental fortitude',
-      icon: <Award className="h-6 w-6" />,
+      title: 'Develop Elite Mindset',
+      description: 'Build unbreakable discipline and mental fortitude',
+      icon: <Award className="h-8 w-8" />,
       position: { x: 70, y: 50 },
       connections: ['community', 'automation'],
       product: 'Warriors Team',
+      href: '/warriors-team',
     },
     {
       id: 'automation',
       title: 'Implement AI Systems',
-      description: 'Automate and scale your business',
-      icon: <TrendingUp className="h-6 w-6" />,
+      description: 'Automate your business and scale to millions',
+      icon: <Sparkles className="h-8 w-8" />,
       position: { x: 30, y: 20 },
       connections: ['success'],
-      product: 'AI Automation Agency',
+      product: 'AI Automation',
+      href: '/automation',
     },
     {
       id: 'community',
       title: 'Join Elite Network',
-      description: 'Connect with successful entrepreneurs',
-      icon: <Award className="h-6 w-6" />,
+      description: 'Connect with successful entrepreneurs worldwide',
+      icon: <Award className="h-8 w-8" />,
       position: { x: 70, y: 20 },
       connections: ['success'],
       product: 'Warriors Team',
+      href: '/warriors-team',
     },
     {
       id: 'success',
       title: 'Financial Freedom',
-      description: 'Your empire is built',
-      icon: <Crown className="h-6 w-6 text-[#FFD700]" />,
+      description: 'Your empire is built, your freedom secured',
+      icon: <Crown className="h-8 w-8 text-[#D4AF37]" />,
       position: { x: 50, y: 5 },
       connections: [],
     },
@@ -84,6 +90,27 @@ export const SuccessPathVisualizer = ({ onClose }: { onClose: () => void }) => {
     return levels[level] || [];
   };
 
+  const handleNodeClick = (node: PathNode) => {
+    setSelectedNode(node.id);
+    
+    // Update current level based on node
+    if (node.id === 'start') setCurrentLevel(0);
+    else if (['skill', 'mindset'].includes(node.id)) setCurrentLevel(1);
+    else if (['automation', 'community'].includes(node.id)) setCurrentLevel(2);
+    else if (node.id === 'success') setCurrentLevel(3);
+  };
+
+  const handleNextStep = () => {
+    const nextLevel = currentLevel + 1;
+    if (nextLevel < 4) {
+      const nextNodes = getNodeByLevel(nextLevel);
+      if (nextNodes.length > 0) {
+        setSelectedNode(nextNodes[0]);
+        setCurrentLevel(nextLevel);
+      }
+    }
+  };
+
   return (
     <AnimatePresence>
       <motion.div
@@ -96,7 +123,7 @@ export const SuccessPathVisualizer = ({ onClose }: { onClose: () => void }) => {
           initial={{ scale: 0.9, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
           exit={{ scale: 0.9, opacity: 0 }}
-          className="bg-zinc-950 border border-zinc-800 rounded-3xl p-8 max-w-4xl w-full max-h-[90vh] overflow-hidden relative"
+          className="bg-zinc-950 border border-zinc-800 rounded-3xl p-8 max-w-4xl w-full max-h-[90vh] overflow-hidden relative premium-shadow"
         >
           {/* Header */}
           <div className="flex justify-between items-center mb-8">
@@ -127,7 +154,7 @@ export const SuccessPathVisualizer = ({ onClose }: { onClose: () => void }) => {
                       y1={`${node.position.y}%`}
                       x2={`${target.position.x}%`}
                       y2={`${target.position.y}%`}
-                      stroke="#FFD700"
+                      stroke="#D4AF37"
                       strokeWidth="2"
                       strokeDasharray="5,5"
                       initial={{ pathLength: 0 }}
@@ -150,14 +177,14 @@ export const SuccessPathVisualizer = ({ onClose }: { onClose: () => void }) => {
                 style={{ left: `${node.position.x}%`, top: `${node.position.y}%` }}
               >
                 <motion.div
-                  className={`path-node ${selectedNode === node.id ? 'ring-4 ring-[#FFD700]' : ''}`}
-                  onClick={() => setSelectedNode(node.id)}
+                  className={`path-node ${selectedNode === node.id ? 'ring-4 ring-[#D4AF37]' : ''}`}
+                  onClick={() => handleNodeClick(node)}
                   whileHover={{ scale: 1.1 }}
                   whileTap={{ scale: 0.95 }}
                 >
                   {node.icon}
                 </motion.div>
-                <p className="absolute top-full mt-2 text-xs text-center whitespace-nowrap">
+                <p className="absolute top-full mt-2 text-xs text-center whitespace-nowrap left-1/2 transform -translate-x-1/2">
                   {node.title}
                 </p>
               </motion.div>
@@ -182,9 +209,14 @@ export const SuccessPathVisualizer = ({ onClose }: { onClose: () => void }) => {
                 </p>
                 {pathNodes.find(n => n.id === selectedNode)?.product && (
                   <div className="flex gap-4">
-                    <Button className="bg-gradient-to-r from-[#FFD700] to-[#FFC107] text-black">
-                      Learn More About {pathNodes.find(n => n.id === selectedNode)?.product}
-                    </Button>
+                    <Link href={pathNodes.find(n => n.id === selectedNode)?.href || '/'}>
+                      <Button 
+                        className="bg-gradient-to-r from-[#D4AF37] to-[#B8860B] hover:from-[#B8860B] hover:to-[#D4AF37] text-black"
+                        onClick={onClose}
+                      >
+                        Explore {pathNodes.find(n => n.id === selectedNode)?.product}
+                      </Button>
+                    </Link>
                   </div>
                 )}
               </motion.div>
@@ -196,19 +228,15 @@ export const SuccessPathVisualizer = ({ onClose }: { onClose: () => void }) => {
             <p className="text-sm text-gray-400 mb-4">
               Click on any node to explore your path to success
             </p>
-            <Button
-              variant="outline"
-              onClick={() => {
-                const levels = getNodeByLevel(currentLevel + 1);
-                if (levels.length > 0) {
-                  setSelectedNode(levels[0]);
-                  setCurrentLevel(currentLevel + 1);
-                }
-              }}
-              className="border-[#FFD700] text-[#FFD700] hover:bg-[#FFD700]/10"
-            >
-              Show Me The Next Step →
-            </Button>
+            {currentLevel < 3 && (
+              <Button
+                variant="outline"
+                onClick={handleNextStep}
+                className="border-[#D4AF37] text-[#D4AF37] hover:bg-[#D4AF37]/10"
+              >
+                Show Me The Next Step →
+              </Button>
+            )}
           </div>
         </motion.div>
       </motion.div>
