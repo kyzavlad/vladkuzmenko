@@ -1,13 +1,13 @@
 'use client';
 
-import React, { useState, createContext, useContext, useEffect } from 'react';
+import React, { useState, createContext, useContext, useEffect, useRef } from 'react';
 import { Button } from './ui/button';
 import { CheckCircle, ShoppingCart, X, CreditCard, Star, Users, Trophy, Zap, BookOpen, Target, Brain } from 'lucide-react';
 import { AnimatePresence, motion } from 'framer-motion';
 import Image from 'next/image';
 import { SmartRecommendation } from './SmartRecommendation';
 
-// Context остается без изменений
+// Context для корзины
 const CartContext = createContext({
   cartItems: [] as any[],
   addToCart: (item: any) => {},
@@ -46,9 +46,22 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
   );
 };
 
+// Shopping Cart Sidebar Component
 export const ShoppingCartSidebar = () => {
   const { isCartOpen, toggleCart, cartItems, removeFromCart } = useCart();
+  const [showDeliveryForm, setShowDeliveryForm] = useState(false);
+  const [deliveryData, setDeliveryData] = useState({
+    name: '',
+    email: '',
+    address: '',
+    city: '',
+    zipCode: '',
+    country: ''
+  });
+  
   const totalPrice = cartItems.reduce((total, item) => total + (item.price * item.quantity), 0);
+  const hasMerch = cartItems.some(item => item.category);
+  const hasPlatforms = cartItems.some(item => item.name.includes('University') || item.name.includes('AI Editing Platform'));
   
   useEffect(() => {
     if (isCartOpen) {
@@ -60,6 +73,33 @@ export const ShoppingCartSidebar = () => {
       document.body.style.overflow = 'auto';
     };
   }, [isCartOpen]);
+
+  const handleCheckout = () => {
+    if (hasMerch && !showDeliveryForm) {
+      setShowDeliveryForm(true);
+    } else {
+      // Process payment for platforms
+      const platformItems = cartItems.filter(item => item.name.includes('University') || item.name.includes('AI Editing Platform'));
+      
+      if (platformItems.length > 0) {
+        // Open platforms in new tabs
+        platformItems.forEach(item => {
+          if (item.name.includes('University')) {
+            window.open('/university', '_blank');
+          } else if (item.name.includes('AI Editing Platform')) {
+            window.open('/ai-platform', '_blank');
+          }
+        });
+        
+        // Clear cart after successful "payment"
+        platformItems.forEach(item => removeFromCart(item.name));
+        
+        if (!hasMerch) {
+          toggleCart();
+        }
+      }
+    }
+  };
 
   return (
     <AnimatePresence>
@@ -85,36 +125,93 @@ export const ShoppingCartSidebar = () => {
                 <X className="h-6 w-6" />
               </Button>
             </div>
+            
             <div className="flex-grow p-6 overflow-y-auto">
-              {cartItems.length === 0 ? (
-                <p className="text-muted-foreground">Your cart is empty.</p>
+              {!showDeliveryForm ? (
+                cartItems.length === 0 ? (
+                  <p className="text-muted-foreground">Your cart is empty.</p>
+                ) : (
+                  <ul className="space-y-4">
+                    {cartItems.map((item, index) => (
+                      <li key={index} className="flex items-center justify-between gap-4">
+                        <div>
+                          <h3 className="font-semibold">{item.name}</h3>
+                          <p className="text-sm text-muted-foreground">${item.price.toFixed(2)} x {item.quantity}</p>
+                        </div>
+                        <div className="flex items-center gap-2">
+                          <p className="font-bold">${(item.price * item.quantity).toFixed(2)}</p>
+                          <Button variant="outline" size="icon" className="w-8 h-8" onClick={() => removeFromCart(item.name)}>
+                            <X className="h-4 w-4" />
+                          </Button>
+                        </div>
+                      </li>
+                    ))}
+                  </ul>
+                )
               ) : (
-                <ul className="space-y-4">
-                  {cartItems.map((item, index) => (
-                    <li key={index} className="flex items-center justify-between gap-4">
-                      <div>
-                        <h3 className="font-semibold">{item.name}</h3>
-                        <p className="text-sm text-muted-foreground">${item.price.toFixed(2)} x {item.quantity}</p>
-                      </div>
-                      <div className="flex items-center gap-2">
-                        <p className="font-bold">${(item.price * item.quantity).toFixed(2)}</p>
-                        <Button variant="outline" size="icon" className="w-8 h-8" onClick={() => removeFromCart(item.name)}>
-                          <X className="h-4 w-4" />
-                        </Button>
-                      </div>
-                    </li>
-                  ))}
-                </ul>
+                <div className="space-y-4">
+                  <h3 className="text-lg font-semibold">Delivery Information</h3>
+                  <input
+                    type="text"
+                    placeholder="Full Name"
+                    className="w-full p-3 rounded-lg premium-input"
+                    value={deliveryData.name}
+                    onChange={(e) => setDeliveryData({...deliveryData, name: e.target.value})}
+                  />
+                  <input
+                    type="email"
+                    placeholder="Email"
+                    className="w-full p-3 rounded-lg premium-input"
+                    value={deliveryData.email}
+                    onChange={(e) => setDeliveryData({...deliveryData, email: e.target.value})}
+                  />
+                  <input
+                    type="text"
+                    placeholder="Address"
+                    className="w-full p-3 rounded-lg premium-input"
+                    value={deliveryData.address}
+                    onChange={(e) => setDeliveryData({...deliveryData, address: e.target.value})}
+                  />
+                  <div className="grid grid-cols-2 gap-4">
+                    <input
+                      type="text"
+                      placeholder="City"
+                      className="p-3 rounded-lg premium-input"
+                      value={deliveryData.city}
+                      onChange={(e) => setDeliveryData({...deliveryData, city: e.target.value})}
+                    />
+                    <input
+                      type="text"
+                      placeholder="ZIP Code"
+                      className="p-3 rounded-lg premium-input"
+                      value={deliveryData.zipCode}
+                      onChange={(e) => setDeliveryData({...deliveryData, zipCode: e.target.value})}
+                    />
+                  </div>
+                  <input
+                    type="text"
+                    placeholder="Country"
+                    className="w-full p-3 rounded-lg premium-input"
+                    value={deliveryData.country}
+                    onChange={(e) => setDeliveryData({...deliveryData, country: e.target.value})}
+                  />
+                </div>
               )}
             </div>
+            
             {cartItems.length > 0 && (
               <div className="p-6 border-t border-border">
                 <div className="flex justify-between text-xl font-bold mb-4">
                   <span>Total:</span>
                   <span>${totalPrice.toFixed(2)}</span>
                 </div>
-                <Button size="lg" className="w-full bg-gradient-to-r from-[#FFD700] to-[#FFC107] text-black">
-                  <CreditCard className="mr-2 h-5 w-5" /> Proceed to Checkout
+                <Button 
+                  size="lg" 
+                  className="w-full bg-gradient-to-r from-[#D4AF37] to-[#B8860B] hover:from-[#B8860B] hover:to-[#D4AF37] text-black"
+                  onClick={handleCheckout}
+                >
+                  <CreditCard className="mr-2 h-5 w-5" /> 
+                  {showDeliveryForm ? 'Process Payment' : 'Proceed to Checkout'}
                 </Button>
               </div>
             )}
@@ -125,91 +222,140 @@ export const ShoppingCartSidebar = () => {
   );
 };
 
+// Campus data
 const campuses = [
   { 
-    title: 'AI Development & Automation', 
-    description: 'Master the art of building AI systems. Learn prompt engineering, API integration, and create automated workflows that scale.',
-    icon: <Zap className="h-8 w-8 text-[#FFD700]" />,
+    title: 'AI & Automation Mastery', 
+    description: 'Build intelligent systems that work 24/7. Master prompt engineering, workflow automation, and API integration.',
+    icon: <Zap className="h-8 w-8 text-[#D4AF37]" />,
     modules: 12,
     duration: '8 weeks'
   },
   { 
-    title: 'Content & Personal Branding', 
-    description: 'Build a content machine that works 24/7. Master storytelling, video creation, and social media algorithms.',
-    icon: <Target className="h-8 w-8 text-[#FFD700]" />,
+    title: 'Content Creation Empire', 
+    description: 'Turn content into currency. Master viral storytelling, video production, and audience psychology.',
+    icon: <Target className="h-8 w-8 text-[#D4AF37]" />,
     modules: 10,
     duration: '6 weeks'
   },
   { 
-    title: 'Sales & Persuasion', 
-    description: 'Learn psychological frameworks that close high-ticket deals. Master objection handling and value communication.',
-    icon: <Trophy className="h-8 w-8 text-[#FFD700]" />,
+    title: 'Sales Psychology', 
+    description: 'Close deals like a master. Learn advanced persuasion, objection handling, and value communication.',
+    icon: <Trophy className="h-8 w-8 text-[#D4AF37]" />,
     modules: 8,
     duration: '4 weeks'
   },
   { 
-    title: 'E-commerce & Dropshipping', 
-    description: 'Build profitable online stores from scratch. Product research, Facebook ads, and scaling strategies included.',
-    icon: <ShoppingCart className="h-8 w-8 text-[#FFD700]" />,
+    title: 'E-commerce Domination', 
+    description: 'Build stores that print money. Product research, paid ads mastery, and scaling strategies.',
+    icon: <ShoppingCart className="h-8 w-8 text-[#D4AF37]" />,
     modules: 15,
     duration: '10 weeks'
   },
   { 
-    title: 'Mindset & Discipline', 
-    description: 'Develop unbreakable mental fortitude. Time management, goal setting, and peak performance protocols.',
-    icon: <BookOpen className="h-8 w-8 text-[#FFD700]" />,
+    title: 'Warrior Mindset', 
+    description: 'Forge unbreakable discipline. Peak performance protocols, time mastery, and mental fortitude.',
+    icon: <BookOpen className="h-8 w-8 text-[#D4AF37]" />,
     modules: 6,
     duration: '4 weeks'
   },
   { 
-    title: 'Financial Markets & Crypto', 
-    description: 'Understand market psychology, technical analysis, and build wealth through strategic investments.',
-    icon: <Users className="h-8 w-8 text-[#FFD700]" />,
+    title: 'Wealth Building', 
+    description: 'Master money like the elite. Investment strategies, market psychology, and wealth preservation.',
+    icon: <Users className="h-8 w-8 text-[#D4AF37]" />,
     modules: 12,
     duration: '8 weeks'
   },
 ];
 
+// Testimonials data
 const testimonials = [
   {
     name: "Alex Rodriguez",
-    role: "E-commerce Entrepreneur",
+    role: "AI Agency Owner",
     image: "/testimonial-1.jpg",
-    content: "The University completely transformed my business. Went from $2k to $50k/month in 6 months.",
-    rating: 5
+    content: "From zero to $50k/month in 6 months. The AI campus alone changed my life.",
+    rating: 5,
+    revenue: "$50,000/mo"
   },
   {
     name: "Marcus Chen",
-    role: "AI Agency Owner",
+    role: "Content Creator",
     image: "/testimonial-2.jpg",
-    content: "The AI automation campus alone is worth 10x the price. Now running a 6-figure agency.",
-    rating: 5
+    content: "100k followers and $25k/month. Vlad's systems are pure gold.",
+    rating: 5,
+    revenue: "$25,000/mo"
   },
   {
     name: "David Thompson",
-    role: "Content Creator",
+    role: "E-commerce King",
     image: "/testimonial-3.jpg",
-    content: "From 0 to 100k followers in 90 days using Vlad's content systems. Life-changing.",
-    rating: 5
+    content: "Scaled to 7 figures in my first year. This is the real deal.",
+    rating: 5,
+    revenue: "$120,000/mo"
+  },
+  {
+    name: "James Wilson",
+    role: "Sales Expert",
+    image: "/testimonial-4.jpg",
+    content: "Closing $100k+ deals weekly now. The sales training is unmatched.",
+    rating: 5,
+    revenue: "$80,000/mo"
+  },
+  {
+    name: "Ryan Foster",
+    role: "Automation Specialist",
+    image: "/testimonial-5.jpg",
+    content: "Built a $30k/month agency in 90 days. Life-changing program.",
+    rating: 5,
+    revenue: "$30,000/mo"
+  },
+  {
+    name: "Michael Park",
+    role: "Trader",
+    image: "/testimonial-6.jpg",
+    content: "Turned $5k into $200k. The wealth campus is incredible.",
+    rating: 5,
+    revenue: "$40,000/mo"
   }
 ];
 
+// Main Education Platform Section
 export const EducationPlatformSection = () => {
   const { addToCart } = useCart();
   const [selectedCampus, setSelectedCampus] = useState(0);
   const [showRecommendation, setShowRecommendation] = useState(false);
+  const testimonialRef = useRef<HTMLDivElement>(null);
   
   const theUniversityProduct = {
     name: "The University - Monthly",
     price: 97.00
   };
 
+  // Auto-scroll testimonials
+  useEffect(() => {
+    const interval = setInterval(() => {
+      if (testimonialRef.current) {
+        const scrollAmount = 2;
+        testimonialRef.current.scrollLeft += scrollAmount;
+        
+        // Reset scroll when reaching the end
+        const maxScroll = testimonialRef.current.scrollWidth / 2;
+        if (testimonialRef.current.scrollLeft >= maxScroll) {
+          testimonialRef.current.scrollLeft = 0;
+        }
+      }
+    }, 30);
+
+    return () => clearInterval(interval);
+  }, []);
+
   return (
-    <section id="education" className="w-full py-24 md:py-32 bg-background relative overflow-hidden">
+    <div id="education" className="w-full py-24 md:py-32 bg-background relative overflow-hidden">
       {/* Background similar to Warriors Team */}
-      <div className="absolute inset-0 opacity-5">
-        <div className="absolute top-[20%] -right-[10%] w-[50%] h-[50%] bg-gradient-radial from-[#FFD700] to-transparent blur-3xl"></div>
-        <div className="absolute -bottom-[20%] -left-[10%] w-[40%] h-[40%] bg-gradient-radial from-[#FFC107] to-transparent blur-3xl"></div>
+      <div className="absolute inset-0 opacity-10">
+        <div className="absolute top-[20%] -right-[10%] w-[50%] h-[50%] bg-gradient-radial from-[#D4AF37] to-transparent blur-3xl"></div>
+        <div className="absolute -bottom-[20%] -left-[10%] w-[40%] h-[40%] bg-gradient-radial from-[#B8860B] to-transparent blur-3xl"></div>
       </div>
       
       <div className="container mx-auto relative z-10">
@@ -235,7 +381,7 @@ export const EducationPlatformSection = () => {
             <Button
               variant="outline"
               onClick={() => setShowRecommendation(true)}
-              className="mt-6 border-[#FFD700] text-[#FFD700] hover:bg-[#FFD700]/10"
+              className="mt-6 border-[#D4AF37] text-[#D4AF37] hover:bg-[#D4AF37]/10"
             >
               <Brain className="mr-2 h-4 w-4" />
               Get Personalized Campus Recommendation
@@ -257,7 +403,7 @@ export const EducationPlatformSection = () => {
                     onClick={() => setSelectedCampus(index)}
                     className={`p-6 rounded-xl border cursor-pointer transition-all duration-300 hover-lift holographic ${
                       selectedCampus === index 
-                        ? 'bg-gradient-to-r from-[#FFD700]/20 to-[#FFC107]/10 border-[#FFD700]/50' 
+                        ? 'bg-gradient-to-r from-[#D4AF37]/20 to-[#B8860B]/10 border-[#D4AF37]/50' 
                         : 'bg-zinc-900/50 border-zinc-800 hover:border-zinc-700'
                     }`}
                   >
@@ -267,7 +413,7 @@ export const EducationPlatformSection = () => {
                         <h3 className="text-xl font-bold mb-2">{campus.title}</h3>
                         <p className="text-gray-400 text-sm mb-3">{campus.description}</p>
                         <div className="flex gap-4 text-sm">
-                          <span className="text-[#FFD700]">{campus.modules} modules</span>
+                          <span className="text-[#D4AF37]">{campus.modules} modules</span>
                           <span className="text-gray-500">•</span>
                           <span className="text-gray-400">{campus.duration}</span>
                         </div>
@@ -314,7 +460,7 @@ export const EducationPlatformSection = () => {
 
                 <Button 
                   size="lg" 
-                  className="w-full bg-gradient-to-r from-[#FFD700] to-[#FFC107] hover:from-[#FFC107] hover:to-[#FFD700] text-black glow-effect"
+                  className="w-full bg-gradient-to-r from-[#D4AF37] to-[#B8860B] hover:from-[#B8860B] hover:to-[#D4AF37] text-black glow-effect"
                   onClick={() => addToCart(theUniversityProduct)}
                 >
                   <ShoppingCart className="mr-2 h-5 w-5" /> 
@@ -327,44 +473,85 @@ export const EducationPlatformSection = () => {
               </motion.div>
             </div>
 
-            {/* Social Proof */}
+            {/* Infinite Scrolling Testimonials */}
             <motion.div
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
             >
               <h3 className="text-3xl font-bold text-center mb-12">Success Stories From Our Students</h3>
-              <div className="grid md:grid-cols-3 gap-8">
-                {testimonials.map((testimonial, index) => (
-                  <motion.div
-                    key={testimonial.name}
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ delay: index * 0.1 }}
-                    className="bg-zinc-900/50 rounded-xl p-6 border border-zinc-800 hover-lift"
-                  >
-                    <div className="flex items-center gap-4 mb-4">
-                      <Image
-                        src={testimonial.image}
-                        alt={testimonial.name}
-                        width={60}
-                        height={60}
-                        className="rounded-full"
-                      />
-                      <div>
-                        <h4 className="font-semibold">{testimonial.name}</h4>
-                        <p className="text-sm text-gray-400">{testimonial.role}</p>
+              
+              <div className="relative">
+                <div 
+                  ref={testimonialRef}
+                  className="flex gap-6 overflow-x-hidden carousel-container"
+                >
+                  {/* First set */}
+                  {testimonials.map((testimonial, index) => (
+                    <motion.div
+                      key={`${testimonial.name}-1`}
+                      initial={{ opacity: 0, y: 20 }}
+                      whileInView={{ opacity: 1, y: 0 }}
+                      viewport={{ once: true }}
+                      transition={{ delay: index * 0.1 }}
+                      className="flex-shrink-0 w-[400px] bg-zinc-900/50 rounded-xl p-6 border border-zinc-800 hover-lift"
+                    >
+                      <div className="flex items-center gap-4 mb-4">
+                        <Image
+                          src={testimonial.image}
+                          alt={testimonial.name}
+                          width={60}
+                          height={60}
+                          className="rounded-full"
+                        />
+                        <div>
+                          <h4 className="font-semibold">{testimonial.name}</h4>
+                          <p className="text-sm text-gray-400">{testimonial.role}</p>
+                          <p className="text-sm font-bold text-[#D4AF37]">{testimonial.revenue}</p>
+                        </div>
                       </div>
-                    </div>
-                    <div className="flex gap-1 mb-3">
-                      {[...Array(testimonial.rating)].map((_, i) => (
-                        <Star key={i} className="h-4 w-4 fill-[#FFD700] text-[#FFD700]" />
-                      ))}
-                    </div>
-                    <p className="text-gray-300 italic">"{testimonial.content}"</p>
-                  </motion.div>
-                ))}
+                      <div className="flex gap-1 mb-3">
+                        {[...Array(testimonial.rating)].map((_, i) => (
+                          <Star key={i} className="h-4 w-4 fill-[#D4AF37] text-[#D4AF37]" />
+                        ))}
+                      </div>
+                      <p className="text-gray-300 italic">"{testimonial.content}"</p>
+                    </motion.div>
+                  ))}
+                  
+                  {/* Duplicate set for infinite scroll */}
+                  {testimonials.map((testimonial, index) => (
+                    <motion.div
+                      key={`${testimonial.name}-2`}
+                      initial={{ opacity: 0, y: 20 }}
+                      whileInView={{ opacity: 1, y: 0 }}
+                      viewport={{ once: true }}
+                      transition={{ delay: index * 0.1 }}
+                      className="flex-shrink-0 w-[400px] bg-zinc-900/50 rounded-xl p-6 border border-zinc-800 hover-lift"
+                    >
+                      <div className="flex items-center gap-4 mb-4">
+                        <Image
+                          src={testimonial.image}
+                          alt={testimonial.name}
+                          width={60}
+                          height={60}
+                          className="rounded-full"
+                        />
+                        <div>
+                          <h4 className="font-semibold">{testimonial.name}</h4>
+                          <p className="text-sm text-gray-400">{testimonial.role}</p>
+                          <p className="text-sm font-bold text-[#D4AF37]">{testimonial.revenue}</p>
+                        </div>
+                      </div>
+                      <div className="flex gap-1 mb-3">
+                        {[...Array(testimonial.rating)].map((_, i) => (
+                          <Star key={i} className="h-4 w-4 fill-[#D4AF37] text-[#D4AF37]" />
+                        ))}
+                      </div>
+                      <p className="text-gray-300 italic">"{testimonial.content}"</p>
+                    </motion.div>
+                  ))}
+                </div>
               </div>
             </motion.div>
           </div>
@@ -374,7 +561,7 @@ export const EducationPlatformSection = () => {
             initial={{ opacity: 0, scale: 0.95 }}
             whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: true }}
-            className="text-center bg-gradient-to-r from-[#FFD700]/10 to-[#FFC107]/10 rounded-2xl p-12 border border-[#FFD700]/20 mt-20"
+            className="text-center bg-gradient-to-r from-[#D4AF37]/10 to-[#B8860B]/10 rounded-2xl p-12 border border-[#D4AF37]/20 mt-20"
           >
             <h3 className="text-4xl font-bold mb-4">Ready to Level Up?</h3>
             <p className="text-xl text-gray-300 mb-8 max-w-2xl mx-auto">
@@ -382,7 +569,7 @@ export const EducationPlatformSection = () => {
             </p>
             <Button 
               size="lg" 
-              className="bg-gradient-to-r from-[#FFD700] to-[#FFC107] hover:from-[#FFC107] hover:to-[#FFD700] text-black px-12 py-6 text-lg glow-effect"
+              className="bg-gradient-to-r from-[#D4AF37] to-[#B8860B] hover:from-[#B8860B] hover:to-[#D4AF37] text-black px-12 py-6 text-lg glow-effect"
               onClick={() => addToCart(theUniversityProduct)}
             >
               Get Instant Access - $97/month
@@ -401,6 +588,9 @@ export const EducationPlatformSection = () => {
           }}
         />
       )}
-    </section>
+      
+      {/* Smooth transition to next section */}
+      <div className="section-transition" />
+    </div>
   );
 };
