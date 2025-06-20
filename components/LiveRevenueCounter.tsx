@@ -9,17 +9,17 @@ export const LiveRevenueCounter = () => {
   const [dailyIncrease, setDailyIncrease] = useState(0);
 
   useEffect(() => {
-    // Симулируем реальное обновление каждые 3 секунды
+    // Simulate real-time updates every 3 seconds
     const interval = setInterval(() => {
       const increment = Math.floor(Math.random() * 1000) + 500;
       setRevenue(prev => prev + increment);
       setDailyIncrease(prev => prev + increment);
     }, 3000);
 
-    // Сбрасываем дневной счетчик каждый день
+    // Reset daily counter every 24 hours
     const dailyReset = setInterval(() => {
       setDailyIncrease(0);
-    }, 86400000); // 24 часа
+    }, 86400000); // 24 hours
 
     return () => {
       clearInterval(interval);
@@ -43,8 +43,8 @@ export const LiveRevenueCounter = () => {
       className="bg-zinc-900/50 backdrop-blur-sm rounded-2xl p-8 border border-zinc-800 holographic"
     >
       <div className="flex items-center gap-4 mb-4">
-        <div className="p-3 bg-[#FFD700]/10 rounded-lg">
-          <TrendingUp className="h-8 w-8 text-[#FFD700]" />
+        <div className="p-3 bg-[#D4AF37]/10 rounded-lg">
+          <TrendingUp className="h-8 w-8 text-[#D4AF37]" />
         </div>
         <div>
           <h3 className="text-2xl font-bold">Live Student Revenue</h3>
