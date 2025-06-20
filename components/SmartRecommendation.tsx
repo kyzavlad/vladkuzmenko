@@ -122,7 +122,7 @@ export const SmartRecommendation = ({
           {/* Progress Bar */}
           <div className="w-full bg-zinc-800 rounded-full h-2 mb-8">
             <div 
-              className="bg-gradient-to-r from-[#FFD700] to-[#FFC107] h-2 rounded-full transition-all duration-300"
+              className="bg-gradient-to-r from-[#D4AF37] to-[#B8860B] h-2 rounded-full transition-all duration-300"
               style={{ width: `${((currentQuestion + 1) / questions.length) * 100}%` }}
             />
           </div>
@@ -148,11 +148,11 @@ export const SmartRecommendation = ({
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: index * 0.1 }}
                     onClick={() => handleAnswer(option.points)}
-                    className="w-full p-6 bg-zinc-900 rounded-xl border border-zinc-800 hover:border-[#FFD700]/50 transition-all duration-300 text-left group holographic"
+                    className="w-full p-6 bg-zinc-900 rounded-xl border border-zinc-800 hover:border-[#D4AF37]/50 transition-all duration-300 text-left group holographic"
                   >
                     <div className="flex items-center justify-between">
                       <span className="text-lg">{option.text}</span>
-                      <ChevronRight className="h-5 w-5 text-gray-400 group-hover:text-[#FFD700] transition-colors" />
+                      <ChevronRight className="h-5 w-5 text-gray-400 group-hover:text-[#D4AF37] transition-colors" />
                     </div>
                   </motion.button>
                 ))}
