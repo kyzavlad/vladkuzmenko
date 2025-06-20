@@ -25,20 +25,21 @@ export function Header() {
       title: "Product",
       description: "Explore our ecosystem of products and services",
       items: [
-        { title: "The University", href: "#education" },
-        { title: "AI Automation", href: "#automation-teaser" },
-        { title: "Content Platform", href: "#saas-launch-section" },
-        { title: "Elite Equipment", href: "#merch" },
+        { title: "The University", href: "/#education" },
+        { title: "AI Automation", href: "/automation" },
+        { title: "Content Platform", href: "/#saas-launch-section" },
+        { title: "Elite Equipment", href: "/#merch" },
+        { title: "Warriors Team", href: "/warriors-team" },
       ],
     },
     {
       title: "Company",
       description: "Learn more about our company and success stories.",
       items: [
-        { title: "About Vlad", href: "#about" },
-        { title: "Warriors Team", href: "#warriors-team" },
-        { title: "Testimonials", href: "#testimonials" },
-        { title: "Contact", href: "#contact" },
+        { title: "About Vlad", href: "/#about" },
+        { title: "Success Stories", href: "/#testimonials" },
+        { title: "Community", href: "/#warriors-team" },
+        { title: "Contact", href: "/#contact" },
       ],
     },
   ];
@@ -47,15 +48,16 @@ export function Header() {
     e: React.MouseEvent<HTMLAnchorElement>,
     href: string
   ) => {
-    e.preventDefault();
-    setMobileMenuOpen(false);
-    if (href.startsWith("#")) {
-      const element = document.querySelector(href);
+    if (href.startsWith("/#")) {
+      e.preventDefault();
+      setMobileMenuOpen(false);
+      const elementId = href.replace("/#", "");
+      const element = document.getElementById(elementId);
       if (element) {
         element.scrollIntoView({ behavior: "smooth" });
       }
-    } else {
-      window.location.href = href; 
+    } else if (href === "/") {
+      setMobileMenuOpen(false);
     }
   };
   
@@ -85,7 +87,7 @@ export function Header() {
       {/* Choose Path Menu popup */}
       {isChoosePathOpen && (
         <div className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-50 w-full max-w-lg px-4">
-          <div className="bg-background/95 backdrop-blur-sm border border-border/40 rounded-2xl p-6 space-y-4">
+          <div className="bg-background/95 backdrop-blur-sm border border-border/40 rounded-2xl p-6 space-y-4 premium-shadow">
             <div className="flex justify-between items-center mb-6">
               <h2 className="text-xl font-bold">Choose Your Path</h2>
               <Button
@@ -112,7 +114,7 @@ export function Header() {
               </StarBorder>
             </Link>
 
-            <Link href="/automation" onClick={(e) => { window.open('/automation', '_blank'); setChoosePathOpen(false); e.preventDefault(); }}>
+            <Link href="/automation" onClick={() => setChoosePathOpen(false)}>
               <StarBorder
                 className="w-full mb-4 hover:scale-[1.02] transition-transform cursor-pointer"
                 color="hsl(var(--color-2))"
@@ -142,26 +144,19 @@ export function Header() {
               </StarBorder>
             </Link>
             
-            <Link href="/warriors-team" passHref legacyBehavior>
-              <a 
-                target="_blank" 
-                rel="noopener noreferrer" 
-                onClick={() => setChoosePathOpen(false)}
-                className="block cursor-pointer" 
+            <Link href="/warriors-team" onClick={() => setChoosePathOpen(false)}>
+              <StarBorder 
+                className="w-full hover:scale-[1.02] transition-transform cursor-pointer"
+                color="hsl(var(--color-1))"
               >
-                <StarBorder 
-                  className="w-full hover:scale-[1.02] transition-transform"
-                  color="hsl(var(--color-1))"
-                >
-                  <div className="flex items-center justify-between">
-                    <div className="text-left">
-                      <h3 className="font-semibold text-lg">Warriors Team</h3>
-                      <p className="text-muted-foreground text-sm">Join our elite community</p>
-                    </div>
-                    <MoveRight className="h-5 w-5 text-muted-foreground" />
+                <div className="flex items-center justify-between">
+                  <div className="text-left">
+                    <h3 className="font-semibold text-lg">Warriors Team</h3>
+                    <p className="text-muted-foreground text-sm">Join our elite community</p>
                   </div>
-                </StarBorder>
-              </a>
+                  <MoveRight className="h-5 w-5 text-muted-foreground" />
+                </div>
+              </StarBorder>
             </Link>
           </div>
         </div>
@@ -202,7 +197,7 @@ export function Header() {
                               </div>
                               <div>
                                 <ContactDialog triggerText="Book a call today">
-                                  <Button size="sm" className="mt-6 w-full md:w-auto">
+                                  <Button size="sm" className="mt-6 w-full md:w-auto bg-gradient-to-r from-[#D4AF37] to-[#B8860B] hover:from-[#B8860B] hover:to-[#D4AF37] text-black">
                                     Book a call today
                                   </Button>
                                 </ContactDialog>
@@ -256,7 +251,7 @@ export function Header() {
               </Button>
               <div className="border-r h-6 mx-1 self-center"></div>
               <ContactDialog triggerText="Get started">
-                <Button>Get started</Button>
+                <Button className="bg-gradient-to-r from-[#D4AF37] to-[#B8860B] hover:from-[#B8860B] hover:to-[#D4AF37] text-black">Get started</Button>
               </ContactDialog>
             </div>
 
