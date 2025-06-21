@@ -1,163 +1,146 @@
-'use client';
+"use client";
 
-import React, { useState, useEffect } from 'react';
-import Image from 'next/image';
-import Link from 'next/link';
-import { Button } from './ui/button';
-import { motion, AnimatePresence } from 'framer-motion';
-import { ArrowRight, Play } from 'lucide-react';
-import { SuccessPathVisualizer } from './SuccessPathVisualizer';
+import { Button } from "@/components/ui/button";
+import { ArrowRight, ChevronDown } from "lucide-react";
+import { motion } from "framer-motion";
+import { ContactDialog } from "@/components/ui/contact-dialog";
+import Link from "next/link";
 
-export const PersonalBrandHero = () => {
-  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
-  const [showPathVisualizer, setShowPathVisualizer] = useState(false);
-  const [showLogoAnimation, setShowLogoAnimation] = useState(true);
-
-  useEffect(() => {
-    const handleMouseMove = (e: MouseEvent) => {
-      setMousePosition({ x: e.clientX, y: e.clientY });
-    };
-    window.addEventListener('mousemove', handleMouseMove);
-    
-    // Hide logo animation after 2 seconds
-    const timer = setTimeout(() => {
-      setShowLogoAnimation(false);
-    }, 2000);
-    
-    return () => {
-      window.removeEventListener('mousemove', handleMouseMove);
-      clearTimeout(timer);
-    };
-  }, []);
+export function PersonalBrandHero() {
+  const scrollToSection = (sectionId: string) => {
+    const section = document.getElementById(sectionId);
+    if (section) {
+      section.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
 
   return (
-    <>
-      {/* Logo Animation */}
-      <AnimatePresence>
-        {showLogoAnimation && (
-          <motion.div
-            initial={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="loading-animation"
-          >
-            <motion.div
-              initial={{ scale: 0.5, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              exit={{ scale: 1.2, opacity: 0 }}
-              transition={{ duration: 0.8 }}
-              className="loading-logo"
-            >
-              <span className="text-5xl font-bold font-serif italic gold-gradient">
-                VladKuzmenko
-              </span>
-            </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-
-      <section className="relative w-full min-h-screen text-white overflow-hidden bg-black">
-        {/* Neural Network Background */}
-        <div className="neural-network">
-          {[...Array(30)].map((_, i) => (
-            <motion.div
-              key={`node-${i}`}
-              className="neural-node"
-              initial={{ 
-                x: Math.random() * (typeof window !== 'undefined' ? window.innerWidth : 1000),
-                y: Math.random() * (typeof window !== 'undefined' ? window.innerHeight : 1000),
-              }}
-              animate={{
-                x: Math.random() * (typeof window !== 'undefined' ? window.innerWidth : 1000),
-                y: Math.random() * (typeof window !== 'undefined' ? window.innerHeight : 1000),
-              }}
-              transition={{
-                duration: Math.random() * 20 + 10,
-                repeat: Infinity,
-                repeatType: "reverse",
-              }}
-            />
-          ))}
+    <section className="relative w-full min-h-screen flex items-center justify-center overflow-hidden">
+      {/* Background Image with Artistic Effect */}
+      <div className="absolute inset-0 z-0">
+        {/* Main image */}
+        <div 
+          className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+          style={{ 
+            backgroundImage: 'url("/images/warriors-team-yacht.webp")',
+            filter: 'brightness(0.7) contrast(1.1)'
+          }}
+        />
+        
+        {/* Artistic gradient overlay */}
+        <div className="absolute inset-0 bg-gradient-to-t from-black via-black/70 to-transparent" />
+        
+        {/* Pattern overlay for artistic effect */}
+        <div 
+          className="absolute inset-0 opacity-20"
+          style={{
+            backgroundImage: `radial-gradient(circle at 20% 50%, transparent 0%, black 100%),
+                            radial-gradient(circle at 80% 50%, transparent 0%, black 100%)`,
+          }}
+        />
+        
+        {/* Edge fade effect */}
+        <div className="absolute inset-0">
+          <div className="absolute top-0 left-0 right-0 h-40 bg-gradient-to-b from-black to-transparent" />
+          <div className="absolute bottom-0 left-0 right-0 h-40 bg-gradient-to-t from-black to-transparent" />
+          <div className="absolute top-0 left-0 bottom-0 w-40 bg-gradient-to-r from-black to-transparent" />
+          <div className="absolute top-0 right-0 bottom-0 w-40 bg-gradient-to-l from-black to-transparent" />
         </div>
+      </div>
 
-        {/* Background Image with Stylish Cutout */}
-        <div className="absolute inset-0 z-0">
-          <div className="absolute inset-0 bg-gradient-to-b from-black via-transparent to-black z-10" />
-          <div 
-            className="absolute inset-0 overflow-hidden"
-            style={{
-              maskImage: `radial-gradient(ellipse 80% 60% at 50% 40%, black 40%, transparent 70%)`,
-              WebkitMaskImage: `radial-gradient(ellipse 80% 60% at 50% 40%, black 40%, transparent 70%)`
-            }}
+      {/* Content */}
+      <div className="container relative z-10 mx-auto px-4">
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8 }}
+          className="max-w-6xl mx-auto text-center"
+        >
+          {/* Main Title */}
+          <motion.h1 
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.8, delay: 0.2 }}
+            className="text-6xl md:text-8xl lg:text-9xl font-bold mb-6"
           >
-            <Image
-              src="/vlad-hero-bg.jpg"
-              alt="Background"
-              fill
-              className="object-cover opacity-40"
-              priority
-            />
-          </div>
-        </div>
+            <span className="gold-gradient">VLAD KUZMENKO</span>
+          </motion.h1>
 
-        {/* Content */}
-        <div className="relative z-10 min-h-screen flex flex-col items-center justify-center px-4 py-20">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
+          {/* Subtitle */}
+          <motion.p 
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.8, delay: 0.4 }}
+            className="text-xl md:text-2xl lg:text-3xl text-gray-300 mb-8 max-w-3xl mx-auto"
+          >
+            Building tomorrow's business empires with AI and automation.
+            <br />Join the revolution.
+          </motion.p>
+
+          {/* CTA Buttons */}
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1, delay: showLogoAnimation ? 2.2 : 0.2 }}
-            className="text-center"
+            transition={{ duration: 0.8, delay: 0.6 }}
+            className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-12"
           >
-            {/* Premium Name with Elite Gold Gradient */}
-            <h1 className="text-5xl md:text-7xl lg:text-8xl font-bold text-center mb-6">
-              <span className="gold-gradient">VLAD KUZMENKO</span>
-            </h1>
-
-            <p className="text-xl md:text-2xl text-center max-w-3xl mb-8 text-gray-300">
-              Building tomorrow's business empires with AI and automation.
-              <br />
-              Join the revolution.
-            </p>
-
-            <div className="flex flex-col sm:flex-row gap-4 justify-center mb-8">
-              <Link href="#education">
-                <Button 
-                  size="lg" 
-                  className="bg-gradient-to-r from-[#D4AF37] to-[#B8860B] hover:from-[#B8860B] hover:to-[#D4AF37] text-black font-bold glow-effect premium-shadow-sm"
-                >
-                  Start Your Journey
-                  <ArrowRight className="ml-2 h-5 w-5" />
-                </Button>
-              </Link>
-              <Link href="/warriors-team">
-                <Button 
-                  size="lg" 
-                  variant="outline" 
-                  className="border-[#D4AF37] text-white hover:bg-[#D4AF37]/10 hover:border-[#F4E4C1]"
-                >
-                  Join Elite Community
-                </Button>
-              </Link>
-            </div>
-
-            {/* Interactive Success Path Button */}
-            <Button
-              variant="ghost"
-              onClick={() => setShowPathVisualizer(true)}
-              className="text-[#D4AF37] hover:text-[#F4E4C1] underline-offset-4 hover:underline"
-            >
-              Discover Your Success Path →
-            </Button>
+            <ContactDialog triggerText="Start Your Journey">
+              <Button size="lg" className="premium-button text-lg px-8 py-6 h-auto">
+                Start Your Journey
+                <ArrowRight className="ml-2 h-5 w-5" />
+              </Button>
+            </ContactDialog>
+            
+            <Link href="/warriors-team">
+              <Button 
+                size="lg" 
+                variant="outline" 
+                className="text-lg px-8 py-6 h-auto border-gold-dark hover:bg-gold-dark/10"
+              >
+                Join Elite Community
+              </Button>
+            </Link>
           </motion.div>
-        </div>
 
-        {/* Success Path Visualizer Modal */}
-        {showPathVisualizer && (
-          <SuccessPathVisualizer onClose={() => setShowPathVisualizer(false)} />
-        )}
-      </section>
-      
-      {/* Smooth transition to next section */}
-      <div className="section-transition" />
-    </>
+          {/* Success Path Link */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.8, delay: 0.8 }}
+          >
+            <button
+              onClick={() => scrollToSection('success-path')}
+              className="text-gold hover:text-gold-light transition-colors flex items-center gap-2 mx-auto group"
+            >
+              <span className="text-lg">Discover Your Success Path</span>
+              <ChevronDown className="h-5 w-5 group-hover:translate-y-1 transition-transform" />
+            </button>
+          </motion.div>
+        </motion.div>
+      </div>
+
+      {/* Animated particles effect */}
+      <div className="absolute inset-0 z-0">
+        {[...Array(20)].map((_, i) => (
+          <motion.div
+            key={i}
+            className="absolute w-1 h-1 bg-gold/30 rounded-full"
+            initial={{
+              x: Math.random() * window.innerWidth,
+              y: window.innerHeight + 100,
+            }}
+            animate={{
+              y: -100,
+            }}
+            transition={{
+              duration: Math.random() * 20 + 10,
+              repeat: Infinity,
+              delay: Math.random() * 5,
+              ease: "linear",
+            }}
+          />
+        ))}
+      </div>
+    </section>
   );
-};
+}
