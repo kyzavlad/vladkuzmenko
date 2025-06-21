@@ -230,7 +230,9 @@ export function Header() {
           <div className="flex justify-center items-center min-w-0"> 
             <div className="logo-container relative"> 
               <a href="/" className="flex items-center" aria-label="VladKuzmenko.com Home">
-                <span className="header-logo">
+                <span 
+                  className="text-xl sm:text-2xl font-bold tracking-tighter bg-clip-text text-transparent bg-gradient-to-r from-foreground via-foreground to-foreground/30 dark:from-white dark:via-white dark:to-white/30 font-serif italic logo-underline"
+                >
                   VladKuzmenko.com
                 </span>
               </a>
