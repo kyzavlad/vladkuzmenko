@@ -154,27 +154,50 @@ body {
   left: 100%;
 }
 
-/* Section transitions */
+/* Section transitions - Ultra smooth */
 section {
   position: relative;
-  overflow: hidden;
+  overflow: visible; /* Changed to visible to prevent cutoff */
 }
 
 /* Smooth gradient transitions between sections */
+section::after {
+  content: '';
+  position: absolute;
+  bottom: -150px;
+  left: 0;
+  right: 0;
+  height: 300px;
+  background: linear-gradient(to bottom, #000 0%, transparent 100%);
+  pointer-events: none;
+  z-index: 1;
+}
+
 section::before {
   content: '';
   position: absolute;
-  top: -100px;
+  top: -150px;
   left: 0;
   right: 0;
-  height: 200px;
-  background: linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.5) 50%, #000 100%);
+  height: 300px;
+  background: linear-gradient(to bottom, transparent 0%, #000 100%);
   pointer-events: none;
   z-index: 1;
 }
 
 section:first-of-type::before {
   display: none;
+}
+
+section:last-of-type::after {
+  display: none;
+}
+
+/* Section spacing for smooth transitions */
+section + section {
+  margin-top: -100px;
+  position: relative;
+  z-index: 2;
 }
 
 /* Premium shadow effects */
