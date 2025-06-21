@@ -198,7 +198,7 @@ export function MensCommunitySection() {
             </Link>
             
             <p className="text-sm text-gray-500 mt-6">
-              Limited spots available • Application required • $297/month
+              Limited spots available • Application required • $9997/one time payment
             </p>
           </motion.div>
         </div>
