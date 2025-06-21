@@ -25,9 +25,9 @@ export function Header() {
       title: "Product",
       description: "Explore our ecosystem of products and services",
       items: [
-        { title: "The University", href: "/#education" },
+        { title: "The University", href: "/university" },
         { title: "AI Automation", href: "/automation" },
-        { title: "Content Platform", href: "/#saas-launch-section" },
+        { title: "Content Platform", href: "/ai-platform" },
         { title: "Elite Equipment", href: "/#merch" },
         { title: "Warriors Team", href: "/warriors-team" },
       ],
@@ -99,7 +99,7 @@ export function Header() {
               </Button>
             </div>
 
-            <Link href="/#education" onClick={(e) => { handleNavClick(e, "/#education"); setChoosePathOpen(false); }}>
+            <Link href="/university" onClick={() => setChoosePathOpen(false)}>
               <StarBorder
                 className="w-full mb-4 hover:scale-[1.02] transition-transform cursor-pointer"
                 color="hsl(var(--gold))"
@@ -129,7 +129,7 @@ export function Header() {
               </StarBorder>
             </Link>
 
-            <Link href="/#saas-launch-section" onClick={(e) => { handleNavClick(e, "/#saas-launch-section"); setChoosePathOpen(false); }}>
+            <Link href="/ai-platform" onClick={() => setChoosePathOpen(false)}>
               <StarBorder
                 className="w-full mb-4 hover:scale-[1.02] transition-transform cursor-pointer"
                 color="hsl(var(--color-3))"
@@ -197,7 +197,7 @@ export function Header() {
                               </div>
                               <div>
                                 <ContactDialog triggerText="Book a call today">
-                                  <Button size="sm" className="mt-6 w-full md:w-auto bg-gradient-to-r from-[#D4AF37] to-[#B8860B] hover:from-[#B8860B] hover:to-[#D4AF37] text-black">
+                                  <Button size="sm" className="mt-6 w-full md:w-auto premium-button">
                                     Book a call today
                                   </Button>
                                 </ContactDialog>
@@ -230,9 +230,7 @@ export function Header() {
           <div className="flex justify-center items-center min-w-0"> 
             <div className="logo-container relative"> 
               <a href="/" className="flex items-center" aria-label="VladKuzmenko.com Home">
-                <span 
-                  className="text-xl sm:text-2xl font-bold tracking-tighter bg-clip-text text-transparent bg-gradient-to-r from-foreground via-foreground to-foreground/30 dark:from-white dark:via-white dark:to-white/30 font-serif italic"
-                >
+                <span className="header-logo">
                   VladKuzmenko.com
                 </span>
               </a>
@@ -251,7 +249,7 @@ export function Header() {
               </Button>
               <div className="border-r h-6 mx-1 self-center"></div>
               <ContactDialog triggerText="Get started">
-                <Button className="bg-gradient-to-r from-[#D4AF37] to-[#B8860B] hover:from-[#B8860B] hover:to-[#D4AF37] text-black">Get started</Button>
+                <Button className="premium-button">Get started</Button>
               </ContactDialog>
             </div>
 
