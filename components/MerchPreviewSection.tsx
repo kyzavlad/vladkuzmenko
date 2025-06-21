@@ -1,257 +1,299 @@
-'use client';
+"use client";
 
-import React, { useRef, useEffect } from 'react';
-import Image from 'next/image';
-import { Button } from './ui/button';
-import { ShoppingCart, ChevronLeft, ChevronRight } from 'lucide-react';
-import { useCart } from './EducationPlatformSection';
-import { motion } from 'framer-motion';
+import { useState, useEffect } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import Image from "next/image";
+import { Button } from "@/components/ui/button";
+import { ChevronLeft, ChevronRight, ShoppingCart } from "lucide-react";
 
-const merchItems = [
-  { name: 'Performance Tee', image: '/merch/performance-tee.jpg', price: 45.00, category: 'Apparel', description: 'Premium athletic fit with moisture-wicking' },
-  { name: 'WARRIOR Protein', image: '/merch/warrior-protein.jpg', price: 69.99, category: 'Supplements', description: '25g pure isolate protein per serving' },
-  { name: 'Pro Boxing Gloves', image: '/merch/boxing-gloves.jpg', price: 89.00, category: 'Equipment', description: 'Competition-grade genuine leather' },
-  { name: 'Breathing Strips', image: '/merch/breathing-strips.jpg', price: 29.99, category: 'Performance', description: 'Enhanced oxygen intake technology' },
-  { name: 'Training Hoodie', image: '/merch/training-hoodie.jpg', price: 85.00, category: 'Apparel', description: 'Heavy-weight premium cotton blend' },
-  { name: 'Resistance Bands', image: '/merch/resistance-bands.jpg', price: 55.00, category: 'Equipment', description: '5 resistance levels included' },
-  { name: 'Shaker Bottle', image: '/merch/shaker-bottle.jpg', price: 24.99, category: 'Accessories', description: 'Leak-proof with storage' },
-  { name: 'Gym Duffel', image: '/merch/gym-bag.jpg', price: 95.00, category: 'Accessories', description: 'Water-resistant design' },
+const products = [
+  {
+    id: 1,
+    name: "Performance Tee",
+    price: "$45",
+    category: "Apparel",
+    description: "Premium athletic fit with moisture-wicking",
+    image: "/images/performance-tee.webp",
+    color: "Black",
+    sizes: ["S", "M", "L", "XL", "XXL"]
+  },
+  {
+    id: 2,
+    name: "WARRIOR Protein",
+    price: "$69.99",
+    category: "Supplements",
+    description: "25g pure isolate protein per serving",
+    image: "/images/warrior-protein.webp",
+    flavor: "Vanilla",
+    servings: 30
+  },
+  {
+    id: 3,
+    name: "Pro Boxing Gloves",
+    price: "$89",
+    category: "Equipment",
+    description: "Competition-grade genuine leather",
+    image: "/images/boxing-gloves.webp",
+    weight: "16oz",
+    material: "Leather"
+  },
+  {
+    id: 4,
+    name: "Breathing Strips",
+    price: "$29.99",
+    category: "Performance",
+    description: "Enhanced oxygen intake technology",
+    image: "/images/breathing-strips.webp",
+    quantity: 30,
+    type: "Nasal"
+  },
+  {
+    id: 5,
+    name: "Training Hoodie",
+    price: "$85",
+    category: "Apparel",
+    description: "Heavy-weight premium cotton blend",
+    image: "/images/training-hoodie.webp",
+    color: "Grey",
+    sizes: ["S", "M", "L", "XL", "XXL"]
+  }
 ];
 
-export const MerchPreviewSection = () => {
-  const { addToCart } = useCart();
-  const scrollRef = useRef<HTMLDivElement>(null);
-  const scrollIntervalRef = useRef<NodeJS.Timeout | null>(null);
+export function MerchSection() {
+  const [currentIndex, setCurrentIndex] = useState(2); // Start with middle card
+  const [isAutoPlaying, setIsAutoPlaying] = useState(true);
 
-  // Auto-scroll functionality
   useEffect(() => {
-    const startAutoScroll = () => {
-      scrollIntervalRef.current = setInterval(() => {
-        if (scrollRef.current) {
-          const scrollAmount = 2; // pixels per frame
-          scrollRef.current.scrollLeft += scrollAmount;
-          
-          // Check if we've scrolled to the end of the first set
-          const maxScroll = scrollRef.current.scrollWidth / 2;
-          if (scrollRef.current.scrollLeft >= maxScroll) {
-            scrollRef.current.scrollLeft = 0;
-          }
-        }
-      }, 30); // ~33fps
+    if (!isAutoPlaying) return;
+    
+    const interval = setInterval(() => {
+      setCurrentIndex((prev) => (prev + 1) % products.length);
+    }, 4000);
+
+    return () => clearInterval(interval);
+  }, [isAutoPlaying]);
+
+  const getCardStyle = (index: number) => {
+    const diff = index - currentIndex;
+    const totalProducts = products.length;
+    
+    // Handle circular positioning
+    let position = diff;
+    if (Math.abs(diff) > totalProducts / 2) {
+      position = diff > 0 ? diff - totalProducts : diff + totalProducts;
+    }
+
+    const baseTranslateX = position * 120;
+    const translateZ = Math.abs(position) * -100;
+    const rotateY = position * -15;
+    const scale = 1 - Math.abs(position) * 0.2;
+    const opacity = Math.abs(position) > 2 ? 0 : 1 - Math.abs(position) * 0.3;
+
+    return {
+      transform: `translateX(${baseTranslateX}px) translateZ(${translateZ}px) rotateY(${rotateY}deg) scale(${scale})`,
+      opacity,
+      zIndex: 10 - Math.abs(position),
+      pointerEvents: Math.abs(position) > 1 ? 'none' as const : 'auto' as const,
     };
+  };
 
-    startAutoScroll();
-
-    return () => {
-      if (scrollIntervalRef.current) {
-        clearInterval(scrollIntervalRef.current);
+  const navigate = (direction: 'prev' | 'next') => {
+    setIsAutoPlaying(false);
+    setCurrentIndex((prev) => {
+      if (direction === 'next') {
+        return (prev + 1) % products.length;
+      } else {
+        return prev === 0 ? products.length - 1 : prev - 1;
       }
-    };
-  }, []);
-
-  const handleMouseEnter = () => {
-    if (scrollIntervalRef.current) {
-      clearInterval(scrollIntervalRef.current);
-    }
-  };
-
-  const handleMouseLeave = () => {
-    const startAutoScroll = () => {
-      scrollIntervalRef.current = setInterval(() => {
-        if (scrollRef.current) {
-          const scrollAmount = 2;
-          scrollRef.current.scrollLeft += scrollAmount;
-          const maxScroll = scrollRef.current.scrollWidth / 2;
-          if (scrollRef.current.scrollLeft >= maxScroll) {
-            scrollRef.current.scrollLeft = 0;
-          }
-        }
-      }, 30);
-    };
-    startAutoScroll();
-  };
-
-  const scroll = (direction: 'left' | 'right') => {
-    if (scrollRef.current) {
-      const scrollAmount = direction === 'left' ? -400 : 400;
-      scrollRef.current.scrollBy({ left: scrollAmount, behavior: 'smooth' });
-    }
+    });
   };
 
   return (
-    <section id="merch" className="w-full py-24 md:py-32 bg-background relative overflow-hidden">
-      {/* Background gradient */}
-      <div className="absolute inset-0 opacity-10">
-        <div className="absolute top-[20%] -right-[10%] w-[50%] h-[50%] bg-gradient-radial from-[#D4AF37] to-transparent blur-3xl"></div>
-        <div className="absolute -bottom-[20%] -left-[10%] w-[40%] h-[40%] bg-gradient-radial from-[#B8860B] to-transparent blur-3xl"></div>
-      </div>
+    <section id="merch" className="w-full py-20 md:py-32 relative overflow-hidden">
+      <div className="container mx-auto px-4 mb-16">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8 }}
+          viewport={{ once: true }}
+          className="text-center mb-20"
+        >
+          <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6">
+            <span className="gold-gradient">Elite Equipment</span>
+          </h2>
+          <p className="text-xl text-gray-400 max-w-3xl mx-auto">
+            Tested and approved by elite athletes worldwide.
+          </p>
+        </motion.div>
 
-      <div className="container mx-auto relative z-10">
-        <div className="max-w-7xl mx-auto">
-          {/* Header */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="text-center mb-20"
-          >
-            <h2 className="text-5xl md:text-7xl font-black mb-8 tracking-tight">
-              ELITE <span className="gold-gradient">EQUIPMENT</span>
-            </h2>
-            <p className="text-2xl md:text-3xl font-semibold mb-6 text-foreground/90 max-w-4xl mx-auto">
-              Premium gear for peak performance.
-            </p>
-            <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
-              Tested and approved by elite athletes worldwide.
-            </p>
-          </motion.div>
-
-          {/* Carousel Container */}
-          <div className="relative">
-            {/* Scroll Buttons */}
-            <button
-              onClick={() => scroll('left')}
-              className="absolute left-0 top-1/2 -translate-y-1/2 z-10 bg-black/80 backdrop-blur-sm p-3 rounded-full border border-[#D4AF37]/30 hover:bg-[#D4AF37]/10 transition-colors holographic"
-            >
-              <ChevronLeft className="h-6 w-6" />
-            </button>
-            <button
-              onClick={() => scroll('right')}
-              className="absolute right-0 top-1/2 -translate-y-1/2 z-10 bg-black/80 backdrop-blur-sm p-3 rounded-full border border-[#D4AF37]/30 hover:bg-[#D4AF37]/10 transition-colors holographic"
-            >
-              <ChevronRight className="h-6 w-6" />
-            </button>
-
-            {/* Products Carousel - Duplicated for infinite scroll */}
-            <div 
-              ref={scrollRef}
-              className="flex gap-6 overflow-x-hidden carousel-container"
-              onMouseEnter={handleMouseEnter}
-              onMouseLeave={handleMouseLeave}
-            >
-              {/* First set of items */}
-              {merchItems.map((item, index) => (
+        {/* 3D Carousel Container */}
+        <div className="relative h-[600px] perspective-1000">
+          <div className="absolute inset-0 flex items-center justify-center">
+            <div className="relative w-full max-w-6xl h-full preserve-3d">
+              {products.map((product, index) => (
                 <motion.div
-                  key={`${item.name}-1`}
-                  initial={{ opacity: 0, scale: 0.9 }}
-                  whileInView={{ opacity: 1, scale: 1 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: index * 0.1 }}
-                  className="flex-shrink-0 w-80"
+                  key={product.id}
+                  className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[320px] h-[480px] cursor-pointer preserve-3d"
+                  style={getCardStyle(index)}
+                  animate={getCardStyle(index)}
+                  transition={{ 
+                    type: "spring", 
+                    stiffness: 100, 
+                    damping: 20,
+                    duration: 0.8 
+                  }}
+                  onClick={() => setCurrentIndex(index)}
+                  whileHover={index === currentIndex ? { scale: 1.05 } : {}}
                 >
-                  <div className="relative group">
-                    <div className="absolute -inset-1 bg-gradient-to-r from-[#D4AF37]/20 to-[#B8860B]/20 rounded-2xl blur-xl group-hover:blur-2xl transition-all duration-500 opacity-70"></div>
-                    <div className="relative bg-zinc-900/50 rounded-2xl overflow-hidden border border-zinc-800 hover:border-[#D4AF37]/30 transition-all duration-300 hover-lift">
-                      <div className="aspect-square bg-gradient-to-br from-zinc-800 to-zinc-900 relative overflow-hidden">
-                        <Image 
-                          src={item.image} 
-                          alt={item.name} 
-                          fill
-                          className="object-cover group-hover:scale-110 transition-transform duration-500" 
-                        />
-                        <div className="absolute top-4 left-4">
-                          <span className="px-3 py-1 bg-black/80 backdrop-blur-sm rounded-full text-xs font-semibold">
-                            {item.category}
-                          </span>
-                        </div>
-                      </div>
-                      <div className="p-6">
-                        <h3 className="text-xl font-bold mb-2">{item.name}</h3>
-                        <p className="text-gray-400 text-sm mb-4">{item.description}</p>
-                        <div className="flex items-center justify-between">
-                          <span className="text-3xl font-bold gold-gradient-subtle">${item.price}</span>
-                          <Button 
-                            size="icon" 
-                            className="bg-[#D4AF37] hover:bg-[#B8860B] text-black holographic"
-                            onClick={() => addToCart(item)}
-                          >
-                            <ShoppingCart className="h-5 w-5" />
-                          </Button>
-                        </div>
+                  <div className="relative w-full h-full rounded-3xl overflow-hidden premium-shadow bg-gradient-to-br from-gray-900 to-black border border-gold/20">
+                    {/* Product Image */}
+                    <div className="relative h-60 overflow-hidden">
+                      <Image
+                        src={product.image}
+                        alt={product.name}
+                        fill
+                        className="object-cover"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black to-transparent" />
+                      
+                      {/* Category Badge */}
+                      <div className="absolute top-4 left-4 px-3 py-1 bg-gold/20 backdrop-blur-sm rounded-full">
+                        <span className="text-xs font-semibold text-gold">{product.category}</span>
                       </div>
                     </div>
-                  </div>
-                </motion.div>
-              ))}
-              
-              {/* Duplicate set for infinite scroll */}
-              {merchItems.map((item, index) => (
-                <motion.div
-                  key={`${item.name}-2`}
-                  initial={{ opacity: 0, scale: 0.9 }}
-                  whileInView={{ opacity: 1, scale: 1 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: index * 0.1 }}
-                  className="flex-shrink-0 w-80"
-                >
-                  <div className="relative group">
-                    <div className="absolute -inset-1 bg-gradient-to-r from-[#D4AF37]/20 to-[#B8860B]/20 rounded-2xl blur-xl group-hover:blur-2xl transition-all duration-500 opacity-70"></div>
-                    <div className="relative bg-zinc-900/50 rounded-2xl overflow-hidden border border-zinc-800 hover:border-[#D4AF37]/30 transition-all duration-300 hover-lift">
-                      <div className="aspect-square bg-gradient-to-br from-zinc-800 to-zinc-900 relative overflow-hidden">
-                        <Image 
-                          src={item.image} 
-                          alt={item.name} 
-                          fill
-                          className="object-cover group-hover:scale-110 transition-transform duration-500" 
-                        />
-                        <div className="absolute top-4 left-4">
-                          <span className="px-3 py-1 bg-black/80 backdrop-blur-sm rounded-full text-xs font-semibold">
-                            {item.category}
-                          </span>
-                        </div>
+
+                    {/* Product Info */}
+                    <div className="p-6 space-y-4">
+                      <div>
+                        <h3 className="text-2xl font-bold text-white mb-2">{product.name}</h3>
+                        <p className="text-gray-400 text-sm">{product.description}</p>
                       </div>
-                      <div className="p-6">
-                        <h3 className="text-xl font-bold mb-2">{item.name}</h3>
-                        <p className="text-gray-400 text-sm mb-4">{item.description}</p>
-                        <div className="flex items-center justify-between">
-                          <span className="text-3xl font-bold gold-gradient-subtle">${item.price}</span>
-                          <Button 
-                            size="icon" 
-                            className="bg-[#D4AF37] hover:bg-[#B8860B] text-black holographic"
-                            onClick={() => addToCart(item)}
-                          >
-                            <ShoppingCart className="h-5 w-5" />
-                          </Button>
-                        </div>
+
+                      {/* Product Details */}
+                      <div className="space-y-2">
+                        {product.sizes && (
+                          <div className="flex gap-2">
+                            {product.sizes.map((size) => (
+                              <div key={size} className="px-2 py-1 border border-gray-700 rounded text-xs text-gray-400">
+                                {size}
+                              </div>
+                            ))}
+                          </div>
+                        )}
+                        {product.flavor && (
+                          <p className="text-sm text-gray-400">Flavor: {product.flavor}</p>
+                        )}
+                        {product.weight && (
+                          <p className="text-sm text-gray-400">Weight: {product.weight}</p>
+                        )}
+                      </div>
+
+                      {/* Price and Action */}
+                      <div className="flex items-center justify-between pt-4">
+                        <span className="text-3xl font-bold gold-gradient">{product.price}</span>
+                        <Button 
+                          size="sm" 
+                          className="premium-button"
+                          disabled={index !== currentIndex}
+                        >
+                          <ShoppingCart className="w-4 h-4 mr-2" />
+                          Add to Cart
+                        </Button>
                       </div>
                     </div>
+
+                    {/* 3D effect overlay */}
+                    <div 
+                      className="absolute inset-0 pointer-events-none"
+                      style={{
+                        background: `linear-gradient(105deg, 
+                          transparent 40%, 
+                          rgba(212, 175, 55, 0.1) 45%, 
+                          rgba(212, 175, 55, 0.2) 50%, 
+                          rgba(212, 175, 55, 0.1) 55%, 
+                          transparent 60%
+                        )`,
+                        transform: 'translateX(-100%)',
+                        animation: index === currentIndex ? 'shine 3s ease-in-out infinite' : 'none',
+                      }}
+                    />
                   </div>
                 </motion.div>
               ))}
             </div>
           </div>
 
-          {/* Quality Benefits */}
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="mt-20 grid md:grid-cols-3 gap-8"
+          {/* Navigation Buttons */}
+          <button
+            onClick={() => navigate('prev')}
+            className="absolute left-4 top-1/2 -translate-y-1/2 z-20 p-3 rounded-full bg-black/50 backdrop-blur-sm border border-gold/20 hover:bg-gold/10 transition-colors"
+            onMouseEnter={() => setIsAutoPlaying(false)}
           >
-            <div className="text-center p-6 bg-zinc-900/30 rounded-xl border border-zinc-800">
-              <h3 className="text-2xl font-bold mb-4 gold-gradient-subtle">Premium Quality</h3>
-              <p className="text-gray-400">
-                Every product meets the highest standards of performance and durability.
-              </p>
-            </div>
-            <div className="text-center p-6 bg-zinc-900/30 rounded-xl border border-zinc-800">
-              <h3 className="text-2xl font-bold mb-4 gold-gradient-subtle">Elite Tested</h3>
-              <p className="text-gray-400">
-                Used daily by professional athletes and high performers worldwide.
-              </p>
-            </div>
-            <div className="text-center p-6 bg-zinc-900/30 rounded-xl border border-zinc-800">
-              <h3 className="text-2xl font-bold mb-4 gold-gradient-subtle">Member Benefits</h3>
-              <p className="text-gray-400">
-                Exclusive discounts and early access for Warriors Team members.
-              </p>
-            </div>
-          </motion.div>
+            <ChevronLeft className="w-6 h-6 text-gold" />
+          </button>
+          <button
+            onClick={() => navigate('next')}
+            className="absolute right-4 top-1/2 -translate-y-1/2 z-20 p-3 rounded-full bg-black/50 backdrop-blur-sm border border-gold/20 hover:bg-gold/10 transition-colors"
+            onMouseEnter={() => setIsAutoPlaying(false)}
+          >
+            <ChevronRight className="w-6 h-6 text-gold" />
+          </button>
+
+          {/* Indicators */}
+          <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2 z-20">
+            {products.map((_, index) => (
+              <button
+                key={index}
+                onClick={() => {
+                  setCurrentIndex(index);
+                  setIsAutoPlaying(false);
+                }}
+                className={`w-2 h-2 rounded-full transition-all duration-300 ${
+                  index === currentIndex 
+                    ? 'w-8 bg-gold' 
+                    : 'bg-gray-600 hover:bg-gray-400'
+                }`}
+              />
+            ))}
+          </div>
         </div>
+
+        {/* Additional Info */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 0.3 }}
+          viewport={{ once: true }}
+          className="mt-20 text-center"
+        >
+          <p className="text-gray-400 mb-6">
+            Warriors Team membership includes exclusive discounts on all products
+          </p>
+          <p className="text-2xl font-bold text-gold">
+            Join Warriors Team - Investment: $9,997
+          </p>
+          <p className="text-sm text-gray-500 mt-2">
+            *Available after strategy call
+          </p>
+        </motion.div>
       </div>
-      
-      {/* Smooth transition to next section */}
-      <div className="section-transition" />
+
+      {/* CSS for shine animation */}
+      <style jsx>{`
+        @keyframes shine {
+          0% { transform: translateX(-100%); }
+          20% { transform: translateX(200%); }
+          100% { transform: translateX(200%); }
+        }
+        
+        .perspective-1000 {
+          perspective: 1000px;
+        }
+        
+        .preserve-3d {
+          transform-style: preserve-3d;
+        }
+      `}</style>
     </section>
   );
-};
+}
