@@ -154,10 +154,27 @@ body {
   left: 100%;
 }
 
-/* Section transitions - Ultra smooth */
+/* Remove all container constraints */
+* {
+  max-width: none !important;
+}
+
 section {
+  overflow: visible !important;
+}
+
+.container {
+  max-width: 1400px;
+}
+
+/* Ensure content goes edge to edge */
+.full-width {
+  width: 100vw;
   position: relative;
-  overflow: visible; /* Changed to visible to prevent cutoff */
+  left: 50%;
+  right: 50%;
+  margin-left: -50vw;
+  margin-right: -50vw;
 }
 
 /* Smooth gradient transitions between sections */
@@ -285,28 +302,86 @@ section + section {
   display: none !important;
 }
 
-/* Carousel improvements - Full width */
-.swiper {
-  overflow: visible !important;
-  padding: 0 !important;
-}
-
-.swiper-wrapper {
-  padding: 40px 0;
-}
-
-.swiper-slide {
-  background: transparent !important;
-  border: none !important;
-  transform-style: preserve-3d;
-}
-
-/* Remove container constraints for carousels */
+/* Ultra-modern carousel styles */
 .carousel-container {
   width: 100vw;
-  margin-left: calc(-50vw + 50%);
-  overflow: visible;
+  position: relative;
+  left: 50%;
+  right: 50%;
+  margin-left: -50vw;
+  margin-right: -50vw;
+  overflow: visible !important;
+  padding: 60px 0;
+}
+
+/* 3D card effects */
+.card-3d {
+  transform-style: preserve-3d;
+  transition: transform 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
+  cursor: pointer;
+}
+
+.card-3d:hover {
+  transform: rotateY(10deg) translateZ(20px) scale(1.05);
+}
+
+/* Floating cards animation */
+@keyframes float {
+  0%, 100% { transform: translateY(0) rotateX(0) rotateY(0); }
+  25% { transform: translateY(-10px) rotateX(2deg) rotateY(2deg); }
+  75% { transform: translateY(5px) rotateX(-2deg) rotateY(-2deg); }
+}
+
+.floating-card {
+  animation: float 6s ease-in-out infinite;
+  animation-delay: var(--float-delay);
+}
+
+/* Instagram gallery - Hexagonal grid */
+.hex-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
   padding: 0;
+  list-style: none;
+}
+
+.hex-item {
+  position: relative;
+  width: 250px;
+  height: 280px;
+  margin: 25px 7.5px;
+  clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+  transition: all 0.4s ease;
+}
+
+.hex-item:hover {
+  transform: scale(1.1) rotateZ(5deg);
+  z-index: 10;
+}
+
+/* Bento grid layout */
+.bento-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 20px;
+  padding: 0;
+}
+
+.bento-item {
+  position: relative;
+  overflow: hidden;
+  border-radius: 20px;
+  transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.bento-item:nth-child(odd) {
+  grid-row: span 2;
+}
+
+.bento-item:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 30px 60px -20px rgba(212, 175, 55, 0.5);
 }
 
 /* Instagram posts - Professional look without likes */
