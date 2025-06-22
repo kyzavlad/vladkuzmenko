@@ -1,280 +1,164 @@
-"use client";
+'use client';
 
-import { useState, useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import Image from "next/image";
-import { Button } from "@/components/ui/button";
-import { ChevronLeft, ChevronRight, ShoppingCart } from "lucide-react";
+import React, { useState } from 'react';
+import { motion } from 'framer-motion';
+import { ShoppingBag, Star } from 'lucide-react';
+import { Button } from './ui/button';
 
-const products = [
+const merchItems = [
   {
     id: 1,
-    name: "Performance Tee",
-    price: "$45",
-    category: "Apparel",
-    description: "Premium athletic fit with moisture-wicking",
-    image: "/images/performance-tee.webp",
-    color: "Black",
-    sizes: ["S", "M", "L", "XL", "XXL"]
+    name: 'Warriors Hoodie',
+    price: '$89',
+    category: 'Apparel',
+    image: '/warriors-location-1.jpg',
+    badge: 'Best Seller',
+    rating: 5
   },
   {
     id: 2,
-    name: "WARRIOR Protein",
-    price: "$69.99",
-    category: "Supplements",
-    description: "25g pure isolate protein per serving",
-    image: "/images/warrior-protein.webp",
-    flavor: "Vanilla",
-    servings: 30
+    name: 'Elite Performance Shorts',
+    price: '$69',
+    category: 'Apparel',
+    image: '/warriors-location-2.jpg',
+    badge: 'New',
+    rating: 5
   },
   {
     id: 3,
-    name: "Pro Boxing Gloves",
-    price: "$89",
-    category: "Equipment",
-    description: "Competition-grade genuine leather",
-    image: "/images/boxing-gloves.webp",
-    weight: "16oz",
-    material: "Leather"
+    name: 'Success Mindset Book',
+    price: '$29',
+    category: 'Education',
+    image: '/warriors-location-3.jpg',
+    badge: 'Limited',
+    rating: 5
   },
   {
     id: 4,
-    name: "Breathing Strips",
-    price: "$29.99",
-    category: "Performance",
-    description: "Enhanced oxygen intake technology",
-    image: "/images/breathing-strips.webp",
-    quantity: 30,
-    type: "Nasal"
-  },
-  {
-    id: 5,
-    name: "Training Hoodie",
-    price: "$85",
-    category: "Apparel",
-    description: "Heavy-weight premium cotton blend",
-    image: "/images/training-hoodie.webp",
-    color: "Grey",
-    sizes: ["S", "M", "L", "XL", "XXL"]
+    name: 'Warriors Cap',
+    price: '$49',
+    category: 'Accessories',
+    image: '/warriors-location-4.jpg',
+    rating: 4
   }
 ];
 
-export function MerchPreviewSection() {
-  const [currentIndex, setCurrentIndex] = useState(2); // Start with middle card
-  const [isAutoPlaying, setIsAutoPlaying] = useState(true);
-
-  useEffect(() => {
-    if (!isAutoPlaying) return;
-    
-    const interval = setInterval(() => {
-      setCurrentIndex((prev) => (prev + 1) % products.length);
-    }, 4000);
-
-    return () => clearInterval(interval);
-  }, [isAutoPlaying]);
-
-  const getCardStyle = (index: number) => {
-    const diff = index - currentIndex;
-    const totalProducts = products.length;
-    
-    // Handle circular positioning
-    let position = diff;
-    if (Math.abs(diff) > totalProducts / 2) {
-      position = diff > 0 ? diff - totalProducts : diff + totalProducts;
-    }
-
-    const baseTranslateX = position * 80; // Reduced spacing
-    const translateZ = Math.abs(position) * -80;
-    const rotateY = position * -10;
-    const scale = 1 - Math.abs(position) * 0.15;
-    const opacity = Math.abs(position) > 2 ? 0 : 1 - Math.abs(position) * 0.3;
-
-    return {
-      transform: `translateX(${baseTranslateX}px) translateZ(${translateZ}px) rotateY(${rotateY}deg) scale(${scale})`,
-      opacity,
-      zIndex: 10 - Math.abs(position),
-      pointerEvents: Math.abs(position) > 1 ? 'none' as const : 'auto' as const,
-      transition: 'all 0.6s cubic-bezier(0.23, 1, 0.32, 1)',
-    };
-  };
-
-  const navigate = (direction: 'prev' | 'next') => {
-    setIsAutoPlaying(false);
-    setCurrentIndex((prev) => {
-      if (direction === 'next') {
-        return (prev + 1) % products.length;
-      } else {
-        return prev === 0 ? products.length - 1 : prev - 1;
-      }
-    });
-  };
+export const MerchPreviewSection = () => {
+  const [hoveredItem, setHoveredItem] = useState<number | null>(null);
 
   return (
-    <section id="merch" className="w-full py-20 md:py-32 relative overflow-hidden">
+    <section className="py-24 md:py-32 bg-black relative">
       <div className="container mx-auto px-4">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
           viewport={{ once: true }}
-          className="text-center mb-20"
+          className="text-center mb-16"
         >
-          <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6">
-            <span className="gold-gradient">Elite Equipment</span>
+          <div className="inline-flex items-center gap-2 bg-amber-400/10 text-amber-400 px-4 py-2 rounded-full mb-6">
+            <ShoppingBag className="w-4 h-4" />
+            <span className="text-sm font-medium">Elite Equipment</span>
+          </div>
+          
+          <h2 className="text-4xl md:text-6xl font-bold mb-6">
+            Gear Up for <span className="gradient-gold-text">Success</span>
           </h2>
+          
           <p className="text-xl text-gray-400 max-w-3xl mx-auto">
-            Tested and approved by elite athletes worldwide.
+            Premium merchandise designed for Warriors who demand excellence in every aspect of life
           </p>
         </motion.div>
 
-        {/* 3D Carousel Container - Fixed width */}
-        <div className="relative h-[600px] max-w-full overflow-hidden mx-auto">
-          <div className="absolute inset-0 flex items-center justify-center" style={{ perspective: '1000px' }}>>
-          <div className="absolute inset-0 flex items-center justify-center">
-            <div className="relative w-full max-w-6xl h-full preserve-3d">
-              {products.map((product, index) => (
-                <motion.div
-                  key={product.id}
-                  className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[280px] h-[420px] cursor-pointer"
-                  style={{
-                    ...getCardStyle(index),
-                    transformStyle: 'preserve-3d'
-                  }}
-                  onClick={() => setCurrentIndex(index)}
-                  whileHover={index === currentIndex ? { scale: 1.05 } : {}}
-                >
-                  <div className="relative w-full h-full rounded-3xl overflow-hidden premium-shadow bg-gradient-to-br from-gray-900 to-black border border-gold/20">
-                    {/* Product Image */}
-                    <div className="relative h-60 overflow-hidden">
-                      <Image
-                        src={product.image}
-                        alt={product.name}
-                        fill
-                        className="object-cover"
-                      />
-                      <div className="absolute inset-0 bg-gradient-to-t from-black to-transparent" />
-                      
-                      {/* Category Badge */}
-                      <div className="absolute top-4 left-4 px-3 py-1 bg-gold/20 backdrop-blur-sm rounded-full">
-                        <span className="text-xs font-semibold text-gold">{product.category}</span>
-                      </div>
-                    </div>
-
-                    {/* Product Info */}
-                    <div className="p-6 space-y-4">
-                      <div>
-                        <h3 className="text-2xl font-bold text-white mb-2">{product.name}</h3>
-                        <p className="text-gray-400 text-sm">{product.description}</p>
-                      </div>
-
-                      {/* Product Details */}
-                      <div className="space-y-2">
-                        {product.sizes && (
-                          <div className="flex gap-2">
-                            {product.sizes.map((size) => (
-                              <div key={size} className="px-2 py-1 border border-gray-700 rounded text-xs text-gray-400">
-                                {size}
-                              </div>
-                            ))}
-                          </div>
-                        )}
-                        {product.flavor && (
-                          <p className="text-sm text-gray-400">Flavor: {product.flavor}</p>
-                        )}
-                        {product.weight && (
-                          <p className="text-sm text-gray-400">Weight: {product.weight}</p>
-                        )}
-                      </div>
-
-                      {/* Price and Action */}
-                      <div className="flex items-center justify-between pt-4">
-                        <span className="text-3xl font-bold gold-gradient">{product.price}</span>
-                        <Button 
-                          size="sm" 
-                          className="premium-button"
-                          disabled={index !== currentIndex}
-                        >
-                          <ShoppingCart className="w-4 h-4 mr-2" />
-                          Add to Cart
-                        </Button>
-                      </div>
-                    </div>
-
-                    {/* 3D effect overlay */}
-                    <div 
-                      className="absolute inset-0 pointer-events-none"
-                      style={{
-                        background: `linear-gradient(105deg, 
-                          transparent 40%, 
-                          rgba(212, 175, 55, 0.1) 45%, 
-                          rgba(212, 175, 55, 0.2) 50%, 
-                          rgba(212, 175, 55, 0.1) 55%, 
-                          transparent 60%
-                        )`,
-                        transform: 'translateX(-100%)',
-                        animation: index === currentIndex ? 'shine 3s ease-in-out infinite' : 'none',
-                      }}
-                    />
+        {/* Products Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
+          {merchItems.map((item, index) => (
+            <motion.div
+              key={item.id}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: index * 0.1 }}
+              className="relative group"
+              onMouseEnter={() => setHoveredItem(item.id)}
+              onMouseLeave={() => setHoveredItem(null)}
+            >
+              <div className="bg-gray-900/50 backdrop-blur-sm border border-gray-800 rounded-2xl overflow-hidden premium-hover">
+                {/* Badge */}
+                {item.badge && (
+                  <div className="absolute top-4 left-4 z-10">
+                    <span className="bg-gradient-to-r from-amber-400 to-yellow-600 text-black text-xs font-bold px-3 py-1 rounded-full">
+                      {item.badge}
+                    </span>
                   </div>
-                </motion.div>
-              ))}
-            </div>
-          </div>
+                )}
 
-          {/* Navigation Buttons */}
-          <button
-            onClick={() => navigate('prev')}
-            className="absolute left-4 top-1/2 -translate-y-1/2 z-20 p-3 rounded-full bg-black/50 backdrop-blur-sm border border-gold/20 hover:bg-gold/10 transition-colors"
-            onMouseEnter={() => setIsAutoPlaying(false)}
-          >
-            <ChevronLeft className="w-6 h-6 text-gold" />
-          </button>
-          <button
-            onClick={() => navigate('next')}
-            className="absolute right-4 top-1/2 -translate-y-1/2 z-20 p-3 rounded-full bg-black/50 backdrop-blur-sm border border-gold/20 hover:bg-gold/10 transition-colors"
-            onMouseEnter={() => setIsAutoPlaying(false)}
-          >
-            <ChevronRight className="w-6 h-6 text-gold" />
-          </button>
+                {/* Image Container */}
+                <div className="relative h-64 overflow-hidden bg-gradient-to-br from-gray-900 to-gray-800">
+                  <img
+                    src={item.image}
+                    alt={item.name}
+                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                  />
+                  
+                  {/* Hover Overlay */}
+                  <motion.div
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: hoveredItem === item.id ? 1 : 0 }}
+                    className="absolute inset-0 bg-black/60 flex items-center justify-center"
+                  >
+                    <Button className="btn-premium">
+                      Quick View
+                    </Button>
+                  </motion.div>
+                </div>
 
-          {/* Indicators */}
-          <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2 z-20">
-            {products.map((_, index) => (
-              <button
-                key={index}
-                onClick={() => {
-                  setCurrentIndex(index);
-                  setIsAutoPlaying(false);
-                }}
-                className={`w-2 h-2 rounded-full transition-all duration-300 ${
-                  index === currentIndex 
-                    ? 'w-8 bg-gold' 
-                    : 'bg-gray-600 hover:bg-gray-400'
-                }`}
-              />
-            ))}
-          </div>
+                {/* Product Info */}
+                <div className="p-6">
+                  <p className="text-amber-400 text-sm mb-2">{item.category}</p>
+                  <h3 className="text-xl font-semibold mb-2">{item.name}</h3>
+                  
+                  {/* Rating */}
+                  <div className="flex items-center gap-1 mb-4">
+                    {[...Array(5)].map((_, i) => (
+                      <Star
+                        key={i}
+                        className={`w-4 h-4 ${i < item.rating ? 'fill-amber-400 text-amber-400' : 'text-gray-600'}`}
+                      />
+                    ))}
+                  </div>
+                  
+                  <div className="flex items-center justify-between">
+                    <span className="text-2xl font-bold gradient-gold-text">{item.price}</span>
+                    <Button
+                      size="sm"
+                      variant="outline"
+                      className="border-amber-400/50 text-amber-400 hover:bg-amber-400/10"
+                    >
+                      <ShoppingBag className="w-4 h-4" />
+                    </Button>
+                  </div>
+                </div>
+              </div>
+            </motion.div>
+          ))}
         </div>
 
-        {/* Additional Info */}
+        {/* CTA */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.3 }}
           viewport={{ once: true }}
-          className="mt-20 text-center"
+          className="text-center"
         >
-          <p className="text-gray-400 mb-6">
-            Warriors Team membership includes exclusive discounts on all products
-          </p>
-          <p className="text-2xl font-bold text-gold">
-            Join Warriors Team - Investment: $9,997
-          </p>
-          <p className="text-sm text-gray-500 mt-2">
-            *Available after strategy call
-          </p>
+          <Button
+            size="lg"
+            className="btn-premium"
+          >
+            <ShoppingBag className="w-5 h-5 mr-2" />
+            View Full Collection
+          </Button>
         </motion.div>
       </div>
     </section>
   );
-}
+};
