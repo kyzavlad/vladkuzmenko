@@ -1,25 +1,25 @@
-import { PersonalBrandHero } from "@/components/PersonalBrandHero";
-import { AboutMeSection } from "@/components/AboutMeSection";
-import { EducationPlatformSection } from "@/components/EducationPlatformSection";
-import { AutomationTeaserSection } from "@/components/AutomationTeaserSection";
-import { SaasLaunchSection } from "@/components/SaasLaunchSection";
-import { MensCommunitySection } from "@/components/MensCommunitySection";
-import { MerchSection } from "@/components/MerchSection";
 import { Header } from "@/components/ui/header";
-import { FooterSection } from "@/components/FooterSection";
+import { HeroSection } from "@/components/HeroSection";
+import { AboutSection } from "@/components/AboutSection";
+import { StatsSection } from "@/components/StatsSection";
+import { UniversitySection } from "@/components/UniversitySection";
+import { InstagramSection } from "@/components/InstagramSection";
+import { MerchPreviewSection } from "@/components/MerchPreviewSection"; // ИСПРАВЛЕНО!
+import { CTASection } from "@/components/CTASection";
+import { Footer } from "@/components/ui/footer";
 
-export default function Home() {
+export default function HomePage() {
   return (
-    <> 
+    <>
       <Header />
-      <PersonalBrandHero />
-      <AboutMeSection />
-      <EducationPlatformSection />
-      <AutomationTeaserSection />
-      <SaasLaunchSection />
-      <MensCommunitySection />
-      <MerchSection />
-      <FooterSection />
+      <HeroSection />
+      <AboutSection />
+      <StatsSection />
+      <UniversitySection />
+      <InstagramSection />
+      <MerchPreviewSection />
+      <CTASection />
+      <Footer />
     </>
   );
 }
