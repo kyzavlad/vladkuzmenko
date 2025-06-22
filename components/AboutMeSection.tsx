@@ -1,230 +1,210 @@
-"use client";
+'use client';
 
-import { useRef, useState } from "react";
-import { motion, useScroll, useTransform } from "framer-motion";
-import Image from "next/image";
+import React from 'react';
+import { motion } from 'framer-motion';
 
-const visionCards = [
+const instagramPosts = [
   {
     id: 1,
-    title: "The Vision",
-    description: "Creating a new generation of entrepreneurs who leverage AI to build empires",
-    icon: "🚀",
-    color: "from-gold to-gold-dark"
+    image: '/team-meeting-1.webp',
+    caption: 'Building the future with Warriors Team 🚀'
   },
   {
     id: 2,
-    title: "The Mission",
-    description: "Empowering warriors worldwide with cutting-edge tools and knowledge",
-    icon: "⚔️",
-    color: "from-blue-500 to-purple-600"
+    image: '/team-success-1.webp',
+    caption: 'Another milestone achieved! 💪'
   },
   {
     id: 3,
-    title: "The Brotherhood",
-    description: "United by ambition, driven by excellence, bound by success",
-    icon: "🤝",
-    color: "from-red-500 to-orange-500"
+    image: '/team-training-1.webp',
+    caption: 'Never stop learning and growing 📚'
   },
   {
     id: 4,
-    title: "The Future",
-    description: "Building tomorrow's business landscape, one warrior at a time",
-    icon: "🌟",
-    color: "from-green-500 to-teal-500"
+    image: '/warriors-yacht-meeting.jpg',
+    caption: 'Strategy session on the high seas ⛵'
+  },
+  {
+    id: 5,
+    image: '/warriors-group-photo.jpg',
+    caption: 'Warriors unite for success 🏆'
   }
 ];
 
-const teamImages = [
-  { id: 1, src: "/images/warriors-team-1.webp", size: "large" },
-  { id: 2, src: "/images/warriors-team-2.webp", size: "medium" },
-  { id: 3, src: "/images/warriors-team-3.webp", size: "small" },
-  { id: 4, src: "/images/warriors-team-4.webp", size: "large" },
-  { id: 5, src: "/images/warriors-team-5.webp", size: "medium" },
-];
-
-export function AboutMeSection() {
-  const sectionRef = useRef(null);
-  const { scrollYProgress } = useScroll({
-    target: sectionRef,
-    offset: ["start end", "end start"]
-  });
-
-  const y = useTransform(scrollYProgress, [0, 1], [100, -100]);
-  const [hoveredCard, setHoveredCard] = useState<number | null>(null);
-
+export const AboutMeSection = () => {
   return (
-    <section ref={sectionRef} id="about" className="w-full py-20 md:py-32 relative overflow-visible">
-      <div className="container mx-auto px-4 mb-16">
+    <section className="py-24 md:py-32 gradient-section relative">
+      <div className="container mx-auto px-4">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
           viewport={{ once: true }}
-          className="text-center mb-20"
+          className="max-w-6xl mx-auto"
         >
-          <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6">
-            <span className="gold-gradient">The Warrior's Path</span>
-          </h2>
-          <p className="text-xl text-gray-400 max-w-3xl mx-auto">
-            More than success. More than wealth. It's about becoming the person 
-            capable of achieving the impossible.
-          </p>
-        </motion.div>
+          {/* Section Header */}
+          <div className="text-center mb-16">
+            <h2 className="text-4xl md:text-6xl font-bold mb-6">
+              Meet <span className="gradient-gold-text">Vlad Kuzmenko</span>
+            </h2>
+            <p className="text-xl text-gray-400 max-w-3xl mx-auto">
+              Entrepreneur, AI Pioneer, and Leader of the Warriors Movement
+            </p>
+          </div>
 
-        {/* 3D Bento Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-32">
-          {visionCards.map((card, index) => (
+          {/* Content Grid */}
+          <div className="grid lg:grid-cols-2 gap-12 items-center mb-20">
+            {/* Text Content */}
             <motion.div
-              key={card.id}
-              initial={{ opacity: 0, y: 50 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: index * 0.1 }}
+              initial={{ opacity: 0, x: -20 }}
+              whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
-              onMouseEnter={() => setHoveredCard(card.id)}
-              onMouseLeave={() => setHoveredCard(null)}
-              className={`
-                relative p-8 rounded-3xl backdrop-blur-sm overflow-hidden
-                ${index === 0 ? 'lg:col-span-2 lg:row-span-2' : ''}
-                ${index === 3 ? 'lg:col-span-2' : ''}
-                card-3d
-              `}
-              style={{
-                background: hoveredCard === card.id 
-                  ? `linear-gradient(135deg, ${card.color.split(' ')[1]} 0%, ${card.color.split(' ')[3]} 100%)`
-                  : 'rgba(255, 255, 255, 0.05)',
-                border: '1px solid rgba(255, 255, 255, 0.1)',
-                transformStyle: 'preserve-3d',
-              }}
+              className="space-y-6"
             >
-              {/* Floating icon */}
-              <motion.div
-                className="text-6xl mb-4"
-                animate={{
-                  y: hoveredCard === card.id ? -10 : 0,
-                  rotateZ: hoveredCard === card.id ? 10 : 0,
-                }}
-                transition={{ type: "spring", stiffness: 300 }}
-              >
-                {card.icon}
-              </motion.div>
+              <h3 className="text-3xl font-bold">
+                From Vision to <span className="gradient-gold-text">Reality</span>
+              </h3>
+              
+              <p className="text-gray-300 text-lg leading-relaxed">
+                My journey began with a simple belief: that technology should empower people, 
+                not replace them. Today, I lead a global movement of entrepreneurs who are 
+                reshaping the business landscape through AI and automation.
+              </p>
+              
+              <p className="text-gray-300 text-lg leading-relaxed">
+                The Warriors Team isn't just about business success—it's about creating a 
+                community where innovation meets execution, where dreams transform into 
+                sustainable enterprises.
+              </p>
 
-              <h3 className="text-2xl font-bold mb-3 text-white">{card.title}</h3>
-              <p className="text-gray-300">{card.description}</p>
-
-              {/* Animated background pattern */}
-              <div className="absolute inset-0 opacity-10">
-                <div className="absolute inset-0" style={{
-                  backgroundImage: `radial-gradient(circle at ${hoveredCard === card.id ? '50%' : '100%'} 50%, rgba(212, 175, 55, 0.3) 0%, transparent 70%)`,
-                  transition: 'all 0.5s ease',
-                }} />
+              <div className="space-y-4 pt-6">
+                <div className="flex items-start gap-4">
+                  <div className="w-12 h-12 bg-gradient-to-br from-amber-400 to-yellow-600 rounded-lg flex items-center justify-center flex-shrink-0">
+                    <span className="text-black font-bold">01</span>
+                  </div>
+                  <div>
+                    <h4 className="font-semibold text-xl mb-2">Visionary Leadership</h4>
+                    <p className="text-gray-400">
+                      Guiding entrepreneurs to leverage AI for exponential growth
+                    </p>
+                  </div>
+                </div>
+                
+                <div className="flex items-start gap-4">
+                  <div className="w-12 h-12 bg-gradient-to-br from-amber-400 to-yellow-600 rounded-lg flex items-center justify-center flex-shrink-0">
+                    <span className="text-black font-bold">02</span>
+                  </div>
+                  <div>
+                    <h4 className="font-semibold text-xl mb-2">Community First</h4>
+                    <p className="text-gray-400">
+                      Building a brotherhood of success-driven individuals worldwide
+                    </p>
+                  </div>
+                </div>
+                
+                <div className="flex items-start gap-4">
+                  <div className="w-12 h-12 bg-gradient-to-br from-amber-400 to-yellow-600 rounded-lg flex items-center justify-center flex-shrink-0">
+                    <span className="text-black font-bold">03</span>
+                  </div>
+                  <div>
+                    <h4 className="font-semibold text-xl mb-2">Proven Results</h4>
+                    <p className="text-gray-400">
+                      Transforming ideas into profitable ventures through strategic automation
+                    </p>
+                  </div>
+                </div>
               </div>
             </motion.div>
-          ))}
-        </div>
 
-        {/* Interactive Gallery - Floating 3D Cards */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          transition={{ duration: 1 }}
-          viewport={{ once: true }}
-          className="relative h-[600px] overflow-visible"
-        >
-          <h3 className="text-3xl font-bold text-center mb-12 text-white">
-            Living the Vision
-          </h3>
-          
-          <div className="relative w-full h-full">
-            {teamImages.map((image, index) => {
-              const positions = [
-                { left: '10%', top: '20%' },
-                { right: '15%', top: '10%' },
-                { left: '30%', bottom: '20%' },
-                { right: '25%', bottom: '15%' },
-                { left: '50%', top: '40%', transform: 'translate(-50%, -50%)' },
-              ];
+            {/* Featured Image */}
+            <motion.div
+              initial={{ opacity: 0, x: 20 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              className="relative"
+            >
+              <div className="relative rounded-2xl overflow-hidden glow-effect">
+                <img
+                  src="/warriors-leaders.jpg"
+                  alt="Vlad Kuzmenko"
+                  className="w-full h-auto"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
+              </div>
+              
+              {/* Floating stats */}
+              <motion.div
+                initial={{ opacity: 0, scale: 0.8 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                viewport={{ once: true }}
+                transition={{ delay: 0.3 }}
+                className="absolute -bottom-6 -left-6 bg-black/90 backdrop-blur-xl border border-amber-400/30 rounded-xl p-6"
+              >
+                <div className="text-3xl font-bold gradient-gold-text">15+</div>
+                <div className="text-gray-400 text-sm">Countries Reached</div>
+              </motion.div>
+              
+              <motion.div
+                initial={{ opacity: 0, scale: 0.8 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                viewport={{ once: true }}
+                transition={{ delay: 0.4 }}
+                className="absolute -top-6 -right-6 bg-black/90 backdrop-blur-xl border border-amber-400/30 rounded-xl p-6"
+              >
+                <div className="text-3xl font-bold gradient-gold-text">24/7</div>
+                <div className="text-gray-400 text-sm">Community Support</div>
+              </motion.div>
+            </motion.div>
+          </div>
 
-              const sizes = {
-                large: 'w-80 h-80',
-                medium: 'w-64 h-64',
-                small: 'w-48 h-48',
-              };
-
-              return (
+          {/* Instagram Section */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="mt-20"
+          >
+            <h3 className="text-3xl font-bold text-center mb-12">
+              Follow The <span className="gradient-gold-text">Journey</span>
+            </h3>
+            
+            <div className="instagram-grid">
+              {instagramPosts.map((post, index) => (
                 <motion.div
-                  key={image.id}
-                  className={`absolute ${sizes[image.size as keyof typeof sizes]} floating-card`}
-                  style={{
-                    ...positions[index],
-                    '--float-delay': `${index * 0.5}s`,
-                  } as any}
-                  whileHover={{ 
-                    scale: 1.1, 
-                    rotateY: 180,
-                    zIndex: 50,
-                  }}
-                  transition={{ type: "spring", stiffness: 300 }}
+                  key={post.id}
+                  initial={{ opacity: 0, scale: 0.9 }}
+                  whileInView={{ opacity: 1, scale: 1 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: index * 0.1 }}
+                  className="instagram-post group cursor-pointer"
                 >
-                  <div className="relative w-full h-full rounded-2xl overflow-hidden premium-shadow">
-                    {/* Front side */}
-                    <div className="absolute inset-0">
-                      <Image
-                        src={image.src}
-                        alt="Warriors Team"
-                        fill
-                        className="object-cover"
-                      />
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
-                    </div>
-
-                    {/* Back side */}
-                    <div 
-                      className="absolute inset-0 backface-hidden rotate-y-180 bg-gradient-to-br from-gold to-gold-dark flex items-center justify-center p-6"
-                      style={{ backfaceVisibility: 'hidden', transform: 'rotateY(180deg)' }}
-                    >
-                      <p className="text-black font-bold text-center">
-                        "Success is not a destination, it's a way of life"
-                      </p>
-                    </div>
+                  <img
+                    src={post.image}
+                    alt={post.caption}
+                    className="transition-transform duration-300 group-hover:scale-110"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-4">
+                    <p className="text-white text-sm font-medium">{post.caption}</p>
                   </div>
                 </motion.div>
-              );
-            })}
-          </div>
-        </motion.div>
-
-        {/* Philosophy Section */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-          viewport={{ once: true }}
-          className="max-w-4xl mx-auto mt-32 text-center"
-        >
-          <div className="card-premium p-12">
-            <h3 className="text-3xl font-bold mb-6 gold-gradient">Our Philosophy</h3>
-            <p className="text-gray-300 text-lg leading-relaxed mb-6">
-              We don't just teach business. We forge warriors. Men and women who understand 
-              that true success comes from within - from discipline, vision, and relentless execution.
-            </p>
-            <p className="text-gray-300 text-lg leading-relaxed">
-              The Warriors movement isn't about quick wins or shortcuts. It's about building 
-              something that lasts. Something that matters. Something that changes the world.
-            </p>
-          </div>
+              ))}
+            </div>
+            
+            <div className="text-center mt-8">
+              <a
+                href="https://instagram.com/vladkuzmenko"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 text-amber-400 hover:text-amber-300 transition-colors"
+              >
+                <span>Follow @vladkuzmenko</span>
+                <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zM5.838 12a6.162 6.162 0 1112.324 0 6.162 6.162 0 01-12.324 0zM12 16a4 4 0 110-8 4 4 0 010 8zm4.965-10.405a1.44 1.44 0 112.881.001 1.44 1.44 0 01-2.881-.001z"/>
+                </svg>
+              </a>
+            </div>
+          </motion.div>
         </motion.div>
       </div>
-
-      {/* Parallax decorative elements */}
-      <motion.div
-        style={{ y }}
-        className="absolute -z-10 top-0 right-0 w-96 h-96 bg-gold/5 rounded-full blur-3xl"
-      />
-      <motion.div
-        style={{ y: useTransform(y, (val) => val * -1) }}
-        className="absolute -z-10 bottom-0 left-0 w-96 h-96 bg-gold/5 rounded-full blur-3xl"
-      />
     </section>
   );
-}
+};
