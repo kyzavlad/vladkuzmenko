@@ -36,11 +36,11 @@ const visionCards = [
 ];
 
 const teamImages = [
-  { id: 1, src: "/images/vlad-post-1.webp", size: "large" },
-  { id: 2, src: "/images/vlad-post-2.webp", size: "medium" },
-  { id: 3, src: "/images/vlad-post-3.webp", size: "small" },
-  { id: 4, src: "/images/vlad-post-4.webp", size: "large" },
-  { id: 5, src: "/images/vlad-post-5.webp", size: "medium" },
+  { id: 1, src: "/images/warriors-team-1.webp", size: "large" },
+  { id: 2, src: "/images/warriors-team-2.webp", size: "medium" },
+  { id: 3, src: "/images/warriors-team-3.webp", size: "small" },
+  { id: 4, src: "/images/warriors-team-4.webp", size: "large" },
+  { id: 5, src: "/images/warriors-team-5.webp", size: "medium" },
 ];
 
 export function AboutMeSection() {
