@@ -59,7 +59,7 @@ const products = [
   }
 ];
 
-export function MerchSection() {
+export function MerchPreviewSection() {
   const [currentIndex, setCurrentIndex] = useState(2); // Start with middle card
   const [isAutoPlaying, setIsAutoPlaying] = useState(true);
 
@@ -83,10 +83,10 @@ export function MerchSection() {
       position = diff > 0 ? diff - totalProducts : diff + totalProducts;
     }
 
-    const baseTranslateX = position * 120;
-    const translateZ = Math.abs(position) * -100;
-    const rotateY = position * -15;
-    const scale = 1 - Math.abs(position) * 0.2;
+    const baseTranslateX = position * 80; // Reduced spacing
+    const translateZ = Math.abs(position) * -80;
+    const rotateY = position * -10;
+    const scale = 1 - Math.abs(position) * 0.15;
     const opacity = Math.abs(position) > 2 ? 0 : 1 - Math.abs(position) * 0.3;
 
     return {
@@ -94,6 +94,7 @@ export function MerchSection() {
       opacity,
       zIndex: 10 - Math.abs(position),
       pointerEvents: Math.abs(position) > 1 ? 'none' as const : 'auto' as const,
+      transition: 'all 0.6s cubic-bezier(0.23, 1, 0.32, 1)',
     };
   };
 
@@ -110,7 +111,7 @@ export function MerchSection() {
 
   return (
     <section id="merch" className="w-full py-20 md:py-32 relative overflow-hidden">
-      <div className="container mx-auto px-4 mb-16">
+      <div className="container mx-auto px-4">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -126,21 +127,18 @@ export function MerchSection() {
           </p>
         </motion.div>
 
-        {/* 3D Carousel Container */}
-        <div className="relative h-[600px] perspective-1000">
+        {/* 3D Carousel Container - Fixed width */}
+        <div className="relative h-[600px] max-w-full overflow-hidden mx-auto">
+          <div className="absolute inset-0 flex items-center justify-center" style={{ perspective: '1000px' }}>>
           <div className="absolute inset-0 flex items-center justify-center">
             <div className="relative w-full max-w-6xl h-full preserve-3d">
               {products.map((product, index) => (
                 <motion.div
                   key={product.id}
-                  className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[320px] h-[480px] cursor-pointer preserve-3d"
-                  style={getCardStyle(index)}
-                  animate={getCardStyle(index)}
-                  transition={{ 
-                    type: "spring", 
-                    stiffness: 100, 
-                    damping: 20,
-                    duration: 0.8 
+                  className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[280px] h-[420px] cursor-pointer"
+                  style={{
+                    ...getCardStyle(index),
+                    transformStyle: 'preserve-3d'
                   }}
                   onClick={() => setCurrentIndex(index)}
                   whileHover={index === currentIndex ? { scale: 1.05 } : {}}
@@ -277,23 +275,6 @@ export function MerchSection() {
           </p>
         </motion.div>
       </div>
-
-      {/* CSS for shine animation */}
-      <style jsx>{`
-        @keyframes shine {
-          0% { transform: translateX(-100%); }
-          20% { transform: translateX(200%); }
-          100% { transform: translateX(200%); }
-        }
-        
-        .perspective-1000 {
-          perspective: 1000px;
-        }
-        
-        .preserve-3d {
-          transform-style: preserve-3d;
-        }
-      `}</style>
     </section>
   );
 }
