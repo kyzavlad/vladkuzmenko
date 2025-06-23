@@ -1,25 +1,27 @@
 import { Header } from "@/components/ui/header";
-import { HeroSection } from "@/components/HeroSection";
-import { AboutSection } from "@/components/AboutSection";
-import { StatsSection } from "@/components/StatsSection";
-import { UniversitySection } from "@/components/UniversitySection";
-import { InstagramSection } from "@/components/InstagramSection";
-import { MerchPreviewSection } from "@/components/MerchPreviewSection"; // ИСПРАВЛЕНО!
+import { PersonalBrandHero } from "@/components/PersonalBrandHero";
+import { AboutMeSection } from "@/components/AboutMeSection";
+import { EducationPlatformSection } from "@/components/EducationPlatformSection";
+import { SaasAiPlatformSection } from "@/components/SaasLaunchSection";
+import { WarriorsSection } from "@/components/MensCommunitySection";
+import { AutomationTeaserSection } from "@/components/AutomationTeaserSection";
+import { MerchPreviewSection } from "@/components/MerchPreviewSection";
 import { CTASection } from "@/components/CTASection";
-import { Footer } from "@/components/ui/footer";
+import { FooterSection } from "@/components/FooterSection";
 
 export default function HomePage() {
   return (
     <>
       <Header />
-      <HeroSection />
-      <AboutSection />
-      <StatsSection />
-      <UniversitySection />
-      <InstagramSection />
+      <PersonalBrandHero />
+      <AboutMeSection />
+      <EducationPlatformSection />
+      <SaasAiPlatformSection />
+      <WarriorsSection />
+      <AutomationTeaserSection />
       <MerchPreviewSection />
       <CTASection />
-      <Footer />
+      <FooterSection />
     </>
   );
 }
