@@ -3,34 +3,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 
-const instagramPosts = [
-  {
-    id: 1,
-    image: '/team-meeting-1.webp',
-    caption: 'Building the future with Warriors Team 🚀'
-  },
-  {
-    id: 2,
-    image: '/team-success-1.webp',
-    caption: 'Another milestone achieved! 💪'
-  },
-  {
-    id: 3,
-    image: '/team-training-1.webp',
-    caption: 'Never stop learning and growing 📚'
-  },
-  {
-    id: 4,
-    image: '/warriors-yacht-meeting.jpg',
-    caption: 'Strategy session on the high seas ⛵'
-  },
-  {
-    id: 5,
-    image: '/warriors-group-photo.jpg',
-    caption: 'Warriors unite for success 🏆'
-  }
-];
-
 export const AboutMeSection = () => {
   return (
     <section className="py-24 md:py-32 gradient-section relative">
