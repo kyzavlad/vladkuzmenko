@@ -14,13 +14,24 @@ export const PersonalBrandHero = () => {
         <img
           src="/warriors-yacht-meeting.jpg"
           alt="Warriors Team"
-          className="w-full h-full object-cover"
+          className="w-full h-full object-cover object-center"
         />
-        {/* Gradient Overlay */}
-        <div className="absolute inset-0 bg-gradient-to-r from-black via-black/80 to-transparent" />
-        {/* Artistic texture overlay */}
-        <div className="absolute inset-0 mix-blend-overlay opacity-30">
-          <div className="absolute inset-0 bg-gradient-to-br from-amber-400/20 via-transparent to-yellow-600/20" />
+        {/* Gradient Overlay with artistic edges */}
+        <div className="absolute inset-0 bg-gradient-to-r from-black via-black/85 to-black/40" />
+        {/* Top fade */}
+        <div className="absolute inset-x-0 top-0 h-32 bg-gradient-to-b from-black to-transparent" />
+        {/* Bottom fade */}
+        <div className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-black to-transparent" />
+        {/* Artistic texture overlay - worn edges effect */}
+        <div className="absolute inset-0" style={{
+          backgroundImage: `radial-gradient(circle at 20% 80%, transparent 20%, rgba(0,0,0,0.3) 50%, rgba(0,0,0,0.6) 80%),
+                           radial-gradient(circle at 80% 20%, transparent 20%, rgba(0,0,0,0.3) 50%, rgba(0,0,0,0.6) 80%),
+                           radial-gradient(circle at 40% 40%, transparent 30%, rgba(0,0,0,0.2) 60%)`,
+        }} />
+        {/* Golden accent overlay */}
+        <div className="absolute inset-0 opacity-10">
+          <div className="absolute top-0 right-0 w-1/2 h-1/2 bg-gradient-radial from-amber-400/30 via-transparent to-transparent blur-3xl" />
+          <div className="absolute bottom-0 left-0 w-1/2 h-1/2 bg-gradient-radial from-yellow-600/30 via-transparent to-transparent blur-3xl" />
         </div>
       </div>
 
