@@ -5,8 +5,12 @@ import type { Metadata } from 'next';
 import Script from 'next/script';
 import { VoiceflowScript } from '@/components/voiceflow-script';
 import TranslateSwitcher from '@/components/translate-switcher';
-// ШАГ 1: КОММЕНТИРУЕМ ЭТОТ ИМПОРТ
-// import { CartProvider, ShoppingCartSidebar } from '@/components/ui/shopping-cart-sidebar';
+
+// --- ИСПРАВЛЕННЫЕ ИМПОРТЫ ---
+import { CartProvider } from '@/context/cart-context'; // Логика корзины
+import { ShoppingCartSidebar } from '@/components/ui/shopping-cart-sidebar'; // Дизайн корзины
+// ------------------------------
+
 import { Inter } from 'next/font/google';
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -31,7 +35,7 @@ export default function RootLayout({
   return (
     <html lang="en" className="dark">
       <head>
-        {/* Скрипты аналитики остаются без изменений */}
+        {/* Скрипты аналитики */}
         <Script strategy="afterInteractive" src="https://www.googletagmanager.com/gtag/js?id=G-EHD6NBQZHV" />
         <Script id="google-analytics" strategy="afterInteractive" dangerouslySetInnerHTML={{ __html: `window.dataLayer = window.dataLayer || []; function gtag(){dataLayer.push(arguments);} gtag('js', new Date()); gtag('config', 'G-EHD6NBQZHV');` }} />
         <Script id="facebook-pixel" strategy="afterInteractive" dangerouslySetInnerHTML={{ __html: `!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window, document,'script','https://connect.facebook.net/en_US/fbevents.js');fbq('init', '486823147342957');fbq('track', 'PageView');` }} />
@@ -55,11 +59,12 @@ export default function RootLayout({
             </motion.div>
           ) : (
             <motion.div key="content" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.5 }} >
-              {/* ШАГ 2: ВРЕМЕННО ВЫКЛЮЧАЕМ КОМПОНЕНТЫ КОРЗИНЫ */}
-              {/* <CartProvider> */}
+              {/* --- ВОЗВРАЩАЕМ КОРЗИНУ --- */}
+              <CartProvider>
                 {children}
-                {/* <ShoppingCartSidebar /> */}
-              {/* </CartProvider> */}
+                <ShoppingCartSidebar />
+              </CartProvider>
+              {/* ------------------------- */}
               <VoiceflowScript />
               <TranslateSwitcher />
             </motion.div>
