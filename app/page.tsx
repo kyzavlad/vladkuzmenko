@@ -13,9 +13,12 @@ import { FooterSection } from "@/components/FooterSection";
 export default function HomePage() {
   return (
     <>
-      <Header />
-      <PersonalBrandHero />
-      <AboutMeSection />
+      {/* <Header /> */} {/* <<<<<<<<<< ВОТ ТАК. ВРЕМЕННО ВЫКЛЮЧАЕМ ХЕДЕР */}
+      
+      <PersonalBrandHero /> {/* Здесь остается тестовый синий блок */}
+      
+      {/* Пока можем закомментировать и все остальное, чтобы ничего не мешало */}
+      {/* <AboutMeSection />
       <EducationPlatformSection />
       <SaasLaunchSection />
       <MensCommunitySection />
@@ -23,7 +26,8 @@ export default function HomePage() {
       <InstagramSection />
       <MerchPreviewSection />
       <CTASection />
-      <FooterSection />
+      <FooterSection /> 
+      */}
     </>
   );
 }
