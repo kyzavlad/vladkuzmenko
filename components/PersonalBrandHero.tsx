@@ -17,16 +17,14 @@ export function PersonalBrandHero() {
     <section className="relative w-full min-h-screen flex items-center justify-center overflow-hidden">
       {/* Background Image with Artistic Effect */}
       <div className="absolute inset-0 z-0">
-        {/* Main image - ЕДИНСТВЕННОЕ ИЗМЕНЕНИЕ ЗДЕСЬ */}
+        {/* Main image */}
         <div
           className="absolute inset-0 bg-cover bg-center bg-no-repeat"
           style={{
-            // Я поменял этот путь на тот, что вы просили
-            backgroundImage: 'url("/warriors-yacht-meeting.jpg")',
+            backgroundImage: 'url("/images/warriors-team-yacht.webp")', // ВАШ ПУТЬ К КАРТИНКЕ
             filter: 'brightness(0.4) contrast(1.2)'
           }}
         />
-
         {/* Artistic gradient overlay with worn edges effect */}
         <div className="absolute inset-0">
           <div className="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent" />
@@ -42,7 +40,6 @@ export function PersonalBrandHero() {
             }}
           />
         </div>
-
         {/* Scratched/worn texture overlay */}
         <div
           className="absolute inset-0 opacity-30"
@@ -53,7 +50,7 @@ export function PersonalBrandHero() {
         />
       </div>
 
-      {/* Content - ВАШ ОРИГИНАЛЬНЫЙ КОД БЕЗ ИЗМЕНЕНИЙ */}
+      {/* Content */}
       <div className="container relative z-10 mx-auto px-4">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -126,7 +123,9 @@ export function PersonalBrandHero() {
         </motion.div>
       </div>
 
-      {/* Animated particles effect - Я УБРАЛ ЭТОТ БЛОК, ВЫЗЫВАЮЩИЙ ОШИБКУ */}
+      {/* БЛОК С ЛЕТАЮЩИМИ ЧАСТИЦАМИ БЫЛ ЗДЕСЬ. Я ЕГО ПОЛНОСТЬЮ УДАЛИЛ,
+        ТАК КАК ОН ЯВЛЯЕТСЯ ПРИЧИНОЙ СБОЯ ПРИ СБОРКЕ НА СЕРВЕРЕ.
+      */}
     </section>
   );
 }
