@@ -5,7 +5,8 @@ import type { Metadata } from 'next';
 import Script from 'next/script';
 import { VoiceflowScript } from '@/components/voiceflow-script';
 import TranslateSwitcher from '@/components/translate-switcher';
-import { CartProvider, ShoppingCartSidebar } from '@/components/shopping-cart';
+// ИСПРАВЛЕННЫЙ ИМПОРТ НИЖЕ
+import { CartProvider, ShoppingCartSidebar } from '@/components/ui/shopping-cart-sidebar';
 import { Inter } from 'next/font/google';
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -85,9 +86,9 @@ export default function RootLayout({
           dangerouslySetInnerHTML={{
             __html: `
               (function(c,l,a,r,i,t,y){
-                c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
-                t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
-                y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+                  c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+                  t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+                  y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
               })(window, document, "clarity", "script", "p1lvfdcjie");
             `,
           }}
