@@ -5,8 +5,6 @@ import { ArrowRight, ChevronDown } from "lucide-react";
 import { motion } from "framer-motion";
 import Link from "next/link";
 
-// НЕИСПОЛЬЗУЕМЫЙ ИМПОРТ, ВЫЗЫВАВШИЙ ОШИБКУ, УДАЛЕН
-
 export function PersonalBrandHero() {
   const scrollToSection = (sectionId: string) => {
     const section = document.getElementById(sectionId);
@@ -19,16 +17,15 @@ export function PersonalBrandHero() {
     <section className="relative w-full min-h-screen flex items-center justify-center overflow-hidden">
       {/* Background Image with Artistic Effect */}
       <div className="absolute inset-0 z-0">
-        {/* Main image */}
         <div
           className="absolute inset-0 bg-cover bg-center bg-no-repeat"
           style={{
-            backgroundImage: 'url("/images/warriors-team-yacht.webp")',
+            // ИСПРАВЛЕН ПУТЬ К ИЗОБРАЖЕНИЮ
+            backgroundImage: 'url("/warriors-team-yacht.webp")',
             filter: 'brightness(0.4) contrast(1.2)'
           }}
         />
-
-        {/* Artistic gradient overlay with worn edges effect */}
+        {/* ...остальные оверлеи остаются без изменений... */}
         <div className="absolute inset-0">
           <div className="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent" />
           <div
@@ -43,8 +40,6 @@ export function PersonalBrandHero() {
             }}
           />
         </div>
-
-        {/* Scratched/worn texture overlay */}
         <div
           className="absolute inset-0 opacity-30"
           style={{
@@ -62,7 +57,7 @@ export function PersonalBrandHero() {
           transition={{ duration: 0.8 }}
           className="max-w-4xl mx-auto text-center"
         >
-          {/* Main Title - Smaller size */}
+          {/* Main Title */}
           <motion.h1
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
@@ -72,7 +67,7 @@ export function PersonalBrandHero() {
             <span className="gold-gradient">VLAD KUZMENKO</span>
           </motion.h1>
 
-          {/* Subtitle - Smaller size */}
+          {/* Subtitle */}
           <motion.p
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -83,7 +78,7 @@ export function PersonalBrandHero() {
             <br />Join the revolution.
           </motion.p>
 
-          {/* CTA Buttons - Smaller size */}
+          {/* CTA Buttons */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
