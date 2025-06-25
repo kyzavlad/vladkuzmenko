@@ -1,168 +1,153 @@
 'use client';
 
-import { Button } from "@/components/ui/button";
-import { ArrowRight, ChevronDown } from "lucide-react";
-import { motion, Variants } from "framer-motion";
-import Link from "next/link";
-import React, { useState, useEffect } from "react";
+import React from 'react';
+import { motion } from 'framer-motion';
+import { Button } from './ui/button';
+import { ArrowRight, Play } from 'lucide-react';
+import Link from 'next/link';
 
-// --- РЕШЕНИЕ ПРОБЛЕМЫ АНИМАЦИЙ ---
-// Варианты для оркестрации анимации без конфликтов
-const containerVariants: Variants = {
-  hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: {
-      staggerChildren: 0.2,
-    },
-  },
-};
-
-const itemVariants: Variants = {
-  hidden: { opacity: 0, y: 20 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.8, ease: "easeOut" } },
-};
-
-// --- РЕШЕНИЕ ПРОБЛЕМЫ "client-side exception" ---
-// Компонент для частиц, который рендерится только на клиенте
-const ClientOnlyParticles = () => {
-  const [isMounted, setIsMounted] = useState(false);
-  useEffect(() => {
-    setIsMounted(true);
-  }, []);
-
-  if (!isMounted) {
-    return null;
-  }
-
+export const PersonalBrandHero = () => {
   return (
-    <div className="absolute inset-0 z-0">
-      {[...Array(20)].map((_, i) => (
-        <motion.div
-          key={i}
-          className="absolute w-1 h-1 bg-gold/30 rounded-full"
-          initial={{
-            x: Math.random() * window.innerWidth,
-            y: window.innerHeight + 100,
-          }}
-          animate={{
-            y: -100,
-          }}
-          transition={{
-            duration: Math.random() * 20 + 10,
-            repeat: Infinity,
-            delay: Math.random() * 5,
-            ease: "linear",
-          }}
-        />
-      ))}
-    </div>
-  );
-};
-
-export function PersonalBrandHero() {
-  const scrollToSection = (sectionId: string) => {
-    const section = document.getElementById(sectionId);
-    if (section) {
-      section.scrollIntoView({ behavior: 'smooth' });
-    }
-  };
-
-  return (
-    <section className="relative w-full min-h-screen flex items-center justify-center overflow-hidden text-white">
-      {/* Background - без изменений */}
+    <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
+      {/* Background Image with artistic effect */}
       <div className="absolute inset-0 z-0">
-        <div
-          className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-          style={{
-            backgroundImage: 'url("/images/warriors-team-yacht.webp")',
-            filter: 'brightness(0.4) contrast(1.2)'
-          }}
+        <img
+          src="/warriors-yacht-meeting.jpg"
+          alt="Warriors Team"
+          className="w-full h-full object-cover object-center"
         />
-        <div className="absolute inset-0">
-          <div className="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent" />
-          <div
-            className="absolute inset-0"
-            style={{
-              backgroundImage: `
-                radial-gradient(circle at 20% 80%, transparent 20%, black 80%),
-                radial-gradient(circle at 80% 20%, transparent 20%, black 80%),
-                radial-gradient(circle at 40% 40%, black 20%, transparent 80%)
-              `,
-              mixBlendMode: 'multiply'
-            }}
-          />
+        {/* Gradient Overlay with artistic edges */}
+        <div className="absolute inset-0 bg-gradient-to-r from-black via-black/85 to-black/40" />
+        {/* Top fade */}
+        <div className="absolute inset-x-0 top-0 h-32 bg-gradient-to-b from-black to-transparent" />
+        {/* Bottom fade */}
+        <div className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-black to-transparent" />
+        {/* Artistic texture overlay - worn edges effect */}
+        <div className="absolute inset-0" style={{
+          backgroundImage: `radial-gradient(circle at 20% 80%, transparent 20%, rgba(0,0,0,0.3) 50%, rgba(0,0,0,0.6) 80%),
+                           radial-gradient(circle at 80% 20%, transparent 20%, rgba(0,0,0,0.3) 50%, rgba(0,0,0,0.6) 80%),
+                           radial-gradient(circle at 40% 40%, transparent 30%, rgba(0,0,0,0.2) 60%)`,
+        }} />
+        {/* Golden accent overlay */}
+        <div className="absolute inset-0 opacity-10">
+          <div className="absolute top-0 right-0 w-1/2 h-1/2 bg-gradient-radial from-amber-400/30 via-transparent to-transparent blur-3xl" />
+          <div className="absolute bottom-0 left-0 w-1/2 h-1/2 bg-gradient-radial from-yellow-600/30 via-transparent to-transparent blur-3xl" />
         </div>
-        <div
-          className="absolute inset-0 opacity-30"
-          style={{
-            backgroundImage: 'url("data:image/svg+xml,%3Csvg width="100" height="100" xmlns="http://www.w3.org/2000/svg"%3E%3Cfilter id="noise"%3E%3CfeTurbulence baseFrequency="0.9" /%3E%3C/filter%3E%3Crect width="100" height="100" filter="url(%23noise)" opacity="0.4"/%3E%3C/svg%3E")',
-            mixBlendMode: 'overlay'
-          }}
-        />
       </div>
 
-      {/* Content - с исправленной анимацией */}
-      <div className="container relative z-10 mx-auto px-4">
+      {/* Content */}
+      <div className="container mx-auto px-4 relative z-10">
         <motion.div
-          variants={containerVariants}
-          initial="hidden"
-          animate="visible"
-          className="max-w-4xl mx-auto text-center"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8 }}
+          className="max-w-4xl"
         >
-          <motion.h1
-            variants={itemVariants}
-            className="text-4xl md:text-6xl lg:text-7xl font-bold mb-4"
-          >
-            <span className="gold-gradient">VLAD KUZMENKO</span>
-          </motion.h1>
-
-          <motion.p
-            variants={itemVariants}
-            className="text-lg md:text-xl lg:text-2xl text-gray-300 mb-8 max-w-2xl mx-auto"
-          >
-            Building tomorrow's business empires with AI and automation.
-            <br />Join the revolution.
-          </motion.p>
-
+          {/* Badge */}
           <motion.div
-            variants={itemVariants}
-            className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-12"
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ delay: 0.2 }}
+            className="inline-flex items-center gap-2 bg-amber-400/10 backdrop-blur-sm border border-amber-400/30 text-amber-400 px-4 py-2 rounded-full mb-8"
           >
-            <Button
-              size="default"
-              className="premium-button text-base px-6 py-2"
-              onClick={() => window.open('https://cal.com/vladkuzmenko.com/call', '_blank')}
-            >
-              Book a Strategy Call
-              <ArrowRight className="ml-2 h-4 w-4" />
-            </Button>
-            
-            <Link href="/warriors-team">
-              <Button
-                size="default"
-                variant="outline"
-                className="text-base px-6 py-2 border-gold-dark hover:bg-gold-dark/10"
-              >
-                Join Elite Community
-              </Button>
-            </Link>
+            <span className="w-2 h-2 bg-amber-400 rounded-full animate-pulse" />
+            <span className="text-sm font-medium">Welcome to the Warriors Movement</span>
           </motion.div>
 
-          <motion.div variants={itemVariants}>
-            <button
-              onClick={() => scrollToSection('success-path')} // Убедитесь что у вас есть секция с id="success-path"
-              className="text-gold hover:text-gold-light transition-colors flex items-center gap-2 mx-auto group"
+          {/* Main Heading */}
+          <motion.h1
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.3 }}
+            className="text-5xl md:text-7xl lg:text-8xl font-bold mb-6 leading-tight"
+          >
+            <span className="block">VLAD KUZMENKO</span>
+            <span className="block gradient-gold-text">AI PIONEER</span>
+          </motion.h1>
+
+          {/* Subheading */}
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.4 }}
+            className="text-xl md:text-2xl text-gray-300 mb-8 max-w-2xl"
+          >
+            Building tomorrow's business empires with AI and automation.
+            Join the revolution.
+          </motion.p>
+
+          {/* CTA Buttons */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.5 }}
+            className="flex flex-col sm:flex-row gap-4 mb-12"
+          >
+            <Button
+              asChild
+              size="lg"
+              className="btn-premium text-lg px-8 py-6"
             >
-              <span className="text-base">Discover Your Success Path</span>
-              <ChevronDown className="h-4 w-4 group-hover:translate-y-1 transition-transform" />
-            </button>
+              <a href="https://cal.com/vladkuzmenko.com/call" target="_blank" rel="noopener noreferrer">
+                Book a Strategy Call
+                <ArrowRight className="ml-2 w-5 h-5" />
+              </a>
+            </Button>
+            
+            <Button
+              asChild
+              size="lg"
+              variant="outline"
+              className="border-amber-400/50 text-amber-400 hover:bg-amber-400/10 text-lg px-8 py-6"
+            >
+              <Link href="/warriors-team">
+                Join Elite Community
+                <Play className="ml-2 w-5 h-5" />
+              </Link>
+            </Button>
+          </motion.div>
+
+          {/* Stats */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.6 }}
+            className="grid grid-cols-3 gap-8 max-w-xl"
+          >
+            <div>
+              <div className="text-3xl font-bold gradient-gold-text">15+</div>
+              <div className="text-sm text-gray-400">Countries</div>
+            </div>
+            <div>
+              <div className="text-3xl font-bold gradient-gold-text">250+</div>
+              <div className="text-sm text-gray-400">Warriors</div>
+            </div>
+            <div>
+              <div className="text-3xl font-bold gradient-gold-text">24/7</div>
+              <div className="text-sm text-gray-400">Support</div>
+            </div>
           </motion.div>
         </motion.div>
       </div>
 
-      {/* Анимированные частицы - теперь безопасно */}
-      <ClientOnlyParticles />
+      {/* Scroll Indicator */}
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 1 }}
+        className="absolute bottom-8 left-1/2 -translate-x-1/2"
+      >
+        <div className="flex flex-col items-center gap-2 text-gray-400">
+          <span className="text-sm">Discover Your Success Path</span>
+          <motion.div
+            animate={{ y: [0, 10, 0] }}
+            transition={{ repeat: Infinity, duration: 1.5 }}
+            className="w-6 h-10 border-2 border-gray-400 rounded-full flex items-start justify-center p-1"
+          >
+            <div className="w-1 h-3 bg-amber-400 rounded-full" />
+          </motion.div>
+        </div>
+      </motion.div>
     </section>
   );
-}
+};
