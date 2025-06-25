@@ -1,9 +1,11 @@
 "use client";
 
+// ОСТАВЛЯЕМ ТОЛЬКО НУЖНЫЕ ИМПОРТЫ
 import { Button } from "@/components/ui/button";
 import { ArrowRight, ChevronDown } from "lucide-react";
 import { motion } from "framer-motion";
 import Link from "next/link";
+// import { ContactDialog } from "@/components/ui/contact-dialog"; // <<<<<< Я УДАЛИЛ ЭТУ НЕИСПОЛЬЗУЕМУЮ СТРОКУ, КОТОРАЯ ВЫЗЫВАЛА ОШИБКУ
 
 export function PersonalBrandHero() {
   const scrollToSection = (sectionId: string) => {
@@ -15,17 +17,15 @@ export function PersonalBrandHero() {
 
   return (
     <section className="relative w-full min-h-screen flex items-center justify-center overflow-hidden">
-      {/* Background Image with Artistic Effect */}
+      {/* Background Image with Artistic Effect - ВСЕ ВАШИ СТИЛИ НА МЕСТЕ */}
       <div className="absolute inset-0 z-0">
-        {/* Main image */}
         <div
           className="absolute inset-0 bg-cover bg-center bg-no-repeat"
           style={{
-            backgroundImage: 'url("/images/warriors-team-yacht.webp")', // ВАШ ПУТЬ К КАРТИНКЕ
+            backgroundImage: 'url("/images/warriors-team-yacht.webp")',
             filter: 'brightness(0.4) contrast(1.2)'
           }}
         />
-        {/* Artistic gradient overlay with worn edges effect */}
         <div className="absolute inset-0">
           <div className="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent" />
           <div
@@ -40,7 +40,6 @@ export function PersonalBrandHero() {
             }}
           />
         </div>
-        {/* Scratched/worn texture overlay */}
         <div
           className="absolute inset-0 opacity-30"
           style={{
@@ -50,7 +49,7 @@ export function PersonalBrandHero() {
         />
       </div>
 
-      {/* Content */}
+      {/* Content - ВСЯ ВАША ВЕРСТКА И АНИМАЦИИ НА МЕСТЕ */}
       <div className="container relative z-10 mx-auto px-4">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -58,7 +57,6 @@ export function PersonalBrandHero() {
           transition={{ duration: 0.8 }}
           className="max-w-4xl mx-auto text-center"
         >
-          {/* Main Title - Smaller size */}
           <motion.h1
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
@@ -68,7 +66,6 @@ export function PersonalBrandHero() {
             <span className="gold-gradient">VLAD KUZMENKO</span>
           </motion.h1>
 
-          {/* Subtitle - Smaller size */}
           <motion.p
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -79,7 +76,6 @@ export function PersonalBrandHero() {
             <br />Join the revolution.
           </motion.p>
 
-          {/* CTA Buttons - Smaller size */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -106,7 +102,6 @@ export function PersonalBrandHero() {
             </Link>
           </motion.div>
 
-          {/* Success Path Link */}
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -122,10 +117,8 @@ export function PersonalBrandHero() {
           </motion.div>
         </motion.div>
       </div>
-
-      {/* БЛОК С ЛЕТАЮЩИМИ ЧАСТИЦАМИ БЫЛ ЗДЕСЬ. Я ЕГО ПОЛНОСТЬЮ УДАЛИЛ,
-        ТАК КАК ОН ЯВЛЯЕТСЯ ПРИЧИНОЙ СБОЯ ПРИ СБОРКЕ НА СЕРВЕРЕ.
-      */}
+      
+      {/* Блок с летающими частицами, который вызывал вторую ошибку на сервере, удален. */}
     </section>
   );
 }
