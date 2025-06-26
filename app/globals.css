@@ -610,3 +610,43 @@ section + section {
 .btn-premium:hover::before {
   left: 100%;
 }
+/* Section Spacing Fix */
+section {
+  position: relative;
+  z-index: 1;
+  padding-top: 6rem !important;
+  padding-bottom: 6rem !important;
+}
+
+@media (min-width: 768px) {
+  section {
+    padding-top: 8rem !important;
+    padding-bottom: 8rem !important;
+  }
+}
+
+/* Hero section special case */
+section:first-of-type {
+  padding-top: 0 !important;
+}
+
+/* Ensure proper stacking */
+.relative {
+  z-index: 1;
+}
+
+/* Fix overflow issues */
+.overflow-hidden {
+  position: relative;
+}
+
+/* Prevent horizontal scroll */
+body {
+  overflow-x: hidden !important;
+}
+
+/* Carousel container fix */
+.flex.gap-4.overflow-x-hidden {
+  margin: 0 !important;
+  padding: 0 1rem;
+}
