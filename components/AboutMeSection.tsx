@@ -5,17 +5,17 @@ import { motion } from "framer-motion";
 import Image from "next/image";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
-// ✅ 10 Изображений с правильными путями
+// ✅ Изображения 4, 5, 6, 9 заменены
 const instagramPosts = [
   { id: 1, image: "/warriors-group-photo.jpg", caption: "Building The Future Together" },
   { id: 2, image: "/warriors-discussion.jpg", caption: "Strategy & Execution" },
   { id: 3, image: "/warriors-leaders.jpg", caption: "Leadership in Action" },
-  { id: 4, image: "/team-meeting-1.webp", caption: "Innovation Session" },
-  { id: 5, image: "/vlad-speaking-on-stage.jpg", caption: "Sharing Knowledge" },
-  { id: 6, image: "/business-lunch.jpg", caption: "Deals & Partnerships" },
-  { id: 7, image: "/warriors-yacht-meeting.jpg", caption: "Elite Mastermind" },
-  { id: 8, image: "/team-training-1.webp", caption: "Leveling Up" },
-  { id: 9, image: "/c21e3d219043635.67ab7c0a251c8.webp", caption: "High-Performance Lifestyle" },
+  { id: 4, image: "/team-training-1.webp", caption: "Leveling Up The Team" }, // ЗАМЕНЕНО
+  { id: 5, image: "/warriors-yacht-meeting.jpg", caption: "Elite Mastermind" }, // ЗАМЕНЕНО
+  { id: 6, image: "/case-study-1.webp", caption: "High-Performance Lifestyle" }, // ЗАМЕНЕНО
+  { id: 7, image: "/workspace-setup.webp", caption: "Focused Productivity" },
+  { id: 8, image: "/success-celebration.webp", caption: "Celebrating Milestones" },
+  { id: 9, image: "/gorillamindpage.webp", caption: "Unlocking Potential" }, // ЗАМЕНЕНО
   { id: 10, image: "/1.webp", caption: "Focused on The Vision" },
 ];
 
@@ -30,8 +30,8 @@ export function AboutMeSection() {
   };
 
   return (
-    // ✅ Убраны z-index и отрицательные отступы, чтобы решить проблему наложения
-    <section id="about" className="w-full py-20 md:py-32 bg-black relative overflow-hidden">
+    // ✅ УВЕЛИЧЕН НИЖНИЙ ОТСТУП И Z-INDEX ДЛЯ РЕШЕНИЯ ПРОБЛЕМЫ НАЛОЖЕНИЯ
+    <section id="about" className="w-full py-20 md:py-32 bg-black relative z-20 pb-40">
       <div className="container mx-auto px-4">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -50,11 +50,8 @@ export function AboutMeSection() {
         </motion.div>
       </div>
 
-      {/* ✅ ПОЛНОСТЬЮ ПЕРЕРАБОТАННАЯ КАРУСЕЛЬ */}
       <div className="w-full relative group">
-        {/* Градиент слева для плавного исчезновения */}
         <div className="absolute left-0 top-0 bottom-0 w-16 md:w-32 bg-gradient-to-r from-black to-transparent z-10 pointer-events-none" />
-        {/* Градиент справа для плавного исчезновения */}
         <div className="absolute right-0 top-0 bottom-0 w-16 md:w-32 bg-gradient-to-l from-black to-transparent z-10 pointer-events-none" />
 
         <div
@@ -62,7 +59,6 @@ export function AboutMeSection() {
           className="flex gap-6 overflow-x-auto snap-x snap-mandatory py-4"
           style={{ scrollbarWidth: 'none', '-ms-overflow-style': 'none' }}
         >
-          {/* Пустой div для отступа слева */}
           <div className="snap-center shrink-0 w-4 md:w-16" />
 
           {instagramPosts.map((post, index) => (
@@ -89,11 +85,9 @@ export function AboutMeSection() {
               </div>
             </motion.div>
           ))}
-          {/* Пустой div для отступа справа */}
           <div className="snap-center shrink-0 w-4 md:w-16" />
         </div>
         
-        {/* Кнопки навигации */}
         <button onClick={() => scroll('left')} className="absolute left-0 md:left-4 top-1/2 -translate-y-1/2 z-20 w-12 h-12 bg-black/50 backdrop-blur-sm border border-white/20 rounded-full flex items-center justify-center text-white hover:bg-white/20 transition-all duration-300 opacity-0 group-hover:opacity-100">
           <ChevronLeft className="w-6 h-6" />
         </button>
@@ -102,7 +96,6 @@ export function AboutMeSection() {
         </button>
       </div>
 
-      {/* Bio Section - контент не изменен */}
       <div className="container mx-auto px-4 mt-20 md:mt-24">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
