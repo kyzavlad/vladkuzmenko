@@ -1,104 +1,164 @@
-"use client";
+'use client';
 
-import { motion } from "framer-motion";
-import Image from "next/image";
+import React from 'react';
+import { motion } from 'framer-motion';
 
-// ✅ 10 изображений, включая замененные 6, 7, 8, 9
 const instagramPosts = [
-  { id: 1, image: "/warriors-group-photo.jpg", caption: "Building The Future Together" },
-  { id: 2, image: "/warriors-discussion.jpg", caption: "Strategy & Execution" },
-  { id: 3, image: "/warriors-leaders.jpg", caption: "Leadership in Action" },
-  { id: 4, image: "/team-meeting-1.webp", caption: "Innovation Session" },
-  { id: 5, image: "/vlad-speaking-on-stage.jpg", caption: "Sharing Knowledge" },
-  { id: 6, image: "/warriors-yacht-meeting.jpg", caption: "Elite Mastermind" }, // ЗАМЕНЕНО
-  { id: 7, image: "/team-training-1.webp", caption: "Leveling Up The Team" }, // ЗАМЕНЕНО
-  { id: 8, image: "/c21e3d219043635.67ab7c0a251c8.webp", caption: "High-Performance Lifestyle" }, // ЗАМЕНЕНО
-  { id: 9, image: "/1.webp", caption: "Focused on The Vision" }, // ЗАМЕНЕНО
-  { id: 10, image: "/business-lunch.jpg", caption: "Deals & Partnerships" },
+  {
+    id: 1,
+    image: '/team-meeting-1.webp',
+    caption: 'Building the future with Warriors Team 🚀'
+  },
+  {
+    id: 2,
+    image: '/team-success-1.webp',
+    caption: 'Another milestone achieved! 💪'
+  },
+  {
+    id: 3,
+    image: '/team-training-1.webp',
+    caption: 'Never stop learning and growing 📚'
+  },
+  {
+    id: 4,
+    image: '/warriors-yacht-meeting.jpg',
+    caption: 'Strategy session on the high seas ⛵'
+  },
+  {
+    id: 5,
+    image: '/warriors-group-photo.jpg',
+    caption: 'Warriors unite for success 🏆'
+  }
 ];
 
-// Дублируем массив для создания бесшовной ленты
-const duplicatedPosts = [...instagramPosts, ...instagramPosts];
-
-export function AboutMeSection() {
+export const AboutMeSection = () => {
   return (
-    // ✅ Полностью переработанная секция для решения проблемы наложения
-    <section id="about" className="w-full py-20 md:py-32 bg-black overflow-hidden">
+    <section className="py-24 md:py-32 gradient-section relative">
       <div className="container mx-auto px-4">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
           viewport={{ once: true }}
-          className="text-center mb-16"
+          className="max-w-6xl mx-auto"
         >
-          <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6">
-            <span className="gold-gradient">About Vlad</span>
-          </h2>
-          <p className="text-xl text-gray-400 max-w-3xl mx-auto">
-            Entrepreneur, innovator, and leader of the Warriors movement. 
-            Building tomorrow's business empires through AI and automation.
-          </p>
-        </motion.div>
-      </div>
+          {/* Section Header */}
+          <div className="text-center mb-16">
+            <h2 className="text-4xl md:text-6xl font-bold mb-6">
+              Meet <span className="gradient-gold-text">Vlad Kuzmenko</span>
+            </h2>
+            <p className="text-xl text-gray-400 max-w-3xl mx-auto">
+              Entrepreneur, AI Pioneer, and Leader of the Warriors Movement
+            </p>
+          </div>
 
-      {/* ✅ БЕСКОНЕЧНАЯ АНИМИРОВАННАЯ КАРУСЕЛЬ */}
-      <div
-        className="w-full inline-flex flex-nowrap overflow-hidden py-4 [mask-image:_linear-gradient(to_right,transparent_0,_black_10%,_black_90%,transparent_100%)]"
-      >
-        <ul className="flex items-center justify-center md:justify-start [&_li]:mx-4 [&_img]:max-w-none animate-scroll">
-          {duplicatedPosts.map((post, index) => (
-            <li key={index}>
-              <div className="relative rounded-2xl overflow-hidden premium-shadow aspect-[4/5] w-[300px] h-[375px] transition-all duration-300 ease-in-out hover:scale-[1.03]">
-                <Image
-                  src={post.image}
-                  alt={post.caption}
-                  fill
-                  sizes="300px"
-                  className="object-cover"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
-                <div className="absolute bottom-0 left-0 p-4 md:p-5">
-                  <p className="text-white font-semibold text-base md:text-lg line-clamp-2">{post.caption}</p>
+          {/* Content Grid */}
+          <div className="grid lg:grid-cols-2 gap-12 items-center mb-20">
+            {/* Text Content */}
+            <motion.div
+              initial={{ opacity: 0, x: -20 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              className="space-y-6"
+            >
+              <h3 className="text-3xl font-bold">
+                From Vision to <span className="gradient-gold-text">Reality</span>
+              </h3>
+              
+              <p className="text-gray-300 text-lg leading-relaxed">
+                My journey began with a simple belief: that technology should empower people, 
+                not replace them. Today, I lead a global movement of entrepreneurs who are 
+                reshaping the business landscape through AI and automation.
+              </p>
+              
+              <p className="text-gray-300 text-lg leading-relaxed">
+                The Warriors Team isn't just about business success—it's about creating a 
+                community where innovation meets execution, where dreams transform into 
+                sustainable enterprises.
+              </p>
+
+              <div className="space-y-4 pt-6">
+                <div className="flex items-start gap-4">
+                  <div className="w-12 h-12 bg-gradient-to-br from-amber-400 to-yellow-600 rounded-lg flex items-center justify-center flex-shrink-0">
+                    <span className="text-black font-bold">01</span>
+                  </div>
+                  <div>
+                    <h4 className="font-semibold text-xl mb-2">Visionary Leadership</h4>
+                    <p className="text-gray-400">
+                      Guiding entrepreneurs to leverage AI for exponential growth
+                    </p>
+                  </div>
+                </div>
+                
+                <div className="flex items-start gap-4">
+                  <div className="w-12 h-12 bg-gradient-to-br from-amber-400 to-yellow-600 rounded-lg flex items-center justify-center flex-shrink-0">
+                    <span className="text-black font-bold">02</span>
+                  </div>
+                  <div>
+                    <h4 className="font-semibold text-xl mb-2">Community First</h4>
+                    <p className="text-gray-400">
+                      Building a brotherhood of success-driven individuals worldwide
+                    </p>
+                  </div>
+                </div>
+                
+                <div className="flex items-start gap-4">
+                  <div className="w-12 h-12 bg-gradient-to-br from-amber-400 to-yellow-600 rounded-lg flex items-center justify-center flex-shrink-0">
+                    <span className="text-black font-bold">03</span>
+                  </div>
+                  <div>
+                    <h4 className="font-semibold text-xl mb-2">Proven Results</h4>
+                    <p className="text-gray-400">
+                      Transforming ideas into profitable ventures through strategic automation
+                    </p>
+                  </div>
                 </div>
               </div>
-            </li>
-          ))}
-        </ul>
-      </div>
+            </motion.div>
 
-      {/* Bio Section - контент не изменен, но теперь он гарантированно не будет обрезан */}
-      <div className="container mx-auto px-4 mt-20 md:mt-24">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-          viewport={{ once: true }}
-          className="max-w-4xl mx-auto"
-        >
-          <div className="grid md:grid-cols-2 gap-12 items-center">
-            <div className="space-y-6">
-              <h3 className="text-3xl font-bold text-white">The Journey</h3>
-              <p className="text-gray-400 leading-relaxed">
-                From humble beginnings to building a multi-million dollar empire, 
-                Vlad Kuzmenko's journey is a testament to the power of vision, 
-                persistence, and innovation.
-              </p>
-              <p className="text-gray-400 leading-relaxed">
-                Today, he leads the Warriors movement - a global community of 
-                entrepreneurs and innovators who are reshaping the business landscape 
-                through AI and automation.
-              </p>
-            </div>
-            <div className="grid grid-cols-2 gap-6">
-              <div className="card-premium p-6 text-center"><h4 className="text-4xl font-bold gold-gradient mb-2">50K+</h4><p className="text-gray-400">Warriors Worldwide</p></div>
-              <div className="card-premium p-6 text-center"><h4 className="text-4xl font-bold gold-gradient mb-2">$10M+</h4><p className="text-gray-400">Generated Revenue</p></div>
-              <div className="card-premium p-6 text-center"><h4 className="text-4xl font-bold gold-gradient mb-2">15+</h4><p className="text-gray-400">Countries Reached</p></div>
-              <div className="card-premium p-6 text-center"><h4 className="text-4xl font-bold gold-gradient mb-2">24/7</h4><p className="text-gray-400">Community Support</p></div>
-            </div>
+            {/* Featured Image */}
+            <motion.div
+              initial={{ opacity: 0, x: 20 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              className="relative"
+            >
+              <div className="relative rounded-2xl overflow-hidden glow-effect">
+                <img
+                  src="/warriors-leaders.jpg"
+                  alt="Vlad Kuzmenko"
+                  className="w-full h-auto"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
+              </div>
+              
+              {/* Floating stats */}
+              <motion.div
+                initial={{ opacity: 0, scale: 0.8 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                viewport={{ once: true }}
+                transition={{ delay: 0.3 }}
+                className="absolute -bottom-6 -left-6 bg-black/90 backdrop-blur-xl border border-amber-400/30 rounded-xl p-6"
+              >
+                <div className="text-3xl font-bold gradient-gold-text">15+</div>
+                <div className="text-gray-400 text-sm">Countries Reached</div>
+              </motion.div>
+              
+              <motion.div
+                initial={{ opacity: 0, scale: 0.8 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                viewport={{ once: true }}
+                transition={{ delay: 0.4 }}
+                className="absolute -top-6 -right-6 bg-black/90 backdrop-blur-xl border border-amber-400/30 rounded-xl p-6"
+              >
+                <div className="text-3xl font-bold gradient-gold-text">24/7</div>
+                <div className="text-gray-400 text-sm">Community Support</div>
+              </motion.div>
+            </motion.div>
           </div>
+
+
         </motion.div>
       </div>
     </section>
   );
-}
+};
