@@ -20,12 +20,12 @@ export function PersonalBrandHero() {
         <div
           className="absolute inset-0 bg-cover bg-center bg-no-repeat"
           style={{
-            // ИСПРАВЛЕН ПУТЬ К ИЗОБРАЖЕНИЮ
-            backgroundImage: 'url("/warriors-team-yacht.webp")',
+            // ИСПРАВЛЕН ПУТЬ СОГЛАСНО ВАШЕЙ СТРУКТУРЕ ФАЙЛОВ
+            backgroundImage: 'url("/warriors-yacht-meeting.jpg")', 
             filter: 'brightness(0.4) contrast(1.2)'
           }}
         />
-        {/* ...остальные оверлеи остаются без изменений... */}
+        {/* Ваши художественные оверлеи сохранены */}
         <div className="absolute inset-0">
           <div className="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent" />
           <div
@@ -57,7 +57,6 @@ export function PersonalBrandHero() {
           transition={{ duration: 0.8 }}
           className="max-w-4xl mx-auto text-center"
         >
-          {/* Main Title */}
           <motion.h1
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
@@ -67,7 +66,6 @@ export function PersonalBrandHero() {
             <span className="gold-gradient">VLAD KUZMENKO</span>
           </motion.h1>
 
-          {/* Subtitle */}
           <motion.p
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -78,7 +76,6 @@ export function PersonalBrandHero() {
             <br />Join the revolution.
           </motion.p>
 
-          {/* CTA Buttons */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -105,7 +102,6 @@ export function PersonalBrandHero() {
             </Link>
           </motion.div>
 
-          {/* Success Path Link */}
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
