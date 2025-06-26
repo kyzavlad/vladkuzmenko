@@ -234,13 +234,6 @@ section:last-of-type::after {
   display: none;
 }
 
-/* Section spacing for smooth transitions */
-section + section {
-  margin-top: -100px;
-  position: relative;
-  z-index: 2;
-}
-
 /* Premium shadow effects */
 .premium-shadow {
   box-shadow: 
