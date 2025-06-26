@@ -1,220 +1,305 @@
 "use client";
 
-import Link from "next/link";
-import { useState, useEffect } from "react";
-import { usePathname } from "next/navigation";
-import { motion, AnimatePresence } from "framer-motion";
-import { Menu, X, ChevronDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import {
+  NavigationMenu,
+  NavigationMenuContent,
+  NavigationMenuItem,
+  NavigationMenuLink,
+  NavigationMenuList,
+  NavigationMenuTrigger,
+} from "@/components/ui/navigation-menu";
+import { Menu, MoveRight, X } from "lucide-react";
+import { useState, useEffect } from "react";
+import Link from "next/link";
 import { ContactDialog } from "@/components/ui/contact-dialog";
-import { ShoppingCart, Search } from "lucide-react";
+import { StarBorder } from "@/components/ui/star-border";
 
 export function Header() {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [isScrolled, setIsScrolled] = useState(false);
-  const pathname = usePathname();
+  const [isMobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [isChoosePathOpen, setChoosePathOpen] = useState(false);
 
+  const navigationItems = [
+    { title: "Home", href: "/" },
+    {
+      title: "Product",
+      description: "Explore our ecosystem of products and services",
+      items: [
+        { title: "The University", href: "/university" },
+        { title: "AI Automation", href: "/automation" },
+        { title: "Content Platform", href: "/ai-platform" },
+        { title: "Elite Equipment", href: "/#merch" },
+        { title: "Warriors Team", href: "/warriors-team" },
+      ],
+    },
+    {
+      title: "Company",
+      description: "Learn more about our company and success stories.",
+      items: [
+        { title: "About Vlad", href: "/#about" },
+        { title: "Success Stories", href: "/#testimonials" },
+        { title: "Community", href: "/#warriors-team" },
+        { title: "Contact", href: "/#contact" },
+      ],
+    },
+  ];
+
+  const handleNavClick = (
+    e: React.MouseEvent<HTMLAnchorElement>,
+    href: string
+  ) => {
+    if (href.startsWith("/#")) {
+      e.preventDefault();
+      setMobileMenuOpen(false);
+      const elementId = href.replace("/#", "");
+      const element = document.getElementById(elementId);
+      if (element) {
+        element.scrollIntoView({ behavior: "smooth" });
+      }
+    } else if (href === "/") {
+      setMobileMenuOpen(false);
+    }
+  };
+  
   useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 20);
+    const handleEsc = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') {
+        setMobileMenuOpen(false);
+        setChoosePathOpen(false);
+      }
     };
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
+    window.addEventListener('keydown', handleEsc);
+    return () => {
+      window.removeEventListener('keydown', handleEsc);
+    };
   }, []);
 
-  const productLinks = [
-    { href: "/university", label: "The University" },
-    { href: "/ai-platform", label: "AI Platform" },
-    { href: "/warriors-team", label: "Warriors Team" },
-    { href: "/automation", label: "Automation Agency" },
-  ];
-
-  const companyLinks = [
-    { href: "/#about", label: "About" },
-    { href: "/#testimonials", label: "Testimonials" },
-    { href: "/#contact", label: "Contact" },
-  ];
-
   return (
-    <header
-      className={`fixed top-0 w-full z-50 transition-all duration-300 ${
-        isScrolled
-          ? "bg-black/90 backdrop-blur-xl shadow-lg"
-          : "bg-transparent"
-      }`}
-    >
-      <div className="container mx-auto px-4">
-        <div className="flex items-center justify-between h-20">
-          {/* Logo with golden underline */}
-          <Link href="/" className="relative group">
-            <motion.div
-              initial={{ opacity: 0, x: -20 }}
-              animate={{ opacity: 1, x: 0 }}
-              className="text-2xl font-bold text-white tracking-tight"
-            >
-              VladKuzmenko<span className="text-transparent bg-clip-text bg-gradient-to-r from-amber-400 to-yellow-600">.com</span>
-            </motion.div>
-            {/* Golden underline */}
-            <motion.div
-              className="absolute -bottom-1 left-0 h-[2px] bg-gradient-to-r from-amber-400 to-yellow-600"
-              initial={{ width: "0%" }}
-              animate={{ width: "100%" }}
-              transition={{ duration: 0.8, delay: 0.2 }}
-            />
-          </Link>
+    <>
+      {/* Blur overlay for Choose Path menu */}
+      {isChoosePathOpen && (
+        <div
+          className="fixed inset-0 bg-black/60 backdrop-blur-sm z-40"
+          onClick={() => setChoosePathOpen(false)}
+        />
+      )}
 
-          {/* Desktop Navigation */}
-          <nav className="hidden lg:flex items-center gap-8">
-            <Link
-              href="/"
-              className={`transition-colors hover:text-amber-400 ${
-                pathname === "/" ? "text-amber-400" : "text-gray-300"
-              }`}
-            >
-              Home
-            </Link>
-
-            {/* Product Dropdown */}
-            <div className="relative group">
-              <button className="flex items-center gap-1 text-gray-300 hover:text-amber-400 transition-colors">
-                Product
-                <ChevronDown className="w-4 h-4" />
-              </button>
-              <div className="absolute top-full left-0 mt-2 w-56 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 transform origin-top scale-95 group-hover:scale-100">
-                <div className="bg-gray-900/95 backdrop-blur-xl rounded-lg shadow-xl border border-gray-800 overflow-hidden">
-                  {productLinks.map((link) => (
-                    <Link
-                      key={link.href}
-                      href={link.href}
-                      className="block px-4 py-3 hover:bg-amber-400/10 hover:text-amber-400 transition-colors text-gray-300"
-                    >
-                      {link.label}
-                    </Link>
-                  ))}
-                </div>
-              </div>
+      {/* Choose Path Menu popup */}
+      {isChoosePathOpen && (
+        <div className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-50 w-full max-w-lg px-4">
+          <div className="bg-background/95 backdrop-blur-sm border border-border/40 rounded-2xl p-6 space-y-4 premium-shadow">
+            <div className="flex justify-between items-center mb-6">
+              <h2 className="text-xl font-bold">Choose Your Path</h2>
+              <Button
+                variant="ghost"
+                size="icon"
+                onClick={() => setChoosePathOpen(false)}
+              >
+                <X className="h-5 w-5" />
+              </Button>
             </div>
 
-            {/* Company Dropdown */}
-            <div className="relative group">
-              <button className="flex items-center gap-1 text-gray-300 hover:text-amber-400 transition-colors">
-                Company
-                <ChevronDown className="w-4 h-4" />
-              </button>
-              <div className="absolute top-full left-0 mt-2 w-48 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 transform origin-top scale-95 group-hover:scale-100">
-                <div className="bg-gray-900/95 backdrop-blur-xl rounded-lg shadow-xl border border-gray-800 overflow-hidden">
-                  {companyLinks.map((link) => (
-                    <Link
-                      key={link.href}
-                      href={link.href}
-                      className="block px-4 py-3 hover:bg-amber-400/10 hover:text-amber-400 transition-colors text-gray-300"
-                    >
-                      {link.label}
-                    </Link>
-                  ))}
+            <Link href="/university" onClick={() => setChoosePathOpen(false)}>
+              <StarBorder
+                className="w-full mb-4 hover:scale-[1.02] transition-transform cursor-pointer"
+                color="hsl(var(--gold))"
+              >
+                <div className="flex items-center justify-between">
+                  <div className="text-left">
+                    <h3 className="font-semibold text-lg">The University</h3>
+                    <p className="text-muted-foreground text-sm">Master high-income skills and build your empire</p>
+                  </div>
+                  <MoveRight className="h-5 w-5 text-muted-foreground" />
                 </div>
-              </div>
-            </div>
-
-            <Link
-              href="/#path"
-              className="text-gray-300 hover:text-amber-400 transition-colors"
-            >
-              Choose Path
+              </StarBorder>
             </Link>
-          </nav>
 
-          {/* Right side buttons */}
-          <div className="hidden lg:flex items-center gap-4">
-            <Button
-              variant="ghost"
-              size="icon"
-              className="text-gray-300 hover:text-amber-400"
-            >
-              <Search className="w-5 h-5" />
-            </Button>
-            <Button
-              variant="ghost"
-              size="icon"
-              className="text-gray-300 hover:text-amber-400"
-            >
-              <ShoppingCart className="w-5 h-5" />
-            </Button>
-            <Button
-              asChild
-              className="bg-gradient-to-r from-amber-400 to-yellow-600 hover:from-amber-500 hover:to-yellow-700 text-black font-semibold"
-            >
-              <a href="https://cal.com/vladkuzmenko.com/call" target="_blank" rel="noopener noreferrer">
-                Book a call today
-              </a>
-            </Button>
+            <Link href="/automation" onClick={() => setChoosePathOpen(false)}>
+              <StarBorder
+                className="w-full mb-4 hover:scale-[1.02] transition-transform cursor-pointer"
+                color="hsl(var(--color-2))"
+              >
+                <div className="flex items-center justify-between">
+                  <div className="text-left">
+                    <h3 className="font-semibold text-lg">AI Automation Agency</h3>
+                    <p className="text-muted-foreground text-sm">Transform your business with AI</p>
+                  </div>
+                  <MoveRight className="h-5 w-5 text-muted-foreground" />
+                </div>
+              </StarBorder>
+            </Link>
+
+            <Link href="/ai-platform" onClick={() => setChoosePathOpen(false)}>
+              <StarBorder
+                className="w-full mb-4 hover:scale-[1.02] transition-transform cursor-pointer"
+                color="hsl(var(--color-3))"
+              >
+                <div className="flex items-center justify-between">
+                  <div className="text-left">
+                    <h3 className="font-semibold text-lg">Content Platform</h3>
+                    <p className="text-muted-foreground text-sm">Multiply your content output with AI</p>
+                  </div>
+                  <MoveRight className="h-5 w-5 text-muted-foreground" />
+                </div>
+              </StarBorder>
+            </Link>
+            
+            <Link href="/warriors-team" onClick={() => setChoosePathOpen(false)}>
+              <StarBorder 
+                className="w-full hover:scale-[1.02] transition-transform cursor-pointer"
+                color="hsl(var(--color-1))"
+              >
+                <div className="flex items-center justify-between">
+                  <div className="text-left">
+                    <h3 className="font-semibold text-lg">Warriors Team</h3>
+                    <p className="text-muted-foreground text-sm">Join our elite community</p>
+                  </div>
+                  <MoveRight className="h-5 w-5 text-muted-foreground" />
+                </div>
+              </StarBorder>
+            </Link>
+          </div>
+        </div>
+      )}
+
+      <header className="w-full z-30 fixed top-0 left-0 bg-background/95 backdrop-blur-sm border-b border-border/40">
+        <div className="container relative mx-auto py-4 md:py-5 flex flex-row items-center justify-between lg:grid lg:grid-cols-[auto_minmax(0,1fr)_auto] lg:gap-x-4">
+          
+          {/* Left side (Desktop navigation) */}
+          <div className="hidden lg:flex justify-start items-center">
+            <NavigationMenu>
+              <NavigationMenuList className="flex flex-row gap-1">
+                {navigationItems.map((item) => (
+                  <NavigationMenuItem key={item.title}>
+                    {item.href ? (
+                      <NavigationMenuLink asChild>
+                        <a
+                          href={item.href}
+                          onClick={(e) => handleNavClick(e, item.href!)}
+                          className="inline-flex h-10 items-center justify-center whitespace-nowrap rounded-md px-3 py-2 text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground focus:outline-none disabled:pointer-events-none disabled:opacity-50"
+                        >
+                          {item.title}
+                        </a>
+                      </NavigationMenuLink>
+                    ) : (
+                      <>
+                        <NavigationMenuTrigger className="h-10 px-3 py-2 font-medium text-sm">
+                          {item.title}
+                        </NavigationMenuTrigger>
+                        <NavigationMenuContent className="!w-[450px] p-4">
+                          <div className="flex flex-col lg:grid grid-cols-2 gap-4">
+                            <div className="flex flex-col h-full justify-between">
+                              <div>
+                                <p className="text-base font-semibold">{item.title}</p>
+                                <p className="text-muted-foreground text-sm mt-1">
+                                  {item.description}
+                                </p>
+                              </div>
+                              <div>
+                                <ContactDialog triggerText="Book a call today">
+                                  <Button size="sm" className="mt-6 w-full md:w-auto premium-button">
+                                    Book a call today
+                                  </Button>
+                                </ContactDialog>
+                              </div>
+                            </div>
+                            <div className="flex flex-col text-sm gap-1">
+                              {item.items?.map((subItem) => (
+                                <a
+                                  href={subItem.href}
+                                  key={subItem.title}
+                                  onClick={(e) => handleNavClick(e, subItem.href)}
+                                  className="flex flex-row justify-between items-center hover:bg-accent hover:text-accent-foreground py-2 px-3 rounded-md transition-colors"
+                                >
+                                  <span>{subItem.title}</span>
+                                  <MoveRight className="w-4 h-4 text-muted-foreground" />
+                                </a>
+                              ))}
+                            </div>
+                          </div>
+                        </NavigationMenuContent>
+                      </>
+                    )}
+                  </NavigationMenuItem>
+                ))}
+              </NavigationMenuList>
+            </NavigationMenu>
           </div>
 
-          {/* Mobile menu button */}
-          <button
-            onClick={() => setIsMenuOpen(!isMenuOpen)}
-            className="lg:hidden text-white p-2"
-          >
-            {isMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
-          </button>
-        </div>
-      </div>
+          {/* Center (Logo) */}
+          <div className="flex justify-center items-center min-w-0"> 
+            <div className="logo-container relative"> 
+              <a href="/" className="flex items-center" aria-label="VladKuzmenko.com Home">
+                <span 
+                  className="text-xl sm:text-2xl font-bold tracking-tighter bg-clip-text text-transparent bg-gradient-to-r from-foreground via-foreground to-foreground/30 dark:from-white dark:via-white dark:to-white/30 font-serif italic logo-underline"
+                >
+                  VladKuzmenko.com
+                </span>
+              </a>
+            </div>
+          </div>
 
-      {/* Mobile menu */}
-      <AnimatePresence>
-        {isMenuOpen && (
-          <motion.div
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: "auto" }}
-            exit={{ opacity: 0, height: 0 }}
-            className="lg:hidden bg-black/95 backdrop-blur-xl border-t border-gray-800"
-          >
-            <nav className="container mx-auto px-4 py-4 flex flex-col gap-2">
-              <Link
-                href="/"
-                className="py-2 text-gray-300 hover:text-amber-400"
-                onClick={() => setIsMenuOpen(false)}
-              >
-                Home
-              </Link>
-              <div className="py-2">
-                <div className="text-gray-500 text-sm mb-2">Product</div>
-                {productLinks.map((link) => (
-                  <Link
-                    key={link.href}
-                    href={link.href}
-                    className="block py-2 pl-4 text-gray-300 hover:text-amber-400"
-                    onClick={() => setIsMenuOpen(false)}
-                  >
-                    {link.label}
-                  </Link>
-                ))}
-              </div>
-              <div className="py-2">
-                <div className="text-gray-500 text-sm mb-2">Company</div>
-                {companyLinks.map((link) => (
-                  <Link
-                    key={link.href}
-                    href={link.href}
-                    className="block py-2 pl-4 text-gray-300 hover:text-amber-400"
-                    onClick={() => setIsMenuOpen(false)}
-                  >
-                    {link.label}
-                  </Link>
-                ))}
-              </div>
+          {/* Right side (Desktop buttons & Mobile Menu Icon) */}
+          <div className="flex justify-end items-center">
+            {/* Desktop Buttons */}
+            <div className="hidden md:flex items-center gap-2">
               <Button
-                asChild
-                className="mt-4 w-full bg-gradient-to-r from-amber-400 to-yellow-600 hover:from-amber-500 hover:to-yellow-700 text-black font-semibold"
+                variant="ghost"
+                onClick={() => setChoosePathOpen(true)}
               >
-                <a href="https://cal.com/vladkuzmenko.com/call" target="_blank" rel="noopener noreferrer">
-                  Book a call today
-                </a>
+                Choose Path
               </Button>
-            </nav>
-          </motion.div>
+              <div className="border-r h-6 mx-1 self-center"></div>
+              <ContactDialog triggerText="Get started">
+                <Button className="premium-button">Get started</Button>
+              </ContactDialog>
+            </div>
+
+            {/* Mobile menu button */}
+            <div className="flex items-center md:hidden">
+              <Button variant="ghost" size="icon" onClick={() => setMobileMenuOpen(!isMobileMenuOpen)} aria-label="Toggle menu">
+                {isMobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+              </Button>
+            </div>
+          </div>
+        </div>
+
+        {/* Mobile navigation menu popup */}
+        {isMobileMenuOpen && (
+          <div className="absolute top-[calc(var(--header-height,72px)-1px)] left-0 right-0 border-t bg-background shadow-lg py-4 px-4 flex flex-col gap-4 z-20 md:hidden">
+            {navigationItems.map((item) => (
+              <div key={item.title} className="py-2 border-b border-border/20 last:border-b-0">
+                {item.href ? (
+                  <a href={item.href} onClick={(e) => handleNavClick(e, item.href!)} className="flex justify-between items-center text-foreground hover:text-primary transition-colors w-full py-1" >
+                    <span className="text-base font-medium">{item.title}</span>
+                    <MoveRight className="w-4 h-4 text-muted-foreground" />
+                  </a>
+                ) : (
+                  <div>
+                    <p className="text-base font-medium text-foreground py-1">{item.title}</p>
+                    <div className="pl-2 flex flex-col gap-1 mt-1">
+                      {item.items?.map((subItem) => (
+                        <a key={subItem.title} href={subItem.href} onClick={(e) => handleNavClick(e, subItem.href)} className="flex justify-between items-center text-muted-foreground hover:text-primary transition-colors w-full py-1" >
+                          <span>{subItem.title}</span>
+                          <MoveRight className="w-4 h-4 stroke-1" />
+                        </a>
+                      ))}
+                    </div>
+                  </div>
+                )}
+              </div>
+            ))}
+            <div className="pt-4 flex flex-col gap-3">
+              <Button className="w-full" onClick={() => { setChoosePathOpen(true); setMobileMenuOpen(false); }} >
+                Choose Path
+              </Button>
+              <ContactDialog triggerText="Get started">
+                <Button variant="outline" className="w-full">Get started</Button>
+              </ContactDialog>
+            </div>
+          </div>
         )}
-      </AnimatePresence>
-    </header>
+      </header>
+    </>
   );
 }
