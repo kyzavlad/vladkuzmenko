@@ -2,152 +2,145 @@
 
 import React from 'react';
 import { motion } from 'framer-motion';
+import { ArrowRight } from 'lucide-react';
 import { Button } from './ui/button';
-import { ArrowRight, Play } from 'lucide-react';
-import Link from 'next/link';
 
 export const PersonalBrandHero = () => {
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
-      {/* Background Image with artistic effect */}
-      <div className="absolute inset-0 z-0">
-        <img
-          src="/warriors-yacht-meeting.jpg"
-          alt="Warriors Team"
-          className="w-full h-full object-cover object-center"
-        />
-        {/* Gradient Overlay with artistic edges */}
-        <div className="absolute inset-0 bg-gradient-to-r from-black via-black/85 to-black/40" />
-        {/* Top fade */}
-        <div className="absolute inset-x-0 top-0 h-32 bg-gradient-to-b from-black to-transparent" />
-        {/* Bottom fade */}
-        <div className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-black to-transparent" />
-        {/* Artistic texture overlay - worn edges effect */}
-        <div className="absolute inset-0" style={{
-          backgroundImage: `radial-gradient(circle at 20% 80%, transparent 20%, rgba(0,0,0,0.3) 50%, rgba(0,0,0,0.6) 80%),
-                           radial-gradient(circle at 80% 20%, transparent 20%, rgba(0,0,0,0.3) 50%, rgba(0,0,0,0.6) 80%),
-                           radial-gradient(circle at 40% 40%, transparent 30%, rgba(0,0,0,0.2) 60%)`,
-        }} />
-        {/* Golden accent overlay */}
+    <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-black">
+      {/* Background Effects */}
+      <div className="absolute inset-0">
+        {/* Gradient Orbs */}
+        <div className="absolute top-1/4 -left-1/4 w-[60%] h-[60%] bg-gradient-radial from-amber-600/20 via-orange-600/10 to-transparent blur-3xl animate-pulse" />
+        <div className="absolute bottom-1/4 -right-1/4 w-[60%] h-[60%] bg-gradient-radial from-yellow-600/20 via-amber-600/10 to-transparent blur-3xl animate-pulse delay-1000" />
+        
+        {/* Cloud/Explosion Pattern */}
         <div className="absolute inset-0 opacity-10">
-          <div className="absolute top-0 right-0 w-1/2 h-1/2 bg-gradient-radial from-amber-400/30 via-transparent to-transparent blur-3xl" />
-          <div className="absolute bottom-0 left-0 w-1/2 h-1/2 bg-gradient-radial from-yellow-600/30 via-transparent to-transparent blur-3xl" />
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] h-[120%]">
+            <svg viewBox="0 0 1000 1000" className="w-full h-full">
+              <defs>
+                <radialGradient id="cloudGradient">
+                  <stop offset="0%" stopColor="#fbbf24" stopOpacity="0.3" />
+                  <stop offset="50%" stopColor="#f59e0b" stopOpacity="0.1" />
+                  <stop offset="100%" stopColor="#000000" stopOpacity="0" />
+                </radialGradient>
+              </defs>
+              <circle cx="500" cy="500" r="200" fill="url(#cloudGradient)" className="animate-pulse" />
+              <circle cx="350" cy="400" r="150" fill="url(#cloudGradient)" className="animate-pulse delay-300" />
+              <circle cx="650" cy="450" r="180" fill="url(#cloudGradient)" className="animate-pulse delay-500" />
+              <circle cx="400" cy="600" r="160" fill="url(#cloudGradient)" className="animate-pulse delay-700" />
+              <circle cx="600" cy="550" r="140" fill="url(#cloudGradient)" className="animate-pulse delay-1000" />
+            </svg>
+          </div>
         </div>
       </div>
 
-      {/* Content */}
-      <div className="container mx-auto px-4 relative z-10">
+      <div className="relative z-10 container mx-auto px-6 py-20 text-center">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
-          className="max-w-4xl"
         >
-          {/* Badge */}
+          {/* Welcome Badge */}
           <motion.div
-            initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ delay: 0.2 }}
-            className="inline-flex items-center gap-2 bg-amber-400/10 backdrop-blur-sm border border-amber-400/30 text-amber-400 px-4 py-2 rounded-full mb-8"
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.5 }}
+            className="inline-flex items-center gap-2 bg-amber-400/10 text-amber-400 px-4 py-2 rounded-full mb-8"
           >
-            <span className="w-2 h-2 bg-amber-400 rounded-full animate-pulse" />
+            <span className="animate-pulse w-2 h-2 bg-amber-400 rounded-full"></span>
             <span className="text-sm font-medium">Welcome to the Warriors Movement</span>
           </motion.div>
 
-          {/* Main Heading */}
-          <motion.h1
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.3 }}
-            className="text-5xl md:text-7xl lg:text-8xl font-bold mb-6 leading-tight"
-          >
-            <span className="block">VLAD KUZMENKO</span>
-            <span className="block gradient-gold-text">AI PIONEER</span>
-          </motion.h1>
-
-          {/* Subheading */}
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.4 }}
-            className="text-xl md:text-2xl text-gray-300 mb-8 max-w-2xl"
-          >
-            Building tomorrow's business empires with AI and automation.
+          {/* Main Title */}
+          <h1 className="text-7xl md:text-9xl font-bold mb-8 relative">
+            <span className="bg-gradient-to-r from-amber-300 via-yellow-400 to-amber-500 bg-clip-text text-transparent animate-gradient">
+              VLAD KUZMENKO
+            </span>
+            {/* Glow effect */}
+            <div className="absolute inset-0 blur-3xl opacity-30">
+              <span className="bg-gradient-to-r from-amber-300 via-yellow-400 to-amber-500 bg-clip-text text-transparent">
+                VLAD KUZMENKO
+              </span>
+            </div>
+          </h1>
+          
+          <p className="text-lg md:text-xl text-gray-300 max-w-2xl mx-auto mb-12">
+            Building tomorrow's business empires with AI and automation. 
             Join the revolution.
-          </motion.p>
+          </p>
 
           {/* CTA Buttons */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.5 }}
-            className="flex flex-col sm:flex-row gap-4 mb-12"
-          >
-            <Button
-              asChild
-              size="lg"
-              className="btn-premium text-lg px-8 py-6"
+          <div className="flex flex-col sm:flex-row gap-4 justify-center mb-16">
+            <Button 
+              size="lg" 
+              className="bg-gradient-to-r from-amber-400 to-yellow-600 text-black font-semibold hover:scale-105 transition-transform"
             >
-              <a href="https://cal.com/vladkuzmenko.com/call" target="_blank" rel="noopener noreferrer">
-                Book a Strategy Call
-                <ArrowRight className="ml-2 w-5 h-5" />
-              </a>
+              Join Elite Community
+              <ArrowRight className="ml-2 w-5 h-5" />
             </Button>
             
-            <Button
-              asChild
-              size="lg"
-              variant="outline"
-              className="border-amber-400/50 text-amber-400 hover:bg-amber-400/10 text-lg px-8 py-6"
+            <Button 
+              size="lg" 
+              variant="outline" 
+              className="border-amber-400/50 text-amber-400 hover:bg-amber-400/10"
             >
-              <Link href="/warriors-team">
-                Join Elite Community
-                <Play className="ml-2 w-5 h-5" />
-              </Link>
+              Start Learning
+              <ArrowRight className="ml-2 w-5 h-5" />
             </Button>
-          </motion.div>
+          </div>
 
           {/* Stats */}
           <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.4 }}
+            className="grid grid-cols-3 gap-8 max-w-4xl mx-auto"
+          >
+            <div className="text-center">
+              <h3 className="text-4xl md:text-5xl font-bold text-amber-400">47+</h3>
+              <p className="text-gray-400 mt-2">Countries</p>
+            </div>
+            <div className="text-center">
+              <h3 className="text-4xl md:text-5xl font-bold text-amber-400">10,000+</h3>
+              <p className="text-gray-400 mt-2">Warriors</p>
+            </div>
+            <div className="text-center">
+              <h3 className="text-4xl md:text-5xl font-bold text-amber-400">24/7</h3>
+              <p className="text-gray-400 mt-2">Community</p>
+            </div>
+          </motion.div>
+
+          {/* Scroll Indicator */}
+          <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            transition={{ delay: 0.6 }}
-            className="grid grid-cols-3 gap-8 max-w-xl"
+            transition={{ duration: 1, delay: 1 }}
+            className="absolute bottom-8 left-1/2 transform -translate-x-1/2"
           >
-            <div>
-              <div className="text-3xl font-bold gradient-gold-text">15+</div>
-              <div className="text-sm text-gray-400">Countries</div>
+            <div className="w-6 h-10 border-2 border-amber-400/50 rounded-full flex justify-center">
+              <div className="w-1 h-3 bg-amber-400 rounded-full mt-2 animate-bounce" />
             </div>
-            <div>
-              <div className="text-3xl font-bold gradient-gold-text">250+</div>
-              <div className="text-sm text-gray-400">Warriors</div>
-            </div>
-            <div>
-              <div className="text-3xl font-bold gradient-gold-text">24/7</div>
-              <div className="text-sm text-gray-400">Support</div>
-            </div>
+            <p className="text-xs text-gray-500 mt-2">Discover Your Success Path</p>
           </motion.div>
         </motion.div>
       </div>
-
-      {/* Scroll Indicator */}
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 1 }}
-        className="absolute bottom-8 left-1/2 -translate-x-1/2"
-      >
-        <div className="flex flex-col items-center gap-2 text-gray-400">
-          <span className="text-sm">Discover Your Success Path</span>
-          <motion.div
-            animate={{ y: [0, 10, 0] }}
-            transition={{ repeat: Infinity, duration: 1.5 }}
-            className="w-6 h-10 border-2 border-gray-400 rounded-full flex items-start justify-center p-1"
-          >
-            <div className="w-1 h-3 bg-amber-400 rounded-full" />
-          </motion.div>
-        </div>
-      </motion.div>
+      
+      {/* Gradient animation */}
+      <style jsx>{`
+        @keyframes gradient {
+          0%, 100% {
+            background-position: 0% 50%;
+          }
+          50% {
+            background-position: 100% 50%;
+          }
+        }
+        .animate-gradient {
+          background-size: 200% 200%;
+          animation: gradient 3s ease infinite;
+        }
+      `}</style>
     </section>
   );
 };
