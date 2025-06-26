@@ -7,7 +7,6 @@ import { TestimonialsSection } from "@/components/TestimonialsSection";
 import { SaasLaunchSection } from "@/components/SaasLaunchSection";
 import { MensCommunitySection } from "@/components/MensCommunitySection";
 import { MerchPreviewSection } from "@/components/MerchPreviewSection";
-import { CTASection } from "@/components/CTASection";
 import { FooterSection } from "@/components/FooterSection";
 
 export default function HomePage() {
@@ -22,7 +21,6 @@ export default function HomePage() {
       <SaasLaunchSection />
       <MensCommunitySection />
       <MerchPreviewSection />
-      <CTASection />
       <FooterSection />
     </>
   );
