@@ -1,24 +1,28 @@
+import { Header } from "@/components/ui/header";
 import { PersonalBrandHero } from "@/components/PersonalBrandHero";
 import { AboutMeSection } from "@/components/AboutMeSection";
 import { EducationPlatformSection } from "@/components/EducationPlatformSection";
-import { AutomationTeaserSection } from "@/components/AutomationTeaserSection";
 import { SaasLaunchSection } from "@/components/SaasLaunchSection";
 import { MensCommunitySection } from "@/components/MensCommunitySection";
+import { AutomationTeaserSection } from "@/components/AutomationTeaserSection";
+import { InstagramSection } from "@/components/InstagramSection";
 import { MerchPreviewSection } from "@/components/MerchPreviewSection";
-import { Header } from "@/components/ui/header";
+import { CTASection } from "@/components/CTASection";
 import { FooterSection } from "@/components/FooterSection";
 
-export default function Home() {
+export default function HomePage() {
   return (
-    <> 
+    <>
       <Header />
       <PersonalBrandHero />
       <AboutMeSection />
       <EducationPlatformSection />
-      <AutomationTeaserSection />
       <SaasLaunchSection />
       <MensCommunitySection />
+      <AutomationTeaserSection />
+      <InstagramSection />
       <MerchPreviewSection />
+      <CTASection />
       <FooterSection />
     </>
   );
