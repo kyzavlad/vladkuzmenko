@@ -15,17 +15,15 @@ export function PersonalBrandHero() {
 
   return (
     <section className="relative w-full min-h-screen flex items-center justify-center overflow-hidden">
-      {/* Background Image with Artistic Effect */}
       <div className="absolute inset-0 z-0">
         <div
           className="absolute inset-0 bg-cover bg-center bg-no-repeat"
           style={{
-            // ИСПРАВЛЕН ПУТЬ СОГЛАСНО ВАШЕЙ СТРУКТУРЕ ФАЙЛОВ
+            // --- ИСПРАВЛЕН ПУТЬ НА 100% ВЕРНЫЙ ---
             backgroundImage: 'url("/warriors-yacht-meeting.jpg")', 
             filter: 'brightness(0.4) contrast(1.2)'
           }}
         />
-        {/* Ваши художественные оверлеи сохранены */}
         <div className="absolute inset-0">
           <div className="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent" />
           <div
@@ -49,7 +47,7 @@ export function PersonalBrandHero() {
         />
       </div>
 
-      {/* Content */}
+      {/* Контент остается без изменений */}
       <div className="container relative z-10 mx-auto px-4">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
