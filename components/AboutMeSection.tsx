@@ -4,44 +4,21 @@ import { useRef } from "react";
 import { motion } from "framer-motion";
 import Image from "next/image";
 
+// ✅ ШАГ 1: ИСПРАВЛЕНЫ ПУТИ К ИЗОБРАЖЕНИЯМ
 const instagramPosts = [
-  {
-    id: 1,
-    image: "/images/vlad-post-1.webp",
-    caption: "Building the future of business with AI 🚀",
-    date: "2025/02/10"
-  },
-  {
-    id: 2,
-    image: "/images/vlad-post-2.webp", 
-    caption: "Success is a journey, not a destination 💪",
-    date: "2025/03/21"
-  },
-  {
-    id: 3,
-    image: "/images/vlad-post-3.webp",
-    caption: "Warriors Team conquering new heights 🏆",
-    date: "2025/04/19"
-  },
-  {
-    id: 4,
-    image: "/images/vlad-post-4.webp",
-    caption: "Innovation meets execution 💡",
-    date: "2025/06/14"
-  },
-  {
-    id: 5,
-    image: "/images/vlad-post-5.webp",
-    caption: "Creating value through technology 🔥",
-    date: "2025/03/07"
-  }
+  { id: 1, image: "/warriors-group-photo.jpg", caption: "Building the future of business with AI 🚀", date: "2025/02/10" },
+  { id: 2, image: "/warriors-discussion.jpg", caption: "Success is a journey, not a destination 💪", date: "2025/03/21" },
+  { id: 3, image: "/warriors-leaders.jpg", caption: "Warriors Team conquering new heights 🏆", date: "2025/04/19" },
+  { id: 4, image: "/team-meeting-1.webp", caption: "Innovation meets execution 💡", date: "2025/06/14" },
+  { id: 5, image: "/business-lunch.jpg", caption: "Creating value through technology 🔥", date: "2025/03/07" }
 ];
 
 export function AboutMeSection() {
   const scrollRef = useRef<HTMLDivElement>(null);
 
   return (
-    <section id="about" className="w-full py-20 md:py-32 relative">
+    // ✅ ШАГ 2: ИСПРАВЛЕНО НАЛОЖЕНИЕ СЕКЦИЙ
+    <section id="about" className="w-full py-20 md:py-32 relative z-10 pb-32">
       <div className="container mx-auto px-4 mb-16">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
