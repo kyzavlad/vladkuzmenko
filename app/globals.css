@@ -535,3 +535,19 @@ input:focus, textarea:focus, select:focus {
   0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
   100% { transform: translateX(100%) translateY(100%) rotate(45deg); }
 }
+
+/* --- ДОБАВИТЬ В КОНЕЦ globals.css --- */
+@keyframes scroll {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(calc(-100% - 1.5rem * 4)); /* 100% ширины + отступы */
+  }
+}
+
+.animate-scroll {
+  display: flex;
+  width: calc(300px * 20 + 1.5rem * 19); /* (ширина карточки * кол-во * 2) + (отступ * (кол-во * 2 - 1)) */
+  animation: scroll 80s linear infinite;
+}
