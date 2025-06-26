@@ -126,14 +126,8 @@ export const MerchPreviewSection = () => {
   };
 
   return (
-    <section className="py-24 md:py-32 bg-black relative overflow-hidden">
-      {/* Background Elements */}
-      <div className="absolute inset-0 opacity-5">
-        <div className="absolute top-[30%] -left-[20%] w-[60%] h-[60%] bg-gradient-radial from-amber-400 to-transparent blur-3xl" />
-        <div className="absolute bottom-[30%] -right-[20%] w-[60%] h-[60%] bg-gradient-radial from-yellow-600 to-transparent blur-3xl" />
-      </div>
-
-      <div className="w-full relative z-10">
+    <section className="py-24 md:py-32 bg-black overflow-hidden">
+      <div className="w-full">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -170,7 +164,7 @@ export const MerchPreviewSection = () => {
               viewport={{ once: true }}
               className="flex-none w-[300px] group"
             >
-              <div className="bg-gray-900/50 backdrop-blur-sm border border-gray-800 rounded-2xl overflow-hidden hover:border-amber-400/50 transition-all duration-300 h-full">
+              <div className="bg-gray-900/50 backdrop-blur-sm border border-gray-800 rounded-2xl overflow-hidden hover:border-amber-400/50 transition-all duration-300 h-full flex flex-col">
                 {/* Badge */}
                 {item.badge && (
                   <div className="absolute top-4 left-4 z-10">
@@ -200,7 +194,7 @@ export const MerchPreviewSection = () => {
                 </div>
 
                 {/* Product Info */}
-                <div className="p-6">
+                <div className="p-6 flex-1 flex flex-col">
                   <p className="text-amber-400 text-sm mb-2">{item.category}</p>
                   <h3 className="text-xl font-semibold mb-2 line-clamp-1">{item.name}</h3>
                   
@@ -215,7 +209,7 @@ export const MerchPreviewSection = () => {
                     <span className="text-xs text-gray-400 ml-2">(5.0)</span>
                   </div>
                   
-                  <div className="flex items-center justify-between">
+                  <div className="flex items-center justify-between mt-auto">
                     <div>
                       <span className="text-2xl font-bold gradient-gold-text">${item.price}</span>
                       {item.originalPrice && (
@@ -224,10 +218,11 @@ export const MerchPreviewSection = () => {
                     </div>
                     <Button
                       size="sm"
-                      className="bg-amber-400/10 text-amber-400 hover:bg-amber-400/20 border border-amber-400/30"
+                      className="bg-amber-400 text-black hover:bg-amber-500 font-semibold"
                       onClick={() => handleAddToCart(item)}
                     >
-                      <ShoppingBag className="w-4 h-4" />
+                      <ShoppingBag className="w-4 h-4 mr-1" />
+                      Add
                     </Button>
                   </div>
                 </div>
@@ -235,27 +230,11 @@ export const MerchPreviewSection = () => {
             </motion.div>
           ))}
         </div>
-
-        {/* CTA */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="text-center mt-12"
-        >
-          <Button
-            size="lg"
-            className="btn-premium"
-          >
-            <ShoppingBag className="w-5 h-5 mr-2" />
-            View Full Collection
-          </Button>
-        </motion.div>
       </div>
 
       {/* Product Preview Dialog */}
       <Dialog open={!!selectedProduct} onOpenChange={() => setSelectedProduct(null)}>
-        <DialogContent className="max-w-4xl bg-gray-900 border-gray-800">
+        <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto bg-gray-900 border-gray-800">
           <DialogHeader>
             <DialogTitle className="sr-only">Product Preview</DialogTitle>
           </DialogHeader>
