@@ -97,13 +97,8 @@ export const TestimonialsSection = () => {
   }, [isScrolling]);
 
   return (
-    <section className="py-24 md:py-32 bg-black relative overflow-hidden">
-      {/* Background gradient */}
-      <div className="absolute inset-0 opacity-5">
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[80%] h-[80%] bg-gradient-radial from-amber-400 to-transparent blur-3xl" />
-      </div>
-
-      <div className="w-full relative z-10">
+    <section className="py-24 md:py-32 bg-black overflow-hidden">
+      <div className="w-full">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -135,41 +130,44 @@ export const TestimonialsSection = () => {
               viewport={{ once: true }}
               className="flex-none w-[400px] group"
             >
-              <div className="bg-gray-900/50 backdrop-blur-sm border border-gray-800 rounded-2xl p-8 h-full hover:border-amber-400/50 transition-all duration-300 relative">
-                {/* Quote Icon */}
-                <Quote className="absolute top-6 right-6 w-8 h-8 text-amber-400/20" />
-                
-                {/* Profile Image */}
-                <div className="relative w-24 h-24 mx-auto mb-6">
+              <div className="bg-gray-900/50 backdrop-blur-sm border border-gray-800 rounded-2xl overflow-hidden h-full hover:border-amber-400/50 transition-all duration-300">
+                {/* Rectangular Image */}
+                <div className="relative h-64 overflow-hidden">
                   <img
                     src={testimonial.image}
                     alt={testimonial.name}
-                    className="w-full h-full object-cover rounded-full border-4 border-amber-400/50"
+                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
                   />
-                  <div className="absolute inset-0 rounded-full bg-gradient-to-t from-black/50 to-transparent" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
+                  
+                  {/* Quote Icon Overlay */}
+                  <Quote className="absolute top-4 right-4 w-10 h-10 text-amber-400/30" />
                 </div>
 
-                {/* Name and Role */}
-                <div className="text-center mb-4">
-                  <h3 className="text-xl font-bold mb-1">{testimonial.name}</h3>
-                  <p className="text-amber-400 text-sm font-medium">{testimonial.role}</p>
-                  <p className="text-2xl font-bold gradient-gold-text mt-2">{testimonial.company}</p>
-                </div>
+                {/* Content */}
+                <div className="p-8">
+                  {/* Name and Role */}
+                  <div className="mb-4">
+                    <h3 className="text-xl font-bold mb-1">{testimonial.name}</h3>
+                    <p className="text-amber-400 text-sm font-medium">{testimonial.role}</p>
+                    <p className="text-2xl font-bold gradient-gold-text mt-2">{testimonial.company}</p>
+                  </div>
 
-                {/* Rating */}
-                <div className="flex items-center justify-center gap-1 mb-6">
-                  {[...Array(5)].map((_, i) => (
-                    <Star
-                      key={i}
-                      className={`w-5 h-5 ${i < testimonial.rating ? 'fill-amber-400 text-amber-400' : 'text-gray-600'}`}
-                    />
-                  ))}
-                </div>
+                  {/* Rating */}
+                  <div className="flex items-center gap-1 mb-4">
+                    {[...Array(5)].map((_, i) => (
+                      <Star
+                        key={i}
+                        className={`w-5 h-5 ${i < testimonial.rating ? 'fill-amber-400 text-amber-400' : 'text-gray-600'}`}
+                      />
+                    ))}
+                  </div>
 
-                {/* Testimonial Text */}
-                <p className="text-gray-300 text-center leading-relaxed italic">
-                  "{testimonial.text}"
-                </p>
+                  {/* Testimonial Text */}
+                  <p className="text-gray-300 leading-relaxed italic">
+                    "{testimonial.text}"
+                  </p>
+                </div>
               </div>
             </motion.div>
           ))}
