@@ -519,3 +519,23 @@ input:focus, textarea:focus, select:focus {
   0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
   100% { transform: translateX(100%) translateY(100%) rotate(45deg); }
 }
+
+/* Section Spacing Fix */
+section {
+  position: relative;
+  z-index: 1;
+}
+
+section + section {
+  margin-top: 0 !important;
+}
+
+/* Ensure proper stacking */
+.relative {
+  z-index: 1;
+}
+
+/* Fix overflow issues */
+.overflow-hidden {
+  position: relative;
+}
