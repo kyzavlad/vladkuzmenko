@@ -5,14 +5,11 @@ import type { Metadata } from 'next'
 import Script from 'next/script'
 import { VoiceflowScript } from '@/components/voiceflow-script'
 import TranslateSwitcher from '@/components/translate-switcher'
-// --- Я ИСПРАВИЛ ТОЛЬКО ЭТИ 2 СТРОКИ. ВСЕ ОСТАЛЬНОЕ - ВАШ ОРИГИНАЛЬНЫЙ КОД ---
-import { CartProvider } from '@/context/cart-context';
-import { ShoppingCartSidebar } from '@/components/ui/shopping-cart-sidebar';
-// -------------------------------------------------------------------------
+import { CartProvider, ShoppingCartSidebar } from '@/components/EducationPlatformSection';
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 
-// Компонент анимации загрузки (ВАШ ОРИГИНАЛЬНЫЙ КОД)
+// Компонент анимации загрузки
 function LoadingAnimation() {
   return (
     <motion.div
@@ -42,14 +39,21 @@ function LoadingAnimation() {
   );
 }
 
+// Метаданные вынесем в отдельный файл если нужен SSR
+// export const metadata: Metadata = {...}
+
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
+    // Показываем анимацию загрузки
     const timer = setTimeout(() => {
       setIsLoading(false);
     }, 2000);
+
+    // Устанавливаем темную тему по умолчанию
     document.documentElement.classList.add('dark');
+
     return () => clearTimeout(timer);
   }, []);
 
@@ -60,7 +64,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <meta name="description" content="The official hub for Vlad Kuzmenko's ecosystem: The University, Warriors Team, AI Automation Agency, and more." />
         <link rel="icon" href="/VladKuzmenkoFavicon.png" />
         
-        {/* Скрипты */}
+        {/* Google Translate Scripts */}
         <Script id="gt-init" strategy="beforeInteractive">
           {`
             function googleTranslateElementInit() {
@@ -83,6 +87,21 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             display: none !important;
           }
           body { top: 0 !important; }
+          
+          /* Минималистичный скроллбар */
+          ::-webkit-scrollbar {
+            width: 6px;
+          }
+          ::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.05);
+          }
+          ::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 3px;
+          }
+          ::-webkit-scrollbar-thumb:hover {
+            background: rgba(255, 255, 255, 0.2);
+          }
         `}</style>
       </head>
       <body suppressHydrationWarning>
