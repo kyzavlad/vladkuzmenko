@@ -3,6 +3,7 @@
 import { Button } from "@/components/ui/button";
 import { ArrowRight, ChevronDown } from "lucide-react";
 import { motion } from "framer-motion";
+import { ContactDialog } from "@/components/ui/contact-dialog";
 import Link from "next/link";
 
 export function PersonalBrandHero() {
@@ -15,18 +16,21 @@ export function PersonalBrandHero() {
 
   return (
     <section className="relative w-full min-h-screen flex items-center justify-center overflow-hidden">
+      {/* Background Image with Artistic Effect */}
       <div className="absolute inset-0 z-0">
-        <div
+        {/* Main image */}
+        <div 
           className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-          style={{
-            // --- ИСПРАВЛЕН ПУТЬ НА 100% ВЕРНЫЙ ---
-            backgroundImage: 'url("/warriors-yacht-meeting.jpg")', 
+          style={{ 
+            backgroundImage: 'url("/images/warriors-team-yacht.webp")',
             filter: 'brightness(0.4) contrast(1.2)'
           }}
         />
+        
+        {/* Artistic gradient overlay with worn edges effect */}
         <div className="absolute inset-0">
           <div className="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent" />
-          <div
+          <div 
             className="absolute inset-0"
             style={{
               backgroundImage: `
@@ -38,7 +42,9 @@ export function PersonalBrandHero() {
             }}
           />
         </div>
-        <div
+        
+        {/* Scratched/worn texture overlay */}
+        <div 
           className="absolute inset-0 opacity-30"
           style={{
             backgroundImage: 'url("data:image/svg+xml,%3Csvg width="100" height="100" xmlns="http://www.w3.org/2000/svg"%3E%3Cfilter id="noise"%3E%3CfeTurbulence baseFrequency="0.9" /%3E%3C/filter%3E%3Crect width="100" height="100" filter="url(%23noise)" opacity="0.4"/%3E%3C/svg%3E")',
@@ -47,15 +53,16 @@ export function PersonalBrandHero() {
         />
       </div>
 
-      {/* Контент остается без изменений */}
+      {/* Content */}
       <div className="container relative z-10 mx-auto px-4">
-        <motion.div
+        <motion.div 
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
           className="max-w-4xl mx-auto text-center"
         >
-          <motion.h1
+          {/* Main Title - Smaller size */}
+          <motion.h1 
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.8, delay: 0.2 }}
@@ -64,7 +71,8 @@ export function PersonalBrandHero() {
             <span className="gold-gradient">VLAD KUZMENKO</span>
           </motion.h1>
 
-          <motion.p
+          {/* Subtitle - Smaller size */}
+          <motion.p 
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.8, delay: 0.4 }}
@@ -74,14 +82,15 @@ export function PersonalBrandHero() {
             <br />Join the revolution.
           </motion.p>
 
-          <motion.div
+          {/* CTA Buttons - Smaller size */}
+          <motion.div 
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.6 }}
             className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-12"
           >
-            <Button
-              size="default"
+            <Button 
+              size="default" 
               className="premium-button text-base px-6 py-2"
               onClick={() => window.open('https://cal.com/vladkuzmenko.com/call', '_blank')}
             >
@@ -90,9 +99,9 @@ export function PersonalBrandHero() {
             </Button>
             
             <Link href="/warriors-team">
-              <Button
-                size="default"
-                variant="outline"
+              <Button 
+                size="default" 
+                variant="outline" 
                 className="text-base px-6 py-2 border-gold-dark hover:bg-gold-dark/10"
               >
                 Join Elite Community
@@ -100,6 +109,7 @@ export function PersonalBrandHero() {
             </Link>
           </motion.div>
 
+          {/* Success Path Link */}
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -114,6 +124,29 @@ export function PersonalBrandHero() {
             </button>
           </motion.div>
         </motion.div>
+      </div>
+
+      {/* Animated particles effect */}
+      <div className="absolute inset-0 z-0">
+        {[...Array(20)].map((_, i) => (
+          <motion.div
+            key={i}
+            className="absolute w-1 h-1 bg-gold/30 rounded-full"
+            initial={{
+              x: Math.random() * window.innerWidth,
+              y: window.innerHeight + 100,
+            }}
+            animate={{
+              y: -100,
+            }}
+            transition={{
+              duration: Math.random() * 20 + 10,
+              repeat: Infinity,
+              delay: Math.random() * 5,
+              ease: "linear",
+            }}
+          />
+        ))}
       </div>
     </section>
   );
