@@ -9,6 +9,7 @@ import { CartProvider } from '@/context/cart-context';
 import { ShoppingCartSidebar } from '@/components/ui/shopping-cart-sidebar';
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { Toaster } from '@/components/ui/toaster';
 
 // Компонент анимации загрузки
 function LoadingAnimation() {
@@ -39,9 +40,6 @@ function LoadingAnimation() {
     </motion.div>
   );
 }
-
-// Метаданные вынесем в отдельный файл если нужен SSR
-// export const metadata: Metadata = {...}
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   const [isLoading, setIsLoading] = useState(true);
@@ -122,6 +120,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                 <VoiceflowScript />
                 <TranslateSwitcher />
                 <ShoppingCartSidebar />
+                <Toaster />
               </motion.div>
             )}
           </AnimatePresence>
