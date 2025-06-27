@@ -6,7 +6,7 @@ import { ShoppingBag, Star, X, Plus, Minus, Check } from 'lucide-react';
 import { Button } from './ui/button';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from './ui/dialog';
 import { useToast } from '@/hooks/use-toast';
-import { useCart } from '@/context/cart-context';
+import { useCart } from '../context/cart-context';
 
 const merchItems = [
   {
