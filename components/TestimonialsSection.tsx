@@ -3,6 +3,7 @@
 import React, { useRef, useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import { Star, Quote } from 'lucide-react';
+import { Button } from './ui/button';
 
 const testimonials = [
   {
@@ -97,8 +98,8 @@ export const TestimonialsSection = () => {
   }, [isScrolling]);
 
   return (
-    <section className="py-24 md:py-32 bg-black overflow-hidden">
-      <div className="w-full">
+    <section className="relative py-24 md:py-32 bg-black overflow-visible">
+      <div className="relative w-full">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -114,63 +115,65 @@ export const TestimonialsSection = () => {
           </p>
         </motion.div>
 
-        {/* Infinite Testimonials Carousel */}
-        <div 
-          ref={carouselRef}
-          className="flex gap-6 overflow-x-hidden"
-          style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
-          onMouseEnter={() => setIsScrolling(true)}
-          onMouseLeave={() => setIsScrolling(false)}
-        >
-          {allTestimonials.map((testimonial, index) => (
-            <motion.div
-              key={`${testimonial.id}-${index}`}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              className="flex-none w-[400px] group"
-            >
-              <div className="bg-gray-900/50 backdrop-blur-sm border border-gray-800 rounded-2xl overflow-hidden h-full hover:border-amber-400/50 transition-all duration-300">
-                {/* Rectangular Image */}
-                <div className="relative h-64 overflow-hidden">
-                  <img
-                    src={testimonial.image}
-                    alt={testimonial.name}
-                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
-                  
-                  {/* Quote Icon Overlay */}
-                  <Quote className="absolute top-4 right-4 w-10 h-10 text-amber-400/30" />
-                </div>
-
-                {/* Content */}
-                <div className="p-8">
-                  {/* Name and Role */}
-                  <div className="mb-4">
-                    <h3 className="text-xl font-bold mb-1">{testimonial.name}</h3>
-                    <p className="text-amber-400 text-sm font-medium">{testimonial.role}</p>
-                    <p className="text-2xl font-bold gradient-gold-text mt-2">{testimonial.company}</p>
+        {/* Infinite Testimonials Carousel - No Container */}
+        <div className="relative">
+          <div 
+            ref={carouselRef}
+            className="flex gap-6 overflow-x-hidden testimonials-carousel"
+            style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
+            onMouseEnter={() => setIsScrolling(true)}
+            onMouseLeave={() => setIsScrolling(false)}
+          >
+            {allTestimonials.map((testimonial, index) => (
+              <motion.div
+                key={`${testimonial.id}-${index}`}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                className="flex-none w-[400px] group"
+              >
+                <div className="bg-gray-900/50 backdrop-blur-sm border border-gray-800 rounded-2xl overflow-hidden h-full hover:border-amber-400/50 transition-all duration-300">
+                  {/* Rectangular Image */}
+                  <div className="relative h-64 overflow-hidden">
+                    <img
+                      src={testimonial.image}
+                      alt={testimonial.name}
+                      className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
+                    
+                    {/* Quote Icon Overlay */}
+                    <Quote className="absolute top-4 right-4 w-10 h-10 text-amber-400/30" />
                   </div>
 
-                  {/* Rating */}
-                  <div className="flex items-center gap-1 mb-4">
-                    {[...Array(5)].map((_, i) => (
-                      <Star
-                        key={i}
-                        className={`w-5 h-5 ${i < testimonial.rating ? 'fill-amber-400 text-amber-400' : 'text-gray-600'}`}
-                      />
-                    ))}
-                  </div>
+                  {/* Content */}
+                  <div className="p-8">
+                    {/* Name and Role */}
+                    <div className="mb-4">
+                      <h3 className="text-xl font-bold mb-1">{testimonial.name}</h3>
+                      <p className="text-amber-400 text-sm font-medium">{testimonial.role}</p>
+                      <p className="text-2xl font-bold gradient-gold-text mt-2">{testimonial.company}</p>
+                    </div>
 
-                  {/* Testimonial Text */}
-                  <p className="text-gray-300 leading-relaxed italic">
-                    "{testimonial.text}"
-                  </p>
+                    {/* Rating */}
+                    <div className="flex items-center gap-1 mb-4">
+                      {[...Array(5)].map((_, i) => (
+                        <Star
+                          key={i}
+                          className={`w-5 h-5 ${i < testimonial.rating ? 'fill-amber-400 text-amber-400' : 'text-gray-600'}`}
+                        />
+                      ))}
+                    </div>
+
+                    {/* Testimonial Text */}
+                    <p className="text-gray-300 leading-relaxed italic">
+                      "{testimonial.text}"
+                    </p>
+                  </div>
                 </div>
-              </div>
-            </motion.div>
-          ))}
+              </motion.div>
+            ))}
+          </div>
         </div>
 
         {/* CTA */}
@@ -197,6 +200,3 @@ export const TestimonialsSection = () => {
     </section>
   );
 };
-
-// Import Button component
-import { Button } from './ui/button';
