@@ -6,11 +6,11 @@ import { ShoppingBag, Star, X, Plus, Minus, Check } from 'lucide-react';
 import { Button } from './ui/button';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from './ui/dialog';
 import { useToast } from '@/hooks/use-toast';
-import { useCart } from './cart-provider';
+import { useCart } from '@/context/cart-context';
 
 const merchItems = [
   {
-    id: 1,
+    id: 'merch-1',
     name: 'Warriors Hoodie Premium',
     price: 89,
     originalPrice: 129,
@@ -22,7 +22,7 @@ const merchItems = [
     features: ['Water-resistant coating', 'Hidden zipper pockets', 'Adjustable hood', 'Lifetime warranty']
   },
   {
-    id: 2,
+    id: 'merch-2',
     name: 'Elite Performance Jacket',
     price: 149,
     category: 'Premium Collection',
@@ -33,7 +33,7 @@ const merchItems = [
     features: ['Windproof material', 'Thermal insulation', 'Reflective details', 'Multiple pockets']
   },
   {
-    id: 3,
+    id: 'merch-3',
     name: 'Success Mindset Bundle',
     price: 297,
     originalPrice: 497,
@@ -45,7 +45,7 @@ const merchItems = [
     features: ['10 HD video courses', '3 bestselling books', 'Private community access', 'Monthly Q&A calls']
   },
   {
-    id: 4,
+    id: 'merch-4',
     name: 'Warriors Tech Backpack',
     price: 197,
     category: 'Accessories',
@@ -55,7 +55,7 @@ const merchItems = [
     features: ['USB charging port', 'Anti-theft design', 'Laptop compartment', 'Waterproof']
   },
   {
-    id: 5,
+    id: 'merch-5',
     name: 'Champion Training Set',
     price: 247,
     category: 'Sportswear',
@@ -66,7 +66,7 @@ const merchItems = [
     features: ['Moisture-wicking fabric', 'Compression technology', 'UV protection', 'Antimicrobial']
   },
   {
-    id: 6,
+    id: 'merch-6',
     name: 'VIP Member Box',
     price: 997,
     category: 'Membership',
@@ -85,7 +85,7 @@ export const MerchPreviewSection = () => {
   const carouselRef = useRef<HTMLDivElement>(null);
   const scrollRef = useRef<number>(0);
   const { toast } = useToast();
-  const { addToCart } = useCart();
+  const { addToCart, setIsCartOpen } = useCart();
 
   // Triple the items for infinite scroll
   const allItems = [...merchItems, ...merchItems, ...merchItems];
@@ -118,13 +118,14 @@ export const MerchPreviewSection = () => {
   }, [isScrolling]);
 
   const handleAddToCart = (product: typeof merchItems[0], qty: number = 1) => {
-    // Add to cart with all product details
+    // Add to cart using existing cart context
     for (let i = 0; i < qty; i++) {
       addToCart({
+        id: product.id,
         name: product.name,
         price: product.price,
-        category: product.category,
-        image: product.image
+        image: product.image,
+        quantity: 1
       });
     }
     
@@ -133,6 +134,9 @@ export const MerchPreviewSection = () => {
       description: `${qty}x ${product.name} - $${product.price * qty}`,
       duration: 3000,
     });
+    
+    // Open cart sidebar
+    setIsCartOpen(true);
     
     if (selectedProduct) {
       setSelectedProduct(null);
