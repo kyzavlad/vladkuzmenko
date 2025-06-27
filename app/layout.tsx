@@ -5,7 +5,8 @@ import type { Metadata } from 'next'
 import Script from 'next/script'
 import { VoiceflowScript } from '@/components/voiceflow-script'
 import TranslateSwitcher from '@/components/translate-switcher'
-import { CartProvider, ShoppingCartSidebar } from '@/components/EducationPlatformSection';
+import { CartProvider } from '@/context/cart-context';
+import { ShoppingCartSidebar } from '@/components/ui/shopping-cart-sidebar';
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 
