@@ -5,7 +5,7 @@ import { motion } from 'framer-motion';
 
 export const AboutMeSection = () => {
   return (
-    <section className="py-24 md:py-32 gradient-section relative">
+    <section className="relative py-24 md:py-32 bg-black">
       <div className="container mx-auto px-4">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -24,7 +24,7 @@ export const AboutMeSection = () => {
           </div>
 
           {/* Content Grid */}
-          <div className="grid lg:grid-cols-2 gap-12 items-center mb-20">
+          <div className="grid lg:grid-cols-2 gap-12 items-center">
             {/* Text Content */}
             <motion.div
               initial={{ opacity: 0, x: -20 }}
@@ -111,7 +111,7 @@ export const AboutMeSection = () => {
                 transition={{ delay: 0.3 }}
                 className="absolute -bottom-6 -left-6 bg-black/90 backdrop-blur-xl border border-amber-400/30 rounded-xl p-6"
               >
-                <div className="text-3xl font-bold gradient-gold-text">15+</div>
+                <div className="text-3xl font-bold gradient-gold-text">47+</div>
                 <div className="text-gray-400 text-sm">Countries Reached</div>
               </motion.div>
               
@@ -127,8 +127,6 @@ export const AboutMeSection = () => {
               </motion.div>
             </motion.div>
           </div>
-
-
         </motion.div>
       </div>
     </section>
