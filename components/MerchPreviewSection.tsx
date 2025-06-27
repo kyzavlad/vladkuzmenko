@@ -6,6 +6,7 @@ import { ShoppingBag, Star, X, Plus, Minus, Check } from 'lucide-react';
 import { Button } from './ui/button';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from './ui/dialog';
 import { useToast } from '@/hooks/use-toast';
+import { useCart } from './cart-provider';
 
 const merchItems = [
   {
@@ -84,6 +85,7 @@ export const MerchPreviewSection = () => {
   const carouselRef = useRef<HTMLDivElement>(null);
   const scrollRef = useRef<number>(0);
   const { toast } = useToast();
+  const { addToCart } = useCart();
 
   // Triple the items for infinite scroll
   const allItems = [...merchItems, ...merchItems, ...merchItems];
@@ -116,18 +118,31 @@ export const MerchPreviewSection = () => {
   }, [isScrolling]);
 
   const handleAddToCart = (product: typeof merchItems[0], qty: number = 1) => {
+    // Add to cart with all product details
+    for (let i = 0; i < qty; i++) {
+      addToCart({
+        name: product.name,
+        price: product.price,
+        category: product.category,
+        image: product.image
+      });
+    }
+    
     toast({
       title: "Added to cart!",
       description: `${qty}x ${product.name} - $${product.price * qty}`,
       duration: 3000,
     });
-    setSelectedProduct(null);
-    setQuantity(1);
+    
+    if (selectedProduct) {
+      setSelectedProduct(null);
+      setQuantity(1);
+    }
   };
 
   return (
-    <section className="py-24 md:py-32 bg-black overflow-hidden">
-      <div className="w-full">
+    <section className="relative py-24 md:py-32 bg-black overflow-visible">
+      <div className="relative w-full">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -148,87 +163,89 @@ export const MerchPreviewSection = () => {
           </p>
         </motion.div>
 
-        {/* Infinite Carousel */}
-        <div 
-          ref={carouselRef}
-          className="flex gap-4 overflow-x-hidden pb-4"
-          style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
-          onMouseEnter={() => setIsScrolling(true)}
-          onMouseLeave={() => setIsScrolling(false)}
-        >
-          {allItems.map((item, index) => (
-            <motion.div
-              key={`${item.id}-${index}`}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              className="flex-none w-[300px] group"
-            >
-              <div className="bg-gray-900/50 backdrop-blur-sm border border-gray-800 rounded-2xl overflow-hidden hover:border-amber-400/50 transition-all duration-300 h-full flex flex-col">
-                {/* Badge */}
-                {item.badge && (
-                  <div className="absolute top-4 left-4 z-10">
-                    <span className="bg-gradient-to-r from-amber-400 to-yellow-600 text-black text-xs font-bold px-3 py-1 rounded-full">
-                      {item.badge}
-                    </span>
-                  </div>
-                )}
-
-                {/* Image Container */}
-                <div className="relative h-64 overflow-hidden bg-gradient-to-br from-gray-900 to-gray-800">
-                  <img
-                    src={item.image}
-                    alt={item.name}
-                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-                  />
-                  
-                  {/* Hover Overlay */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end justify-center pb-6">
-                    <Button 
-                      className="btn-premium transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300"
-                      onClick={() => setSelectedProduct(item)}
-                    >
-                      Quick View
-                    </Button>
-                  </div>
-                </div>
-
-                {/* Product Info */}
-                <div className="p-6 flex-1 flex flex-col">
-                  <p className="text-amber-400 text-sm mb-2">{item.category}</p>
-                  <h3 className="text-xl font-semibold mb-2 line-clamp-1">{item.name}</h3>
-                  
-                  {/* Rating */}
-                  <div className="flex items-center gap-1 mb-4">
-                    {[...Array(5)].map((_, i) => (
-                      <Star
-                        key={i}
-                        className={`w-4 h-4 ${i < item.rating ? 'fill-amber-400 text-amber-400' : 'text-gray-600'}`}
-                      />
-                    ))}
-                    <span className="text-xs text-gray-400 ml-2">(5.0)</span>
-                  </div>
-                  
-                  <div className="flex items-center justify-between mt-auto">
-                    <div>
-                      <span className="text-2xl font-bold gradient-gold-text">${item.price}</span>
-                      {item.originalPrice && (
-                        <span className="text-sm text-gray-500 line-through ml-2">${item.originalPrice}</span>
-                      )}
+        {/* Infinite Carousel - No Container */}
+        <div className="relative">
+          <div 
+            ref={carouselRef}
+            className="flex gap-4 overflow-x-hidden"
+            style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
+            onMouseEnter={() => setIsScrolling(true)}
+            onMouseLeave={() => setIsScrolling(false)}
+          >
+            {allItems.map((item, index) => (
+              <motion.div
+                key={`${item.id}-${index}`}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                className="flex-none w-[300px] group"
+              >
+                <div className="bg-gray-900/50 backdrop-blur-sm border border-gray-800 rounded-2xl overflow-hidden hover:border-amber-400/50 transition-all duration-300 h-full flex flex-col">
+                  {/* Badge */}
+                  {item.badge && (
+                    <div className="absolute top-4 left-4 z-10">
+                      <span className="bg-gradient-to-r from-amber-400 to-yellow-600 text-black text-xs font-bold px-3 py-1 rounded-full">
+                        {item.badge}
+                      </span>
                     </div>
-                    <Button
-                      size="sm"
-                      className="bg-amber-400 text-black hover:bg-amber-500 font-semibold"
-                      onClick={() => handleAddToCart(item)}
-                    >
-                      <ShoppingBag className="w-4 h-4 mr-1" />
-                      Add
-                    </Button>
+                  )}
+
+                  {/* Image Container */}
+                  <div className="relative h-64 overflow-hidden bg-gradient-to-br from-gray-900 to-gray-800">
+                    <img
+                      src={item.image}
+                      alt={item.name}
+                      className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                    />
+                    
+                    {/* Hover Overlay */}
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end justify-center pb-6">
+                      <Button 
+                        className="btn-premium transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300"
+                        onClick={() => setSelectedProduct(item)}
+                      >
+                        Quick View
+                      </Button>
+                    </div>
+                  </div>
+
+                  {/* Product Info */}
+                  <div className="p-6 flex-1 flex flex-col">
+                    <p className="text-amber-400 text-sm mb-2">{item.category}</p>
+                    <h3 className="text-xl font-semibold mb-2 line-clamp-1">{item.name}</h3>
+                    
+                    {/* Rating */}
+                    <div className="flex items-center gap-1 mb-4">
+                      {[...Array(5)].map((_, i) => (
+                        <Star
+                          key={i}
+                          className={`w-4 h-4 ${i < item.rating ? 'fill-amber-400 text-amber-400' : 'text-gray-600'}`}
+                        />
+                      ))}
+                      <span className="text-xs text-gray-400 ml-2">(5.0)</span>
+                    </div>
+                    
+                    <div className="flex items-center justify-between mt-auto">
+                      <div>
+                        <span className="text-2xl font-bold gradient-gold-text">${item.price}</span>
+                        {item.originalPrice && (
+                          <span className="text-sm text-gray-500 line-through ml-2">${item.originalPrice}</span>
+                        )}
+                      </div>
+                      <Button
+                        size="sm"
+                        className="bg-amber-400 text-black hover:bg-amber-500 font-semibold"
+                        onClick={() => handleAddToCart(item)}
+                      >
+                        <ShoppingBag className="w-4 h-4 mr-1" />
+                        Add
+                      </Button>
+                    </div>
                   </div>
                 </div>
-              </div>
-            </motion.div>
-          ))}
+              </motion.div>
+            ))}
+          </div>
         </div>
       </div>
 
