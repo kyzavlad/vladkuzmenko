@@ -5,8 +5,8 @@ import { Button } from './ui/button';
 import { CheckCircle, ShoppingCart, Star, Users, Trophy, Zap, BookOpen, Target, Brain, Rocket, TrendingUp, Award, DollarSign, Clock, Shield } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { SmartRecommendation } from './SmartRecommendation';
-import { useCart } from '@/context/cart-context';
-import { useToast } from '@/hooks/use-toast';
+import { useCart } from '../context/cart-context';
+import { useToast } from '../hooks/use-toast';
 
 // Campus data
 const campuses = [
