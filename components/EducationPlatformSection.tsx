@@ -1,226 +1,12 @@
 'use client';
 
-import React, { useState, createContext, useContext, useEffect, useRef } from 'react';
+import React, { useState } from 'react';
 import { Button } from './ui/button';
-import { CheckCircle, ShoppingCart, X, CreditCard, Star, Users, Trophy, Zap, BookOpen, Target, Brain } from 'lucide-react';
-import { AnimatePresence, motion } from 'framer-motion';
-import Image from 'next/image';
+import { CheckCircle, ShoppingCart, Star, Users, Trophy, Zap, BookOpen, Target, Brain, Rocket, TrendingUp, Award, DollarSign, Clock, Shield } from 'lucide-react';
+import { motion } from 'framer-motion';
 import { SmartRecommendation } from './SmartRecommendation';
-
-// Context для корзины
-const CartContext = createContext({
-  cartItems: [] as any[],
-  addToCart: (item: any) => {},
-  removeFromCart: (itemName: string) => {},
-  isCartOpen: false,
-  toggleCart: () => {},
-});
-
-export const useCart = () => useContext(CartContext);
-
-export const CartProvider = ({ children }: { children: React.ReactNode }) => {
-  const [cartItems, setCartItems] = useState<any[]>([]);
-  const [isCartOpen, setIsCartOpen] = useState(false);
-
-  const addToCart = (item: any) => {
-    setCartItems((prevItems) => {
-      const existingItem = prevItems.find(i => i.name === item.name);
-      if (existingItem) {
-        return prevItems.map(i => i.name === item.name ? { ...i, quantity: i.quantity + 1 } : i);
-      }
-      return [...prevItems, { ...item, quantity: 1 }];
-    });
-    setIsCartOpen(true);
-  };
-
-  const removeFromCart = (itemName: string) => {
-    setCartItems((prevItems) => prevItems.filter(item => item.name !== itemName));
-  };
-  
-  const toggleCart = () => setIsCartOpen(!isCartOpen);
-
-  return (
-    <CartContext.Provider value={{ cartItems, addToCart, removeFromCart, isCartOpen, toggleCart }}>
-      {children}
-    </CartContext.Provider>
-  );
-};
-
-// Shopping Cart Sidebar Component
-export const ShoppingCartSidebar = () => {
-  const { isCartOpen, toggleCart, cartItems, removeFromCart } = useCart();
-  const [showDeliveryForm, setShowDeliveryForm] = useState(false);
-  const [deliveryData, setDeliveryData] = useState({
-    name: '',
-    email: '',
-    address: '',
-    city: '',
-    zipCode: '',
-    country: ''
-  });
-  
-  const totalPrice = cartItems.reduce((total, item) => total + (item.price * item.quantity), 0);
-  const hasMerch = cartItems.some(item => item.category);
-  const hasPlatforms = cartItems.some(item => item.name.includes('University') || item.name.includes('AI Editing Platform'));
-  
-  useEffect(() => {
-    if (isCartOpen) {
-      document.body.style.overflow = 'hidden';
-    } else {
-      document.body.style.overflow = 'auto';
-    }
-    return () => {
-      document.body.style.overflow = 'auto';
-    };
-  }, [isCartOpen]);
-
-  const handleCheckout = () => {
-    if (hasMerch && !showDeliveryForm) {
-      setShowDeliveryForm(true);
-    } else {
-      // Process payment for platforms
-      const platformItems = cartItems.filter(item => item.name.includes('University') || item.name.includes('AI Editing Platform'));
-      
-      if (platformItems.length > 0) {
-        // Open platforms in new tabs
-        platformItems.forEach(item => {
-          if (item.name.includes('University')) {
-            window.open('/university', '_blank');
-          } else if (item.name.includes('AI Editing Platform')) {
-            window.open('/ai-platform', '_blank');
-          }
-        });
-        
-        // Clear cart after successful "payment"
-        platformItems.forEach(item => removeFromCart(item.name));
-        
-        if (!hasMerch) {
-          toggleCart();
-        }
-      }
-    }
-  };
-
-  return (
-    <AnimatePresence>
-      {isCartOpen && (
-        <>
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="fixed inset-0 bg-black/60 z-40"
-            onClick={toggleCart}
-          />
-          <motion.div
-            initial={{ x: '100%' }}
-            animate={{ x: 0 }}
-            exit={{ x: '100%' }}
-            transition={{ type: 'spring', stiffness: 300, damping: 30 }}
-            className="fixed top-0 right-0 h-full w-full max-w-md bg-background border-l border-border z-50 flex flex-col"
-          >
-            <div className="flex items-center justify-between p-6 border-b border-border">
-              <h2 className="text-2xl font-bold flex items-center gap-2"><ShoppingCart /> Your Cart</h2>
-              <Button variant="ghost" size="icon" onClick={toggleCart}>
-                <X className="h-6 w-6" />
-              </Button>
-            </div>
-            
-            <div className="flex-grow p-6 overflow-y-auto">
-              {!showDeliveryForm ? (
-                cartItems.length === 0 ? (
-                  <p className="text-muted-foreground">Your cart is empty.</p>
-                ) : (
-                  <ul className="space-y-4">
-                    {cartItems.map((item, index) => (
-                      <li key={index} className="flex items-center justify-between gap-4">
-                        <div>
-                          <h3 className="font-semibold">{item.name}</h3>
-                          <p className="text-sm text-muted-foreground">${item.price.toFixed(2)} x {item.quantity}</p>
-                        </div>
-                        <div className="flex items-center gap-2">
-                          <p className="font-bold">${(item.price * item.quantity).toFixed(2)}</p>
-                          <Button variant="outline" size="icon" className="w-8 h-8" onClick={() => removeFromCart(item.name)}>
-                            <X className="h-4 w-4" />
-                          </Button>
-                        </div>
-                      </li>
-                    ))}
-                  </ul>
-                )
-              ) : (
-                <div className="space-y-4">
-                  <h3 className="text-lg font-semibold">Delivery Information</h3>
-                  <input
-                    type="text"
-                    placeholder="Full Name"
-                    className="w-full p-3 rounded-lg premium-input"
-                    value={deliveryData.name}
-                    onChange={(e) => setDeliveryData({...deliveryData, name: e.target.value})}
-                  />
-                  <input
-                    type="email"
-                    placeholder="Email"
-                    className="w-full p-3 rounded-lg premium-input"
-                    value={deliveryData.email}
-                    onChange={(e) => setDeliveryData({...deliveryData, email: e.target.value})}
-                  />
-                  <input
-                    type="text"
-                    placeholder="Address"
-                    className="w-full p-3 rounded-lg premium-input"
-                    value={deliveryData.address}
-                    onChange={(e) => setDeliveryData({...deliveryData, address: e.target.value})}
-                  />
-                  <div className="grid grid-cols-2 gap-4">
-                    <input
-                      type="text"
-                      placeholder="City"
-                      className="p-3 rounded-lg premium-input"
-                      value={deliveryData.city}
-                      onChange={(e) => setDeliveryData({...deliveryData, city: e.target.value})}
-                    />
-                    <input
-                      type="text"
-                      placeholder="ZIP Code"
-                      className="p-3 rounded-lg premium-input"
-                      value={deliveryData.zipCode}
-                      onChange={(e) => setDeliveryData({...deliveryData, zipCode: e.target.value})}
-                    />
-                  </div>
-                  <input
-                    type="text"
-                    placeholder="Country"
-                    className="w-full p-3 rounded-lg premium-input"
-                    value={deliveryData.country}
-                    onChange={(e) => setDeliveryData({...deliveryData, country: e.target.value})}
-                  />
-                </div>
-              )}
-            </div>
-            
-            {cartItems.length > 0 && (
-              <div className="p-6 border-t border-border">
-                <div className="flex justify-between text-xl font-bold mb-4">
-                  <span>Total:</span>
-                  <span>${totalPrice.toFixed(2)}</span>
-                </div>
-                <Button 
-                  size="lg" 
-                  className="w-full bg-gradient-to-r from-[#D4AF37] to-[#B8860B] hover:from-[#B8860B] hover:to-[#D4AF37] text-black"
-                  onClick={handleCheckout}
-                >
-                  <CreditCard className="mr-2 h-5 w-5" /> 
-                  {showDeliveryForm ? 'Process Payment' : 'Proceed to Checkout'}
-                </Button>
-              </div>
-            )}
-          </motion.div>
-        </>
-      )}
-    </AnimatePresence>
-  );
-};
+import { useCart } from '@/context/cart-context';
+import { useToast } from '@/hooks/use-toast';
 
 // Campus data
 const campuses = [
@@ -268,91 +54,101 @@ const campuses = [
   },
 ];
 
-// Testimonials data
-const testimonials = [
+// Success Journey Steps
+const journeySteps = [
   {
-    name: "Alex Rodriguez",
-    role: "AI Agency Owner",
-    image: "/testimonial-1.jpg",
-    content: "From zero to $50k/month in 6 months. The AI campus alone changed my life.",
-    rating: 5,
-    revenue: "$50,000/mo"
+    phase: "Foundation",
+    icon: <BookOpen className="w-6 h-6" />,
+    title: "Master the Fundamentals",
+    description: "Learn battle-tested strategies from real entrepreneurs",
+    features: ["Live weekly calls", "24/7 community support", "Proven frameworks"]
   },
   {
-    name: "Marcus Chen",
-    role: "Content Creator",
-    image: "/testimonial-2.jpg",
-    content: "100k followers and $25k/month. Vlad's systems are pure gold.",
-    rating: 5,
-    revenue: "$25,000/mo"
+    phase: "Implementation",
+    icon: <Rocket className="w-6 h-6" />,
+    title: "Launch Your Empire",
+    description: "Apply what you learn with step-by-step guidance",
+    features: ["Done-for-you templates", "Personal mentorship", "Real-world projects"]
   },
   {
-    name: "David Thompson",
-    role: "E-commerce King",
-    image: "/testimonial-3.jpg",
-    content: "Scaled to 7 figures in my first year. This is the real deal.",
-    rating: 5,
-    revenue: "$120,000/mo"
+    phase: "Scaling",
+    icon: <TrendingUp className="w-6 h-6" />,
+    title: "Accelerate Growth",
+    description: "Scale your business to 6-7 figures and beyond",
+    features: ["Advanced strategies", "Network access", "Funding opportunities"]
   },
   {
-    name: "James Wilson",
-    role: "Sales Expert",
-    image: "/testimonial-4.jpg",
-    content: "Closing $100k+ deals weekly now. The sales training is unmatched.",
-    rating: 5,
-    revenue: "$80,000/mo"
-  },
-  {
-    name: "Ryan Foster",
-    role: "Automation Specialist",
-    image: "/testimonial-5.jpg",
-    content: "Built a $30k/month agency in 90 days. Life-changing program.",
-    rating: 5,
-    revenue: "$30,000/mo"
-  },
-  {
-    name: "Michael Park",
-    role: "Trader",
-    image: "/testimonial-6.jpg",
-    content: "Turned $5k into $200k. The wealth campus is incredible.",
-    rating: 5,
-    revenue: "$40,000/mo"
+    phase: "Mastery",
+    icon: <Award className="w-6 h-6" />,
+    title: "Achieve Freedom",
+    description: "Build passive income and live life on your terms",
+    features: ["Exit strategies", "Wealth preservation", "Legacy building"]
   }
 ];
 
-// Main Education Platform Section
+// Platform Benefits
+const platformBenefits = [
+  {
+    icon: <Clock className="w-8 h-8 text-amber-400" />,
+    title: "Lifetime Access",
+    description: "Never pay again. Get all future updates and new courses forever."
+  },
+  {
+    icon: <Shield className="w-8 h-8 text-amber-400" />,
+    title: "30-Day Guarantee",
+    description: "Not satisfied? Get a full refund within 30 days, no questions asked."
+  },
+  {
+    icon: <Users className="w-8 h-8 text-amber-400" />,
+    title: "Elite Network",
+    description: "Connect with 10,000+ successful entrepreneurs worldwide."
+  },
+  {
+    icon: <DollarSign className="w-8 h-8 text-amber-400" />,
+    title: "ROI Focused",
+    description: "Average student makes back investment within 60 days."
+  }
+];
+
+// Success Statistics
+const successStats = [
+  { value: "$2.3M", label: "Average Annual Revenue", description: "per advanced student" },
+  { value: "87%", label: "Success Rate", description: "students earning $10k+/mo" },
+  { value: "6-12", label: "Weeks to Profit", description: "average time to first sale" },
+  { value: "47+", label: "Countries", description: "global warrior community" }
+];
+
 export const EducationPlatformSection = () => {
-  const { addToCart } = useCart();
+  const { addToCart, setIsCartOpen } = useCart();
   const [selectedCampus, setSelectedCampus] = useState(0);
   const [showRecommendation, setShowRecommendation] = useState(false);
-  const testimonialRef = useRef<HTMLDivElement>(null);
+  const { toast } = useToast();
   
   const theUniversityProduct = {
+    id: 'university-monthly',
     name: "The University - Monthly",
-    price: 97.00
+    price: 97.00,
+    image: '/university-preview.jpg'
   };
 
-  // Auto-scroll testimonials
-  useEffect(() => {
-    const interval = setInterval(() => {
-      if (testimonialRef.current) {
-        const scrollAmount = 2;
-        testimonialRef.current.scrollLeft += scrollAmount;
-        
-        // Reset scroll when reaching the end
-        const maxScroll = testimonialRef.current.scrollWidth / 2;
-        if (testimonialRef.current.scrollLeft >= maxScroll) {
-          testimonialRef.current.scrollLeft = 0;
-        }
-      }
-    }, 30);
-
-    return () => clearInterval(interval);
-  }, []);
+  const handleAddToCart = () => {
+    addToCart({
+      ...theUniversityProduct,
+      quantity: 1
+    });
+    
+    toast({
+      title: "Added to cart!",
+      description: "The University - Monthly subscription",
+      duration: 3000,
+    });
+    
+    setIsCartOpen(true);
+  };
 
   return (
-    <div id="education" className="w-full py-24 md:py-32 bg-background relative overflow-hidden">
-      {/* Background similar to Warriors Team */}
+    <section id="education" className="py-24 md:py-32 bg-background relative overflow-hidden">
+      {/* Background Effects */}
       <div className="absolute inset-0 opacity-10">
         <div className="absolute top-[20%] -right-[10%] w-[50%] h-[50%] bg-gradient-radial from-[#D4AF37] to-transparent blur-3xl"></div>
         <div className="absolute -bottom-[20%] -left-[10%] w-[40%] h-[40%] bg-gradient-radial from-[#B8860B] to-transparent blur-3xl"></div>
@@ -388,180 +184,201 @@ export const EducationPlatformSection = () => {
             </Button>
           </motion.div>
 
-          {/* Campus Showcase */}
-          <div className="space-y-24">
-            {/* Campus Grid with Holographic Effects */}
-            <div className="grid lg:grid-cols-2 gap-12 items-start">
-              <div className="space-y-4">
-                {campuses.map((campus, index) => (
+          {/* Success Journey Visualization */}
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="mb-32"
+          >
+            <h3 className="text-3xl font-bold text-center mb-16">Your Journey to <span className="gradient-gold-text">Financial Freedom</span></h3>
+            
+            <div className="relative">
+              {/* Connection Line */}
+              <div className="absolute top-1/2 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-amber-400/20 to-transparent transform -translate-y-1/2 hidden lg:block" />
+              
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                {journeySteps.map((step, index) => (
                   <motion.div
-                    key={campus.title}
-                    initial={{ opacity: 0, x: -20 }}
-                    whileInView={{ opacity: 1, x: 0 }}
+                    key={step.phase}
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
-                    transition={{ delay: index * 0.1 }}
-                    onClick={() => setSelectedCampus(index)}
-                    className={`p-6 rounded-xl border cursor-pointer transition-all duration-300 hover-lift holographic ${
-                      selectedCampus === index 
-                        ? 'bg-gradient-to-r from-[#D4AF37]/20 to-[#B8860B]/10 border-[#D4AF37]/50' 
-                        : 'bg-zinc-900/50 border-zinc-800 hover:border-zinc-700'
-                    }`}
+                    transition={{ delay: index * 0.2 }}
+                    className="relative"
                   >
-                    <div className="flex items-start gap-4">
-                      <div className="flex-shrink-0">{campus.icon}</div>
-                      <div className="flex-grow">
-                        <h3 className="text-xl font-bold mb-2">{campus.title}</h3>
-                        <p className="text-gray-400 text-sm mb-3">{campus.description}</p>
-                        <div className="flex gap-4 text-sm">
-                          <span className="text-[#D4AF37]">{campus.modules} modules</span>
-                          <span className="text-gray-500">•</span>
-                          <span className="text-gray-400">{campus.duration}</span>
-                        </div>
+                    {/* Step Number */}
+                    <div className="absolute -top-4 -left-4 w-12 h-12 bg-gradient-to-br from-amber-400 to-yellow-600 rounded-full flex items-center justify-center font-bold text-black text-lg z-10">
+                      {index + 1}
+                    </div>
+                    
+                    <div className="bg-zinc-900/50 border border-zinc-800 rounded-2xl p-8 hover:border-amber-400/50 transition-all duration-300 h-full">
+                      <div className="w-12 h-12 bg-amber-400/10 rounded-lg flex items-center justify-center mb-4 text-amber-400">
+                        {step.icon}
                       </div>
+                      
+                      <span className="text-sm text-amber-400 font-medium">{step.phase}</span>
+                      <h4 className="text-xl font-bold mt-2 mb-3">{step.title}</h4>
+                      <p className="text-gray-400 mb-4">{step.description}</p>
+                      
+                      <ul className="space-y-2">
+                        {step.features.map((feature) => (
+                          <li key={feature} className="flex items-center gap-2 text-sm text-gray-300">
+                            <CheckCircle className="w-4 h-4 text-green-500 flex-shrink-0" />
+                            <span>{feature}</span>
+                          </li>
+                        ))}
+                      </ul>
                     </div>
                   </motion.div>
                 ))}
               </div>
+            </div>
+          </motion.div>
 
-              {/* Preview Card */}
-              <motion.div
-                initial={{ opacity: 0, scale: 0.95 }}
-                whileInView={{ opacity: 1, scale: 1 }}
-                viewport={{ once: true }}
-                className="sticky top-20 bg-gradient-to-br from-zinc-900 to-zinc-950 rounded-2xl p-8 border border-zinc-800 premium-shadow"
-              >
-                <div className="mb-6">{campuses[selectedCampus].icon}</div>
-                <h3 className="text-3xl font-bold mb-4">{campuses[selectedCampus].title}</h3>
-                <p className="text-gray-300 mb-6">{campuses[selectedCampus].description}</p>
-                
-                <div className="space-y-4 mb-8">
-                  <div className="flex items-center gap-3">
-                    <CheckCircle className="h-5 w-5 text-green-500" />
-                    <span>Lifetime access to all content</span>
-                  </div>
-                  <div className="flex items-center gap-3">
-                    <CheckCircle className="h-5 w-5 text-green-500" />
-                    <span>Weekly live Q&A sessions</span>
-                  </div>
-                  <div className="flex items-center gap-3">
-                    <CheckCircle className="h-5 w-5 text-green-500" />
-                    <span>Private community access</span>
-                  </div>
-                  <div className="flex items-center gap-3">
-                    <CheckCircle className="h-5 w-5 text-green-500" />
-                    <span>Direct mentor support</span>
-                  </div>
-                </div>
-
-                <div className="flex items-baseline gap-2 mb-6">
-                  <span className="text-4xl font-bold">$97</span>
-                  <span className="text-gray-400">/month</span>
-                </div>
-
-                <Button 
-                  size="lg" 
-                  className="w-full bg-gradient-to-r from-[#D4AF37] to-[#B8860B] hover:from-[#B8860B] hover:to-[#D4AF37] text-black glow-effect"
-                  onClick={() => addToCart(theUniversityProduct)}
+          {/* Success Statistics */}
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="mb-24"
+          >
+            <div className="grid grid-cols-2 lg:grid-cols-4 gap-8">
+              {successStats.map((stat, index) => (
+                <motion.div
+                  key={stat.label}
+                  initial={{ opacity: 0, scale: 0.9 }}
+                  whileInView={{ opacity: 1, scale: 1 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: index * 0.1 }}
+                  className="text-center"
                 >
-                  <ShoppingCart className="mr-2 h-5 w-5" /> 
-                  Enroll Now
-                </Button>
-                
-                <p className="text-xs text-gray-500 text-center mt-4">
-                  Cancel anytime. 30-day money-back guarantee.
-                </p>
-              </motion.div>
+                  <div className="text-4xl md:text-5xl font-bold gradient-gold-text mb-2">{stat.value}</div>
+                  <div className="text-lg font-semibold mb-1">{stat.label}</div>
+                  <div className="text-sm text-gray-400">{stat.description}</div>
+                </motion.div>
+              ))}
+            </div>
+          </motion.div>
+
+          {/* Campus Showcase */}
+          <div className="grid lg:grid-cols-2 gap-12 items-start mb-24">
+            <div className="space-y-4">
+              {campuses.map((campus, index) => (
+                <motion.div
+                  key={campus.title}
+                  initial={{ opacity: 0, x: -20 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: index * 0.1 }}
+                  onClick={() => setSelectedCampus(index)}
+                  className={`p-6 rounded-xl border cursor-pointer transition-all duration-300 hover-lift ${
+                    selectedCampus === index 
+                      ? 'bg-gradient-to-r from-[#D4AF37]/20 to-[#B8860B]/10 border-[#D4AF37]/50' 
+                      : 'bg-zinc-900/50 border-zinc-800 hover:border-zinc-700'
+                  }`}
+                >
+                  <div className="flex items-start gap-4">
+                    <div className="flex-shrink-0">{campus.icon}</div>
+                    <div className="flex-grow">
+                      <h3 className="text-xl font-bold mb-2">{campus.title}</h3>
+                      <p className="text-gray-400 text-sm mb-3">{campus.description}</p>
+                      <div className="flex gap-4 text-sm">
+                        <span className="text-[#D4AF37]">{campus.modules} modules</span>
+                        <span className="text-gray-500">•</span>
+                        <span className="text-gray-400">{campus.duration}</span>
+                      </div>
+                    </div>
+                  </div>
+                </motion.div>
+              ))}
             </div>
 
-            {/* Infinite Scrolling Testimonials */}
+            {/* Preview Card */}
             <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
+              initial={{ opacity: 0, scale: 0.95 }}
+              whileInView={{ opacity: 1, scale: 1 }}
               viewport={{ once: true }}
+              className="sticky top-20 bg-gradient-to-br from-zinc-900 to-zinc-950 rounded-2xl p-8 border border-zinc-800 premium-shadow"
             >
-              <h3 className="text-3xl font-bold text-center mb-12">Success Stories From Our Students</h3>
+              <div className="mb-6">{campuses[selectedCampus].icon}</div>
+              <h3 className="text-3xl font-bold mb-4">{campuses[selectedCampus].title}</h3>
+              <p className="text-gray-300 mb-6">{campuses[selectedCampus].description}</p>
               
-              <div className="relative">
-                <div 
-                  ref={testimonialRef}
-                  className="flex gap-6 overflow-x-hidden carousel-container"
-                >
-                  {/* First set */}
-                  {testimonials.map((testimonial, index) => (
-                    <motion.div
-                      key={`${testimonial.name}-1`}
-                      initial={{ opacity: 0, y: 20 }}
-                      whileInView={{ opacity: 1, y: 0 }}
-                      viewport={{ once: true }}
-                      transition={{ delay: index * 0.1 }}
-                      className="flex-shrink-0 w-[400px] bg-zinc-900/50 rounded-xl p-6 border border-zinc-800 hover-lift"
-                    >
-                      <div className="flex items-center gap-4 mb-4">
-                        <Image
-                          src={testimonial.image}
-                          alt={testimonial.name}
-                          width={60}
-                          height={60}
-                          className="rounded-full"
-                        />
-                        <div>
-                          <h4 className="font-semibold">{testimonial.name}</h4>
-                          <p className="text-sm text-gray-400">{testimonial.role}</p>
-                          <p className="text-sm font-bold text-[#D4AF37]">{testimonial.revenue}</p>
-                        </div>
-                      </div>
-                      <div className="flex gap-1 mb-3">
-                        {[...Array(testimonial.rating)].map((_, i) => (
-                          <Star key={i} className="h-4 w-4 fill-[#D4AF37] text-[#D4AF37]" />
-                        ))}
-                      </div>
-                      <p className="text-gray-300 italic">"{testimonial.content}"</p>
-                    </motion.div>
-                  ))}
-                  
-                  {/* Duplicate set for infinite scroll */}
-                  {testimonials.map((testimonial, index) => (
-                    <motion.div
-                      key={`${testimonial.name}-2`}
-                      initial={{ opacity: 0, y: 20 }}
-                      whileInView={{ opacity: 1, y: 0 }}
-                      viewport={{ once: true }}
-                      transition={{ delay: index * 0.1 }}
-                      className="flex-shrink-0 w-[400px] bg-zinc-900/50 rounded-xl p-6 border border-zinc-800 hover-lift"
-                    >
-                      <div className="flex items-center gap-4 mb-4">
-                        <Image
-                          src={testimonial.image}
-                          alt={testimonial.name}
-                          width={60}
-                          height={60}
-                          className="rounded-full"
-                        />
-                        <div>
-                          <h4 className="font-semibold">{testimonial.name}</h4>
-                          <p className="text-sm text-gray-400">{testimonial.role}</p>
-                          <p className="text-sm font-bold text-[#D4AF37]">{testimonial.revenue}</p>
-                        </div>
-                      </div>
-                      <div className="flex gap-1 mb-3">
-                        {[...Array(testimonial.rating)].map((_, i) => (
-                          <Star key={i} className="h-4 w-4 fill-[#D4AF37] text-[#D4AF37]" />
-                        ))}
-                      </div>
-                      <p className="text-gray-300 italic">"{testimonial.content}"</p>
-                    </motion.div>
-                  ))}
+              <div className="space-y-4 mb-8">
+                <div className="flex items-center gap-3">
+                  <CheckCircle className="h-5 w-5 text-green-500" />
+                  <span>Lifetime access to all content</span>
+                </div>
+                <div className="flex items-center gap-3">
+                  <CheckCircle className="h-5 w-5 text-green-500" />
+                  <span>Weekly live Q&A sessions</span>
+                </div>
+                <div className="flex items-center gap-3">
+                  <CheckCircle className="h-5 w-5 text-green-500" />
+                  <span>Private community access</span>
+                </div>
+                <div className="flex items-center gap-3">
+                  <CheckCircle className="h-5 w-5 text-green-500" />
+                  <span>Direct mentor support</span>
                 </div>
               </div>
+
+              <div className="flex items-baseline gap-2 mb-6">
+                <span className="text-4xl font-bold">$97</span>
+                <span className="text-gray-400">/month</span>
+              </div>
+
+              <Button 
+                size="lg" 
+                className="w-full bg-gradient-to-r from-[#D4AF37] to-[#B8860B] hover:from-[#B8860B] hover:to-[#D4AF37] text-black glow-effect"
+                onClick={handleAddToCart}
+              >
+                <ShoppingCart className="mr-2 h-5 w-5" /> 
+                Enroll Now
+              </Button>
+              
+              <p className="text-xs text-gray-500 text-center mt-4">
+                Cancel anytime. 30-day money-back guarantee.
+              </p>
             </motion.div>
           </div>
+
+          {/* Platform Benefits */}
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="mb-24"
+          >
+            <h3 className="text-3xl font-bold text-center mb-12">Why Warriors Choose <span className="gradient-gold-text">The University</span></h3>
+            
+            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+              {platformBenefits.map((benefit, index) => (
+                <motion.div
+                  key={benefit.title}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: index * 0.1 }}
+                  className="text-center"
+                >
+                  <div className="inline-flex items-center justify-center w-16 h-16 bg-amber-400/10 rounded-full mb-4">
+                    {benefit.icon}
+                  </div>
+                  <h4 className="text-xl font-bold mb-2">{benefit.title}</h4>
+                  <p className="text-gray-400">{benefit.description}</p>
+                </motion.div>
+              ))}
+            </div>
+          </motion.div>
 
           {/* Final CTA */}
           <motion.div
             initial={{ opacity: 0, scale: 0.95 }}
             whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: true }}
-            className="text-center bg-gradient-to-r from-[#D4AF37]/10 to-[#B8860B]/10 rounded-2xl p-12 border border-[#D4AF37]/20 mt-20"
+            className="text-center bg-gradient-to-r from-[#D4AF37]/10 to-[#B8860B]/10 rounded-2xl p-12 border border-[#D4AF37]/20"
           >
             <h3 className="text-4xl font-bold mb-4">Ready to Level Up?</h3>
             <p className="text-xl text-gray-300 mb-8 max-w-2xl mx-auto">
@@ -570,7 +387,7 @@ export const EducationPlatformSection = () => {
             <Button 
               size="lg" 
               className="bg-gradient-to-r from-[#D4AF37] to-[#B8860B] hover:from-[#B8860B] hover:to-[#D4AF37] text-black px-12 py-6 text-lg glow-effect"
-              onClick={() => addToCart(theUniversityProduct)}
+              onClick={handleAddToCart}
             >
               Get Instant Access - $97/month
             </Button>
@@ -588,9 +405,6 @@ export const EducationPlatformSection = () => {
           }}
         />
       )}
-      
-      {/* Smooth transition to next section */}
-      <div className="section-transition" />
-    </div>
+    </section>
   );
 };
