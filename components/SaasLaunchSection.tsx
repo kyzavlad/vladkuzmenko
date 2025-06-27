@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Sparkles, Rocket, ArrowRight, Zap, Film, Scissors, Upload, ShoppingCart } from "lucide-react";
 import { ContactDialog } from "@/components/ui/contact-dialog";
 import { motion } from "framer-motion";
-import { useCart } from "./EducationPlatformSection";
+import { useCart } from '@/context/cart-context';
 
 export function SaasLaunchSection() {
   const [isLaunched, setIsLaunched] = useState(true);
