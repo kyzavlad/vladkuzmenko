@@ -1,13 +1,12 @@
 'use client';
 
-import React from 'react';
+import React, { useRef, useState, MouseEvent, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import Image from 'next/image';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
-import { Instagram, ArrowRight } from 'lucide-react';
+import { Instagram, ArrowRight, Heart, MessageCircle } from 'lucide-react';
 
-// Увеличиваем количество постов для плавности бесконечной ленты
 const posts = [
   { id: 1, img: '/warriors-location-1.jpg', caption: 'Strategy Session in Dubai' },
   { id: 2, img: '/warriors-location-2.jpg', caption: 'Networking in London' },
@@ -19,10 +18,95 @@ const posts = [
   { id: 8, img: '/warriors-members-lounge.jpg', caption: "Warriors Members Lounge" }
 ];
 
-// Дублируем массив для создания бесшовной петли
-const duplicatedPosts = [...posts, ...posts];
+// Отдельный компонент для карточки поста с восстановленной логикой
+const PostCard = ({ post }: { post: typeof posts[0] }) => {
+    const [stats, setStats] = useState({ likes: 0, comments: 0 });
+
+    useEffect(() => {
+        // Устанавливаем начальные случайные значения
+        setStats({
+            likes: Math.floor(1000 + Math.random() * 9000),
+            comments: Math.floor(50 + Math.random() * 950),
+        });
+    }, []);
+
+    const handleMouseEnter = () => {
+        // Генерируем новые случайные значения при наведении
+        setStats({
+            likes: Math.floor(1000 + Math.random() * 9000),
+            comments: Math.floor(50 + Math.random() * 950),
+        });
+    };
+
+    return (
+        <li 
+            className="flex-shrink-0 w-[300px] h-[400px] group relative rounded-2xl overflow-hidden border border-white/10 transition-all duration-300 hover:border-amber-400/50 hover:scale-[1.03]"
+            onMouseEnter={handleMouseEnter}
+        >
+            <Image
+              src={post.img}
+              alt={post.caption}
+              layout="fill"
+              objectFit="cover"
+              className="transition-transform duration-500 group-hover:scale-110"
+            />
+            {/* Оверлей при наведении для отображения статистики */}
+            <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                <div className="flex items-center gap-6 text-white font-semibold">
+                    <div className="flex items-center gap-2">
+                        <Heart className="w-6 h-6"/>
+                        <span>{stats.likes.toLocaleString()}</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                        <MessageCircle className="w-6 h-6"/>
+                        <span>{stats.comments.toLocaleString()}</span>
+                    </div>
+                </div>
+            </div>
+            {/* Градиент внизу для подписи */}
+            <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-black/80 to-transparent pointer-events-none"></div>
+            <div className="absolute bottom-0 left-0 p-6">
+              <p className="text-white font-semibold text-lg">{post.caption}</p>
+            </div>
+        </li>
+    );
+}
+
 
 export function InstagramSection() {
+  const scrollRef = useRef<HTMLDivElement>(null);
+  const [isDragging, setIsDragging] = useState(false);
+  const [startX, setStartX] = useState(0);
+  const [scrollLeft, setScrollLeft] = useState(0);
+
+  const onMouseDown = (e: MouseEvent<HTMLUListElement>) => {
+    if (!scrollRef.current) return;
+    setIsDragging(true);
+    setStartX(e.pageX - scrollRef.current.offsetLeft);
+    setScrollLeft(scrollRef.current.scrollLeft);
+    scrollRef.current.style.cursor = 'grabbing';
+  };
+
+  const onMouseLeave = () => {
+    if (!scrollRef.current) return;
+    setIsDragging(false);
+    scrollRef.current.style.cursor = 'grab';
+  };
+
+  const onMouseUp = () => {
+    if (!scrollRef.current) return;
+    setIsDragging(false);
+    scrollRef.current.style.cursor = 'grab';
+  };
+
+  const onMouseMove = (e: MouseEvent<HTMLUListElement>) => {
+    if (!isDragging || !scrollRef.current) return;
+    e.preventDefault();
+    const x = e.pageX - scrollRef.current.offsetLeft;
+    const walk = (x - startX) * 2;
+    scrollRef.current.scrollLeft = scrollLeft - walk;
+  };
+
   return (
     <section className="relative bg-black py-24 md:py-32 overflow-hidden">
       <div className="container mx-auto px-4 text-center">
@@ -47,33 +131,28 @@ export function InstagramSection() {
         </div>
       </div>
 
-      {/* ИСПРАВЛЕНО: Бесконечная CSS-карусель */}
+      {/* ИСПРАВЛЕНО: Карусель с drag-to-scroll и без контейнера */}
       <div
-        className="w-full inline-flex flex-nowrap overflow-hidden pb-10"
-        style={{ maskImage: 'linear-gradient(to right, transparent, black 5%, black 95%, transparent)' }}
+        ref={scrollRef}
+        className="w-full overflow-x-auto pb-10 cursor-grab"
+        style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
       >
-        <ul className="flex items-center justify-center md:justify-start [&_li]:mx-4 animate-infinite-scroll group-hover:pause-animation">
-          {duplicatedPosts.map((post, index) => (
-            <li key={index} className="flex-shrink-0 w-[300px] h-[400px] group relative rounded-2xl overflow-hidden border border-white/10 transition-all duration-300 hover:border-amber-400/50 hover:scale-105">
-                {/* ИСПРАВЛЕНО: Image теперь растягивается на всю карточку */}
-                <Image
-                  src={post.img}
-                  alt={post.caption}
-                  layout="fill"
-                  objectFit="cover"
-                  className="transition-transform duration-500 group-hover:scale-110"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent"></div>
-                <div className="absolute bottom-0 left-0 p-6">
-                  <p className="text-white font-semibold text-lg">{post.caption}</p>
-                </div>
-            </li>
+         <style jsx>{`
+          .cursor-grab { cursor: grab; }
+          .cursor-grabbing { cursor: grabbing; }
+          div::-webkit-scrollbar { display: none; }
+        `}</style>
+        <ul
+          className="flex items-center px-[calc(50vw-150px)] gap-6"
+          onMouseDown={onMouseDown}
+          onMouseLeave={onMouseLeave}
+          onMouseUp={onMouseUp}
+          onMouseMove={onMouseMove}
+        >
+          {posts.map((post) => (
+            <PostCard key={post.id} post={post} />
           ))}
         </ul>
-        {/* Добавьте это в tailwind.config.ts в theme.extend.animation */}
-        {/* 'infinite-scroll': 'infinite-scroll 60s linear infinite' */}
-        {/* Добавьте это в tailwind.config.ts в theme.extend.keyframes */}
-        {/* 'infinite-scroll': { from: { transform: 'translateX(0)' }, to: { transform: 'translateX(-100%)' }, } */}
       </div>
 
       <div className="text-center mt-12">
