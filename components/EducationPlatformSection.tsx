@@ -193,10 +193,9 @@ export const EducationPlatformSection = () => {
           >
             <h3 className="text-3xl font-bold text-center mb-16">Your Journey to <span className="gradient-gold-text">Financial Freedom</span></h3>
             
-            <div className="relative">
-              {/* Connection Line */}
-              <div className="absolute top-1/2 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-amber-400/20 to-transparent transform -translate-y-1/2 hidden lg:block" />
-              
+            {/* ИЗМЕНЕНИЕ ЗДЕСЬ: я убрал из этого div'a класс 'relative', чтобы дочерний 'absolute' элемент не мог создавать проблем */}
+            <div> 
+              {/* ЭЛЕМЕНТ-ЛИНИЯ ПОЛНОСТЬЮ УДАЛЕН ОТСЮДА */}
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
                 {journeySteps.map((step, index) => (
                   <motion.div
@@ -205,7 +204,7 @@ export const EducationPlatformSection = () => {
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
                     transition={{ delay: index * 0.2 }}
-                    className="relative"
+                    className="relative" // 'relative' нужен здесь для позиционирования номера
                   >
                     {/* Step Number */}
                     <div className="absolute -top-4 -left-4 w-12 h-12 bg-gradient-to-br from-amber-400 to-yellow-600 rounded-full flex items-center justify-center font-bold text-black text-lg z-10">
