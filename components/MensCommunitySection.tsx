@@ -5,10 +5,61 @@ import { Button } from "@/components/ui/button";
 import { ArrowRight, Users, Crown, Flame } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
+import React, { useRef, useState, MouseEvent } from 'react';
+
+// Новый массив с изображениями команды
+const teamImages = [
+    { id: 1, src: "/warriors-group-photo.jpg", alt: "Warriors Team Group Photo" },
+    { id: 2, src: "/warriors-yacht-meeting.jpg", alt: "Warriors Yacht Meeting" },
+    { id: 3, src: "/warriors-leaders.jpg", alt: "Warriors Leaders" },
+    { id: 4, src: "/team-meeting-1.webp", alt: "Team Meeting" },
+    { id: 5, src: "/team-success-1.webp", alt: "Team Success" },
+    { id: 6, src: "/team-training-1.webp", alt: "Team Training Session" },
+    { id: 7, src: "/warriors-discussion.jpg", alt: "Warriors Discussion" },
+    { id: 8, src: "/warriors-members-lounge.jpg", alt: "Warriors Members Lounge" }
+];
 
 export function MensCommunitySection() {
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
+  const [isDown, setIsDown] = useState(false);
+  const [startX, setStartX] = useState(0);
+  const [scrollLeft, setScrollLeft] = useState(0);
+
+  const handleMouseDown = (e: MouseEvent<HTMLDivElement>) => {
+    const slider = scrollContainerRef.current;
+    if (!slider) return;
+    setIsDown(true);
+    slider.classList.add('active');
+    setStartX(e.pageX - slider.offsetLeft);
+    setScrollLeft(slider.scrollLeft);
+  };
+
+  const handleMouseLeave = () => {
+    const slider = scrollContainerRef.current;
+    if (!slider) return;
+    setIsDown(false);
+    slider.classList.remove('active');
+  };
+
+  const handleMouseUp = () => {
+    const slider = scrollContainerRef.current;
+    if (!slider) return;
+    setIsDown(false);
+    slider.classList.remove('active');
+  };
+
+  const handleMouseMove = (e: MouseEvent<HTMLDivElement>) => {
+    if (!isDown) return;
+    e.preventDefault();
+    const slider = scrollContainerRef.current;
+    if (!slider) return;
+    const x = e.pageX - slider.offsetLeft;
+    const walk = (x - startX) * 2; // Увеличиваем скорость прокрутки
+    slider.scrollLeft = scrollLeft - walk;
+  };
+
   return (
-    <div id="warriors-team" className="w-full min-h-screen bg-background relative overflow-hidden">
+    <div id="warriors-team" className="w-full bg-background relative overflow-hidden">
       {/* Background gradient */}
       <div className="absolute inset-0 opacity-10">
         <div className="absolute top-[20%] -right-[10%] w-[50%] h-[50%] bg-gradient-radial from-[#D4AF37] to-transparent blur-3xl"></div>
@@ -20,7 +71,8 @@ export function MensCommunitySection() {
           {/* Header Section */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
             transition={{ duration: 0.8 }}
             className="text-center mb-20"
           >
@@ -46,7 +98,8 @@ export function MensCommunitySection() {
           <div className="grid md:grid-cols-3 gap-8 mb-24">
             <motion.div
               initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
               transition={{ delay: 0.2 }}
               className="text-center p-8 bg-zinc-900/50 rounded-2xl border border-zinc-800 hover-lift holographic"
             >
@@ -59,7 +112,8 @@ export function MensCommunitySection() {
 
             <motion.div
               initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
               transition={{ delay: 0.3 }}
               className="text-center p-8 bg-zinc-900/50 rounded-2xl border border-zinc-800 hover-lift holographic"
             >
@@ -72,7 +126,8 @@ export function MensCommunitySection() {
 
             <motion.div
               initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
               transition={{ delay: 0.4 }}
               className="text-center p-8 bg-zinc-900/50 rounded-2xl border border-zinc-800 hover-lift holographic"
             >
@@ -84,43 +139,46 @@ export function MensCommunitySection() {
             </motion.div>
           </div>
 
-          {/* Image Gallery */}
-          <motion.div
-            initial={{ opacity: 0, scale: 0.95 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ delay: 0.5 }}
-            className="grid md:grid-cols-3 gap-6 mb-24"
+          {/* НОВАЯ ГАЛЕРЕЯ С ГОРИЗОНТАЛЬНОЙ ПРОКРУТКОЙ */}
+          <div
+            ref={scrollContainerRef}
+            className="w-full flex gap-6 overflow-x-auto cursor-grab active:cursor-grabbing pb-10 mb-24"
+            style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
+            onMouseDown={handleMouseDown}
+            onMouseLeave={handleMouseLeave}
+            onMouseUp={handleMouseUp}
+            onMouseMove={handleMouseMove}
           >
-            <div className="relative aspect-video overflow-hidden rounded-xl premium-shadow">
-              <Image
-                src="/warriors-group-photo.jpg"
-                alt="Warriors Team Meeting"
-                fill
-                className="object-cover hover:scale-110 transition-transform duration-500"
-              />
-            </div>
-            <div className="relative aspect-video overflow-hidden rounded-xl premium-shadow">
-              <Image
-                src="/warriors-yacht-meeting.jpg"
-                alt="Warriors Yacht Meeting"
-                fill
-                className="object-cover hover:scale-110 transition-transform duration-500"
-              />
-            </div>
-            <div className="relative aspect-video overflow-hidden rounded-xl premium-shadow">
-              <Image
-                src="/warriors-leaders.jpg"
-                alt="Warriors Leaders"
-                fill
-                className="object-cover hover:scale-110 transition-transform duration-500"
-              />
-            </div>
-          </motion.div>
+            <style jsx>{`
+              .active:cursor-grabbing { cursor: grabbing; }
+              .flex::-webkit-scrollbar { display: none; }
+            `}</style>
+             <div className="flex-shrink-0 w-[5vw]"></div> {/* Spacer */}
+            {teamImages.map((image) => (
+                <motion.div
+                    key={image.id}
+                    className="flex-shrink-0 w-[400px] h-[250px] relative rounded-xl overflow-hidden premium-shadow group"
+                    initial={{ y: 50, opacity: 0 }}
+                    whileInView={{ y: 0, opacity: 1 }}
+                    viewport={{ once: true, amount: 0.5 }}
+                    transition={{ duration: 0.5 }}
+                >
+                    <Image
+                        src={image.src}
+                        alt={image.alt}
+                        fill
+                        className="object-cover group-hover:scale-110 transition-transform duration-500"
+                    />
+                </motion.div>
+            ))}
+            <div className="flex-shrink-0 w-[5vw]"></div> {/* Spacer */}
+          </div>
 
           {/* What You Get */}
           <motion.div
             initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
             transition={{ delay: 0.6 }}
             className="bg-gradient-to-r from-zinc-900 to-zinc-950 rounded-3xl p-12 border border-zinc-800 mb-24"
           >
@@ -178,7 +236,8 @@ export function MensCommunitySection() {
           {/* CTA Section */}
           <motion.div
             initial={{ opacity: 0, scale: 0.95 }}
-            animate={{ opacity: 1, scale: 1 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: true }}
             transition={{ delay: 0.7 }}
             className="text-center"
           >
