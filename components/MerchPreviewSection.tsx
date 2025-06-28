@@ -158,10 +158,12 @@ export const MerchPreviewSection = () => {
             <span className="text-sm font-medium">Elite Equipment</span>
           </div>
           
-          <h2 className="text-4xl md:text-6xl font-bold mb-6">
-            Gear Up for <span className="gradient-gold-text">Success</span>
-          </h2>
-          
+          <div className="section-title-wrapper" data-title="Gear Up for Success">
+            <h2 className="text-4xl md:text-6xl font-bold mb-6">
+              Gear Up for <span className="gradient-gold-text">Success</span>
+            </h2>
+          </div>
+         
           <p className="text-xl text-gray-400 max-w-3xl mx-auto">
             Premium merchandise designed for Warriors who demand excellence in every aspect of life
           </p>
