@@ -170,21 +170,10 @@ export const MerchPreviewSection = () => {
         </motion.div>
       </div>
 
-      {/* Infinite Carousel - No Container, No Vertical Scroll */}
+      {/* Infinite Carousel - No Vertical Scroll */}
       <div 
         ref={carouselRef}
-        className="flex gap-4"
-        style={{ 
-          scrollbarWidth: 'none', 
-          msOverflowStyle: 'none',
-          width: '100vw',
-          marginLeft: 'calc(-50vw + 50%)',
-          marginRight: 'calc(-50vw + 50%)',
-          paddingLeft: '20px',
-          paddingRight: '20px',
-          overflowX: 'hidden',
-          overflowY: 'visible'
-        }}
+        className="flex gap-4 carousel-full-width"
         onMouseEnter={() => setIsScrolling(true)}
         onMouseLeave={() => setIsScrolling(false)}
       >
@@ -194,9 +183,9 @@ export const MerchPreviewSection = () => {
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="flex-none w-[300px]"
+            className="flex-none w-[300px] group"
           >
-            <div className="bg-gray-900/50 backdrop-blur-sm border border-gray-800 rounded-2xl overflow-hidden hover:border-amber-400/50 transition-all duration-300 h-full flex flex-col">
+            <div className="bg-gray-900/50 backdrop-blur-sm border border-gray-800 rounded-2xl overflow-hidden hover:border-amber-400/50 transition-all duration-300 flex flex-col">
               {/* Badge */}
               {item.badge && (
                 <div className="absolute top-4 left-4 z-10">
