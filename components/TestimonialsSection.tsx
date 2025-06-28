@@ -107,21 +107,10 @@ export const TestimonialsSection = () => {
         </motion.div>
       </div>
 
-      {/* Testimonials Carousel - No Container, No Vertical Scroll */}
+      {/* Testimonials Carousel - No Vertical Scroll */}
       <div 
         ref={scrollRef}
-        className="flex gap-6"
-        style={{ 
-          scrollbarWidth: 'none', 
-          msOverflowStyle: 'none',
-          width: '100vw',
-          marginLeft: 'calc(-50vw + 50%)',
-          marginRight: 'calc(-50vw + 50%)',
-          paddingLeft: '20px',
-          paddingRight: '20px',
-          overflowX: 'hidden',
-          overflowY: 'visible'
-        }}
+        className="flex gap-6 carousel-full-width"
         onMouseEnter={() => setIsPaused(true)}
         onMouseLeave={() => setIsPaused(false)}
       >
@@ -132,9 +121,9 @@ export const TestimonialsSection = () => {
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ delay: index * 0.1 }}
+            transition={{ delay: (index % 6) * 0.1 }}
           >
-            <div className="bg-gray-900/50 backdrop-blur-sm border border-gray-800 rounded-2xl overflow-hidden hover:border-amber-400/50 transition-all duration-300 h-full">
+            <div className="bg-gray-900/50 backdrop-blur-sm border border-gray-800 rounded-2xl overflow-hidden hover:border-amber-400/50 transition-all duration-300">
               {/* Rectangular Image */}
               <div className="relative h-48 w-full overflow-hidden">
                 <img 
