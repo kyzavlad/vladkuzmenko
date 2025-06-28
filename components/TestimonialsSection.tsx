@@ -1,7 +1,8 @@
 'use client';
 
-import React, { useRef, useEffect, useState } from 'react';
+import React from 'react';
 import { motion } from 'framer-motion';
+import Image from 'next/image';
 import { Star, Quote } from 'lucide-react';
 
 const testimonials = [
@@ -19,7 +20,7 @@ const testimonials = [
     role: 'Content Creator',
     company: '$25,000/mo',
     image: '/warriors-testimonial-2.jpg',
-    text: '100k followers and $25k/month. Vlad\'s content systems transformed my business. The ROI is absolutely insane.'
+    text: "100k followers and $25k/month. Vlad's content systems transformed my business. The ROI is absolutely insane."
   },
   {
     id: 3,
@@ -56,47 +57,25 @@ const testimonials = [
 ];
 
 export const TestimonialsSection = () => {
-  const scrollRef = useRef<HTMLDivElement>(null);
-  const [isPaused, setIsPaused] = useState(false);
-
-  // Triple testimonials for infinite scroll
-  const allTestimonials = [...testimonials, ...testimonials, ...testimonials];
-
-  useEffect(() => {
-    const scrollContainer = scrollRef.current;
-    if (!scrollContainer) return;
-
-    let scrollPos = 0;
-    let animationId: number;
-
-    const animate = () => {
-      if (!isPaused) {
-        scrollPos += 0.5;
-        if (scrollPos >= scrollContainer.scrollWidth / 3) {
-          scrollPos = 0;
-        }
-        scrollContainer.scrollLeft = scrollPos;
-      }
-      animationId = requestAnimationFrame(animate);
-    };
-
-    animationId = requestAnimationFrame(animate);
-
-    return () => {
-      cancelAnimationFrame(animationId);
-    };
-  }, [isPaused]);
+  // Дублируем массив для создания идеальной петли анимации
+  const duplicatedTestimonials = [...testimonials, ...testimonials];
 
   return (
-    <section id="testimonials" className="py-24 md:py-32 bg-black">
-      <div className="container mx-auto px-4">
+    <section id="testimonials" className="py-24 md:py-32 bg-black relative overflow-hidden">
+      {/* ИСПРАВЛЕНО: Плавный переход сверху с помощью градиентной маски */}
+      <div 
+        className="absolute top-0 left-0 w-full h-48 bg-black z-10"
+        style={{ maskImage: 'linear-gradient(to bottom, black 50%, transparent 100%)' }}
+      ></div>
+
+      <div className="container mx-auto px-4 relative z-20">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           className="text-center mb-16"
         >
-          <div className="section-title-wrapper" data-title="Real Results From Warriors">
+          <div className="section-title-wrapper" data-title="Social Proof">
             <h2 className="text-4xl md:text-6xl font-bold mb-6">
               Real Results From <span className="gradient-gold-text">Warriors</span>
             </h2>
@@ -107,58 +86,45 @@ export const TestimonialsSection = () => {
         </motion.div>
       </div>
 
-      {/* Testimonials Carousel - No Vertical Scroll */}
-      <div 
-        ref={scrollRef}
-        className="flex gap-6 carousel-full-width"
-        onMouseEnter={() => setIsPaused(true)}
-        onMouseLeave={() => setIsPaused(false)}
+      {/* ИСПРАВЛЕНО: Карусель БЕЗ вертикального скролла и контейнера */}
+      <div
+        className="w-full inline-flex flex-nowrap overflow-hidden"
+        style={{ maskImage: 'linear-gradient(to right, transparent, black 10%, black 90%, transparent)' }}
       >
-        {allTestimonials.map((testimonial, index) => (
-          <motion.div
-            key={`${testimonial.id}-${index}`}
-            className="flex-none w-[400px]"
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: (index % 6) * 0.1 }}
-          >
-            <div className="bg-gray-900/50 backdrop-blur-sm border border-gray-800 rounded-2xl overflow-hidden hover:border-amber-400/50 transition-all duration-300">
-              {/* Rectangular Image */}
-              <div className="relative h-48 w-full overflow-hidden">
-                <img 
-                  src={testimonial.image}
-                  alt={testimonial.name}
-                  className="w-full h-full object-cover"
-                  onError={(e) => {
-                    e.currentTarget.src = `https://source.unsplash.com/400x200?portrait,professional,${index}`;
-                  }}
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
-                <Quote className="absolute top-4 right-4 w-8 h-8 text-amber-400/50" />
-              </div>
-
-              <div className="p-6">
-                {/* Rating */}
-                <div className="flex items-center gap-1 mb-4">
-                  {[...Array(5)].map((_, i) => (
-                    <Star key={i} className="w-4 h-4 fill-amber-400 text-amber-400" />
-                  ))}
+        <ul className="flex items-stretch justify-center md:justify-start [&_li]:mx-4 animate-infinite-scroll [animation-direction:reverse] hover:[animation-play-state:paused]">
+          {duplicatedTestimonials.map((testimonial, index) => (
+            <li key={`${testimonial.id}-${index}`} className="flex-shrink-0 w-[400px]">
+              <div className="h-full bg-gray-900/50 backdrop-blur-sm border border-gray-800 rounded-2xl overflow-hidden hover:border-amber-400/50 transition-all duration-300 flex flex-col">
+                <div className="relative h-48 w-full overflow-hidden">
+                  <Image
+                    src={testimonial.image}
+                    alt={testimonial.name}
+                    layout="fill"
+                    objectFit="cover"
+                    onError={(e) => {
+                      e.currentTarget.src = `https://source.unsplash.com/400x200?portrait,professional,${index}`;
+                    }}
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
+                  <Quote className="absolute top-4 right-4 w-8 h-8 text-amber-400/50" />
                 </div>
-
-                {/* Testimonial Text */}
-                <p className="text-gray-300 mb-6 italic">"{testimonial.text}"</p>
-
-                {/* Person Info */}
-                <div className="border-t border-gray-800 pt-4">
-                  <h4 className="font-semibold text-lg">{testimonial.name}</h4>
-                  <p className="text-sm text-gray-400">{testimonial.role}</p>
-                  <p className="text-amber-400 font-bold">{testimonial.company}</p>
+                <div className="p-6 flex flex-col flex-grow">
+                  <div className="flex items-center gap-1 mb-4">
+                    {[...Array(5)].map((_, i) => (
+                      <Star key={i} className="w-4 h-4 fill-amber-400 text-amber-400" />
+                    ))}
+                  </div>
+                  <p className="text-gray-300 mb-6 italic flex-grow">"{testimonial.text}"</p>
+                  <div className="border-t border-gray-800 pt-4 mt-auto">
+                    <h4 className="font-semibold text-lg">{testimonial.name}</h4>
+                    <p className="text-sm text-gray-400">{testimonial.role}</p>
+                    <p className="text-amber-400 font-bold">{testimonial.company}</p>
+                  </div>
                 </div>
               </div>
-            </div>
-          </motion.div>
-        ))}
+            </li>
+          ))}
+        </ul>
       </div>
     </section>
   );
