@@ -11,7 +11,7 @@ const testimonials = [
     name: 'Alex Rodriguez',
     role: 'AI Agency Owner',
     company: '$50,000/mo',
-    image: '/warriors-testimonial-1.jpg',
+    image: '/warriors-testimonial-1.jpg', // Изображения возвращены
     text: 'From zero to $50k/month in 6 months. The AI tools and strategies in this community are unmatched. Every dollar spent returned 100x.'
   },
   {
@@ -57,26 +57,19 @@ const testimonials = [
 ];
 
 export const TestimonialsSection = () => {
-  // Дублируем массив для создания идеальной петли анимации
-  const duplicatedTestimonials = [...testimonials, ...testimonials];
-
   return (
     <section id="testimonials" className="py-24 md:py-32 bg-black relative overflow-hidden">
-      {/* Встроенные стили для настоящей бесконечной анимации */}
-      <style jsx global>{`
-        @keyframes scroll-left {
-          from {
-            transform: translateX(0);
-          }
-          to {
-            transform: translateX(-100%);
-          }
-        }
-        .animate-scroll-left {
-          animation: scroll-left 40s linear infinite;
-        }
-      `}</style>
-      
+        {/* Встроенные стили для ИСПРАВЛЕННОЙ бесконечной анимации */}
+        <style jsx global>{`
+            @keyframes scrollLeft {
+              0% { transform: translateX(0); }
+              100% { transform: translateX(-50%); }
+            }
+            .animate-scroll-left-seamless {
+              animation: scrollLeft 80s linear infinite; /* Скорость замедлена */
+            }
+        `}</style>
+
       <div className="container mx-auto px-4">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -95,14 +88,14 @@ export const TestimonialsSection = () => {
         </motion.div>
       </div>
 
-      {/* ИСПРАВЛЕНО: Бесконечная карусель без пустого начала */}
+      {/* ИСПРАВЛЕНО: Карусель, которая начинается сразу с карточек */}
       <div
         className="w-full inline-flex flex-nowrap overflow-hidden"
         style={{ maskImage: 'linear-gradient(to right, transparent, black 10%, black 90%, transparent)' }}
       >
-        <ul className="flex items-stretch justify-center md:justify-start animate-scroll-left hover:[animation-play-state:paused]">
-          {/* Рендерим дублированный массив, чтобы анимация была бесшовной */}
-          {duplicatedTestimonials.map((testimonial, index) => (
+        <ul className="flex items-stretch justify-start animate-scroll-left-seamless hover:[animation-play-state:paused]">
+          {/* Рендерим массив ДВАЖДЫ для бесшовной петли */}
+          {[...testimonials, ...testimonials].map((testimonial, index) => (
             <li key={`${testimonial.id}-${index}`} className="flex-shrink-0 w-[400px] mx-4">
               <div className="h-full bg-gray-900/50 backdrop-blur-sm border border-gray-800 rounded-2xl overflow-hidden hover:border-amber-400/50 transition-all duration-300 flex flex-col">
                 <div className="relative h-48 w-full">
