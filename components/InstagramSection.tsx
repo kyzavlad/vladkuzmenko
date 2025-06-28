@@ -141,7 +141,7 @@ export const InstagramSection = () => {
             variant="outline"
             className="border-amber-400/50 text-amber-400 hover:bg-amber-400/10"
           >
-            <a href="https://instagram.com/vladkuzenkosxy" target="_blank" rel="noopener noreferrer">
+            <a href="https://instagram.com/vladkuzmenkosxy" target="_blank" rel="noopener noreferrer">
               <Instagram className="w-5 h-5 mr-2" />
               Follow @vladkuzenkosxy
             </a>
