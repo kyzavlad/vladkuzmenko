@@ -1,7 +1,8 @@
 'use client';
 
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState } from 'react';
 import { motion } from 'framer-motion';
+import Image from 'next/image';
 import { ShoppingBag, Star, X, Plus, Minus, Check } from 'lucide-react';
 import { Button } from './ui/button';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from './ui/dialog';
@@ -15,7 +16,7 @@ const merchItems = [
     price: 89,
     originalPrice: 129,
     category: 'Limited Edition',
-    image: '/gorillamindpage.webp',
+    image: '/case-study-1.webp', // ИСПРАВЛЕНО
     badge: 'Best Seller',
     rating: 5,
     description: 'Premium quality hoodie with embroidered Warriors logo. Made from 100% organic cotton.',
@@ -26,7 +27,7 @@ const merchItems = [
     name: 'Elite Performance Jacket',
     price: 149,
     category: 'Premium Collection',
-    image: '/case-study-1.webp',
+    image: '/case-study-2.webp', // ИСПРАВЛЕНО
     badge: 'New',
     rating: 5,
     description: 'High-performance jacket designed for winners. Breathable, lightweight, and stylish.',
@@ -38,7 +39,7 @@ const merchItems = [
     price: 297,
     originalPrice: 497,
     category: 'Education',
-    image: '/case-study-2.webp',
+    image: '/case-study-3.webp', // ИСПРАВЛЕНО
     badge: 'Limited',
     rating: 5,
     description: 'Complete mindset transformation package including books, courses, and exclusive content.',
@@ -49,7 +50,7 @@ const merchItems = [
     name: 'Warriors Tech Backpack',
     price: 197,
     category: 'Accessories',
-    image: '/case-study-3.webp',
+    image: '/case-study-4.webp', // ИСПРАВЛЕНО
     rating: 5,
     description: 'Ultimate tech backpack for digital nomads and entrepreneurs on the move.',
     features: ['USB charging port', 'Anti-theft design', 'Laptop compartment', 'Waterproof']
@@ -59,7 +60,7 @@ const merchItems = [
     name: 'Champion Training Set',
     price: 247,
     category: 'Sportswear',
-    image: '/case-study-4.webp',
+    image: '/case-study-5.webp', // ИСПРАВЛЕНО
     badge: 'Exclusive',
     rating: 5,
     description: 'Complete training outfit for peak performance. Includes shirt, shorts, and accessories.',
@@ -70,7 +71,7 @@ const merchItems = [
     name: 'VIP Member Box',
     price: 997,
     category: 'Membership',
-    image: '/case-study-5.webp',
+    image: '/case-study-6.webp', // ИСПРАВЛЕНО
     badge: 'VIP Only',
     rating: 5,
     description: 'Exclusive VIP membership box with premium merchandise and lifetime benefits.',
@@ -81,61 +82,26 @@ const merchItems = [
 export const MerchPreviewSection = () => {
   const [selectedProduct, setSelectedProduct] = useState<typeof merchItems[0] | null>(null);
   const [quantity, setQuantity] = useState(1);
-  const [isScrolling, setIsScrolling] = useState(false);
-  const carouselRef = useRef<HTMLDivElement>(null);
-  const scrollRef = useRef<number>(0);
   const { toast } = useToast();
   const { addToCart, setIsCartOpen } = useCart();
-
-  // Triple the items for infinite scroll
-  const allItems = [...merchItems, ...merchItems, ...merchItems];
-
-  useEffect(() => {
-    const carousel = carouselRef.current;
-    if (!carousel) return;
-
-    let animationId: number;
-    const scrollSpeed = 1;
-
-    const animate = () => {
-      if (!isScrolling) {
-        scrollRef.current += scrollSpeed;
-        
-        if (scrollRef.current >= carousel.scrollWidth / 3) {
-          scrollRef.current = 0;
-        }
-        
-        carousel.scrollLeft = scrollRef.current;
-      }
-      animationId = requestAnimationFrame(animate);
-    };
-
-    animationId = requestAnimationFrame(animate);
-
-    return () => {
-      cancelAnimationFrame(animationId);
-    };
-  }, [isScrolling]);
+  
+  // Дублируем массив для создания идеальной петли анимации
+  const duplicatedItems = [...merchItems, ...merchItems];
 
   const handleAddToCart = (product: typeof merchItems[0], qty: number = 1) => {
-    // Add to cart using existing cart context
-    for (let i = 0; i < qty; i++) {
-      addToCart({
-        id: product.id,
-        name: product.name,
-        price: product.price,
-        image: product.image,
-        quantity: 1
-      });
-    }
+    addToCart({
+      id: product.id,
+      name: product.name,
+      price: product.price,
+      image: product.image,
+      quantity: qty
+    });
     
     toast({
       title: "Added to cart!",
-      description: `${qty}x ${product.name} - $${product.price * qty}`,
-      duration: 3000,
+      description: `${qty}x ${product.name}`,
     });
     
-    // Open cart sidebar
     setIsCartOpen(true);
     
     if (selectedProduct) {
@@ -145,7 +111,27 @@ export const MerchPreviewSection = () => {
   };
 
   return (
-    <section id="merch" className="py-24 md:py-32 bg-black">
+    <section id="merch" className="py-24 md:py-32 bg-black overflow-x-hidden">
+      {/* Стили для карусели, аналогичные TestimonialsSection */}
+      <style jsx global>{`
+        .marquee {
+          width: 100%;
+          overflow: hidden;
+        }
+        .marquee-content {
+          display: flex;
+          width: fit-content;
+          animation: marquee 90s linear infinite; /* Немного медленнее */
+        }
+        .marquee:hover .marquee-content {
+          animation-play-state: paused;
+        }
+        @keyframes marquee {
+          from { transform: translateX(0); }
+          to { transform: translateX(-50%); }
+        }
+      `}</style>
+      
       <div className="container mx-auto px-4">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -153,106 +139,84 @@ export const MerchPreviewSection = () => {
           viewport={{ once: true }}
           className="text-center mb-16"
         >
-          <div className="inline-flex items-center gap-2 bg-amber-400/10 text-amber-400 px-4 py-2 rounded-full mb-6">
-            <ShoppingBag className="w-4 h-4" />
-            <span className="text-sm font-medium">Elite Equipment</span>
-          </div>
-          
-          <div className="section-title-wrapper" data-title="Gear Up for Success">
+          {/* ИСПРАВЛЕНО: Плашка удалена */}
+          <div className="section-title-wrapper" data-title="Gear Up">
             <h2 className="text-4xl md:text-6xl font-bold mb-6">
               Gear Up for <span className="gradient-gold-text">Success</span>
             </h2>
           </div>
-          
           <p className="text-xl text-gray-400 max-w-3xl mx-auto">
             Premium merchandise designed for Warriors who demand excellence in every aspect of life
           </p>
         </motion.div>
       </div>
 
-      {/* Infinite Carousel - No Vertical Scroll */}
-      <div 
-        ref={carouselRef}
-        className="flex gap-4 carousel-full-width"
-        onMouseEnter={() => setIsScrolling(true)}
-        onMouseLeave={() => setIsScrolling(false)}
-      >
-        {allItems.map((item, index) => (
-          <motion.div
-            key={`${item.id}-${index}`}
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="flex-none w-[300px] group"
-          >
-            <div className="bg-gray-900/50 backdrop-blur-sm border border-gray-800 rounded-2xl overflow-hidden hover:border-amber-400/50 transition-all duration-300 flex flex-col">
-              {/* Badge */}
-              {item.badge && (
-                <div className="absolute top-4 left-4 z-10">
-                  <span className="bg-gradient-to-r from-amber-400 to-yellow-600 text-black text-xs font-bold px-3 py-1 rounded-full">
-                    {item.badge}
-                  </span>
-                </div>
-              )}
-
-              {/* Image Container */}
-              <div className="relative h-64 overflow-hidden bg-gradient-to-br from-gray-900 to-gray-800">
-                <img
-                  src={item.image}
-                  alt={item.name}
-                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-                />
-                
-                {/* Hover Overlay */}
-                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end justify-center pb-6">
-                  <Button 
-                    className="btn-premium transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300"
-                    onClick={() => setSelectedProduct(item)}
-                  >
-                    Quick View
-                  </Button>
-                </div>
-              </div>
-
-              {/* Product Info */}
-              <div className="p-6 flex-1 flex flex-col">
-                <p className="text-amber-400 text-sm mb-2">{item.category}</p>
-                <h3 className="text-xl font-semibold mb-2 line-clamp-1">{item.name}</h3>
-                
-                {/* Rating */}
-                <div className="flex items-center gap-1 mb-4">
-                  {[...Array(5)].map((_, i) => (
-                    <Star
-                      key={i}
-                      className={`w-4 h-4 ${i < item.rating ? 'fill-amber-400 text-amber-400' : 'text-gray-600'}`}
-                    />
-                  ))}
-                  <span className="text-xs text-gray-400 ml-2">(5.0)</span>
-                </div>
-                
-                <div className="flex items-center justify-between mt-auto">
-                  <div>
-                    <span className="text-2xl font-bold gradient-gold-text">${item.price}</span>
-                    {item.originalPrice && (
-                      <span className="text-sm text-gray-500 line-through ml-2">${item.originalPrice}</span>
-                    )}
+      {/* ИСПРАВЛЕНО: Бесконечная CSS-карусель */}
+      <div className="marquee">
+        <div className="marquee-content">
+          {duplicatedItems.map((item, index) => (
+            <div key={`${item.id}-${index}`} className="flex-shrink-0 w-[300px] mx-4 group">
+              <div className="bg-gray-900/50 backdrop-blur-sm border border-gray-800 rounded-2xl overflow-hidden hover:border-amber-400/50 transition-all duration-300 h-full flex flex-col">
+                {/* Image Container */}
+                <div className="relative h-64 w-full bg-gradient-to-br from-gray-900 to-gray-800">
+                  {/* ИСПРАВЛЕНО: Масштабирование изображения */}
+                  <Image
+                    src={item.image}
+                    alt={item.name}
+                    layout="fill"
+                    objectFit="cover"
+                    className="transition-transform duration-700 group-hover:scale-110"
+                  />
+                  {item.badge && (
+                    <div className="absolute top-4 left-4 z-10">
+                      <span className="bg-gradient-to-r from-amber-400 to-yellow-600 text-black text-xs font-bold px-3 py-1 rounded-full">
+                        {item.badge}
+                      </span>
+                    </div>
+                  )}
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end justify-center pb-6">
+                    <Button 
+                      className="btn-premium transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300"
+                      onClick={() => setSelectedProduct(item)}
+                    >
+                      Quick View
+                    </Button>
                   </div>
-                  <Button
-                    size="sm"
-                    className="bg-amber-400 text-black hover:bg-amber-500 font-semibold"
-                    onClick={() => handleAddToCart(item)}
-                  >
-                    <ShoppingBag className="w-4 h-4 mr-1" />
-                    Add
-                  </Button>
+                </div>
+                {/* Product Info */}
+                <div className="p-6 flex-1 flex flex-col">
+                  <p className="text-amber-400 text-sm mb-2">{item.category}</p>
+                  <h3 className="text-xl font-semibold mb-2 line-clamp-1">{item.name}</h3>
+                  <div className="flex items-center gap-1 mb-4">
+                    {[...Array(5)].map((_, i) => (
+                      <Star key={i} className={`w-4 h-4 ${i < item.rating ? 'fill-amber-400 text-amber-400' : 'text-gray-600'}`} />
+                    ))}
+                    <span className="text-xs text-gray-400 ml-2">(5.0)</span>
+                  </div>
+                  <div className="flex items-center justify-between mt-auto">
+                    <div>
+                      <span className="text-2xl font-bold gradient-gold-text">${item.price}</span>
+                      {item.originalPrice && (
+                        <span className="text-sm text-gray-500 line-through ml-2">${item.originalPrice}</span>
+                      )}
+                    </div>
+                    <Button
+                      size="sm"
+                      className="bg-amber-400 text-black hover:bg-amber-500 font-semibold"
+                      onClick={() => handleAddToCart(item)}
+                    >
+                      <ShoppingBag className="w-4 h-4 mr-1" />
+                      Add
+                    </Button>
+                  </div>
                 </div>
               </div>
             </div>
-          </motion.div>
-        ))}
+          ))}
+        </div>
       </div>
 
-      {/* Product Preview Dialog */}
+      {/* Product Preview Dialog (остается без изменений) */}
       <Dialog open={!!selectedProduct} onOpenChange={() => setSelectedProduct(null)}>
         <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto bg-gray-900 border-gray-800">
           <DialogHeader>
@@ -261,12 +225,12 @@ export const MerchPreviewSection = () => {
           
           {selectedProduct && (
             <div className="grid md:grid-cols-2 gap-8">
-              {/* Image */}
               <div className="relative aspect-square rounded-xl overflow-hidden bg-gray-800">
-                <img
+                <Image
                   src={selectedProduct.image}
                   alt={selectedProduct.name}
-                  className="w-full h-full object-cover"
+                  layout="fill"
+                  objectFit="cover"
                 />
                 {selectedProduct.badge && (
                   <div className="absolute top-4 left-4">
@@ -276,27 +240,19 @@ export const MerchPreviewSection = () => {
                   </div>
                 )}
               </div>
-
-              {/* Details */}
               <div className="flex flex-col">
                 <div className="flex-1">
                   <p className="text-amber-400 text-sm mb-2">{selectedProduct.category}</p>
                   <h2 className="text-3xl font-bold mb-4">{selectedProduct.name}</h2>
-                  
                   <div className="flex items-center gap-2 mb-6">
                     <div className="flex items-center gap-1">
                       {[...Array(5)].map((_, i) => (
-                        <Star
-                          key={i}
-                          className={`w-5 h-5 ${i < selectedProduct.rating ? 'fill-amber-400 text-amber-400' : 'text-gray-600'}`}
-                        />
+                        <Star key={i} className={`w-5 h-5 ${i < selectedProduct.rating ? 'fill-amber-400 text-amber-400' : 'text-gray-600'}`} />
                       ))}
                     </div>
                     <span className="text-gray-400">(5.0) • 127 reviews</span>
                   </div>
-
                   <p className="text-gray-300 mb-6">{selectedProduct.description}</p>
-
                   <div className="space-y-3 mb-8">
                     <h3 className="font-semibold text-amber-400">Key Features:</h3>
                     {selectedProduct.features.map((feature, i) => (
@@ -307,7 +263,6 @@ export const MerchPreviewSection = () => {
                     ))}
                   </div>
                 </div>
-
                 <div className="space-y-4">
                   <div className="flex items-center justify-between">
                     <div>
@@ -316,34 +271,17 @@ export const MerchPreviewSection = () => {
                         <span className="text-lg text-gray-500 line-through ml-2">${selectedProduct.originalPrice}</span>
                       )}
                     </div>
-                    
-                    {/* Quantity Selector */}
                     <div className="flex items-center gap-2 bg-gray-800 rounded-lg p-1">
-                      <Button
-                        size="sm"
-                        variant="ghost"
-                        onClick={() => setQuantity(Math.max(1, quantity - 1))}
-                        className="w-8 h-8 p-0"
-                      >
+                      <Button size="sm" variant="ghost" onClick={() => setQuantity(Math.max(1, quantity - 1))} className="w-8 h-8 p-0">
                         <Minus className="w-4 h-4" />
                       </Button>
                       <span className="w-12 text-center font-semibold">{quantity}</span>
-                      <Button
-                        size="sm"
-                        variant="ghost"
-                        onClick={() => setQuantity(quantity + 1)}
-                        className="w-8 h-8 p-0"
-                      >
+                      <Button size="sm" variant="ghost" onClick={() => setQuantity(quantity + 1)} className="w-8 h-8 p-0">
                         <Plus className="w-4 h-4" />
                       </Button>
                     </div>
                   </div>
-
-                  <Button
-                    size="lg"
-                    className="w-full btn-premium"
-                    onClick={() => handleAddToCart(selectedProduct, quantity)}
-                  >
+                  <Button size="lg" className="w-full btn-premium" onClick={() => handleAddToCart(selectedProduct, quantity)}>
                     <ShoppingBag className="w-5 h-5 mr-2" />
                     Add to Cart - ${selectedProduct.price * quantity}
                   </Button>
