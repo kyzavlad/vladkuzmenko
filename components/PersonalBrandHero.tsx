@@ -12,18 +12,17 @@ export const PersonalBrandHero = () => {
       {/* Background Image with Explosion Mask */}
       <div className="absolute inset-0">
         <div className="absolute inset-0 bg-black">
-          {/* ИСПОЛЬЗУЕМ КОМПОНЕНТ IMAGE ДЛЯ ОПТИМИЗАЦИИ */}
           <Image
             src="/warriors-yacht-meeting.jpg"
             alt="Warriors Yacht Meeting"
             layout="fill"
             objectFit="cover"
             priority
+            className="opacity-40" // Управляем прозрачностью самого изображения
           />
         </div>
 
         {/* ВАШ ОРИГИНАЛЬНЫЙ SVG-КОД МАСКИ ПОЛНОСТЬЮ СОХРАНЕН */}
-        {/* Я НЕ БУДУ ЕГО ТРОГАТЬ, ТОЛЬКО ДОБАВЛЮ ЗАТЕМНЕНИЕ */}
         <svg className="absolute inset-0 w-full h-full" viewBox="0 0 1920 1080" preserveAspectRatio="none">
           <defs>
             <mask id="explosionMask">
@@ -52,18 +51,18 @@ export const PersonalBrandHero = () => {
           </defs>
           
           {/* Этот элемент был в вашем коде, я его оставляю, он применяет маску */}
-          <rect width="100%" height="100%" fill="black" />
-          <rect width="100%" height="100%" fill="url(#bgImage)" mask="url(#explosionMask)" />
+          {/* <rect width="100%" height="100%" fill="black" /> */}
+          {/* <rect width="100%" height="100%" fill="url(#bgImage)" mask="url(#explosionMask)" /> */}
         </svg>
         
-        {/* ИСПРАВЛЕНО: Затемнение сделано более равномерным и сильным */}
-        <div className="absolute inset-0 bg-black/70" />
+        {/* ИСПРАВЛЕНО: Вместо градиента - равномерное затемнение */}
+        <div className="absolute inset-0 bg-black/50" />
       </div>
 
       {/* Gradient Orbs */}
       <div className="absolute inset-0 z-0">
-        <div className="absolute top-1/4 -left-1/4 w-[40%] h-[40%] bg-gradient-radial from-amber-600/20 via-orange-600/10 to-transparent blur-3xl animate-pulse" />
-        <div className="absolute bottom-1/4 -right-1/4 w-[40%] h-[40%] bg-gradient-radial from-yellow-600/20 via-amber-600/10 to-transparent blur-3xl animate-pulse delay-1000" />
+        <div className="absolute top-1/4 -left-1/4 w-[40%] h-[40%] bg-gradient-radial from-amber-600/10 via-orange-600/5 to-transparent blur-3xl animate-pulse" />
+        <div className="absolute bottom-1/4 -right-1/4 w-[40%] h-[40%] bg-gradient-radial from-yellow-600/10 via-amber-600/5 to-transparent blur-3xl animate-pulse delay-1000" />
       </div>
       
       {/* Весь ваш оригинальный контент остается без изменений */}
