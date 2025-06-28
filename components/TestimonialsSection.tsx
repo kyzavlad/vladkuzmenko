@@ -88,7 +88,7 @@ export const TestimonialsSection = () => {
   }, [isPaused]);
 
   return (
-    <section className="py-24 md:py-32 bg-black">
+    <section id="testimonials" className="py-24 md:py-32 bg-black">
       <div className="container mx-auto px-4">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -107,10 +107,10 @@ export const TestimonialsSection = () => {
         </motion.div>
       </div>
 
-      {/* Testimonials Carousel - Full Width, NO VERTICAL SCROLL */}
+      {/* Testimonials Carousel - No Container, No Vertical Scroll */}
       <div 
         ref={scrollRef}
-        className="flex gap-6 overflow-x-hidden overflow-y-visible"
+        className="flex gap-6"
         style={{ 
           scrollbarWidth: 'none', 
           msOverflowStyle: 'none',
@@ -118,7 +118,9 @@ export const TestimonialsSection = () => {
           marginLeft: 'calc(-50vw + 50%)',
           marginRight: 'calc(-50vw + 50%)',
           paddingLeft: '20px',
-          paddingRight: '20px'
+          paddingRight: '20px',
+          overflowX: 'hidden',
+          overflowY: 'visible'
         }}
         onMouseEnter={() => setIsPaused(true)}
         onMouseLeave={() => setIsPaused(false)}
@@ -127,6 +129,10 @@ export const TestimonialsSection = () => {
           <motion.div
             key={`${testimonial.id}-${index}`}
             className="flex-none w-[400px]"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: index * 0.1 }}
           >
             <div className="bg-gray-900/50 backdrop-blur-sm border border-gray-800 rounded-2xl overflow-hidden hover:border-amber-400/50 transition-all duration-300 h-full">
               {/* Rectangular Image */}
