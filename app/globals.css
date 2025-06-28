@@ -165,11 +165,24 @@ body {
   width: 100%;
 }
 
-/* Section padding - normal spacing */
+/* FIXED: Section padding to prevent overlap */
 section {
-  padding: 80px 0;
+  padding: 100px 0;
   position: relative;
-  overflow: hidden;
+  overflow: visible; /* Changed from hidden to visible */
+  isolation: isolate;
+}
+
+@media (min-width: 768px) {
+  section {
+    padding: 120px 0;
+  }
+}
+
+/* First section (Hero) special padding */
+section:first-of-type {
+  padding-top: 0 !important;
+  padding-bottom: 100px;
 }
 
 /* Container - proper responsive width */
@@ -206,37 +219,10 @@ section {
   overflow: hidden;
 }
 
-/* Smooth gradient transitions between sections */
-section::after {
-  content: '';
-  position: absolute;
-  bottom: -150px;
-  left: 0;
-  right: 0;
-  height: 300px;
-  background: linear-gradient(to bottom, #000 0%, transparent 100%);
-  pointer-events: none;
-  z-index: 1;
-}
-
+/* REMOVED gradient transitions between sections to prevent overlap */
+section::after,
 section::before {
-  content: '';
-  position: absolute;
-  top: -150px;
-  left: 0;
-  right: 0;
-  height: 300px;
-  background: linear-gradient(to bottom, transparent 0%, #000 100%);
-  pointer-events: none;
-  z-index: 1;
-}
-
-section:first-of-type::before {
-  display: none;
-}
-
-section:last-of-type::after {
-  display: none;
+  display: none !important;
 }
 
 /* Premium shadow effects */
@@ -324,7 +310,7 @@ section:last-of-type::after {
   display: none !important;
 }
 
-/* Ultra-modern carousel styles */
+/* FIXED: Carousel container without vertical scroll */
 .carousel-container {
   width: 100vw;
   position: relative;
@@ -332,8 +318,8 @@ section:last-of-type::after {
   right: 50%;
   margin-left: -50vw;
   margin-right: -50vw;
-  overflow: visible !important;
-  padding: 60px 0;
+  overflow: hidden; /* Only hide horizontal overflow */
+  padding: 20px 0;
 }
 
 /* 3D card effects */
@@ -495,26 +481,6 @@ input:focus, textarea:focus, select:focus {
   100% { transform: translateX(100%) translateY(100%) rotate(45deg); }
 }
 
-/* Section Spacing Fix */
-section {
-  position: relative;
-  z-index: 1;
-}
-
-section + section {
-  margin-top: 0 !important;
-}
-
-/* Ensure proper stacking */
-.relative {
-  z-index: 1;
-}
-
-/* Fix overflow issues */
-.overflow-hidden {
-  position: relative;
-}
-
 /* Gradient Animation */
 @keyframes gradient {
   0%, 100% {
@@ -598,32 +564,13 @@ html, body {
   box-sizing: border-box;
 }
 
-/* Section spacing to prevent overlap */
-section {
-  position: relative;
-  z-index: 1;
-  padding-top: 6rem !important;
-  padding-bottom: 6rem !important;
-}
-
-@media (min-width: 768px) {
-  section {
-    padding-top: 8rem !important;
-    padding-bottom: 8rem !important;
-  }
-}
-
-/* Hero section special case */
-section:first-of-type {
-  padding-top: 0 !important;
-}
-
-/* Fix carousel containers */
+/* FIXED: Carousel containers to prevent vertical scroll */
 .flex.gap-4.overflow-x-hidden,
 .flex.gap-6.overflow-x-hidden {
   margin: 0 !important;
   padding: 0 1rem;
   max-width: 100vw;
+  overflow-y: visible !important; /* Prevent vertical scroll */
 }
 
 /* Dialog/Modal fixes */
