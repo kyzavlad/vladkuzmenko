@@ -1,9 +1,10 @@
 'use client';
 
-import React, { useRef, useState, MouseEvent } from 'react';
+import React, { useRef, useState, MouseEvent as ReactMouseEvent } from 'react';
 import { motion } from 'framer-motion';
 import Image from 'next/image';
 import Link from 'next/link';
+import { Button } from '@/components/ui/button';
 import { Instagram, ArrowRight } from 'lucide-react';
 
 const posts = [
@@ -13,52 +14,46 @@ const posts = [
   { id: 4, img: '/warriors-location-4.jpg', caption: 'Closing Deals in NYC' },
   { id: 5, img: '/warriors-location-5.jpg', caption: 'Building Empires Together' },
   { id: 6, img: '/warriors-location-6.jpg', caption: 'The Warriors Lifestyle' },
-  { id: 7, img: '/warriors-location-7.jpg', caption: 'Unbreakable Brotherhood' },
-  { id: 8, img: '/warriors-location-8.jpg', caption: 'Vision & Execution' },
+  { id: 7, src: '/warriors-discussion.jpg', alt: "Warriors Discussion" },
+  { id: 8, src: '/warriors-members-lounge.jpg', alt: "Warriors Members Lounge" }
 ];
 
-export const InstagramSection = () => {
-  const scrollContainerRef = useRef<HTMLDivElement>(null);
-  const [isDown, setIsDown] = useState(false);
+export function InstagramSection() {
+  const scrollRef = useRef<HTMLDivElement>(null);
+  const [isDragging, setIsDragging] = useState(false);
   const [startX, setStartX] = useState(0);
   const [scrollLeft, setScrollLeft] = useState(0);
 
-  const handleMouseDown = (e: MouseEvent<HTMLDivElement>) => {
-    const slider = scrollContainerRef.current;
-    if (!slider) return;
-    setIsDown(true);
-    slider.classList.add('active');
-    setStartX(e.pageX - slider.offsetLeft);
-    setScrollLeft(slider.scrollLeft);
+  const onMouseDown = (e: ReactMouseEvent) => {
+    if (!scrollRef.current) return;
+    setIsDragging(true);
+    setStartX(e.pageX - scrollRef.current.offsetLeft);
+    setScrollLeft(scrollRef.current.scrollLeft);
+    scrollRef.current.style.cursor = 'grabbing';
   };
 
-  const handleMouseLeave = () => {
-    const slider = scrollContainerRef.current;
-    if (!slider) return;
-    setIsDown(false);
-    slider.classList.remove('active');
+  const onMouseLeave = () => {
+    if (!scrollRef.current) return;
+    setIsDragging(false);
+    scrollRef.current.style.cursor = 'grab';
   };
 
-  const handleMouseUp = () => {
-    const slider = scrollContainerRef.current;
-    if (!slider) return;
-    setIsDown(false);
-    slider.classList.remove('active');
+  const onMouseUp = () => {
+    if (!scrollRef.current) return;
+    setIsDragging(false);
+    scrollRef.current.style.cursor = 'grab';
   };
 
-  const handleMouseMove = (e: MouseEvent<HTMLDivElement>) => {
-    if (!isDown) return;
+  const onMouseMove = (e: ReactMouseEvent) => {
+    if (!isDragging || !scrollRef.current) return;
     e.preventDefault();
-    const slider = scrollContainerRef.current;
-    if (!slider) return;
-    const x = e.pageX - slider.offsetLeft;
-    const walk = (x - startX) * 2; // Увеличиваем скорость прокрутки
-    slider.scrollLeft = scrollLeft - walk;
+    const x = e.pageX - scrollRef.current.offsetLeft;
+    const walk = (x - startX) * 2; // Scroll speed
+    scrollRef.current.scrollLeft = scrollLeft - walk;
   };
 
   return (
     <section className="relative bg-black py-24 md:py-32 overflow-hidden">
-      {/* Эффект маски "взрыва" для плавного перехода */}
       <div
         className="absolute inset-x-0 bottom-0 h-48 bg-black"
         style={{
@@ -69,7 +64,6 @@ export const InstagramSection = () => {
       />
       
       <div className="container mx-auto px-4 text-center">
-        {/* Плашка "Follow The Journey" перенесена наверх */}
         <motion.div
           initial={{ opacity: 0, y: -20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -90,54 +84,47 @@ export const InstagramSection = () => {
         </div>
       </div>
 
-      {/* Карусель с горизонтальной прокруткой мышью */}
       <div
-        ref={scrollContainerRef}
-        className="w-full flex gap-6 overflow-x-auto cursor-grab active:cursor-grabbing pb-10"
+        ref={scrollRef}
+        onMouseDown={onMouseDown}
+        onMouseLeave={onMouseLeave}
+        onMouseUp={onMouseUp}
+        onMouseMove={onMouseMove}
+        className="w-full flex gap-6 overflow-x-auto cursor-grab pb-10"
         style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
-        onMouseDown={handleMouseDown}
-        onMouseLeave={handleMouseLeave}
-        onMouseUp={handleMouseUp}
-        onMouseMove={handleMouseMove}
       >
         <style jsx>{`
-          .active:cursor-grabbing {
-            cursor: grabbing;
-          }
-          .flex::-webkit-scrollbar {
-            display: none;
-          }
+          .cursor-grab { cursor: grab; }
+          .cursor-grabbing { cursor: grabbing; }
+          div::-webkit-scrollbar { display: none; }
         `}</style>
-
-        {/* Пустое пространство слева для центрирования */}
-        <div className="flex-shrink-0 w-1/2 md:w-1/3 lg:w-1/4"></div>
-
+        
+        <div className="flex-shrink-0 w-[5vw]"></div>
         {posts.map((post) => (
           <motion.div
             key={post.id}
-            className="flex-shrink-0 w-[300px] md:w-[350px] group relative rounded-2xl overflow-hidden"
+            className="flex-shrink-0 w-[300px] md:w-[350px] h-[450px] group relative rounded-2xl overflow-hidden"
             initial={{ y: 50, opacity: 0 }}
             whileInView={{ y: 0, opacity: 1 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5 }}
           >
             <Image
-              src={post.img}
-              alt={post.caption}
+              src={post.img || post.src}
+              alt={post.caption || post.alt}
               width={350}
               height={450}
               className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
             />
-            {/* Затемнение для читаемости текста */}
             <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent"></div>
-            <div className="absolute bottom-0 left-0 p-6">
-              <p className="text-white font-semibold">{post.caption}</p>
-            </div>
+            {post.caption && (
+                 <div className="absolute bottom-0 left-0 p-6">
+                    <p className="text-white font-semibold">{post.caption}</p>
+                 </div>
+            )}
           </motion.div>
         ))}
-        
-        {/* Пустое пространство справа */}
-        <div className="flex-shrink-0 w-1/2 md:w-1/3 lg:w-1/4"></div>
+        <div className="flex-shrink-0 w-[5vw]"></div>
       </div>
 
       <div className="text-center mt-12">
@@ -148,7 +135,6 @@ export const InstagramSection = () => {
           </Button>
         </Link>
       </div>
-
     </section>
   );
 };
