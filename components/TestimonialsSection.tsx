@@ -4,8 +4,6 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import Image from 'next/image';
 import { Star, Quote } from 'lucide-react';
-import useEmblaCarousel from 'embla-carousel-react';
-import Autoplay from 'embla-carousel-autoplay';
 
 const testimonials = [
   {
@@ -13,7 +11,7 @@ const testimonials = [
     name: 'Alex Rodriguez',
     role: 'AI Agency Owner',
     company: '$50,000/mo',
-    image: '/warriors-group-photo.jpg',
+    image: '/warriors-testimonial-1.jpg',
     text: 'From zero to $50k/month in 6 months. The AI tools and strategies in this community are unmatched. Every dollar spent returned 100x.'
   },
   {
@@ -21,7 +19,7 @@ const testimonials = [
     name: 'Marcus Chen',
     role: 'Content Creator',
     company: '$25,000/mo',
-    image: '/team-meeting-1.webp',
+    image: '/warriors-testimonial-2.jpg',
     text: "100k followers and $25k/month. Vlad's content systems transformed my business. The ROI is absolutely insane."
   },
   {
@@ -29,7 +27,7 @@ const testimonials = [
     name: 'Sarah Williams',
     role: 'E-commerce Expert',
     company: '$75,000/mo',
-    image: '/warriors-discussion.jpg',
+    image: '/warriors-testimonial-3.jpg',
     text: 'Scaled from $5k to $75k/month using these strategies. The automation systems alone saved me 40 hours per week.'
   },
   {
@@ -37,7 +35,7 @@ const testimonials = [
     name: 'Michael Foster',
     role: 'SaaS Founder',
     company: '$200,000/mo',
-    image: '/warriors-leaders.jpg',
+    image: '/warriors-testimonial-4.jpg',
     text: 'Built a $200k/month SaaS in under a year. The network and knowledge here is worth millions. Best investment ever.'
   },
   {
@@ -45,7 +43,7 @@ const testimonials = [
     name: 'David Kim',
     role: 'Crypto Trader',
     company: '$150,000/mo',
-    image: '/team-success-1.webp',
+    image: '/warriors-testimonial-5.jpg',
     text: 'The trading strategies and AI tools helped me reach $150k/month consistently. Life-changing community.'
   },
   {
@@ -53,19 +51,32 @@ const testimonials = [
     name: 'James Wilson',
     role: 'Digital Nomad',
     company: '$40,000/mo',
-    image: '/warriors-yacht-meeting.jpg',
+    image: '/warriors-testimonial-6.jpg',
     text: 'Living the dream while earning $40k/month. The freedom this knowledge provides is priceless.'
   }
 ];
 
 export const TestimonialsSection = () => {
-  // Инициализируем Embla Carousel с опциями бесконечной петли и автопрокрутки
-  const [emblaRef] = useEmblaCarousel({ loop: true, align: 'start' }, [
-    Autoplay({ delay: 4000, stopOnInteraction: false, stopOnMouseEnter: true })
-  ]);
+  // Дублируем массив для создания идеальной петли анимации
+  const duplicatedTestimonials = [...testimonials, ...testimonials];
 
   return (
-    <section id="testimonials" className="py-24 md:py-32 bg-black relative">
+    <section id="testimonials" className="py-24 md:py-32 bg-black relative overflow-hidden">
+      {/* Встроенные стили для настоящей бесконечной анимации */}
+      <style jsx global>{`
+        @keyframes scroll-left {
+          from {
+            transform: translateX(0);
+          }
+          to {
+            transform: translateX(-100%);
+          }
+        }
+        .animate-scroll-left {
+          animation: scroll-left 40s linear infinite;
+        }
+      `}</style>
+      
       <div className="container mx-auto px-4">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -84,11 +95,15 @@ export const TestimonialsSection = () => {
         </motion.div>
       </div>
 
-      {/* ИСПРАВЛЕНО: Контейнер карусели Embla */}
-      <div className="overflow-hidden" ref={emblaRef}>
-        <div className="flex">
-          {testimonials.map((testimonial) => (
-            <div key={testimonial.id} className="flex-grow-0 flex-shrink-0 w-full sm:w-1/2 lg:w-1/3 xl:w-1/4 px-4">
+      {/* ИСПРАВЛЕНО: Бесконечная карусель без пустого начала */}
+      <div
+        className="w-full inline-flex flex-nowrap overflow-hidden"
+        style={{ maskImage: 'linear-gradient(to right, transparent, black 10%, black 90%, transparent)' }}
+      >
+        <ul className="flex items-stretch justify-center md:justify-start animate-scroll-left hover:[animation-play-state:paused]">
+          {/* Рендерим дублированный массив, чтобы анимация была бесшовной */}
+          {duplicatedTestimonials.map((testimonial, index) => (
+            <li key={`${testimonial.id}-${index}`} className="flex-shrink-0 w-[400px] mx-4">
               <div className="h-full bg-gray-900/50 backdrop-blur-sm border border-gray-800 rounded-2xl overflow-hidden hover:border-amber-400/50 transition-all duration-300 flex flex-col">
                 <div className="relative h-48 w-full">
                   <Image
@@ -114,9 +129,9 @@ export const TestimonialsSection = () => {
                   </div>
                 </div>
               </div>
-            </div>
+            </li>
           ))}
-        </div>
+        </ul>
       </div>
     </section>
   );
