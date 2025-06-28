@@ -57,28 +57,23 @@ const testimonials = [
 ];
 
 export const TestimonialsSection = () => {
+  // Дублируем массив для создания идеальной петли анимации
+  const duplicatedTestimonials = [...testimonials, ...testimonials];
+
   return (
     <section id="testimonials" className="py-24 md:py-32 bg-black relative overflow-hidden">
       {/* Встроенные стили для ИСПРАВЛЕННОЙ бесконечной анимации */}
       <style jsx global>{`
-        .marquee {
-          width: 100%;
-          overflow: hidden;
-        }
-        .marquee-content {
-          display: flex;
-          animation: marquee 80s linear infinite; /* ИСПРАВЛЕНО: Скорость замедлена */
-        }
-        .marquee:hover .marquee-content {
-          animation-play-state: paused;
-        }
-        @keyframes marquee {
+        @keyframes scrollLeft {
           from {
             transform: translateX(0);
           }
           to {
-            transform: translateX(-50%); /* Идеальная петля для дублированного контента */
+            transform: translateX(-50%);
           }
+        }
+        .animate-scroll-left-seamless {
+          animation: scrollLeft 80s linear infinite;
         }
       `}</style>
       
@@ -100,11 +95,13 @@ export const TestimonialsSection = () => {
         </motion.div>
       </div>
 
-      {/* ИСПРАВЛЕНО: Карусель, которая начинается сразу с карточек */}
-      <div className="marquee">
-        <div className="marquee-content">
-          {[...testimonials, ...testimonials].map((testimonial, index) => (
-            <div key={`${testimonial.id}-${index}`} className="flex-shrink-0 w-[400px] mx-4">
+      <div
+        className="w-full inline-flex flex-nowrap overflow-hidden"
+        style={{ maskImage: 'linear-gradient(to right, transparent, black 10%, black 90%, transparent)' }}
+      >
+        <ul className="flex items-stretch justify-center md:justify-start animate-scroll-left-seamless hover:[animation-play-state:paused]">
+          {duplicatedTestimonials.map((testimonial, index) => (
+            <li key={`${testimonial.id}-${index}`} className="flex-shrink-0 w-[400px] mx-4">
               <div className="h-full bg-gray-900/50 backdrop-blur-sm border border-gray-800 rounded-2xl overflow-hidden hover:border-amber-400/50 transition-all duration-300 flex flex-col">
                 <div className="relative h-48 w-full">
                   <Image
@@ -130,9 +127,9 @@ export const TestimonialsSection = () => {
                   </div>
                 </div>
               </div>
-            </div>
+            </li>
           ))}
-        </div>
+        </ul>
       </div>
     </section>
   );
