@@ -112,6 +112,11 @@ const config: Config = {
           '0%': { transform: 'translate(0%, 0%)', opacity: '1' },
           '100%': { transform: 'translate(100%, 0%)', opacity: '0' },
         },
+        // --- ДОБАВЛЕНО ДЛЯ БЕСКОНЕЧНОЙ КАРУСЕЛИ ---
+        'infinite-scroll': {
+          'from': { transform: 'translateX(0)' },
+          'to': { transform: 'translateX(-100%)' },
+        }
       },
       animation: {
         'accordion-down': 'accordion-down 0.2s ease-out',
@@ -124,6 +129,8 @@ const config: Config = {
         'aurora': 'aurora 60s linear infinite',
         'star-movement-bottom': 'star-movement-bottom linear infinite alternate',
         'star-movement-top': 'star-movement-top linear infinite alternate',
+        // --- ДОБАВЛЕНО ДЛЯ БЕСКОНЕЧНОЙ КАРУСЕЛИ ---
+        'infinite-scroll': 'infinite-scroll 60s linear infinite',
       },
     },
   },
