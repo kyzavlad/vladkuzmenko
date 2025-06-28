@@ -165,24 +165,34 @@ body {
   width: 100%;
 }
 
-/* FIXED: Section padding to prevent overlap */
+/* NEW SECTION SYSTEM - NO OVERLAPS */
 section {
-  padding: 100px 0;
   position: relative;
-  overflow: visible; /* Changed from hidden to visible */
-  isolation: isolate;
+  padding: 120px 0;
+  background-color: #000;
+  z-index: 1;
 }
 
-@media (min-width: 768px) {
+@media (max-width: 768px) {
   section {
-    padding: 120px 0;
+    padding: 80px 0;
   }
 }
 
 /* First section (Hero) special padding */
 section:first-of-type {
   padding-top: 0 !important;
-  padding-bottom: 100px;
+  padding-bottom: 120px;
+  min-height: 100vh;
+}
+
+/* Section transitions - NEW METHOD */
+.section-transition {
+  position: relative;
+  height: 80px;
+  margin: -40px 0;
+  z-index: 0;
+  background: linear-gradient(to bottom, #000 0%, #000 100%);
 }
 
 /* Container - proper responsive width */
@@ -191,6 +201,8 @@ section:first-of-type {
   max-width: 1280px;
   margin: 0 auto;
   padding: 0 20px;
+  position: relative;
+  z-index: 2;
 }
 
 @media (min-width: 768px) {
@@ -217,12 +229,6 @@ section:first-of-type {
   margin-left: -50vw;
   margin-right: -50vw;
   overflow: hidden;
-}
-
-/* REMOVED gradient transitions between sections to prevent overlap */
-section::after,
-section::before {
-  display: none !important;
 }
 
 /* Premium shadow effects */
@@ -310,16 +316,17 @@ section::before {
   display: none !important;
 }
 
-/* FIXED: Carousel container without vertical scroll */
-.carousel-container {
+/* FIXED: Carousel styles - NO CONTAINERS */
+.carousel-full-width {
   width: 100vw;
   position: relative;
   left: 50%;
   right: 50%;
   margin-left: -50vw;
   margin-right: -50vw;
-  overflow: hidden; /* Only hide horizontal overflow */
-  padding: 20px 0;
+  padding: 0 20px;
+  overflow-x: hidden;
+  overflow-y: visible !important;
 }
 
 /* 3D card effects */
@@ -564,15 +571,6 @@ html, body {
   box-sizing: border-box;
 }
 
-/* FIXED: Carousel containers to prevent vertical scroll */
-.flex.gap-4.overflow-x-hidden,
-.flex.gap-6.overflow-x-hidden {
-  margin: 0 !important;
-  padding: 0 1rem;
-  max-width: 100vw;
-  overflow-y: visible !important; /* Prevent vertical scroll */
-}
-
 /* Dialog/Modal fixes */
 .fixed.inset-0 {
   overflow-y: auto !important;
@@ -607,4 +605,14 @@ img {
   .w-\[400px\] {
     width: 350px !important;
   }
+}
+
+/* ENSURE NO VERTICAL SCROLL IN CAROUSELS */
+.overflow-x-hidden {
+  overflow-y: visible !important;
+}
+
+/* Fix any container issues */
+.h-full {
+  height: auto !important;
 }
