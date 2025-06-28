@@ -82,7 +82,7 @@ export const TestimonialsSection = () => {
         </motion.div>
       </div>
 
-      {/* ИСПРАВЛЕНО: Бесконечная CSS-карусель БЕЗ вертикального скролла */}
+      {/* ИСПРАВЛЕНО: Бесконечная CSS-карусель БЕЗ вертикального скролла и пустого начала */}
       <div
         className="w-full inline-flex flex-nowrap overflow-hidden"
         style={{ maskImage: 'linear-gradient(to right, transparent, black 10%, black 90%, transparent)' }}
