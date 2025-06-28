@@ -16,7 +16,7 @@ const merchItems = [
     price: 89,
     originalPrice: 129,
     category: 'Limited Edition',
-    image: '/case-study-1.webp', // ИСПРАВЛЕНО
+    image: '/warriors-group-photo.jpg', // ИСПРАВЛЕНО
     badge: 'Best Seller',
     rating: 5,
     description: 'Premium quality hoodie with embroidered Warriors logo. Made from 100% organic cotton.',
@@ -27,7 +27,7 @@ const merchItems = [
     name: 'Elite Performance Jacket',
     price: 149,
     category: 'Premium Collection',
-    image: '/case-study-2.webp', // ИСПРАВЛЕНО
+    image: '/warriors-yacht-meeting.jpg', // ИСПРАВЛЕНО
     badge: 'New',
     rating: 5,
     description: 'High-performance jacket designed for winners. Breathable, lightweight, and stylish.',
@@ -39,7 +39,7 @@ const merchItems = [
     price: 297,
     originalPrice: 497,
     category: 'Education',
-    image: '/case-study-3.webp', // ИСПРАВЛЕНО
+    image: '/team-success-1.webp', // ИСПРАВЛЕНО
     badge: 'Limited',
     rating: 5,
     description: 'Complete mindset transformation package including books, courses, and exclusive content.',
@@ -50,7 +50,7 @@ const merchItems = [
     name: 'Warriors Tech Backpack',
     price: 197,
     category: 'Accessories',
-    image: '/case-study-4.webp', // ИСПРАВЛЕНО
+    image: '/team-meeting-1.webp', // ИСПРАВЛЕНО
     rating: 5,
     description: 'Ultimate tech backpack for digital nomads and entrepreneurs on the move.',
     features: ['USB charging port', 'Anti-theft design', 'Laptop compartment', 'Waterproof']
@@ -60,7 +60,7 @@ const merchItems = [
     name: 'Champion Training Set',
     price: 247,
     category: 'Sportswear',
-    image: '/case-study-5.webp', // ИСПРАВЛЕНО
+    image: '/warriors-discussion.jpg', // ИСПРАВЛЕНО
     badge: 'Exclusive',
     rating: 5,
     description: 'Complete training outfit for peak performance. Includes shirt, shorts, and accessories.',
@@ -71,7 +71,7 @@ const merchItems = [
     name: 'VIP Member Box',
     price: 997,
     category: 'Membership',
-    image: '/case-study-6.webp', // ИСПРАВЛЕНО
+    image: '/warriors-leaders.jpg', // ИСПРАВЛЕНО
     badge: 'VIP Only',
     rating: 5,
     description: 'Exclusive VIP membership box with premium merchandise and lifetime benefits.',
@@ -85,7 +85,6 @@ export const MerchPreviewSection = () => {
   const { toast } = useToast();
   const { addToCart, setIsCartOpen } = useCart();
   
-  // Дублируем массив для создания идеальной петли анимации
   const duplicatedItems = [...merchItems, ...merchItems];
 
   const handleAddToCart = (product: typeof merchItems[0], qty: number = 1) => {
@@ -112,7 +111,6 @@ export const MerchPreviewSection = () => {
 
   return (
     <section id="merch" className="py-24 md:py-32 bg-black overflow-x-hidden">
-      {/* Стили для карусели, аналогичные TestimonialsSection */}
       <style jsx global>{`
         .marquee {
           width: 100%;
@@ -121,7 +119,7 @@ export const MerchPreviewSection = () => {
         .marquee-content {
           display: flex;
           width: fit-content;
-          animation: marquee 90s linear infinite; /* Немного медленнее */
+          animation: marquee 90s linear infinite;
         }
         .marquee:hover .marquee-content {
           animation-play-state: paused;
@@ -151,15 +149,13 @@ export const MerchPreviewSection = () => {
         </motion.div>
       </div>
 
-      {/* ИСПРАВЛЕНО: Бесконечная CSS-карусель */}
       <div className="marquee">
         <div className="marquee-content">
           {duplicatedItems.map((item, index) => (
             <div key={`${item.id}-${index}`} className="flex-shrink-0 w-[300px] mx-4 group">
               <div className="bg-gray-900/50 backdrop-blur-sm border border-gray-800 rounded-2xl overflow-hidden hover:border-amber-400/50 transition-all duration-300 h-full flex flex-col">
-                {/* Image Container */}
-                <div className="relative h-64 w-full bg-gradient-to-br from-gray-900 to-gray-800">
-                  {/* ИСПРАВЛЕНО: Масштабирование изображения */}
+                {/* ИСПРАВЛЕНО: Контейнер для изображения теперь квадратный */}
+                <div className="relative aspect-square w-full bg-gradient-to-br from-gray-900 to-gray-800">
                   <Image
                     src={item.image}
                     alt={item.name}
