@@ -68,9 +68,11 @@ export const InstagramSection = () => {
             <span className="text-sm font-medium">Follow The Journey</span>
           </div>
           
-          <h2 className="text-4xl md:text-6xl font-bold mb-6">
-            Behind The <span className="gradient-gold-text">Success</span>
-          </h2>
+          <div className="section-title-wrapper" data-title="Behind The Success">
+            <h2 className="text-4xl md:text-6xl font-bold mb-6">
+              Behind The <span className="gradient-gold-text">Success</span>
+            </h2>
+          </div>
           
           <p className="text-xl text-gray-400 max-w-3xl mx-auto">
             Get exclusive insights into the Warriors lifestyle and community
