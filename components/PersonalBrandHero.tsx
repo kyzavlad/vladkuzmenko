@@ -86,9 +86,13 @@ export const PersonalBrandHero = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1, delay: 0.2 }}
           >
-            <span className="inline-block bg-gradient-to-r from-amber-300 via-yellow-400 to-amber-500 bg-clip-text text-transparent animate-gradient-gold">
-              VLAD KUZMENKO
-            </span>
+            <div className="section-title-wrapper" data-title="VLAD KUZMENKO">
+              <h1 className="text-5xl md:text-7xl lg:text-8xl font-black mb-8 tracking-tight">
+                <span className="bg-gradient-to-r from-amber-300 via-yellow-400 to-amber-500 bg-clip-text text-transparent animate-gradient-x">
+                  VLAD KUZMENKO
+                </span>
+              </h1>
+            </div>
           </motion.h1>
 
           {/* CTA Buttons */}
