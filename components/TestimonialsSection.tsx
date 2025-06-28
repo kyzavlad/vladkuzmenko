@@ -11,7 +11,7 @@ const testimonials = [
     name: 'Alex Rodriguez',
     role: 'AI Agency Owner',
     company: '$50,000/mo',
-    image: '/warriors-testimonial-1.webp', // ИСПРАВЛЕНО
+    image: '/warriors-group-photo.jpg', // ИСПРАВЛЕНО
     text: 'From zero to $50k/month in 6 months. The AI tools and strategies in this community are unmatched. Every dollar spent returned 100x.'
   },
   {
@@ -19,7 +19,7 @@ const testimonials = [
     name: 'Marcus Chen',
     role: 'Content Creator',
     company: '$25,000/mo',
-    image: '/warriors-testimonial-2.webp', // ИСПРАВЛЕНО
+    image: '/team-meeting-1.webp', // ИСПРАВЛЕНО
     text: "100k followers and $25k/month. Vlad's content systems transformed my business. The ROI is absolutely insane."
   },
   {
@@ -27,7 +27,7 @@ const testimonials = [
     name: 'Sarah Williams',
     role: 'E-commerce Expert',
     company: '$75,000/mo',
-    image: '/warriors-testimonial-3.webp', // ИСПРАВЛЕНО
+    image: '/warriors-discussion.jpg', // ИСПРАВЛЕНО
     text: 'Scaled from $5k to $75k/month using these strategies. The automation systems alone saved me 40 hours per week.'
   },
   {
@@ -35,7 +35,7 @@ const testimonials = [
     name: 'Michael Foster',
     role: 'SaaS Founder',
     company: '$200,000/mo',
-    image: '/warriors-testimonial-4.webp', // ИСПРАВЛЕНО
+    image: '/warriors-leaders.jpg', // ИСПРАВЛЕНО
     text: 'Built a $200k/month SaaS in under a year. The network and knowledge here is worth millions. Best investment ever.'
   },
   {
@@ -43,7 +43,7 @@ const testimonials = [
     name: 'David Kim',
     role: 'Crypto Trader',
     company: '$150,000/mo',
-    image: '/warriors-testimonial-5.webp', // ИСПРАВЛЕНО
+    image: '/team-success-1.webp', // ИСПРАВЛЕНО
     text: 'The trading strategies and AI tools helped me reach $150k/month consistently. Life-changing community.'
   },
   {
@@ -51,29 +51,27 @@ const testimonials = [
     name: 'James Wilson',
     role: 'Digital Nomad',
     company: '$40,000/mo',
-    image: '/warriors-testimonial-6.webp', // ИСПРАВЛЕНО
+    image: '/warriors-yacht-meeting.jpg', // ИСПРАВЛЕНО
     text: 'Living the dream while earning $40k/month. The freedom this knowledge provides is priceless.'
   }
 ];
 
 export const TestimonialsSection = () => {
-  // Дублируем массив для создания идеальной петли анимации
-  const duplicatedTestimonials = [...testimonials, ...testimonials];
-
   return (
-    <section id="testimonials" className="py-24 md:py-32 bg-black relative overflow-hidden">
+    <section id="testimonials" className="py-24 md:py-32 bg-black relative overflow-x-hidden">
       {/* Встроенные стили для ИСПРАВЛЕННОЙ бесконечной анимации */}
       <style jsx global>{`
-        @keyframes scrollLeft {
-          from {
-            transform: translateX(0);
-          }
-          to {
-            transform: translateX(-50%);
-          }
+        .marquee-wrapper {
+          display: flex;
+          width: fit-content;
+          animation: marquee 80s linear infinite; /* ИСПРАВЛЕНО: Скорость замедлена */
         }
-        .animate-scroll-left-seamless {
-          animation: scrollLeft 80s linear infinite;
+        .marquee-wrapper:hover {
+          animation-play-state: paused;
+        }
+        @keyframes marquee {
+          from { transform: translateX(0); }
+          to { transform: translateX(-50%); } /* Идеальная петля для дублированного контента */
         }
       `}</style>
       
@@ -95,13 +93,12 @@ export const TestimonialsSection = () => {
         </motion.div>
       </div>
 
-      <div
-        className="w-full inline-flex flex-nowrap overflow-hidden"
-        style={{ maskImage: 'linear-gradient(to right, transparent, black 10%, black 90%, transparent)' }}
-      >
-        <ul className="flex items-stretch justify-center md:justify-start animate-scroll-left-seamless hover:[animation-play-state:paused]">
-          {duplicatedTestimonials.map((testimonial, index) => (
-            <li key={`${testimonial.id}-${index}`} className="flex-shrink-0 w-[400px] mx-4">
+      {/* ИСПРАВЛЕНО: Карусель, которая начинается сразу с карточек и движется бесшовно */}
+      <div className="w-full" style={{ maskImage: 'linear-gradient(to right, transparent, black 10%, black 90%, transparent)' }}>
+        <div className="marquee-wrapper">
+          {/* Рендерим массив ДВАЖДЫ для бесшовной петли */}
+          {[...testimonials, ...testimonials].map((testimonial, index) => (
+            <div key={`${testimonial.id}-${index}`} className="flex-shrink-0 w-[400px] mx-4">
               <div className="h-full bg-gray-900/50 backdrop-blur-sm border border-gray-800 rounded-2xl overflow-hidden hover:border-amber-400/50 transition-all duration-300 flex flex-col">
                 <div className="relative h-48 w-full">
                   <Image
@@ -127,9 +124,9 @@ export const TestimonialsSection = () => {
                   </div>
                 </div>
               </div>
-            </li>
+            </div>
           ))}
-        </ul>
+        </div>
       </div>
     </section>
   );
