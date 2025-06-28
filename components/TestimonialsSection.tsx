@@ -11,7 +11,7 @@ const testimonials = [
     name: 'Alex Rodriguez',
     role: 'AI Agency Owner',
     company: '$50,000/mo',
-    image: '/warriors-testimonial-1.jpg',
+    image: '/warriors-group-photo.jpg', // ИСПРАВЛЕНО
     text: 'From zero to $50k/month in 6 months. The AI tools and strategies in this community are unmatched. Every dollar spent returned 100x.'
   },
   {
@@ -19,7 +19,7 @@ const testimonials = [
     name: 'Marcus Chen',
     role: 'Content Creator',
     company: '$25,000/mo',
-    image: '/warriors-testimonial-2.jpg',
+    image: '/team-meeting-1.webp', // ИСПРАВЛЕНО
     text: "100k followers and $25k/month. Vlad's content systems transformed my business. The ROI is absolutely insane."
   },
   {
@@ -27,7 +27,7 @@ const testimonials = [
     name: 'Sarah Williams',
     role: 'E-commerce Expert',
     company: '$75,000/mo',
-    image: '/warriors-testimonial-3.jpg',
+    image: '/warriors-discussion.jpg', // ИСПРАВЛЕНО
     text: 'Scaled from $5k to $75k/month using these strategies. The automation systems alone saved me 40 hours per week.'
   },
   {
@@ -35,7 +35,7 @@ const testimonials = [
     name: 'Michael Foster',
     role: 'SaaS Founder',
     company: '$200,000/mo',
-    image: '/warriors-testimonial-4.jpg',
+    image: '/warriors-leaders.jpg', // ИСПРАВЛЕНО
     text: 'Built a $200k/month SaaS in under a year. The network and knowledge here is worth millions. Best investment ever.'
   },
   {
@@ -43,7 +43,7 @@ const testimonials = [
     name: 'David Kim',
     role: 'Crypto Trader',
     company: '$150,000/mo',
-    image: '/warriors-testimonial-5.jpg',
+    image: '/team-success-1.webp', // ИСПРАВЛЕНО
     text: 'The trading strategies and AI tools helped me reach $150k/month consistently. Life-changing community.'
   },
   {
@@ -51,7 +51,7 @@ const testimonials = [
     name: 'James Wilson',
     role: 'Digital Nomad',
     company: '$40,000/mo',
-    image: '/warriors-testimonial-6.jpg',
+    image: '/warriors-yacht-meeting.jpg', // ИСПРАВЛЕНО
     text: 'Living the dream while earning $40k/month. The freedom this knowledge provides is priceless.'
   }
 ];
@@ -62,13 +62,9 @@ export const TestimonialsSection = () => {
 
   return (
     <section id="testimonials" className="py-24 md:py-32 bg-black relative overflow-hidden">
-      {/* ИСПРАВЛЕНО: Плавный переход сверху с помощью градиентной маски */}
-      <div 
-        className="absolute top-0 left-0 w-full h-48 bg-black z-10"
-        style={{ maskImage: 'linear-gradient(to bottom, black 50%, transparent 100%)' }}
-      ></div>
-
-      <div className="container mx-auto px-4 relative z-20">
+      {/* ИСПРАВЛЕНО: Плавный переход сверху УДАЛЕН */}
+      
+      <div className="container mx-auto px-4">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -86,7 +82,7 @@ export const TestimonialsSection = () => {
         </motion.div>
       </div>
 
-      {/* ИСПРАВЛЕНО: Карусель БЕЗ вертикального скролла и контейнера */}
+      {/* ИСПРАВЛЕНО: Бесконечная CSS-карусель БЕЗ вертикального скролла */}
       <div
         className="w-full inline-flex flex-nowrap overflow-hidden"
         style={{ maskImage: 'linear-gradient(to right, transparent, black 10%, black 90%, transparent)' }}
@@ -101,9 +97,6 @@ export const TestimonialsSection = () => {
                     alt={testimonial.name}
                     layout="fill"
                     objectFit="cover"
-                    onError={(e) => {
-                      e.currentTarget.src = `https://source.unsplash.com/400x200?portrait,professional,${index}`;
-                    }}
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
                   <Quote className="absolute top-4 right-4 w-8 h-8 text-amber-400/50" />
