@@ -104,7 +104,7 @@ const platformBenefits = [
     description: "Connect with 10,000+ successful entrepreneurs worldwide."
   },
   {
-    icon: <DollarSign className="w-8 h-8 text-amber-400" />,
+    icon: <DollarSign className="w-8 w-8 text-amber-400" />,
     title: "ROI Focused",
     description: "Average student makes back investment within 60 days."
   }
@@ -173,7 +173,6 @@ export const EducationPlatformSection = () => {
               Get access to the exact systems and strategies that generate millions in revenue.
             </p>
             
-            {/* ИСПРАВЛЕНО: Добавлены классы для центрирования */}
             <div className="mt-6 flex justify-center">
               <Button
                 variant="outline"
@@ -382,13 +381,16 @@ export const EducationPlatformSection = () => {
             <p className="text-xl text-gray-300 mb-8 max-w-2xl mx-auto">
               Join 10,000+ students who are building their empires with The University.
             </p>
-            <Button 
-              size="lg" 
-              className="bg-gradient-to-r from-[#D4AF37] to-[#B8860B] hover:from-[#B8860B] hover:to-[#D4AF37] text-black px-12 py-6 text-lg glow-effect"
-              onClick={handleAddToCart}
-            >
-              Get Instant Access - $97/month
-            </Button>
+            {/* ИСПРАВЛЕНО: Добавлены классы для центрирования */}
+            <div className="flex justify-center">
+                <Button 
+                  size="lg" 
+                  className="bg-gradient-to-r from-[#D4AF37] to-[#B8860B] hover:from-[#B8860B] hover:to-[#D4AF37] text-black px-12 py-6 text-lg glow-effect"
+                  onClick={handleAddToCart}
+                >
+                  Get Instant Access - $97/month
+                </Button>
+            </div>
           </motion.div>
         </div>
       </div>
