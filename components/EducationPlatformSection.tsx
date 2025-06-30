@@ -173,15 +173,17 @@ export const EducationPlatformSection = () => {
               Get access to the exact systems and strategies that generate millions in revenue.
             </p>
             
-            {/* Smart Recommendation Button */}
-            <Button
-              variant="outline"
-              onClick={() => setShowRecommendation(true)}
-              className="mt-6 border-[#D4AF37] text-[#D4AF37] hover:bg-[#D4AF37]/10"
-            >
-              <Brain className="mr-2 h-4 w-4" />
-              Get Personalized Campus Recommendation
-            </Button>
+            {/* ИСПРАВЛЕНО: Добавлены классы для центрирования */}
+            <div className="mt-6 flex justify-center">
+              <Button
+                variant="outline"
+                onClick={() => setShowRecommendation(true)}
+                className="border-[#D4AF37] text-[#D4AF37] hover:bg-[#D4AF37]/10"
+              >
+                <Brain className="mr-2 h-4 w-4" />
+                Get Personalized Campus Recommendation
+              </Button>
+            </div>
           </motion.div>
 
           {/* Success Journey Visualization */}
@@ -193,9 +195,7 @@ export const EducationPlatformSection = () => {
           >
             <h3 className="text-3xl font-bold text-center mb-16">Your Journey to <span className="gradient-gold-text">Financial Freedom</span></h3>
             
-            {/* ИЗМЕНЕНИЕ ЗДЕСЬ: я убрал из этого div'a класс 'relative', чтобы дочерний 'absolute' элемент не мог создавать проблем */}
             <div> 
-              {/* ЭЛЕМЕНТ-ЛИНИЯ ПОЛНОСТЬЮ УДАЛЕН ОТСЮДА */}
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
                 {journeySteps.map((step, index) => (
                   <motion.div
@@ -204,9 +204,8 @@ export const EducationPlatformSection = () => {
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
                     transition={{ delay: index * 0.2 }}
-                    className="relative" // 'relative' нужен здесь для позиционирования номера
+                    className="relative"
                   >
-                    {/* Step Number */}
                     <div className="absolute -top-4 -left-4 w-12 h-12 bg-gradient-to-br from-amber-400 to-yellow-600 rounded-full flex items-center justify-center font-bold text-black text-lg z-10">
                       {index + 1}
                     </div>
