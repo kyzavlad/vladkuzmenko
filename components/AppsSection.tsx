@@ -4,10 +4,10 @@ import { ContactDialog } from "@/components/ui/contact-dialog";
 
 export function AppsSection() {
   return (
-    <section id="apps-section" className="w-full pt-8 pb-12 bg-background">
+    <section id="apps-section" className="w-full pt-4 pb-10 bg-background">
       <div className="container mx-auto px-4">
-        <div className="text-center mb-6">
-          <h2 className="text-3xl md:text-4xl font-bold mb-3 text-gradient">
+        <div className="text-center mb-5">
+          <h2 className="text-3xl md:text-4xl font-bold mb-2 text-gradient">
             AI-Powered Automation Solutions
           </h2>
           <p className="text-muted-foreground max-w-2xl mx-auto">
@@ -16,11 +16,12 @@ export function AppsSection() {
           </p>
         </div>
 
-        {/* ВИДЕО: стабильный «padding-top 56.25%» (не схлопнется) */}
-        <div className="mx-auto w-full max-w-6xl">
-          <div className="relative w-full overflow-hidden rounded-xl shadow-2xl bg-black" style={{ paddingTop: "56.25%" }}>
+        {/* Обычный YouTube-embed + фиксированная высота по брейкпоинтам */}
+        <div className="mx-auto w-full max-w-7xl">
+          <div className="relative w-full overflow-hidden rounded-xl shadow-2xl bg-black
+                          h-[260px] sm:h-[320px] md:h-[420px] lg:h-[520px]">
             <iframe
-              className="absolute inset-0 h-full w-full block"
+              className="absolute inset-0 w-full h-full block"
               src="https://www.youtube.com/embed/ZEEfv3zrsXk?rel=0&modestbranding=1&playsinline=1"
               title="AI Automation Services by VladKuzmenko.com"
               frameBorder={0}
@@ -31,7 +32,7 @@ export function AppsSection() {
           </div>
         </div>
 
-        <div className="mt-8 flex justify-center">
+        <div className="mt-6 flex justify-center">
           <ContactDialog triggerText="Get Started" className="inline-block" />
         </div>
       </div>
