@@ -4,7 +4,7 @@ import { ContactDialog } from "@/components/ui/contact-dialog";
 
 /**
  * Обёртка с padding-top:56.25% гарантирует ровные 16:9.
- * iframe растянут абсолютно — без обрезаний и вне зависимости от контента.
+ * iframe растянут абсолютно — без обрезаний и вне зависимости от окружения.
  */
 export function AppsSection() {
   return (
