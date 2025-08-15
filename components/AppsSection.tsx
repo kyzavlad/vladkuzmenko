@@ -1,5 +1,4 @@
 "use client";
-
 import { ContactDialog } from "@/components/ui/contact-dialog";
 
 export function AppsSection() {
@@ -11,12 +10,11 @@ export function AppsSection() {
             AI-Powered Automation Solutions
           </h2>
           <p className="text-muted-foreground max-w-2xl mx-auto">
-            Transform your business operations with our intelligent automation tools. Streamline
-            customer support, marketing, and content creation with cutting-edge AI technology.
+            Transform your business operations with our intelligent automation tools.
           </p>
         </div>
 
-        {/* Обычный YouTube-embed + фиксированная высота по брейкпоинтам */}
+        {/* обычный YouTube + фикс-высота на брейкпоинтах */}
         <div className="mx-auto w-full max-w-7xl">
           <div className="relative w-full overflow-hidden rounded-xl shadow-2xl bg-black
                           h-[260px] sm:h-[320px] md:h-[420px] lg:h-[520px]">
