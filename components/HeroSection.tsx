@@ -18,12 +18,11 @@ export function HeroSection() {
     return () => clearInterval(t);
   }, [words]);
 
-  // ТВОЙ scene.splinecode
-  const splineScene =
-    "https://prod.spline.design/tJ4jUZRp1dWv5A8l/scene.splinecode";
+  // ✅ твой scene.splinecode
+  const splineScene = "https://prod.spline.design/tJ4jUZRp1dWv5A8l/scene.splinecode";
 
   return (
-    <section id="hero-section" className="w-full mt-[64px] md:mt-[72px] pb-1">
+    <section id="hero-section" className="w-full mt-[64px] md:mt-[72px] pb-2">
       <div className="container mx-auto px-4">
         <div className="flex flex-col md:flex-row items-center justify-between pt-8 md:pt-10 gap-6 md:gap-8">
           {/* LEFT */}
@@ -68,9 +67,8 @@ export function HeroSection() {
             </div>
           </div>
 
-          {/* RIGHT — «толстый» робот */}
+          {/* RIGHT — «толстый» робот через web-component viewer */}
           <div className="w-full md:w-7/12">
-            {/* загружаем web-component viewer один раз */}
             <Script
               src="https://unpkg.com/@splinetool/viewer@1.10.48/build/spline-viewer.js"
               type="module"
@@ -83,7 +81,6 @@ export function HeroSection() {
                 h-[420px] sm:h-[520px] md:h-[640px] lg:h-[720px]
               "
             >
-              {/* сам viewer — растянут по контейнеру без «сжатия» */}
               {/* @ts-ignore */}
               <spline-viewer
                 url={splineScene}
