@@ -5,10 +5,6 @@ import { Button } from "@/components/ui/button";
 import { PhoneCall, ArrowRight } from "lucide-react";
 import { ContactDialog } from "@/components/ui/contact-dialog";
 import { motion } from "framer-motion";
-import dynamic from "next/dynamic";
-
-// ✅ ВАЖНО: правильный импорт без /next и с отключенным SSR
-const Spline = dynamic(() => import("@splinetool/react-spline"), { ssr: false });
 
 export function HeroSection() {
   const words = useMemo(
@@ -21,10 +17,12 @@ export function HeroSection() {
     return () => clearInterval(t);
   }, [words]);
 
-  const sceneUrl = "https://prod.spline.design/tJ4jUZRp1dWv5A8l/scene.splinecode";
+  // ✅ Public URL из Spline (iframe — самый стабильный и «безошибочный» способ)
+  const splinePublicUrl =
+    "https://my.spline.design/nexbotrobotcharacterconcept-WGVbB97K9BiuoLypIsx5Vt2U/";
 
   return (
-    <section id="hero-section" className="w-full mt-[64px] md:mt-[72px] pb-4 md:pb-6">
+    <section id="hero-section" className="w-full mt-[64px] md:mt-[72px] pb-3">
       <div className="container mx-auto px-4">
         <div className="flex flex-col md:flex-row items-center justify-between pt-10 md:pt-12 gap-8 md:gap-10">
           {/* LEFT */}
@@ -68,18 +66,22 @@ export function HeroSection() {
             </div>
           </div>
 
-          {/* RIGHT — фиксированная высота, «толстый» блок */}
+          {/* RIGHT — «толстый» робот, без скриптов/SSR, только iframe */}
           <div className="w-full md:w-7/12">
-            <div
-              className="relative w-full overflow-hidden rounded-3xl bg-gradient-to-br from-gray-900 via-black to-gray-900 shadow-2xl"
-              style={{ height: "520px" }}
-            >
-              <div className="absolute inset-0">
-                <Spline scene={sceneUrl} />
-              </div>
+            <div className="relative w-full rounded-3xl overflow-hidden bg-gradient-to-br from-gray-900 via-black to-gray-900 shadow-2xl
+                            h-[360px] sm:h-[420px] md:h-[520px] lg:h-[560px] xl:h-[640px]">
+              <iframe
+                src={splinePublicUrl}
+                title="3D Robot"
+                className="absolute inset-0 w-full h-full block"
+                frameBorder={0}
+                loading="eager"
+                allow="xr-spatial-tracking; fullscreen; accelerometer; magnetometer; gyroscope"
+                // на случай, если CDN не отдаст — просто ничего не сломаем
+                onError={() => { /* no-op */ }}
+              />
             </div>
           </div>
-
         </div>
       </div>
     </section>
