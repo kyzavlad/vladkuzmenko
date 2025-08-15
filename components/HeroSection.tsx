@@ -17,14 +17,14 @@ export function HeroSection() {
     return () => clearInterval(t);
   }, [words]);
 
-  // ✅ Public URL из Spline (iframe — самый стабильный и «безошибочный» способ)
+  // Публичный URL из Spline (iframe — самый стабильный вариант)
   const splinePublicUrl =
     "https://my.spline.design/nexbotrobotcharacterconcept-WGVbB97K9BiuoLypIsx5Vt2U/";
 
   return (
-    <section id="hero-section" className="w-full mt-[64px] md:mt-[72px] pb-3">
+    <section id="hero-section" className="w-full mt-[64px] md:mt-[72px] pb-2">
       <div className="container mx-auto px-4">
-        <div className="flex flex-col md:flex-row items-center justify-between pt-10 md:pt-12 gap-8 md:gap-10">
+        <div className="flex flex-col md:flex-row items-center justify-between pt-8 md:pt-10 gap-6 md:gap-8">
           {/* LEFT */}
           <div className="w-full md:w-5/12 md:pr-6">
             <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight">
@@ -48,7 +48,8 @@ export function HeroSection() {
               Automate routine business tasks with AI
             </p>
             <p className="text-base sm:text-lg md:text-xl text-muted-foreground">
-              Transform your business with AI-powered solutions that help you engage customers, streamline operations, and drive growth.
+              Transform your business with AI-powered solutions that help you engage customers,
+              streamline operations, and drive growth.
             </p>
 
             <div className="mt-8 flex flex-col gap-3 sm:flex-row">
@@ -66,19 +67,23 @@ export function HeroSection() {
             </div>
           </div>
 
-          {/* RIGHT — «толстый» робот, без скриптов/SSR, только iframe */}
+          {/* RIGHT — «толстый» робот без скриптов, только iframe */}
           <div className="w-full md:w-7/12">
-            <div className="relative w-full rounded-3xl overflow-hidden bg-gradient-to-br from-gray-900 via-black to-gray-900 shadow-2xl
-                            h-[360px] sm:h-[420px] md:h-[520px] lg:h-[560px] xl:h-[640px]">
+            <div
+              className="
+                relative w-full overflow-hidden rounded-3xl
+                bg-gradient-to-br from-gray-900 via-black to-gray-900 shadow-2xl
+                h-[420px] sm:h-[520px] md:h-[640px] lg:h-[720px]
+              "
+            >
               <iframe
                 src={splinePublicUrl}
                 title="3D Robot"
                 className="absolute inset-0 w-full h-full block"
                 frameBorder={0}
                 loading="eager"
+                // Дадим максимум возможностей, чтобы сцена масштабировалась нормально
                 allow="xr-spatial-tracking; fullscreen; accelerometer; magnetometer; gyroscope"
-                // на случай, если CDN не отдаст — просто ничего не сломаем
-                onError={() => { /* no-op */ }}
               />
             </div>
           </div>
