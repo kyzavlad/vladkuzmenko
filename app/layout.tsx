@@ -1,17 +1,16 @@
 'use client';
 
-import './globals.css'
-import type { Metadata } from 'next'
-import Script from 'next/script'
-import { VoiceflowScript } from '@/components/voiceflow-script'
-import TranslateSwitcher from '@/components/translate-switcher'
+import './globals.css';
+import Script from 'next/script';
+import { VoiceflowScript } from '@/components/voiceflow-script';
+import TranslateSwitcher from '@/components/translate-switcher';
 import { CartProvider } from '@/context/cart-context';
 import { ShoppingCartSidebar } from '@/components/ui/shopping-cart-sidebar';
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Toaster } from '@/components/ui/toaster';
 
-// Компонент анимации загрузки
+// Лоадер
 function LoadingAnimation() {
   return (
     <motion.div
@@ -33,7 +32,7 @@ function LoadingAnimation() {
         </div>
         <div className="sound-wave">
           {[...Array(5)].map((_, i) => (
-            <div key={i} className="sound-bar"></div>
+            <div key={i} className="sound-bar" />
           ))}
         </div>
       </motion.div>
@@ -45,13 +44,14 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    // Показываем анимацию загрузки
-    const timer = setTimeout(() => {
-      setIsLoading(false);
-    }, 2000);
-
-    // Устанавливаем темную тему по умолчанию
+    const timer = setTimeout(() => setIsLoading(false), 2000);
     document.documentElement.classList.add('dark');
+
+    // на всякий — убираем возможные старые вставки voiceflow-next/bundle.mjs,
+    // но НЕ мешаем текущему loader'у
+    document
+      .querySelectorAll('script[src*="voiceflow"][src*="widget-next"]')
+      .forEach((el) => el.parentNode?.removeChild(el as HTMLScriptElement));
 
     return () => clearTimeout(timer);
   }, []);
@@ -60,10 +60,13 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="en" className="dark">
       <head>
         <title>Vlad Kuzmenko | Building Systems for Freedom</title>
-        <meta name="description" content="The official hub for Vlad Kuzmenko's ecosystem: The University, Warriors Team, AI Automation Agency, and more." />
+        <meta
+          name="description"
+          content="The official hub for Vlad Kuzmenko's ecosystem: The University, Warriors Team, AI Automation Agency, and more."
+        />
         <link rel="icon" href="/VladKuzmenkoFavicon.png" />
-        
-        {/* Google Translate Scripts */}
+
+        {/* Google Translate */}
         <Script id="gt-init" strategy="beforeInteractive">
           {`
             function googleTranslateElementInit() {
@@ -78,31 +81,21 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"
           strategy="afterInteractive"
         />
+
         <style>{`
           .goog-te-banner-frame, .goog-te-menu-frame,
-          #google_translate_element,
-          .goog-te-gadget, .goog-logo-link,
-          .goog-te-gadget-icon, .goog-te-combo {
-            display: none !important;
-          }
+          #google_translate_element, .goog-te-gadget, .goog-logo-link,
+          .goog-te-gadget-icon, .goog-te-combo { display: none !important; }
           body { top: 0 !important; }
-          
-          /* Минималистичный скроллбар */
-          ::-webkit-scrollbar {
-            width: 6px;
-          }
-          ::-webkit-scrollbar-track {
-            background: rgba(255, 255, 255, 0.05);
-          }
-          ::-webkit-scrollbar-thumb {
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 3px;
-          }
-          ::-webkit-scrollbar-thumb:hover {
-            background: rgba(255, 255, 255, 0.2);
-          }
+
+          /* minimal scrollbar */
+          ::-webkit-scrollbar { width: 6px; }
+          ::-webkit-scrollbar-track { background: rgba(255,255,255,0.05); }
+          ::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 3px; }
+          ::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,0.2); }
         `}</style>
       </head>
+
       <body suppressHydrationWarning>
         <CartProvider>
           <AnimatePresence mode="wait">
@@ -117,6 +110,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               >
                 <div id="google_translate_element" className="hidden" />
                 {children}
+                {/* ✅ ЧАТ ВКЛЮЧЕН — стабильный загрузчик */}
                 <VoiceflowScript />
                 <TranslateSwitcher />
                 <ShoppingCartSidebar />
@@ -127,5 +121,5 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         </CartProvider>
       </body>
     </html>
-  )
+  );
 }
