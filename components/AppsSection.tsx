@@ -15,24 +15,26 @@ export function AppsSection() {
             Streamline customer support, marketing, and content creation with cutting-edge AI technology.
           </p>
         </div>
-      </div>
 
-      {/* FULL-BLEED: ломаемся из контейнера на всю ширину вьюпорта */}
-      <div className="relative w-screen left-1/2 right-1/2 -ml-[50vw] -mr-[50vw]">
-        {/* 16:9 контейнер */}
-        <div className="relative" style={{ paddingTop: "56.25%" }}>
-          <iframe
-            src="https://www.youtube.com/embed/ZEEfv3zrsXk?rel=0&modestbranding=1&playsinline=1"
-            title="AI Automation Services by VladKuzmenko.com"
-            className="absolute inset-0 w-full h-full"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-            allowFullScreen
-          />
+        {/* ВИДЕО: строго внутри контейнера, 16:9, не «узкая полоска» */}
+        <div className="mx-auto w-full max-w-6xl">
+          <div
+            className="relative overflow-hidden rounded-xl shadow-2xl bg-black"
+            style={{ aspectRatio: "16 / 9", minHeight: 280 }}
+          >
+            <iframe
+              className="absolute inset-0 h-full w-full"
+              src="https://www.youtube.com/embed/ZEEfv3zrsXk?rel=0&modestbranding=1&playsinline=1"
+              title="AI Automation Services by VladKuzmenko.com"
+              frameBorder={0}
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              allowFullScreen
+              referrerPolicy="strict-origin-when-cross-origin"
+            />
+          </div>
         </div>
-      </div>
 
-      <div className="container mx-auto px-4">
-        <div className="flex justify-center mt-12">
+        <div className="mt-12 flex justify-center">
           <ContactDialog triggerText="Get Started" className="inline-block" />
         </div>
       </div>
