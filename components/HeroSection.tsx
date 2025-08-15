@@ -116,7 +116,7 @@ export function HeroSection() {
               
               {/* Spline iframe - проверьте что URL правильный! */}
               <iframe
-                src="https://app.spline.design/community/file/9dd4d3d1-6268-48d2-85a7-96dae6a29dc8"
+                src="https://prod.spline.design/tJ4jUZRp1dWv5A8l/scene.splinecode"
                 frameBorder="0"
                 width="100%"
                 height="100%"
