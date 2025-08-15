@@ -1,10 +1,12 @@
-import { useState, useEffect } from "react";
+"use client";
+
+import { useState } from "react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { motion, AnimatePresence } from "framer-motion";
-import { ArrowRight, Loader2, CheckCircle } from "lucide-react";
+import { ArrowRight, Loader2, CheckCircle, ChevronLeft } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 interface AutomationFormDialogProps {
@@ -225,7 +227,7 @@ export function AutomationFormDialog({ children, className }: AutomationFormDial
       <div onClick={() => setOpen(true)} className={cn("cursor-pointer", className)}>
         {children}
       </div>
-      <DialogContent className="bg-black text-white border-white/10 p-0 max-w-[600px]">
+      <DialogContent className="bg-black text-white border-white/10 p-0 max-w-[600px] max-h-[90vh] overflow-y-auto">
         <AnimatePresence mode="wait">
           {submitted ? (
             <motion.div
@@ -237,7 +239,7 @@ export function AutomationFormDialog({ children, className }: AutomationFormDial
               <DialogHeader>
                 <DialogTitle>Success</DialogTitle>
               </DialogHeader>
-              <div className="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-full bg-brand/20 text-brand">
+              <div className="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-full bg-green-500/20 text-green-500">
                 <CheckCircle className="h-6 w-6" />
               </div>
               <h3 className="text-xl font-semibold mb-2">Thank you!</h3>
@@ -272,7 +274,7 @@ export function AutomationFormDialog({ children, className }: AutomationFormDial
               <div className="space-y-6">
                 {formSteps[currentStep].fields.map((field) => (
                   <div key={field.id} className="space-y-2">
-                    <label className="text-sm font-medium">
+                    <label className="text-sm font-medium text-white">
                       {field.label}
                       {field.required && <span className="text-red-500 ml-1">*</span>}
                     </label>
@@ -281,17 +283,17 @@ export function AutomationFormDialog({ children, className }: AutomationFormDial
                         value={formData[field.id] || ""}
                         onChange={(e) => handleInputChange(field.id, e.target.value)}
                         placeholder={field.placeholder}
-                        className="bg-black/50 border-white/10 focus:border-brand"
+                        className="bg-black/50 border-white/10 focus:border-brand text-white placeholder:text-gray-500"
                       />
                     ) : field.type === "select" ? (
                       <select
                         value={formData[field.id] || ""}
                         onChange={(e) => handleInputChange(field.id, e.target.value)}
-                        className="w-full rounded-md bg-black/50 border border-white/10 focus:border-brand px-3 py-2"
+                        className="w-full rounded-md bg-black/50 border border-white/10 focus:border-brand px-3 py-2 text-white"
                       >
-                        <option value="">Select an option</option>
+                        <option value="" className="bg-black text-gray-500">Select an option</option>
                         {field.options?.map((option) => (
-                          <option key={option} value={option}>
+                          <option key={option} value={option} className="bg-black text-white">
                             {option}
                           </option>
                         ))}
@@ -302,27 +304,39 @@ export function AutomationFormDialog({ children, className }: AutomationFormDial
                         value={formData[field.id] || ""}
                         onChange={(e) => handleInputChange(field.id, e.target.value)}
                         placeholder={field.placeholder}
-                        className="bg-black/50 border-white/10 focus:border-brand"
+                        className="bg-black/50 border-white/10 focus:border-brand text-white placeholder:text-gray-500"
                       />
                     )}
                   </div>
                 ))}
               </div>
 
+              {/* КНОПКИ НАВИГАЦИИ - ЗОЛОТАЯ КНОПКА CONTINUE В ЛЕВОМ НИЖНЕМ УГЛУ */}
               <div className="mt-8 flex justify-between items-center">
                 {currentStep > 0 && (
                   <Button
                     variant="outline"
                     onClick={handleBack}
-                    className="bg-black/50 border-white/10 hover:bg-white/5"
+                    className="bg-transparent border-white/20 text-white hover:bg-white/10"
                   >
+                    <ChevronLeft className="mr-2 h-4 w-4" />
                     Back
                   </Button>
                 )}
+                
+                {/* ЗОЛОТАЯ КНОПКА CONTINUE/SUBMIT */}
                 <Button
                   onClick={handleNext}
                   disabled={!isStepValid() || isSubmitting}
-                  className="ml-auto bg-brand hover:bg-brand/90"
+                  className={cn(
+                    "bg-gradient-to-r from-yellow-500 to-amber-600",
+                    "hover:from-yellow-600 hover:to-amber-700",
+                    "text-black font-semibold",
+                    "shadow-lg shadow-amber-500/20",
+                    "border border-amber-400/50",
+                    "disabled:opacity-50 disabled:cursor-not-allowed",
+                    currentStep === 0 ? "ml-0" : "ml-auto"
+                  )}
                 >
                   {isSubmitting ? (
                     <>
@@ -330,9 +344,15 @@ export function AutomationFormDialog({ children, className }: AutomationFormDial
                       Submitting...
                     </>
                   ) : currentStep === formSteps.length - 1 ? (
-                    "Submit"
+                    <>
+                      Submit
+                      <ArrowRight className="ml-2 h-4 w-4" />
+                    </>
                   ) : (
-                    "Continue"
+                    <>
+                      Continue
+                      <ArrowRight className="ml-2 h-4 w-4" />
+                    </>
                   )}
                 </Button>
               </div>
