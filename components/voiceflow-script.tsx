@@ -2,14 +2,17 @@
 
 import Script from "next/script";
 
-// ВСТАВЬ СВОЙ projectID ниже (он у тебя: 683dc9d2959a913e130af508)
+// твой projectID
 const PROJECT_ID = "683dc9d2959a913e130af508";
 
-// Один раз подключаем виджет как ES-модуль + безопасная инициализация
-export default function VoiceflowScript() {
+/**
+ * Грузим СТАБИЛЬНУЮ сборку виджета как ES-модуль
+ * и защищаемся от двойной инициализации.
+ */
+export function VoiceflowScript() {
   return (
     <>
-      {/* загрузка БЕЗ -next, стабильная сборка */}
+      {/* Стабильный bundle (НЕ /widget-next/) */}
       <Script
         id="vf-bundle"
         type="module"
@@ -18,21 +21,42 @@ export default function VoiceflowScript() {
       />
       <Script id="vf-init" type="module" strategy="afterInteractive">
         {`
-          try {
-            if (!window.__vf_loaded) {
+          (function () {
+            try {
+              if (window.__vf_loaded) return;
               window.__vf_loaded = true;
-              window.voiceflow?.chat?.load({
-                verify: { projectID: '${PROJECT_ID}' },
-                url: 'https://general-runtime.voiceflow.com',
-                versionID: 'production',
-                // опционально:
-                assistant: { overlays: { branding: { visible: false } } },
-                allowIframe: true
-              });
+
+              function init() {
+                try {
+                  window.voiceflow?.chat?.load({
+                    verify: { projectID: '${PROJECT_ID}' },
+                    url: 'https://general-runtime.voiceflow.com',
+                    versionID: 'production',
+                    allowIframe: true,
+                    assistant: { overlays: { branding: { visible: false } } }
+                  });
+                } catch (e) {
+                  console.warn('Voiceflow load() error', e);
+                }
+              }
+
+              // если объект уже есть — сразу грузим,
+              // иначе ждём появления
+              if (window.voiceflow?.chat) {
+                init();
+              } else {
+                const iv = setInterval(() => {
+                  if (window.voiceflow?.chat) {
+                    clearInterval(iv);
+                    init();
+                  }
+                }, 50);
+                setTimeout(() => clearInterval(iv), 10000); // страховка
+              }
+            } catch (e) {
+              console.warn('Voiceflow init failed', e);
             }
-          } catch (e) {
-            console.warn('Voiceflow init failed', e);
-          }
+          })();
         `}
       </Script>
     </>
