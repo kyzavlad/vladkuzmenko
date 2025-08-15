@@ -2,23 +2,33 @@
 
 import Script from "next/script";
 
-// твой projectID
-const PROJECT_ID = "683dc9d2959a913e130af508";
-
 /**
- * Грузим СТАБИЛЬНУЮ сборку виджета как ES-модуль
- * и защищаемся от двойной инициализации.
+ * Voiceflow Webchat (V3) — безопасный загрузчик.
+ * - используем widget-next (актуальная версия)
+ * - грузим как ES-модуль
+ * - защита от двойной инициализации
+ * - не даёт ошибке уронить страницу
  */
+
+const PROJECT_ID = "683dc9d2959a913e130af508"; // твой ID
+
 export function VoiceflowScript() {
   return (
     <>
-      {/* Стабильный bundle (НЕ /widget-next/) */}
+      {/* 1) Загружаем V3 bundle как ES-модуль */}
       <Script
         id="vf-bundle"
         type="module"
+        src="https://cdn.voiceflow.com/widget-next/bundle.mjs"
+        crossOrigin="anonymous"
         strategy="afterInteractive"
-        src="https://cdn.voiceflow.com/widget/bundle.mjs"
+        onError={(e) => {
+          // не роняем страницу, если CDN отвалился
+          console.warn("Voiceflow bundle failed", e);
+        }}
       />
+
+      {/* 2) Инициализация — строго один раз */}
       <Script id="vf-init" type="module" strategy="afterInteractive">
         {`
           (function () {
@@ -28,31 +38,46 @@ export function VoiceflowScript() {
 
               function init() {
                 try {
-                  window.voiceflow?.chat?.load({
+                  // Защита от отсутствия объекта
+                  if (!window.voiceflow || !window.voiceflow.chat) return;
+
+                  window.voiceflow.chat.load({
                     verify: { projectID: '${PROJECT_ID}' },
                     url: 'https://general-runtime.voiceflow.com',
                     versionID: 'production',
                     allowIframe: true,
                     assistant: { overlays: { branding: { visible: false } } }
                   });
-                } catch (e) {
-                  console.warn('Voiceflow load() error', e);
+                } catch (err) {
+                  console.warn('Voiceflow load() error', err);
                 }
               }
 
-              // если объект уже есть — сразу грузим,
-              // иначе ждём появления
+              // ждём появления voiceflow.chat из модуля
               if (window.voiceflow?.chat) {
                 init();
               } else {
-                const iv = setInterval(() => {
+                var tries = 0;
+                var iv = setInterval(function () {
+                  tries++;
                   if (window.voiceflow?.chat) {
+                    clearInterval(iv); init();
+                  } else if (tries > 200) { // ~10s
                     clearInterval(iv);
-                    init();
+                    console.warn('Voiceflow did not expose chat in time');
                   }
                 }, 50);
-                setTimeout(() => clearInterval(iv), 10000); // страховка
               }
+
+              // мягко глушим возможные ошибки виджета, чтобы не рушить страницу
+              window.addEventListener('error', function (e) {
+                try {
+                  var src = (e && e.filename) || '';
+                  if (typeof src === 'string' && src.indexOf('voiceflow') !== -1) {
+                    e.preventDefault && e.preventDefault();
+                  }
+                } catch (_) {}
+              }, true);
             } catch (e) {
               console.warn('Voiceflow init failed', e);
             }
