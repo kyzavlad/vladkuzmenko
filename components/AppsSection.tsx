@@ -2,6 +2,10 @@
 
 import { ContactDialog } from "@/components/ui/contact-dialog";
 
+/**
+ * Обёртка с padding-top:56.25% гарантирует ровные 16:9.
+ * iframe растянут абсолютно — без обрезаний и вне зависимости от контента.
+ */
 export function AppsSection() {
   return (
     <section id="apps-section" className="w-full pt-2 pb-10 bg-background">
@@ -18,10 +22,9 @@ export function AppsSection() {
 
         {/* РЕСПОНСИВНАЯ 16:9 ОБЁРТКА */}
         <div className="mx-auto w-full max-w-6xl">
-          {/* padding-top:56.25% даёт гарантированную 16:9; iframe — абсолютный */}
           <div
             className="relative w-full overflow-hidden rounded-xl shadow-2xl bg-black"
-            style={{ paddingTop: "56.25%" }}  // 9/16
+            style={{ paddingTop: "56.25%" }} // 9/16
           >
             <iframe
               className="absolute inset-0 w-full h-full block"
