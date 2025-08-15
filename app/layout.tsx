@@ -13,28 +13,12 @@ import { Toaster } from '@/components/ui/toaster';
 // Лоадер
 function LoadingAnimation() {
   return (
-    <motion.div
-      initial={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
-      transition={{ duration: 0.5 }}
-      className="loading-animation"
-    >
-      <motion.div
-        initial={{ scale: 0.8, opacity: 0 }}
-        animate={{ scale: 1, opacity: 1 }}
-        transition={{ duration: 0.5 }}
-        className="flex flex-col items-center justify-center"
-      >
+    <motion.div initial={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.5 }} className="loading-animation">
+      <motion.div initial={{ scale: 0.8, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} transition={{ duration: 0.5 }} className="flex flex-col items-center justify-center">
         <div className="loading-logo mb-8">
-          <span className="text-4xl font-bold font-serif italic gold-gradient logo-underline">
-            VladKuzmenko
-          </span>
+          <span className="text-4xl font-bold font-serif italic gold-gradient logo-underline">VladKuzmenko</span>
         </div>
-        <div className="sound-wave">
-          {[...Array(5)].map((_, i) => (
-            <div key={i} className="sound-bar" />
-          ))}
-        </div>
+        <div className="sound-wave">{[...Array(5)].map((_, i) => (<div key={i} className="sound-bar" />))}</div>
       </motion.div>
     </motion.div>
   );
@@ -44,20 +28,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    const timer = setTimeout(() => setIsLoading(false), 1200);
+    const timer = setTimeout(() => setIsLoading(false), 1000);
     document.documentElement.classList.add('dark');
-
-    // На всякий: уберём возможные старые вставки V2/next-пакета,
-    // чтобы не было двойной инициализации
-    document
-      .querySelectorAll('script[src*="voiceflow"][src*="widget/bundle.mjs"],script[src*="voiceflow"][src*="widget-next/bundle.mjs"]')
-      .forEach((el) => {
-        // оставим только тот, что добавляет наш компонент
-        if (!(el as HTMLScriptElement).id || ((el as HTMLScriptElement).id !== 'vf-bundle')) {
-          el.parentNode?.removeChild(el as HTMLScriptElement);
-        }
-      });
-
     return () => clearTimeout(timer);
   }, []);
 
@@ -65,10 +37,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="en" className="dark">
       <head>
         <title>Vlad Kuzmenko | Building Systems for Freedom</title>
-        <meta
-          name="description"
-          content="The official hub for Vlad Kuzmenko's ecosystem: The University, Warriors Team, AI Automation Agency, and more."
-        />
+        <meta name="description" content="The official hub for Vlad Kuzmenko's ecosystem: The University, Warriors Team, AI Automation Agency, and more." />
         <link rel="icon" href="/VladKuzmenkoFavicon.png" />
 
         {/* Google Translate */}
@@ -82,42 +51,32 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             }
           `}
         </Script>
-        <Script
-          src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"
-          strategy="afterInteractive"
-        />
+        <Script src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit" strategy="afterInteractive" />
 
         <style>{`
-          .goog-te-banner-frame, .goog-te-menu-frame,
-          #google_translate_element, .goog-te-gadget, .goog-logo-link,
-          .goog-te-gadget-icon, .goog-te-combo { display: none !important; }
+          .goog-te-banner-frame, .goog-te-menu-frame, #google_translate_element,
+          .goog-te-gadget, .goog-logo-link, .goog-te-gadget-icon, .goog-te-combo { display: none !important; }
           body { top: 0 !important; }
-
           ::-webkit-scrollbar { width: 6px; }
           ::-webkit-scrollbar-track { background: rgba(255,255,255,0.05); }
           ::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 3px; }
           ::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,0.2); }
+
+          /* чтобы ничто не перекрывало кнопку чата */
+          #chatwoot-container, .shopping-cart-sidebar, .translate-switcher { z-index: 1000; }
         `}</style>
       </head>
-
       <body suppressHydrationWarning>
         <CartProvider>
           <AnimatePresence mode="wait">
             {isLoading ? (
               <LoadingAnimation key="loading" />
             ) : (
-              <motion.div
-                key="content"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ duration: 0.5 }}
-              >
+              <motion.div key="content" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.5 }}>
                 <div id="google_translate_element" className="hidden" />
                 {children}
-
-                {/* ✅ Чат-бот включен и загружается безопасно (V3) */}
+                {/* ✅ Чат-бот активен */}
                 <VoiceflowScript />
-
                 <TranslateSwitcher />
                 <ShoppingCartSidebar />
                 <Toaster />
