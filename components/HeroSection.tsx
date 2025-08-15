@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { PhoneCall, ArrowRight } from "lucide-react";
 import { ContactDialog } from "@/components/ui/contact-dialog";
 import { motion } from "framer-motion";
+import Script from "next/script";
 
 export function HeroSection() {
   const words = useMemo(
@@ -17,15 +18,15 @@ export function HeroSection() {
     return () => clearInterval(t);
   }, [words]);
 
-  // Публичный URL сцены Spline (iframe = максимально стабильный вариант)
-  const splinePublicUrl =
-    "https://my.spline.design/nexbotrobotcharacterconcept-WGVbB97K9BiuoLypIsx5Vt2U/";
+  // ТВОЙ scene.splinecode
+  const splineScene =
+    "https://prod.spline.design/tJ4jUZRp1dWv5A8l/scene.splinecode";
 
   return (
-    <section id="hero-section" className="w-full mt-[64px] md:mt-[72px] pb-2">
+    <section id="hero-section" className="w-full mt-[64px] md:mt-[72px] pb-1">
       <div className="container mx-auto px-4">
         <div className="flex flex-col md:flex-row items-center justify-between pt-8 md:pt-10 gap-6 md:gap-8">
-          {/* ЛЕВАЯ КОЛОНКА */}
+          {/* LEFT */}
           <div className="w-full md:w-5/12 md:pr-6">
             <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight">
               <span className="text-brand">AI automation</span>
@@ -53,11 +54,7 @@ export function HeroSection() {
             </p>
 
             <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-              <a
-                href="https://cal.com/vladkuzmenko.com/call"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
+              <a href="https://cal.com/vladkuzmenko.com/call" target="_blank" rel="noopener noreferrer">
                 <Button variant="outline" size="lg" className="flex items-center gap-2">
                   <PhoneCall className="h-4 w-4" />
                   Schedule a free consultation
@@ -71,8 +68,14 @@ export function HeroSection() {
             </div>
           </div>
 
-          {/* ПРАВАЯ КОЛОНКА — «толстый» блок робота */}
+          {/* RIGHT — «толстый» робот */}
           <div className="w-full md:w-7/12">
+            {/* загружаем web-component viewer один раз */}
+            <Script
+              src="https://unpkg.com/@splinetool/viewer@1.10.48/build/spline-viewer.js"
+              type="module"
+              strategy="afterInteractive"
+            />
             <div
               className="
                 relative w-full overflow-hidden rounded-3xl
@@ -80,13 +83,11 @@ export function HeroSection() {
                 h-[420px] sm:h-[520px] md:h-[640px] lg:h-[720px]
               "
             >
-              <iframe
-                src={splinePublicUrl}
-                title="3D Robot"
-                className="absolute inset-0 w-full h-full block"
-                frameBorder={0}
-                loading="eager"
-                allow="xr-spatial-tracking; fullscreen; accelerometer; magnetometer; gyroscope"
+              {/* сам viewer — растянут по контейнеру без «сжатия» */}
+              {/* @ts-ignore */}
+              <spline-viewer
+                url={splineScene}
+                style={{ position: "absolute", inset: 0, width: "100%", height: "100%" }}
               />
             </div>
           </div>
