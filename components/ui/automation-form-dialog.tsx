@@ -1,13 +1,10 @@
-
-"use client";
-
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { motion, AnimatePresence } from "framer-motion";
-import { ArrowRight, Loader2 } from "lucide-react";
+import { ArrowRight, Loader2, CheckCircle } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 interface AutomationFormDialogProps {
@@ -174,10 +171,21 @@ export function AutomationFormDialog({ children, className }: AutomationFormDial
   };
 
   const handleNext = () => {
+    if (!isStepValid()) {
+      alert("Please fill in all required fields");
+      return;
+    }
+    
     if (currentStep < formSteps.length - 1) {
       setCurrentStep(prev => prev + 1);
     } else {
       handleSubmit();
+    }
+  };
+
+  const handleBack = () => {
+    if (currentStep > 0) {
+      setCurrentStep(prev => prev - 1);
     }
   };
 
@@ -206,6 +214,7 @@ export function AutomationFormDialog({ children, className }: AutomationFormDial
       }
     } catch (error) {
       console.error("Form submission error:", error);
+      alert("There was an error submitting the form. Please try again.");
     } finally {
       setIsSubmitting(false);
     }
@@ -229,7 +238,7 @@ export function AutomationFormDialog({ children, className }: AutomationFormDial
                 <DialogTitle>Success</DialogTitle>
               </DialogHeader>
               <div className="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-full bg-brand/20 text-brand">
-                <ArrowRight className="h-6 w-6" />
+                <CheckCircle className="h-6 w-6" />
               </div>
               <h3 className="text-xl font-semibold mb-2">Thank you!</h3>
               <p className="text-muted-foreground">
@@ -304,7 +313,7 @@ export function AutomationFormDialog({ children, className }: AutomationFormDial
                 {currentStep > 0 && (
                   <Button
                     variant="outline"
-                    onClick={() => setCurrentStep(prev => prev - 1)}
+                    onClick={handleBack}
                     className="bg-black/50 border-white/10 hover:bg-white/5"
                   >
                     Back
