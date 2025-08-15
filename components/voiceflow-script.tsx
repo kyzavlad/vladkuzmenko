@@ -3,13 +3,12 @@
 import Script from "next/script";
 
 /**
- * РОВНО как в первой, рабочей версии (инлайновый сниппет Voiceflow docs).
- * Плюс защита от дублей, чтобы старые вставки не мешали.
+ * Изначальная рабочая схема Voiceflow: инлайновый сниппет.
+ * Добавлена мягкая зачистка дублей, чтобы ничего не мешало.
  */
 export function VoiceflowScript() {
   return (
     <>
-      {/* очистка старых вставок VF, если где-то остались */}
       <Script id="vf-clean" strategy="afterInteractive">
         {`
           try {
@@ -19,7 +18,7 @@ export function VoiceflowScript() {
             });
             document.querySelectorAll('script').forEach(function(s){
               var src = s.getAttribute('src') || '';
-              if (src.includes('voiceflow.com') && !/vf-inline/.test(s.id || '')) {
+              if (src.includes('voiceflow.com') && !/\\bvf-inline\\b/.test(s.id || '')) {
                 s.parentNode && s.parentNode.removeChild(s);
               }
             });
@@ -29,7 +28,6 @@ export function VoiceflowScript() {
         `}
       </Script>
 
-      {/* ИЗНАЧАЛЬНЫЙ СНИППЕТ (bundle.mjs + chat.load) */}
       <Script id="vf-inline" strategy="afterInteractive">
         {`
           (function(d, t) {
@@ -48,7 +46,6 @@ export function VoiceflowScript() {
                   assistant: { overlays: { branding: { visible: false } } }
                 });
 
-                // гарантируем видимость кнопки чата
                 var css = d.createElement('style');
                 css.innerHTML = ".vfrc-launcher,.vfrc-widget{z-index:2147483647!important}.vfrc-launcher{right:24px!important;bottom:96px!important}";
                 d.head.appendChild(css);
