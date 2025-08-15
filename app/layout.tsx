@@ -44,14 +44,19 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    const timer = setTimeout(() => setIsLoading(false), 2000);
+    const timer = setTimeout(() => setIsLoading(false), 1200);
     document.documentElement.classList.add('dark');
 
-    // на всякий — убираем возможные старые вставки voiceflow-next/bundle.mjs,
-    // но НЕ мешаем текущему loader'у
+    // На всякий: уберём возможные старые вставки V2/next-пакета,
+    // чтобы не было двойной инициализации
     document
-      .querySelectorAll('script[src*="voiceflow"][src*="widget-next"]')
-      .forEach((el) => el.parentNode?.removeChild(el as HTMLScriptElement));
+      .querySelectorAll('script[src*="voiceflow"][src*="widget/bundle.mjs"],script[src*="voiceflow"][src*="widget-next/bundle.mjs"]')
+      .forEach((el) => {
+        // оставим только тот, что добавляет наш компонент
+        if (!(el as HTMLScriptElement).id || ((el as HTMLScriptElement).id !== 'vf-bundle')) {
+          el.parentNode?.removeChild(el as HTMLScriptElement);
+        }
+      });
 
     return () => clearTimeout(timer);
   }, []);
@@ -88,7 +93,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           .goog-te-gadget-icon, .goog-te-combo { display: none !important; }
           body { top: 0 !important; }
 
-          /* minimal scrollbar */
           ::-webkit-scrollbar { width: 6px; }
           ::-webkit-scrollbar-track { background: rgba(255,255,255,0.05); }
           ::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 3px; }
@@ -110,8 +114,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               >
                 <div id="google_translate_element" className="hidden" />
                 {children}
-                {/* ✅ ЧАТ ВКЛЮЧЕН — стабильный загрузчик */}
+
+                {/* ✅ Чат-бот включен и загружается безопасно (V3) */}
                 <VoiceflowScript />
+
                 <TranslateSwitcher />
                 <ShoppingCartSidebar />
                 <Toaster />
