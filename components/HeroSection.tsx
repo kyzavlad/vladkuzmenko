@@ -17,7 +17,7 @@ export function HeroSection() {
     return () => clearInterval(t);
   }, [words]);
 
-  // Публичный URL из Spline (iframe — самый стабильный вариант)
+  // Публичный URL сцены Spline (iframe = максимально стабильный вариант)
   const splinePublicUrl =
     "https://my.spline.design/nexbotrobotcharacterconcept-WGVbB97K9BiuoLypIsx5Vt2U/";
 
@@ -25,7 +25,7 @@ export function HeroSection() {
     <section id="hero-section" className="w-full mt-[64px] md:mt-[72px] pb-2">
       <div className="container mx-auto px-4">
         <div className="flex flex-col md:flex-row items-center justify-between pt-8 md:pt-10 gap-6 md:gap-8">
-          {/* LEFT */}
+          {/* ЛЕВАЯ КОЛОНКА */}
           <div className="w-full md:w-5/12 md:pr-6">
             <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight">
               <span className="text-brand">AI automation</span>
@@ -53,7 +53,11 @@ export function HeroSection() {
             </p>
 
             <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-              <a href="https://cal.com/vladkuzmenko.com/call" target="_blank" rel="noopener noreferrer">
+              <a
+                href="https://cal.com/vladkuzmenko.com/call"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
                 <Button variant="outline" size="lg" className="flex items-center gap-2">
                   <PhoneCall className="h-4 w-4" />
                   Schedule a free consultation
@@ -67,7 +71,7 @@ export function HeroSection() {
             </div>
           </div>
 
-          {/* RIGHT — «толстый» робот без скриптов, только iframe */}
+          {/* ПРАВАЯ КОЛОНКА — «толстый» блок робота */}
           <div className="w-full md:w-7/12">
             <div
               className="
@@ -82,7 +86,6 @@ export function HeroSection() {
                 className="absolute inset-0 w-full h-full block"
                 frameBorder={0}
                 loading="eager"
-                // Дадим максимум возможностей, чтобы сцена масштабировалась нормально
                 allow="xr-spatial-tracking; fullscreen; accelerometer; magnetometer; gyroscope"
               />
             </div>
