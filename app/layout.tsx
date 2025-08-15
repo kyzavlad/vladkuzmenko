@@ -10,7 +10,6 @@ import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Toaster } from '@/components/ui/toaster';
 
-// Лоадер
 function LoadingAnimation() {
   return (
     <motion.div initial={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.5 }} className="loading-animation">
@@ -28,9 +27,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    const timer = setTimeout(() => setIsLoading(false), 1000);
+    const t = setTimeout(() => setIsLoading(false), 1000);
     document.documentElement.classList.add('dark');
-    return () => clearTimeout(timer);
+    return () => clearTimeout(t);
   }, []);
 
   return (
@@ -61,9 +60,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           ::-webkit-scrollbar-track { background: rgba(255,255,255,0.05); }
           ::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 3px; }
           ::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,0.2); }
-
-          /* чтобы ничто не перекрывало кнопку чата */
-          #chatwoot-container, .shopping-cart-sidebar, .translate-switcher { z-index: 1000; }
         `}</style>
       </head>
       <body suppressHydrationWarning>
