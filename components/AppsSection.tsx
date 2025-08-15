@@ -4,7 +4,7 @@ import { ContactDialog } from "@/components/ui/contact-dialog";
 
 export function AppsSection() {
   return (
-    <section id="apps-section" className="w-full pt-3 pb-10 bg-background">
+    <section id="apps-section" className="w-full pt-2 pb-8 bg-background">
       <div className="container mx-auto px-4">
         <div className="text-center mb-4">
           <h2 className="text-3xl md:text-4xl font-bold mb-2 text-gradient">
@@ -16,10 +16,14 @@ export function AppsSection() {
           </p>
         </div>
 
-        {/* ✅ Обычный YouTube embed, ширина контейнера увеличена, высота «толстая» */}
+        {/* YouTube на широком контейнере и с «толстой» высотой */}
         <div className="mx-auto w-full max-w-7xl">
-          <div className="relative w-full overflow-hidden rounded-xl shadow-2xl bg-black
-                          h-[240px] sm:h-[320px] md:h-[420px] lg:h-[520px]">
+          <div
+            className="
+              relative w-full overflow-hidden rounded-xl shadow-2xl bg-black
+              h-[260px] sm:h-[360px] md:h-[480px] lg:h-[560px]
+            "
+          >
             <iframe
               className="absolute inset-0 w-full h-full block"
               src="https://www.youtube.com/embed/ZEEfv3zrsXk?rel=0&modestbranding=1&playsinline=1"
@@ -28,7 +32,6 @@ export function AppsSection() {
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
               allowFullScreen
               referrerPolicy="strict-origin-when-cross-origin"
-              onError={() => { /* no-op */ }}
             />
           </div>
         </div>
