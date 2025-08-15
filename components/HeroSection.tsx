@@ -6,6 +6,7 @@ import { ContactDialog } from "@/components/ui/contact-dialog";
 import { useState, useEffect, useMemo } from "react";
 import { cn } from "@/lib/utils";
 import { motion } from "framer-motion";
+import { Spotlight } from "@/components/ui/spotlight";
 
 export function HeroSection() {
   
@@ -105,33 +106,24 @@ export function HeroSection() {
             </div>
           </div>
 
-          {/* Right content - РАБОЧИЙ 3D РОБОТ */}
+          {/* Right content - 3D Model FIXED */}
           <div className="w-full md:w-1/2 h-[500px] md:h-[600px]">
             <div className="w-full h-full rounded-3xl relative overflow-hidden bg-gradient-to-br from-gray-900 via-black to-gray-900">
-              {/* Fallback gradient background */}
-              <div className="absolute inset-0 bg-gradient-to-br from-amber-500/10 via-transparent to-amber-500/5" />
-              
-              {/* Spline 3D Model */}
-              <script 
-                type="module" 
-                src="https://unpkg.com/@splinetool/viewer@1.9.48/build/spline-viewer.js"
-                defer
-              />
-              <spline-viewer 
-                url="https://prod.spline.design/tJ4jUZRp1dWv5A8l/scene.splinecode"
-                style={{
-                  width: '100%',
-                  height: '100%',
-                  position: 'absolute',
-                  top: 0,
-                  left: 0,
-                }}
-              />
-              
-              {/* Loading state overlay that disappears when Spline loads */}
-              <div className="absolute inset-0 flex items-center justify-center bg-black/50 animate-pulse pointer-events-none">
-                <div className="text-amber-500/50 text-sm">Loading 3D Model...</div>
+              {/* Fallback background while loading */}
+              <div className="absolute inset-0 flex items-center justify-center">
+                <div className="text-gray-600">Loading 3D Model...</div>
               </div>
+              
+              {/* Spline iframe - проверьте что URL правильный! */}
+              <iframe
+                src="https://my.spline.design/untitled-5de45dd36b8e8396bb00e9b889cbdcb9/"
+                frameBorder="0"
+                width="100%"
+                height="100%"
+                className="absolute inset-0 w-full h-full"
+                loading="eager"
+                title="3D Robot Animation"
+              />
             </div>
           </div>
         </div>
@@ -139,3 +131,12 @@ export function HeroSection() {
     </div>
   );
 }
+
+/* 
+ПРОВЕРКА SPLINE:
+1. Зайдите в ваш Spline аккаунт: https://spline.design
+2. Найдите вашу модель робота
+3. Нажмите Share → Public URL
+4. Скопируйте правильный URL и вставьте в src="" выше
+5. Убедитесь что модель опубликована (Published)
+*/
