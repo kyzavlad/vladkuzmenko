@@ -5,7 +5,10 @@ import { Button } from "@/components/ui/button";
 import { PhoneCall, ArrowRight } from "lucide-react";
 import { ContactDialog } from "@/components/ui/contact-dialog";
 import { motion } from "framer-motion";
-import Spline from "@splinetool/react-spline/next";
+import dynamic from "next/dynamic";
+
+// ✅ ВАЖНО: правильный импорт без /next и с отключенным SSR
+const Spline = dynamic(() => import("@splinetool/react-spline"), { ssr: false });
 
 export function HeroSection() {
   const words = useMemo(
@@ -18,7 +21,6 @@ export function HeroSection() {
     return () => clearInterval(t);
   }, [words]);
 
-  // ТВОЙ scene.splinecode:
   const sceneUrl = "https://prod.spline.design/tJ4jUZRp1dWv5A8l/scene.splinecode";
 
   return (
@@ -66,20 +68,18 @@ export function HeroSection() {
             </div>
           </div>
 
-          {/* RIGHT — «толстый» блок робота */}
+          {/* RIGHT — фиксированная высота, «толстый» блок */}
           <div className="w-full md:w-7/12">
             <div
               className="relative w-full overflow-hidden rounded-3xl bg-gradient-to-br from-gray-900 via-black to-gray-900 shadow-2xl"
-              // фиксируем визуальную высоту на брейкпоинтах
-              // (без aspect-ratio, чтобы точно не «ползало»)
-              // можно подстроить цифры под вкус
-              style={{ height: "420px" }}
+              style={{ height: "520px" }}
             >
               <div className="absolute inset-0">
                 <Spline scene={sceneUrl} />
               </div>
             </div>
           </div>
+
         </div>
       </div>
     </section>
