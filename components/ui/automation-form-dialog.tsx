@@ -311,8 +311,8 @@ export function AutomationFormDialog({ children, className }: AutomationFormDial
                 ))}
               </div>
 
-              {/* КНОПКИ НАВИГАЦИИ - ЗОЛОТАЯ КНОПКА CONTINUE В ЛЕВОМ НИЖНЕМ УГЛУ */}
-              <div className="mt-8 flex justify-between items-center">
+              {/* ИСПРАВЛЕННЫЕ КНОПКИ НАВИГАЦИИ - ВСЕ КНОПКИ СЛЕВА */}
+              <div className="mt-8 flex items-center gap-4">
                 {currentStep > 0 && (
                   <Button
                     variant="outline"
@@ -324,7 +324,7 @@ export function AutomationFormDialog({ children, className }: AutomationFormDial
                   </Button>
                 )}
                 
-                {/* ЗОЛОТАЯ КНОПКА CONTINUE/SUBMIT */}
+                {/* ЗОЛОТАЯ КНОПКА CONTINUE/SUBMIT - ТЕПЕРЬ ВСЕГДА СЛЕВА */}
                 <Button
                   onClick={handleNext}
                   disabled={!isStepValid() || isSubmitting}
@@ -334,8 +334,8 @@ export function AutomationFormDialog({ children, className }: AutomationFormDial
                     "text-black font-semibold",
                     "shadow-lg shadow-amber-500/20",
                     "border border-amber-400/50",
-                    "disabled:opacity-50 disabled:cursor-not-allowed",
-                    currentStep === 0 ? "ml-0" : "ml-auto"
+                    "disabled:opacity-50 disabled:cursor-not-allowed"
+                    // Убрали ml-auto - теперь кнопка всегда слева
                   )}
                 >
                   {isSubmitting ? (
