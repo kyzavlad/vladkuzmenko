@@ -38,7 +38,7 @@ export function VoiceflowScript() {
             v.onload = function() {
               try {
                 window.voiceflow && window.voiceflow.chat && window.voiceflow.chat.load({
-                  verify: { projectID: '683dc9d2959a913e130af508' },
+                  verify: { projectID: '68c159075f4b2160b7d6f348' },
                   url: 'https://general-runtime.voiceflow.com',
                   versionID: 'production',
                   voice: { url: 'https://runtime-api.voiceflow.com' },
