@@ -5,25 +5,35 @@ import { motion } from 'framer-motion';
 import { ArrowRight } from 'lucide-react';
 import { Button } from './ui/button';
 import Image from 'next/image';
+import { ContactDialog } from '@/components/ui/contact-dialog';
 
 export const PersonalBrandHero = () => {
+  const handleScroll = (id: string) => {
+    if (typeof document === 'undefined') return;
+    const el = document.getElementById(id);
+    if (el) el.scrollIntoView({ behavior: 'smooth' });
+  };
+
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-black">
-      {/* Background Image with Explosion Mask */}
+      {/* Background image */}
       <div className="absolute inset-0">
         <div className="absolute inset-0 bg-black">
           <Image
             src="/warriors-yacht-meeting.jpg"
-            alt="Warriors Yacht Meeting"
-            layout="fill"
-            objectFit="cover"
+            alt="Warriors private meeting"
+            fill
             priority
-            className="opacity-40" // Управляем прозрачностью самого изображения
+            className="object-cover opacity-40"
           />
         </div>
 
-        {/* ВАШ ОРИГИНАЛЬНЫЙ SVG-КОД МАСКИ ПОЛНОСТЬЮ СОХРАНЕН */}
-        <svg className="absolute inset-0 w-full h-full" viewBox="0 0 1920 1080" preserveAspectRatio="none">
+        {/* Explosion mask placeholder (kept for future motion / FX if needed) */}
+        <svg
+          className="absolute inset-0 w-full h-full"
+          viewBox="0 0 1920 1080"
+          preserveAspectRatio="none"
+        >
           <defs>
             <mask id="explosionMask">
               <rect width="100%" height="100%" fill="white" />
@@ -35,12 +45,16 @@ export const PersonalBrandHero = () => {
                 <stop offset="100%" stopColor="black" stopOpacity="0" />
               </radialGradient>
               <circle cx="50%" cy="50%" r="60%" fill="url(#explosion)" />
-              
+
               <g transform="translate(960, 540)">
                 {[...Array(12)].map((_, i) => (
                   <path
                     key={i}
-                    d={`M 0,0 L ${200 + Math.random() * 100},${-20 + Math.random() * 40} L ${180 + Math.random() * 100},${20 + Math.random() * 40} Z`}
+                    d={`M 0,0 L ${200 + Math.random() * 100},${
+                      -20 + Math.random() * 40
+                    } L ${180 + Math.random() * 100},${
+                      20 + Math.random() * 40
+                    } Z`}
                     fill="white"
                     opacity="0.7"
                     transform={`rotate(${i * 30})`}
@@ -49,119 +63,137 @@ export const PersonalBrandHero = () => {
               </g>
             </mask>
           </defs>
-          
-          {/* Этот элемент был в вашем коде, я его оставляю, он применяет маску */}
-          {/* <rect width="100%" height="100%" fill="black" /> */}
-          {/* <rect width="100%" height="100%" fill="url(#bgImage)" mask="url(#explosionMask)" /> */}
+          {/* Mask usage is currently not applied – background is handled by Image + overlay */}
         </svg>
-        
-        {/* ИСПРАВЛЕНО: Вместо градиента - равномерное затемнение */}
+
+        {/* Global dark overlay */}
         <div className="absolute inset-0 bg-black/50" />
       </div>
 
-      {/* Gradient Orbs */}
+      {/* Gradient orbs */}
       <div className="absolute inset-0 z-0">
         <div className="absolute top-1/4 -left-1/4 w-[40%] h-[40%] bg-gradient-radial from-amber-600/10 via-orange-600/5 to-transparent blur-3xl animate-pulse" />
         <div className="absolute bottom-1/4 -right-1/4 w-[40%] h-[40%] bg-gradient-radial from-yellow-600/10 via-amber-600/5 to-transparent blur-3xl animate-pulse delay-1000" />
       </div>
-      
-      {/* Весь ваш оригинальный контент остается без изменений */}
+
+      {/* Content */}
       <div className="relative z-10 container mx-auto px-6 h-screen flex flex-col justify-center items-center text-center">
         <div className="flex-grow flex flex-col justify-center items-center">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+            className="space-y-8"
+          >
+            {/* Top pill */}
+            <motion.div
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.5 }}
+              className="inline-flex items-center gap-2 bg-amber-400/10 text-amber-300 px-4 py-2 rounded-full backdrop-blur-sm"
+            >
+              <span className="animate-pulse w-2 h-2 bg-amber-400 rounded-full" />
+              <span className="text-sm font-medium">
+                Personal brand • AI automation • Education
+              </span>
+            </motion.div>
+
+            {/* Name + subheadline */}
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 1, delay: 0.2 }}
+            >
+              <div
+                className="section-title-wrapper"
+                data-title="VLAD KUZMENKO"
+              >
+                <h1 className="text-5xl md:text-7xl lg:text-8xl font-black mb-4 tracking-tight">
+                  <span className="bg-gradient-to-r from-amber-300 via-yellow-400 to-amber-500 bg-clip-text text-transparent animate-gradient-gold">
+                    VLAD KUZMENKO
+                  </span>
+                </h1>
+              </div>
+              <p className="text-base md:text-lg text-gray-300 max-w-2xl mx-auto">
+                Building a global ecosystem of AI systems, content and education
+                for people who refuse an average life.
+              </p>
+            </motion.div>
+
+            {/* Single main CTA */}
+            <motion.div
+              className="flex flex-col sm:flex-row gap-4 justify-center"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.4 }}
+            >
+              <ContactDialog triggerText="">
+                <Button
+                  size="lg"
+                  className="bg-gradient-to-r from-amber-400 to-yellow-600 text-black font-semibold hover:scale-105 transition-transform min-w-[220px]"
+                >
+                  Book a strategy call
+                  <ArrowRight className="ml-2 w-5 h-5" />
+                </Button>
+              </ContactDialog>
+            </motion.div>
+
+            {/* Stats */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8 }}
-              className="space-y-8"
+              transition={{ duration: 0.8, delay: 0.6 }}
+              className="grid grid-cols-3 gap-8 max-w-4xl mx-auto pt-12"
             >
-              <motion.div
-                initial={{ opacity: 0, scale: 0.9 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.5 }}
-                className="inline-flex items-center gap-2 bg-amber-400/10 text-amber-400 px-4 py-2 rounded-full backdrop-blur-sm"
-              >
-                <span className="animate-pulse w-2 h-2 bg-amber-400 rounded-full"></span>
-                <span className="text-sm font-medium">Welcome to the Warriors Movement</span>
-              </motion.div>
-
-              <motion.h1 
-                className="text-5xl md:text-7xl lg:text-8xl font-bold relative"
-                initial={{ opacity: 0, y: 30 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 1, delay: 0.2 }}
-              >
-                <div className="section-title-wrapper" data-title="VLAD KUZMENKO">
-                  <h1 className="text-5xl md:text-7xl lg:text-8xl font-black mb-8 tracking-tight">
-                    <span className="bg-gradient-to-r from-amber-300 via-yellow-400 to-amber-500 bg-clip-text text-transparent animate-gradient-x">
-                      VLAD KUZMENKO
-                    </span>
-                  </h1>
-                </div>
-              </motion.h1>
-
-              <motion.div 
-                className="flex flex-col sm:flex-row gap-4 justify-center"
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8, delay: 0.4 }}
-              >
-                <Button 
-                  size="lg" 
-                  className="bg-gradient-to-r from-amber-400 to-yellow-600 text-black font-semibold hover:scale-105 transition-transform"
-                >
-                  Join Elite Community
-                  <ArrowRight className="ml-2 w-5 h-5" />
-                </Button>
-                
-                <Button 
-                  size="lg" 
-                  variant="outline" 
-                  className="border-amber-400/50 text-amber-400 hover:bg-amber-400/10"
-                >
-                  Start Learning
-                  <ArrowRight className="ml-2 w-5 h-5" />
-                </Button>
-              </motion.div>
-
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8, delay: 0.6 }}
-                className="grid grid-cols-3 gap-8 max-w-4xl mx-auto pt-12"
-              >
-                <div className="text-center">
-                  <h3 className="text-3xl md:text-4xl font-bold text-amber-400 animate-pulse-gold">47+</h3>
-                  <p className="text-gray-400 mt-2">Countries</p>
-                </div>
-                <div className="text-center">
-                  <h3 className="text-3xl md:text-4xl font-bold text-amber-400 animate-pulse-gold delay-300">10,000+</h3>
-                  <p className="text-gray-400 mt-2">Warriors</p>
-                </div>
-                <div className="text-center">
-                  <h3 className="text-3xl md:text-4xl font-bold text-amber-400 animate-pulse-gold delay-500">24/7</h3>
-                  <p className="text-gray-400 mt-2">Community</p>
-                </div>
-              </motion.div>
+              <div className="text-center">
+                <h3 className="text-3xl md:text-4xl font-bold text-amber-400 animate-pulse-gold">
+                  47+
+                </h3>
+                <p className="text-gray-400 mt-2">Countries reached</p>
+              </div>
+              <div className="text-center">
+                <h3 className="text-3xl md:text-4xl font-bold text-amber-400 animate-pulse-gold delay-300">
+                  10,000+
+                </h3>
+                <p className="text-gray-400 mt-2">People in the ecosystem</p>
+              </div>
+              <div className="text-center">
+                <h3 className="text-3xl md:text-4xl font-bold text-amber-400 animate-pulse-gold delay-500">
+                  24/7
+                </h3>
+                <p className="text-gray-400 mt-2">Content & automation</p>
+              </div>
+            </motion.div>
           </motion.div>
         </div>
 
-        <motion.div 
+        {/* Scroll hint */}
+        <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 1, delay: 1 }}
           className="w-full pb-4"
         >
           <div className="w-6 h-10 border-2 border-amber-400/50 rounded-full flex justify-center mx-auto">
-            <div className="w-1 h-3 bg-amber-400 rounded-full mt-2 animate-bounce" />
+            <button
+              type="button"
+              aria-label="Scroll to The University"
+              onClick={() => handleScroll('education')}
+              className="w-full h-full flex justify-center"
+            >
+              <div className="w-1 h-3 bg-amber-400 rounded-full mt-2 animate-bounce" />
+            </button>
           </div>
-          <p className="text-xs text-gray-500 mt-2">Discover Your Success Path</p>
+          <p className="text-xs text-gray-500 mt-2">
+            Scroll to see The University and the full ecosystem
+          </p>
         </motion.div>
       </div>
 
       <style jsx>{`
-        /* Ваш оригинальный CSS для анимаций остается здесь */
         @keyframes gradient-gold {
-          0%, 100% {
+          0%,
+          100% {
             background-position: 0% 50%;
             filter: brightness(1);
           }
@@ -178,9 +210,10 @@ export const PersonalBrandHero = () => {
             filter: brightness(1.3);
           }
         }
-        
+
         @keyframes pulse-gold {
-          0%, 100% {
+          0%,
+          100% {
             opacity: 1;
             transform: scale(1);
           }
@@ -189,20 +222,20 @@ export const PersonalBrandHero = () => {
             transform: scale(1.05);
           }
         }
-        
+
         .animate-gradient-gold {
           background-size: 200% 200%;
           animation: gradient-gold 3s ease infinite;
         }
-        
+
         .animate-pulse-gold {
           animation: pulse-gold 2s ease-in-out infinite;
         }
-        
+
         .delay-300 {
           animation-delay: 300ms;
         }
-        
+
         .delay-500 {
           animation-delay: 500ms;
         }
