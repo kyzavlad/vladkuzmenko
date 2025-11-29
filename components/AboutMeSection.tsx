@@ -1,107 +1,134 @@
 'use client';
 
 import React from 'react';
-import { ArrowRight } from 'lucide-react';
-import { Button } from './ui/button';
+import { motion } from 'framer-motion';
 
-export function AboutMeSection() {
+export const AboutMeSection = () => {
   return (
-    <section
-      id="about"
-      className="py-20 md:py-28 bg-background border-t border-border/40"
-    >
-      <div className="container mx-auto px-4 max-w-5xl">
-        <div className="mb-8 text-sm uppercase tracking-[0.25em] text-muted-foreground">
-          ABOUT VLAD
-        </div>
-
-        <div className="grid gap-10 md:grid-cols-[1.4fr,1fr] items-start">
-          {/* Left column – main story */}
-          <div className="space-y-6">
-            <h2 className="text-3xl md:text-4xl font-semibold tracking-tight">
-              Building a real life, not just a “personal brand”
+    <section className="relative py-24 md:py-32 bg-black">
+      <div className="container mx-auto px-4">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="max-w-6xl mx-auto"
+        >
+          {/* Section Header */}
+          <div className="text-center mb-16">
+            <h2 className="text-4xl md:text-6xl font-bold mb-6">
+              Meet <span className="gradient-gold-text">Vlad Kuzmenko</span>
             </h2>
-
-            <p className="text-base md:text-lg text-muted-foreground leading-relaxed">
-              I&apos;m Vlad Kuzmenko, 18 y/o entrepreneur from Ukraine.
-              I build systems that combine{' '}
-              <span className="font-semibold text-foreground">
-                AI automation, content, and real business
-              </span>{' '}
-              – first for myself, then for clients.
+            <p className="text-xl text-gray-400 max-w-3xl mx-auto">
+              Entrepreneur, AI Pioneer, and Leader of the Warriors Movement
             </p>
-
-            <p className="text-base text-muted-foreground leading-relaxed">
-              This platform is not about “quick hacks”.
-              It&apos;s a long–term ecosystem where I document how I build:
-              an AI agency, SaaS products, content machines and, in the future,
-              a full education platform and private community.
-            </p>
-
-            <p className="text-base text-muted-foreground leading-relaxed">
-              Everything you see here – website, automations, assistants,
-              systems – is built in real time. You can learn from it,
-              plug into it, or hire me to build something similar for your brand.
-            </p>
-
-            <div className="flex flex-wrap gap-3 pt-2 text-sm text-muted-foreground">
-              <span className="inline-flex items-center rounded-full border border-border/60 px-3 py-1">
-                AI Automation & Voice / Chat Assistants
-              </span>
-              <span className="inline-flex items-center rounded-full border border-border/60 px-3 py-1">
-                Short-form content systems
-              </span>
-              <span className="inline-flex items-center rounded-full border border-border/60 px-3 py-1">
-                SaaS & workflow design
-              </span>
-            </div>
           </div>
 
-          {/* Right column – “ecosystem” summary */}
-          <div className="space-y-5 rounded-2xl border border-border/60 bg-card/60 p-5 md:p-6 backdrop-blur">
-            <h3 className="text-lg font-semibold">
-              What this ecosystem gives you
-            </h3>
+          {/* Content Grid */}
+          <div className="grid lg:grid-cols-2 gap-12 items-center">
+            {/* Text Content */}
+            <motion.div
+              initial={{ opacity: 0, x: -20 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              className="space-y-6"
+            >
+              <h3 className="text-3xl font-bold">
+                From Vision to <span className="gradient-gold-text">Reality</span>
+              </h3>
+              
+              <p className="text-gray-300 text-lg leading-relaxed">
+                My journey began with a simple belief: that technology should empower people, 
+                not replace them. Today, I lead a global movement of entrepreneurs who are 
+                reshaping the business landscape through AI and automation.
+              </p>
+              
+              <p className="text-gray-300 text-lg leading-relaxed">
+                The Warriors Team isn't just about business success—it's about creating a 
+                community where innovation meets execution, where dreams transform into 
+                sustainable enterprises.
+              </p>
 
-            <ul className="space-y-3 text-sm text-muted-foreground">
-              <li>
-                <span className="text-foreground font-medium">The University – </span>
-                structured lessons on content, AI and building systems.
-              </li>
-              <li>
-                <span className="text-foreground font-medium">AI Automation Agency – </span>
-                done–for–you builds for car dealerships, e-commerce and expert brands.
-              </li>
-              <li>
-                <span className="text-foreground font-medium">Content Platform – </span>
-                auto-clipping, repurposing and distribution for YouTube & socials.
-              </li>
-              <li>
-                <span className="text-foreground font-medium">Warriors Team – </span>
-                small, selective community for people who actually execute.
-              </li>
-            </ul>
+              <div className="space-y-4 pt-6">
+                <div className="flex items-start gap-4">
+                  <div className="w-12 h-12 bg-gradient-to-br from-amber-400 to-yellow-600 rounded-lg flex items-center justify-center flex-shrink-0">
+                    <span className="text-black font-bold">01</span>
+                  </div>
+                  <div>
+                    <h4 className="font-semibold text-xl mb-2">Visionary Leadership</h4>
+                    <p className="text-gray-400">
+                      Guiding entrepreneurs to leverage AI for exponential growth
+                    </p>
+                  </div>
+                </div>
+                
+                <div className="flex items-start gap-4">
+                  <div className="w-12 h-12 bg-gradient-to-br from-amber-400 to-yellow-600 rounded-lg flex items-center justify-center flex-shrink-0">
+                    <span className="text-black font-bold">02</span>
+                  </div>
+                  <div>
+                    <h4 className="font-semibold text-xl mb-2">Community First</h4>
+                    <p className="text-gray-400">
+                      Building a brotherhood of success-driven individuals worldwide
+                    </p>
+                  </div>
+                </div>
+                
+                <div className="flex items-start gap-4">
+                  <div className="w-12 h-12 bg-gradient-to-br from-amber-400 to-yellow-600 rounded-lg flex items-center justify-center flex-shrink-0">
+                    <span className="text-black font-bold">03</span>
+                  </div>
+                  <div>
+                    <h4 className="font-semibold text-xl mb-2">Proven Results</h4>
+                    <p className="text-gray-400">
+                      Transforming ideas into profitable ventures through strategic automation
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </motion.div>
 
-            <div className="pt-2">
-              <Button
-                asChild
-                variant="outline"
-                className="w-full justify-between text-sm md:text-base"
+            {/* Featured Image */}
+            <motion.div
+              initial={{ opacity: 0, x: 20 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              className="relative"
+            >
+              <div className="relative rounded-2xl overflow-hidden glow-effect">
+                <img
+                  src="/warriors-leaders.jpg"
+                  alt="Vlad Kuzmenko"
+                  className="w-full h-auto"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
+              </div>
+              
+              {/* Floating stats */}
+              <motion.div
+                initial={{ opacity: 0, scale: 0.8 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                viewport={{ once: true }}
+                transition={{ delay: 0.3 }}
+                className="absolute -bottom-6 -left-6 bg-black/90 backdrop-blur-xl border border-amber-400/30 rounded-xl p-6"
               >
-                <a href="#education">
-                  Start with The University
-                  <ArrowRight className="h-4 w-4 ml-2" />
-                </a>
-              </Button>
-            </div>
-
-            <p className="text-xs text-muted-foreground">
-              You can always book a call from the navigation if you prefer
-              to speak directly and map out your system together.
-            </p>
+                <div className="text-3xl font-bold gradient-gold-text">47+</div>
+                <div className="text-gray-400 text-sm">Countries Reached</div>
+              </motion.div>
+              
+              <motion.div
+                initial={{ opacity: 0, scale: 0.8 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                viewport={{ once: true }}
+                transition={{ delay: 0.4 }}
+                className="absolute -top-6 -right-6 bg-black/90 backdrop-blur-xl border border-amber-400/30 rounded-xl p-6"
+              >
+                <div className="text-3xl font-bold gradient-gold-text">24/7</div>
+                <div className="text-gray-400 text-sm">Community Support</div>
+              </motion.div>
+            </motion.div>
           </div>
-        </div>
+        </motion.div>
       </div>
     </section>
   );
-}
+};
