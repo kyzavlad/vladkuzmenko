@@ -1,212 +1,114 @@
 'use client';
 
-import React from 'react';
-import { motion } from 'framer-motion';
-import { ArrowRight } from 'lucide-react';
 import { Button } from './ui/button';
-import Image from 'next/image';
+import { ContactDialog } from './ui/contact-dialog';
+import { ArrowRight, Play } from 'lucide-react';
+import { motion } from 'framer-motion';
 
-export const PersonalBrandHero = () => {
+export function PersonalBrandHero() {
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-black">
-      {/* Background Image with Explosion Mask */}
-      <div className="absolute inset-0">
-        <div className="absolute inset-0 bg-black">
-          <Image
-            src="/warriors-yacht-meeting.jpg"
-            alt="Warriors Yacht Meeting"
-            layout="fill"
-            objectFit="cover"
-            priority
-            className="opacity-40" // Управляем прозрачностью самого изображения
-          />
-        </div>
-
-        {/* ВАШ ОРИГИНАЛЬНЫЙ SVG-КОД МАСКИ ПОЛНОСТЬЮ СОХРАНЕН */}
-        <svg className="absolute inset-0 w-full h-full" viewBox="0 0 1920 1080" preserveAspectRatio="none">
-          <defs>
-            <mask id="explosionMask">
-              <rect width="100%" height="100%" fill="white" />
-              <radialGradient id="explosion" cx="50%" cy="50%">
-                <stop offset="0%" stopColor="white" stopOpacity="1" />
-                <stop offset="30%" stopColor="white" stopOpacity="0.9" />
-                <stop offset="50%" stopColor="white" stopOpacity="0.7" />
-                <stop offset="70%" stopColor="white" stopOpacity="0.3" />
-                <stop offset="100%" stopColor="black" stopOpacity="0" />
-              </radialGradient>
-              <circle cx="50%" cy="50%" r="60%" fill="url(#explosion)" />
-              
-              <g transform="translate(960, 540)">
-                {[...Array(12)].map((_, i) => (
-                  <path
-                    key={i}
-                    d={`M 0,0 L ${200 + Math.random() * 100},${-20 + Math.random() * 40} L ${180 + Math.random() * 100},${20 + Math.random() * 40} Z`}
-                    fill="white"
-                    opacity="0.7"
-                    transform={`rotate(${i * 30})`}
-                  />
-                ))}
-              </g>
-            </mask>
-          </defs>
-          
-          {/* Этот элемент был в вашем коде, я его оставляю, он применяет маску */}
-          {/* <rect width="100%" height="100%" fill="black" /> */}
-          {/* <rect width="100%" height="100%" fill="url(#bgImage)" mask="url(#explosionMask)" /> */}
-        </svg>
-        
-        {/* ИСПРАВЛЕНО: Вместо градиента - равномерное затемнение */}
-        <div className="absolute inset-0 bg-black/50" />
+    <section className="relative min-h-[640px] md:min-h-[80vh] bg-gradient-to-b from-black via-zinc-950 to-black pt-24 md:pt-32 overflow-hidden">
+      {/* Background effects */}
+      <div className="absolute inset-0 pointer-events-none">
+        <div className="absolute -top-32 left-1/2 -translate-x-1/2 w-[90%] h-[90%] bg-[radial-gradient(circle_at_top,_rgba(212,175,55,0.35),transparent_65%)]" />
+        <div className="absolute inset-0 bg-[linear-gradient(to_bottom,_rgba(0,0,0,0.25),_rgba(0,0,0,0.95))]" />
       </div>
 
-      {/* Gradient Orbs */}
-      <div className="absolute inset-0 z-0">
-        <div className="absolute top-1/4 -left-1/4 w-[40%] h-[40%] bg-gradient-radial from-amber-600/10 via-orange-600/5 to-transparent blur-3xl animate-pulse" />
-        <div className="absolute bottom-1/4 -right-1/4 w-[40%] h-[40%] bg-gradient-radial from-yellow-600/10 via-amber-600/5 to-transparent blur-3xl animate-pulse delay-1000" />
-      </div>
-      
-      {/* Весь ваш оригинальный контент остается без изменений */}
-      <div className="relative z-10 container mx-auto px-6 h-screen flex flex-col justify-center items-center text-center">
-        <div className="flex-grow flex flex-col justify-center items-center">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8 }}
-              className="space-y-8"
+      <div className="relative z-10 container mx-auto px-4">
+        <div className="flex flex-col items-center text-center">
+          {/* Badge */}
+          <motion.div
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.15 }}
+            className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-1 text-[11px] md:text-xs uppercase tracking-[0.25em] mb-6"
+          >
+            <span className="h-1.5 w-1.5 rounded-full bg-amber-400" />
+            <span>Welcome to the Warriors movement</span>
+          </motion.div>
+
+          {/* Name */}
+          <motion.h1
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.25 }}
+            className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-black tracking-tight mb-4"
+          >
+            <span className="gold-gradient">VLAD KUZMENKO</span>
+          </motion.h1>
+
+          {/* Subheadline */}
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.35 }}
+            className="max-w-3xl text-base md:text-lg text-muted-foreground mb-8"
+          >
+            AI automation, content infrastructure and education for people who want leverage instead of
+            busywork. One ecosystem: agency, tools and The University.
+          </motion.p>
+
+          {/* CTA buttons */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.45 }}
+            className="flex flex-col sm:flex-row items-center gap-3 mb-10"
+          >
+            <ContactDialog triggerText="Get started">
+              <Button className="premium-button px-8 h-11 text-sm md:text-base">
+                <ArrowRight className="mr-2 h-4 w-4" />
+                Book a strategy call
+              </Button>
+            </ContactDialog>
+
+            <Button
+              variant="outline"
+              className="border-zinc-700 bg-black/40 hover:bg-black/70 text-sm md:text-base px-6 h-11"
+              asChild
             >
-              <motion.div
-                initial={{ opacity: 0, scale: 0.9 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.5 }}
-                className="inline-flex items-center gap-2 bg-amber-400/10 text-amber-400 px-4 py-2 rounded-full backdrop-blur-sm"
-              >
-                <span className="animate-pulse w-2 h-2 bg-amber-400 rounded-full"></span>
-                <span className="text-sm font-medium">Welcome to the Warriors Movement</span>
-              </motion.div>
+              <a href="#education">
+                <Play className="mr-2 h-4 w-4" />
+                Explore The University
+              </a>
+            </Button>
+          </motion.div>
 
-              <motion.h1 
-                className="text-5xl md:text-7xl lg:text-8xl font-bold relative"
-                initial={{ opacity: 0, y: 30 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 1, delay: 0.2 }}
-              >
-                <div className="section-title-wrapper" data-title="VLAD KUZMENKO">
-                  <h1 className="text-5xl md:text-7xl lg:text-8xl font-black mb-8 tracking-tight">
-                    <span className="bg-gradient-to-r from-amber-300 via-yellow-400 to-amber-500 bg-clip-text text-transparent animate-gradient-x">
-                      VLAD KUZMENKO
-                    </span>
-                  </h1>
-                </div>
-              </motion.h1>
+          {/* Stats */}
+          <motion.div
+            initial={{ opacity: 0, y: 15 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.55 }}
+            className="grid grid-cols-3 gap-6 md:gap-10 text-xs md:text-sm text-muted-foreground"
+          >
+            <div className="text-left sm:text-center">
+              <div className="text-xl md:text-2xl font-semibold text-amber-400 mb-1">47+</div>
+              <div>countries in the network</div>
+            </div>
+            <div className="text-left sm:text-center">
+              <div className="text-xl md:text-2xl font-semibold text-amber-400 mb-1">10,000+</div>
+              <div>people reached across brand & systems</div>
+            </div>
+            <div className="text-left sm:text-center">
+              <div className="text-xl md:text-2xl font-semibold text-amber-400 mb-1">24/7</div>
+              <div>focus on builders, not spectators</div>
+            </div>
+          </motion.div>
 
-              <motion.div 
-                className="flex flex-col sm:flex-row gap-4 justify-center"
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8, delay: 0.4 }}
-              >
-                <Button 
-                  size="lg" 
-                  className="bg-gradient-to-r from-amber-400 to-yellow-600 text-black font-semibold hover:scale-105 transition-transform"
-                >
-                  Join Elite Community
-                  <ArrowRight className="ml-2 w-5 h-5" />
-                </Button>
-                
-                <Button 
-                  size="lg" 
-                  variant="outline" 
-                  className="border-amber-400/50 text-amber-400 hover:bg-amber-400/10"
-                >
-                  Start Learning
-                  <ArrowRight className="ml-2 w-5 h-5" />
-                </Button>
-              </motion.div>
-
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8, delay: 0.6 }}
-                className="grid grid-cols-3 gap-8 max-w-4xl mx-auto pt-12"
-              >
-                <div className="text-center">
-                  <h3 className="text-3xl md:text-4xl font-bold text-amber-400 animate-pulse-gold">47+</h3>
-                  <p className="text-gray-400 mt-2">Countries</p>
-                </div>
-                <div className="text-center">
-                  <h3 className="text-3xl md:text-4xl font-bold text-amber-400 animate-pulse-gold delay-300">10,000+</h3>
-                  <p className="text-gray-400 mt-2">Warriors</p>
-                </div>
-                <div className="text-center">
-                  <h3 className="text-3xl md:text-4xl font-bold text-amber-400 animate-pulse-gold delay-500">24/7</h3>
-                  <p className="text-gray-400 mt-2">Community</p>
-                </div>
-              </motion.div>
+          {/* Scroll hint */}
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.7 }}
+            className="mt-10 flex flex-col items-center gap-2 text-xs text-muted-foreground"
+          >
+            <div className="h-10 w-6 rounded-full border border-zinc-700 flex items-start justify-center p-1">
+              <div className="h-2 w-1 rounded-full bg-amber-400 animate-bounce" />
+            </div>
+            <span>Discover your path below</span>
           </motion.div>
         </div>
-
-        <motion.div 
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 1, delay: 1 }}
-          className="w-full pb-4"
-        >
-          <div className="w-6 h-10 border-2 border-amber-400/50 rounded-full flex justify-center mx-auto">
-            <div className="w-1 h-3 bg-amber-400 rounded-full mt-2 animate-bounce" />
-          </div>
-          <p className="text-xs text-gray-500 mt-2">Discover Your Success Path</p>
-        </motion.div>
       </div>
-
-      <style jsx>{`
-        /* Ваш оригинальный CSS для анимаций остается здесь */
-        @keyframes gradient-gold {
-          0%, 100% {
-            background-position: 0% 50%;
-            filter: brightness(1);
-          }
-          25% {
-            background-position: 50% 50%;
-            filter: brightness(1.2);
-          }
-          50% {
-            background-position: 100% 50%;
-            filter: brightness(1.1);
-          }
-          75% {
-            background-position: 50% 50%;
-            filter: brightness(1.3);
-          }
-        }
-        
-        @keyframes pulse-gold {
-          0%, 100% {
-            opacity: 1;
-            transform: scale(1);
-          }
-          50% {
-            opacity: 0.8;
-            transform: scale(1.05);
-          }
-        }
-        
-        .animate-gradient-gold {
-          background-size: 200% 200%;
-          animation: gradient-gold 3s ease infinite;
-        }
-        
-        .animate-pulse-gold {
-          animation: pulse-gold 2s ease-in-out infinite;
-        }
-        
-        .delay-300 {
-          animation-delay: 300ms;
-        }
-        
-        .delay-500 {
-          animation-delay: 500ms;
-        }
-      `}</style>
     </section>
   );
-};
+}
