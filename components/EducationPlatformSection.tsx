@@ -1,121 +1,166 @@
-'use client';
+"use client";
 
-import React, { useState } from 'react';
-import { Button } from './ui/button';
-import { CheckCircle, ShoppingCart, Star, Users, Trophy, Zap, BookOpen, Target, Brain, Rocket, TrendingUp, Award, DollarSign, Clock, Shield } from 'lucide-react';
-import { motion } from 'framer-motion';
-import { SmartRecommendation } from './SmartRecommendation';
-import { useCart } from '../context/cart-context';
-import { useToast } from '../hooks/use-toast';
+import React, { useState } from "react";
+import { Button } from "./ui/button";
+import {
+  CheckCircle,
+  ShoppingCart,
+  Star,
+  Users,
+  Trophy,
+  Zap,
+  BookOpen,
+  Target,
+  Brain,
+  Rocket,
+  TrendingUp,
+  Award,
+  DollarSign,
+  Clock,
+  Shield,
+} from "lucide-react";
+import { motion } from "framer-motion";
+import { SmartRecommendation } from "./SmartRecommendation";
+import { useCart } from "../context/cart-context";
+import { useToast } from "../hooks/use-toast";
 
-// Campus data
+// Кампусы — без жёстких сроков, только фокус
 const campuses = [
-  { 
-    title: 'AI & Automation Mastery', 
-    description: 'Build intelligent systems that work 24/7. Master prompt engineering, workflow automation, and API integration.',
+  {
+    title: "AI & Automation Mastery",
+    description:
+      "Собираем рабочие AI-системы: агенты, звонки, автоворонки, интеграции с n8n и сервисами.",
     icon: <Zap className="h-8 w-8 text-[#D4AF37]" />,
-    modules: 12,
-    duration: '8 weeks'
+    modules: "15+ практических модулей",
+    format: "Self-paced, с регулярными обновлениями",
   },
-  { 
-    title: 'Content Creation Empire', 
-    description: 'Turn content into currency. Master viral storytelling, video production, and audience psychology.',
+  {
+    title: "Content Creation Empire",
+    description:
+      "Короткий и длинный контент под деньги: структура роликов, сценарии, монтаж, виральность.",
     icon: <Target className="h-8 w-8 text-[#D4AF37]" />,
-    modules: 10,
-    duration: '6 weeks'
+    modules: "12+ модулей по контенту",
+    format: "Практика + готовые шаблоны",
   },
-  { 
-    title: 'Sales Psychology', 
-    description: 'Close deals like a master. Learn advanced persuasion, objection handling, and value communication.',
+  {
+    title: "Sales Psychology",
+    description:
+      "Как продавать свои услуги/продукты: офферы, скрипты, возражения, закрытие на деньги.",
     icon: <Trophy className="h-8 w-8 text-[#D4AF37]" />,
-    modules: 8,
-    duration: '4 weeks'
+    modules: "10+ модулей по продажам",
+    format: "Реальные фреймворки, не теория",
   },
-  { 
-    title: 'E-commerce Domination', 
-    description: 'Build stores that print money. Product research, paid ads mastery, and scaling strategies.',
+  {
+    title: "E-commerce Domination",
+    description:
+      "Стратегия для магазинов: выбор ниш, креативы, трафик, аналитика и масштабирование.",
     icon: <ShoppingCart className="h-8 w-8 text-[#D4AF37]" />,
-    modules: 15,
-    duration: '10 weeks'
+    modules: "15+ модулей для магазинов",
+    format: "Фокус на прибыль, а не трафик ради трафика",
   },
-  { 
-    title: 'Warrior Mindset', 
-    description: 'Forge unbreakable discipline. Peak performance protocols, time mastery, and mental fortitude.',
+  {
+    title: "Warrior Mindset",
+    description:
+      "Дисциплина, режим, тело, голова. Как не сливать энергию и держать фокус на деле.",
     icon: <BookOpen className="h-8 w-8 text-[#D4AF37]" />,
-    modules: 6,
-    duration: '4 weeks'
+    modules: "Практические протоколы и чек-листы",
+    format: "Жизнь + гормоны + нервная система",
   },
-  { 
-    title: 'Wealth Building', 
-    description: 'Master money like the elite. Investment strategies, market psychology, and wealth preservation.',
+  {
+    title: "Wealth Building",
+    description:
+      "Деньги после первых результатов: управление кэшем, риск, защита, долгий горизонт.",
     icon: <Users className="h-8 w-8 text-[#D4AF37]" />,
-    modules: 12,
-    duration: '8 weeks'
+    modules: "Базовая структура по капиталу",
+    format: "Без финсоветов, только рамки мышления",
   },
 ];
 
-// Success Journey Steps
+// Путь ученика
 const journeySteps = [
   {
-    phase: "Foundation",
+    phase: "Start",
     icon: <BookOpen className="w-6 h-6" />,
-    title: "Master the Fundamentals",
-    description: "Learn battle-tested strategies from real entrepreneurs",
-    features: ["Live weekly calls", "24/7 community support", "Proven frameworks"]
+    title: "Определяем точку А",
+    description: "Ты выбираешь кампус и формат: учиться, строить систему или оба.",
+    features: ["Карта пути", "Доступ ко всем материалам", "Стартовое задание"],
   },
   {
-    phase: "Implementation",
+    phase: "Build",
     icon: <Rocket className="w-6 h-6" />,
-    title: "Launch Your Empire",
-    description: "Apply what you learn with step-by-step guidance",
-    features: ["Done-for-you templates", "Personal mentorship", "Real-world projects"]
+    title: "Собираем рабочую систему",
+    description:
+      "Ты внедряешь уроки в реальный проект: агентство, магазин, личный бренд.",
+    features: ["Шаблоны и скрипты", "Технические разборы", "Обратная связь в чате"],
   },
   {
-    phase: "Scaling",
+    phase: "Scale",
     icon: <TrendingUp className="w-6 h-6" />,
-    title: "Accelerate Growth",
-    description: "Scale your business to 6-7 figures and beyond",
-    features: ["Advanced strategies", "Network access", "Funding opportunities"]
+    title: "Масштабируем результат",
+    description:
+      "После первых денег усиливаем трафик, автоматизацию и делегирование.",
+    features: ["Продвинутые стратегии", "Кейсы из практики", "Подходы к найму"],
   },
   {
-    phase: "Mastery",
+    phase: "Network",
     icon: <Award className="w-6 h-6" />,
-    title: "Achieve Freedom",
-    description: "Build passive income and live life on your terms",
-    features: ["Exit strategies", "Wealth preservation", "Legacy building"]
-  }
+    title: "Окружение и новые уровни",
+    description:
+      "Подключаешься к Warriors Team и двигаешься вместе с теми, кто тоже строит.",
+    features: ["Закрытые созвоны", "Сильное окружение", "Совместные цели"],
+  },
 ];
 
-// Platform Benefits
+// Бенефиты платформы
 const platformBenefits = [
   {
-    icon: <Clock className="w-8 h-8 text-amber-400" />,
-    title: "Lifetime Access",
-    description: "Never pay again. Get all future updates and new courses forever."
+    icon: <Brain className="w-8 h-8 text-amber-400" />,
+    title: "Практика вместо теории",
+    description:
+      "Материалы идут из реальных систем: агентство, контент, автоматизация клиентов.",
   },
   {
-    icon: <Shield className="w-8 h-8 text-amber-400" />,
-    title: "30-Day Guarantee",
-    description: "Not satisfied? Get a full refund within 30 days, no questions asked."
+    icon: <Clock className="w-8 h-8 text-amber-400" />,
+    title: "Гибкий формат",
+    description:
+      "Уроки в записи + обновления. Можно проходить в своём темпе и возвращаться к материалам.",
   },
   {
     icon: <Users className="w-8 h-8 text-amber-400" />,
-    title: "Elite Network",
-    description: "Connect with 10,000+ successful entrepreneurs worldwide."
+    title: "Комьюнити",
+    description:
+      "Закрытый чат и созвоны — не остаёшься один на один с теорией.",
   },
   {
-    icon: <DollarSign className="w-8 w-8 text-amber-400" />,
-    title: "ROI Focused",
-    description: "Average student makes back investment within 60 days."
-  }
+    icon: <Shield className="w-8 h-8 text-amber-400" />,
+    title: "Прозрачный оффер",
+    description:
+      "Никаких «гарантий миллионов». Есть система, работа и честные ожидания.",
+  },
 ];
 
-// Success Statistics
+// Адекватные статсы
 const successStats = [
-  { value: "$2.3M", label: "Average Annual Revenue", description: "per advanced student" },
-  { value: "87%", label: "Success Rate", description: "students earning $10k+/mo" },
-  { value: "6-12", label: "Weeks to Profit", description: "average time to first sale" },
-  { value: "47+", label: "Countries", description: "global warrior community" }
+  {
+    value: "10+",
+    label: "реальных систем",
+    description: "AI-агенты, автоворонки и контент-пайплайны",
+  },
+  {
+    value: "100+",
+    label: "уроков и разборов",
+    description: "по AI, контенту, продажам и e-commerce",
+  },
+  {
+    value: "47+",
+    label: "стран",
+    description: "где есть ученики и клиенты",
+  },
+  {
+    value: "24/7",
+    label: "доступ",
+    description: "к платформе и материалам",
+  },
 ];
 
 export const EducationPlatformSection = () => {
@@ -123,41 +168,44 @@ export const EducationPlatformSection = () => {
   const [selectedCampus, setSelectedCampus] = useState(0);
   const [showRecommendation, setShowRecommendation] = useState(false);
   const { toast } = useToast();
-  
+
   const theUniversityProduct = {
-    id: 'university-monthly',
-    name: "The University - Monthly",
-    price: 97.00,
-    image: '/university-preview.jpg'
+    id: "university-membership-monthly",
+    name: "The University – Monthly",
+    price: 49.0,
+    image: "/university-preview.jpg",
   };
 
   const handleAddToCart = () => {
     addToCart({
       ...theUniversityProduct,
-      quantity: 1
+      quantity: 1,
     });
-    
+
     toast({
-      title: "Added to cart!",
-      description: "The University - Monthly subscription",
+      title: "Added to cart",
+      description: "The University – Monthly membership ($49)",
       duration: 3000,
     });
-    
+
     setIsCartOpen(true);
   };
 
   return (
-    <section id="education" className="py-24 md:py-32 bg-background relative overflow-hidden">
-      {/* Background Effects */}
+    <section
+      id="education"
+      className="py-24 md:py-32 bg-background relative overflow-hidden"
+    >
+      {/* Фон */}
       <div className="absolute inset-0 opacity-10">
-        <div className="absolute top-[20%] -right-[10%] w-[50%] h-[50%] bg-gradient-radial from-[#D4AF37] to-transparent blur-3xl"></div>
-        <div className="absolute -bottom-[20%] -left-[10%] w-[40%] h-[40%] bg-gradient-radial from-[#B8860B] to-transparent blur-3xl"></div>
+        <div className="absolute top-[20%] -right-[10%] w-[50%] h-[50%] bg-gradient-radial from-[#D4AF37] to-transparent blur-3xl" />
+        <div className="absolute -bottom-[20%] -left-[10%] w-[40%] h-[40%] bg-gradient-radial from-[#B8860B] to-transparent blur-3xl" />
       </div>
-      
+
       <div className="container mx-auto relative z-10">
         <div className="max-w-7xl mx-auto">
-          {/* Header */}
-          <motion.div 
+          {/* Заголовок */}
+          <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
@@ -167,12 +215,17 @@ export const EducationPlatformSection = () => {
               THE <span className="gold-gradient">UNIVERSITY</span>
             </h2>
             <p className="text-2xl md:text-3xl font-semibold mb-6 text-foreground/90 max-w-4xl mx-auto">
-              Traditional education creates employees. We create <span className="font-bold text-foreground">empire builders</span>.
+              Не классическое образование, а{" "}
+              <span className="font-bold text-foreground">
+                система навыков вокруг денег и свободы
+              </span>
+              .
             </p>
             <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
-              Get access to the exact systems and strategies that generate millions in revenue.
+              Кампусы по AI, контенту, продажам, e-commerce и мышлению. Всё
+              построено вокруг реальных проектов, а не презентаций.
             </p>
-            
+
             <div className="mt-6 flex justify-center">
               <Button
                 variant="outline"
@@ -180,60 +233,68 @@ export const EducationPlatformSection = () => {
                 className="border-[#D4AF37] text-[#D4AF37] hover:bg-[#D4AF37]/10"
               >
                 <Brain className="mr-2 h-4 w-4" />
-                Get Personalized Campus Recommendation
+                Pick the right campus for me
               </Button>
             </div>
           </motion.div>
 
-          {/* Success Journey Visualization */}
+          {/* Journey */}
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             className="mb-32"
           >
-            <h3 className="text-3xl font-bold text-center mb-16">Your Journey to <span className="gradient-gold-text">Financial Freedom</span></h3>
-            
-            <div> 
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-                {journeySteps.map((step, index) => (
-                  <motion.div
-                    key={step.phase}
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ delay: index * 0.2 }}
-                    className="relative"
-                  >
-                    <div className="absolute -top-4 -left-4 w-12 h-12 bg-gradient-to-br from-amber-400 to-yellow-600 rounded-full flex items-center justify-center font-bold text-black text-lg z-10">
-                      {index + 1}
+            <h3 className="text-3xl font-bold text-center mb-16">
+              Как ты двигаешься внутри{" "}
+              <span className="gradient-gold-text">The University</span>
+            </h3>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+              {journeySteps.map((step, index) => (
+                <motion.div
+                  key={step.phase}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: index * 0.2 }}
+                  className="relative"
+                >
+                  <div className="absolute -top-4 -left-4 w-12 h-12 bg-gradient-to-br from-amber-400 to-yellow-600 rounded-full flex items-center justify-center font-bold text-black text-lg z-10">
+                    {index + 1}
+                  </div>
+
+                  <div className="bg-zinc-900/50 border border-zinc-800 rounded-2xl p-8 hover:border-amber-400/50 transition-all duration-300 h-full">
+                    <div className="w-12 h-12 bg-amber-400/10 rounded-lg flex items-center justify-center mb-4 text-amber-400">
+                      {step.icon}
                     </div>
-                    
-                    <div className="bg-zinc-900/50 border border-zinc-800 rounded-2xl p-8 hover:border-amber-400/50 transition-all duration-300 h-full">
-                      <div className="w-12 h-12 bg-amber-400/10 rounded-lg flex items-center justify-center mb-4 text-amber-400">
-                        {step.icon}
-                      </div>
-                      
-                      <span className="text-sm text-amber-400 font-medium">{step.phase}</span>
-                      <h4 className="text-xl font-bold mt-2 mb-3">{step.title}</h4>
-                      <p className="text-gray-400 mb-4">{step.description}</p>
-                      
-                      <ul className="space-y-2">
-                        {step.features.map((feature) => (
-                          <li key={feature} className="flex items-center gap-2 text-sm text-gray-300">
-                            <CheckCircle className="w-4 h-4 text-green-500 flex-shrink-0" />
-                            <span>{feature}</span>
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                  </motion.div>
-                ))}
-              </div>
+
+                    <span className="text-sm text-amber-400 font-medium">
+                      {step.phase}
+                    </span>
+                    <h4 className="text-xl font-bold mt-2 mb-3">
+                      {step.title}
+                    </h4>
+                    <p className="text-gray-400 mb-4">{step.description}</p>
+
+                    <ul className="space-y-2">
+                      {step.features.map((feature) => (
+                        <li
+                          key={feature}
+                          className="flex items-center gap-2 text-sm text-gray-300"
+                        >
+                          <CheckCircle className="w-4 h-4 text-green-500 flex-shrink-0" />
+                          <span>{feature}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                </motion.div>
+              ))}
             </div>
           </motion.div>
 
-          {/* Success Statistics */}
+          {/* Статистика */}
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -250,15 +311,21 @@ export const EducationPlatformSection = () => {
                   transition={{ delay: index * 0.1 }}
                   className="text-center"
                 >
-                  <div className="text-4xl md:text-5xl font-bold gradient-gold-text mb-2">{stat.value}</div>
-                  <div className="text-lg font-semibold mb-1">{stat.label}</div>
-                  <div className="text-sm text-gray-400">{stat.description}</div>
+                  <div className="text-4xl md:text-5xl font-bold gradient-gold-text mb-2">
+                    {stat.value}
+                  </div>
+                  <div className="text-lg font-semibold mb-1">
+                    {stat.label}
+                  </div>
+                  <div className="text-sm text-gray-400">
+                    {stat.description}
+                  </div>
                 </motion.div>
               ))}
             </div>
           </motion.div>
 
-          {/* Campus Showcase */}
+          {/* Кампусы */}
           <div className="grid lg:grid-cols-2 gap-12 items-start mb-24">
             <div className="space-y-4">
               {campuses.map((campus, index) => (
@@ -270,20 +337,26 @@ export const EducationPlatformSection = () => {
                   transition={{ delay: index * 0.1 }}
                   onClick={() => setSelectedCampus(index)}
                   className={`p-6 rounded-xl border cursor-pointer transition-all duration-300 hover-lift ${
-                    selectedCampus === index 
-                      ? 'bg-gradient-to-r from-[#D4AF37]/20 to-[#B8860B]/10 border-[#D4AF37]/50' 
-                      : 'bg-zinc-900/50 border-zinc-800 hover:border-zinc-700'
+                    selectedCampus === index
+                      ? "bg-gradient-to-r from-[#D4AF37]/20 to-[#B8860B]/10 border-[#D4AF37]/50"
+                      : "bg-zinc-900/50 border-zinc-800 hover:border-zinc-700"
                   }`}
                 >
                   <div className="flex items-start gap-4">
                     <div className="flex-shrink-0">{campus.icon}</div>
                     <div className="flex-grow">
-                      <h3 className="text-xl font-bold mb-2">{campus.title}</h3>
-                      <p className="text-gray-400 text-sm mb-3">{campus.description}</p>
-                      <div className="flex gap-4 text-sm">
-                        <span className="text-[#D4AF37]">{campus.modules} modules</span>
+                      <h3 className="text-xl font-bold mb-2">
+                        {campus.title}
+                      </h3>
+                      <p className="text-gray-400 text-sm mb-3">
+                        {campus.description}
+                      </p>
+                      <div className="flex flex-wrap gap-3 text-sm">
+                        <span className="text-[#D4AF37]">
+                          {campus.modules}
+                        </span>
                         <span className="text-gray-500">•</span>
-                        <span className="text-gray-400">{campus.duration}</span>
+                        <span className="text-gray-400">{campus.format}</span>
                       </div>
                     </div>
                   </div>
@@ -291,65 +364,74 @@ export const EducationPlatformSection = () => {
               ))}
             </div>
 
-            {/* Preview Card */}
+            {/* Превью-карточка */}
             <motion.div
               initial={{ opacity: 0, scale: 0.95 }}
               whileInView={{ opacity: 1, scale: 1 }}
               viewport={{ once: true }}
               className="sticky top-20 bg-gradient-to-br from-zinc-900 to-zinc-950 rounded-2xl p-8 border border-zinc-800 premium-shadow"
             >
-              <div className="mb-6">{campuses[selectedCampus].icon}</div>
-              <h3 className="text-3xl font-bold mb-4">{campuses[selectedCampus].title}</h3>
-              <p className="text-gray-300 mb-6">{campuses[selectedCampus].description}</p>
-              
-              <div className="space-y-4 mb-8">
+              <div className="mb-6">
+                {campuses[selectedCampus].icon}
+              </div>
+              <h3 className="text-3xl font-bold mb-4">
+                {campuses[selectedCampus].title}
+              </h3>
+              <p className="text-gray-300 mb-6">
+                {campuses[selectedCampus].description}
+              </p>
+
+              <div className="space-y-3 mb-8 text-sm text-gray-300">
                 <div className="flex items-center gap-3">
                   <CheckCircle className="h-5 w-5 text-green-500" />
-                  <span>Lifetime access to all content</span>
+                  <span>Доступ ко всем кампусам в одном членстве</span>
                 </div>
                 <div className="flex items-center gap-3">
                   <CheckCircle className="h-5 w-5 text-green-500" />
-                  <span>Weekly live Q&A sessions</span>
+                  <span>Регулярные обновления и новые уроки</span>
                 </div>
                 <div className="flex items-center gap-3">
                   <CheckCircle className="h-5 w-5 text-green-500" />
-                  <span>Private community access</span>
+                  <span>Закрытое сообщество и созвоны</span>
                 </div>
                 <div className="flex items-center gap-3">
                   <CheckCircle className="h-5 w-5 text-green-500" />
-                  <span>Direct mentor support</span>
+                  <span>Шаблоны, скрипты и чек-листы под внедрение</span>
                 </div>
               </div>
 
               <div className="flex items-baseline gap-2 mb-6">
-                <span className="text-4xl font-bold">$97</span>
+                <span className="text-4xl font-bold">$49</span>
                 <span className="text-gray-400">/month</span>
               </div>
 
-              <Button 
-                size="lg" 
+              <Button
+                size="lg"
                 className="w-full bg-gradient-to-r from-[#D4AF37] to-[#B8860B] hover:from-[#B8860B] hover:to-[#D4AF37] text-black glow-effect"
                 onClick={handleAddToCart}
               >
-                <ShoppingCart className="mr-2 h-5 w-5" /> 
-                Enroll Now
+                <ShoppingCart className="mr-2 h-5 w-5" />
+                Join The University – $49/month
               </Button>
-              
+
               <p className="text-xs text-gray-500 text-center mt-4">
-                Cancel anytime. 30-day money-back guarantee.
+                Оплата через Payoneer или PayPal. Можно отменить в любой момент.
               </p>
             </motion.div>
           </div>
 
-          {/* Platform Benefits */}
+          {/* Бенефиты */}
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             className="mb-24"
           >
-            <h3 className="text-3xl font-bold text-center mb-12">Why Warriors Choose <span className="gradient-gold-text">The University</span></h3>
-            
+            <h3 className="text-3xl font-bold text-center mb-12">
+              Почему ребята выбирают{" "}
+              <span className="gradient-gold-text">The University</span>
+            </h3>
+
             <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
               {platformBenefits.map((benefit, index) => (
                 <motion.div
@@ -363,41 +445,45 @@ export const EducationPlatformSection = () => {
                   <div className="inline-flex items-center justify-center w-16 h-16 bg-amber-400/10 rounded-full mb-4">
                     {benefit.icon}
                   </div>
-                  <h4 className="text-xl font-bold mb-2">{benefit.title}</h4>
+                  <h4 className="text-xl font-bold mb-2">
+                    {benefit.title}
+                  </h4>
                   <p className="text-gray-400">{benefit.description}</p>
                 </motion.div>
               ))}
             </div>
           </motion.div>
 
-          {/* Final CTA */}
+          {/* Финальный CTA */}
           <motion.div
             initial={{ opacity: 0, scale: 0.95 }}
             whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: true }}
             className="text-center bg-gradient-to-r from-[#D4AF37]/10 to-[#B8860B]/10 rounded-2xl p-12 border border-[#D4AF37]/20"
           >
-            <h3 className="text-4xl font-bold mb-4">Ready to Level Up?</h3>
+            <h3 className="text-4xl font-bold mb-4">
+              Хочешь не мотивацию, а систему?
+            </h3>
             <p className="text-xl text-gray-300 mb-8 max-w-2xl mx-auto">
-              Join 10,000+ students who are building their empires with The University.
+              Вход в The University — это доступ к тем же принципам и
+              пайплайнам, на которых строится агентство и твой личный бренд.
             </p>
-            {/* ИСПРАВЛЕНО: Добавлены классы для центрирования */}
             <div className="flex justify-center">
-                <Button 
-                  size="lg" 
-                  className="bg-gradient-to-r from-[#D4AF37] to-[#B8860B] hover:from-[#B8860B] hover:to-[#D4AF37] text-black px-12 py-6 text-lg glow-effect"
-                  onClick={handleAddToCart}
-                >
-                  Get Instant Access - $97/month
-                </Button>
+              <Button
+                size="lg"
+                className="bg-gradient-to-r from-[#D4AF37] to-[#B8860B] hover:from-[#B8860B] hover:to-[#D4AF37] text-black px-12 py-6 text-lg glow-effect"
+                onClick={handleAddToCart}
+              >
+                Get Instant Access – $49/month
+              </Button>
             </div>
           </motion.div>
         </div>
       </div>
 
-      {/* Smart Recommendation Modal */}
+      {/* Модал рекомендаций */}
       {showRecommendation && (
-        <SmartRecommendation 
+        <SmartRecommendation
           onClose={() => setShowRecommendation(false)}
           onSelect={(index) => {
             setSelectedCampus(index);
