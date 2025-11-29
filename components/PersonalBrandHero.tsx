@@ -2,10 +2,9 @@
 
 import React from 'react';
 import { motion } from 'framer-motion';
-import { ArrowRight } from 'lucide-react';
+import { ArrowRight, MoveRight } from 'lucide-react';
 import { Button } from './ui/button';
 import Image from 'next/image';
-import { ContactDialog } from '@/components/ui/contact-dialog';
 
 export const PersonalBrandHero = () => {
   const handleScroll = (id: string) => {
@@ -21,14 +20,15 @@ export const PersonalBrandHero = () => {
         <div className="absolute inset-0 bg-black">
           <Image
             src="/warriors-yacht-meeting.jpg"
-            alt="Warriors private meeting"
-            fill
+            alt="Private warriors meeting"
+            layout="fill"
+            objectFit="cover"
             priority
-            className="object-cover opacity-40"
+            className="opacity-40"
           />
         </div>
 
-        {/* Explosion mask placeholder (kept for future motion / FX if needed) */}
+        {/* Explosion mask placeholder (kept for future FX if needed) */}
         <svg
           className="absolute inset-0 w-full h-full"
           viewBox="0 0 1920 1080"
@@ -63,10 +63,9 @@ export const PersonalBrandHero = () => {
               </g>
             </mask>
           </defs>
-          {/* Mask usage is currently not applied – background is handled by Image + overlay */}
         </svg>
 
-        {/* Global dark overlay */}
+        {/* Dark overlay */}
         <div className="absolute inset-0 bg-black/50" />
       </div>
 
@@ -94,11 +93,11 @@ export const PersonalBrandHero = () => {
             >
               <span className="animate-pulse w-2 h-2 bg-amber-400 rounded-full" />
               <span className="text-sm font-medium">
-                Personal brand • AI automation • Education
+                Education • AI systems • Community • Products
               </span>
             </motion.div>
 
-            {/* Name + subheadline */}
+            {/* Name + main message */}
             <motion.div
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
@@ -115,35 +114,83 @@ export const PersonalBrandHero = () => {
                 </h1>
               </div>
               <p className="text-base md:text-lg text-gray-300 max-w-2xl mx-auto">
-                Building a global ecosystem of AI systems, content and education
-                for people who refuse an average life.
+                A complete ecosystem of education, AI automation, community and
+                elite products for people who refuse an average life.
               </p>
             </motion.div>
 
-            {/* Single main CTA */}
+            {/* Two main paths */}
             <motion.div
               className="flex flex-col sm:flex-row gap-4 justify-center"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.4 }}
             >
-              <ContactDialog triggerText="">
-                <Button
-                  size="lg"
-                  className="bg-gradient-to-r from-amber-400 to-yellow-600 text-black font-semibold hover:scale-105 transition-transform min-w-[220px]"
-                >
-                  Book a strategy call
-                  <ArrowRight className="ml-2 w-5 h-5" />
-                </Button>
-              </ContactDialog>
+              <Button
+                size="lg"
+                className="bg-gradient-to-r from-amber-400 to-yellow-600 text-black font-semibold hover:scale-105 transition-transform min-w-[220px]"
+                onClick={() => handleScroll('education')}
+              >
+                Start with The University
+                <ArrowRight className="ml-2 w-5 h-5" />
+              </Button>
+
+              <Button
+                size="lg"
+                variant="outline"
+                className="border-amber-400/50 text-amber-300 hover:bg-amber-400/10 min-w-[220px]"
+                onClick={() => handleScroll('automation-teaser')}
+              >
+                See automation & systems
+                <ArrowRight className="ml-2 w-5 h-5" />
+              </Button>
+            </motion.div>
+
+            {/* Ecosystem chips (other business models) */}
+            <motion.div
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.7, delay: 0.6 }}
+              className="flex flex-wrap items-center justify-center gap-2 text-xs md:text-sm text-gray-400 max-w-3xl mx-auto"
+            >
+              <span className="uppercase tracking-[0.16em] text-gray-500 mr-1">
+                Inside the ecosystem:
+              </span>
+
+              <button
+                type="button"
+                onClick={() => handleScroll('warriors-team')}
+                className="inline-flex items-center gap-1 rounded-full border border-zinc-700/80 bg-zinc-900/60 px-3 py-1 hover:border-amber-400/60 hover:text-amber-200 transition-colors"
+              >
+                <span>Warriors Team</span>
+                <MoveRight className="w-3 h-3" />
+              </button>
+
+              <button
+                type="button"
+                onClick={() => handleScroll('saas-launch-section')}
+                className="inline-flex items-center gap-1 rounded-full border border-zinc-700/80 bg-zinc-900/60 px-3 py-1 hover:border-amber-400/60 hover:text-amber-200 transition-colors"
+              >
+                <span>Content Platform</span>
+                <MoveRight className="w-3 h-3" />
+              </button>
+
+              <button
+                type="button"
+                onClick={() => handleScroll('merch')}
+                className="inline-flex items-center gap-1 rounded-full border border-zinc-700/80 bg-zinc-900/60 px-3 py-1 hover:border-amber-400/60 hover:text-amber-200 transition-colors"
+              >
+                <span>Elite Equipment</span>
+                <MoveRight className="w-3 h-3" />
+              </button>
             </motion.div>
 
             {/* Stats */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.6 }}
-              className="grid grid-cols-3 gap-8 max-w-4xl mx-auto pt-12"
+              transition={{ duration: 0.8, delay: 0.8 }}
+              className="grid grid-cols-3 gap-8 max-w-4xl mx-auto pt-10"
             >
               <div className="text-center">
                 <h3 className="text-3xl md:text-4xl font-bold text-amber-400 animate-pulse-gold">
@@ -177,7 +224,7 @@ export const PersonalBrandHero = () => {
           <div className="w-6 h-10 border-2 border-amber-400/50 rounded-full flex justify-center mx-auto">
             <button
               type="button"
-              aria-label="Scroll to The University"
+              aria-label="Scroll down"
               onClick={() => handleScroll('education')}
               className="w-full h-full flex justify-center"
             >
@@ -185,7 +232,7 @@ export const PersonalBrandHero = () => {
             </button>
           </div>
           <p className="text-xs text-gray-500 mt-2">
-            Scroll to see The University and the full ecosystem
+            Scroll to see The University and all paths inside the ecosystem
           </p>
         </motion.div>
       </div>
