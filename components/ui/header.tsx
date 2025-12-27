@@ -1,14 +1,6 @@
 "use client";
 
-import type { MouseEvent } from "react";
-import { useEffect, useRef, useState } from "react";
-import Link from "next/link";
-import { Menu, MoveRight, X } from "lucide-react";
-
 import { Button } from "@/components/ui/button";
-import { ContactDialog } from "@/components/ui/contact-dialog";
-import { StarBorder } from "@/components/ui/star-border";
-
 import {
   NavigationMenu,
   NavigationMenuContent,
@@ -17,10 +9,14 @@ import {
   NavigationMenuList,
   NavigationMenuTrigger,
 } from "@/components/ui/navigation-menu";
+import { Menu, MoveRight, X } from "lucide-react";
+import { useState, useEffect } from "react";
+import type { MouseEvent } from "react";
+import Link from "next/link";
+import { ContactDialog } from "@/components/ui/contact-dialog";
+import { StarBorder } from "@/components/ui/star-border";
 
 export function Header() {
-  const headerRef = useRef<HTMLElement | null>(null);
-
   const [isMobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [isChoosePathOpen, setChoosePathOpen] = useState(false);
 
@@ -28,7 +24,7 @@ export function Header() {
     { title: "Home", href: "/" },
     {
       title: "Product",
-      description: "Explore products and systems inside the ecosystem.",
+      description: "Explore our ecosystem of products and services",
       items: [
         { title: "The University", href: "/university" },
         { title: "AI Automation", href: "/automation" },
@@ -39,7 +35,7 @@ export function Header() {
     },
     {
       title: "Company",
-      description: "Learn about Vlad, the work, and results.",
+      description: "Learn more about our company and success stories.",
       items: [
         { title: "About Vlad", href: "/#about" },
         { title: "Success Stories", href: "/#testimonials" },
@@ -55,28 +51,13 @@ export function Header() {
       setMobileMenuOpen(false);
       const elementId = href.replace("/#", "");
       const element = document.getElementById(elementId);
-      if (element) element.scrollIntoView({ behavior: "smooth", block: "start" });
+      if (element) element.scrollIntoView({ behavior: "smooth" });
       return;
     }
 
-    if (href === "/") {
-      setMobileMenuOpen(false);
-    }
+    // Close mobile menu on any normal navigation
+    setMobileMenuOpen(false);
   };
-
-  useEffect(() => {
-    const updateHeaderHeightVar = () => {
-      const h = headerRef.current?.offsetHeight ?? 72;
-      document.documentElement.style.setProperty("--header-height", `${h}px`);
-    };
-
-    updateHeaderHeightVar();
-
-    const onResize = () => updateHeaderHeightVar();
-    window.addEventListener("resize", onResize);
-
-    return () => window.removeEventListener("resize", onResize);
-  }, []);
 
   useEffect(() => {
     const handleEsc = (event: KeyboardEvent) => {
@@ -89,20 +70,9 @@ export function Header() {
     return () => window.removeEventListener("keydown", handleEsc);
   }, []);
 
-  useEffect(() => {
-    // lock scroll when overlays are open (feel premium + no jumps)
-    if (isMobileMenuOpen || isChoosePathOpen) {
-      document.body.style.overflow = "hidden";
-      return () => {
-        document.body.style.overflow = "";
-      };
-    }
-    document.body.style.overflow = "";
-  }, [isMobileMenuOpen, isChoosePathOpen]);
-
   return (
     <>
-      {/* Blur overlay for Choose Path */}
+      {/* Blur overlay for Choose Path menu */}
       {isChoosePathOpen && (
         <div
           className="fixed inset-0 bg-black/60 backdrop-blur-sm z-40"
@@ -110,13 +80,18 @@ export function Header() {
         />
       )}
 
-      {/* Choose Path popup */}
+      {/* Choose Path Menu popup */}
       {isChoosePathOpen && (
         <div className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-50 w-full max-w-lg px-4">
           <div className="bg-background/95 backdrop-blur-sm border border-border/40 rounded-2xl p-6 space-y-4 premium-shadow">
             <div className="flex justify-between items-center mb-6">
               <h2 className="text-xl font-bold">Choose Your Path</h2>
-              <Button variant="ghost" size="icon" onClick={() => setChoosePathOpen(false)}>
+              <Button
+                variant="ghost"
+                size="icon"
+                onClick={() => setChoosePathOpen(false)}
+                aria-label="Close"
+              >
                 <X className="h-5 w-5" />
               </Button>
             </div>
@@ -130,7 +105,7 @@ export function Header() {
                   <div className="text-left">
                     <h3 className="font-semibold text-lg">The University</h3>
                     <p className="text-muted-foreground text-sm">
-                      Skills, leverage, and discipline — step by step.
+                      Skills, discipline, and money systems
                     </p>
                   </div>
                   <MoveRight className="h-5 w-5 text-muted-foreground" />
@@ -147,7 +122,7 @@ export function Header() {
                   <div className="text-left">
                     <h3 className="font-semibold text-lg">AI Automation Agency</h3>
                     <p className="text-muted-foreground text-sm">
-                      Practical AI systems for business growth.
+                      AI systems that grow your business
                     </p>
                   </div>
                   <MoveRight className="h-5 w-5 text-muted-foreground" />
@@ -164,7 +139,25 @@ export function Header() {
                   <div className="text-left">
                     <h3 className="font-semibold text-lg">Content Platform</h3>
                     <p className="text-muted-foreground text-sm">
-                      Turn long-form into distribution — fast.
+                      Build a content machine with AI
+                    </p>
+                  </div>
+                  <MoveRight className="h-5 w-5 text-muted-foreground" />
+                </div>
+              </StarBorder>
+            </Link>
+
+            {/* 5th path */}
+            <Link href="/#merch" onClick={() => setChoosePathOpen(false)}>
+              <StarBorder
+                className="w-full mb-4 hover:scale-[1.02] transition-transform cursor-pointer"
+                color="hsl(var(--color-4))"
+              >
+                <div className="flex items-center justify-between">
+                  <div className="text-left">
+                    <h3 className="font-semibold text-lg">Elite Equipment</h3>
+                    <p className="text-muted-foreground text-sm">
+                      Premium gear & essentials
                     </p>
                   </div>
                   <MoveRight className="h-5 w-5 text-muted-foreground" />
@@ -181,7 +174,7 @@ export function Header() {
                   <div className="text-left">
                     <h3 className="font-semibold text-lg">Warriors Team</h3>
                     <p className="text-muted-foreground text-sm">
-                      Network of builders. Brotherhood & momentum.
+                      Brotherhood, standards, accountability
                     </p>
                   </div>
                   <MoveRight className="h-5 w-5 text-muted-foreground" />
@@ -192,11 +185,8 @@ export function Header() {
         </div>
       )}
 
-      <header
-        ref={headerRef}
-        className="w-full z-30 fixed top-0 left-0 bg-background/95 backdrop-blur-sm border-b border-border/40"
-      >
-        <div className="container relative mx-auto py-4 md:py-5 flex flex-row items-center justify-between lg:grid lg:grid-cols-[auto_minmax(0,1fr)_auto] lg:gap-x-4">
+      <header className="w-full z-30 fixed top-0 left-0 bg-background/95 backdrop-blur-sm border-b border-border/40">
+        <div className="container relative mx-auto py-5 md:py-5 flex flex-row items-center justify-between lg:grid lg:grid-cols-[auto_minmax(0,1fr)_auto] lg:gap-x-4">
           {/* Left side (Desktop navigation) */}
           <div className="hidden lg:flex justify-start items-center">
             <NavigationMenu>
@@ -229,7 +219,10 @@ export function Header() {
                               </div>
                               <div>
                                 <ContactDialog triggerText="Book a call today">
-                                  <Button size="sm" className="mt-6 w-full md:w-auto premium-button">
+                                  <Button
+                                    size="sm"
+                                    className="mt-6 w-full md:w-auto premium-button"
+                                  >
                                     Book a call today
                                   </Button>
                                 </ContactDialog>
@@ -271,26 +264,23 @@ export function Header() {
 
           {/* Right side */}
           <div className="flex justify-end items-center">
-            {/* Desktop buttons */}
+            {/* Desktop Buttons */}
             <div className="hidden md:flex items-center gap-2">
               <Button variant="ghost" onClick={() => setChoosePathOpen(true)}>
                 Choose Path
               </Button>
-              <div className="border-r h-6 mx-1 self-center" />
+              <div className="border-r h-6 mx-1 self-center"></div>
               <ContactDialog triggerText="Get started">
                 <Button className="premium-button">Get started</Button>
               </ContactDialog>
             </div>
 
-            {/* Mobile burger */}
+            {/* Mobile menu button */}
             <div className="flex items-center md:hidden">
               <Button
                 variant="ghost"
                 size="icon"
-                onClick={() => {
-                  setMobileMenuOpen((v) => !v);
-                  setChoosePathOpen(false);
-                }}
+                onClick={() => setMobileMenuOpen(!isMobileMenuOpen)}
                 aria-label="Toggle menu"
               >
                 {isMobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
@@ -299,12 +289,9 @@ export function Header() {
           </div>
         </div>
 
-        {/* Mobile menu */}
+        {/* Mobile navigation */}
         {isMobileMenuOpen && (
-          <div
-            className="absolute left-0 right-0 border-t bg-background shadow-lg py-4 px-4 flex flex-col gap-4 z-20 md:hidden"
-            style={{ top: "calc(var(--header-height, 72px) - 1px)" }}
-          >
+          <div className="absolute top-[72px] left-0 right-0 border-t bg-background shadow-lg py-4 px-4 flex flex-col gap-4 z-20 md:hidden">
             {navigationItems.map((item) => (
               <div key={item.title} className="py-2 border-b border-border/20 last:border-b-0">
                 {item.href ? (
@@ -336,7 +323,6 @@ export function Header() {
                 )}
               </div>
             ))}
-
             <div className="pt-4 flex flex-col gap-3">
               <Button
                 className="w-full"
@@ -348,7 +334,7 @@ export function Header() {
                 Choose Path
               </Button>
               <ContactDialog triggerText="Get started">
-                <Button variant="outline" className="w-full" onClick={() => setMobileMenuOpen(false)}>
+                <Button variant="outline" className="w-full">
                   Get started
                 </Button>
               </ContactDialog>
