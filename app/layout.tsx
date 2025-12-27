@@ -1,25 +1,26 @@
-'use client';
+"use client";
 
-import './globals.css';
-import { VoiceflowScript } from '@/components/voiceflow-script';
-import { CartProvider } from '@/context/cart-context';
-import { ShoppingCartSidebar } from '@/components/ui/shopping-cart-sidebar';
-import { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { Toaster } from '@/components/ui/toaster';
+import "./globals.css";
+import { VoiceflowScript } from "@/components/voiceflow-script";
+import { CartProvider } from "@/context/cart-context";
+import { ShoppingCartSidebar } from "@/components/ui/shopping-cart-sidebar";
+import { useEffect, useState } from "react";
+import type { ReactNode } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { Toaster } from "@/components/ui/toaster";
 
 function LoadingAnimation() {
   return (
     <motion.div
       initial={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      transition={{ duration: 0.45 }}
+      transition={{ duration: 0.5 }}
       className="loading-animation"
     >
       <motion.div
-        initial={{ scale: 0.92, opacity: 0 }}
+        initial={{ scale: 0.96, opacity: 0 }}
         animate={{ scale: 1, opacity: 1 }}
-        transition={{ duration: 0.45 }}
+        transition={{ duration: 0.55 }}
         className="flex flex-col items-center justify-center"
       >
         <div className="loading-logo mb-8">
@@ -37,54 +38,42 @@ function LoadingAnimation() {
   );
 }
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default function RootLayout({ children }: { children: ReactNode }) {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    const t = setTimeout(() => setIsLoading(false), 800);
-    document.documentElement.classList.add('dark');
+    const t = setTimeout(() => setIsLoading(false), 1000);
+    document.documentElement.classList.add("dark");
     return () => clearTimeout(t);
   }, []);
-
-  const title = 'Vlad Kuzmenko | Business • AI Systems • Network';
-  const description =
-    'Vlad Kuzmenko official hub: education, AI systems, and a global network — products, community and tools to build leverage.';
-  const siteUrl = 'https://vladkuzmenko.com';
-  const ogImage = `${siteUrl}/og.jpg`; // если нет — сделаем позже, но ссылка уже готова
 
   return (
     <html lang="en" className="dark">
       <head>
-        <title>{title}</title>
-        <meta name="description" content={description} />
-        <meta name="robots" content="index,follow" />
-        <link rel="canonical" href={siteUrl} />
-        <link rel="icon" href="/VladKuzmenkoFavicon.png" />
-
-        {/* Open Graph */}
-        <meta property="og:title" content={title} />
-        <meta property="og:description" content={description} />
-        <meta property="og:type" content="website" />
-        <meta property="og:url" content={siteUrl} />
-        <meta property="og:image" content={ogImage} />
-
-        {/* Twitter */}
-        <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content={title} />
-        <meta name="twitter:description" content={description} />
-        <meta name="twitter:image" content={ogImage} />
-
-        {/* Optional keywords (не “магия”, но ок для базовой семантики) */}
+        <title>Vlad Kuzmenko | Business • AI Systems • Network</title>
         <meta
-          name="keywords"
-          content="Vlad Kuzmenko, business education, AI systems, AI automation, automation agency, online education, community, network, entrepreneurship, creators, content systems, leverage, digital products"
+          name="description"
+          content="Vlad Kuzmenko — education, AI systems, and a global network for builders. Practical leverage: skills, automation, and execution."
         />
+        <meta name="robots" content="index,follow" />
+        <link rel="icon" href="/VladKuzmenkoFavicon.png" />
+        <link rel="canonical" href="https://vladkuzmenko.com" />
+
+        {/* OpenGraph / Twitter (база, без лишнего) */}
+        <meta property="og:title" content="Vlad Kuzmenko | Business • AI Systems • Network" />
+        <meta
+          property="og:description"
+          content="Education, AI systems, and a global network for builders. Practical leverage: skills, automation, and execution."
+        />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content="https://vladkuzmenko.com" />
+        <meta property="twitter:card" content="summary_large_image" />
 
         <style>{`
           ::-webkit-scrollbar { width: 6px; }
           ::-webkit-scrollbar-track { background: rgba(255,255,255,0.05); }
-          ::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.12); border-radius: 3px; }
-          ::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,0.22); }
+          ::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 3px; }
+          ::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,0.2); }
         `}</style>
       </head>
 
@@ -98,7 +87,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                 key="content"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
-                transition={{ duration: 0.45 }}
+                transition={{ duration: 0.5 }}
               >
                 {children}
                 <VoiceflowScript />
