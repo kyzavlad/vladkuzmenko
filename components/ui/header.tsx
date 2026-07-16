@@ -9,7 +9,7 @@ import { useI18n } from "@/components/i18n-provider";
 import { LANGS, LANG_LABELS, langHref } from "@/lib/i18n";
 
 // Sub-pages that exist in all three languages (for the language switcher).
-const LOCALIZED_SLUGS = new Set(["", "visibilityos", "ai-systems", "warriors-team"]);
+const LOCALIZED_SLUGS = new Set(["", "visibilityos", "ai-systems", "auto-dealers", "warriors-team"]);
 
 export function Header() {
   const { lang, t } = useI18n();

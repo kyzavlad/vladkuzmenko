@@ -11,6 +11,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { slug: "", priority: 1, freq: "weekly" },
     { slug: "visibilityos", priority: 0.8, freq: "monthly" },
     { slug: "ai-systems", priority: 0.8, freq: "monthly" },
+    { slug: "auto-dealers", priority: 0.9, freq: "monthly" },
     { slug: "warriors-team", priority: 0.7, freq: "monthly" },
   ];
 
