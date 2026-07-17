@@ -8,6 +8,10 @@ import {
   Building2,
   Check,
   ClipboardCheck,
+  Database,
+  ExternalLink,
+  Layers,
+  ListChecks,
   MessageSquare,
   MousePointerClick,
   Plus,
@@ -22,9 +26,17 @@ import { Button } from "@/components/ui/button";
 import { RequestDialog } from "@/components/ui/request-dialog";
 import { useI18n } from "@/components/i18n-provider";
 import { cn } from "@/lib/utils";
+import { track } from "@/lib/analytics";
 
 type Locale = "ua" | "ru" | "en";
-type ScenarioKey = "sales" | "service" | "tradein" | "selection";
+type ScenarioKey =
+  | "sales"
+  | "service"
+  | "tradein"
+  | "selection"
+  | "order"
+  | "delivery"
+  | "financing";
 
 type Scenario = {
   tab: string;
@@ -77,6 +89,22 @@ type PageCopy = {
   faq: Array<{ question: string; answer: string }>;
   finalTitle: string;
   finalText: string;
+  beyondEyebrow: string;
+  beyondTitle: string;
+  beyondIntro: string;
+  layer1Label: string;
+  layer1Note: string;
+  layer1Points: string[];
+  layer2Label: string;
+  layer2Note: string;
+  layer2Points: string[];
+  pilotEyebrow: string;
+  pilotTitle: string;
+  pilotIntro: string;
+  pilotCriteria: string[];
+  pilotCostNote: string;
+  portfolioNote: string;
+  portfolioCta: string;
   scenarios: Record<ScenarioKey, Scenario>;
 };
 
@@ -87,7 +115,7 @@ const copy: Record<Locale, PageCopy> = {
     titleB: "готовою заявкою для менеджера",
     subtitle:
       "Система приймає запити із сайту, Instagram і месенджерів, уточнює потрібні дані та передає відповідальній людині контекст для наступної дії.",
-    heroNote: "Подивіться логіку на чотирьох типових сценаріях нижче",
+    heroNote: "Подивіться логіку на типових сценаріях звернень нижче",
     demoCta: "Переглянути AI-демо",
     requestCta: "Обговорити свій процес",
     dialogTitle: "Коротко опишіть ваш процес",
@@ -192,10 +220,74 @@ const copy: Record<Locale, PageCopy> = {
         answer:
           "З одного типового процесу: наприклад, тест-драйв, сервіс або trade-in. Після перевірки можна додавати інші сценарії.",
       },
+      {
+        question: "У нас уже всі чати зібрані в одній системі. Навіщо це?",
+        answer:
+          "Збір повідомлень в одному вікні — це агрегація. Тут ідеться про інше: система кваліфікує звернення, класифікує його, маршрутизує у правильний відділ і передає структуровану заявку. Це логіка обробки, а не ще одна спільна скринька.",
+      },
+      {
+        question: "Хіба це не просто анкета? Зібрати дані нескладно.",
+        answer:
+          "Зібрати дані справді легко. Складніше — стабільно класифікувати запит, направити його потрібному відділу, дотримати правил і коректно передати менеджеру з контекстом. Ми налаштовуємо саме цю логіку, а не форму.",
+      },
+      {
+        question: "Чи може система сама відповідати на типові питання?",
+        answer:
+          "Так, але лише в межах Pilot і після технічного погодження. Це Шар 2: асистент відповідає на повторювані питання з погодженого джерела знань і, за наданого доступу, може використовувати дані про наявність, ціни чи умови. У публічному прототипі це не підключено.",
+      },
+      {
+        question: "Що відбувається, коли система не впевнена?",
+        answer:
+          "Нестандартні, чутливі або незрозумілі випадки одразу передаються менеджеру. Правила ескалації узгоджуються заздалегідь — система не імпровізує там, де потрібна людина.",
+      },
+      {
+        question: "Який найменший корисний Pilot?",
+        answer:
+          "Один процес на реальних зверненнях: погоджені питання, узгоджені канали, місце призначення заявки та правила ескалації. Після перевірки за критеріями приймання можна додавати наступні сценарії.",
+      },
     ],
     finalTitle: "Покажіть, як зараз проходить одне звернення",
     finalText:
       "Я запропоную короткий перший етап без перебудови всієї системи й без зайвих функцій.",
+    beyondEyebrow: "Більше ніж анкета",
+    beyondTitle: "Не просто збір моделі, бюджету й контакту",
+    beyondIntro:
+      "Зібрати дані справді нескладно. Цінність — у тому, що відбувається далі: класифікація звернення, маршрутизація у правильний відділ, структурована передача та контроль винятків. Систему можна описати як два шари.",
+    layer1Label: "Шар 1 — працює з першого запуску",
+    layer1Note:
+      "Базова логіка, яку показує демо вище. Не потребує доступу до ваших внутрішніх систем.",
+    layer1Points: [
+      "Кваліфікує звернення та збирає потрібний контекст",
+      "Класифікує тип запиту й маршрутизує у відповідний відділ",
+      "Формує структуровану картку для менеджера або CRM",
+      "Нагадує про наступний крок і супроводжує до передачі людині",
+    ],
+    layer2Label: "Шар 2 — можлива інтеграція в межах Pilot",
+    layer2Note:
+      "Не активна за замовчуванням і не показана в цьому прототипі. Підключається лише після технічного погодження під час Pilot.",
+    layer2Points: [
+      "Відповідає на повторювані питання з погодженого джерела знань",
+      "За наданого доступу може використовувати дані про наявність, ціни, доставку, фінансування чи сервіс",
+      "Передає менеджеру, коли впевненість низька або випадок нестандартний",
+    ],
+    pilotEyebrow: "Прототип проти Pilot",
+    pilotTitle: "Що входить у Pilot і як ми розуміємо, що він вдалий",
+    pilotIntro:
+      "Прототип показує логіку. Pilot — це один обраний процес, запущений на реальних зверненнях, із заздалегідь погодженими критеріями приймання.",
+    pilotCriteria: [
+      "Один обраний процес (наприклад, тест-драйв, сервіс або підбір)",
+      "Погоджена логіка питань і відповідей",
+      "Узгоджені вхідні канали",
+      "Узгоджене місце призначення заявки (менеджер або CRM)",
+      "Визначені правила ескалації до людини",
+      "Тестові сценарії для перевірки",
+      "Приймання на боці клієнта за цими критеріями",
+    ],
+    pilotCostNote:
+      "Вартість і терміни залежать від обсягу, каналів, доступу до даних та потрібних інтеграцій — тому на цій сторінці немає фіксованої ціни чи фіксованого графіка.",
+    portfolioNote:
+      "Хочете побачити ширший контекст AI-автоматизації, яку я вже впроваджував?",
+    portfolioCta: "Портфоліо AI-автоматизації",
     scenarios: {
       sales: {
         tab: "Авто / тест-драйв",
@@ -299,6 +391,66 @@ const copy: Record<Locale, PageCopy> = {
           { label: "Наступний крок", value: "Уточнити 2–3 моделі для пошуку" },
         ],
       },
+      order: {
+        tab: "Під замовлення / пригін",
+        source: "Telegram",
+        messages: [
+          {
+            from: "visitor",
+            text: "Можете пригнати конкретну комплектацію з Європи? Цікавить BMW X5.",
+          },
+          {
+            from: "assistant",
+            text: "Так, передам запит менеджеру з пригону. Уточніть, будь ласка, рік, бюджет і бажану комплектацію?",
+          },
+        ],
+        fields: [
+          { label: "Запит", value: "BMW X5 під замовлення з Європи" },
+          { label: "Критерії", value: "Рік і комплектація уточнюються" },
+          { label: "Бюджет", value: "Уточнюється з менеджером" },
+          { label: "Наступний крок", value: "Передати у відділ пригону" },
+        ],
+      },
+      delivery: {
+        tab: "Доставка",
+        source: "Сайт",
+        messages: [
+          {
+            from: "visitor",
+            text: "Скільки триває доставка авто з аукціону і що входить у вартість?",
+          },
+          {
+            from: "assistant",
+            text: "Передам питання менеджеру з логістики. З якої країни плануєте авто та чи є вже обрана машина?",
+          },
+        ],
+        fields: [
+          { label: "Запит", value: "Консультація щодо доставки" },
+          { label: "Деталі", value: "Країна й авто уточнюються" },
+          { label: "Наступний крок", value: "Розрахунок термінів і вартості" },
+          { label: "Канал", value: "Сайт" },
+        ],
+      },
+      financing: {
+        tab: "Фінансування",
+        source: "Viber",
+        messages: [
+          {
+            from: "visitor",
+            text: "Чи можна авто в кредит або лізинг? Який потрібен перший внесок?",
+          },
+          {
+            from: "assistant",
+            text: "Передам запит менеджеру з фінансування. Підкажіть орієнтовну вартість авто та бажаний строк?",
+          },
+        ],
+        fields: [
+          { label: "Запит", value: "Кредит або лізинг" },
+          { label: "Деталі", value: "Вартість і строк уточнюються" },
+          { label: "Наступний крок", value: "Підбір умов фінансування" },
+          { label: "Канал", value: "Viber" },
+        ],
+      },
     },
   },
   ru: {
@@ -307,7 +459,7 @@ const copy: Record<Locale, PageCopy> = {
     titleB: "готовой заявкой для менеджера",
     subtitle:
       "Система принимает запросы с сайта, Instagram и мессенджеров, уточняет необходимые данные и передаёт ответственному сотруднику контекст для следующего действия.",
-    heroNote: "Посмотрите логику на четырёх типовых сценариях ниже",
+    heroNote: "Посмотрите логику на типовых сценариях обращений ниже",
     demoCta: "Посмотреть AI-демо",
     requestCta: "Обсудить свой процесс",
     dialogTitle: "Коротко опишите ваш процесс",
@@ -412,10 +564,74 @@ const copy: Record<Locale, PageCopy> = {
         answer:
           "С одного процесса: тест-драйв, сервис или trade-in. После проверки добавляются другие сценарии.",
       },
+      {
+        question: "У нас уже все чаты собраны в одной системе. Зачем это?",
+        answer:
+          "Сбор сообщений в одном окне — это агрегация. Здесь речь о другом: система квалифицирует обращение, классифицирует его, маршрутизирует в нужный отдел и передаёт структурированную заявку. Это логика обработки, а не ещё один общий ящик.",
+      },
+      {
+        question: "Разве это не просто анкета? Собрать данные несложно.",
+        answer:
+          "Собрать данные действительно легко. Сложнее — стабильно классифицировать запрос, направить его в нужный отдел, соблюсти правила и корректно передать менеджеру с контекстом. Мы настраиваем именно эту логику, а не форму.",
+      },
+      {
+        question: "Может ли система сама отвечать на типовые вопросы?",
+        answer:
+          "Да, но только в рамках Pilot и после технического согласования. Это Слой 2: ассистент отвечает на повторяющиеся вопросы из согласованного источника знаний и, при предоставленном доступе, может использовать данные о наличии, ценах или условиях. В публичном прототипе это не подключено.",
+      },
+      {
+        question: "Что происходит, когда система не уверена?",
+        answer:
+          "Нестандартные, чувствительные или непонятные случаи сразу передаются менеджеру. Правила эскалации согласуются заранее — система не импровизирует там, где нужен человек.",
+      },
+      {
+        question: "Какой самый маленький полезный Pilot?",
+        answer:
+          "Один процесс на реальных обращениях: согласованные вопросы, согласованные каналы, место назначения заявки и правила эскалации. После проверки по критериям приёмки можно добавлять следующие сценарии.",
+      },
     ],
     finalTitle: "Покажите, как сейчас проходит одно обращение",
     finalText:
       "Я предложу короткий первый этап без перестройки всей системы и без лишних функций.",
+    beyondEyebrow: "Больше чем анкета",
+    beyondTitle: "Не просто сбор модели, бюджета и контакта",
+    beyondIntro:
+      "Собрать данные действительно несложно. Ценность — в том, что происходит дальше: классификация обращения, маршрутизация в нужный отдел, структурированная передача и контроль исключений. Систему можно описать как два слоя.",
+    layer1Label: "Слой 1 — работает с первого запуска",
+    layer1Note:
+      "Базовая логика, которую показывает демо выше. Не требует доступа к вашим внутренним системам.",
+    layer1Points: [
+      "Квалифицирует обращение и собирает нужный контекст",
+      "Классифицирует тип запроса и маршрутизирует в нужный отдел",
+      "Формирует структурированную карточку для менеджера или CRM",
+      "Напоминает о следующем шаге и сопровождает до передачи человеку",
+    ],
+    layer2Label: "Слой 2 — возможная интеграция в рамках Pilot",
+    layer2Note:
+      "Не активна по умолчанию и не показана в этом прототипе. Подключается только после технического согласования во время Pilot.",
+    layer2Points: [
+      "Отвечает на повторяющиеся вопросы из согласованного источника знаний",
+      "При предоставленном доступе может использовать данные о наличии, ценах, доставке, финансировании или сервисе",
+      "Передаёт менеджеру, когда уверенность низкая или случай нестандартный",
+    ],
+    pilotEyebrow: "Прототип против Pilot",
+    pilotTitle: "Что входит в Pilot и как мы понимаем, что он удался",
+    pilotIntro:
+      "Прототип показывает логику. Pilot — это один выбранный процесс, запущенный на реальных обращениях, с заранее согласованными критериями приёмки.",
+    pilotCriteria: [
+      "Один выбранный процесс (например, тест-драйв, сервис или подбор)",
+      "Согласованная логика вопросов и ответов",
+      "Согласованные входные каналы",
+      "Согласованное место назначения заявки (менеджер или CRM)",
+      "Определённые правила эскалации к человеку",
+      "Тестовые сценарии для проверки",
+      "Приёмка на стороне клиента по этим критериям",
+    ],
+    pilotCostNote:
+      "Стоимость и сроки зависят от объёма, каналов, доступа к данным и нужных интеграций — поэтому на этой странице нет фиксированной цены или фиксированного графика.",
+    portfolioNote:
+      "Хотите увидеть более широкий контекст AI-автоматизации, которую я уже внедрял?",
+    portfolioCta: "Портфолио AI-автоматизации",
     scenarios: {} as Record<ScenarioKey, Scenario>,
   },
   en: {
@@ -424,7 +640,7 @@ const copy: Record<Locale, PageCopy> = {
     titleB: "a manager-ready lead",
     subtitle:
       "The system receives enquiries from the website, Instagram and messengers, collects the required context and routes a structured lead to the responsible person.",
-    heroNote: "Explore the logic through four common scenarios below",
+    heroNote: "Explore the logic through common enquiry scenarios below",
     demoCta: "View the AI demo",
     requestCta: "Discuss your process",
     dialogTitle: "Briefly describe your process",
@@ -529,10 +745,74 @@ const copy: Record<Locale, PageCopy> = {
         answer:
           "With one process such as test drives, service or trade-in, then add scenarios after validation.",
       },
+      {
+        question: "We already keep all chats in one system. Why this?",
+        answer:
+          "Collecting messages in one window is aggregation. This is different: the system qualifies the enquiry, classifies it, routes it to the right department and hands over a structured lead. It is processing logic, not another shared inbox.",
+      },
+      {
+        question: "Isn't this just a questionnaire? Collecting data is easy.",
+        answer:
+          "Collecting data really is easy. The harder part is reliably classifying the request, sending it to the right department, respecting the rules and handing it to a manager with context. That logic is what we configure, not a form.",
+      },
+      {
+        question: "Can the system answer routine questions itself?",
+        answer:
+          "Yes, but only within a Pilot and after technical approval. This is Layer 2: the assistant answers repetitive questions from an approved knowledge source and, with granted access, may use data on availability, pricing or terms. It is not connected in the public prototype.",
+      },
+      {
+        question: "What happens when the system is unsure?",
+        answer:
+          "Non-standard, sensitive or unclear cases are handed to a manager immediately. Escalation rules are agreed in advance — the system does not improvise where a person is needed.",
+      },
+      {
+        question: "What is the smallest useful Pilot?",
+        answer:
+          "One process on real enquiries: agreed questions, agreed channels, a lead destination and escalation rules. After it passes the acceptance criteria, you can add the next scenarios.",
+      },
     ],
     finalTitle: "Show me how one enquiry is handled today",
     finalText:
       "I will suggest a focused first stage without rebuilding the whole system or adding unnecessary features.",
+    beyondEyebrow: "More than a questionnaire",
+    beyondTitle: "Not just collecting the model, budget and contact",
+    beyondIntro:
+      "Collecting data really is easy. The value is in what happens next: classifying the enquiry, routing it to the right department, a structured handoff and controlled exceptions. The system can be described as two layers.",
+    layer1Label: "Layer 1 — live from the first launch",
+    layer1Note:
+      "The core logic shown in the demo above. It needs no access to your internal systems.",
+    layer1Points: [
+      "Qualifies the enquiry and collects the needed context",
+      "Classifies the request type and routes it to the right department",
+      "Builds a structured card for a manager or CRM",
+      "Reminds about the next step and follows up until the human handoff",
+    ],
+    layer2Label: "Layer 2 — a possible Pilot integration",
+    layer2Note:
+      "Not active by default and not shown in this prototype. It is connected only after technical approval during a Pilot.",
+    layer2Points: [
+      "Answers repetitive questions from an approved knowledge source",
+      "With granted access, may use data on availability, pricing, delivery, financing or service",
+      "Escalates to a manager when confidence is low or the case is non-standard",
+    ],
+    pilotEyebrow: "Prototype vs Pilot",
+    pilotTitle: "What a Pilot includes and how we know it worked",
+    pilotIntro:
+      "The prototype shows the logic. A Pilot is one selected process, run on real enquiries, with acceptance criteria agreed in advance.",
+    pilotCriteria: [
+      "One selected process (for example test drive, service or sourcing)",
+      "Agreed question-and-answer logic",
+      "Agreed input channels",
+      "An agreed lead destination (manager or CRM)",
+      "Defined escalation rules to a human",
+      "Test cases for validation",
+      "Client-side acceptance against these criteria",
+    ],
+    pilotCostNote:
+      "Cost and timeline depend on scope, channels, data access and the required integrations — so there is no fixed price or fixed schedule on this page.",
+    portfolioNote:
+      "Want to see the wider context of AI automation I have already delivered?",
+    portfolioCta: "AI automation portfolio",
     scenarios: {} as Record<ScenarioKey, Scenario>,
   },
 };
@@ -632,6 +912,66 @@ copy.ru.scenarios = {
       { label: "Критерии", value: "От 2020 года, дизель" },
       { label: "Бюджет", value: "До €22 000 с доставкой" },
       { label: "Следующий шаг", value: "Уточнить 2–3 модели для поиска" },
+    ],
+  },
+  order: {
+    tab: "Под заказ / пригон",
+    source: "Telegram",
+    messages: [
+      {
+        from: "visitor",
+        text: "Можете пригнать конкретную комплектацию из Европы? Интересует BMW X5.",
+      },
+      {
+        from: "assistant",
+        text: "Да, передам запрос менеджеру по пригону. Уточните, пожалуйста, год, бюджет и желаемую комплектацию?",
+      },
+    ],
+    fields: [
+      { label: "Запрос", value: "BMW X5 под заказ из Европы" },
+      { label: "Критерии", value: "Год и комплектация уточняются" },
+      { label: "Бюджет", value: "Уточняется с менеджером" },
+      { label: "Следующий шаг", value: "Передать в отдел пригона" },
+    ],
+  },
+  delivery: {
+    tab: "Доставка",
+    source: "Сайт",
+    messages: [
+      {
+        from: "visitor",
+        text: "Сколько занимает доставка авто с аукциона и что входит в стоимость?",
+      },
+      {
+        from: "assistant",
+        text: "Передам вопрос менеджеру по логистике. Из какой страны планируете авто и есть ли уже выбранная машина?",
+      },
+    ],
+    fields: [
+      { label: "Запрос", value: "Консультация по доставке" },
+      { label: "Детали", value: "Страна и авто уточняются" },
+      { label: "Следующий шаг", value: "Расчёт сроков и стоимости" },
+      { label: "Канал", value: "Сайт" },
+    ],
+  },
+  financing: {
+    tab: "Финансирование",
+    source: "Viber",
+    messages: [
+      {
+        from: "visitor",
+        text: "Можно авто в кредит или лизинг? Какой нужен первый взнос?",
+      },
+      {
+        from: "assistant",
+        text: "Передам запрос менеджеру по финансированию. Подскажите ориентировочную стоимость авто и желаемый срок?",
+      },
+    ],
+    fields: [
+      { label: "Запрос", value: "Кредит или лизинг" },
+      { label: "Детали", value: "Стоимость и срок уточняются" },
+      { label: "Следующий шаг", value: "Подбор условий финансирования" },
+      { label: "Канал", value: "Viber" },
     ],
   },
 };
@@ -736,6 +1076,66 @@ copy.en.scenarios = {
       { label: "Next step", value: "Confirm 2–3 target models" },
     ],
   },
+  order: {
+    tab: "To order / import",
+    source: "Telegram",
+    messages: [
+      {
+        from: "visitor",
+        text: "Can you import a specific trim from Europe? I am interested in a BMW X5.",
+      },
+      {
+        from: "assistant",
+        text: "Yes, I will pass this to the import manager. Which year, budget and trim do you have in mind?",
+      },
+    ],
+    fields: [
+      { label: "Request", value: "BMW X5 imported to order" },
+      { label: "Criteria", value: "Year and trim to be confirmed" },
+      { label: "Budget", value: "To be confirmed with a manager" },
+      { label: "Next step", value: "Route to the import department" },
+    ],
+  },
+  delivery: {
+    tab: "Delivery",
+    source: "Website",
+    messages: [
+      {
+        from: "visitor",
+        text: "How long does auction delivery take and what is included in the cost?",
+      },
+      {
+        from: "assistant",
+        text: "I will pass this to the logistics manager. Which country are you considering, and have you chosen a car yet?",
+      },
+    ],
+    fields: [
+      { label: "Request", value: "Delivery consultation" },
+      { label: "Details", value: "Country and car to be confirmed" },
+      { label: "Next step", value: "Estimate timeline and cost" },
+      { label: "Channel", value: "Website" },
+    ],
+  },
+  financing: {
+    tab: "Financing",
+    source: "Viber",
+    messages: [
+      {
+        from: "visitor",
+        text: "Is a loan or lease possible? What down payment is required?",
+      },
+      {
+        from: "assistant",
+        text: "I will pass this to the financing manager. What is the approximate vehicle price and preferred term?",
+      },
+    ],
+    fields: [
+      { label: "Request", value: "Loan or lease" },
+      { label: "Details", value: "Price and term to be confirmed" },
+      { label: "Next step", value: "Prepare financing options" },
+      { label: "Channel", value: "Viber" },
+    ],
+  },
 };
 
 const scenarioKeys: ScenarioKey[] = [
@@ -743,6 +1143,9 @@ const scenarioKeys: ScenarioKey[] = [
   "service",
   "tradein",
   "selection",
+  "order",
+  "delivery",
+  "financing",
 ];
 const flowIcons = [MousePointerClick, Bot, ClipboardCheck, Building2];
 const systemIcons = [MessageSquare, Route, Workflow, UserCheck];
@@ -750,9 +1153,11 @@ const systemIcons = [MessageSquare, Route, Workflow, UserCheck];
 function RequestProcessButton({
   text,
   subtle = false,
+  placement = "hero",
 }: {
   text: string;
   subtle?: boolean;
+  placement?: string;
 }) {
   const { lang } = useI18n();
   const locale: Locale = lang === "ua" || lang === "ru" ? lang : "en";
@@ -774,6 +1179,7 @@ function RequestProcessButton({
       className="max-sm:w-full"
     >
       <Button
+        onClick={() => track("pilot_cta_click", { locale, placement })}
         className={cn(
           "max-sm:w-full h-auto min-h-12 px-6 py-3",
           subtle
@@ -788,7 +1194,7 @@ function RequestProcessButton({
   );
 }
 
-function InteractiveDemo({ c }: { c: PageCopy }) {
+function InteractiveDemo({ c, locale }: { c: PageCopy; locale: Locale }) {
   const [selected, setSelected] = useState<ScenarioKey>("sales");
   const scenario = c.scenarios[selected];
   return (
@@ -814,7 +1220,10 @@ function InteractiveDemo({ c }: { c: PageCopy }) {
                 key={key}
                 type="button"
                 aria-pressed={selected === key}
-                onClick={() => setSelected(key)}
+                onClick={() => {
+                  setSelected(key);
+                  track("scenario_select", { locale, scenario: key });
+                }}
                 className={cn(
                   "rounded-full border px-4 py-2 text-sm transition-colors",
                   selected === key
@@ -959,19 +1368,23 @@ export function AutoDealersPage() {
             {c.subtitle}
           </p>
           <div className="flex flex-col sm:flex-row gap-3 justify-center">
-            <a href="#live-demo" className="max-sm:w-full">
+            <a
+              href="#live-demo"
+              className="max-sm:w-full"
+              onClick={() => track("demo_click", { locale })}
+            >
               <Button className="premium-button max-sm:w-full h-auto min-h-12 px-8 py-3">
                 <MousePointerClick className="mr-2 h-5 w-5" />
                 {c.demoCta}
               </Button>
             </a>
-            <RequestProcessButton text={c.requestCta} subtle />
+            <RequestProcessButton text={c.requestCta} subtle placement="hero" />
           </div>
           <p className="text-xs text-gray-500 mt-4">{c.heroNote}</p>
         </div>
       </section>
 
-      <InteractiveDemo c={c} />
+      <InteractiveDemo c={c} locale={locale} />
 
       <section className="py-20 border-t border-zinc-900">
         <div className="container mx-auto px-4 max-w-5xl">
@@ -1032,6 +1445,62 @@ export function AutoDealersPage() {
       </section>
 
       <section className="py-20 border-t border-zinc-900">
+        <div className="container mx-auto px-4 max-w-5xl">
+          <div className="text-center max-w-3xl mx-auto mb-10">
+            <span className="eyebrow">{c.beyondEyebrow}</span>
+            <h2 className="text-3xl md:text-4xl font-bold mt-3 mb-4">
+              {c.beyondTitle}
+            </h2>
+            <p className="text-gray-400">{c.beyondIntro}</p>
+          </div>
+          <div className="grid lg:grid-cols-2 gap-4 items-start">
+            <div className="luxe-card p-6">
+              <div className="flex items-center gap-2.5 mb-2">
+                <span className="inline-flex w-8 h-8 rounded-lg bg-amber-400/10 items-center justify-center shrink-0">
+                  <ListChecks className="h-4 w-4 text-amber-400" />
+                </span>
+                <h3 className="font-semibold">{c.layer1Label}</h3>
+              </div>
+              <p className="text-xs text-gray-500 leading-relaxed mb-4">
+                {c.layer1Note}
+              </p>
+              <ul className="space-y-2.5">
+                {c.layer1Points.map((item) => (
+                  <li key={item} className="flex items-start gap-2.5">
+                    <Check className="h-4 w-4 text-amber-400 shrink-0 mt-0.5" />
+                    <span className="text-sm text-gray-300 leading-relaxed">
+                      {item}
+                    </span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+            <div className="luxe-card border-dashed p-6">
+              <div className="flex items-center gap-2.5 mb-2">
+                <span className="inline-flex w-8 h-8 rounded-lg bg-amber-400/10 items-center justify-center shrink-0">
+                  <Database className="h-4 w-4 text-amber-400" />
+                </span>
+                <h3 className="font-semibold">{c.layer2Label}</h3>
+              </div>
+              <p className="text-xs text-amber-300/80 leading-relaxed mb-4">
+                {c.layer2Note}
+              </p>
+              <ul className="space-y-2.5">
+                {c.layer2Points.map((item) => (
+                  <li key={item} className="flex items-start gap-2.5">
+                    <Layers className="h-4 w-4 text-amber-400/70 shrink-0 mt-0.5" />
+                    <span className="text-sm text-gray-300 leading-relaxed">
+                      {item}
+                    </span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="py-20 border-t border-zinc-900">
         <div className="container mx-auto px-4 max-w-4xl">
           <div className="text-center max-w-3xl mx-auto mb-10">
             <span className="eyebrow">{c.mvpEyebrow}</span>
@@ -1067,6 +1536,54 @@ export function AutoDealersPage() {
         </div>
       </section>
 
+      <section className="section-accent py-20 border-t border-zinc-900">
+        <div className="container mx-auto px-4 max-w-4xl">
+          <div className="text-center max-w-3xl mx-auto mb-10">
+            <span className="eyebrow">{c.pilotEyebrow}</span>
+            <h2 className="text-3xl md:text-4xl font-bold mt-3 mb-4">
+              {c.pilotTitle}
+            </h2>
+            <p className="text-gray-400">{c.pilotIntro}</p>
+          </div>
+          <div className="luxe-card p-6 sm:p-8">
+            <ul className="grid sm:grid-cols-2 gap-3.5">
+              {c.pilotCriteria.map((item) => (
+                <li key={item} className="flex items-start gap-3">
+                  <span className="w-5 h-5 rounded-full bg-amber-400/15 flex items-center justify-center shrink-0 mt-0.5">
+                    <ClipboardCheck className="h-3 w-3 text-amber-400" />
+                  </span>
+                  <span className="text-sm text-gray-300 leading-relaxed">
+                    {item}
+                  </span>
+                </li>
+              ))}
+            </ul>
+            <div className="mt-6 rounded-2xl border border-amber-400/20 bg-amber-400/[0.05] p-5 flex items-start gap-3">
+              <ShieldCheck className="h-5 w-5 text-amber-400 shrink-0 mt-0.5" />
+              <p className="text-sm text-gray-300 leading-relaxed">
+                {c.pilotCostNote}
+              </p>
+            </div>
+          </div>
+          <div className="mt-8 flex flex-col items-center gap-4">
+            <RequestProcessButton text={c.requestCta} placement="pilot" />
+            <p className="text-sm text-gray-500 text-center">
+              {c.portfolioNote}{" "}
+              <a
+                href={locale === "en" ? "/automation" : `/${locale}/automation`}
+                onClick={() =>
+                  track("portfolio_click", { locale, target: "automation" })
+                }
+                className="inline-flex items-center gap-1 text-amber-300 hover:text-amber-200 underline underline-offset-4"
+              >
+                {c.portfolioCta}
+                <ExternalLink className="h-3.5 w-3.5" />
+              </a>
+            </p>
+          </div>
+        </div>
+      </section>
+
       <section className="py-20 border-t border-zinc-900">
         <div className="container mx-auto px-4 max-w-3xl">
           <div className="text-center mb-10">
@@ -1094,7 +1611,7 @@ export function AutoDealersPage() {
             {c.finalTitle}
           </h2>
           <p className="text-gray-400 mb-8">{c.finalText}</p>
-          <RequestProcessButton text={c.requestCta} />
+          <RequestProcessButton text={c.requestCta} placement="final" />
         </div>
       </section>
       <FooterSection />
