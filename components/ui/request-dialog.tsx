@@ -13,6 +13,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Loader2, CheckCircle, ArrowRight } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { submitLead } from "@/lib/site";
+import { track } from "@/lib/analytics";
 import { useI18n } from "@/components/i18n-provider";
 
 export type RequestField = {
@@ -128,6 +129,7 @@ export function RequestDialog({
 
   const onOpenChange = (o: boolean) => {
     setOpen(o);
+    if (o) track("form_open", { intent, ...(buttonLabel ? { buttonLabel } : {}) });
     if (!o) setTimeout(reset, 300);
   };
 
@@ -146,8 +148,10 @@ export function RequestDialog({
       ...data,
     });
     setSubmitting(false);
-    if (ok) setDone(true);
-    else setError(true);
+    if (ok) {
+      setDone(true);
+      track("form_submit", { intent, ...(buttonLabel ? { buttonLabel } : {}) });
+    } else setError(true);
   };
 
   return (
