@@ -1,16 +1,18 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Car, Zap, PhoneCall, CalendarCheck, Target, Calendar } from "lucide-react";
+import { Car, Zap, PhoneCall, CalendarCheck, Target, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { RequestDialog } from "@/components/ui/request-dialog";
-import { SITE } from "@/lib/site";
 import { useI18n } from "@/components/i18n-provider";
+import { langHref } from "@/lib/i18n";
 
 const icons = [Zap, PhoneCall, CalendarCheck, Target];
 
 export function AutoDealerFocus() {
-  const { t } = useI18n();
+  const { t, lang } = useI18n();
+  const base = langHref(lang);
+  const dealersHref = base === "/" ? "/auto-dealers" : `${base}/auto-dealers`;
   return (
     <section id="focus" className="relative py-24 md:py-32 bg-black border-t border-zinc-900">
       <div className="container mx-auto px-4">
@@ -30,10 +32,10 @@ export function AutoDealerFocus() {
             <p className="text-lg text-gray-400 mb-4">{t.autodealer.desc}</p>
             <p className="text-sm text-gray-500 mb-8">{t.autodealer.note}</p>
             <div className="flex flex-col sm:flex-row gap-3">
-              <a href={SITE.calcom} target="_blank" rel="noopener noreferrer">
+              <a href={dealersHref}>
                 <Button className="premium-button h-11 px-6">
-                  <Calendar className="mr-2 h-4 w-4" />
-                  {t.cta.bookCall}
+                  {t.autodealer.seeSystem}
+                  <ArrowRight className="ml-2 h-4 w-4" />
                 </Button>
               </a>
               <RequestDialog

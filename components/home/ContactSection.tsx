@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { SITE, openAssistant, submitLead } from "@/lib/site";
+import { track } from "@/lib/analytics";
 import { useI18n } from "@/components/i18n-provider";
 
 export function ContactSection() {
@@ -34,8 +35,10 @@ export function ContactSection() {
       ...form,
     });
     setSubmitting(false);
-    if (ok) setDone(true);
-    else setError(true);
+    if (ok) {
+      setDone(true);
+      track("contact_form_submit", { intent: "general_request" });
+    } else setError(true);
   };
 
   return (

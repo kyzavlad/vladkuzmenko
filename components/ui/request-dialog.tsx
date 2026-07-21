@@ -114,6 +114,7 @@ export function RequestDialog({
   const [submitting, setSubmitting] = useState(false);
   const [done, setDone] = useState(false);
   const [error, setError] = useState(false);
+  const [submitError, setSubmitError] = useState(false);
 
   const set = (id: string, v: string) => setData((p) => ({ ...p, [id]: v }));
   const valid = effectiveFields.every(
@@ -125,6 +126,7 @@ export function RequestDialog({
     setSubmitting(false);
     setDone(false);
     setError(false);
+    setSubmitError(false);
   };
 
   const onOpenChange = (o: boolean) => {
@@ -140,6 +142,7 @@ export function RequestDialog({
     }
     setSubmitting(true);
     setError(false);
+    setSubmitError(false);
     const ok = await submitLead({
       intent,
       language: lang,
@@ -151,12 +154,21 @@ export function RequestDialog({
     if (ok) {
       setDone(true);
       track("form_submit", { intent, ...(buttonLabel ? { buttonLabel } : {}) });
-    } else setError(true);
+      track("contact_form_submit", {
+        intent,
+        ...(buttonLabel ? { buttonLabel } : {}),
+      });
+    } else setSubmitError(true);
   };
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <div onClick={() => setOpen(true)} className={cn("cursor-pointer", className)}>
+      {/* Open via onOpenChange so the form_open analytics event fires (a plain
+          setOpen(true) bypasses Radix's controlled onOpenChange callback). */}
+      <div
+        onClick={() => onOpenChange(true)}
+        className={cn("cursor-pointer", className)}
+      >
         {children}
       </div>
 
@@ -224,6 +236,9 @@ export function RequestDialog({
               ))}
 
               {error && <p className="text-sm text-red-400">{f.errorRequired}</p>}
+              {submitError && (
+                <p className="text-sm text-red-400">{f.errorSubmit}</p>
+              )}
 
               <Button
                 onClick={submit}

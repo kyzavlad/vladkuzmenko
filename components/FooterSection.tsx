@@ -12,6 +12,7 @@ import {
 } from "@/components/ui/dialog";
 import { Instagram, Send, Twitter, Youtube, MessageCircle, Loader2, Check } from "lucide-react";
 import { SITE, submitLead } from "@/lib/site";
+import { track } from "@/lib/analytics";
 import { useI18n } from "@/components/i18n-provider";
 import { langHref } from "@/lib/i18n";
 
@@ -41,7 +42,8 @@ export function FooterSection() {
     e.preventDefault();
     if (!email.trim() || status === "sending") return;
     setStatus("sending");
-    await submitLead({ intent: "newsletter_signup", language: lang, buttonLabel: "Footer — Newsletter", email });
+    const ok = await submitLead({ intent: "newsletter_signup", language: lang, buttonLabel: "Footer — Newsletter", email });
+    if (ok) track("contact_form_submit", { intent: "newsletter_signup" });
     setStatus("done");
     setEmail("");
   };

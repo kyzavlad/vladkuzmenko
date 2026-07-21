@@ -13,10 +13,8 @@ import {
   MessageSquare,
   Route,
   ShoppingBag,
-  Sparkles,
   UserCheck,
   Workflow,
-  Wrench,
 } from "lucide-react";
 import { Header } from "@/components/ui/header";
 import { FooterSection } from "@/components/FooterSection";
@@ -24,6 +22,7 @@ import { Button } from "@/components/ui/button";
 import { RequestDialog } from "@/components/ui/request-dialog";
 import { useI18n } from "@/components/i18n-provider";
 import { cn } from "@/lib/utils";
+import { track } from "@/lib/analytics";
 
 type Locale = "ua" | "ru" | "en";
 type ScenarioKey = "lead" | "support" | "booking" | "commerce";
@@ -68,11 +67,15 @@ type Copy = {
   casesText: string;
   realProject: string;
   interactivePrototype: string;
+  livePilot: string;
+  inDevelopment: string;
   cases: Array<{
     title: string;
-    status: "real" | "prototype";
+    status: "real" | "prototype" | "pilot" | "dev";
     text: string;
     result: string;
+    href?: string;
+    cta?: string;
   }>;
   processEyebrow: string;
   processTitle: string;
@@ -151,32 +154,39 @@ const copy: Record<Locale, Copy> = {
       "Я не змішую робочі впровадження з концептами. Біля кожного прикладу прямо вказано його статус.",
     realProject: "Реальний проєкт",
     interactivePrototype: "Інтерактивний прототип",
+    livePilot: "Внутрішній робочий пілот",
+    inDevelopment: "В активній розробці",
     cases: [
+      {
+        title: "AI-система залучення лідів і Sales Copilot",
+        status: "pilot",
+        text: "Наскрізний вихідний процес: збір і підготовка лідів, розсилка, фолоу-ап і Telegram Sales Copilot, що підказує відповідь і наступну дію.",
+        result:
+          "Працює як внутрішній робочий пілот. Рутинні кроки автоматизовані, рішення — за людиною.",
+        href: "/ua/work/sales-copilot",
+        cta: "Відкрити кейс",
+      },
       {
         title: "Hotel Natsionalny",
         status: "real",
         text: "AI-асистент і автоматизації для комунікації з гостями та передачі звернень команді готелю.",
-        result: "База знань, маршрутизація питань і контроль передачі людині.",
-      },
-      {
-        title: "Dacha TV",
-        status: "real",
-        text: "Сайт, бронювання, заявки та операційні сценарії для локального e-commerce і послуг.",
-        result:
-          "Структуровані звернення, повідомлення команді та менше ручної координації.",
-      },
-      {
-        title: "TurbotaAI",
-        status: "real",
-        text: "AI-платформа з користувацькими сценаріями, оплатами та керуванням доступом.",
-        result: "Повний цифровий процес, а не окреме вікно чат-бота.",
+        result: "Реальна клієнтська робота. Детальний публічний кейс готується.",
       },
       {
         title: "AI-система для автодилерів",
         status: "prototype",
-        text: "Кваліфікація запитів на авто, тест-драйв, сервіс, trade-in та підбір.",
-        result:
-          "Інтерактивна модель майбутнього процесу для перевірки до впровадження.",
+        text: "Кваліфікація запитів на авто, тест-драйв, сервіс, trade-in і підбір із передачею менеджеру.",
+        result: "Інтерактивний прототип, який можна пройти вживу.",
+        href: "/ua/auto-dealers",
+        cta: "Відкрити живе демо",
+      },
+      {
+        title: "Tutorivo",
+        status: "dev",
+        text: "Веб-платформа-маркетплейс: каталог, заявки, адмін-модерація та оплати в багатомовній структурі.",
+        result: "Реальний продукт у розробці зі справжніми скриншотами.",
+        href: "/ua/work/tutorivo",
+        cta: "Відкрити кейс",
       },
     ],
     processEyebrow: "Як починається робота",
@@ -381,33 +391,39 @@ copy.ru = {
     "Я не смешиваю рабочие внедрения с концептами. У каждого примера прямо указан его статус.",
   realProject: "Реальный проект",
   interactivePrototype: "Интерактивный прототип",
+  livePilot: "Внутренний рабочий пилот",
+  inDevelopment: "В активной разработке",
   cases: [
+    {
+      title: "AI-система привлечения лидов и Sales Copilot",
+      status: "pilot",
+      text: "Сквозной исходящий процесс: сбор и подготовка лидов, рассылка, фоллоу-ап и Telegram Sales Copilot, подсказывающий ответ и следующее действие.",
+      result:
+        "Работает как внутренний рабочий пилот. Рутинные шаги автоматизированы, решения — за человеком.",
+      href: "/ru/work/sales-copilot",
+      cta: "Открыть кейс",
+    },
     {
       title: "Hotel Natsionalny",
       status: "real",
       text: "AI-ассистент и автоматизации для коммуникации с гостями и передачи обращений команде отеля.",
-      result:
-        "База знаний, маршрутизация вопросов и контроль передачи человеку.",
-    },
-    {
-      title: "Dacha TV",
-      status: "real",
-      text: "Сайт, бронирование, заявки и операционные сценарии для локального e-commerce и услуг.",
-      result:
-        "Структурированные обращения, сообщения команде и меньше ручной координации.",
-    },
-    {
-      title: "TurbotaAI",
-      status: "real",
-      text: "AI-платформа с пользовательскими сценариями, оплатами и управлением доступом.",
-      result: "Полный цифровой процесс, а не отдельное окно чат-бота.",
+      result: "Реальная клиентская работа. Детальный публичный кейс готовится.",
     },
     {
       title: "AI-система для автодилеров",
       status: "prototype",
-      text: "Квалификация запросов на авто, тест-драйв, сервис, trade-in и подбор.",
-      result:
-        "Интерактивная модель будущего процесса для проверки до внедрения.",
+      text: "Квалификация запросов на авто, тест-драйв, сервис, trade-in и подбор с передачей менеджеру.",
+      result: "Интерактивный прототип, который можно пройти вживую.",
+      href: "/ru/auto-dealers",
+      cta: "Открыть живое демо",
+    },
+    {
+      title: "Tutorivo",
+      status: "dev",
+      text: "Веб-платформа-маркетплейс: каталог, заявки, админ-модерация и оплаты в многоязычной структуре.",
+      result: "Реальный продукт в разработке с реальными скриншотами.",
+      href: "/ru/work/tutorivo",
+      cta: "Открыть кейс",
     },
   ],
   processEyebrow: "Как начинается работа",
@@ -536,7 +552,232 @@ copy.ru = {
   },
 };
 
-copy.en = copy.ua;
+copy.en = {
+  badge: "AI systems for real business processes",
+  title: "Not just a chatbot. ",
+  accent: "A guided process from enquiry to the next action",
+  subtitle:
+    "I design systems that take enquiries, collect the details that matter, work by your business rules, and hand a person a clear result.",
+  note: "You can walk through four common scenarios yourself below",
+  demoCta: "Open the interactive demo",
+  requestCta: "Map my process",
+  dialogTitle: "Briefly describe the task",
+  dialogDescription:
+    "Tell me where enquiries come from and what your team does manually today. I'll suggest the smallest useful first stage.",
+  dialogSubmit: "Send",
+  dialogSuccessTitle: "Request received",
+  dialogSuccessMessage:
+    "I'll review the process and come back with a concrete next step.",
+  helpLabel: "What do you want to automate?",
+  helpPlaceholder:
+    "For example: enquiries from Instagram, service bookings or customer support...",
+  demoEyebrow: "Interactive demonstration",
+  demoTitle: "Look at the logic of the system, not a promise",
+  demoText:
+    "Choose a scenario. You'll see what the assistant asks and the structured information a manager or other responsible person receives.",
+  choose: "Choose a scenario",
+  visitor: "Customer",
+  assistant: "AI assistant",
+  source: "Channel",
+  managerGets: "The team receives",
+  managerNote:
+    "Context, the next action and the data — without asking the customer everything again.",
+  demoDisclaimer:
+    "The dialogues below are demonstrations. They are not real customers and not a promise of results. Questions, rules, knowledge base and integrations are configured for each specific process.",
+  capabilitiesEyebrow: "What can be automated",
+  capabilitiesTitle: "One approach — different business processes",
+  capabilities: [
+    {
+      title: "Enquiry qualification",
+      text: "Collect context, contact and need, then hand over a ready lead.",
+    },
+    {
+      title: "Customer support",
+      text: "Answer from an agreed knowledge base and pass hard questions to a person.",
+    },
+    {
+      title: "Booking & scheduling",
+      text: "Clarify service, date and constraints, then create a request to confirm.",
+    },
+    {
+      title: "Product or service selection",
+      text: "Ask relevant questions and show options by your business rules.",
+    },
+    {
+      title: "Internal operations",
+      text: "Move data between forms, tables, CRM and team messages.",
+    },
+    {
+      title: "Exception handling",
+      text: "Don't invent an answer — bring in the responsible person in time.",
+    },
+  ],
+  casesEyebrow: "Selected work",
+  casesTitle: "A few strong proof categories — not many similar bots",
+  casesText:
+    "I don't mix working systems with concepts. Each example states its status directly.",
+  realProject: "Real project",
+  interactivePrototype: "Interactive prototype",
+  livePilot: "Internal live pilot",
+  inDevelopment: "In active development",
+  cases: [
+    {
+      title: "AI Lead Acquisition & Sales Copilot",
+      status: "pilot",
+      text: "An end-to-end outbound process: collecting and preparing leads, outreach, follow-up and a Telegram Sales Copilot that suggests a reply and the next action.",
+      result:
+        "Running as an internal live pilot. Routine steps are automated; decisions stay with a human.",
+      href: "/work/sales-copilot",
+      cta: "Open case study",
+    },
+    {
+      title: "Hotel Natsionalny",
+      status: "real",
+      text: "An AI assistant and automations for guest communication and routing enquiries to the hotel team.",
+      result: "Real client work. A detailed public case study is in preparation.",
+    },
+    {
+      title: "Auto-dealer lead system",
+      status: "prototype",
+      text: "Qualifying enquiries for vehicles, test drives, service, trade-in and sourcing, with a manager handoff.",
+      result: "An interactive prototype you can walk through live.",
+      href: "/auto-dealers",
+      cta: "Open the live demo",
+    },
+    {
+      title: "Tutorivo",
+      status: "dev",
+      text: "A marketplace web platform: catalog, applications, admin review and payments in a multilingual structure.",
+      result: "A real product in development, with real screenshots.",
+      href: "/work/tutorivo",
+      cta: "Open case study",
+    },
+  ],
+  processEyebrow: "How the work starts",
+  processTitle: "One narrow process first, then expand",
+  process: [
+    {
+      title: "1. Map the current path",
+      text: "Enquiry source, manual steps, rules and the moment of handoff to a person.",
+    },
+    {
+      title: "2. Choose the first scenario",
+      text: "The one that repeats most often or creates the biggest delay.",
+    },
+    {
+      title: "3. Build a working version",
+      text: "Questions, knowledge base, exceptions, notifications and the needed integration.",
+    },
+    {
+      title: "4. Validate on real cases",
+      text: "Adjust the logic — and only then add new channels and features.",
+    },
+  ],
+  honestTitle: "What this page proves — and what it doesn't",
+  honestText:
+    "It shows the approach, the interface and the data-handoff logic. It does not prove future conversion, and it doesn't mean a ready template can be plugged into any business without adaptation.",
+  finalTitle: "Show me one process your team does by hand",
+  finalText:
+    "I'll suggest a concrete first stage without rebuilding your whole business or adding unnecessary features.",
+  scenarios: {
+    lead: {
+      tab: "Sales / enquiry",
+      source: "Instagram Direct",
+      messages: [
+        {
+          from: "visitor",
+          text: "I need a consultation. I want to understand the options and the cost.",
+        },
+        {
+          from: "assistant",
+          text: "I'll help pass your request to the right person. What business is this for, and what takes the most time right now?",
+        },
+        {
+          from: "visitor",
+          text: "A chain with three locations. Managers manually answer the same questions and collect contacts.",
+        },
+      ],
+      fields: [
+        { label: "Request type", value: "Automation consultation" },
+        { label: "Business", value: "Chain, 3 locations" },
+        {
+          label: "Problem",
+          value: "Repetitive answers and manual contact collection",
+        },
+        { label: "Next step", value: "Break down one typical enquiry" },
+      ],
+    },
+    support: {
+      tab: "Support",
+      source: "Website chat",
+      messages: [
+        {
+          from: "visitor",
+          text: "The payment went through, but access to the service didn't appear.",
+        },
+        {
+          from: "assistant",
+          text: "Let's check the request. Please share the order email and the approximate time of payment. No banking details needed.",
+        },
+        { from: "visitor", text: "client@example.com, today around 11:20." },
+      ],
+      fields: [
+        { label: "Category", value: "Payment / missing access" },
+        { label: "Email", value: "client@example.com" },
+        { label: "Time", value: "Today, around 11:20" },
+        { label: "Route", value: "Send to billing support" },
+      ],
+    },
+    booking: {
+      tab: "Booking",
+      source: "Telegram",
+      messages: [
+        {
+          from: "visitor",
+          text: "I'd like to book a consultation next week after 16:00.",
+        },
+        {
+          from: "assistant",
+          text: "Please tell me the consultation topic and convenient days. I'll pass the request to confirm a time.",
+        },
+        {
+          from: "visitor",
+          text: "Automating enquiries. Tuesday or Thursday works.",
+        },
+      ],
+      fields: [
+        { label: "Service", value: "Automation consultation" },
+        { label: "Time", value: "After 16:00" },
+        { label: "Days", value: "Tuesday or Thursday" },
+        { label: "Next step", value: "Confirm an available slot" },
+      ],
+    },
+    commerce: {
+      tab: "Product selection",
+      source: "Viber",
+      messages: [
+        {
+          from: "visitor",
+          text: "I need a gift under 3000 UAH with delivery tomorrow.",
+        },
+        {
+          from: "assistant",
+          text: "Who is the gift for, and which categories should I definitely avoid? I'll check options within your budget.",
+        },
+        {
+          from: "visitor",
+          text: "For a man, no alcohol. Preferably something practical.",
+        },
+      ],
+      fields: [
+        { label: "Task", value: "Gift for a man" },
+        { label: "Budget", value: "Up to 3000 UAH" },
+        { label: "Constraints", value: "No alcohol, delivery tomorrow" },
+        { label: "Preference", value: "Practical gift" },
+      ],
+    },
+  },
+};
 
 const scenarioKeys: ScenarioKey[] = ["lead", "support", "booking", "commerce"];
 const capabilityIcons = [
@@ -547,13 +788,61 @@ const capabilityIcons = [
   Workflow,
   Route,
 ];
-const caseIcons = [Hotel, Building2, Sparkles, Wrench];
+const caseIcons = [Workflow, Hotel, Route, Building2];
 
 export function AutomationPortfolioPage() {
   const { lang } = useI18n();
-  const t = copy[(lang as Locale) || "ua"] || copy.ua;
+  const locale: Locale = lang === "ua" || lang === "ru" ? lang : "en";
+  const t = copy[locale] || copy.ua;
   const [active, setActive] = useState<ScenarioKey>("lead");
+  const [demoOpened, setDemoOpened] = useState(false);
+  const [seen, setSeen] = useState<ScenarioKey[]>(["lead"]);
+  const [demoDone, setDemoDone] = useState(false);
   const scenario = t.scenarios[active];
+
+  const openDemo = () => {
+    if (demoOpened) return;
+    setDemoOpened(true);
+    track("demo_open", { locale, page: "automation" });
+  };
+
+  const selectScenario = (key: ScenarioKey) => {
+    setActive(key);
+    track("scenario_select", { locale, scenario: key });
+    openDemo();
+    setSeen((prev) => {
+      if (prev.includes(key)) return prev;
+      const next = [...prev, key];
+      // "demo_complete" once the visitor has genuinely explored the demo.
+      if (!demoDone && next.length >= 3) {
+        setDemoDone(true);
+        track("demo_complete", { locale, page: "automation" });
+      }
+      return next;
+    });
+  };
+
+  const statusStyles: Record<
+    "real" | "prototype" | "pilot" | "dev",
+    { cls: string; label: string }
+  > = {
+    real: {
+      cls: "border-emerald-400/25 bg-emerald-400/10 text-emerald-300",
+      label: t.realProject,
+    },
+    pilot: {
+      cls: "border-emerald-400/25 bg-emerald-400/10 text-emerald-300",
+      label: t.livePilot,
+    },
+    prototype: {
+      cls: "border-amber-300/25 bg-amber-300/10 text-amber-200",
+      label: t.interactivePrototype,
+    },
+    dev: {
+      cls: "border-amber-300/25 bg-amber-300/10 text-amber-200",
+      label: t.inDevelopment,
+    },
+  };
 
   return (
     <div className="min-h-screen bg-black text-white">
@@ -578,12 +867,6 @@ export function AutomationPortfolioPage() {
               </p>
               <p className="mt-4 text-sm text-zinc-500">{t.note}</p>
               <div className="mt-9 flex flex-col items-center justify-center gap-3 sm:flex-row">
-                <a href="#live-demo">
-                  <Button className="premium-button h-12 px-7">
-                    {t.demoCta}
-                    <ArrowRight className="ml-2 h-4 w-4" />
-                  </Button>
-                </a>
                 <RequestDialog
                   intent="automation_portfolio_process_request"
                   title={t.dialogTitle}
@@ -600,12 +883,23 @@ export function AutomationPortfolioPage() {
                   }}
                 >
                   <Button
+                    onClick={() =>
+                      track("primary_cta_click", { locale, page: "automation" })
+                    }
+                    className="premium-button h-12 px-7"
+                  >
+                    {t.requestCta}
+                    <ArrowRight className="ml-2 h-4 w-4" />
+                  </Button>
+                </RequestDialog>
+                <a href="#live-demo" onClick={openDemo}>
+                  <Button
                     variant="outline"
                     className="h-12 border-amber-300/30 bg-transparent px-7 text-amber-100 hover:bg-amber-300/10"
                   >
-                    {t.requestCta}
+                    {t.demoCta}
                   </Button>
-                </RequestDialog>
+                </a>
               </div>
             </motion.div>
           </div>
@@ -634,7 +928,7 @@ export function AutomationPortfolioPage() {
                   <button
                     key={key}
                     type="button"
-                    onClick={() => setActive(key)}
+                    onClick={() => selectScenario(key)}
                     className={cn(
                       "rounded-xl border px-4 py-3 text-sm font-medium transition",
                       active === key
@@ -767,22 +1061,22 @@ export function AutomationPortfolioPage() {
             </div>
             <div className="mt-10 grid gap-4 md:grid-cols-2">
               {t.cases.map((item, index) => {
-                const Icon = caseIcons[index];
+                const Icon = caseIcons[index] ?? Workflow;
+                const s = statusStyles[item.status];
                 return (
-                  <article key={item.title} className="luxe-card p-6 sm:p-7">
+                  <article
+                    key={item.title}
+                    className="luxe-card flex flex-col p-6 sm:p-7"
+                  >
                     <div className="flex items-start justify-between gap-4">
                       <Icon className="h-7 w-7 text-amber-300" />
                       <span
                         className={cn(
                           "rounded-full border px-3 py-1 text-xs font-medium",
-                          item.status === "real"
-                            ? "border-emerald-400/25 bg-emerald-400/10 text-emerald-300"
-                            : "border-amber-300/25 bg-amber-300/10 text-amber-200",
+                          s.cls,
                         )}
                       >
-                        {item.status === "real"
-                          ? t.realProject
-                          : t.interactivePrototype}
+                        {s.label}
                       </span>
                     </div>
                     <h3 className="mt-5 text-2xl font-semibold">
@@ -795,6 +1089,15 @@ export function AutomationPortfolioPage() {
                       <Check className="mt-0.5 h-4 w-4 shrink-0 text-amber-300" />
                       {item.result}
                     </div>
+                    {item.href && item.cta && (
+                      <a
+                        href={item.href}
+                        className="mt-5 inline-flex items-center gap-1.5 text-sm font-medium text-amber-300 hover:text-amber-200"
+                      >
+                        {item.cta}
+                        <ArrowRight className="h-4 w-4" />
+                      </a>
+                    )}
                   </article>
                 );
               })}

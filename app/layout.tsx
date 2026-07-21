@@ -2,6 +2,7 @@ import "./globals.css";
 import type { Metadata, Viewport } from "next";
 import type { ReactNode } from "react";
 import { AppShell } from "@/components/app-shell";
+import { Analytics } from "@/components/analytics";
 import { SITE } from "@/lib/site";
 
 const TITLE = "Vlad Kuzmenko — AI Systems, Web Platforms & Content Systems";
@@ -85,6 +86,7 @@ const jsonLd = {
       jobTitle: "Builder — AI systems, web platforms and content systems",
       description:
         "Builds AI systems, web platforms and content systems for businesses and personal brands.",
+      knowsLanguage: ["en", "uk", "ru"],
       sameAs: [
         SITE.socials.instagram,
         SITE.socials.youtube,
@@ -99,7 +101,9 @@ const jsonLd = {
       name: "Vlad Kuzmenko",
       description: DESCRIPTION,
       publisher: { "@id": `${SITE.url}/#vlad` },
-      inLanguage: "en",
+      // Trilingual site — declare all published content languages rather than
+      // English-only. Per-page <html lang> still reflects the active locale.
+      inLanguage: ["en", "uk", "ru"],
     },
     {
       "@type": "ProfessionalService",
@@ -108,6 +112,7 @@ const jsonLd = {
       description:
         "AI systems, web platforms, content systems, automation, lead capture and website audits for businesses and personal brands.",
       areaServed: "Worldwide",
+      availableLanguage: ["en", "uk", "ru"],
       email: SITE.email,
       founder: { "@id": `${SITE.url}/#vlad` },
     },
@@ -119,6 +124,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
     <html lang="en" className="dark">
       <body suppressHydrationWarning>
         <AppShell>{children}</AppShell>
+        <Analytics />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}

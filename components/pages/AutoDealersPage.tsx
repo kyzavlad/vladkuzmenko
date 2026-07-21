@@ -9,7 +9,6 @@ import {
   Check,
   ClipboardCheck,
   Database,
-  ExternalLink,
   Layers,
   ListChecks,
   MessageSquare,
@@ -260,7 +259,7 @@ const copy: Record<Locale, PageCopy> = {
       "Кваліфікує звернення та збирає потрібний контекст",
       "Класифікує тип запиту й маршрутизує у відповідний відділ",
       "Формує структуровану картку для менеджера або CRM",
-      "Нагадує про наступний крок і супроводжує до передачі людині",
+      "Веде фолоу-ап у погодженому каналі та нагадує про наступний крок, доки менеджер не підключиться",
     ],
     layer2Label: "Шар 2 — можлива інтеграція в межах Pilot",
     layer2Note:
@@ -604,7 +603,7 @@ const copy: Record<Locale, PageCopy> = {
       "Квалифицирует обращение и собирает нужный контекст",
       "Классифицирует тип запроса и маршрутизирует в нужный отдел",
       "Формирует структурированную карточку для менеджера или CRM",
-      "Напоминает о следующем шаге и сопровождает до передачи человеку",
+      "Ведёт фоллоу-ап в согласованном канале и напоминает о следующем шаге, пока не подключится менеджер",
     ],
     layer2Label: "Слой 2 — возможная интеграция в рамках Pilot",
     layer2Note:
@@ -785,7 +784,7 @@ const copy: Record<Locale, PageCopy> = {
       "Qualifies the enquiry and collects the needed context",
       "Classifies the request type and routes it to the right department",
       "Builds a structured card for a manager or CRM",
-      "Reminds about the next step and follows up until the human handoff",
+      "Follows up on the agreed channel and reminds about the next step until a manager takes over",
     ],
     layer2Label: "Layer 2 — a possible Pilot integration",
     layer2Note:
@@ -1577,7 +1576,7 @@ export function AutoDealersPage() {
                 className="inline-flex items-center gap-1 text-amber-300 hover:text-amber-200 underline underline-offset-4"
               >
                 {c.portfolioCta}
-                <ExternalLink className="h-3.5 w-3.5" />
+                <ArrowRight className="h-3.5 w-3.5" />
               </a>
             </p>
           </div>
