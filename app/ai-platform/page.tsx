@@ -1,21 +1,21 @@
-"use client";
-
-import { useEffect } from "react";
-import Link from "next/link";
+import type { Metadata } from "next";
+import { RedirectNotice } from "@/components/redirect-notice";
 
 // The old "AI Editing Platform" demo was a non-functional placeholder.
-// The real early-access tool is VisibilityOS.
-export default function AiPlatformRedirect() {
-  useEffect(() => {
-    window.location.replace("/#visibilityos");
-  }, []);
+// The real early-access tool is VisibilityOS. This route only redirects, so it
+// is excluded from indexing.
+export const metadata: Metadata = {
+  title: "Redirecting to VisibilityOS",
+  robots: { index: false, follow: true },
+  alternates: { canonical: "/" },
+};
 
+export default function AiPlatformRedirect() {
   return (
-    <main className="min-h-screen bg-black flex flex-col items-center justify-center gap-4 text-center px-6">
-      <p className="text-gray-400">Taking you to VisibilityOS…</p>
-      <Link href="/#visibilityos" className="text-amber-300 underline">
-        Continue to VisibilityOS
-      </Link>
-    </main>
+    <RedirectNotice
+      to="/#visibilityos"
+      message="Taking you to VisibilityOS…"
+      label="Continue to VisibilityOS"
+    />
   );
 }

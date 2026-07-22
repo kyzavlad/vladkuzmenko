@@ -1,21 +1,21 @@
-"use client";
-
-import { useEffect } from "react";
-import Link from "next/link";
+import type { Metadata } from "next";
+import { RedirectNotice } from "@/components/redirect-notice";
 
 // The old "University" course dashboard was a non-functional placeholder.
-// Digital products now live in the Products section.
-export default function UniversityRedirect() {
-  useEffect(() => {
-    window.location.replace("/#products");
-  }, []);
+// Digital products now live in the Products section. This route only redirects,
+// so it is excluded from indexing.
+export const metadata: Metadata = {
+  title: "Redirecting to products",
+  robots: { index: false, follow: true },
+  alternates: { canonical: "/" },
+};
 
+export default function UniversityRedirect() {
   return (
-    <main className="min-h-screen bg-black flex flex-col items-center justify-center gap-4 text-center px-6">
-      <p className="text-gray-400">Taking you to products…</p>
-      <Link href="/#products" className="text-amber-300 underline">
-        Continue to products
-      </Link>
-    </main>
+    <RedirectNotice
+      to="/#products"
+      message="Taking you to products…"
+      label="Continue to products"
+    />
   );
 }

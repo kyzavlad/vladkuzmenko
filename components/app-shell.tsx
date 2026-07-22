@@ -51,25 +51,17 @@ export function AppShell({ children }: { children: ReactNode }) {
     return () => clearTimeout(t);
   }, []);
 
+  // Render content immediately (so it is server-rendered and crawlable / good
+  // for SEO and AI search) and lay the intro animation over it as a fixed
+  // overlay that fades out. Same visual intro, but content is in the initial
+  // HTML instead of being gated behind a client-only timer.
   return (
     <CartProvider>
-      <AnimatePresence mode="wait">
-        {isLoading ? (
-          <LoadingAnimation key="loading" />
-        ) : (
-          <motion.div
-            key="content"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.5 }}
-          >
-            {children}
-            <VoiceflowScript />
-            <ShoppingCartSidebar />
-            <Toaster />
-          </motion.div>
-        )}
-      </AnimatePresence>
+      {children}
+      <VoiceflowScript />
+      <ShoppingCartSidebar />
+      <Toaster />
+      <AnimatePresence>{isLoading && <LoadingAnimation key="loading" />}</AnimatePresence>
     </CartProvider>
   );
 }

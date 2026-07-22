@@ -6,15 +6,22 @@ import { Mic, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { RequestDialog } from "@/components/ui/request-dialog";
 import { useI18n } from "@/components/i18n-provider";
-import type { Dict } from "@/lib/i18n";
+import { langHref, type Dict } from "@/lib/i18n";
 
 type FeaturedKey = keyof Dict["selected"]["featured"];
 type CompactKey = keyof Dict["selected"]["compact"];
 
-const featuredConfig: { key: FeaturedKey; name: string; buildIndex: number; images: string[] }[] = [
+const featuredConfig: {
+  key: FeaturedKey;
+  name: string;
+  slug: string;
+  buildIndex: number;
+  images: string[];
+}[] = [
   {
     key: "tutorivo",
     name: "Tutorivo",
+    slug: "tutorivo",
     buildIndex: 1,
     images: [
       "/case-studies/tutorivo/home.webp",
@@ -26,6 +33,7 @@ const featuredConfig: { key: FeaturedKey; name: string; buildIndex: number; imag
   {
     key: "statusauto",
     name: "Status Auto",
+    slug: "status-auto",
     buildIndex: 0,
     images: [
       "/case-studies/status-auto/home.webp",
@@ -36,6 +44,7 @@ const featuredConfig: { key: FeaturedKey; name: string; buildIndex: number; imag
   {
     key: "turbotaai",
     name: "TurbotaAI",
+    slug: "turbotaai",
     buildIndex: 2,
     images: [
       "/case-studies/turbotaai/home.webp",
@@ -92,10 +101,12 @@ function RequestSimilar({
 }
 
 function FeaturedCard({ cfg, i }: { cfg: (typeof featuredConfig)[number]; i: number }) {
-  const { t } = useI18n();
+  const { t, lang } = useI18n();
   const s = t.selected;
   const cap = s.featured[cfg.key];
   const [active, setActive] = useState(0);
+  const base = langHref(lang);
+  const workBase = base === "/" ? "" : base;
 
   return (
     <motion.div
@@ -169,8 +180,15 @@ function FeaturedCard({ cfg, i }: { cfg: (typeof featuredConfig)[number]; i: num
           </div>
         </dl>
 
-        <div className="mt-6 sm:max-w-xs">
+        <div className="mt-6 flex flex-col sm:flex-row sm:items-center gap-3 sm:max-w-md">
           <RequestSimilar project={cfg.name} buildIndex={cfg.buildIndex} variant="premium" />
+          <a
+            href={`${workBase}/work/${cfg.slug}`}
+            className="inline-flex items-center justify-center gap-1.5 rounded-lg border border-amber-400/30 px-4 py-2 text-sm font-medium text-amber-200 hover:bg-amber-400/10 transition-colors whitespace-nowrap"
+          >
+            {s.viewCase}
+            <ArrowRight className="h-4 w-4" />
+          </a>
         </div>
       </div>
     </motion.div>

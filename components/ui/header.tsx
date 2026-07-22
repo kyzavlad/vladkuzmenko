@@ -5,11 +5,19 @@ import { usePathname } from "next/navigation";
 import { Menu, X, Calendar } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { SITE, openAssistant } from "@/lib/site";
+import { track } from "@/lib/analytics";
 import { useI18n } from "@/components/i18n-provider";
 import { LANGS, LANG_LABELS, langHref } from "@/lib/i18n";
 
 // Sub-pages that exist in all three languages (for the language switcher).
-const LOCALIZED_SLUGS = new Set(["", "visibilityos", "ai-systems", "auto-dealers", "warriors-team"]);
+const LOCALIZED_SLUGS = new Set([
+  "",
+  "automation",
+  "auto-dealers",
+  "visibilityos",
+  "ai-systems",
+  "warriors-team",
+]);
 
 export function Header() {
   const { lang, t } = useI18n();
@@ -24,6 +32,7 @@ export function Header() {
   const navItems: { title: string; href: string; hash?: string }[] = [
     { title: t.nav.home, href: base },
     { title: t.nav.work, href: hashHref("work"), hash: "work" },
+    { title: t.nav.automation, href: pageHref("automation") },
     { title: t.nav.products, href: hashHref("products"), hash: "products" },
     { title: t.nav.visibilityos, href: pageHref("visibilityos") },
     { title: t.nav.warriors, href: pageHref("warriors-team") },
@@ -47,6 +56,8 @@ export function Header() {
   const slug = rel === "/" ? "" : rel.replace(/^\//, "").split("/")[0];
   const switchHref = (l: (typeof LANGS)[number]) => {
     const b = l === "en" ? "" : `/${l}`;
+    // Case-study routes: preserve the full /work/<slug> sub-path across locales.
+    if (slug === "work") return `${b}${rel}` || "/";
     const useSlug = LOCALIZED_SLUGS.has(slug) ? slug : "";
     return useSlug ? `${b}/${useSlug}` : b || "/";
   };
@@ -68,6 +79,7 @@ export function Header() {
             href={switchHref(l)}
             aria-current={l === lang ? "true" : undefined}
             onClick={() => {
+              if (l !== lang) track("locale_change", { from: lang, to: l });
               try {
                 localStorage.setItem("vk_lang", l);
               } catch {
