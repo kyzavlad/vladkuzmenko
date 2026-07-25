@@ -10,6 +10,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
   // slug → priority
   const pages: { slug: string; priority: number; freq: "weekly" | "monthly" }[] = [
     { slug: "", priority: 1, freq: "weekly" },
+    { slug: "work", priority: 0.9, freq: "monthly" },
+    { slug: "ai-product-development", priority: 0.9, freq: "monthly" },
     { slug: "automation", priority: 0.9, freq: "monthly" },
     { slug: "auto-dealers", priority: 0.9, freq: "monthly" },
     { slug: "visibilityos", priority: 0.8, freq: "monthly" },

@@ -12,6 +12,8 @@ import { LANGS, LANG_LABELS, langHref } from "@/lib/i18n";
 // Sub-pages that exist in all three languages (for the language switcher).
 const LOCALIZED_SLUGS = new Set([
   "",
+  "work",
+  "ai-product-development",
   "automation",
   "auto-dealers",
   "visibilityos",
@@ -31,7 +33,7 @@ export function Header() {
 
   const navItems: { title: string; href: string; hash?: string }[] = [
     { title: t.nav.home, href: base },
-    { title: t.nav.work, href: hashHref("work"), hash: "work" },
+    { title: t.nav.work, href: pageHref("work") },
     { title: t.nav.automation, href: pageHref("automation") },
     { title: t.nav.products, href: hashHref("products"), hash: "products" },
     { title: t.nav.visibilityos, href: pageHref("visibilityos") },

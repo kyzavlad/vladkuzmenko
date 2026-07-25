@@ -230,7 +230,11 @@ function CompactCard({ cfg, i }: { cfg: (typeof compactConfig)[number]; i: numbe
 }
 
 export function SelectedWork() {
-  const { t } = useI18n();
+  const { t, lang } = useI18n();
+  const base = langHref(lang);
+  const workHref = base === "/" ? "/work" : `${base}/work`;
+  const allLabel =
+    lang === "ua" ? "Переглянути всі роботи" : lang === "ru" ? "Смотреть все работы" : "View all work";
   return (
     <section
       id="selected-work"
@@ -261,6 +265,15 @@ export function SelectedWork() {
           {compactConfig.map((cfg, i) => (
             <CompactCard key={cfg.key} cfg={cfg} i={i} />
           ))}
+        </div>
+
+        <div className="text-center mt-12">
+          <a href={workHref}>
+            <Button className="premium-button h-auto min-h-12 px-7 py-3">
+              {allLabel}
+              <ArrowRight className="ml-2 h-4 w-4" />
+            </Button>
+          </a>
         </div>
       </div>
     </section>
