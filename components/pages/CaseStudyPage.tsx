@@ -142,6 +142,24 @@ export function CaseStudyPage({ slug }: { slug: string }) {
           </p>
           <div className="flex flex-col sm:flex-row gap-3">
             {cta}
+            {study.liveUrl && (
+              <a
+                href={study.liveUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="max-sm:w-full"
+                onClick={() => track("case_study_live_click", { locale, slug })}
+              >
+                <Button className="max-sm:w-full h-auto min-h-12 px-6 py-3 bg-transparent border border-emerald-400/30 text-white hover:bg-emerald-400/10">
+                  {locale === "ua"
+                    ? "Відкрити живий проєкт"
+                    : locale === "ru"
+                      ? "Открыть живой проект"
+                      : "View live project"}
+                  <ArrowRight className="ml-2 h-4 w-4 shrink-0" />
+                </Button>
+              </a>
+            )}
             <a href={SITE.calcom} target="_blank" rel="noopener noreferrer" className="max-sm:w-full">
               <Button
                 className="max-sm:w-full h-auto min-h-12 px-6 py-3 bg-transparent border border-amber-400/30 text-white hover:bg-amber-400/10"

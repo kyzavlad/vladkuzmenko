@@ -188,6 +188,62 @@ export const PORTFOLIO: PortfolioCard[] = [
       },
     },
   },
+
+  {
+    key: "ser-crypto",
+    category: "web_platforms",
+    status: "real_client",
+    caseSlug: "ser-crypto",
+    shots: ["/case-studies/ser-crypto/hero.png"],
+    content: {
+      en: {
+        name: "SerCrypto Academy",
+        type: "Live conversion landing · Crypto education",
+        problem:
+          "A multi-part education, Telegram tool and community offer needed one clear conversion path.",
+        built:
+          "A live responsive landing that explains the offer, mechanics, audience fit, packages and registration path.",
+        capabilities: [
+          "Landing architecture",
+          "Responsive web",
+          "Pricing presentation",
+          "Registration hand-off",
+        ],
+        caption: "SerCrypto Academy — live landing",
+      },
+      ua: {
+        name: "SerCrypto Academy",
+        type: "Живий конверсійний лендинг · Криптоосвіта",
+        problem:
+          "Багатокомпонентній пропозиції з навчанням, Telegram-інструментом і спільнотою був потрібен один зрозумілий шлях до конверсії.",
+        built:
+          "Живий адаптивний лендинг, що пояснює пропозицію, механіку, відповідність аудиторії, пакети й шлях до реєстрації.",
+        capabilities: [
+          "Архітектура лендингу",
+          "Адаптивний веб",
+          "Презентація тарифів",
+          "Перехід до реєстрації",
+        ],
+        caption: "SerCrypto Academy — живий лендинг",
+      },
+      ru: {
+        name: "SerCrypto Academy",
+        type: "Живой конверсионный лендинг · Криптообразование",
+        problem:
+          "Многокомпонентному предложению с обучением, Telegram-инструментом и сообществом требовался один понятный путь к конверсии.",
+        built:
+          "Живой адаптивный лендинг, который объясняет предложение, механику, соответствие аудитории, пакеты и путь к регистрации.",
+        capabilities: [
+          "Архитектура лендинга",
+          "Адаптивный веб",
+          "Презентация тарифов",
+          "Переход к регистрации",
+        ],
+        caption: "SerCrypto Academy — живой лендинг",
+      },
+    },
+  },
+
   {
     key: "leather-clinic",
     category: "web_platforms",

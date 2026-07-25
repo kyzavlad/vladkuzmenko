@@ -76,6 +76,8 @@ export interface CaseStudy {
   order: number;
   /** Public image paths (screenshots). Empty for diagram-only cases. */
   shots: string[];
+  /** Optional public URL for a live project. */
+  liveUrl?: string;
   content: Record<Lang, CaseContent>;
 }
 
@@ -595,6 +597,172 @@ export const CASE_STUDIES: CaseStudy[] = [
       },
     },
   },
+
+  // ---------------------------------------------------------------------------
+  // Live client landing — crypto education / Telegram product ecosystem.
+  // Portfolio scope is limited to the public landing and conversion experience.
+  // ---------------------------------------------------------------------------
+  {
+    slug: "ser-crypto",
+    status: "real_client",
+    order: 5,
+    shots: [
+      "/case-studies/ser-crypto/hero.png",
+      "/case-studies/ser-crypto/system.png",
+      "/case-studies/ser-crypto/pricing.png",
+    ],
+    liveUrl: "https://landing.ser-crypto.com/",
+    content: {
+      en: {
+        title: "SerCrypto Academy",
+        tagline: "Live client landing · Crypto education",
+        projectType: "Conversion landing / education product",
+        audience:
+          "People exploring structured trading education, a Telegram screening tool and community access.",
+        context:
+          "A live client-facing landing for the SerCrypto Academy + Help4Trade ecosystem. The page has to explain a complex education offer, show how the parts work together and move visitors toward registration.",
+        problem:
+          "The offer combines education, a Telegram screener, trading setups, mentor support and multiple access packages. Without a clear hierarchy, visitors can miss how the parts fit together and what to do next.",
+        process:
+          "The page turns a multi-part offer into a guided path: value proposition, current offers, short webinar, system mechanics, audience fit, packages, proof and FAQ.",
+        outcome:
+          "A live responsive sales experience that presents the offer clearly and provides a direct route into registration.",
+        built: [
+          "Conversion-focused hero and calls to action",
+          "Offer and bonus presentation",
+          "System-mechanics explanation",
+          "Audience-fit section",
+          "Package and access comparison",
+          "Testimonials and FAQ",
+          "Responsive client-facing experience",
+        ],
+        journey: [
+          "Understand the Academy and Help4Trade combination",
+          "Review the current offer and webinar",
+          "See how the system works",
+          "Check whether the approach fits",
+          "Compare access packages",
+          "Continue to registration",
+        ],
+        integrations: [
+          "Responsive web",
+          "Registration hand-off",
+          "Offer architecture",
+          "Pricing presentation",
+          "FAQ",
+        ],
+        captions: [
+          "Live landing — hero and core offer",
+          "How the Academy + Help4Trade system works",
+          "Packages, access and conversion path",
+        ],
+        resultFallback:
+          "The client-facing landing is live. This case proves the shipped public experience; private commercial metrics are not published.",
+        scopeNote:
+          "Portfolio scope: the public landing, information architecture and conversion experience. This case does not claim authorship of the trading curriculum, trading strategies or the Help4Trade bot.",
+        ctaLabel: "Request a conversion landing",
+      },
+      ua: {
+        title: "SerCrypto Academy",
+        tagline: "Живий клієнтський лендинг · Криптоосвіта",
+        projectType: "Конверсійний лендинг / освітній продукт",
+        audience:
+          "Люди, які шукають структуроване навчання трейдингу, Telegram-скринер і доступ до спільноти.",
+        context:
+          "Живий клієнтський лендинг для екосистеми SerCrypto Academy + Help4Trade. Сторінка має пояснити складну освітню пропозицію, показати зв'язок між її частинами та провести відвідувача до реєстрації.",
+        problem:
+          "Пропозиція поєднує навчання, Telegram-скринер, торгові ідеї, підтримку ментора та кілька пакетів доступу. Без чіткої ієрархії відвідувачеві легко втратити зв'язок між частинами й не зрозуміти наступний крок.",
+        process:
+          "Сторінка перетворює багатокомпонентну пропозицію на послідовний шлях: цінність, актуальні пропозиції, короткий вебінар, механіка, відповідність аудиторії, пакети, докази та FAQ.",
+        outcome:
+          "Живий адаптивний sales-досвід, що зрозуміло презентує пропозицію та дає прямий шлях до реєстрації.",
+        built: [
+          "Конверсійний hero та заклики до дії",
+          "Презентація пропозицій і бонусів",
+          "Пояснення механіки системи",
+          "Секція відповідності аудиторії",
+          "Порівняння пакетів і доступу",
+          "Відгуки та FAQ",
+          "Адаптивний клієнтський досвід",
+        ],
+        journey: [
+          "Зрозуміти зв'язку Academy та Help4Trade",
+          "Переглянути актуальну пропозицію й вебінар",
+          "Побачити, як працює система",
+          "Перевірити, чи підходить підхід",
+          "Порівняти пакети доступу",
+          "Перейти до реєстрації",
+        ],
+        integrations: [
+          "Адаптивний веб",
+          "Перехід до реєстрації",
+          "Архітектура офера",
+          "Презентація тарифів",
+          "FAQ",
+        ],
+        captions: [
+          "Живий лендинг — hero та основна пропозиція",
+          "Як працює система Academy + Help4Trade",
+          "Пакети, доступ і шлях до конверсії",
+        ],
+        resultFallback:
+          "Клієнтський лендинг працює наживо. Цей кейс підтверджує запущений публічний досвід; приватні комерційні метрики не публікуються.",
+        scopeNote:
+          "Обсяг у портфоліо: публічний лендинг, інформаційна архітектура та конверсійний досвід. Кейс не заявляє авторство навчальної програми, торгових стратегій або бота Help4Trade.",
+        ctaLabel: "Замовити конверсійний лендинг",
+      },
+      ru: {
+        title: "SerCrypto Academy",
+        tagline: "Живой клиентский лендинг · Криптообразование",
+        projectType: "Конверсионный лендинг / образовательный продукт",
+        audience:
+          "Люди, которые ищут структурированное обучение трейдингу, Telegram-скринер и доступ к сообществу.",
+        context:
+          "Живой клиентский лендинг для экосистемы SerCrypto Academy + Help4Trade. Страница должна объяснить сложное образовательное предложение, показать связь между его частями и провести посетителя к регистрации.",
+        problem:
+          "Предложение объединяет обучение, Telegram-скринер, торговые идеи, поддержку ментора и несколько пакетов доступа. Без ясной иерархии посетителю легко потерять связь между частями и не понять следующий шаг.",
+        process:
+          "Страница превращает многокомпонентное предложение в последовательный путь: ценность, актуальные предложения, короткий вебинар, механика, соответствие аудитории, пакеты, доказательства и FAQ.",
+        outcome:
+          "Живой адаптивный sales-опыт, который понятно презентует предложение и даёт прямой путь к регистрации.",
+        built: [
+          "Конверсионный hero и призывы к действию",
+          "Презентация предложений и бонусов",
+          "Объяснение механики системы",
+          "Секция соответствия аудитории",
+          "Сравнение пакетов и доступа",
+          "Отзывы и FAQ",
+          "Адаптивный клиентский опыт",
+        ],
+        journey: [
+          "Понять связку Academy и Help4Trade",
+          "Посмотреть актуальное предложение и вебинар",
+          "Увидеть, как работает система",
+          "Проверить, подходит ли подход",
+          "Сравнить пакеты доступа",
+          "Перейти к регистрации",
+        ],
+        integrations: [
+          "Адаптивный веб",
+          "Переход к регистрации",
+          "Архитектура оффера",
+          "Презентация тарифов",
+          "FAQ",
+        ],
+        captions: [
+          "Живой лендинг — hero и основное предложение",
+          "Как работает система Academy + Help4Trade",
+          "Пакеты, доступ и путь к конверсии",
+        ],
+        resultFallback:
+          "Клиентский лендинг работает в продакшне. Этот кейс подтверждает запущенный публичный опыт; приватные коммерческие метрики не публикуются.",
+        scopeNote:
+          "Объём портфолио: публичный лендинг, информационная архитектура и конверсионный опыт. Кейс не заявляет авторство учебной программы, торговых стратегий или бота Help4Trade.",
+        ctaLabel: "Заказать конверсионный лендинг",
+      },
+    },
+  },
+
 ];
 
 /** Slugs, in display order, for sitemap + static params + internal linking. */
