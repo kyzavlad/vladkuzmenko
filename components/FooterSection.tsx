@@ -25,7 +25,7 @@ export function FooterSection() {
   // Targets line up by index with the dictionary label arrays.
   const exploreTargets = [
     base,
-    hashHref("work"),
+    pageHref("work"),
     pageHref("visibilityos"),
     pageHref("ai-systems"),
     pageHref("warriors-team"),

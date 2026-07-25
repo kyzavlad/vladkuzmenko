@@ -39,6 +39,9 @@ interface RequestDialogProps {
   fields?: RequestField[];
   /** Universal-form toggles (ignored when `fields` is provided). */
   showBuildType?: boolean;
+  /** Compact universal form: name + optional email + required Telegram/phone + message only
+   *  (hides company & website). Opt-in; default behavior is unchanged. */
+  compact?: boolean;
   /** Index into the localized build-options list to pre-select. */
   presetBuildIndex?: number;
   helpLabel?: string;
@@ -60,6 +63,7 @@ export function RequestDialog({
   buttonLabel,
   fields,
   showBuildType = true,
+  compact = false,
   presetBuildIndex,
   helpLabel,
   helpPlaceholder,
@@ -76,11 +80,14 @@ export function RequestDialog({
     (() => {
       const list: RequestField[] = [
         { id: "name", label: f.name, required: true, placeholder: f.namePh },
-        { id: "email", label: f.email, type: "email", required: true, placeholder: f.emailPh },
-        { id: "phone", label: f.phone, placeholder: f.phonePh },
-        { id: "company", label: f.company, placeholder: f.companyPh },
-        { id: "website", label: f.website, placeholder: f.websitePh },
+        { id: "email", label: f.email, type: "email", required: !compact, placeholder: f.emailPh },
+        { id: "phone", label: f.phone, type: "tel", required: compact, placeholder: f.phonePh },
       ];
+      // Compact mode: contact + description only (no company/website).
+      if (!compact) {
+        list.push({ id: "company", label: f.company, placeholder: f.companyPh });
+        list.push({ id: "website", label: f.website, placeholder: f.websitePh });
+      }
       if (showBuildType) {
         list.push({
           id: "buildType",
