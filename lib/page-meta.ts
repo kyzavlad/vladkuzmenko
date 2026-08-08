@@ -7,7 +7,9 @@ export function pageMeta(
   lang: Lang,
   slug: string,
   title: string,
-  description: string
+  description: string,
+  /** Optional page-specific social image (absolute path under /public). */
+  image?: string
 ): Metadata {
   const path = (l: Lang) => {
     const base = langHref(l); // "/" | "/ua" | "/ru"
@@ -27,6 +29,12 @@ export function pageMeta(
         "x-default": path("en"),
       },
     },
-    openGraph: { title, description, locale: ogLocale, type: "website", images: ["/og-banner.png"] },
+    openGraph: {
+      title,
+      description,
+      locale: ogLocale,
+      type: "website",
+      images: [image ?? "/og-banner.png"],
+    },
   };
 }

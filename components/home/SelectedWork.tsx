@@ -20,7 +20,6 @@ const featuredConfig: { key: FeaturedKey; name: string; buildIndex: number; imag
       "/case-studies/tutorivo/home.webp",
       "/case-studies/tutorivo/catalog.webp",
       "/case-studies/tutorivo/become-tutor.webp",
-      "/case-studies/tutorivo/admin.webp",
     ],
   },
   {

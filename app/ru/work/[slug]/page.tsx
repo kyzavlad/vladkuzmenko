@@ -14,7 +14,7 @@ export function generateMetadata({ params }: { params: { slug: string } }): Meta
   const study = getCaseDetail(params.slug);
   if (!study) return {};
   const c = study.content.ru;
-  return pageMeta("ru", `work/${params.slug}`, `${c.name} — кейс | Vlad Kuzmenko`, c.context);
+  return pageMeta("ru", `work/${params.slug}`, `${c.name} — кейс | Vlad Kuzmenko`, c.outcome, study.shots[0]);
 }
 
 export default function Page({ params }: { params: { slug: string } }) {

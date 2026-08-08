@@ -51,25 +51,20 @@ export function AppShell({ children }: { children: ReactNode }) {
     return () => clearTimeout(t);
   }, []);
 
+  // Page content is always rendered so it exists in the static HTML (crawlers and
+  // link previews see the real page). The intro animation is a full-screen fixed
+  // overlay on top of it, so the visual experience is unchanged.
   return (
     <CartProvider>
-      <AnimatePresence mode="wait">
-        {isLoading ? (
-          <LoadingAnimation key="loading" />
-        ) : (
-          <motion.div
-            key="content"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.5 }}
-          >
-            {children}
-            <VoiceflowScript />
-            <ShoppingCartSidebar />
-            <Toaster />
-          </motion.div>
-        )}
-      </AnimatePresence>
+      {children}
+      <AnimatePresence>{isLoading && <LoadingAnimation key="loading" />}</AnimatePresence>
+      {!isLoading && (
+        <>
+          <VoiceflowScript />
+          <ShoppingCartSidebar />
+          <Toaster />
+        </>
+      )}
     </CartProvider>
   );
 }
