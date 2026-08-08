@@ -101,7 +101,7 @@ const en = {
         built: "An AI assistant product: a chat / voice / video experience, an access profile and subscription / pricing logic — built in public.",
         why: "It's proof I build full AI products end to end — real UX, real accounts, real billing, not just a demo.",
         tech: "Next.js · AI assistant · auth / profiles · subscriptions",
-        labels: ["Home", "Video experience", "Pricing & access"] },
+        labels: ["Landing", "Pricing & access", "Subscription"] },
     },
     compact: {
       ikorka: { tag: "Voice AI", blurb: "An AI voice assistant that answers and routes callers in natural speech. Listen to a real demo." },
@@ -433,7 +433,7 @@ const ua: Dict = {
         built: "AI-асистент як продукт: досвід чату / голосу / відео, профіль доступу та логіка підписки / тарифів — у форматі build-in-public.",
         why: "Доказ, що я будую повноцінні AI-продукти від початку до кінця — реальний UX, акаунти й білінг, а не лише демо.",
         tech: "Next.js · AI-асистент · авторизація / профілі · підписки",
-        labels: ["Головна", "Відео-досвід", "Тарифи й доступ"] },
+        labels: ["Головна", "Тарифи й доступ", "Підписка"] },
     },
     compact: {
       ikorka: { tag: "Голосовий AI", blurb: "AI-голосовий асистент, що відповідає й маршрутизує дзвінки природним мовленням. Послухайте справжнє демо." },
@@ -763,7 +763,7 @@ const ru: Dict = {
         built: "AI-ассистент как продукт: опыт чата / голоса / видео, профиль доступа и логика подписки / тарифов — в формате build-in-public.",
         why: "Доказательство, что я строю полноценные AI-продукты от начала до конца — реальный UX, аккаунты и биллинг, а не только демо.",
         tech: "Next.js · AI-ассистент · авторизация / профили · подписки",
-        labels: ["Главная", "Видео-опыт", "Тарифы и доступ"] },
+        labels: ["Главная", "Тарифы и доступ", "Подписка"] },
     },
     compact: {
       ikorka: { tag: "Голосовой AI", blurb: "AI-голосовой ассистент, отвечающий и маршрутизирующий звонки естественной речью. Послушайте реальное демо." },

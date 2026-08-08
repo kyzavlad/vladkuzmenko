@@ -37,9 +37,9 @@ const featuredConfig: { key: FeaturedKey; name: string; buildIndex: number; imag
     name: "TurbotaAI",
     buildIndex: 2,
     images: [
-      "/case-studies/turbotaai/home.webp",
-      "/case-studies/turbotaai/video.webp",
+      "/case-studies/turbotaai/landing.webp",
       "/case-studies/turbotaai/pricing.webp",
+      "/case-studies/turbotaai/subscription.webp",
     ],
   },
 ];
