@@ -182,6 +182,8 @@ function Shot({
   className?: string;
   priority?: boolean;
 }) {
+  // globals.css forces `.h-full { height: auto !important }`, so `h-full` cannot be
+  // used to fill a container. Absolute inset-0 fills reliably instead.
   return (
     /* eslint-disable-next-line @next/next/no-img-element */
     <img
@@ -189,7 +191,7 @@ function Shot({
       alt={alt}
       loading={priority ? "eager" : "lazy"}
       decoding="async"
-      className={cn("w-full h-full object-cover object-top", className)}
+      className={cn("media-fill", className)}
     />
   );
 }
@@ -214,8 +216,10 @@ function FeatureCard({
     <article className="luxe-card overflow-hidden">
       <div className={cn("grid lg:grid-cols-2 items-stretch", flip && "lg:[&>figure]:order-2")}>
         {p.shots.length > 0 && (
-          <figure className="relative bg-black/40 border-b lg:border-b-0 lg:border-r border-zinc-800 min-w-0">
-            <div className="aspect-[16/10] lg:h-full lg:aspect-auto lg:min-h-[420px]">
+          <figure className="relative bg-black/40 border-b lg:border-b-0 lg:border-r border-zinc-800 min-w-0 lg:min-h-[440px]">
+            {/* On lg the figure is a stretched grid item; fill it absolutely so the
+                visual always spans the full height of the card. */}
+            <div className="relative aspect-[16/10] lg:aspect-auto lg:absolute lg:inset-0">
               <Shot src={p.shots[0]} alt={`${c.name} — ${c.caption ?? c.type}`} priority={priority} />
             </div>
           </figure>
@@ -262,7 +266,7 @@ function ProjectCard({ p, locale, route }: { p: PortfolioCard; locale: Locale; r
     <article className="luxe-card overflow-hidden flex flex-col self-start">
       {p.shots.length > 0 && (
         <figure className="border-b border-zinc-800 bg-black/40">
-          <div className="aspect-[16/10]">
+          <div className="relative aspect-[16/10]">
             <Shot src={p.shots[0]} alt={`${c.name} — ${c.caption ?? c.type}`} />
           </div>
         </figure>

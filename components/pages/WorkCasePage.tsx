@@ -351,14 +351,14 @@ export function WorkCasePage({ slug }: { slug: string }) {
                     className="luxe-card overflow-hidden block group"
                   >
                     {o.shots.length > 0 && (
-                      <div className="aspect-[16/10] bg-black/40 border-b border-zinc-800 overflow-hidden">
+                      <div className="relative aspect-[16/10] bg-black/40 border-b border-zinc-800 overflow-hidden">
                         {/* eslint-disable-next-line @next/next/no-img-element */}
                         <img
                           src={o.shots[0]}
                           alt={`${oc.name} — ${oc.type}`}
                           loading="lazy"
                           decoding="async"
-                          className="w-full h-full object-cover object-top"
+                          className="media-fill"
                         />
                       </div>
                     )}
