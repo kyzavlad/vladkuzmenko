@@ -105,6 +105,9 @@ export const PORTFOLIO: PortfolioCard[] = [
     status: "active_development",
     featured: 1,
     caseSlug: "turbotaai",
+    // Public URL supplied by the project owner (portfolio-source/LIVE_PROJECTS.md).
+    // A public URL evidences a reachable page only — it does not upgrade the build stage.
+    liveUrl: "https://turbotaai.com/",
     shots: [
       "/case-studies/turbotaai/home.webp",
       "/case-studies/turbotaai/pricing.webp",
@@ -364,6 +367,9 @@ export const PORTFOLIO: PortfolioCard[] = [
     key: "leather-clinic",
     category: "websites",
     status: "in_development",
+    // Public URL supplied by the project owner (portfolio-source/LIVE_PROJECTS.md).
+    // No screenshots or verified scope exist yet, so this stays a card, not a case study.
+    liveUrl: "https://leatherclinic.org/",
     shots: [],
     content: {
       en: {
@@ -444,6 +450,7 @@ export const CASE_DETAILS: CaseDetail[] = [
     slug: "turbotaai",
     status: "active_development",
     category: "ai_products",
+    liveUrl: "https://turbotaai.com/",
     shots: [
       "/case-studies/turbotaai/home.webp",
       "/case-studies/turbotaai/pricing.webp",
