@@ -17,8 +17,8 @@ import {
   CATEGORY_LABEL,
   CATEGORY_SHORT,
   PORTFOLIO_UI,
-  STATUS_LABEL,
   STATUS_TONE,
+  statusText,
   EXPERIENCE_MATRIX,
   type Category,
   type PortfolioCard,
@@ -33,7 +33,15 @@ const toneClass: Record<"green" | "amber", string> = {
   amber: "border-amber-400/40 bg-amber-400/10 text-amber-300",
 };
 
-function StatusBadge({ status, lang }: { status: Status; lang: Locale }) {
+function StatusBadge({
+  status,
+  lang,
+  label,
+}: {
+  status: Status;
+  lang: Locale;
+  label?: Record<Locale, string>;
+}) {
   return (
     <span
       className={cn(
@@ -42,7 +50,7 @@ function StatusBadge({ status, lang }: { status: Status; lang: Locale }) {
       )}
     >
       <span className="h-1.5 w-1.5 rounded-full bg-current shrink-0" />
-      {STATUS_LABEL[status][lang]}
+      {statusText(lang, status, label)}
     </span>
   );
 }
@@ -232,7 +240,7 @@ function CaseBlock({
             <span className="text-[11px] uppercase tracking-[0.16em] text-amber-300/80">
               {CATEGORY_SHORT[p.category][locale]}
             </span>
-            <StatusBadge status={p.status} lang={locale} />
+            <StatusBadge status={p.status} lang={locale} label={p.statusLabel} />
           </div>
 
           <h3 className="text-2xl sm:text-3xl font-black tracking-tight mb-1.5 break-words">{c.name}</h3>
@@ -273,12 +281,12 @@ function CaseBlock({
             </div>
           )}
 
-          {c.scopeNote && (
-            <p className="mt-5 flex items-start gap-2 text-[11px] text-gray-500 leading-relaxed">
-              <ShieldCheck className="h-3.5 w-3.5 text-amber-400/60 shrink-0 mt-0.5" />
-              <span>{c.scopeNote}</span>
+          <div className="mt-6 rounded-xl border border-amber-400/25 bg-amber-400/[0.04] p-5">
+            <p className="text-[10px] uppercase tracking-[0.16em] text-amber-300/80 mb-2">
+              {ui.resultLabel}
             </p>
-          )}
+            <p className="text-sm sm:text-base text-gray-100 leading-relaxed">{c.result}</p>
+          </div>
 
           <CardActions p={p} locale={locale} route={route} full />
         </div>

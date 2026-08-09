@@ -10,8 +10,8 @@ import {
   FEATURED,
   PORTFOLIO_UI,
   CATEGORY_SHORT,
-  STATUS_LABEL,
   STATUS_TONE,
+  statusText,
   type PortfolioCard,
 } from "@/lib/portfolio";
 
@@ -71,7 +71,7 @@ function Preview({ p, locale, i }: { p: PortfolioCard; locale: Locale; i: number
               )}
             >
               <span className="h-1.5 w-1.5 rounded-full bg-current shrink-0" />
-              {STATUS_LABEL[p.status][locale]}
+              {statusText(locale, p.status, p.statusLabel)}
             </span>
           </div>
 
@@ -82,6 +82,13 @@ function Preview({ p, locale, i }: { p: PortfolioCard; locale: Locale; i: number
           <div className="text-sm">
             <p className="text-[10px] uppercase tracking-[0.16em] text-gray-500 mb-1">{ui.builtLabel}</p>
             <p className="text-gray-400 leading-relaxed">{c.built}</p>
+          </div>
+
+          <div className="mt-5 rounded-xl border border-amber-400/25 bg-amber-400/[0.04] p-4 sm:p-5">
+            <p className="text-[10px] uppercase tracking-[0.16em] text-amber-300/80 mb-1.5">
+              {ui.resultLabel}
+            </p>
+            <p className="text-sm text-gray-100 leading-relaxed">{c.result}</p>
           </div>
 
           <div className="mt-5 flex flex-wrap gap-1.5">

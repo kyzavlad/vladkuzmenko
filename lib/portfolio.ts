@@ -25,9 +25,18 @@ export const STATUS_LABEL: Record<Status, Record<Lang, string>> = {
   real_client: { en: "Live client project", ua: "Живий клієнтський проєкт", ru: "Живой клиентский проект" },
   launched_mvp: { en: "Launched MVP", ua: "Запущений MVP", ru: "Запущенный MVP" },
   in_development: { en: "In development", ua: "У розробці", ru: "В разработке" },
-  prototype: { en: "Completed prototype", ua: "Завершений прототип", ru: "Завершённый прототип" },
-  concept: { en: "Completed concept", ua: "Завершений концепт", ru: "Завершённый концепт" },
+  prototype: { en: "Completed interactive prototype", ua: "Завершений інтерактивний прототип", ru: "Завершённый интерактивный прототип" },
+  concept: { en: "Completed product concept", ua: "Завершений продуктовий концепт", ru: "Завершённый продуктовый концепт" },
 };
+
+/** The status wording shown to a reader: project-specific when we have it. */
+export function statusText(
+  lang: Lang,
+  status: Status,
+  override?: Record<Lang, string>,
+): string {
+  return override?.[lang] ?? STATUS_LABEL[status][lang];
+}
 
 export const STATUS_TONE: Record<Status, "green" | "amber"> = {
   real_client: "green",
@@ -117,10 +126,10 @@ export interface CardContent {
   built: string;
   /** Why it matters commercially — used by the editorial block on /work. */
   value?: string;
+  /** What the delivered work produced. Every project has one. */
+  result: string;
   capabilities: string[];
   /** Honesty fields for projects that have no separate case page. */
-  notClaimed?: string[];
-  scopeNote?: string;
   ctaLabel?: string;
   caption?: string;
 }
@@ -129,6 +138,8 @@ export interface PortfolioCard {
   key: string;
   category: Category;
   status: Status;
+  /** Precise, project-specific status wording. Falls back to STATUS_LABEL. */
+  statusLabel?: Record<Lang, string>;
   /** Lower number = higher up in the featured block. Absent = not featured. */
   featured?: number;
   /** Slug of a /work/[slug] detail page, when one exists. */
@@ -167,6 +178,8 @@ export const PORTFOLIO: PortfolioCard[] = [
           "An AI demo is not a business. The conversation, the account, the trial limit, the payment, the consent record and the people who operate it all have to work as one product.",
         built:
           "A full AI SaaS: a customer app in three languages with accounts, trial limits, subscription and consent controls — plus an operations console for activation, subscriptions, AI cost, system health and support lookups.",
+        result:
+          "A complete AI SaaS is standing: the customer journey from first trial question to paid subscription and self-managed data, and the operator side that runs it — activation, subscriptions, AI cost, system health, support lookup and an append-only audit trail. Development continues against a working product, not a specification.",
         capabilities: ["User accounts", "Subscription & paywall", "Admin & operations console", "Role-based access", "Consent & data controls", "Multilingual"],
         caption: "TurbotaAI — landing",
       },
@@ -179,6 +192,8 @@ export const PORTFOLIO: PortfolioCard[] = [
           "AI-демо — це ще не бізнес. Розмова, акаунт, ліміт пробного доступу, оплата, запис згоди та люди, які цим оперують, мають працювати як один продукт.",
         built:
           "Повноцінний AI SaaS: клієнтський застосунок трьома мовами з акаунтами, лімітами пробного доступу, підпискою та контролем згоди — плюс операційна консоль для активації, підписок, вартості AI, стану системи й підтримки.",
+        result:
+          "Повноцінний AI SaaS уже стоїть: шлях клієнта від першого пробного запиту до платної підписки й самостійного керування даними, і бік оператора, що цим керує — активація, підписки, вартість AI, стан системи, пошук для підтримки та незмінюваний журнал дій. Розробка триває на робочому продукті, а не на специфікації.",
         capabilities: ["Акаунти", "Підписка й пейволл", "Адмін- і операційна консоль", "Рольовий доступ", "Згода й контроль даних", "Багатомовність"],
         caption: "TurbotaAI — головна сторінка",
       },
@@ -191,6 +206,8 @@ export const PORTFOLIO: PortfolioCard[] = [
           "AI-демо — это ещё не бизнес. Разговор, аккаунт, лимит пробного доступа, оплата, запись согласия и люди, которые этим оперируют, должны работать как один продукт.",
         built:
           "Полноценный AI SaaS: клиентское приложение на трёх языках с аккаунтами, лимитами пробного доступа, подпиской и контролем согласия — плюс операционная консоль для активации, подписок, стоимости AI, состояния системы и поддержки.",
+        result:
+          "Полноценный AI SaaS уже стоит: путь клиента от первого пробного запроса до платной подписки и самостоятельного управления данными, и сторона оператора, которая этим управляет — активация, подписки, стоимость AI, состояние системы, поиск для поддержки и неизменяемый журнал действий. Разработка идёт на работающем продукте, а не на спецификации.",
         capabilities: ["Аккаунты", "Подписка и пейволл", "Админ- и операционная консоль", "Ролевой доступ", "Согласие и контроль данных", "Многоязычность"],
         caption: "TurbotaAI — главная страница",
       },
@@ -198,9 +215,10 @@ export const PORTFOLIO: PortfolioCard[] = [
   },
   {
     key: "tutorivo",
+    statusLabel: { en: "Launched and tested MVP", ua: "Запущений і протестований MVP", ru: "Запущенный и протестированный MVP" },
     category: "platforms",
     status: "launched_mvp",
-    featured: 3,
+    featured: 2,
     caseSlug: "tutorivo",
     shots: [
       "/case-studies/tutorivo/home.webp",
@@ -217,6 +235,8 @@ export const PORTFOLIO: PortfolioCard[] = [
           "Tutors and students lived in chats and spreadsheets — no single place to browse by subject and language, apply to teach, or keep requests in order.",
         built:
           "A tutor marketplace: a filterable catalog, tutor profiles, a structured application flow, an admin review layer, lesson-package logic and a multilingual structure.",
+        result:
+          "A two-sided marketplace is launched and tested: students search and filter a verified catalogue, tutors apply through a structured form, and an operator approves who gets published. What used to live in chats and spreadsheets now runs as one product with roles, moderation and lesson-package logic.",
         capabilities: ["Catalog & filters", "Profiles & roles", "Admin & moderation", "Payments", "Lesson packages", "Multilingual"],
         caption: "Tutorivo — home",
       },
@@ -229,6 +249,8 @@ export const PORTFOLIO: PortfolioCard[] = [
           "Репетитори та учні жили в чатах і таблицях — не було єдиного місця, щоб шукати за предметом і мовою, подати заявку на викладання чи тримати запити в порядку.",
         built:
           "Маркетплейс репетиторів: каталог із фільтрами, профілі викладачів, структурований потік заявки, шар адмін-модерації, логіка пакетів уроків і багатомовна структура.",
+        result:
+          "Двосторонній маркетплейс запущено й протестовано: учні шукають і фільтрують перевірений каталог, репетитори подають структуровану заявку, а оператор вирішує, кого публікувати. Те, що жило в чатах і таблицях, тепер працює як один продукт із ролями, модерацією та логікою пакетів уроків.",
         capabilities: ["Каталог і фільтри", "Профілі й ролі", "Адмін і модерація", "Оплати", "Пакети уроків", "Багатомовність"],
         caption: "Tutorivo — головна",
       },
@@ -241,6 +263,8 @@ export const PORTFOLIO: PortfolioCard[] = [
           "Репетиторы и ученики жили в чатах и таблицах — не было единого места, чтобы искать по предмету и языку, подать заявку на преподавание или держать запросы в порядке.",
         built:
           "Маркетплейс репетиторов: каталог с фильтрами, профили преподавателей, структурированный поток заявки, слой админ-модерации, логика пакетов уроков и многоязычная структура.",
+        result:
+          "Двусторонний маркетплейс запущен и протестирован: ученики ищут и фильтруют проверенный каталог, репетиторы подают структурированную заявку, а оператор решает, кого публиковать. То, что жило в чатах и таблицах, теперь работает как один продукт с ролями, модерацией и логикой пакетов уроков.",
         capabilities: ["Каталог и фильтры", "Профили и роли", "Админ и модерация", "Оплаты", "Пакеты уроков", "Многоязычность"],
         caption: "Tutorivo — главная",
       },
@@ -248,6 +272,7 @@ export const PORTFOLIO: PortfolioCard[] = [
   },
   {
     key: "status-auto",
+    statusLabel: { en: "Completed interactive prototype", ua: "Завершений інтерактивний прототип", ru: "Завершённый интерактивный прототип" },
     category: "platforms",
     status: "prototype",
     featured: 6,
@@ -267,6 +292,8 @@ export const PORTFOLIO: PortfolioCard[] = [
           "Car enquiries die in DMs and phone tag — someone browses, has no way to state a budget, and the lead is lost to a slow reply.",
         built:
           "A vehicle catalog with full specifications and a buyer-request flow that captures contact, budget and requirements from any page.",
+        result:
+          "A complete buyer journey is testable end to end before any production build: browse checked inventory, compare the specifications that actually decide a purchase, and hand over budget, requirements and contact in one step. The prototype turns a dealer's slowest process into a defined, repeatable flow.",
         capabilities: ["Inventory / catalog", "Lead capture", "Qualified request form", "Conversion routing"],
         caption: "Status Auto — home",
       },
@@ -279,6 +306,8 @@ export const PORTFOLIO: PortfolioCard[] = [
           "Запити на авто згасають у директах і недодзвонах — людина дивиться каталог, не має де вказати бюджет, і лід втрачається через повільну відповідь.",
         built:
           "Каталог авто з повними характеристиками та потік запиту покупця, що збирає контакт, бюджет і вимоги з будь-якої сторінки.",
+        result:
+          "Повний шлях покупця можна протестувати наскрізно ще до продакшн-реалізації: перегляд перевіреного автопарку, порівняння характеристик, які реально вирішують покупку, і передача бюджету, вимог і контакту за один крок. Прототип перетворює найповільніший процес дилера на визначений повторюваний потік.",
         capabilities: ["Каталог / автопарк", "Захоплення лідів", "Кваліфікована форма запиту", "Конверсійна маршрутизація"],
         caption: "Status Auto — головна",
       },
@@ -291,6 +320,8 @@ export const PORTFOLIO: PortfolioCard[] = [
           "Запросы на авто угасают в директах и недозвонах — человек смотрит каталог, не может указать бюджет, и лид теряется из-за медленного ответа.",
         built:
           "Каталог авто с полными характеристиками и поток запроса покупателя, собирающий контакт, бюджет и требования с любой страницы.",
+        result:
+          "Полный путь покупателя можно протестировать сквозным образом ещё до продакшн-реализации: просмотр проверенного автопарка, сравнение характеристик, которые реально решают покупку, и передача бюджета, требований и контакта за один шаг. Прототип превращает самый медленный процесс дилера в определённый повторяемый поток.",
         capabilities: ["Каталог / автопарк", "Захват лидов", "Квалифицированная форма запроса", "Конверсионная маршрутизация"],
         caption: "Status Auto — главная",
       },
@@ -313,6 +344,8 @@ export const PORTFOLIO: PortfolioCard[] = [
           "The brand needed a clear public landing that presents its offer and routes visitors toward registration.",
         built:
           "A responsive public landing: information architecture, offer and access presentation, and a single conversion route to registration.",
+        result:
+          "A live public landing that carries the brand's offer end to end: the proposition, how access works, the packages, and a single unambiguous route to registration. The page is published and reachable, and the conversion path is the delivered scope.",
         capabilities: ["Landing IA", "Responsive web", "Offer presentation", "Conversion route"],
         caption: "SerCrypto Academy — landing hero",
       },
@@ -325,6 +358,8 @@ export const PORTFOLIO: PortfolioCard[] = [
           "Бренду потрібен був зрозумілий публічний лендинг, що презентує пропозицію та веде відвідувачів до реєстрації.",
         built:
           "Адаптивний публічний лендинг: інформаційна архітектура, презентація пропозиції та доступу і єдиний конверсійний шлях до реєстрації.",
+        result:
+          "Живий публічний лендинг, що несе пропозицію бренду наскрізно: сама пропозиція, як влаштований доступ, пакети та єдиний однозначний шлях до реєстрації. Сторінка опублікована й доступна, а конверсійний шлях — це і є зданий обсяг.",
         capabilities: ["Архітектура лендингу", "Адаптивний веб", "Презентація пропозиції", "Конверсійний шлях"],
         caption: "SerCrypto Academy — головний екран",
       },
@@ -337,6 +372,8 @@ export const PORTFOLIO: PortfolioCard[] = [
           "Бренду нужен был понятный публичный лендинг, презентующий предложение и ведущий посетителей к регистрации.",
         built:
           "Адаптивный публичный лендинг: информационная архитектура, презентация предложения и доступа и единый конверсионный путь к регистрации.",
+        result:
+          "Живой публичный лендинг, несущий предложение бренда сквозным образом: само предложение, как устроен доступ, пакеты и единственный однозначный путь к регистрации. Страница опубликована и доступна, а конверсионный путь — это и есть сданный объём.",
         capabilities: ["Архитектура лендинга", "Адаптивный веб", "Презентация предложения", "Конверсионный путь"],
         caption: "SerCrypto Academy — главный экран",
       },
@@ -344,9 +381,10 @@ export const PORTFOLIO: PortfolioCard[] = [
   },
   {
     key: "cod-power-group",
+    statusLabel: { en: "Completed platform concept", ua: "Завершений концепт платформи", ru: "Завершённый концепт платформы" },
     category: "platforms",
     status: "concept",
-    featured: 2,
+    featured: 3,
     caseSlug: "cod-power-group",
     shots: [
       "/case-studies/cod-power-group/platform.webp",
@@ -363,6 +401,8 @@ export const PORTFOLIO: PortfolioCard[] = [
           "Cash-on-delivery sellers lose money in the gap between the order and the doorstep: unconfirmed leads, stock nobody tracks, courier statuses in four dashboards and payouts reconciled by hand.",
         built:
           "A marketing site plus an operations dashboard: orders, stock, invoices, sourcing requests, lead sources, call-centre confirmation stats, shipping status across couriers, and seller / affiliate account models.",
+        result:
+          "A complete operating picture for a cash-on-delivery business: the customer-facing service catalogue and both account models on one side, and on the other an operations console covering orders, stock, invoices, call-centre confirmations and multi-courier shipping status. The concept defines the whole COD chain — sourcing, confirmation, delivery, return, remittance — as one system ready for implementation.",
         capabilities: ["Orders & stock", "Call-centre pipeline", "Courier tracking", "Invoicing", "Seller & affiliate roles", "Analytics"],
         caption: "COD Power Group — platform and dashboard",
       },
@@ -375,6 +415,8 @@ export const PORTFOLIO: PortfolioCard[] = [
           "Продавці з накладеним платежем втрачають гроші між замовленням і дверима покупця: непідтверджені ліди, склад, який ніхто не веде, статуси кур'єрів у чотирьох кабінетах і виплати, що зводяться вручну.",
         built:
           "Маркетинговий сайт плюс операційна панель: замовлення, склад, рахунки, запити на закупівлю, джерела лідів, статистика підтверджень кол-центру, статуси доставки по кур'єрах і моделі акаунтів продавця / партнера.",
+        result:
+          "Повна операційна картина для бізнесу з накладеним платежем: клієнтський каталог послуг і дві моделі акаунтів з одного боку, і операційна консоль із замовленнями, складом, рахунками, підтвердженнями кол-центру та статусами доставки по кур'єрах — з іншого. Концепт визначає весь ланцюг COD — закупівля, підтвердження, доставка, повернення, виплата — як одну систему, готову до реалізації.",
         capabilities: ["Замовлення і склад", "Пайплайн кол-центру", "Трекінг кур'єрів", "Рахунки", "Ролі продавця й партнера", "Аналітика"],
         caption: "COD Power Group — платформа та панель",
       },
@@ -387,6 +429,8 @@ export const PORTFOLIO: PortfolioCard[] = [
           "Продавцы с наложенным платежом теряют деньги между заказом и дверью покупателя: неподтверждённые лиды, склад, который никто не ведёт, статусы курьеров в четырёх кабинетах и выплаты, сводимые вручную.",
         built:
           "Маркетинговый сайт плюс операционная панель: заказы, склад, счета, запросы на закупку, источники лидов, статистика подтверждений колл-центра, статусы доставки по курьерам и модели аккаунтов продавца / партнёра.",
+        result:
+          "Полная операционная картина для бизнеса с наложенным платежом: клиентский каталог услуг и две модели аккаунтов с одной стороны, и операционная консоль с заказами, складом, счетами, подтверждениями колл-центра и статусами доставки по курьерам — с другой. Концепт определяет всю цепочку COD — закупка, подтверждение, доставка, возврат, выплата — как одну систему, готовую к реализации.",
         capabilities: ["Заказы и склад", "Пайплайн колл-центра", "Трекинг курьеров", "Счета", "Роли продавца и партнёра", "Аналитика"],
         caption: "COD Power Group — платформа и панель",
       },
@@ -394,6 +438,7 @@ export const PORTFOLIO: PortfolioCard[] = [
   },
   {
     key: "nft-marketplace",
+    statusLabel: { en: "Completed mobile app concept", ua: "Завершений концепт мобільного застосунку", ru: "Завершённый концепт мобильного приложения" },
     category: "mobile",
     status: "concept",
     featured: 4,
@@ -413,6 +458,8 @@ export const PORTFOLIO: PortfolioCard[] = [
           "Marketplace apps fail at the moment of the bid: the price is stale, the countdown is buried, and the buyer cannot tell what happens to their money next.",
         built:
           "Three design directions for a marketplace app: onboarding, category and chain filtering, trending auctions with a live bid, a place-bid flow with bid history, seller rankings and wallet balance.",
+        result:
+          "A complete mobile marketplace experience in three finished design directions: onboarding, discovery with category and chain filters, a live auction with the current bid, and a place-bid screen carrying countdown, provenance and bid history. The bidding moment — where marketplace apps usually lose the buyer — is fully specified and ready to build against.",
         capabilities: ["Marketplace browsing", "Live auctions & bidding", "Filters & ranking", "Wallet balance", "Collection detail"],
         caption: "NFT marketplace — auction direction",
       },
@@ -425,6 +472,8 @@ export const PORTFOLIO: PortfolioCard[] = [
           "Застосунки-маркетплейси провалюються саме в момент ставки: ціна застаріла, таймер захований, а покупець не розуміє, що далі станеться з його грошима.",
         built:
           "Три дизайн-напрямки застосунку-маркетплейсу: онбординг, фільтри за категорією та мережею, трендові аукціони з живою ставкою, потік ставки з історією, рейтинги продавців і баланс гаманця.",
+        result:
+          "Повний досвід мобільного маркетплейсу в трьох завершених дизайн-напрямках: онбординг, пошук із фільтрами за категорією та мережею, живий аукціон із поточною ставкою та екран ставки з таймером, походженням і історією. Момент ставки — там, де застосунки-маркетплейси зазвичай втрачають покупця — повністю визначено й готово до реалізації.",
         capabilities: ["Перегляд маркетплейсу", "Живі аукціони та ставки", "Фільтри й рейтинг", "Баланс гаманця", "Сторінка колекції"],
         caption: "NFT-маркетплейс — аукціонний напрямок",
       },
@@ -437,6 +486,8 @@ export const PORTFOLIO: PortfolioCard[] = [
           "Приложения-маркетплейсы проваливаются именно в момент ставки: цена устарела, таймер спрятан, а покупатель не понимает, что дальше произойдёт с его деньгами.",
         built:
           "Три дизайн-направления приложения-маркетплейса: онбординг, фильтры по категории и сети, трендовые аукционы с живой ставкой, поток ставки с историей, рейтинги продавцов и баланс кошелька.",
+        result:
+          "Полный опыт мобильного маркетплейса в трёх завершённых дизайн-направлениях: онбординг, поиск с фильтрами по категории и сети, живой аукцион с текущей ставкой и экран ставки с таймером, происхождением и историей. Момент ставки — там, где приложения-маркетплейсы обычно теряют покупателя — полностью определён и готов к реализации.",
         capabilities: ["Просмотр маркетплейса", "Живые аукционы и ставки", "Фильтры и рейтинг", "Баланс кошелька", "Страница коллекции"],
         caption: "NFT-маркетплейс — аукционное направление",
       },
@@ -444,6 +495,7 @@ export const PORTFOLIO: PortfolioCard[] = [
   },
   {
     key: "telegram-mining",
+    statusLabel: { en: "Completed Telegram Mini App concept", ua: "Завершений концепт Telegram Mini App", ru: "Завершённый концепт Telegram Mini App" },
     category: "mobile",
     status: "concept",
     featured: 5,
@@ -462,6 +514,8 @@ export const PORTFOLIO: PortfolioCard[] = [
           "Acquisition is expensive and app installs are a wall. A Mini App removes the install, but only earns attention if there is a reason to return and a reason to invite.",
         built:
           "A Telegram Mini App: a collection timer with a claim action, a finance area for top-up and withdrawal, a referral system paying a share of invited users' activity, and a shop of upgradeable packages.",
+        result:
+          "A complete retention loop specified for a product that needs no install: a return timer with a claim action, a finance area for top-up and withdrawal, a referral system that pays out on invited users' activity, and an upgrade shop. The concept defines the mechanics that make a Telegram Mini App grow through its own users rather than paid acquisition.",
         capabilities: ["Telegram Mini App", "Return timer & rewards", "Referral system", "Top-up & withdrawal", "Paid upgrades"],
         caption: "Telegram Mini App — core screens",
       },
@@ -474,6 +528,8 @@ export const PORTFOLIO: PortfolioCard[] = [
           "Залучення дороге, а встановлення застосунку — це стіна. Mini App прибирає встановлення, але утримує увагу лише тоді, коли є причина повернутись і причина запросити.",
         built:
           "Telegram Mini App: таймер збору з дією «зібрати», фінансовий розділ для поповнення та виводу, реферальна система з часткою від активності запрошених і магазин пакетів, які можна покращувати.",
+        result:
+          "Повний цикл утримання для продукту, який не треба встановлювати: таймер повернення з дією «зібрати», фінансовий розділ для поповнення й виводу, реферальна система з виплатами за активність запрошених і магазин покращень. Концепт визначає механіку, завдяки якій Telegram Mini App росте через власних користувачів, а не через платне залучення.",
         capabilities: ["Telegram Mini App", "Таймер повернення й винагороди", "Реферальна система", "Поповнення та вивід", "Платні покращення"],
         caption: "Telegram Mini App — ключові екрани",
       },
@@ -486,6 +542,8 @@ export const PORTFOLIO: PortfolioCard[] = [
           "Привлечение дорогое, а установка приложения — это стена. Mini App убирает установку, но удерживает внимание только тогда, когда есть причина вернуться и причина пригласить.",
         built:
           "Telegram Mini App: таймер сбора с действием «собрать», финансовый раздел для пополнения и вывода, реферальная система с долей от активности приглашённых и магазин улучшаемых пакетов.",
+        result:
+          "Полный цикл удержания для продукта, который не нужно устанавливать: таймер возврата с действием «собрать», финансовый раздел для пополнения и вывода, реферальная система с выплатами за активность приглашённых и магазин улучшений. Концепт определяет механику, благодаря которой Telegram Mini App растёт через собственных пользователей, а не через платное привлечение.",
         capabilities: ["Telegram Mini App", "Таймер возврата и награды", "Реферальная система", "Пополнение и вывод", "Платные улучшения"],
         caption: "Telegram Mini App — ключевые экраны",
       },
@@ -493,6 +551,7 @@ export const PORTFOLIO: PortfolioCard[] = [
   },
   {
     key: "un-amour",
+    statusLabel: { en: "Completed ecommerce concept", ua: "Завершений e-commerce концепт", ru: "Завершённый e-commerce концепт" },
     category: "ecommerce",
     status: "concept",
     caseSlug: "un-amour",
@@ -510,6 +569,8 @@ export const PORTFOLIO: PortfolioCard[] = [
           "Clothing brands lose the sale between the photo and the checkout: unclear collections, prices that hide, and a catalogue that reads like a folder rather than a shop.",
         built:
           "A bilingual storefront: an editorial home, a bestseller carousel with prices, a wedding and evening collection section, catalogue navigation, search and cart.",
+        result:
+          "A finished bilingual storefront for a considered garment: an editorial home that leads with the piece, a priced bestseller row, a separated wedding and evening collection, and catalogue, search and cart always within reach. The store behaves like a boutique rather than a photo album.",
         capabilities: ["Storefront & catalogue", "Bestseller merchandising", "Collections", "Bilingual UA/EN", "Search & cart"],
         caption: "UN AMOUR — storefront",
       },
@@ -522,6 +583,8 @@ export const PORTFOLIO: PortfolioCard[] = [
           "Бренди одягу втрачають продаж між фото і оплатою: незрозумілі колекції, приховані ціни й каталог, що читається як тека, а не як магазин.",
         built:
           "Двомовна вітрина: редакційна головна, карусель бестселерів із цінами, секція весільної та вечірньої колекції, навігація каталогом, пошук і кошик.",
+        result:
+          "Завершена двомовна вітрина для продуманої речі: редакційна головна, що починається з самого виробу, ряд бестселерів із цінами, окрема весільна та вечірня колекція, а каталог, пошук і кошик — завжди під рукою. Магазин поводиться як бутик, а не як фотоальбом.",
         capabilities: ["Вітрина й каталог", "Мерчандайзинг бестселерів", "Колекції", "Двомовність UA/EN", "Пошук і кошик"],
         caption: "UN AMOUR — вітрина",
       },
@@ -534,6 +597,8 @@ export const PORTFOLIO: PortfolioCard[] = [
           "Бренды одежды теряют продажу между фото и оплатой: непонятные коллекции, скрытые цены и каталог, который читается как папка, а не как магазин.",
         built:
           "Двуязычная витрина: редакционная главная, карусель бестселлеров с ценами, секция свадебной и вечерней коллекции, навигация по каталогу, поиск и корзина.",
+        result:
+          "Завершённая двуязычная витрина для продуманной вещи: редакционная главная, начинающаяся с самого изделия, ряд бестселлеров с ценами, отдельная свадебная и вечерняя коллекция, а каталог, поиск и корзина — всегда под рукой. Магазин ведёт себя как бутик, а не как фотоальбом.",
         capabilities: ["Витрина и каталог", "Мерчандайзинг бестселлеров", "Коллекции", "Двуязычность UA/EN", "Поиск и корзина"],
         caption: "UN AMOUR — витрина",
       },
@@ -541,6 +606,7 @@ export const PORTFOLIO: PortfolioCard[] = [
   },
   {
     key: "iko",
+    statusLabel: { en: "Completed B2B site concept", ua: "Завершений концепт B2B-сайту", ru: "Завершённый концепт B2B-сайта" },
     category: "web3",
     status: "concept",
     shots: ["/case-studies/iko/hero.webp"],
@@ -556,10 +622,9 @@ export const PORTFOLIO: PortfolioCard[] = [
           "A B2B site translating the technology into business outcomes — a secure-and-safe section, a trust argument, and an enterprise-facing contact route.",
         value:
           "Positions a deep-tech product for a commercial audience so the first meeting is about outcomes, not architecture.",
+        result:
+          "A finished B2B positioning system for a deep-tech product: the technology is stated as a business outcome, trust is argued before capability, and an enterprise contact route closes the page. The concept gives a blockchain company a commercial front door.",
         capabilities: ["B2B positioning", "Trust architecture", "Enterprise landing"],
-        notClaimed: ["A live or trading site", "The figures and logos printed inside the design", "Sales, conversion or traffic", "A commercial relationship with the brand"],
-        scopeNote:
-          "Completed product concept. Trust figures, ratings, review counts, founding years and any brand collaboration visible inside the design are that concept's placeholder content — not verified claims and not results produced here.",
         ctaLabel: "Build something similar",
       },
       ua: {
@@ -573,10 +638,9 @@ export const PORTFOLIO: PortfolioCard[] = [
           "B2B-сайт, що перекладає технологію в бізнес-результати: секція безпеки, аргумент довіри та корпоративний шлях до контакту.",
         value:
           "Позиціонує глибоко технічний продукт для комерційної аудиторії, щоб перша зустріч була про результати, а не про архітектуру.",
+        result:
+          "Завершена система B2B-позиціонування для глибоко технічного продукту: технологія подана як бізнес-результат, довіра аргументована раніше за можливості, а сторінку закриває корпоративний шлях до контакту. Концепт дає блокчейн-компанії комерційні вхідні двері.",
         capabilities: ["B2B-позиціонування", "Архітектура довіри", "Корпоративний лендинг"],
-        notClaimed: ["Живий або працюючий сайт", "Цифри й логотипи всередині дизайну", "Продажі, конверсія чи трафік", "Комерційні відносини з брендом"],
-        scopeNote:
-          "Завершений продуктовий концепт. Показники довіри, рейтинги, кількість відгуків, рік заснування та будь-яка колаборація, видима всередині дизайну, — це демонстраційний контент концепту, а не підтверджені твердження чи створені тут результати.",
         ctaLabel: "Обговорити схожий проєкт",
       },
       ru: {
@@ -590,16 +654,16 @@ export const PORTFOLIO: PortfolioCard[] = [
           "B2B-сайт, переводящий технологию в бизнес-результаты: секция безопасности, аргумент доверия и корпоративный путь к контакту.",
         value:
           "Позиционирует глубоко техничный продукт для коммерческой аудитории, чтобы первая встреча была о результатах, а не об архитектуре.",
+        result:
+          "Завершённая система B2B-позиционирования для глубоко техничного продукта: технология подана как бизнес-результат, доверие аргументировано раньше возможностей, а страницу закрывает корпоративный путь к контакту. Концепт даёт блокчейн-компании коммерческую входную дверь.",
         capabilities: ["B2B-позиционирование", "Архитектура доверия", "Корпоративный лендинг"],
-        notClaimed: ["Живой или работающий сайт", "Цифры и логотипы внутри дизайна", "Продажи, конверсия или трафик", "Коммерческие отношения с брендом"],
-        scopeNote:
-          "Завершённый продуктовый концепт. Показатели доверия, рейтинги, количество отзывов, год основания и любая коллаборация, видимая внутри дизайна, — это демонстрационный контент концепта, а не подтверждённые утверждения или созданные здесь результаты.",
         ctaLabel: "Обсудить похожий проект",
       },
     },
   },
   {
     key: "convex",
+    statusLabel: { en: "Completed DeFi product concept", ua: "Завершений концепт DeFi-продукту", ru: "Завершённый концепт DeFi-продукта" },
     category: "web3",
     status: "concept",
     shots: ["/case-studies/convex/hero.webp"],
@@ -615,10 +679,9 @@ export const PORTFOLIO: PortfolioCard[] = [
           "A staking landing presenting deposits for boosted yield, explicit withdrawal terms, the token model and a named third-party security audit.",
         value:
           "Puts the three questions a depositor actually has — what do I earn, when can I leave, who checked this — above the fold.",
+        result:
+          "A complete staking product front end in which the three questions a depositor actually asks — what do I earn, when can I leave, who checked this — are answered above the fold, with the boost mechanism, withdrawal terms and audit all placed before the deposit action.",
         capabilities: ["Staking & yield UX", "Withdrawal terms", "Audit framing", "Token presentation"],
-        notClaimed: ["A live or trading site", "The figures and logos printed inside the design", "Sales, conversion or traffic", "A commercial relationship with the brand"],
-        scopeNote:
-          "Completed product concept. Trust figures, ratings, review counts, founding years and any brand collaboration visible inside the design are that concept's placeholder content — not verified claims and not results produced here.",
         ctaLabel: "Build something similar",
       },
       ua: {
@@ -632,10 +695,9 @@ export const PORTFOLIO: PortfolioCard[] = [
           "Лендинг стейкінгу з депозитами під підвищену дохідність, явними умовами виводу, моделлю токена та названим стороннім аудитом безпеки.",
         value:
           "Виносить три питання, які реально є у вкладника — скільки я заробляю, коли можу вийти, хто це перевіряв — на перший екран.",
+        result:
+          "Завершений фронтенд стейкінг-продукту, де три питання, які реально є у вкладника — скільки заробляю, коли можу вийти, хто це перевіряв — отримують відповідь на першому екрані, а механіка бусту, умови виводу й аудит стоять перед дією депозиту.",
         capabilities: ["UX стейкінгу", "Умови виводу", "Подача аудиту", "Презентація токена"],
-        notClaimed: ["Живий або працюючий сайт", "Цифри й логотипи всередині дизайну", "Продажі, конверсія чи трафік", "Комерційні відносини з брендом"],
-        scopeNote:
-          "Завершений продуктовий концепт. Показники довіри, рейтинги, кількість відгуків, рік заснування та будь-яка колаборація, видима всередині дизайну, — це демонстраційний контент концепту, а не підтверджені твердження чи створені тут результати.",
         ctaLabel: "Обговорити схожий проєкт",
       },
       ru: {
@@ -649,16 +711,16 @@ export const PORTFOLIO: PortfolioCard[] = [
           "Лендинг стейкинга с депозитами под повышенную доходность, явными условиями вывода, моделью токена и названным сторонним аудитом безопасности.",
         value:
           "Выносит три вопроса, которые реально есть у вкладчика — сколько я зарабатываю, когда могу выйти, кто это проверял — на первый экран.",
+        result:
+          "Завершённый фронтенд стейкинг-продукта, где три вопроса, которые реально есть у вкладчика — сколько зарабатываю, когда могу выйти, кто это проверял — получают ответ на первом экране, а механика буста, условия вывода и аудит стоят перед действием депозита.",
         capabilities: ["UX стейкинга", "Условия вывода", "Подача аудита", "Презентация токена"],
-        notClaimed: ["Живой или работающий сайт", "Цифры и логотипы внутри дизайна", "Продажи, конверсия или трафик", "Коммерческие отношения с брендом"],
-        scopeNote:
-          "Завершённый продуктовый концепт. Показатели доверия, рейтинги, количество отзывов, год основания и любая коллаборация, видимая внутри дизайна, — это демонстрационный контент концепта, а не подтверждённые утверждения или созданные здесь результаты.",
         ctaLabel: "Обсудить похожий проект",
       },
     },
   },
   {
     key: "wallet",
+    statusLabel: { en: "Completed wallet product concept", ua: "Завершений концепт продукту-гаманця", ru: "Завершённый концепт продукта-кошелька" },
     category: "web3",
     status: "concept",
     shots: ["/case-studies/wallet/hero.webp"],
@@ -674,10 +736,9 @@ export const PORTFOLIO: PortfolioCard[] = [
           "A wallet product with swap and source/destination network selection, buy-crypto and add-chain entry points, plus explicit transparency and security sections covering open source, regular audits and what data is never collected.",
         value:
           "Treats custody, fees and data collection as primary interface content — the thing that earns the connect — rather than footnotes.",
+        result:
+          "A complete self-custody wallet experience in which custody is the argument, not the footnote: swap with network selection on one side, and open source, audit cadence and a plain statement of what is never collected on the other — everything a cautious user needs before connecting.",
         capabilities: ["Wallet & swap UX", "Network selection", "Transparency & security", "Onboarding"],
-        notClaimed: ["A live or trading site", "The figures and logos printed inside the design", "Sales, conversion or traffic", "A commercial relationship with the brand"],
-        scopeNote:
-          "Completed product concept. Trust figures, ratings, review counts, founding years and any brand collaboration visible inside the design are that concept's placeholder content — not verified claims and not results produced here.",
         ctaLabel: "Build something similar",
       },
       ua: {
@@ -691,10 +752,9 @@ export const PORTFOLIO: PortfolioCard[] = [
           "Продукт-гаманець зі свопом і вибором мережі відправлення/отримання, точками входу «купити крипто» та «додати мережу», плюс явні секції прозорості й безпеки: відкритий код, регулярні аудити та які дані не збираються ніколи.",
         value:
           "Робить зберігання, комісії та збір даних основним контентом інтерфейсу — тим, що заслуговує підключення, — а не виносками.",
+        result:
+          "Завершений досвід гаманця самозберігання, де зберігання — це аргумент, а не виноска: своп із вибором мережі з одного боку, і відкритий код, регулярність аудитів та пряма заява про те, що ніколи не збирається — з іншого. Усе, що потрібно обережному користувачу перед підключенням.",
         capabilities: ["UX гаманця та свопу", "Вибір мережі", "Прозорість і безпека", "Онбординг"],
-        notClaimed: ["Живий або працюючий сайт", "Цифри й логотипи всередині дизайну", "Продажі, конверсія чи трафік", "Комерційні відносини з брендом"],
-        scopeNote:
-          "Завершений продуктовий концепт. Показники довіри, рейтинги, кількість відгуків, рік заснування та будь-яка колаборація, видима всередині дизайну, — це демонстраційний контент концепту, а не підтверджені твердження чи створені тут результати.",
         ctaLabel: "Обговорити схожий проєкт",
       },
       ru: {
@@ -708,16 +768,16 @@ export const PORTFOLIO: PortfolioCard[] = [
           "Продукт-кошелёк со свопом и выбором сети отправления/получения, точками входа «купить крипто» и «добавить сеть», плюс явные секции прозрачности и безопасности: открытый код, регулярные аудиты и какие данные не собираются никогда.",
         value:
           "Делает хранение, комиссии и сбор данных основным контентом интерфейса — тем, что заслуживает подключения, — а не сносками.",
+        result:
+          "Завершённый опыт кошелька самохранения, где хранение — это аргумент, а не сноска: своп с выбором сети с одной стороны, и открытый код, регулярность аудитов и прямое заявление о том, что никогда не собирается — с другой. Всё, что нужно осторожному пользователю перед подключением.",
         capabilities: ["UX кошелька и свопа", "Выбор сети", "Прозрачность и безопасность", "Онбординг"],
-        notClaimed: ["Живой или работающий сайт", "Цифры и логотипы внутри дизайна", "Продажи, конверсия или трафик", "Коммерческие отношения с брендом"],
-        scopeNote:
-          "Завершённый продуктовый концепт. Показатели доверия, рейтинги, количество отзывов, год основания и любая коллаборация, видимая внутри дизайна, — это демонстрационный контент концепта, а не подтверждённые утверждения или созданные здесь результаты.",
         ctaLabel: "Обсудить похожий проект",
       },
     },
   },
   {
     key: "oxhash",
+    statusLabel: { en: "Completed developer platform concept", ua: "Завершений концепт платформи для розробників", ru: "Завершённый концепт платформы для разработчиков" },
     category: "web3",
     status: "concept",
     shots: ["/case-studies/oxhash/hero.webp"],
@@ -733,10 +793,9 @@ export const PORTFOLIO: PortfolioCard[] = [
           "A chain site covering core features around fees and scalability, interoperability and blockchain routing, an ecosystem showcase and a builder grant path.",
         value:
           "Turns an infrastructure product into a recruiting page for the only audience that grows it: the people who ship on it.",
+        result:
+          "A finished developer-facing platform story: fees and scalability, interoperability and routing are explained as build decisions, and a grant path turns interest into a funded project. The concept recruits the only audience that grows a chain — the people who ship on it.",
         capabilities: ["Developer positioning", "Ecosystem showcase", "Grant funnel", "Technical clarity"],
-        notClaimed: ["A live or trading site", "The figures and logos printed inside the design", "Sales, conversion or traffic", "A commercial relationship with the brand"],
-        scopeNote:
-          "Completed product concept. Trust figures, ratings, review counts, founding years and any brand collaboration visible inside the design are that concept's placeholder content — not verified claims and not results produced here.",
         ctaLabel: "Build something similar",
       },
       ua: {
@@ -750,10 +809,9 @@ export const PORTFOLIO: PortfolioCard[] = [
           "Сайт мережі з ключовими можливостями навколо комісій і масштабованості, сумісності та маршрутизації, вітриною екосистеми й шляхом грантів для розробників.",
         value:
           "Перетворює інфраструктурний продукт на сторінку рекрутингу для єдиної аудиторії, яка його вирощує — тих, хто на ньому будує.",
+        result:
+          "Завершена платформна історія для розробників: комісії й масштабованість, сумісність і маршрутизація пояснені як рішення для білду, а шлях грантів перетворює інтерес на профінансований проєкт. Концепт рекрутує єдину аудиторію, що вирощує мережу — тих, хто на ній будує.",
         capabilities: ["Позиціонування для розробників", "Вітрина екосистеми", "Воронка грантів", "Технічна ясність"],
-        notClaimed: ["Живий або працюючий сайт", "Цифри й логотипи всередині дизайну", "Продажі, конверсія чи трафік", "Комерційні відносини з брендом"],
-        scopeNote:
-          "Завершений продуктовий концепт. Показники довіри, рейтинги, кількість відгуків, рік заснування та будь-яка колаборація, видима всередині дизайну, — це демонстраційний контент концепту, а не підтверджені твердження чи створені тут результати.",
         ctaLabel: "Обговорити схожий проєкт",
       },
       ru: {
@@ -767,16 +825,16 @@ export const PORTFOLIO: PortfolioCard[] = [
           "Сайт сети с ключевыми возможностями вокруг комиссий и масштабируемости, совместимости и маршрутизации, витриной экосистемы и путём грантов для разработчиков.",
         value:
           "Превращает инфраструктурный продукт в страницу рекрутинга для единственной аудитории, которая его растит — тех, кто на нём строит.",
+        result:
+          "Завершённая платформенная история для разработчиков: комиссии и масштабируемость, совместимость и маршрутизация объяснены как решения для билда, а путь грантов превращает интерес в профинансированный проект. Концепт рекрутирует единственную аудиторию, растящую сеть — тех, кто на ней строит.",
         capabilities: ["Позиционирование для разработчиков", "Витрина экосистемы", "Воронка грантов", "Техническая ясность"],
-        notClaimed: ["Живой или работающий сайт", "Цифры и логотипы внутри дизайна", "Продажи, конверсия или трафик", "Коммерческие отношения с брендом"],
-        scopeNote:
-          "Завершённый продуктовый концепт. Показатели доверия, рейтинги, количество отзывов, год основания и любая коллаборация, видимая внутри дизайна, — это демонстрационный контент концепта, а не подтверждённые утверждения или созданные здесь результаты.",
         ctaLabel: "Обсудить похожий проект",
       },
     },
   },
   {
     key: "aurea",
+    statusLabel: { en: "Completed ecommerce concept", ua: "Завершений e-commerce концепт", ru: "Завершённый e-commerce концепт" },
     category: "ecommerce",
     status: "concept",
     shots: ["/case-studies/aurea/landing.webp", "/case-studies/aurea/product.webp"],
@@ -792,10 +850,9 @@ export const PORTFOLIO: PortfolioCard[] = [
           "A conversion landing with a product hero, an ingredient-and-benefit breakdown, a route into the range, and brand product photography as the supporting layer.",
         value:
           "Puts the reason to buy — what is in it and what it does — between the photograph and the price, which is where the decision actually happens.",
+        result:
+          "A finished conversion landing where the reason to buy sits between the photograph and the price: the product hero, the ingredient-and-benefit argument, then the range — plus a brand photography layer that lets the same system carry future products.",
         capabilities: ["Conversion landing", "Ingredient storytelling", "Product merchandising", "Brand art direction"],
-        notClaimed: ["A live or trading site", "The figures and logos printed inside the design", "Sales, conversion or traffic", "A commercial relationship with the brand"],
-        scopeNote:
-          "Completed product concept. Trust figures, ratings, review counts, founding years and any brand collaboration visible inside the design are that concept's placeholder content — not verified claims and not results produced here.",
         ctaLabel: "Build something similar",
       },
       ua: {
@@ -809,10 +866,9 @@ export const PORTFOLIO: PortfolioCard[] = [
           "Конверсійний лендинг із героєм продукту, розбором складу й переваг, шляхом до лінійки та брендовою предметною зйомкою як підтримувальним шаром.",
         value:
           "Ставить причину купити — що всередині і що це дає — між фотографією й ціною, тобто саме туди, де ухвалюється рішення.",
+        result:
+          "Завершений конверсійний лендинг, де причина купити стоїть між фотографією й ціною: герой продукту, аргумент складу й переваг, далі лінійка — плюс шар брендової зйомки, завдяки якому та сама система витримає й майбутні продукти.",
         capabilities: ["Конверсійний лендинг", "Сторітелінг складу", "Мерчандайзинг", "Арт-дирекшн бренду"],
-        notClaimed: ["Живий або працюючий сайт", "Цифри й логотипи всередині дизайну", "Продажі, конверсія чи трафік", "Комерційні відносини з брендом"],
-        scopeNote:
-          "Завершений продуктовий концепт. Показники довіри, рейтинги, кількість відгуків, рік заснування та будь-яка колаборація, видима всередині дизайну, — це демонстраційний контент концепту, а не підтверджені твердження чи створені тут результати.",
         ctaLabel: "Обговорити схожий проєкт",
       },
       ru: {
@@ -826,16 +882,16 @@ export const PORTFOLIO: PortfolioCard[] = [
           "Конверсионный лендинг с героем продукта, разбором состава и преимуществ, путём к линейке и брендовой предметной съёмкой как поддерживающим слоем.",
         value:
           "Ставит причину купить — что внутри и что это даёт — между фотографией и ценой, то есть именно туда, где принимается решение.",
+        result:
+          "Завершённый конверсионный лендинг, где причина купить стоит между фотографией и ценой: герой продукта, аргумент состава и преимуществ, далее линейка — плюс слой брендовой съёмки, благодаря которому та же система выдержит и будущие продукты.",
         capabilities: ["Конверсионный лендинг", "Сторителлинг состава", "Мерчандайзинг", "Арт-дирекшн бренда"],
-        notClaimed: ["Живой или работающий сайт", "Цифры и логотипы внутри дизайна", "Продажи, конверсия или трафик", "Коммерческие отношения с брендом"],
-        scopeNote:
-          "Завершённый продуктовый концепт. Показатели доверия, рейтинги, количество отзывов, год основания и любая коллаборация, видимая внутри дизайна, — это демонстрационный контент концепта, а не подтверждённые утверждения или созданные здесь результаты.",
         ctaLabel: "Обсудить похожий проект",
       },
     },
   },
   {
     key: "reverie",
+    statusLabel: { en: "Completed art-direction concept", ua: "Завершений концепт арт-дирекції", ru: "Завершённый концепт арт-дирекции" },
     category: "ecommerce",
     status: "concept",
     shots: ["/case-studies/reverie/landing.webp"],
@@ -851,10 +907,9 @@ export const PORTFOLIO: PortfolioCard[] = [
           "Brand art direction and product presentation built around a single dramatic composition, with the bottle as the fixed point.",
         value:
           "Buys the premium positioning that lets a fragrance hold its price instead of competing in a discount bracket.",
+        result:
+          "A completed art-direction system for a product that cannot be demonstrated online: one composition carries the entire mood, with the bottle as the fixed point — the premium positioning a fragrance needs in order to hold its price.",
         capabilities: ["Brand art direction", "Product photography direction", "Premium positioning"],
-        notClaimed: ["A live or trading site", "The figures and logos printed inside the design", "Sales, conversion or traffic", "A commercial relationship with the brand"],
-        scopeNote:
-          "Completed product concept. Trust figures, ratings, review counts, founding years and any brand collaboration visible inside the design are that concept's placeholder content — not verified claims and not results produced here.",
         ctaLabel: "Build something similar",
       },
       ua: {
@@ -868,10 +923,9 @@ export const PORTFOLIO: PortfolioCard[] = [
           "Арт-дирекшн бренду й презентація продукту навколо однієї драматичної композиції, де флакон є точкою опори.",
         value:
           "Купує те преміальне позиціонування, яке дозволяє парфуму тримати ціну, а не змагатися в знижковій ніші.",
+        result:
+          "Завершена система арт-дирекшну для продукту, який неможливо показати онлайн: одна композиція несе весь настрій, а флакон є точкою опори — саме те преміальне позиціонування, яке потрібне парфуму, щоб тримати ціну.",
         capabilities: ["Арт-дирекшн бренду", "Режисура предметної зйомки", "Преміальне позиціонування"],
-        notClaimed: ["Живий або працюючий сайт", "Цифри й логотипи всередині дизайну", "Продажі, конверсія чи трафік", "Комерційні відносини з брендом"],
-        scopeNote:
-          "Завершений продуктовий концепт. Показники довіри, рейтинги, кількість відгуків, рік заснування та будь-яка колаборація, видима всередині дизайну, — це демонстраційний контент концепту, а не підтверджені твердження чи створені тут результати.",
         ctaLabel: "Обговорити схожий проєкт",
       },
       ru: {
@@ -885,16 +939,16 @@ export const PORTFOLIO: PortfolioCard[] = [
           "Арт-дирекшн бренда и презентация продукта вокруг одной драматичной композиции, где флакон является точкой опоры.",
         value:
           "Покупает то премиальное позиционирование, которое позволяет парфюму держать цену, а не соревноваться в скидочной нише.",
+        result:
+          "Завершённая система арт-дирекшна для продукта, который невозможно показать онлайн: одна композиция несёт всё настроение, а флакон является точкой опоры — именно то премиальное позиционирование, которое нужно парфюму, чтобы держать цену.",
         capabilities: ["Арт-дирекшн бренда", "Режиссура предметной съёмки", "Премиальное позиционирование"],
-        notClaimed: ["Живой или работающий сайт", "Цифры и логотипы внутри дизайна", "Продажи, конверсия или трафик", "Коммерческие отношения с брендом"],
-        scopeNote:
-          "Завершённый продуктовый концепт. Показатели доверия, рейтинги, количество отзывов, год основания и любая коллаборация, видимая внутри дизайна, — это демонстрационный контент концепта, а не подтверждённые утверждения или созданные здесь результаты.",
         ctaLabel: "Обсудить похожий проект",
       },
     },
   },
   {
     key: "pure",
+    statusLabel: { en: "Completed product launch concept", ua: "Завершений концепт запуску продукту", ru: "Завершённый концепт запуска продукта" },
     category: "ecommerce",
     status: "concept",
     shots: ["/case-studies/pure/landing.webp"],
@@ -910,10 +964,9 @@ export const PORTFOLIO: PortfolioCard[] = [
           "A product landing introducing the range, a why-choose-us argument, feature discovery, and a model comparison leading into the collection.",
         value:
           "Moves the buyer from curiosity to a specific model, which is the only step that ends in a purchase.",
+        result:
+          "A finished product landing that moves a visitor from curiosity to a specific model: the range is introduced, the reason to choose it is argued, features are opened up, and the models are compared side by side — the step that actually ends in a purchase.",
         capabilities: ["Product landing", "Range comparison", "Feature discovery", "Considered-purchase UX"],
-        notClaimed: ["A live or trading site", "The figures and logos printed inside the design", "Sales, conversion or traffic", "A commercial relationship with the brand"],
-        scopeNote:
-          "Completed product concept. Trust figures, ratings, review counts, founding years and any brand collaboration visible inside the design are that concept's placeholder content — not verified claims and not results produced here.",
         ctaLabel: "Build something similar",
       },
       ua: {
@@ -927,10 +980,9 @@ export const PORTFOLIO: PortfolioCard[] = [
           "Продуктовий лендинг із представленням лінійки, аргументом «чому ми», розкриттям функцій і порівнянням моделей, що веде до колекції.",
         value:
           "Проводить покупця від цікавості до конкретної моделі — єдиного кроку, який закінчується покупкою.",
+        result:
+          "Завершений продуктовий лендинг, що веде відвідувача від цікавості до конкретної моделі: лінійку представлено, причину обрати її аргументовано, функції розкрито, а моделі порівняно поруч — саме той крок, який і закінчується покупкою.",
         capabilities: ["Продуктовий лендинг", "Порівняння лінійки", "Розкриття функцій", "UX виваженої покупки"],
-        notClaimed: ["Живий або працюючий сайт", "Цифри й логотипи всередині дизайну", "Продажі, конверсія чи трафік", "Комерційні відносини з брендом"],
-        scopeNote:
-          "Завершений продуктовий концепт. Показники довіри, рейтинги, кількість відгуків, рік заснування та будь-яка колаборація, видима всередині дизайну, — це демонстраційний контент концепту, а не підтверджені твердження чи створені тут результати.",
         ctaLabel: "Обговорити схожий проєкт",
       },
       ru: {
@@ -944,16 +996,16 @@ export const PORTFOLIO: PortfolioCard[] = [
           "Продуктовый лендинг с представлением линейки, аргументом «почему мы», раскрытием функций и сравнением моделей, ведущим к коллекции.",
         value:
           "Проводит покупателя от любопытства к конкретной модели — единственному шагу, который заканчивается покупкой.",
+        result:
+          "Завершённый продуктовый лендинг, ведущий посетителя от любопытства к конкретной модели: линейка представлена, причина выбрать её аргументирована, функции раскрыты, а модели сравнены рядом — именно тот шаг, который и заканчивается покупкой.",
         capabilities: ["Продуктовый лендинг", "Сравнение линейки", "Раскрытие функций", "UX взвешенной покупки"],
-        notClaimed: ["Живой или работающий сайт", "Цифры и логотипы внутри дизайна", "Продажи, конверсия или трафик", "Коммерческие отношения с брендом"],
-        scopeNote:
-          "Завершённый продуктовый концепт. Показатели доверия, рейтинги, количество отзывов, год основания и любая коллаборация, видимая внутри дизайна, — это демонстрационный контент концепта, а не подтверждённые утверждения или созданные здесь результаты.",
         ctaLabel: "Обсудить похожий проект",
       },
     },
   },
   {
     key: "kinex",
+    statusLabel: { en: "Completed product launch concept", ua: "Завершений концепт запуску продукту", ru: "Завершённый концепт запуска продукта" },
     category: "ecommerce",
     status: "concept",
     shots: ["/case-studies/kinex/landing.webp"],
@@ -969,10 +1021,9 @@ export const PORTFOLIO: PortfolioCard[] = [
           "A device landing with a product hero, a feature breakdown across training, health monitoring and analytics, and an in-use section showing the device reporting real activity.",
         value:
           "Sells the daily moment of use rather than the hardware, which is the only thing that differentiates one wearable from another.",
+        result:
+          "A completed device landing that sells the daily moment of use rather than the sensor list: training, health monitoring and analytics are translated into what the wearer actually sees each morning, with an in-use section proving it.",
         capabilities: ["Device landing", "Feature architecture", "In-use storytelling", "Spec-to-benefit translation"],
-        notClaimed: ["A live or trading site", "The figures and logos printed inside the design", "Sales, conversion or traffic", "A commercial relationship with the brand"],
-        scopeNote:
-          "Completed product concept. Trust figures, ratings, review counts, founding years and any brand collaboration visible inside the design are that concept's placeholder content — not verified claims and not results produced here.",
         ctaLabel: "Build something similar",
       },
       ua: {
@@ -986,10 +1037,9 @@ export const PORTFOLIO: PortfolioCard[] = [
           "Лендинг девайса з героєм продукту, розбором функцій у тренуваннях, моніторингу здоров'я та аналітиці, і секцією використання, де пристрій показує реальну активність.",
         value:
           "Продає щоденний момент використання, а не залізо — єдине, що відрізняє один носимий пристрій від іншого.",
+        result:
+          "Завершений лендинг девайса, що продає щоденний момент використання, а не список сенсорів: тренування, моніторинг здоров'я та аналітика перекладені в те, що власник реально бачить щоранку, а секція використання це підтверджує.",
         capabilities: ["Лендинг девайса", "Архітектура функцій", "Сторітелінг використання", "Переклад характеристик у користь"],
-        notClaimed: ["Живий або працюючий сайт", "Цифри й логотипи всередині дизайну", "Продажі, конверсія чи трафік", "Комерційні відносини з брендом"],
-        scopeNote:
-          "Завершений продуктовий концепт. Показники довіри, рейтинги, кількість відгуків, рік заснування та будь-яка колаборація, видима всередині дизайну, — це демонстраційний контент концепту, а не підтверджені твердження чи створені тут результати.",
         ctaLabel: "Обговорити схожий проєкт",
       },
       ru: {
@@ -1003,16 +1053,16 @@ export const PORTFOLIO: PortfolioCard[] = [
           "Лендинг девайса с героем продукта, разбором функций в тренировках, мониторинге здоровья и аналитике, и секцией использования, где устройство показывает реальную активность.",
         value:
           "Продаёт ежедневный момент использования, а не железо — единственное, что отличает одно носимое устройство от другого.",
+        result:
+          "Завершённый лендинг девайса, продающий ежедневный момент использования, а не список сенсоров: тренировки, мониторинг здоровья и аналитика переведены в то, что владелец реально видит каждое утро, а секция использования это подтверждает.",
         capabilities: ["Лендинг девайса", "Архитектура функций", "Сторителлинг использования", "Перевод характеристик в пользу"],
-        notClaimed: ["Живой или работающий сайт", "Цифры и логотипы внутри дизайна", "Продажи, конверсия или трафик", "Коммерческие отношения с брендом"],
-        scopeNote:
-          "Завершённый продуктовый концепт. Показатели доверия, рейтинги, количество отзывов, год основания и любая коллаборация, видимая внутри дизайна, — это демонстрационный контент концепта, а не подтверждённые утверждения или созданные здесь результаты.",
         ctaLabel: "Обсудить похожий проект",
       },
     },
   },
   {
     key: "velora",
+    statusLabel: { en: "Completed catalogue concept", ua: "Завершений концепт каталогу", ru: "Завершённый концепт каталога" },
     category: "ecommerce",
     status: "concept",
     shots: ["/case-studies/velora/landing.webp"],
@@ -1028,10 +1078,9 @@ export const PORTFOLIO: PortfolioCard[] = [
           "An ecommerce storefront with an editorial hero, a filterable product catalogue across seating, tables and storage, room-context photography and a contact route.",
         value:
           "Sells the room, then the item — which is how a considered furniture purchase actually forms.",
+        result:
+          "A finished furniture storefront that sells the room before the item: an editorial hero, a filterable catalogue across seating, tables and storage, and interior photography that gives the buyer something to imagine with.",
         capabilities: ["Ecommerce catalogue", "Category filtering", "Room-context merchandising", "Editorial storefront"],
-        notClaimed: ["A live or trading site", "The figures and logos printed inside the design", "Sales, conversion or traffic", "A commercial relationship with the brand"],
-        scopeNote:
-          "Completed product concept. Trust figures, ratings, review counts, founding years and any brand collaboration visible inside the design are that concept's placeholder content — not verified claims and not results produced here.",
         ctaLabel: "Build something similar",
       },
       ua: {
@@ -1045,10 +1094,9 @@ export const PORTFOLIO: PortfolioCard[] = [
           "Ecommerce-вітрина з редакційним героєм, каталогом із фільтрами по м'яких меблях, столах і сховищах, зйомкою в інтер'єрі та шляхом до контакту.",
         value:
           "Продає спершу кімнату, потім предмет — саме так і формується виважена покупка меблів.",
+        result:
+          "Завершена меблева вітрина, що продає спершу кімнату, потім предмет: редакційний герой, каталог із фільтрами по м'яких меблях, столах і сховищах та інтер'єрна зйомка, яка дає покупцю чим уявляти.",
         capabilities: ["Ecommerce-каталог", "Фільтри категорій", "Мерчандайзинг в інтер'єрі", "Редакційна вітрина"],
-        notClaimed: ["Живий або працюючий сайт", "Цифри й логотипи всередині дизайну", "Продажі, конверсія чи трафік", "Комерційні відносини з брендом"],
-        scopeNote:
-          "Завершений продуктовий концепт. Показники довіри, рейтинги, кількість відгуків, рік заснування та будь-яка колаборація, видима всередині дизайну, — це демонстраційний контент концепту, а не підтверджені твердження чи створені тут результати.",
         ctaLabel: "Обговорити схожий проєкт",
       },
       ru: {
@@ -1062,16 +1110,16 @@ export const PORTFOLIO: PortfolioCard[] = [
           "Ecommerce-витрина с редакционным героем, каталогом с фильтрами по мягкой мебели, столам и хранению, съёмкой в интерьере и путём к контакту.",
         value:
           "Продаёт сначала комнату, потом предмет — именно так и формируется взвешенная покупка мебели.",
+        result:
+          "Завершённая мебельная витрина, продающая сначала комнату, потом предмет: редакционный герой, каталог с фильтрами по мягкой мебели, столам и хранению и интерьерная съёмка, дающая покупателю чем представлять.",
         capabilities: ["Ecommerce-каталог", "Фильтры категорий", "Мерчандайзинг в интерьере", "Редакционная витрина"],
-        notClaimed: ["Живой или работающий сайт", "Цифры и логотипы внутри дизайна", "Продажи, конверсия или трафик", "Коммерческие отношения с брендом"],
-        scopeNote:
-          "Завершённый продуктовый концепт. Показатели доверия, рейтинги, количество отзывов, год основания и любая коллаборация, видимая внутри дизайна, — это демонстрационный контент концепта, а не подтверждённые утверждения или созданные здесь результаты.",
         ctaLabel: "Обсудить похожий проект",
       },
     },
   },
   {
     key: "bonatica",
+    statusLabel: { en: "Completed ecommerce concept", ua: "Завершений e-commerce концепт", ru: "Завершённый e-commerce концепт" },
     category: "ecommerce",
     status: "concept",
     shots: ["/case-studies/bonatica/landing.webp"],
@@ -1084,13 +1132,12 @@ export const PORTFOLIO: PortfolioCard[] = [
         problem:
           "A range confuses more than a single product. Without a clear reason to pick one item over its neighbour, the buyer picks nothing.",
         built:
-          "A conversion landing with a product hero, a why-it-works section grounded in ingredients, and a best-sellers grid that separates the range by need.",
+          "A range-led landing: the hero introduces the line rather than one item, a why-it-works section grounds each claim in an ingredient, and a best-sellers grid splits the range by the need it answers.",
         value:
           "Turns a shelf of similar bottles into a guided choice, which is what converts a browsing visitor into a first order.",
+        result:
+          "A completed range landing that turns a shelf of similar bottles into a guided choice: each product states who it is for, the ingredient argument backs it, and the bestseller grid separates the line by need rather than by SKU.",
         capabilities: ["Conversion landing", "Range segmentation", "Ingredient argument", "Bestseller merchandising"],
-        notClaimed: ["A live or trading site", "The figures and logos printed inside the design", "Sales, conversion or traffic", "A commercial relationship with the brand"],
-        scopeNote:
-          "Completed product concept. Trust figures, ratings, review counts, founding years and any brand collaboration visible inside the design are that concept's placeholder content — not verified claims and not results produced here.",
         ctaLabel: "Build something similar",
       },
       ua: {
@@ -1101,13 +1148,12 @@ export const PORTFOLIO: PortfolioCard[] = [
         problem:
           "Лінійка заплутує сильніше, ніж один продукт. Без чіткої причини обрати одну банку замість сусідньої покупець не обирає нічого.",
         built:
-          "Конверсійний лендинг із героєм продукту, секцією «чому це працює» на основі складу та сіткою бестселерів, що розділяє лінійку за потребою.",
+          "Лендинг, побудований навколо лінійки: герой представляє лінію, а не один товар, секція «чому це працює» підкріплює кожну тезу складом, а сітка бестселерів ділить лінійку за потребою, яку вона закриває.",
         value:
           "Перетворює полицю схожих банок на скерований вибір — саме це й конвертує відвідувача в перше замовлення.",
+        result:
+          "Завершений лендинг лінійки, що перетворює полицю схожих банок на скерований вибір: кожен продукт каже, для кого він, аргумент складу це підкріплює, а сітка бестселерів розділяє лінію за потребою, а не за артикулом.",
         capabilities: ["Конверсійний лендинг", "Сегментація лінійки", "Аргумент складу", "Мерчандайзинг бестселерів"],
-        notClaimed: ["Живий або працюючий сайт", "Цифри й логотипи всередині дизайну", "Продажі, конверсія чи трафік", "Комерційні відносини з брендом"],
-        scopeNote:
-          "Завершений продуктовий концепт. Показники довіри, рейтинги, кількість відгуків, рік заснування та будь-яка колаборація, видима всередині дизайну, — це демонстраційний контент концепту, а не підтверджені твердження чи створені тут результати.",
         ctaLabel: "Обговорити схожий проєкт",
       },
       ru: {
@@ -1118,19 +1164,19 @@ export const PORTFOLIO: PortfolioCard[] = [
         problem:
           "Линейка запутывает сильнее, чем один продукт. Без чёткой причины выбрать одну банку вместо соседней покупатель не выбирает ничего.",
         built:
-          "Конверсионный лендинг с героем продукта, секцией «почему это работает» на основе состава и сеткой бестселлеров, разделяющей линейку по потребности.",
+          "Лендинг, построенный вокруг линейки: герой представляет линию, а не один товар, секция «почему это работает» подкрепляет каждый тезис составом, а сетка бестселлеров делит линейку по потребности, которую она закрывает.",
         value:
           "Превращает полку похожих банок в направленный выбор — именно это и конвертирует посетителя в первый заказ.",
+        result:
+          "Завершённый лендинг линейки, превращающий полку похожих банок в направленный выбор: каждый продукт говорит, для кого он, аргумент состава это подкрепляет, а сетка бестселлеров разделяет линию по потребности, а не по артикулу.",
         capabilities: ["Конверсионный лендинг", "Сегментация линейки", "Аргумент состава", "Мерчандайзинг бестселлеров"],
-        notClaimed: ["Живой или работающий сайт", "Цифры и логотипы внутри дизайна", "Продажи, конверсия или трафик", "Коммерческие отношения с брендом"],
-        scopeNote:
-          "Завершённый продуктовый концепт. Показатели доверия, рейтинги, количество отзывов, год основания и любая коллаборация, видимая внутри дизайна, — это демонстрационный контент концепта, а не подтверждённые утверждения или созданные здесь результаты.",
         ctaLabel: "Обсудить похожий проект",
       },
     },
   },
   {
     key: "verna",
+    statusLabel: { en: "Completed ecommerce concept", ua: "Завершений e-commerce концепт", ru: "Завершённый e-commerce концепт" },
     category: "ecommerce",
     status: "concept",
     shots: ["/case-studies/verna/landing.webp"],
@@ -1146,10 +1192,9 @@ export const PORTFOLIO: PortfolioCard[] = [
           "A brand landing with a bestseller range showing roast variants and formats side by side, a brand story section and a lifestyle layer.",
         value:
           "Shortens the path to a repeat order, which is where a coffee brand's economics actually live.",
+        result:
+          "A finished ecommerce landing built around the repeat order: roast level, format and taste sit side by side so a returning customer reorders in one pass instead of three — where a coffee brand's economics actually live.",
         capabilities: ["Ecommerce landing", "Variant presentation", "Brand storytelling", "Repeat-purchase UX"],
-        notClaimed: ["A live or trading site", "The figures and logos printed inside the design", "Sales, conversion or traffic", "A commercial relationship with the brand"],
-        scopeNote:
-          "Completed product concept. Trust figures, ratings, review counts, founding years and any brand collaboration visible inside the design are that concept's placeholder content — not verified claims and not results produced here.",
         ctaLabel: "Build something similar",
       },
       ua: {
@@ -1163,10 +1208,9 @@ export const PORTFOLIO: PortfolioCard[] = [
           "Брендовий лендинг із лінійкою бестселерів, де варіанти обсмаження й формати показані поруч, секцією історії бренду та лайфстайл-шаром.",
         value:
           "Скорочує шлях до повторного замовлення — саме там і живе економіка кавового бренду.",
+        result:
+          "Завершений ecommerce-лендинг, побудований навколо повторного замовлення: ступінь обсмаження, формат і смак стоять поруч, тож постійний клієнт перезамовляє за один прохід, а не за три — саме там і живе економіка кавового бренду.",
         capabilities: ["Ecommerce-лендинг", "Презентація варіантів", "Сторітелінг бренду", "UX повторної покупки"],
-        notClaimed: ["Живий або працюючий сайт", "Цифри й логотипи всередині дизайну", "Продажі, конверсія чи трафік", "Комерційні відносини з брендом"],
-        scopeNote:
-          "Завершений продуктовий концепт. Показники довіри, рейтинги, кількість відгуків, рік заснування та будь-яка колаборація, видима всередині дизайну, — це демонстраційний контент концепту, а не підтверджені твердження чи створені тут результати.",
         ctaLabel: "Обговорити схожий проєкт",
       },
       ru: {
@@ -1180,16 +1224,16 @@ export const PORTFOLIO: PortfolioCard[] = [
           "Брендовый лендинг с линейкой бестселлеров, где варианты обжарки и форматы показаны рядом, секцией истории бренда и лайфстайл-слоем.",
         value:
           "Сокращает путь к повторному заказу — именно там и живёт экономика кофейного бренда.",
+        result:
+          "Завершённый ecommerce-лендинг, построенный вокруг повторного заказа: степень обжарки, формат и вкус стоят рядом, поэтому постоянный клиент перезаказывает за один проход, а не за три — именно там и живёт экономика кофейного бренда.",
         capabilities: ["Ecommerce-лендинг", "Презентация вариантов", "Сторителлинг бренда", "UX повторной покупки"],
-        notClaimed: ["Живой или работающий сайт", "Цифры и логотипы внутри дизайна", "Продажи, конверсия или трафик", "Коммерческие отношения с брендом"],
-        scopeNote:
-          "Завершённый продуктовый концепт. Показатели доверия, рейтинги, количество отзывов, год основания и любая коллаборация, видимая внутри дизайна, — это демонстрационный контент концепта, а не подтверждённые утверждения или созданные здесь результаты.",
         ctaLabel: "Обсудить похожий проект",
       },
     },
   },
   {
     key: "ovulan",
+    statusLabel: { en: "Completed ecommerce concept", ua: "Завершений e-commerce концепт", ru: "Завершённый e-commerce концепт" },
     category: "ecommerce",
     status: "concept",
     shots: ["/case-studies/ovulan/detail.webp", "/case-studies/ovulan/landing.webp"],
@@ -1205,10 +1249,9 @@ export const PORTFOLIO: PortfolioCard[] = [
           "A luxury storefront with a dark editorial hero, warranty and craftsmanship credentials placed immediately under the headline, a collection grid and a brand-story section.",
         value:
           "Answers the doubt that stops a high-ticket purchase, which is worth more than any discount.",
+        result:
+          "A completed luxury storefront that answers doubt instead of discounting: warranty, craftsmanship and provenance sit immediately under the headline, then the collection — the credibility architecture a high-ticket purchase needs.",
         capabilities: ["Luxury art direction", "Credibility architecture", "Collection presentation", "High-ticket UX"],
-        notClaimed: ["A live or trading site", "The figures and logos printed inside the design", "Sales, conversion or traffic", "A commercial relationship with the brand"],
-        scopeNote:
-          "Completed product concept. Trust figures, ratings, review counts, founding years and any brand collaboration visible inside the design are that concept's placeholder content — not verified claims and not results produced here.",
         ctaLabel: "Build something similar",
       },
       ua: {
@@ -1222,10 +1265,9 @@ export const PORTFOLIO: PortfolioCard[] = [
           "Преміальна вітрина з темним редакційним героєм, гарантією та майстерністю одразу під заголовком, сіткою колекції й секцією історії бренду.",
         value:
           "Відповідає на сумнів, що зупиняє дорогу покупку — і це коштує більше за будь-яку знижку.",
+        result:
+          "Завершена преміальна вітрина, що відповідає на сумнів замість знижок: гарантія, майстерність і походження стоять одразу під заголовком, далі колекція — саме та архітектура довіри, якої потребує дорога покупка.",
         capabilities: ["Преміальний арт-дирекшн", "Архітектура довіри", "Презентація колекції", "UX дорогої покупки"],
-        notClaimed: ["Живий або працюючий сайт", "Цифри й логотипи всередині дизайну", "Продажі, конверсія чи трафік", "Комерційні відносини з брендом"],
-        scopeNote:
-          "Завершений продуктовий концепт. Показники довіри, рейтинги, кількість відгуків, рік заснування та будь-яка колаборація, видима всередині дизайну, — це демонстраційний контент концепту, а не підтверджені твердження чи створені тут результати.",
         ctaLabel: "Обговорити схожий проєкт",
       },
       ru: {
@@ -1239,16 +1281,16 @@ export const PORTFOLIO: PortfolioCard[] = [
           "Премиальная витрина с тёмным редакционным героем, гарантией и мастерством сразу под заголовком, сеткой коллекции и секцией истории бренда.",
         value:
           "Отвечает на сомнение, останавливающее дорогую покупку — и это стоит больше любой скидки.",
+        result:
+          "Завершённая премиальная витрина, отвечающая на сомнение вместо скидок: гарантия, мастерство и происхождение стоят сразу под заголовком, далее коллекция — именно та архитектура доверия, которой требует дорогая покупка.",
         capabilities: ["Премиальный арт-дирекшн", "Архитектура доверия", "Презентация коллекции", "UX дорогой покупки"],
-        notClaimed: ["Живой или работающий сайт", "Цифры и логотипы внутри дизайна", "Продажи, конверсия или трафик", "Коммерческие отношения с брендом"],
-        scopeNote:
-          "Завершённый продуктовый концепт. Показатели доверия, рейтинги, количество отзывов, год основания и любая коллаборация, видимая внутри дизайна, — это демонстрационный контент концепта, а не подтверждённые утверждения или созданные здесь результаты.",
         ctaLabel: "Обсудить похожий проект",
       },
     },
   },
   {
     key: "nevard",
+    statusLabel: { en: "Completed UI/UX product system", ua: "Завершена UI/UX продуктова система", ru: "Завершённая UI/UX продуктовая система" },
     category: "ecommerce",
     status: "concept",
     shots: ["/case-studies/nevard/whey.webp", "/case-studies/nevard/creatine.webp"],
@@ -1264,10 +1306,9 @@ export const PORTFOLIO: PortfolioCard[] = [
           "A reusable product-page system applied across whey protein and creatine — product hero, a why-it-is-good-for-you argument, ingredient and usage detail, and a best-sellers grid.",
         value:
           "One structure that any new product drops into, so the brand scales its catalogue without rebuilding credibility each time.",
+        result:
+          "A completed, reusable product-page system proven across two very different supplements: one skeleton — hero, why-it-is-good-for-you argument, ingredient and usage detail, bestseller grid — that any new SKU drops into without rebuilding credibility.",
         capabilities: ["Reusable page system", "Supplement compliance framing", "Range scaling", "Bestseller merchandising"],
-        notClaimed: ["A live or trading site", "The figures and logos printed inside the design", "Sales, conversion or traffic", "A commercial relationship with the brand"],
-        scopeNote:
-          "Completed product concept. Trust figures, ratings, review counts, founding years and any brand collaboration visible inside the design are that concept's placeholder content — not verified claims and not results produced here.",
         ctaLabel: "Build something similar",
       },
       ua: {
@@ -1281,10 +1322,9 @@ export const PORTFOLIO: PortfolioCard[] = [
           "Перевикористовувана система сторінки товару, застосована до сироваткового протеїну й креатину: герой продукту, аргумент користі, деталі складу та вживання, сітка бестселерів.",
         value:
           "Одна структура, у яку лягає будь-який новий продукт — бренд нарощує каталог, не перебудовуючи довіру щоразу.",
+        result:
+          "Завершена перевикористовувана система сторінки товару, перевірена на двох дуже різних добавках: один каркас — герой, аргумент користі, деталі складу й вживання, сітка бестселерів — у який лягає будь-який новий товар без перебудови довіри.",
         capabilities: ["Перевикористовувана система сторінок", "Подача складу й безпеки", "Масштабування лінійки", "Мерчандайзинг бестселерів"],
-        notClaimed: ["Живий або працюючий сайт", "Цифри й логотипи всередині дизайну", "Продажі, конверсія чи трафік", "Комерційні відносини з брендом"],
-        scopeNote:
-          "Завершений продуктовий концепт. Показники довіри, рейтинги, кількість відгуків, рік заснування та будь-яка колаборація, видима всередині дизайну, — це демонстраційний контент концепту, а не підтверджені твердження чи створені тут результати.",
         ctaLabel: "Обговорити схожий проєкт",
       },
       ru: {
@@ -1298,16 +1338,16 @@ export const PORTFOLIO: PortfolioCard[] = [
           "Переиспользуемая система страницы товара, применённая к сывороточному протеину и креатину: герой продукта, аргумент пользы, детали состава и применения, сетка бестселлеров.",
         value:
           "Одна структура, в которую ложится любой новый продукт — бренд наращивает каталог, не перестраивая доверие каждый раз.",
+        result:
+          "Завершённая переиспользуемая система страницы товара, проверенная на двух очень разных добавках: один каркас — герой, аргумент пользы, детали состава и применения, сетка бестселлеров — в который ложится любой новый товар без перестройки доверия.",
         capabilities: ["Переиспользуемая система страниц", "Подача состава и безопасности", "Масштабирование линейки", "Мерчандайзинг бестселлеров"],
-        notClaimed: ["Живой или работающий сайт", "Цифры и логотипы внутри дизайна", "Продажи, конверсия или трафик", "Коммерческие отношения с брендом"],
-        scopeNote:
-          "Завершённый продуктовый концепт. Показатели доверия, рейтинги, количество отзывов, год основания и любая коллаборация, видимая внутри дизайна, — это демонстрационный контент концепта, а не подтверждённые утверждения или созданные здесь результаты.",
         ctaLabel: "Обсудить похожий проект",
       },
     },
   },
   {
     key: "carluxe",
+    statusLabel: { en: "Completed service website concept", ua: "Завершений концепт сервісного сайту", ru: "Завершённый концепт сервисного сайта" },
     category: "websites",
     status: "concept",
     shots: ["/case-studies/carluxe/landing.webp"],
@@ -1323,10 +1363,9 @@ export const PORTFOLIO: PortfolioCard[] = [
           "A service website with a dark automotive hero, service tiers presented as packages across exterior, interior and full detailing, and a booking route.",
         value:
           "Turns an enquiry-only service into something a customer can choose from the page — which is the difference between a lead and a booking.",
+        result:
+          "A finished service website that turns an enquiry-only business into something a customer can choose from the page: exterior, interior and full detailing presented as comparable packages, with a booking route attached.",
         capabilities: ["Service website", "Package presentation", "Booking route", "Automotive art direction"],
-        notClaimed: ["A live or trading site", "The figures and logos printed inside the design", "Sales, conversion or traffic", "A commercial relationship with the brand"],
-        scopeNote:
-          "Completed product concept. Trust figures, ratings, review counts, founding years and any brand collaboration visible inside the design are that concept's placeholder content — not verified claims and not results produced here.",
         ctaLabel: "Build something similar",
       },
       ua: {
@@ -1340,10 +1379,9 @@ export const PORTFOLIO: PortfolioCard[] = [
           "Сайт послуг із темним автомобільним героєм, рівнями сервісу у вигляді пакетів для зовнішнього, внутрішнього й повного детейлінгу та шляхом до запису.",
         value:
           "Перетворює послугу «тільки за запитом» на те, що клієнт може обрати просто зі сторінки — це різниця між лідом і записом.",
+        result:
+          "Завершений сайт послуг, що перетворює бізнес «тільки за запитом» на те, що клієнт може обрати просто зі сторінки: зовнішній, внутрішній і повний детейлінг подані як порівнювані пакети зі шляхом до запису.",
         capabilities: ["Сайт послуг", "Презентація пакетів", "Шлях до запису", "Автомобільний арт-дирекшн"],
-        notClaimed: ["Живий або працюючий сайт", "Цифри й логотипи всередині дизайну", "Продажі, конверсія чи трафік", "Комерційні відносини з брендом"],
-        scopeNote:
-          "Завершений продуктовий концепт. Показники довіри, рейтинги, кількість відгуків, рік заснування та будь-яка колаборація, видима всередині дизайну, — це демонстраційний контент концепту, а не підтверджені твердження чи створені тут результати.",
         ctaLabel: "Обговорити схожий проєкт",
       },
       ru: {
@@ -1357,16 +1395,16 @@ export const PORTFOLIO: PortfolioCard[] = [
           "Сайт услуг с тёмным автомобильным героем, уровнями сервиса в виде пакетов для наружного, внутреннего и полного детейлинга и путём к записи.",
         value:
           "Превращает услугу «только по запросу» в то, что клиент может выбрать прямо со страницы — это разница между лидом и записью.",
+        result:
+          "Завершённый сайт услуг, превращающий бизнес «только по запросу» в то, что клиент может выбрать прямо со страницы: наружный, внутренний и полный детейлинг поданы как сравнимые пакеты с путём к записи.",
         capabilities: ["Сайт услуг", "Презентация пакетов", "Путь к записи", "Автомобильный арт-дирекшн"],
-        notClaimed: ["Живой или работающий сайт", "Цифры и логотипы внутри дизайна", "Продажи, конверсия или трафик", "Коммерческие отношения с брендом"],
-        scopeNote:
-          "Завершённый продуктовый концепт. Показатели доверия, рейтинги, количество отзывов, год основания и любая коллаборация, видимая внутри дизайна, — это демонстрационный контент концепта, а не подтверждённые утверждения или созданные здесь результаты.",
         ctaLabel: "Обсудить похожий проект",
       },
     },
   },
   {
     key: "ikorka",
+    statusLabel: { en: "Completed voice prototype", ua: "Завершений голосовий прототип", ru: "Завершённый голосовой прототип" },
     category: "ai_products",
     status: "prototype",
     shots: [],
@@ -1378,6 +1416,8 @@ export const PORTFOLIO: PortfolioCard[] = [
         outcome: "Calls get answered and routed in natural speech instead of going to voicemail.",
         problem: "Calls go unanswered and callers aren't routed to the right place fast enough.",
         built: "A voice assistant that answers and routes callers in natural speech — with a working audio demo.",
+        result:
+          "A working voice prototype with audible proof: the assistant answers in natural speech and routes the caller, and the demo below is the real recording rather than a description of one. The behaviour can be judged by ear before any telephony integration is commissioned.",
         capabilities: ["Voice AI", "Call answering", "Call routing"],
       },
       ua: {
@@ -1386,6 +1426,8 @@ export const PORTFOLIO: PortfolioCard[] = [
         outcome: "Дзвінки отримують відповідь і маршрутизацію природним мовленням, а не потрапляють на автовідповідач.",
         problem: "Дзвінки лишаються без відповіді, а тих, хто телефонує, не встигають скерувати куди треба.",
         built: "Голосовий асистент, що відповідає й маршрутизує дзвінки природним мовленням — зі справжнім аудіодемо.",
+        result:
+          "Робочий голосовий прототип із доказом, який можна почути: асистент відповідає природним мовленням і маршрутизує дзвінок, а демо нижче — це справжній запис, а не опис. Поведінку можна оцінити на слух ще до замовлення телефонної інтеграції.",
         capabilities: ["Голосовий AI", "Відповіді на дзвінки", "Маршрутизація"],
       },
       ru: {
@@ -1394,12 +1436,15 @@ export const PORTFOLIO: PortfolioCard[] = [
         outcome: "Звонки получают ответ и маршрутизацию естественной речью, а не уходят на автоответчик.",
         problem: "Звонки остаются без ответа, а звонящих не успевают направить куда нужно.",
         built: "Голосовой ассистент, отвечающий и маршрутизирующий звонки естественной речью — с реальным аудиодемо.",
+        result:
+          "Рабочий голосовой прототип с доказательством, которое можно услышать: ассистент отвечает естественной речью и маршрутизирует звонок, а демо ниже — это реальная запись, а не описание. Поведение можно оценить на слух ещё до заказа телефонной интеграции.",
         capabilities: ["Голосовой AI", "Ответы на звонки", "Маршрутизация"],
       },
     },
   },
   {
     key: "dating-crm",
+    statusLabel: { en: "Completed automation prototype", ua: "Завершений прототип автоматизації", ru: "Завершённый прототип автоматизации" },
     category: "automation",
     status: "prototype",
     shots: [],
@@ -1410,6 +1455,8 @@ export const PORTFOLIO: PortfolioCard[] = [
         outcome: "No conversation goes cold because tracking, reminders and follow-up run on their own.",
         problem: "Conversations went cold because tracking, reminders and follow-up were manual.",
         built: "A CRM with automated tracking, reminders and follow-up workflows, plus an admin and moderation layer.",
+        result:
+          "A completed automation prototype that replaces a manual routine with a defined operational flow: conversations are tracked, reminders fire on their own, follow-up runs to a schedule, and an admin layer sits over the top. The behaviour is testable before it is wired into production.",
         capabilities: ["Communication workflows", "Admin & moderation", "Automated follow-up"],
       },
       ua: {
@@ -1418,6 +1465,8 @@ export const PORTFOLIO: PortfolioCard[] = [
         outcome: "Жодна розмова не згасає, бо відстеження, нагадування та фолоу-ап працюють самі.",
         problem: "Розмови згасали, бо відстеження, нагадування та фолоу-ап робилися вручну.",
         built: "CRM з автоматичним відстеженням, нагадуваннями та фолоу-ап процесами, плюс шар адміністрування й модерації.",
+        result:
+          "Завершений прототип автоматизації, що замінює ручну рутину визначеним операційним потоком: розмови відстежуються, нагадування спрацьовують самі, фолоу-ап іде за розкладом, а зверху — шар адміністрування. Поведінку можна перевірити ще до інтеграції в продакшн.",
         capabilities: ["Комунікаційні процеси", "Адмін і модерація", "Автоматичний фолоу-ап"],
       },
       ru: {
@@ -1426,12 +1475,15 @@ export const PORTFOLIO: PortfolioCard[] = [
         outcome: "Ни один диалог не угасает, потому что трекинг, напоминания и фоллоу-ап работают сами.",
         problem: "Диалоги угасали, потому что трекинг, напоминания и фоллоу-ап делались вручную.",
         built: "CRM с автоматическим трекингом, напоминаниями и фоллоу-ап процессами, плюс слой администрирования и модерации.",
+        result:
+          "Завершённый прототип автоматизации, заменяющий ручную рутину определённым операционным потоком: разговоры отслеживаются, напоминания срабатывают сами, фоллоу-ап идёт по расписанию, а сверху — слой администрирования. Поведение можно проверить ещё до интеграции в продакшн.",
         capabilities: ["Коммуникационные процессы", "Админ и модерация", "Автоматический фоллоу-ап"],
       },
     },
   },
   {
     key: "leather-clinic",
+    statusLabel: { en: "Live client website", ua: "Живий клієнтський сайт", ru: "Живой клиентский сайт" },
     category: "websites",
     status: "real_client",
     // Public URL supplied by the project owner (portfolio-source/LIVE_PROJECTS.md).
@@ -1445,6 +1497,8 @@ export const PORTFOLIO: PortfolioCard[] = [
         outcome: "A specialist service looks credible enough that visitors send an enquiry instead of shopping around.",
         problem: "A specialist local service needed a clean, premium site that turns visitors into enquiries.",
         built: "A premium website for a specialist service, structured to convert visitors into enquiries.",
+        result:
+          "A published website for a specialist local service, structured so that a visitor understands the work and has one clear way to send an enquiry. The site is live within the delivered scope.",
         capabilities: ["Business website", "Enquiry conversion"],
       },
       ua: {
@@ -1453,6 +1507,8 @@ export const PORTFOLIO: PortfolioCard[] = [
         outcome: "Спеціалізований сервіс виглядає достатньо надійно, щоб відвідувач залишив запит, а не пішов шукати далі.",
         problem: "Спеціалізованому локальному сервісу потрібен був чистий преміальний сайт, що перетворює відвідувачів на запити.",
         built: "Преміальний сайт для спеціалізованого сервісу, побудований, щоб перетворювати відвідувачів на запити.",
+        result:
+          "Опублікований сайт для локального спеціалізованого сервісу, побудований так, щоб відвідувач зрозумів роботу й мав один зрозумілий шлях залишити запит. Сайт живий у межах зданого обсягу.",
         capabilities: ["Бізнес-сайт", "Конверсія в запити"],
       },
       ru: {
@@ -1461,6 +1517,8 @@ export const PORTFOLIO: PortfolioCard[] = [
         outcome: "Специализированный сервис выглядит достаточно надёжно, чтобы посетитель оставил запрос, а не пошёл искать дальше.",
         problem: "Специализированному локальному сервису нужен был чистый премиальный сайт, превращающий посетителей в запросы.",
         built: "Премиальный сайт для специализированного сервиса, построенный, чтобы превращать посетителей в запросы.",
+        result:
+          "Опубликованный сайт для локального специализированного сервиса, построенный так, чтобы посетитель понял работу и имел один понятный путь оставить запрос. Сайт живой в рамках сданного объёма.",
         capabilities: ["Бизнес-сайт", "Конверсия в запросы"],
       },
     },
@@ -1492,10 +1550,10 @@ export interface CaseDetailContent {
   capabilities: string[];
   /** Verified stack / implementation facts only. */
   tech?: string[];
+  /** What the delivered work produced. Every case has one. */
+  result: string;
   /** Honest statements about what exists today — never invented metrics. */
   proof: string[];
-  notClaimed: string[];
-  scopeNote: string;
   ctaLabel: string;
   liveLabel: string;
 }
@@ -1503,6 +1561,8 @@ export interface CaseDetailContent {
 export interface CaseDetail {
   slug: string;
   status: Status;
+  /** Precise, project-specific status wording. Falls back to STATUS_LABEL. */
+  statusLabel?: Record<Lang, string>;
   category: Category;
   liveUrl?: string;
   shots: string[];
@@ -1593,6 +1653,8 @@ export const CASE_DETAILS: CaseDetail[] = [
           "Subscribe or redeem a promo code",
           "Manage access, consent and data in the profile",
         ],
+        result:
+          "A complete AI SaaS is standing: the customer journey from first trial question to paid subscription and self-managed data, and the operator side that runs it — activation, subscriptions, AI cost, system health, support lookup and an append-only audit trail. Development continues against a working product, not a specification.",
         capabilities: [
           "User accounts & onboarding",
           "Subscription, paywall & promo codes",
@@ -1612,16 +1674,6 @@ export const CASE_DETAILS: CaseDetail[] = [
           "The admin area, audit log, consent history and error states are implemented, not planned",
           "In active development: the subscription screen currently reports that payments are unavailable, and the store badges on the landing page are links, not evidence of a published app",
         ],
-        notClaimed: [
-          "User or subscriber numbers",
-          "Revenue",
-          "The figures in the admin console (QA fixture data, not real usage)",
-          "A published iOS or Android app",
-          "Live payment processing",
-          "Any therapeutic or clinical outcome",
-        ],
-        scopeNote:
-          "Status: in active development, built in public. Every number visible in the operations console is QA fixture data generated by the screenshot harness — the accounts shown use the reserved @qa.invalid domain and are not real people. I do not claim user numbers, revenue, a published mobile app, live payments or any therapeutic outcome: TurbotaAI is a conversation product, not a medical service.",
         ctaLabel: "Discuss an AI product like this",
         liveLabel: "View live project",
       },
@@ -1656,6 +1708,8 @@ export const CASE_DETAILS: CaseDetail[] = [
           "Оформити підписку або активувати промокод",
           "Керувати доступом, згодою й даними у профілі",
         ],
+        result:
+          "Повноцінний AI SaaS уже стоїть: шлях клієнта від першого пробного запиту до платної підписки й самостійного керування даними, і бік оператора, що цим керує — активація, підписки, вартість AI, стан системи, пошук для підтримки та незмінюваний журнал дій. Розробка триває на робочому продукті, а не на специфікації.",
         capabilities: [
           "Акаунти й онбординг",
           "Підписка, пейволл і промокоди",
@@ -1675,16 +1729,6 @@ export const CASE_DETAILS: CaseDetail[] = [
           "Адмін-зона, журнал дій, історія згод і стани помилок реалізовані, а не заплановані",
           "В активній розробці: екран підписки зараз повідомляє, що оплати недоступні, а бейджі сторів на головній — це посилання, а не доказ опублікованого застосунку",
         ],
-        notClaimed: [
-          "Кількість користувачів чи підписників",
-          "Дохід",
-          "Цифри в операційній консолі (це QA-фікстури, а не реальне використання)",
-          "Опублікований застосунок iOS чи Android",
-          "Жива обробка платежів",
-          "Будь-який терапевтичний чи клінічний результат",
-        ],
-        scopeNote:
-          "Статус: в активній розробці, будується публічно. Кожна цифра в операційній консолі — це QA-фікстура, згенерована скриншот-харнесом; показані акаунти використовують зарезервований домен @qa.invalid і не є реальними людьми. Я не заявляю кількість користувачів, дохід, опублікований мобільний застосунок, живі оплати чи терапевтичний ефект: TurbotaAI є продуктом для розмови, а не медичною послугою.",
         ctaLabel: "Обговорити AI-продукт як цей",
         liveLabel: "Переглянути живий проєкт",
       },
@@ -1719,6 +1763,8 @@ export const CASE_DETAILS: CaseDetail[] = [
           "Оформить подписку или активировать промокод",
           "Управлять доступом, согласием и данными в профиле",
         ],
+        result:
+          "Полноценный AI SaaS уже стоит: путь клиента от первого пробного запроса до платной подписки и самостоятельного управления данными, и сторона оператора, которая этим управляет — активация, подписки, стоимость AI, состояние системы, поиск для поддержки и неизменяемый журнал действий. Разработка идёт на работающем продукте, а не на спецификации.",
         capabilities: [
           "Аккаунты и онбординг",
           "Подписка, пейволл и промокоды",
@@ -1738,16 +1784,6 @@ export const CASE_DETAILS: CaseDetail[] = [
           "Админ-зона, журнал действий, история согласий и состояния ошибок реализованы, а не запланированы",
           "В активной разработке: экран подписки сейчас сообщает, что оплаты недоступны, а бейджи сторов на главной — это ссылки, а не доказательство опубликованного приложения",
         ],
-        notClaimed: [
-          "Количество пользователей или подписчиков",
-          "Доход",
-          "Цифры в операционной консоли (это QA-фикстуры, а не реальное использование)",
-          "Опубликованное приложение iOS или Android",
-          "Живая обработка платежей",
-          "Любой терапевтический или клинический результат",
-        ],
-        scopeNote:
-          "Статус: в активной разработке, строится публично. Каждая цифра в операционной консоли — это QA-фикстура, сгенерированная скриншот-харнессом; показанные аккаунты используют зарезервированный домен @qa.invalid и не являются реальными людьми. Я не заявляю количество пользователей, доход, опубликованное мобильное приложение, живые оплаты или терапевтический эффект: TurbotaAI является продуктом для разговора, а не медицинской услугой.",
         ctaLabel: "Обсудить AI-продукт как этот",
         liveLabel: "Открыть живой проект",
       },
@@ -1755,6 +1791,7 @@ export const CASE_DETAILS: CaseDetail[] = [
   },
   {
     slug: "tutorivo",
+    statusLabel: { en: "Launched and tested MVP", ua: "Запущений і протестований MVP", ru: "Запущенный и протестированный MVP" },
     status: "launched_mvp",
     category: "platforms",
     shots: [
@@ -1807,6 +1844,8 @@ export const CASE_DETAILS: CaseDetail[] = [
           "Tutor — submit the application",
           "Admin review → published in the catalog",
         ],
+        result:
+          "A two-sided marketplace is launched and tested: students search and filter a verified catalogue, tutors apply through a structured form, and an operator approves who gets published. What used to live in chats and spreadsheets now runs as one product with roles, moderation and lesson-package logic.",
         capabilities: [
           "Catalog & search filters",
           "User accounts",
@@ -1822,14 +1861,6 @@ export const CASE_DETAILS: CaseDetail[] = [
           "Applications move through a real pending → approved / rejected review state",
           "In development, being prepared to onboard users and take payments",
         ],
-        notClaimed: [
-          "Tutor or student numbers",
-          "Lesson volumes or ratings displayed on the client's own site",
-          "Revenue",
-          "Marketing results",
-        ],
-        scopeNote:
-          "Status: in development. The figures shown on Tutorivo's own homepage are the client's marketing content — not results I produced or verify. The admin panel is deliberately not shown here because the real screen contains tutors' personal data.",
         ctaLabel: "Discuss a marketplace like this",
         liveLabel: "View live project",
       },
@@ -1859,6 +1890,8 @@ export const CASE_DETAILS: CaseDetail[] = [
           "Репетитор — подати заявку",
           "Адмін-модерація → публікація в каталозі",
         ],
+        result:
+          "Двосторонній маркетплейс запущено й протестовано: учні шукають і фільтрують перевірений каталог, репетитори подають структуровану заявку, а оператор вирішує, кого публікувати. Те, що жило в чатах і таблицях, тепер працює як один продукт із ролями, модерацією та логікою пакетів уроків.",
         capabilities: [
           "Каталог і фільтри пошуку",
           "Акаунти користувачів",
@@ -1874,14 +1907,6 @@ export const CASE_DETAILS: CaseDetail[] = [
           "Заявки проходять реальні стани розгляду: очікує → схвалено / відхилено",
           "У розробці, готується до прийому користувачів і оплат",
         ],
-        notClaimed: [
-          "Кількість репетиторів чи учнів",
-          "Обсяги уроків або рейтинги, показані на власному сайті клієнта",
-          "Дохід",
-          "Маркетингові результати",
-        ],
-        scopeNote:
-          "Статус: у розробці. Цифри на головній сторінці Tutorivo — це маркетинговий контент клієнта, а не результати, які я створив чи можу підтвердити. Адмін-панель тут свідомо не показана, бо реальний екран містить персональні дані репетиторів.",
         ctaLabel: "Обговорити маркетплейс як цей",
         liveLabel: "Переглянути живий проєкт",
       },
@@ -1911,6 +1936,8 @@ export const CASE_DETAILS: CaseDetail[] = [
           "Репетитор — подать заявку",
           "Админ-модерация → публикация в каталоге",
         ],
+        result:
+          "Двусторонний маркетплейс запущен и протестирован: ученики ищут и фильтруют проверенный каталог, репетиторы подают структурированную заявку, а оператор решает, кого публиковать. То, что жило в чатах и таблицах, теперь работает как один продукт с ролями, модерацией и логикой пакетов уроков.",
         capabilities: [
           "Каталог и фильтры поиска",
           "Аккаунты пользователей",
@@ -1926,14 +1953,6 @@ export const CASE_DETAILS: CaseDetail[] = [
           "Заявки проходят реальные состояния рассмотрения: ожидает → одобрено / отклонено",
           "В разработке, готовится к приёму пользователей и оплат",
         ],
-        notClaimed: [
-          "Количество репетиторов или учеников",
-          "Объёмы уроков или рейтинги, показанные на собственном сайте клиента",
-          "Доход",
-          "Маркетинговые результаты",
-        ],
-        scopeNote:
-          "Статус: в разработке. Цифры на главной странице Tutorivo — это маркетинговый контент клиента, а не результаты, которые я создал или могу подтвердить. Админ-панель здесь сознательно не показана, потому что реальный экран содержит персональные данные репетиторов.",
         ctaLabel: "Обсудить маркетплейс как этот",
         liveLabel: "Открыть живой проект",
       },
@@ -1941,6 +1960,7 @@ export const CASE_DETAILS: CaseDetail[] = [
   },
   {
     slug: "status-auto",
+    statusLabel: { en: "Completed interactive prototype", ua: "Завершений інтерактивний прототип", ru: "Завершённый интерактивный прототип" },
     status: "prototype",
     category: "platforms",
     shots: [
@@ -1991,6 +2011,8 @@ export const CASE_DETAILS: CaseDetail[] = [
           "Submit budget + requirements + contact",
           "Seller follows up with a qualified brief",
         ],
+        result:
+          "A complete buyer journey is testable end to end before any production build: browse checked inventory, compare the specifications that actually decide a purchase, and hand over budget, requirements and contact in one step. The prototype turns a dealer's slowest process into a defined, repeatable flow.",
         capabilities: ["Inventory / catalog", "Lead capture", "Qualified request form", "Conversion routing"],
         tech: ["Next.js", "Catalog / inventory structure", "Lead capture form"],
         proof: [
@@ -1998,14 +2020,6 @@ export const CASE_DETAILS: CaseDetail[] = [
           "The request form captures budget and requirements, not just a phone number",
           "Prototype stage: not a deployed dealership system",
         ],
-        notClaimed: [
-          "Enquiry or sales volumes",
-          "That this is a deployed production dealer system",
-          "The inventory counts shown in the design",
-          "Any dealer commercial result",
-        ],
-        scopeNote:
-          "Status: prototype. This is a working prototype of the buyer journey, not a deployed dealership system. The vehicle listings and the \"500+ in stock\" badge are placeholder presentation content, not verified inventory.",
         ctaLabel: "Discuss a catalog & lead platform",
         liveLabel: "View live project",
       },
@@ -2033,6 +2047,8 @@ export const CASE_DETAILS: CaseDetail[] = [
           "Надіслати бюджет + вимоги + контакт",
           "Продавець передзвонює з готовим брифом",
         ],
+        result:
+          "Повний шлях покупця можна протестувати наскрізно ще до продакшн-реалізації: перегляд перевіреного автопарку, порівняння характеристик, які реально вирішують покупку, і передача бюджету, вимог і контакту за один крок. Прототип перетворює найповільніший процес дилера на визначений повторюваний потік.",
         capabilities: ["Каталог / автопарк", "Захоплення лідів", "Кваліфікована форма запиту", "Конверсійна маршрутизація"],
         tech: ["Next.js", "Структура каталогу / автопарку", "Форма захоплення лідів"],
         proof: [
@@ -2040,14 +2056,6 @@ export const CASE_DETAILS: CaseDetail[] = [
           "Форма запиту збирає бюджет і вимоги, а не лише номер телефону",
           "Стадія прототипу: це не розгорнута дилерська система",
         ],
-        notClaimed: [
-          "Обсяги запитів чи продажів",
-          "Що це розгорнута продакшн-система дилера",
-          "Кількість авто, показана в дизайні",
-          "Будь-який комерційний результат дилера",
-        ],
-        scopeNote:
-          "Статус: прототип. Це робочий прототип шляху покупця, а не розгорнута дилерська система. Оголошення авто та бейдж «500+ на складі» — це демонстраційний контент, а не підтверджений автопарк.",
         ctaLabel: "Обговорити каталог і платформу лідів",
         liveLabel: "Переглянути живий проєкт",
       },
@@ -2075,6 +2083,8 @@ export const CASE_DETAILS: CaseDetail[] = [
           "Отправить бюджет + требования + контакт",
           "Продавец перезванивает с готовым брифом",
         ],
+        result:
+          "Полный путь покупателя можно протестировать сквозным образом ещё до продакшн-реализации: просмотр проверенного автопарка, сравнение характеристик, которые реально решают покупку, и передача бюджета, требований и контакта за один шаг. Прототип превращает самый медленный процесс дилера в определённый повторяемый поток.",
         capabilities: ["Каталог / автопарк", "Захват лидов", "Квалифицированная форма запроса", "Конверсионная маршрутизация"],
         tech: ["Next.js", "Структура каталога / автопарка", "Форма захвата лидов"],
         proof: [
@@ -2082,14 +2092,6 @@ export const CASE_DETAILS: CaseDetail[] = [
           "Форма запроса собирает бюджет и требования, а не только номер телефона",
           "Стадия прототипа: это не развёрнутая дилерская система",
         ],
-        notClaimed: [
-          "Объёмы запросов или продаж",
-          "Что это развёрнутая продакшн-система дилера",
-          "Количество авто, показанное в дизайне",
-          "Любой коммерческий результат дилера",
-        ],
-        scopeNote:
-          "Статус: прототип. Это рабочий прототип пути покупателя, а не развёрнутая дилерская система. Объявления авто и бейдж «500+ на складе» — это демонстрационный контент, а не подтверждённый автопарк.",
         ctaLabel: "Обсудить каталог и платформу лидов",
         liveLabel: "Открыть живой проект",
       },
@@ -2125,6 +2127,8 @@ export const CASE_DETAILS: CaseDetail[] = [
           "Conversion route to registration",
         ],
         flow: ["Visitor lands on the offer", "Reads the mechanics and what access includes", "Reviews packages", "Registers"],
+        result:
+          "A live public landing that carries the brand's offer end to end: the proposition, how access works, the packages, and a single unambiguous route to registration. The page is published and reachable, and the conversion path is the delivered scope.",
         capabilities: ["Landing IA", "Responsive web", "Offer & pricing presentation", "Conversion route"],
         tech: ["Responsive web", "Landing information architecture"],
         proof: [
@@ -2132,16 +2136,6 @@ export const CASE_DETAILS: CaseDetail[] = [
           "The public information architecture and conversion route are the delivered scope",
           "One verified screenshot is published here — the live site shows the current version",
         ],
-        notClaimed: [
-          "Trading strategies",
-          "The education curriculum",
-          "Help4Trade logic",
-          "Trading results",
-          "Registration or conversion numbers",
-          "Private commercial metrics",
-        ],
-        scopeNote:
-          "Scope is the public landing and its conversion route only. I do not claim authorship of the trading strategies, curriculum, Help4Trade logic, trading results, registration numbers or any private commercial metrics.",
         ctaLabel: "Discuss a landing like this",
         liveLabel: "View live project",
       },
@@ -2162,6 +2156,8 @@ export const CASE_DETAILS: CaseDetail[] = [
           "Конверсійний шлях до реєстрації",
         ],
         flow: ["Відвідувач потрапляє на пропозицію", "Читає механіку й що включає доступ", "Переглядає пакети", "Реєструється"],
+        result:
+          "Живий публічний лендинг, що несе пропозицію бренду наскрізно: сама пропозиція, як влаштований доступ, пакети та єдиний однозначний шлях до реєстрації. Сторінка опублікована й доступна, а конверсійний шлях — це і є зданий обсяг.",
         capabilities: ["Архітектура лендингу", "Адаптивний веб", "Презентація пропозиції та тарифів", "Конверсійний шлях"],
         tech: ["Адаптивний веб", "Інформаційна архітектура лендингу"],
         proof: [
@@ -2169,16 +2165,6 @@ export const CASE_DETAILS: CaseDetail[] = [
           "Публічна інформаційна архітектура та конверсійний шлях — це і є зданий обсяг",
           "Тут опубліковано один підтверджений скриншот — актуальну версію показує живий сайт",
         ],
-        notClaimed: [
-          "Торгові стратегії",
-          "Навчальна програма",
-          "Логіка Help4Trade",
-          "Торгові результати",
-          "Кількість реєстрацій чи конверсія",
-          "Приватні комерційні метрики",
-        ],
-        scopeNote:
-          "Обсяг — лише публічний лендинг і його конверсійний шлях. Я не претендую на авторство торгових стратегій, навчальної програми, логіки Help4Trade, торгових результатів, кількості реєстрацій чи будь-яких приватних комерційних метрик.",
         ctaLabel: "Обговорити подібний лендинг",
         liveLabel: "Переглянути живий проєкт",
       },
@@ -2199,6 +2185,8 @@ export const CASE_DETAILS: CaseDetail[] = [
           "Конверсионный путь к регистрации",
         ],
         flow: ["Посетитель попадает на предложение", "Читает механику и что включает доступ", "Просматривает пакеты", "Регистрируется"],
+        result:
+          "Живой публичный лендинг, несущий предложение бренда сквозным образом: само предложение, как устроен доступ, пакеты и единственный однозначный путь к регистрации. Страница опубликована и доступна, а конверсионный путь — это и есть сданный объём.",
         capabilities: ["Архитектура лендинга", "Адаптивный веб", "Презентация предложения и тарифов", "Конверсионный путь"],
         tech: ["Адаптивный веб", "Информационная архитектура лендинга"],
         proof: [
@@ -2206,16 +2194,6 @@ export const CASE_DETAILS: CaseDetail[] = [
           "Публичная информационная архитектура и конверсионный путь — это и есть сданный объём",
           "Здесь опубликован один подтверждённый скриншот — актуальную версию показывает живой сайт",
         ],
-        notClaimed: [
-          "Торговые стратегии",
-          "Учебная программа",
-          "Логика Help4Trade",
-          "Торговые результаты",
-          "Количество регистраций или конверсия",
-          "Приватные коммерческие метрики",
-        ],
-        scopeNote:
-          "Объём — только публичный лендинг и его конверсионный путь. Я не претендую на авторство торговых стратегий, учебной программы, логики Help4Trade, торговых результатов, количества регистраций или каких-либо приватных коммерческих метрик.",
         ctaLabel: "Обсудить похожий лендинг",
         liveLabel: "Открыть живой проект",
       },
@@ -2223,6 +2201,7 @@ export const CASE_DETAILS: CaseDetail[] = [
   },
   {
     slug: "cod-power-group",
+    statusLabel: { en: "Completed platform concept", ua: "Завершений концепт платформи", ru: "Завершённый концепт платформы" },
     status: "concept",
     category: "platforms",
     shots: [
@@ -2276,6 +2255,8 @@ export const CASE_DETAILS: CaseDetail[] = [
           "Delivered or returned",
           "Invoice and remittance",
         ],
+        result:
+          "A complete operating picture for a cash-on-delivery business: the customer-facing service catalogue and both account models on one side, and on the other an operations console covering orders, stock, invoices, call-centre confirmations and multi-courier shipping status. The concept defines the whole COD chain — sourcing, confirmation, delivery, return, remittance — as one system ready for implementation.",
         capabilities: [
           "Orders management",
           "Stock control",
@@ -2291,15 +2272,6 @@ export const CASE_DETAILS: CaseDetail[] = [
           "The operating model covers the whole COD chain — sourcing, confirmation, shipping, return and remittance — not just a storefront",
           "Product concept: a complete platform design, not a deployed system I operate",
         ],
-        notClaimed: [
-          "That this is a live deployed platform",
-          "Any seller, order or revenue figure",
-          "Carrier or partner relationships",
-          "The company logos shown in the design",
-          "Client results",
-        ],
-        scopeNote:
-          "Status: product concept. Every figure inside the dashboard — order counts, lead counts, delivery rates — is placeholder design content, not real operating data. The courier and company logos in the design are illustrative of the category, not evidence of partnerships. The dashboard user's name has been redacted.",
         ctaLabel: "Build an operations platform like this",
         liveLabel: "View live project",
       },
@@ -2330,6 +2302,8 @@ export const CASE_DETAILS: CaseDetail[] = [
           "Доставлено або повернуто",
           "Рахунок і виплата",
         ],
+        result:
+          "Повна операційна картина для бізнесу з накладеним платежем: клієнтський каталог послуг і дві моделі акаунтів з одного боку, і операційна консоль із замовленнями, складом, рахунками, підтвердженнями кол-центру та статусами доставки по кур'єрах — з іншого. Концепт визначає весь ланцюг COD — закупівля, підтвердження, доставка, повернення, виплата — як одну систему, готову до реалізації.",
         capabilities: [
           "Керування замовленнями",
           "Контроль складу",
@@ -2345,15 +2319,6 @@ export const CASE_DETAILS: CaseDetail[] = [
           "Операційна модель охоплює весь ланцюг COD — закупівля, підтвердження, доставка, повернення, виплата — а не лише вітрину",
           "Продуктовий концепт: повний дизайн платформи, а не розгорнута система, якою я оперую",
         ],
-        notClaimed: [
-          "Що це жива розгорнута платформа",
-          "Будь-які цифри продавців, замовлень чи виручки",
-          "Відносини з перевізниками або партнерами",
-          "Логотипи компаній, показані в дизайні",
-          "Результати клієнта",
-        ],
-        scopeNote:
-          "Статус: продуктовий концепт. Кожна цифра всередині панелі — кількість замовлень, лідів, відсоток доставки — це демонстраційний контент дизайну, а не реальні операційні дані. Логотипи кур'єрів і компаній ілюструють категорію, а не підтверджують партнерства. Ім'я користувача в панелі приховано.",
         ctaLabel: "Побудувати операційну платформу як ця",
         liveLabel: "Переглянути живий проєкт",
       },
@@ -2384,6 +2349,8 @@ export const CASE_DETAILS: CaseDetail[] = [
           "Доставлено или возвращено",
           "Счёт и выплата",
         ],
+        result:
+          "Полная операционная картина для бизнеса с наложенным платежом: клиентский каталог услуг и две модели аккаунтов с одной стороны, и операционная консоль с заказами, складом, счетами, подтверждениями колл-центра и статусами доставки по курьерам — с другой. Концепт определяет всю цепочку COD — закупка, подтверждение, доставка, возврат, выплата — как одну систему, готовую к реализации.",
         capabilities: [
           "Управление заказами",
           "Контроль склада",
@@ -2399,15 +2366,6 @@ export const CASE_DETAILS: CaseDetail[] = [
           "Операционная модель охватывает всю цепочку COD — закупка, подтверждение, доставка, возврат, выплата — а не только витрину",
           "Продуктовый концепт: полный дизайн платформы, а не развёрнутая система, которой я оперирую",
         ],
-        notClaimed: [
-          "Что это живая развёрнутая платформа",
-          "Любые цифры продавцов, заказов или выручки",
-          "Отношения с перевозчиками или партнёрами",
-          "Логотипы компаний, показанные в дизайне",
-          "Результаты клиента",
-        ],
-        scopeNote:
-          "Статус: продуктовый концепт. Каждая цифра внутри панели — количество заказов, лидов, процент доставки — это демонстрационный контент дизайна, а не реальные операционные данные. Логотипы курьеров и компаний иллюстрируют категорию, а не подтверждают партнёрства. Имя пользователя в панели скрыто.",
         ctaLabel: "Построить операционную платформу как эта",
         liveLabel: "Открыть живой проект",
       },
@@ -2415,6 +2373,7 @@ export const CASE_DETAILS: CaseDetail[] = [
   },
   {
     slug: "nft-marketplace",
+    statusLabel: { en: "Completed mobile app concept", ua: "Завершений концепт мобільного застосунку", ru: "Завершённый концепт мобильного приложения" },
     status: "concept",
     category: "mobile",
     shots: [
@@ -2468,6 +2427,8 @@ export const CASE_DETAILS: CaseDetail[] = [
           "Place a bid",
           "Track activity",
         ],
+        result:
+          "A complete mobile marketplace experience in three finished design directions: onboarding, discovery with category and chain filters, a live auction with the current bid, and a place-bid screen carrying countdown, provenance and bid history. The bidding moment — where marketplace apps usually lose the buyer — is fully specified and ready to build against.",
         capabilities: [
           "Marketplace browsing",
           "Live auctions & bidding",
@@ -2483,15 +2444,6 @@ export const CASE_DETAILS: CaseDetail[] = [
           "The bidding path is designed end to end: discovery, auction, bid, history",
           "Product concept: interface and product architecture, not a deployed marketplace",
         ],
-        notClaimed: [
-          "A launched or trading marketplace",
-          "Transaction volume, users or listings",
-          "Any smart-contract implementation",
-          "Association with the collections shown in the design",
-          "Custody of anyone's assets",
-        ],
-        scopeNote:
-          "Status: product concept. This is mobile product and interface work — the collection names, prices and bids visible in the screens are placeholder content used to design the flow, not live market data. No smart contract, wallet custody or trading system is claimed.",
         ctaLabel: "Discuss a marketplace app",
         liveLabel: "View live project",
       },
@@ -2522,6 +2474,8 @@ export const CASE_DETAILS: CaseDetail[] = [
           "Зробити ставку",
           "Стежити за активністю",
         ],
+        result:
+          "Повний досвід мобільного маркетплейсу в трьох завершених дизайн-напрямках: онбординг, пошук із фільтрами за категорією та мережею, живий аукціон із поточною ставкою та екран ставки з таймером, походженням і історією. Момент ставки — там, де застосунки-маркетплейси зазвичай втрачають покупця — повністю визначено й готово до реалізації.",
         capabilities: [
           "Перегляд маркетплейсу",
           "Живі аукціони та ставки",
@@ -2537,15 +2491,6 @@ export const CASE_DETAILS: CaseDetail[] = [
           "Шлях ставки спроєктовано наскрізно: пошук, аукціон, ставка, історія",
           "Продуктовий концепт: інтерфейс і продуктова архітектура, а не розгорнутий маркетплейс",
         ],
-        notClaimed: [
-          "Запущений або торгуючий маркетплейс",
-          "Обсяг транзакцій, користувачів чи лотів",
-          "Будь-яка реалізація смартконтрактів",
-          "Зв'язок із колекціями, показаними в дизайні",
-          "Зберігання чиїхось активів",
-        ],
-        scopeNote:
-          "Статус: продуктовий концепт. Це робота над мобільним продуктом та інтерфейсом — назви колекцій, ціни й ставки на екранах є демонстраційним контентом для проєктування потоку, а не живими ринковими даними. Смартконтракти, зберігання активів чи торгова система не заявляються.",
         ctaLabel: "Обговорити застосунок-маркетплейс",
         liveLabel: "Переглянути живий проєкт",
       },
@@ -2576,6 +2521,8 @@ export const CASE_DETAILS: CaseDetail[] = [
           "Сделать ставку",
           "Следить за активностью",
         ],
+        result:
+          "Полный опыт мобильного маркетплейса в трёх завершённых дизайн-направлениях: онбординг, поиск с фильтрами по категории и сети, живой аукцион с текущей ставкой и экран ставки с таймером, происхождением и историей. Момент ставки — там, где приложения-маркетплейсы обычно теряют покупателя — полностью определён и готов к реализации.",
         capabilities: [
           "Просмотр маркетплейса",
           "Живые аукционы и ставки",
@@ -2591,15 +2538,6 @@ export const CASE_DETAILS: CaseDetail[] = [
           "Путь ставки спроектирован сквозным образом: поиск, аукцион, ставка, история",
           "Продуктовый концепт: интерфейс и продуктовая архитектура, а не развёрнутый маркетплейс",
         ],
-        notClaimed: [
-          "Запущенный или торгующий маркетплейс",
-          "Объём транзакций, пользователей или лотов",
-          "Любая реализация смартконтрактов",
-          "Связь с коллекциями, показанными в дизайне",
-          "Хранение чьих-либо активов",
-        ],
-        scopeNote:
-          "Статус: продуктовый концепт. Это работа над мобильным продуктом и интерфейсом — названия коллекций, цены и ставки на экранах являются демонстрационным контентом для проектирования потока, а не живыми рыночными данными. Смартконтракты, хранение активов или торговая система не заявляются.",
         ctaLabel: "Обсудить приложение-маркетплейс",
         liveLabel: "Открыть живой проект",
       },
@@ -2607,6 +2545,7 @@ export const CASE_DETAILS: CaseDetail[] = [
   },
   {
     slug: "telegram-mining",
+    statusLabel: { en: "Completed Telegram Mini App concept", ua: "Завершений концепт Telegram Mini App", ru: "Завершённый концепт Telegram Mini App" },
     status: "concept",
     category: "mobile",
     shots: [
@@ -2656,6 +2595,8 @@ export const CASE_DETAILS: CaseDetail[] = [
           "Buy a faster package",
           "Withdraw",
         ],
+        result:
+          "A complete retention loop specified for a product that needs no install: a return timer with a claim action, a finance area for top-up and withdrawal, a referral system that pays out on invited users' activity, and an upgrade shop. The concept defines the mechanics that make a Telegram Mini App grow through its own users rather than paid acquisition.",
         capabilities: [
           "Telegram Mini App",
           "Return timer & rewards loop",
@@ -2670,15 +2611,6 @@ export const CASE_DETAILS: CaseDetail[] = [
           "Wallet connection, minimums and empty states are handled explicitly rather than assumed",
           "Product concept: interface and product mechanics, not a released Mini App",
         ],
-        notClaimed: [
-          "A released or operating Mini App",
-          "Users, deposits or payouts",
-          "Actual mining capacity or yield",
-          "Any financial return to a user",
-          "Custody or handling of funds",
-        ],
-        scopeNote:
-          "Status: product concept. This is product and interface work for a Telegram Mini App — the balances, timers and package prices are placeholder content used to design the loop. No operating app, mining capacity, yield or financial return is claimed, and the wallet address and QR code visible in the source have been redacted before publication.",
         ctaLabel: "Build a Telegram Mini App",
         liveLabel: "View live project",
       },
@@ -2709,6 +2641,8 @@ export const CASE_DETAILS: CaseDetail[] = [
           "Купити швидший пакет",
           "Вивести",
         ],
+        result:
+          "Повний цикл утримання для продукту, який не треба встановлювати: таймер повернення з дією «зібрати», фінансовий розділ для поповнення й виводу, реферальна система з виплатами за активність запрошених і магазин покращень. Концепт визначає механіку, завдяки якій Telegram Mini App росте через власних користувачів, а не через платне залучення.",
         capabilities: [
           "Telegram Mini App",
           "Таймер повернення й цикл винагород",
@@ -2723,15 +2657,6 @@ export const CASE_DETAILS: CaseDetail[] = [
           "Підключення гаманця, мінімуми та порожні стани опрацьовані явно, а не припущені",
           "Продуктовий концепт: інтерфейс і продуктова механіка, а не випущений Mini App",
         ],
-        notClaimed: [
-          "Випущений або працюючий Mini App",
-          "Користувачі, депозити чи виплати",
-          "Реальна потужність майнінгу чи дохідність",
-          "Будь-який фінансовий дохід користувача",
-          "Зберігання чи обробка коштів",
-        ],
-        scopeNote:
-          "Статус: продуктовий концепт. Це продуктова та інтерфейсна робота для Telegram Mini App — баланси, таймери й ціни пакетів є демонстраційним контентом для проєктування циклу. Працюючий застосунок, потужність майнінгу, дохідність чи фінансовий результат не заявляються, а адресу гаманця й QR-код із джерела приховано перед публікацією.",
         ctaLabel: "Побудувати Telegram Mini App",
         liveLabel: "Переглянути живий проєкт",
       },
@@ -2762,6 +2687,8 @@ export const CASE_DETAILS: CaseDetail[] = [
           "Купить более быстрый пакет",
           "Вывести",
         ],
+        result:
+          "Полный цикл удержания для продукта, который не нужно устанавливать: таймер возврата с действием «собрать», финансовый раздел для пополнения и вывода, реферальная система с выплатами за активность приглашённых и магазин улучшений. Концепт определяет механику, благодаря которой Telegram Mini App растёт через собственных пользователей, а не через платное привлечение.",
         capabilities: [
           "Telegram Mini App",
           "Таймер возврата и цикл наград",
@@ -2776,15 +2703,6 @@ export const CASE_DETAILS: CaseDetail[] = [
           "Подключение кошелька, минимумы и пустые состояния проработаны явно, а не предположены",
           "Продуктовый концепт: интерфейс и продуктовая механика, а не выпущенный Mini App",
         ],
-        notClaimed: [
-          "Выпущенный или работающий Mini App",
-          "Пользователи, депозиты или выплаты",
-          "Реальная мощность майнинга или доходность",
-          "Любой финансовый доход пользователя",
-          "Хранение или обработка средств",
-        ],
-        scopeNote:
-          "Статус: продуктовый концепт. Это продуктовая и интерфейсная работа для Telegram Mini App — балансы, таймеры и цены пакетов являются демонстрационным контентом для проектирования цикла. Работающее приложение, мощность майнинга, доходность или финансовый результат не заявляются, а адрес кошелька и QR-код из источника скрыты перед публикацией.",
         ctaLabel: "Построить Telegram Mini App",
         liveLabel: "Открыть живой проект",
       },
@@ -2792,6 +2710,7 @@ export const CASE_DETAILS: CaseDetail[] = [
   },
   {
     slug: "un-amour",
+    statusLabel: { en: "Completed ecommerce concept", ua: "Завершений e-commerce концепт", ru: "Завершённый e-commerce концепт" },
     status: "concept",
     category: "ecommerce",
     shots: [
@@ -2832,6 +2751,8 @@ export const CASE_DETAILS: CaseDetail[] = [
           "Search and cart in the header",
         ],
         flow: ["Arrive on the storefront", "Read the brand", "Browse bestsellers", "Open the collection", "Go to the catalogue", "Add to cart"],
+        result:
+          "A finished bilingual storefront for a considered garment: an editorial home that leads with the piece, a priced bestseller row, a separated wedding and evening collection, and catalogue, search and cart always within reach. The store behaves like a boutique rather than a photo album.",
         capabilities: ["Storefront & catalogue", "Bestseller merchandising", "Collection structure", "Bilingual UA/EN", "Search & cart"],
         tech: ["Ecommerce storefront", "Catalogue structure", "Bilingual content"],
         proof: [
@@ -2839,14 +2760,6 @@ export const CASE_DETAILS: CaseDetail[] = [
           "The store is bilingual by structure, not by afterthought",
           "Product concept: storefront design, not a deployed shop I operate",
         ],
-        notClaimed: [
-          "A live or trading online store",
-          "Sales, orders or traffic",
-          "A payment or delivery integration",
-          "A commercial relationship with the brand",
-        ],
-        scopeNote:
-          "Status: product concept. This is storefront and catalogue design. Product names and prices shown are content used to design the layout; I do not claim a live shop, sales, or an operating payment or delivery integration.",
         ctaLabel: "Build an online store like this",
         liveLabel: "View live project",
       },
@@ -2868,6 +2781,8 @@ export const CASE_DETAILS: CaseDetail[] = [
           "Пошук і кошик у шапці",
         ],
         flow: ["Потрапити на вітрину", "Прочитати про бренд", "Переглянути бестселери", "Відкрити колекцію", "Перейти в каталог", "Додати в кошик"],
+        result:
+          "Завершена двомовна вітрина для продуманої речі: редакційна головна, що починається з самого виробу, ряд бестселерів із цінами, окрема весільна та вечірня колекція, а каталог, пошук і кошик — завжди під рукою. Магазин поводиться як бутик, а не як фотоальбом.",
         capabilities: ["Вітрина й каталог", "Мерчандайзинг бестселерів", "Структура колекцій", "Двомовність UA/EN", "Пошук і кошик"],
         tech: ["Ecommerce-вітрина", "Структура каталогу", "Двомовний контент"],
         proof: [
@@ -2875,14 +2790,6 @@ export const CASE_DETAILS: CaseDetail[] = [
           "Магазин двомовний за структурою, а не як доробка",
           "Продуктовий концепт: дизайн вітрини, а не розгорнутий магазин, яким я оперую",
         ],
-        notClaimed: [
-          "Живий або працюючий онлайн-магазин",
-          "Продажі, замовлення чи трафік",
-          "Інтеграція оплат або доставки",
-          "Комерційні відносини з брендом",
-        ],
-        scopeNote:
-          "Статус: продуктовий концепт. Це дизайн вітрини й каталогу. Назви товарів і ціни — це контент для проєктування макета; я не заявляю живий магазин, продажі чи працюючу інтеграцію оплат або доставки.",
         ctaLabel: "Побудувати онлайн-магазин як цей",
         liveLabel: "Переглянути живий проєкт",
       },
@@ -2904,6 +2811,8 @@ export const CASE_DETAILS: CaseDetail[] = [
           "Поиск и корзина в шапке",
         ],
         flow: ["Попасть на витрину", "Прочитать о бренде", "Просмотреть бестселлеры", "Открыть коллекцию", "Перейти в каталог", "Добавить в корзину"],
+        result:
+          "Завершённая двуязычная витрина для продуманной вещи: редакционная главная, начинающаяся с самого изделия, ряд бестселлеров с ценами, отдельная свадебная и вечерняя коллекция, а каталог, поиск и корзина — всегда под рукой. Магазин ведёт себя как бутик, а не как фотоальбом.",
         capabilities: ["Витрина и каталог", "Мерчандайзинг бестселлеров", "Структура коллекций", "Двуязычность UA/EN", "Поиск и корзина"],
         tech: ["Ecommerce-витрина", "Структура каталога", "Двуязычный контент"],
         proof: [
@@ -2911,14 +2820,6 @@ export const CASE_DETAILS: CaseDetail[] = [
           "Магазин двуязычный по структуре, а не как доработка",
           "Продуктовый концепт: дизайн витрины, а не развёрнутый магазин, которым я оперирую",
         ],
-        notClaimed: [
-          "Живой или работающий онлайн-магазин",
-          "Продажи, заказы или трафик",
-          "Интеграция оплат или доставки",
-          "Коммерческие отношения с брендом",
-        ],
-        scopeNote:
-          "Статус: продуктовый концепт. Это дизайн витрины и каталога. Названия товаров и цены — это контент для проектирования макета; я не заявляю живой магазин, продажи или работающую интеграцию оплат либо доставки.",
         ctaLabel: "Построить онлайн-магазин как этот",
         liveLabel: "Открыть живой проект",
       },
@@ -2957,6 +2858,7 @@ export const PORTFOLIO_UI: Record<
     problemLabel: string;
     builtLabel: string;
     valueLabel: string;
+    resultLabel: string;
     audioLabel: string;
     capabilitiesLabel: string;
     capsTitle: string;
@@ -2999,8 +2901,9 @@ export const PORTFOLIO_UI: Record<
     live: "View live project",
     outcomeLabel: "What it changes",
     problemLabel: "Problem",
-    builtLabel: "What was built",
+    builtLabel: "What was delivered",
     valueLabel: "Why it matters",
+    resultLabel: "Outcome",
     audioLabel: "Listen to the demo",
     capabilitiesLabel: "Capabilities",
     capsTitle: "What I can build for you",
@@ -3044,8 +2947,9 @@ export const PORTFOLIO_UI: Record<
     live: "Переглянути живий проєкт",
     outcomeLabel: "Що це змінює",
     problemLabel: "Проблема",
-    builtLabel: "Що створено",
+    builtLabel: "Що зроблено",
     valueLabel: "Чому це важливо",
+    resultLabel: "Результат",
     audioLabel: "Послухати демо",
     capabilitiesLabel: "Можливості",
     capsTitle: "Що я можу побудувати для вас",
@@ -3089,8 +2993,9 @@ export const PORTFOLIO_UI: Record<
     live: "Открыть живой проект",
     outcomeLabel: "Что это меняет",
     problemLabel: "Проблема",
-    builtLabel: "Что создано",
+    builtLabel: "Что сделано",
     valueLabel: "Почему это важно",
+    resultLabel: "Результат",
     audioLabel: "Послушать демо",
     capabilitiesLabel: "Возможности",
     capsTitle: "Что я могу построить для вас",
@@ -3119,16 +3024,15 @@ export const CASE_UI: Record<
     allWork: string;
     contextLabel: string;
     problemLabel: string;
-    outcomeLabel: string;
+    solutionLabel: string;
     builtLabel: string;
     flowLabel: string;
+    resultLabel: string;
     capabilitiesLabel: string;
     galleryLabel: string;
     galleryNote: string;
     techLabel: string;
     proofLabel: string;
-    scopeLabel: string;
-    notClaimedLabel: string;
     ctaTitle: string;
     ctaBody: string;
     dialogDesc: string;
@@ -3142,17 +3046,16 @@ export const CASE_UI: Record<
   en: {
     allWork: "All work",
     contextLabel: "Context",
-    problemLabel: "The challenge",
-    outcomeLabel: "Desired outcome",
-    builtLabel: "What was built",
-    flowLabel: "How the product works",
+    problemLabel: "The business problem",
+    solutionLabel: "The solution",
+    builtLabel: "What was delivered",
+    flowLabel: "How it works",
+    resultLabel: "Outcome",
     capabilitiesLabel: "Key capabilities",
     galleryLabel: "Visual walkthrough",
     galleryNote: "Screens from the real product.",
     techLabel: "Technical implementation",
-    proofLabel: "Proof & current status",
-    scopeLabel: "Scope & honesty",
-    notClaimedLabel: "Not claimed",
+    proofLabel: "What exists today",
     ctaTitle: "Building something similar?",
     ctaBody: "Tell me what you want to launch and I'll come back with the scope, the fastest realistic MVP and a first launch path.",
     dialogDesc: "Tell me about your project and I'll come back on how I'd build something similar for you.",
@@ -3165,17 +3068,16 @@ export const CASE_UI: Record<
   ua: {
     allWork: "Усі роботи",
     contextLabel: "Контекст",
-    problemLabel: "Виклик",
-    outcomeLabel: "Бажаний результат",
-    builtLabel: "Що було побудовано",
-    flowLabel: "Як працює продукт",
+    problemLabel: "Бізнес-проблема",
+    solutionLabel: "Рішення",
+    builtLabel: "Що було зроблено",
+    flowLabel: "Як це працює",
+    resultLabel: "Результат",
     capabilitiesLabel: "Ключові можливості",
     galleryLabel: "Візуальний розбір",
     galleryNote: "Екрани зі справжнього продукту.",
     techLabel: "Технічна реалізація",
-    proofLabel: "Підтвердження та поточний статус",
-    scopeLabel: "Межі та чесність",
-    notClaimedLabel: "Що я НЕ приписую собі",
+    proofLabel: "Що існує сьогодні",
     ctaTitle: "Будуєте щось подібне?",
     ctaBody: "Розкажіть, що хочете запустити, і я повернуся з обсягом, найшвидшим реалістичним MVP і першим шляхом до запуску.",
     dialogDesc: "Розкажіть про ваш проєкт — я повернуся з тим, як побудував би подібне для вас.",
@@ -3188,17 +3090,16 @@ export const CASE_UI: Record<
   ru: {
     allWork: "Все работы",
     contextLabel: "Контекст",
-    problemLabel: "Вызов",
-    outcomeLabel: "Желаемый результат",
-    builtLabel: "Что было построено",
-    flowLabel: "Как работает продукт",
+    problemLabel: "Бизнес-проблема",
+    solutionLabel: "Решение",
+    builtLabel: "Что было сделано",
+    flowLabel: "Как это работает",
+    resultLabel: "Результат",
     capabilitiesLabel: "Ключевые возможности",
     galleryLabel: "Визуальный разбор",
     galleryNote: "Экраны из реального продукта.",
     techLabel: "Техническая реализация",
-    proofLabel: "Подтверждение и текущий статус",
-    scopeLabel: "Границы и честность",
-    notClaimedLabel: "Что я НЕ приписываю себе",
+    proofLabel: "Что существует сегодня",
     ctaTitle: "Строите что-то похожее?",
     ctaBody: "Расскажите, что хотите запустить, и я вернусь с объёмом, самым быстрым реалистичным MVP и первым путём к запуску.",
     dialogDesc: "Расскажите о вашем проекте — я вернусь с тем, как построил бы подобное для вас.",

@@ -14,8 +14,8 @@ import {
   CASE_DETAILS,
   CASE_UI,
   CATEGORY_SHORT,
-  STATUS_LABEL,
   STATUS_TONE,
+  statusText,
   type Status,
 } from "@/lib/portfolio";
 
@@ -26,7 +26,15 @@ const toneClass: Record<"green" | "amber", string> = {
   amber: "border-amber-400/40 bg-amber-400/10 text-amber-300",
 };
 
-function StatusBadge({ status, lang }: { status: Status; lang: Locale }) {
+function StatusBadge({
+  status,
+  lang,
+  label,
+}: {
+  status: Status;
+  lang: Locale;
+  label?: Record<Locale, string>;
+}) {
   return (
     <span
       className={cn(
@@ -35,7 +43,7 @@ function StatusBadge({ status, lang }: { status: Status; lang: Locale }) {
       )}
     >
       <span className="h-1.5 w-1.5 rounded-full bg-current shrink-0" />
-      {STATUS_LABEL[status][lang]}
+      {statusText(lang, status, label)}
     </span>
   );
 }
@@ -119,7 +127,7 @@ export function WorkCasePage({ slug }: { slug: string }) {
           </a>
           <div className="flex flex-wrap items-center gap-3 mb-4">
             <span className="eyebrow">{CATEGORY_SHORT[study.category][locale]}</span>
-            <StatusBadge status={study.status} lang={locale} />
+            <StatusBadge status={study.status} lang={locale} label={study.statusLabel} />
           </div>
           <h1 className="text-4xl md:text-5xl font-black tracking-tight mb-3 break-words">{c.name}</h1>
           <p className="text-sm text-gray-400 mb-5">{c.type}</p>
@@ -165,26 +173,9 @@ export function WorkCasePage({ slug }: { slug: string }) {
             <p className="text-gray-300 leading-relaxed max-w-3xl">{c.problem}</p>
           </div>
           <div className="luxe-card p-6">
-            <h2 className="text-xl font-bold mb-3">{t.outcomeLabel}</h2>
+            <h2 className="text-xl font-bold mb-3">{t.solutionLabel}</h2>
             <p className="text-gray-200 leading-relaxed">{c.outcome}</p>
           </div>
-        </div>
-      </section>
-
-      {/* ------------------------------------------------------- WHAT WAS BUILT */}
-      <section className="py-14 border-b border-zinc-900">
-        <div className="container mx-auto px-4 max-w-4xl">
-          <h2 className="text-2xl md:text-3xl font-bold mb-6">{t.builtLabel}</h2>
-          <ul className="grid sm:grid-cols-2 gap-3">
-            {c.built.map((item) => (
-              <li key={item} className="flex items-start gap-3 luxe-card px-5 py-3.5 min-w-0">
-                <span className="w-5 h-5 rounded-full bg-amber-400/15 flex items-center justify-center shrink-0 mt-0.5">
-                  <Check className="h-3 w-3 text-amber-400" />
-                </span>
-                <span className="text-sm text-gray-300 leading-relaxed break-words">{item}</span>
-              </li>
-            ))}
-          </ul>
         </div>
       </section>
 
@@ -209,6 +200,23 @@ export function WorkCasePage({ slug }: { slug: string }) {
           </div>
         </section>
       )}
+
+      {/* ------------------------------------------------------- WHAT WAS BUILT */}
+      <section className="py-14 border-b border-zinc-900">
+        <div className="container mx-auto px-4 max-w-4xl">
+          <h2 className="text-2xl md:text-3xl font-bold mb-6">{t.builtLabel}</h2>
+          <ul className="grid sm:grid-cols-2 gap-3">
+            {c.built.map((item) => (
+              <li key={item} className="flex items-start gap-3 luxe-card px-5 py-3.5 min-w-0">
+                <span className="w-5 h-5 rounded-full bg-amber-400/15 flex items-center justify-center shrink-0 mt-0.5">
+                  <Check className="h-3 w-3 text-amber-400" />
+                </span>
+                <span className="text-sm text-gray-300 leading-relaxed break-words">{item}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </section>
 
       {/* -------------------------------------------------------- CAPABILITIES */}
       <section className="py-14 border-b border-zinc-900">
@@ -298,29 +306,13 @@ export function WorkCasePage({ slug }: { slug: string }) {
         </div>
       </section>
 
-      {/* Scope honesty — what is and is NOT claimed */}
-      <section className="section-accent py-14 border-b border-zinc-900">
+      {/* ------------------------------------------------------------- OUTCOME */}
+      <section className="section-accent py-16 border-b border-zinc-900">
         <div className="container mx-auto px-4 max-w-4xl">
-          <div className="luxe-card p-6 flex items-start gap-3">
-            <ShieldCheck className="h-5 w-5 text-amber-400 shrink-0 mt-0.5" />
-            <div className="min-w-0">
-              <h2 className="font-semibold mb-2">{t.scopeLabel}</h2>
-              <p className="text-sm text-gray-300 leading-relaxed">{c.scopeNote}</p>
-              <p className="text-[10px] uppercase tracking-[0.16em] text-gray-500 mt-4 mb-2">
-                {t.notClaimedLabel}
-              </p>
-              <div className="flex flex-wrap gap-1.5">
-                {c.notClaimed.map((nc) => (
-                  <span
-                    key={nc}
-                    className="rounded-full border border-zinc-700 bg-black/30 px-2.5 py-0.5 text-[11px] text-gray-400"
-                  >
-                    {nc}
-                  </span>
-                ))}
-              </div>
-            </div>
-          </div>
+          <span className="eyebrow">{t.resultLabel}</span>
+          <p className="mt-5 text-xl md:text-2xl text-gray-100 leading-relaxed font-medium">
+            {c.result}
+          </p>
         </div>
       </section>
 
@@ -364,7 +356,7 @@ export function WorkCasePage({ slug }: { slug: string }) {
                     )}
                     <div className="p-5 min-w-0">
                       <div className="flex flex-wrap items-center gap-2 mb-1.5">
-                        <StatusBadge status={o.status} lang={locale} />
+                        <StatusBadge status={o.status} lang={locale} label={o.statusLabel} />
                       </div>
                       <p className="font-bold group-hover:text-amber-200 transition-colors break-words">
                         {oc.name}
