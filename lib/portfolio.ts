@@ -16,22 +16,22 @@ import { SITE } from "@/lib/site";
 
 export type Status =
   | "real_client"
-  | "active_development"
+  | "launched_mvp"
   | "in_development"
   | "prototype"
   | "concept";
 
 export const STATUS_LABEL: Record<Status, Record<Lang, string>> = {
   real_client: { en: "Live client project", ua: "Живий клієнтський проєкт", ru: "Живой клиентский проект" },
-  active_development: { en: "In active development", ua: "В активній розробці", ru: "В активной разработке" },
+  launched_mvp: { en: "Launched MVP", ua: "Запущений MVP", ru: "Запущенный MVP" },
   in_development: { en: "In development", ua: "У розробці", ru: "В разработке" },
-  prototype: { en: "Prototype", ua: "Прототип", ru: "Прототип" },
-  concept: { en: "Product concept", ua: "Продуктовий концепт", ru: "Продуктовый концепт" },
+  prototype: { en: "Completed prototype", ua: "Завершений прототип", ru: "Завершённый прототип" },
+  concept: { en: "Completed concept", ua: "Завершений концепт", ru: "Завершённый концепт" },
 };
 
 export const STATUS_TONE: Record<Status, "green" | "amber"> = {
   real_client: "green",
-  active_development: "amber",
+  launched_mvp: "green",
   in_development: "amber",
   prototype: "amber",
   concept: "amber",
@@ -115,7 +115,13 @@ export interface CardContent {
   outcome: string;
   problem: string;
   built: string;
+  /** Why it matters commercially — used by the editorial block on /work. */
+  value?: string;
   capabilities: string[];
+  /** Honesty fields for projects that have no separate case page. */
+  notClaimed?: string[];
+  scopeNote?: string;
+  ctaLabel?: string;
   caption?: string;
 }
 
@@ -131,6 +137,8 @@ export interface PortfolioCard {
   liveUrl?: string;
   /** Screenshot paths (empty when no real asset exists yet). */
   shots: string[];
+  /** Real audio proof, where one exists (Ikorka voice demo). */
+  audio?: string;
   content: Record<Lang, CardContent>;
 }
 
@@ -138,7 +146,7 @@ export const PORTFOLIO: PortfolioCard[] = [
   {
     key: "turbotaai",
     category: "ai_products",
-    status: "active_development",
+    status: "in_development",
     featured: 1,
     caseSlug: "turbotaai",
     // Public URL supplied by the project owner (portfolio-source/LIVE_PROJECTS.md).
@@ -191,7 +199,7 @@ export const PORTFOLIO: PortfolioCard[] = [
   {
     key: "tutorivo",
     category: "platforms",
-    status: "in_development",
+    status: "launched_mvp",
     featured: 3,
     caseSlug: "tutorivo",
     shots: [
@@ -532,101 +540,828 @@ export const PORTFOLIO: PortfolioCard[] = [
     },
   },
   {
-    key: "web3-interfaces",
+    key: "iko",
     category: "web3",
     status: "concept",
-    caseSlug: "web3-interfaces",
-    shots: [
-      "/case-studies/web3-interfaces/wallet.webp",
-      "/case-studies/web3-interfaces/convex.webp",
-      "/case-studies/web3-interfaces/oxhash.webp",
-      "/case-studies/web3-interfaces/iko.webp",
-    ],
+    shots: ["/case-studies/iko/hero.webp"],
     content: {
       en: {
-        name: "Web3 & DeFi Interfaces",
-        type: "Web3 product concepts · Wallet, staking, L2, B2B",
+        name: "IKO",
+        type: "Blockchain for business · B2B site",
         outcome:
-          "Four crypto products explained so a non-specialist can tell what they do, what it costs and what happens to their assets — before being asked to connect a wallet.",
+          "Blockchain explained to a business buyer in terms of trust and paperwork, not protocols.",
         problem:
-          "Crypto products lose people at the first screen. The mechanism is buried in jargon, custody and fees are vague, and trust has to be earned before anything is signed.",
+          "B2B blockchain sites talk to engineers and lose the person who signs. The buyer never learns what changes in their operation.",
         built:
-          "Four product directions: a self-custody wallet with swap, chain selection and transparency/security sections; a staking product with boosted yields and audit proof; a Layer-2 chain with grants and routing; and a B2B blockchain-for-business site.",
-        capabilities: ["Wallet & swap UX", "Staking & yield", "Chain / network selection", "Security & audit framing", "B2B Web3 positioning"],
-        caption: "Self-custody wallet direction",
+          "A B2B site translating the technology into business outcomes — a secure-and-safe section, a trust argument, and an enterprise-facing contact route.",
+        value:
+          "Positions a deep-tech product for a commercial audience so the first meeting is about outcomes, not architecture.",
+        capabilities: ["B2B positioning", "Trust architecture", "Enterprise landing"],
+        notClaimed: ["A live or trading site", "The figures and logos printed inside the design", "Sales, conversion or traffic", "A commercial relationship with the brand"],
+        scopeNote:
+          "Completed product concept. Trust figures, ratings, review counts, founding years and any brand collaboration visible inside the design are that concept's placeholder content — not verified claims and not results produced here.",
+        ctaLabel: "Build something similar",
       },
       ua: {
-        name: "Web3 та DeFi інтерфейси",
-        type: "Концепти Web3-продуктів · Гаманець, стейкінг, L2, B2B",
+        name: "IKO",
+        type: "Блокчейн для бізнесу · B2B-сайт",
         outcome:
-          "Чотири крипто-продукти, пояснені так, щоб неспеціаліст зрозумів, що вони роблять, скільки це коштує і що стається з його активами — ще до прохання під'єднати гаманець.",
+          "Блокчейн, пояснений бізнес-покупцю мовою довіри й документообігу, а не протоколів.",
         problem:
-          "Крипто-продукти втрачають людей на першому екрані. Механіка захована в жаргоні, зберігання й комісії нечіткі, а довіру треба заслужити ще до першого підпису.",
+          "B2B-сайти про блокчейн говорять з інженерами й втрачають того, хто підписує. Покупець так і не дізнається, що зміниться в його роботі.",
         built:
-          "Чотири продуктові напрямки: гаманець самозберігання зі свопом, вибором мережі та секціями прозорості й безпеки; стейкінг-продукт із підвищеною дохідністю та підтвердженням аудиту; Layer-2 мережа з грантами й маршрутизацією; B2B-сайт «блокчейн для бізнесу».",
-        capabilities: ["UX гаманця та свопу", "Стейкінг і дохідність", "Вибір мережі", "Подача безпеки й аудиту", "B2B-позиціонування Web3"],
-        caption: "Напрямок гаманця самозберігання",
+          "B2B-сайт, що перекладає технологію в бізнес-результати: секція безпеки, аргумент довіри та корпоративний шлях до контакту.",
+        value:
+          "Позиціонує глибоко технічний продукт для комерційної аудиторії, щоб перша зустріч була про результати, а не про архітектуру.",
+        capabilities: ["B2B-позиціонування", "Архітектура довіри", "Корпоративний лендинг"],
+        notClaimed: ["Живий або працюючий сайт", "Цифри й логотипи всередині дизайну", "Продажі, конверсія чи трафік", "Комерційні відносини з брендом"],
+        scopeNote:
+          "Завершений продуктовий концепт. Показники довіри, рейтинги, кількість відгуків, рік заснування та будь-яка колаборація, видима всередині дизайну, — це демонстраційний контент концепту, а не підтверджені твердження чи створені тут результати.",
+        ctaLabel: "Обговорити схожий проєкт",
       },
       ru: {
-        name: "Web3 и DeFi интерфейсы",
-        type: "Концепты Web3-продуктов · Кошелёк, стейкинг, L2, B2B",
+        name: "IKO",
+        type: "Блокчейн для бизнеса · B2B-сайт",
         outcome:
-          "Четыре крипто-продукта, объяснённые так, чтобы неспециалист понял, что они делают, сколько это стоит и что происходит с его активами — ещё до просьбы подключить кошелёк.",
+          "Блокчейн, объяснённый бизнес-покупателю языком доверия и документооборота, а не протоколов.",
         problem:
-          "Крипто-продукты теряют людей на первом экране. Механика спрятана в жаргоне, хранение и комиссии размыты, а доверие нужно заслужить до первой подписи.",
+          "B2B-сайты о блокчейне говорят с инженерами и теряют того, кто подписывает. Покупатель так и не узнаёт, что изменится в его работе.",
         built:
-          "Четыре продуктовых направления: кошелёк самохранения со свопом, выбором сети и секциями прозрачности и безопасности; стейкинг-продукт с повышенной доходностью и подтверждением аудита; Layer-2 сеть с грантами и маршрутизацией; B2B-сайт «блокчейн для бизнеса».",
-        capabilities: ["UX кошелька и свопа", "Стейкинг и доходность", "Выбор сети", "Подача безопасности и аудита", "B2B-позиционирование Web3"],
-        caption: "Направление кошелька самохранения",
+          "B2B-сайт, переводящий технологию в бизнес-результаты: секция безопасности, аргумент доверия и корпоративный путь к контакту.",
+        value:
+          "Позиционирует глубоко техничный продукт для коммерческой аудитории, чтобы первая встреча была о результатах, а не об архитектуре.",
+        capabilities: ["B2B-позиционирование", "Архитектура доверия", "Корпоративный лендинг"],
+        notClaimed: ["Живой или работающий сайт", "Цифры и логотипы внутри дизайна", "Продажи, конверсия или трафик", "Коммерческие отношения с брендом"],
+        scopeNote:
+          "Завершённый продуктовый концепт. Показатели доверия, рейтинги, количество отзывов, год основания и любая коллаборация, видимая внутри дизайна, — это демонстрационный контент концепта, а не подтверждённые утверждения или созданные здесь результаты.",
+        ctaLabel: "Обсудить похожий проект",
       },
     },
   },
   {
-    key: "dtc-landings",
-    category: "ecommerce",
+    key: "convex",
+    category: "web3",
     status: "concept",
-    caseSlug: "dtc-landings",
-    shots: [
-      "/case-studies/dtc-landings/aurea.webp",
-      "/case-studies/dtc-landings/kinex.webp",
-      "/case-studies/dtc-landings/ovulan.webp",
-    ],
+    shots: ["/case-studies/convex/hero.webp"],
     content: {
       en: {
-        name: "DTC Product Landings",
-        type: "UI/UX concepts · Six consumer brands",
+        name: "Convex Staking",
+        type: "DeFi staking product · Yield & audit",
         outcome:
-          "A repeatable landing structure for a physical product: what it is, why it is better, proof, the range, and one buying action — built once and reused across categories.",
+          "A staking product where the yield, the withdrawal terms and the security audit are visible before anyone deposits.",
         problem:
-          "Most product pages describe the product and forget the decision. The buyer scrolls, learns nothing they can act on, and leaves without reaching a price.",
+          "Depositing into a yield product is irreversible. If the boost mechanism, the withdrawal rules and who audited the contracts are not on the first screen, a cautious depositor leaves.",
         built:
-          "Six conversion landings across skincare, wearables, electric mobility, watches, coffee and car detailing — each with a product hero, a benefits breakdown, a range or bestseller grid and a closing action.",
-        capabilities: ["Conversion landing structure", "Product merchandising", "Benefit breakdowns", "Range presentation", "Design system reuse"],
-        caption: "Skincare landing — Auréa",
+          "A staking landing presenting deposits for boosted yield, explicit withdrawal terms, the token model and a named third-party security audit.",
+        value:
+          "Puts the three questions a depositor actually has — what do I earn, when can I leave, who checked this — above the fold.",
+        capabilities: ["Staking & yield UX", "Withdrawal terms", "Audit framing", "Token presentation"],
+        notClaimed: ["A live or trading site", "The figures and logos printed inside the design", "Sales, conversion or traffic", "A commercial relationship with the brand"],
+        scopeNote:
+          "Completed product concept. Trust figures, ratings, review counts, founding years and any brand collaboration visible inside the design are that concept's placeholder content — not verified claims and not results produced here.",
+        ctaLabel: "Build something similar",
       },
       ua: {
-        name: "DTC-лендинги продуктів",
-        type: "UI/UX концепти · Шість споживчих брендів",
+        name: "Convex Staking",
+        type: "DeFi-стейкінг · Дохідність і аудит",
         outcome:
-          "Повторювана структура лендингу для фізичного продукту: що це, чому краще, підтвердження, лінійка й одна дія купівлі — зроблено раз і перевикористано в різних категоріях.",
+          "Стейкінг-продукт, де дохідність, умови виводу та аудит безпеки видно ще до депозиту.",
         problem:
-          "Більшість сторінок продукту описують товар і забувають про рішення. Покупець гортає, не дізнається нічого, на що можна діяти, і йде, не дійшовши до ціни.",
+          "Депозит у дохідний продукт незворотний. Якщо механіка бусту, правила виводу й те, хто перевіряв контракти, не на першому екрані — обережний вкладник іде.",
         built:
-          "Шість конверсійних лендингів у догляді за шкірою, носимих пристроях, електротранспорті, годинниках, каві та детейлінгу — кожен із героєм продукту, розбором переваг, сіткою лінійки чи бестселерів і завершальною дією.",
-        capabilities: ["Структура конверсійного лендингу", "Мерчандайзинг продукту", "Розбір переваг", "Презентація лінійки", "Перевикористання дизайн-системи"],
-        caption: "Лендинг догляду за шкірою — Auréa",
+          "Лендинг стейкінгу з депозитами під підвищену дохідність, явними умовами виводу, моделлю токена та названим стороннім аудитом безпеки.",
+        value:
+          "Виносить три питання, які реально є у вкладника — скільки я заробляю, коли можу вийти, хто це перевіряв — на перший екран.",
+        capabilities: ["UX стейкінгу", "Умови виводу", "Подача аудиту", "Презентація токена"],
+        notClaimed: ["Живий або працюючий сайт", "Цифри й логотипи всередині дизайну", "Продажі, конверсія чи трафік", "Комерційні відносини з брендом"],
+        scopeNote:
+          "Завершений продуктовий концепт. Показники довіри, рейтинги, кількість відгуків, рік заснування та будь-яка колаборація, видима всередині дизайну, — це демонстраційний контент концепту, а не підтверджені твердження чи створені тут результати.",
+        ctaLabel: "Обговорити схожий проєкт",
       },
       ru: {
-        name: "DTC-лендинги продуктов",
-        type: "UI/UX концепты · Шесть потребительских брендов",
+        name: "Convex Staking",
+        type: "DeFi-стейкинг · Доходность и аудит",
         outcome:
-          "Повторяемая структура лендинга для физического продукта: что это, почему лучше, подтверждение, линейка и одно действие покупки — сделано раз и переиспользовано в разных категориях.",
+          "Стейкинг-продукт, где доходность, условия вывода и аудит безопасности видны ещё до депозита.",
         problem:
-          "Большинство страниц продукта описывают товар и забывают о решении. Покупатель листает, не узнаёт ничего, на что можно действовать, и уходит, не дойдя до цены.",
+          "Депозит в доходный продукт необратим. Если механика буста, правила вывода и то, кто проверял контракты, не на первом экране — осторожный вкладчик уходит.",
         built:
-          "Шесть конверсионных лендингов в уходе за кожей, носимых устройствах, электротранспорте, часах, кофе и детейлинге — каждый с героем продукта, разбором преимуществ, сеткой линейки или бестселлеров и завершающим действием.",
-        capabilities: ["Структура конверсионного лендинга", "Мерчандайзинг продукта", "Разбор преимуществ", "Презентация линейки", "Переиспользование дизайн-системы"],
-        caption: "Лендинг ухода за кожей — Auréa",
+          "Лендинг стейкинга с депозитами под повышенную доходность, явными условиями вывода, моделью токена и названным сторонним аудитом безопасности.",
+        value:
+          "Выносит три вопроса, которые реально есть у вкладчика — сколько я зарабатываю, когда могу выйти, кто это проверял — на первый экран.",
+        capabilities: ["UX стейкинга", "Условия вывода", "Подача аудита", "Презентация токена"],
+        notClaimed: ["Живой или работающий сайт", "Цифры и логотипы внутри дизайна", "Продажи, конверсия или трафик", "Коммерческие отношения с брендом"],
+        scopeNote:
+          "Завершённый продуктовый концепт. Показатели доверия, рейтинги, количество отзывов, год основания и любая коллаборация, видимая внутри дизайна, — это демонстрационный контент концепта, а не подтверждённые утверждения или созданные здесь результаты.",
+        ctaLabel: "Обсудить похожий проект",
+      },
+    },
+  },
+  {
+    key: "wallet",
+    category: "web3",
+    status: "concept",
+    shots: ["/case-studies/wallet/hero.webp"],
+    content: {
+      en: {
+        name: "Self-Custody Wallet",
+        type: "Web3 wallet · Swap & custody",
+        outcome:
+          "A wallet that answers \"who holds my assets\" before it asks anyone to connect.",
+        problem:
+          "Self-custody is the whole promise, and most wallets bury it. Users cannot tell what is collected, who audits the code, or what happens if the company disappears.",
+        built:
+          "A wallet product with swap and source/destination network selection, buy-crypto and add-chain entry points, plus explicit transparency and security sections covering open source, regular audits and what data is never collected.",
+        value:
+          "Treats custody, fees and data collection as primary interface content — the thing that earns the connect — rather than footnotes.",
+        capabilities: ["Wallet & swap UX", "Network selection", "Transparency & security", "Onboarding"],
+        notClaimed: ["A live or trading site", "The figures and logos printed inside the design", "Sales, conversion or traffic", "A commercial relationship with the brand"],
+        scopeNote:
+          "Completed product concept. Trust figures, ratings, review counts, founding years and any brand collaboration visible inside the design are that concept's placeholder content — not verified claims and not results produced here.",
+        ctaLabel: "Build something similar",
+      },
+      ua: {
+        name: "Self-Custody Wallet",
+        type: "Web3-гаманець · Своп і зберігання",
+        outcome:
+          "Гаманець, який відповідає «хто тримає мої активи» ще до того, як просить під'єднатися.",
+        problem:
+          "Самозберігання — це вся обіцянка, і більшість гаманців її ховає. Користувач не розуміє, що збирається, хто аудитує код і що буде, якщо компанія зникне.",
+        built:
+          "Продукт-гаманець зі свопом і вибором мережі відправлення/отримання, точками входу «купити крипто» та «додати мережу», плюс явні секції прозорості й безпеки: відкритий код, регулярні аудити та які дані не збираються ніколи.",
+        value:
+          "Робить зберігання, комісії та збір даних основним контентом інтерфейсу — тим, що заслуговує підключення, — а не виносками.",
+        capabilities: ["UX гаманця та свопу", "Вибір мережі", "Прозорість і безпека", "Онбординг"],
+        notClaimed: ["Живий або працюючий сайт", "Цифри й логотипи всередині дизайну", "Продажі, конверсія чи трафік", "Комерційні відносини з брендом"],
+        scopeNote:
+          "Завершений продуктовий концепт. Показники довіри, рейтинги, кількість відгуків, рік заснування та будь-яка колаборація, видима всередині дизайну, — це демонстраційний контент концепту, а не підтверджені твердження чи створені тут результати.",
+        ctaLabel: "Обговорити схожий проєкт",
+      },
+      ru: {
+        name: "Self-Custody Wallet",
+        type: "Web3-кошелёк · Своп и хранение",
+        outcome:
+          "Кошелёк, который отвечает «кто держит мои активы» ещё до того, как просит подключиться.",
+        problem:
+          "Самохранение — это всё обещание, и большинство кошельков его прячет. Пользователь не понимает, что собирается, кто аудирует код и что будет, если компания исчезнет.",
+        built:
+          "Продукт-кошелёк со свопом и выбором сети отправления/получения, точками входа «купить крипто» и «добавить сеть», плюс явные секции прозрачности и безопасности: открытый код, регулярные аудиты и какие данные не собираются никогда.",
+        value:
+          "Делает хранение, комиссии и сбор данных основным контентом интерфейса — тем, что заслуживает подключения, — а не сносками.",
+        capabilities: ["UX кошелька и свопа", "Выбор сети", "Прозрачность и безопасность", "Онбординг"],
+        notClaimed: ["Живой или работающий сайт", "Цифры и логотипы внутри дизайна", "Продажи, конверсия или трафик", "Коммерческие отношения с брендом"],
+        scopeNote:
+          "Завершённый продуктовый концепт. Показатели доверия, рейтинги, количество отзывов, год основания и любая коллаборация, видимая внутри дизайна, — это демонстрационный контент концепта, а не подтверждённые утверждения или созданные здесь результаты.",
+        ctaLabel: "Обсудить похожий проект",
+      },
+    },
+  },
+  {
+    key: "oxhash",
+    category: "web3",
+    status: "concept",
+    shots: ["/case-studies/oxhash/hero.webp"],
+    content: {
+      en: {
+        name: "0xHash",
+        type: "Layer-2 chain · Developer platform",
+        outcome:
+          "A Layer-2 positioned to builders: what it costs, what it connects to, and how to get funded to build on it.",
+        problem:
+          "Chains compete for developers, not end users. A builder decides in one screen whether the fees, interoperability and routing are worth rewriting for — and whether anyone will fund the attempt.",
+        built:
+          "A chain site covering core features around fees and scalability, interoperability and blockchain routing, an ecosystem showcase and a builder grant path.",
+        value:
+          "Turns an infrastructure product into a recruiting page for the only audience that grows it: the people who ship on it.",
+        capabilities: ["Developer positioning", "Ecosystem showcase", "Grant funnel", "Technical clarity"],
+        notClaimed: ["A live or trading site", "The figures and logos printed inside the design", "Sales, conversion or traffic", "A commercial relationship with the brand"],
+        scopeNote:
+          "Completed product concept. Trust figures, ratings, review counts, founding years and any brand collaboration visible inside the design are that concept's placeholder content — not verified claims and not results produced here.",
+        ctaLabel: "Build something similar",
+      },
+      ua: {
+        name: "0xHash",
+        type: "Layer-2 мережа · Платформа для розробників",
+        outcome:
+          "Layer-2, спозиційований на білдерів: скільки коштує, з чим сумісний і як отримати грант, щоб будувати на ньому.",
+        problem:
+          "Мережі конкурують за розробників, а не за кінцевих користувачів. Білдер за один екран вирішує, чи варті комісії, сумісність і маршрутизація того, щоб переписувати код — і чи хтось профінансує спробу.",
+        built:
+          "Сайт мережі з ключовими можливостями навколо комісій і масштабованості, сумісності та маршрутизації, вітриною екосистеми й шляхом грантів для розробників.",
+        value:
+          "Перетворює інфраструктурний продукт на сторінку рекрутингу для єдиної аудиторії, яка його вирощує — тих, хто на ньому будує.",
+        capabilities: ["Позиціонування для розробників", "Вітрина екосистеми", "Воронка грантів", "Технічна ясність"],
+        notClaimed: ["Живий або працюючий сайт", "Цифри й логотипи всередині дизайну", "Продажі, конверсія чи трафік", "Комерційні відносини з брендом"],
+        scopeNote:
+          "Завершений продуктовий концепт. Показники довіри, рейтинги, кількість відгуків, рік заснування та будь-яка колаборація, видима всередині дизайну, — це демонстраційний контент концепту, а не підтверджені твердження чи створені тут результати.",
+        ctaLabel: "Обговорити схожий проєкт",
+      },
+      ru: {
+        name: "0xHash",
+        type: "Layer-2 сеть · Платформа для разработчиков",
+        outcome:
+          "Layer-2, спозиционированный на билдеров: сколько стоит, с чем совместим и как получить грант, чтобы строить на нём.",
+        problem:
+          "Сети конкурируют за разработчиков, а не за конечных пользователей. Билдер за один экран решает, стоят ли комиссии, совместимость и маршрутизация того, чтобы переписывать код — и профинансирует ли кто-то попытку.",
+        built:
+          "Сайт сети с ключевыми возможностями вокруг комиссий и масштабируемости, совместимости и маршрутизации, витриной экосистемы и путём грантов для разработчиков.",
+        value:
+          "Превращает инфраструктурный продукт в страницу рекрутинга для единственной аудитории, которая его растит — тех, кто на нём строит.",
+        capabilities: ["Позиционирование для разработчиков", "Витрина экосистемы", "Воронка грантов", "Техническая ясность"],
+        notClaimed: ["Живой или работающий сайт", "Цифры и логотипы внутри дизайна", "Продажи, конверсия или трафик", "Коммерческие отношения с брендом"],
+        scopeNote:
+          "Завершённый продуктовый концепт. Показатели доверия, рейтинги, количество отзывов, год основания и любая коллаборация, видимая внутри дизайна, — это демонстрационный контент концепта, а не подтверждённые утверждения или созданные здесь результаты.",
+        ctaLabel: "Обсудить похожий проект",
+      },
+    },
+  },
+  {
+    key: "aurea",
+    category: "ecommerce",
+    status: "concept",
+    shots: ["/case-studies/aurea/landing.webp", "/case-studies/aurea/product.webp"],
+    content: {
+      en: {
+        name: "Auréa",
+        type: "Skincare brand · Ecommerce landing",
+        outcome:
+          "A face oil sold on ingredients and result rather than on adjectives.",
+        problem:
+          "Skincare buyers are sceptical and informed. A page of soft photography and vague promises gives them nothing to decide with, so they leave before the price.",
+        built:
+          "A conversion landing with a product hero, an ingredient-and-benefit breakdown, a route into the range, and brand product photography as the supporting layer.",
+        value:
+          "Puts the reason to buy — what is in it and what it does — between the photograph and the price, which is where the decision actually happens.",
+        capabilities: ["Conversion landing", "Ingredient storytelling", "Product merchandising", "Brand art direction"],
+        notClaimed: ["A live or trading site", "The figures and logos printed inside the design", "Sales, conversion or traffic", "A commercial relationship with the brand"],
+        scopeNote:
+          "Completed product concept. Trust figures, ratings, review counts, founding years and any brand collaboration visible inside the design are that concept's placeholder content — not verified claims and not results produced here.",
+        ctaLabel: "Build something similar",
+      },
+      ua: {
+        name: "Auréa",
+        type: "Бренд догляду за шкірою · Ecommerce-лендинг",
+        outcome:
+          "Олія для обличчя, яку продають складом і результатом, а не прикметниками.",
+        problem:
+          "Покупці догляду скептичні й обізнані. Сторінка з м'якою зйомкою й розмитими обіцянками не дає їм нічого, щоб вирішити — і вони йдуть, не дійшовши до ціни.",
+        built:
+          "Конверсійний лендинг із героєм продукту, розбором складу й переваг, шляхом до лінійки та брендовою предметною зйомкою як підтримувальним шаром.",
+        value:
+          "Ставить причину купити — що всередині і що це дає — між фотографією й ціною, тобто саме туди, де ухвалюється рішення.",
+        capabilities: ["Конверсійний лендинг", "Сторітелінг складу", "Мерчандайзинг", "Арт-дирекшн бренду"],
+        notClaimed: ["Живий або працюючий сайт", "Цифри й логотипи всередині дизайну", "Продажі, конверсія чи трафік", "Комерційні відносини з брендом"],
+        scopeNote:
+          "Завершений продуктовий концепт. Показники довіри, рейтинги, кількість відгуків, рік заснування та будь-яка колаборація, видима всередині дизайну, — це демонстраційний контент концепту, а не підтверджені твердження чи створені тут результати.",
+        ctaLabel: "Обговорити схожий проєкт",
+      },
+      ru: {
+        name: "Auréa",
+        type: "Бренд ухода за кожей · Ecommerce-лендинг",
+        outcome:
+          "Масло для лица, которое продают составом и результатом, а не прилагательными.",
+        problem:
+          "Покупатели ухода скептичны и осведомлены. Страница с мягкой съёмкой и размытыми обещаниями не даёт им ничего, чтобы решить — и они уходят, не дойдя до цены.",
+        built:
+          "Конверсионный лендинг с героем продукта, разбором состава и преимуществ, путём к линейке и брендовой предметной съёмкой как поддерживающим слоем.",
+        value:
+          "Ставит причину купить — что внутри и что это даёт — между фотографией и ценой, то есть именно туда, где принимается решение.",
+        capabilities: ["Конверсионный лендинг", "Сторителлинг состава", "Мерчандайзинг", "Арт-дирекшн бренда"],
+        notClaimed: ["Живой или работающий сайт", "Цифры и логотипы внутри дизайна", "Продажи, конверсия или трафик", "Коммерческие отношения с брендом"],
+        scopeNote:
+          "Завершённый продуктовый концепт. Показатели доверия, рейтинги, количество отзывов, год основания и любая коллаборация, видимая внутри дизайна, — это демонстрационный контент концепта, а не подтверждённые утверждения или созданные здесь результаты.",
+        ctaLabel: "Обсудить похожий проект",
+      },
+    },
+  },
+  {
+    key: "reverie",
+    category: "ecommerce",
+    status: "concept",
+    shots: ["/case-studies/reverie/landing.webp"],
+    content: {
+      en: {
+        name: "Rêverie de Parfum",
+        type: "Fragrance brand · Art direction",
+        outcome:
+          "A fragrance presented the way perfume actually sells — atmosphere first, bottle second.",
+        problem:
+          "Scent cannot be demonstrated online. If the imagery does not carry the mood, there is nothing left to sell but the price, and a premium fragrance loses instantly on price.",
+        built:
+          "Brand art direction and product presentation built around a single dramatic composition, with the bottle as the fixed point.",
+        value:
+          "Buys the premium positioning that lets a fragrance hold its price instead of competing in a discount bracket.",
+        capabilities: ["Brand art direction", "Product photography direction", "Premium positioning"],
+        notClaimed: ["A live or trading site", "The figures and logos printed inside the design", "Sales, conversion or traffic", "A commercial relationship with the brand"],
+        scopeNote:
+          "Completed product concept. Trust figures, ratings, review counts, founding years and any brand collaboration visible inside the design are that concept's placeholder content — not verified claims and not results produced here.",
+        ctaLabel: "Build something similar",
+      },
+      ua: {
+        name: "Rêverie de Parfum",
+        type: "Парфумерний бренд · Арт-дирекшн",
+        outcome:
+          "Парфум, поданий так, як парфуми справді продаються — спершу атмосфера, потім флакон.",
+        problem:
+          "Запах неможливо показати онлайн. Якщо візуал не несе настрою, продавати лишається тільки ціною — а преміальний парфум на ціні програє одразу.",
+        built:
+          "Арт-дирекшн бренду й презентація продукту навколо однієї драматичної композиції, де флакон є точкою опори.",
+        value:
+          "Купує те преміальне позиціонування, яке дозволяє парфуму тримати ціну, а не змагатися в знижковій ніші.",
+        capabilities: ["Арт-дирекшн бренду", "Режисура предметної зйомки", "Преміальне позиціонування"],
+        notClaimed: ["Живий або працюючий сайт", "Цифри й логотипи всередині дизайну", "Продажі, конверсія чи трафік", "Комерційні відносини з брендом"],
+        scopeNote:
+          "Завершений продуктовий концепт. Показники довіри, рейтинги, кількість відгуків, рік заснування та будь-яка колаборація, видима всередині дизайну, — це демонстраційний контент концепту, а не підтверджені твердження чи створені тут результати.",
+        ctaLabel: "Обговорити схожий проєкт",
+      },
+      ru: {
+        name: "Rêverie de Parfum",
+        type: "Парфюмерный бренд · Арт-дирекшн",
+        outcome:
+          "Парфюм, поданный так, как парфюмерия действительно продаётся — сначала атмосфера, потом флакон.",
+        problem:
+          "Запах невозможно показать онлайн. Если визуал не несёт настроения, продавать остаётся только ценой — а премиальный парфюм на цене проигрывает сразу.",
+        built:
+          "Арт-дирекшн бренда и презентация продукта вокруг одной драматичной композиции, где флакон является точкой опоры.",
+        value:
+          "Покупает то премиальное позиционирование, которое позволяет парфюму держать цену, а не соревноваться в скидочной нише.",
+        capabilities: ["Арт-дирекшн бренда", "Режиссура предметной съёмки", "Премиальное позиционирование"],
+        notClaimed: ["Живой или работающий сайт", "Цифры и логотипы внутри дизайна", "Продажи, конверсия или трафик", "Коммерческие отношения с брендом"],
+        scopeNote:
+          "Завершённый продуктовый концепт. Показатели доверия, рейтинги, количество отзывов, год основания и любая коллаборация, видимая внутри дизайна, — это демонстрационный контент концепта, а не подтверждённые утверждения или созданные здесь результаты.",
+        ctaLabel: "Обсудить похожий проект",
+      },
+    },
+  },
+  {
+    key: "pure",
+    category: "ecommerce",
+    status: "concept",
+    shots: ["/case-studies/pure/landing.webp"],
+    content: {
+      en: {
+        name: "PURE",
+        type: "Electric mobility · Product landing",
+        outcome:
+          "An electric scooter range where the models are actually comparable before the buyer commits.",
+        problem:
+          "Electric mobility is a considered purchase with real anxiety attached — range, build quality, what happens after the sale. A page that lists specifications without comparing them leaves the buyer to do the work, and most will not.",
+        built:
+          "A product landing introducing the range, a why-choose-us argument, feature discovery, and a model comparison leading into the collection.",
+        value:
+          "Moves the buyer from curiosity to a specific model, which is the only step that ends in a purchase.",
+        capabilities: ["Product landing", "Range comparison", "Feature discovery", "Considered-purchase UX"],
+        notClaimed: ["A live or trading site", "The figures and logos printed inside the design", "Sales, conversion or traffic", "A commercial relationship with the brand"],
+        scopeNote:
+          "Completed product concept. Trust figures, ratings, review counts, founding years and any brand collaboration visible inside the design are that concept's placeholder content — not verified claims and not results produced here.",
+        ctaLabel: "Build something similar",
+      },
+      ua: {
+        name: "PURE",
+        type: "Електротранспорт · Продуктовий лендинг",
+        outcome:
+          "Лінійка електросамокатів, де моделі справді можна порівняти до покупки.",
+        problem:
+          "Електротранспорт — це виважена покупка з реальною тривогою: запас ходу, якість збірки, що буде після продажу. Сторінка, що перелічує характеристики без порівняння, перекладає роботу на покупця — а більшість її не робитиме.",
+        built:
+          "Продуктовий лендинг із представленням лінійки, аргументом «чому ми», розкриттям функцій і порівнянням моделей, що веде до колекції.",
+        value:
+          "Проводить покупця від цікавості до конкретної моделі — єдиного кроку, який закінчується покупкою.",
+        capabilities: ["Продуктовий лендинг", "Порівняння лінійки", "Розкриття функцій", "UX виваженої покупки"],
+        notClaimed: ["Живий або працюючий сайт", "Цифри й логотипи всередині дизайну", "Продажі, конверсія чи трафік", "Комерційні відносини з брендом"],
+        scopeNote:
+          "Завершений продуктовий концепт. Показники довіри, рейтинги, кількість відгуків, рік заснування та будь-яка колаборація, видима всередині дизайну, — це демонстраційний контент концепту, а не підтверджені твердження чи створені тут результати.",
+        ctaLabel: "Обговорити схожий проєкт",
+      },
+      ru: {
+        name: "PURE",
+        type: "Электротранспорт · Продуктовый лендинг",
+        outcome:
+          "Линейка электросамокатов, где модели действительно можно сравнить до покупки.",
+        problem:
+          "Электротранспорт — это взвешенная покупка с реальной тревогой: запас хода, качество сборки, что будет после продажи. Страница, перечисляющая характеристики без сравнения, перекладывает работу на покупателя — а большинство её делать не станет.",
+        built:
+          "Продуктовый лендинг с представлением линейки, аргументом «почему мы», раскрытием функций и сравнением моделей, ведущим к коллекции.",
+        value:
+          "Проводит покупателя от любопытства к конкретной модели — единственному шагу, который заканчивается покупкой.",
+        capabilities: ["Продуктовый лендинг", "Сравнение линейки", "Раскрытие функций", "UX взвешенной покупки"],
+        notClaimed: ["Живой или работающий сайт", "Цифры и логотипы внутри дизайна", "Продажи, конверсия или трафик", "Коммерческие отношения с брендом"],
+        scopeNote:
+          "Завершённый продуктовый концепт. Показатели доверия, рейтинги, количество отзывов, год основания и любая коллаборация, видимая внутри дизайна, — это демонстрационный контент концепта, а не подтверждённые утверждения или созданные здесь результаты.",
+        ctaLabel: "Обсудить похожий проект",
+      },
+    },
+  },
+  {
+    key: "kinex",
+    category: "ecommerce",
+    status: "concept",
+    shots: ["/case-studies/kinex/landing.webp"],
+    content: {
+      en: {
+        name: "KINEX",
+        type: "Wearable device · Product landing",
+        outcome:
+          "A fitness wearable sold on what it tells you, not on how many sensors it has.",
+        problem:
+          "Wearables all list the same specifications. The buyer cannot tell them apart, so the category collapses into a price comparison.",
+        built:
+          "A device landing with a product hero, a feature breakdown across training, health monitoring and analytics, and an in-use section showing the device reporting real activity.",
+        value:
+          "Sells the daily moment of use rather than the hardware, which is the only thing that differentiates one wearable from another.",
+        capabilities: ["Device landing", "Feature architecture", "In-use storytelling", "Spec-to-benefit translation"],
+        notClaimed: ["A live or trading site", "The figures and logos printed inside the design", "Sales, conversion or traffic", "A commercial relationship with the brand"],
+        scopeNote:
+          "Completed product concept. Trust figures, ratings, review counts, founding years and any brand collaboration visible inside the design are that concept's placeholder content — not verified claims and not results produced here.",
+        ctaLabel: "Build something similar",
+      },
+      ua: {
+        name: "KINEX",
+        type: "Носимий пристрій · Продуктовий лендинг",
+        outcome:
+          "Фітнес-девайс, який продають тим, що він тобі повідомляє, а не кількістю сенсорів.",
+        problem:
+          "Усі носимі пристрої перелічують однакові характеристики. Покупець не бачить різниці — і категорія перетворюється на порівняння цін.",
+        built:
+          "Лендинг девайса з героєм продукту, розбором функцій у тренуваннях, моніторингу здоров'я та аналітиці, і секцією використання, де пристрій показує реальну активність.",
+        value:
+          "Продає щоденний момент використання, а не залізо — єдине, що відрізняє один носимий пристрій від іншого.",
+        capabilities: ["Лендинг девайса", "Архітектура функцій", "Сторітелінг використання", "Переклад характеристик у користь"],
+        notClaimed: ["Живий або працюючий сайт", "Цифри й логотипи всередині дизайну", "Продажі, конверсія чи трафік", "Комерційні відносини з брендом"],
+        scopeNote:
+          "Завершений продуктовий концепт. Показники довіри, рейтинги, кількість відгуків, рік заснування та будь-яка колаборація, видима всередині дизайну, — це демонстраційний контент концепту, а не підтверджені твердження чи створені тут результати.",
+        ctaLabel: "Обговорити схожий проєкт",
+      },
+      ru: {
+        name: "KINEX",
+        type: "Носимое устройство · Продуктовый лендинг",
+        outcome:
+          "Фитнес-девайс, который продают тем, что он тебе сообщает, а не количеством сенсоров.",
+        problem:
+          "Все носимые устройства перечисляют одинаковые характеристики. Покупатель не видит разницы — и категория превращается в сравнение цен.",
+        built:
+          "Лендинг девайса с героем продукта, разбором функций в тренировках, мониторинге здоровья и аналитике, и секцией использования, где устройство показывает реальную активность.",
+        value:
+          "Продаёт ежедневный момент использования, а не железо — единственное, что отличает одно носимое устройство от другого.",
+        capabilities: ["Лендинг девайса", "Архитектура функций", "Сторителлинг использования", "Перевод характеристик в пользу"],
+        notClaimed: ["Живой или работающий сайт", "Цифры и логотипы внутри дизайна", "Продажи, конверсия или трафик", "Коммерческие отношения с брендом"],
+        scopeNote:
+          "Завершённый продуктовый концепт. Показатели доверия, рейтинги, количество отзывов, год основания и любая коллаборация, видимая внутри дизайна, — это демонстрационный контент концепта, а не подтверждённые утверждения или созданные здесь результаты.",
+        ctaLabel: "Обсудить похожий проект",
+      },
+    },
+  },
+  {
+    key: "velora",
+    category: "ecommerce",
+    status: "concept",
+    shots: ["/case-studies/velora/landing.webp"],
+    content: {
+      en: {
+        name: "Velora",
+        type: "Furniture brand · Ecommerce catalogue",
+        outcome:
+          "A furniture catalogue a person can browse by room rather than by SKU.",
+        problem:
+          "Furniture is bought by imagining it in a space. A grid of cut-out products on white gives the buyer nothing to imagine with, and the sale moves to whoever shows the room.",
+        built:
+          "An ecommerce storefront with an editorial hero, a filterable product catalogue across seating, tables and storage, room-context photography and a contact route.",
+        value:
+          "Sells the room, then the item — which is how a considered furniture purchase actually forms.",
+        capabilities: ["Ecommerce catalogue", "Category filtering", "Room-context merchandising", "Editorial storefront"],
+        notClaimed: ["A live or trading site", "The figures and logos printed inside the design", "Sales, conversion or traffic", "A commercial relationship with the brand"],
+        scopeNote:
+          "Completed product concept. Trust figures, ratings, review counts, founding years and any brand collaboration visible inside the design are that concept's placeholder content — not verified claims and not results produced here.",
+        ctaLabel: "Build something similar",
+      },
+      ua: {
+        name: "Velora",
+        type: "Меблевий бренд · Ecommerce-каталог",
+        outcome:
+          "Меблевий каталог, який гортають за кімнатами, а не за артикулами.",
+        problem:
+          "Меблі купують, уявляючи їх у своєму просторі. Сітка вирізаних товарів на білому не дає чим уявляти — і продаж іде до того, хто показав кімнату.",
+        built:
+          "Ecommerce-вітрина з редакційним героєм, каталогом із фільтрами по м'яких меблях, столах і сховищах, зйомкою в інтер'єрі та шляхом до контакту.",
+        value:
+          "Продає спершу кімнату, потім предмет — саме так і формується виважена покупка меблів.",
+        capabilities: ["Ecommerce-каталог", "Фільтри категорій", "Мерчандайзинг в інтер'єрі", "Редакційна вітрина"],
+        notClaimed: ["Живий або працюючий сайт", "Цифри й логотипи всередині дизайну", "Продажі, конверсія чи трафік", "Комерційні відносини з брендом"],
+        scopeNote:
+          "Завершений продуктовий концепт. Показники довіри, рейтинги, кількість відгуків, рік заснування та будь-яка колаборація, видима всередині дизайну, — це демонстраційний контент концепту, а не підтверджені твердження чи створені тут результати.",
+        ctaLabel: "Обговорити схожий проєкт",
+      },
+      ru: {
+        name: "Velora",
+        type: "Мебельный бренд · Ecommerce-каталог",
+        outcome:
+          "Мебельный каталог, который листают по комнатам, а не по артикулам.",
+        problem:
+          "Мебель покупают, представляя её в своём пространстве. Сетка вырезанных товаров на белом не даёт чем представлять — и продажа уходит к тому, кто показал комнату.",
+        built:
+          "Ecommerce-витрина с редакционным героем, каталогом с фильтрами по мягкой мебели, столам и хранению, съёмкой в интерьере и путём к контакту.",
+        value:
+          "Продаёт сначала комнату, потом предмет — именно так и формируется взвешенная покупка мебели.",
+        capabilities: ["Ecommerce-каталог", "Фильтры категорий", "Мерчандайзинг в интерьере", "Редакционная витрина"],
+        notClaimed: ["Живой или работающий сайт", "Цифры и логотипы внутри дизайна", "Продажи, конверсия или трафик", "Коммерческие отношения с брендом"],
+        scopeNote:
+          "Завершённый продуктовый концепт. Показатели доверия, рейтинги, количество отзывов, год основания и любая коллаборация, видимая внутри дизайна, — это демонстрационный контент концепта, а не подтверждённые утверждения или созданные здесь результаты.",
+        ctaLabel: "Обсудить похожий проект",
+      },
+    },
+  },
+  {
+    key: "bonatica",
+    category: "ecommerce",
+    status: "concept",
+    shots: ["/case-studies/bonatica/landing.webp"],
+    content: {
+      en: {
+        name: "Bonatica",
+        type: "Skincare brand · Ecommerce landing",
+        outcome:
+          "A skincare range where each product states who it is for before it states what it costs.",
+        problem:
+          "A range confuses more than a single product. Without a clear reason to pick one item over its neighbour, the buyer picks nothing.",
+        built:
+          "A conversion landing with a product hero, a why-it-works section grounded in ingredients, and a best-sellers grid that separates the range by need.",
+        value:
+          "Turns a shelf of similar bottles into a guided choice, which is what converts a browsing visitor into a first order.",
+        capabilities: ["Conversion landing", "Range segmentation", "Ingredient argument", "Bestseller merchandising"],
+        notClaimed: ["A live or trading site", "The figures and logos printed inside the design", "Sales, conversion or traffic", "A commercial relationship with the brand"],
+        scopeNote:
+          "Completed product concept. Trust figures, ratings, review counts, founding years and any brand collaboration visible inside the design are that concept's placeholder content — not verified claims and not results produced here.",
+        ctaLabel: "Build something similar",
+      },
+      ua: {
+        name: "Bonatica",
+        type: "Бренд догляду · Ecommerce-лендинг",
+        outcome:
+          "Лінійка догляду, де кожен продукт спершу каже, для кого він, і лише потім — скільки коштує.",
+        problem:
+          "Лінійка заплутує сильніше, ніж один продукт. Без чіткої причини обрати одну банку замість сусідньої покупець не обирає нічого.",
+        built:
+          "Конверсійний лендинг із героєм продукту, секцією «чому це працює» на основі складу та сіткою бестселерів, що розділяє лінійку за потребою.",
+        value:
+          "Перетворює полицю схожих банок на скерований вибір — саме це й конвертує відвідувача в перше замовлення.",
+        capabilities: ["Конверсійний лендинг", "Сегментація лінійки", "Аргумент складу", "Мерчандайзинг бестселерів"],
+        notClaimed: ["Живий або працюючий сайт", "Цифри й логотипи всередині дизайну", "Продажі, конверсія чи трафік", "Комерційні відносини з брендом"],
+        scopeNote:
+          "Завершений продуктовий концепт. Показники довіри, рейтинги, кількість відгуків, рік заснування та будь-яка колаборація, видима всередині дизайну, — це демонстраційний контент концепту, а не підтверджені твердження чи створені тут результати.",
+        ctaLabel: "Обговорити схожий проєкт",
+      },
+      ru: {
+        name: "Bonatica",
+        type: "Бренд ухода · Ecommerce-лендинг",
+        outcome:
+          "Линейка ухода, где каждый продукт сначала говорит, для кого он, и лишь потом — сколько стоит.",
+        problem:
+          "Линейка запутывает сильнее, чем один продукт. Без чёткой причины выбрать одну банку вместо соседней покупатель не выбирает ничего.",
+        built:
+          "Конверсионный лендинг с героем продукта, секцией «почему это работает» на основе состава и сеткой бестселлеров, разделяющей линейку по потребности.",
+        value:
+          "Превращает полку похожих банок в направленный выбор — именно это и конвертирует посетителя в первый заказ.",
+        capabilities: ["Конверсионный лендинг", "Сегментация линейки", "Аргумент состава", "Мерчандайзинг бестселлеров"],
+        notClaimed: ["Живой или работающий сайт", "Цифры и логотипы внутри дизайна", "Продажи, конверсия или трафик", "Коммерческие отношения с брендом"],
+        scopeNote:
+          "Завершённый продуктовый концепт. Показатели доверия, рейтинги, количество отзывов, год основания и любая коллаборация, видимая внутри дизайна, — это демонстрационный контент концепта, а не подтверждённые утверждения или созданные здесь результаты.",
+        ctaLabel: "Обсудить похожий проект",
+      },
+    },
+  },
+  {
+    key: "verna",
+    category: "ecommerce",
+    status: "concept",
+    shots: ["/case-studies/verna/landing.webp"],
+    content: {
+      en: {
+        name: "VERNA Coffee",
+        type: "Coffee brand · Ecommerce landing",
+        outcome:
+          "A coffee range where roast, format and taste are chosen in one pass instead of three.",
+        problem:
+          "Coffee buyers know what they like and hate being made to guess. Hiding roast level and format behind product pages turns a quick reorder into a chore.",
+        built:
+          "A brand landing with a bestseller range showing roast variants and formats side by side, a brand story section and a lifestyle layer.",
+        value:
+          "Shortens the path to a repeat order, which is where a coffee brand's economics actually live.",
+        capabilities: ["Ecommerce landing", "Variant presentation", "Brand storytelling", "Repeat-purchase UX"],
+        notClaimed: ["A live or trading site", "The figures and logos printed inside the design", "Sales, conversion or traffic", "A commercial relationship with the brand"],
+        scopeNote:
+          "Completed product concept. Trust figures, ratings, review counts, founding years and any brand collaboration visible inside the design are that concept's placeholder content — not verified claims and not results produced here.",
+        ctaLabel: "Build something similar",
+      },
+      ua: {
+        name: "VERNA Coffee",
+        type: "Кавовий бренд · Ecommerce-лендинг",
+        outcome:
+          "Кавова лінійка, де обсмаження, формат і смак обираються за один прохід, а не за три.",
+        problem:
+          "Покупці кави знають, що люблять, і не терплять здогадок. Ховати ступінь обсмаження й формат за сторінками товарів — перетворювати швидке перезамовлення на морочливу справу.",
+        built:
+          "Брендовий лендинг із лінійкою бестселерів, де варіанти обсмаження й формати показані поруч, секцією історії бренду та лайфстайл-шаром.",
+        value:
+          "Скорочує шлях до повторного замовлення — саме там і живе економіка кавового бренду.",
+        capabilities: ["Ecommerce-лендинг", "Презентація варіантів", "Сторітелінг бренду", "UX повторної покупки"],
+        notClaimed: ["Живий або працюючий сайт", "Цифри й логотипи всередині дизайну", "Продажі, конверсія чи трафік", "Комерційні відносини з брендом"],
+        scopeNote:
+          "Завершений продуктовий концепт. Показники довіри, рейтинги, кількість відгуків, рік заснування та будь-яка колаборація, видима всередині дизайну, — це демонстраційний контент концепту, а не підтверджені твердження чи створені тут результати.",
+        ctaLabel: "Обговорити схожий проєкт",
+      },
+      ru: {
+        name: "VERNA Coffee",
+        type: "Кофейный бренд · Ecommerce-лендинг",
+        outcome:
+          "Кофейная линейка, где обжарка, формат и вкус выбираются за один проход, а не за три.",
+        problem:
+          "Покупатели кофе знают, что любят, и не терпят догадок. Прятать степень обжарки и формат за страницами товаров — превращать быстрый перезаказ в морочливое дело.",
+        built:
+          "Брендовый лендинг с линейкой бестселлеров, где варианты обжарки и форматы показаны рядом, секцией истории бренда и лайфстайл-слоем.",
+        value:
+          "Сокращает путь к повторному заказу — именно там и живёт экономика кофейного бренда.",
+        capabilities: ["Ecommerce-лендинг", "Презентация вариантов", "Сторителлинг бренда", "UX повторной покупки"],
+        notClaimed: ["Живой или работающий сайт", "Цифры и логотипы внутри дизайна", "Продажи, конверсия или трафик", "Коммерческие отношения с брендом"],
+        scopeNote:
+          "Завершённый продуктовый концепт. Показатели доверия, рейтинги, количество отзывов, год основания и любая коллаборация, видимая внутри дизайна, — это демонстрационный контент концепта, а не подтверждённые утверждения или созданные здесь результаты.",
+        ctaLabel: "Обсудить похожий проект",
+      },
+    },
+  },
+  {
+    key: "ovulan",
+    category: "ecommerce",
+    status: "concept",
+    shots: ["/case-studies/ovulan/detail.webp", "/case-studies/ovulan/landing.webp"],
+    content: {
+      en: {
+        name: "Ovulan",
+        type: "Luxury watches · Ecommerce landing",
+        outcome:
+          "A watch brand that earns its price on the first screen instead of apologising for it.",
+        problem:
+          "At a luxury price point the objection is not cost, it is doubt. If warranty, craftsmanship and provenance are not immediate, the buyer assumes they are absent.",
+        built:
+          "A luxury storefront with a dark editorial hero, warranty and craftsmanship credentials placed immediately under the headline, a collection grid and a brand-story section.",
+        value:
+          "Answers the doubt that stops a high-ticket purchase, which is worth more than any discount.",
+        capabilities: ["Luxury art direction", "Credibility architecture", "Collection presentation", "High-ticket UX"],
+        notClaimed: ["A live or trading site", "The figures and logos printed inside the design", "Sales, conversion or traffic", "A commercial relationship with the brand"],
+        scopeNote:
+          "Completed product concept. Trust figures, ratings, review counts, founding years and any brand collaboration visible inside the design are that concept's placeholder content — not verified claims and not results produced here.",
+        ctaLabel: "Build something similar",
+      },
+      ua: {
+        name: "Ovulan",
+        type: "Преміальні годинники · Ecommerce-лендинг",
+        outcome:
+          "Годинниковий бренд, що виправдовує свою ціну на першому екрані, а не вибачається за неї.",
+        problem:
+          "У преміальному сегменті заперечення — це не вартість, а сумнів. Якщо гарантія, майстерність і походження не видно одразу, покупець вважає, що їх немає.",
+        built:
+          "Преміальна вітрина з темним редакційним героєм, гарантією та майстерністю одразу під заголовком, сіткою колекції й секцією історії бренду.",
+        value:
+          "Відповідає на сумнів, що зупиняє дорогу покупку — і це коштує більше за будь-яку знижку.",
+        capabilities: ["Преміальний арт-дирекшн", "Архітектура довіри", "Презентація колекції", "UX дорогої покупки"],
+        notClaimed: ["Живий або працюючий сайт", "Цифри й логотипи всередині дизайну", "Продажі, конверсія чи трафік", "Комерційні відносини з брендом"],
+        scopeNote:
+          "Завершений продуктовий концепт. Показники довіри, рейтинги, кількість відгуків, рік заснування та будь-яка колаборація, видима всередині дизайну, — це демонстраційний контент концепту, а не підтверджені твердження чи створені тут результати.",
+        ctaLabel: "Обговорити схожий проєкт",
+      },
+      ru: {
+        name: "Ovulan",
+        type: "Премиальные часы · Ecommerce-лендинг",
+        outcome:
+          "Часовой бренд, который оправдывает свою цену на первом экране, а не извиняется за неё.",
+        problem:
+          "В премиальном сегменте возражение — это не стоимость, а сомнение. Если гарантия, мастерство и происхождение не видны сразу, покупатель считает, что их нет.",
+        built:
+          "Премиальная витрина с тёмным редакционным героем, гарантией и мастерством сразу под заголовком, сеткой коллекции и секцией истории бренда.",
+        value:
+          "Отвечает на сомнение, останавливающее дорогую покупку — и это стоит больше любой скидки.",
+        capabilities: ["Премиальный арт-дирекшн", "Архитектура доверия", "Презентация коллекции", "UX дорогой покупки"],
+        notClaimed: ["Живой или работающий сайт", "Цифры и логотипы внутри дизайна", "Продажи, конверсия или трафик", "Коммерческие отношения с брендом"],
+        scopeNote:
+          "Завершённый продуктовый концепт. Показатели доверия, рейтинги, количество отзывов, год основания и любая коллаборация, видимая внутри дизайна, — это демонстрационный контент концепта, а не подтверждённые утверждения или созданные здесь результаты.",
+        ctaLabel: "Обсудить похожий проект",
+      },
+    },
+  },
+  {
+    key: "nevard",
+    category: "ecommerce",
+    status: "concept",
+    shots: ["/case-studies/nevard/whey.webp", "/case-studies/nevard/creatine.webp"],
+    content: {
+      en: {
+        name: "Nēvard",
+        type: "Supplements brand · Ecommerce system",
+        outcome:
+          "A supplement range where every product page is built from the same trusted skeleton.",
+        problem:
+          "Supplements live or die on trust, and a range multiplies the problem: each new SKU needs the same proof rebuilt, so quality drifts and the brand starts to look inconsistent.",
+        built:
+          "A reusable product-page system applied across whey protein and creatine — product hero, a why-it-is-good-for-you argument, ingredient and usage detail, and a best-sellers grid.",
+        value:
+          "One structure that any new product drops into, so the brand scales its catalogue without rebuilding credibility each time.",
+        capabilities: ["Reusable page system", "Supplement compliance framing", "Range scaling", "Bestseller merchandising"],
+        notClaimed: ["A live or trading site", "The figures and logos printed inside the design", "Sales, conversion or traffic", "A commercial relationship with the brand"],
+        scopeNote:
+          "Completed product concept. Trust figures, ratings, review counts, founding years and any brand collaboration visible inside the design are that concept's placeholder content — not verified claims and not results produced here.",
+        ctaLabel: "Build something similar",
+      },
+      ua: {
+        name: "Nēvard",
+        type: "Бренд добавок · Ecommerce-система",
+        outcome:
+          "Лінійка добавок, де кожна сторінка продукту зібрана з одного перевіреного каркаса.",
+        problem:
+          "Добавки живуть або вмирають на довірі, а лінійка множить проблему: кожен новий товар потребує тих самих доказів заново — якість пливе, і бренд починає виглядати непослідовним.",
+        built:
+          "Перевикористовувана система сторінки товару, застосована до сироваткового протеїну й креатину: герой продукту, аргумент користі, деталі складу та вживання, сітка бестселерів.",
+        value:
+          "Одна структура, у яку лягає будь-який новий продукт — бренд нарощує каталог, не перебудовуючи довіру щоразу.",
+        capabilities: ["Перевикористовувана система сторінок", "Подача складу й безпеки", "Масштабування лінійки", "Мерчандайзинг бестселерів"],
+        notClaimed: ["Живий або працюючий сайт", "Цифри й логотипи всередині дизайну", "Продажі, конверсія чи трафік", "Комерційні відносини з брендом"],
+        scopeNote:
+          "Завершений продуктовий концепт. Показники довіри, рейтинги, кількість відгуків, рік заснування та будь-яка колаборація, видима всередині дизайну, — це демонстраційний контент концепту, а не підтверджені твердження чи створені тут результати.",
+        ctaLabel: "Обговорити схожий проєкт",
+      },
+      ru: {
+        name: "Nēvard",
+        type: "Бренд добавок · Ecommerce-система",
+        outcome:
+          "Линейка добавок, где каждая страница продукта собрана из одного проверенного каркаса.",
+        problem:
+          "Добавки живут или умирают на доверии, а линейка умножает проблему: каждый новый товар требует тех же доказательств заново — качество плывёт, и бренд начинает выглядеть непоследовательным.",
+        built:
+          "Переиспользуемая система страницы товара, применённая к сывороточному протеину и креатину: герой продукта, аргумент пользы, детали состава и применения, сетка бестселлеров.",
+        value:
+          "Одна структура, в которую ложится любой новый продукт — бренд наращивает каталог, не перестраивая доверие каждый раз.",
+        capabilities: ["Переиспользуемая система страниц", "Подача состава и безопасности", "Масштабирование линейки", "Мерчандайзинг бестселлеров"],
+        notClaimed: ["Живой или работающий сайт", "Цифры и логотипы внутри дизайна", "Продажи, конверсия или трафик", "Коммерческие отношения с брендом"],
+        scopeNote:
+          "Завершённый продуктовый концепт. Показатели доверия, рейтинги, количество отзывов, год основания и любая коллаборация, видимая внутри дизайна, — это демонстрационный контент концепта, а не подтверждённые утверждения или созданные здесь результаты.",
+        ctaLabel: "Обсудить похожий проект",
+      },
+    },
+  },
+  {
+    key: "carluxe",
+    category: "websites",
+    status: "concept",
+    shots: ["/case-studies/carluxe/landing.webp"],
+    content: {
+      en: {
+        name: "CarLuxe",
+        type: "Car detailing · Service website",
+        outcome:
+          "A detailing service where the packages are priced and comparable instead of quoted on request.",
+        problem:
+          "Service businesses hide behind \"contact us for a quote\", so the customer cannot compare and does not call. Meanwhile the competitor who published a price list gets the booking.",
+        built:
+          "A service website with a dark automotive hero, service tiers presented as packages across exterior, interior and full detailing, and a booking route.",
+        value:
+          "Turns an enquiry-only service into something a customer can choose from the page — which is the difference between a lead and a booking.",
+        capabilities: ["Service website", "Package presentation", "Booking route", "Automotive art direction"],
+        notClaimed: ["A live or trading site", "The figures and logos printed inside the design", "Sales, conversion or traffic", "A commercial relationship with the brand"],
+        scopeNote:
+          "Completed product concept. Trust figures, ratings, review counts, founding years and any brand collaboration visible inside the design are that concept's placeholder content — not verified claims and not results produced here.",
+        ctaLabel: "Build something similar",
+      },
+      ua: {
+        name: "CarLuxe",
+        type: "Детейлінг авто · Сайт послуг",
+        outcome:
+          "Детейлінг, де пакети мають ціну й порівнюються, а не «уточнюйте у менеджера».",
+        problem:
+          "Сервісні бізнеси ховаються за «зателефонуйте для розрахунку» — клієнт не може порівняти й не телефонує. А запис отримує конкурент, який опублікував прайс.",
+        built:
+          "Сайт послуг із темним автомобільним героєм, рівнями сервісу у вигляді пакетів для зовнішнього, внутрішнього й повного детейлінгу та шляхом до запису.",
+        value:
+          "Перетворює послугу «тільки за запитом» на те, що клієнт може обрати просто зі сторінки — це різниця між лідом і записом.",
+        capabilities: ["Сайт послуг", "Презентація пакетів", "Шлях до запису", "Автомобільний арт-дирекшн"],
+        notClaimed: ["Живий або працюючий сайт", "Цифри й логотипи всередині дизайну", "Продажі, конверсія чи трафік", "Комерційні відносини з брендом"],
+        scopeNote:
+          "Завершений продуктовий концепт. Показники довіри, рейтинги, кількість відгуків, рік заснування та будь-яка колаборація, видима всередині дизайну, — це демонстраційний контент концепту, а не підтверджені твердження чи створені тут результати.",
+        ctaLabel: "Обговорити схожий проєкт",
+      },
+      ru: {
+        name: "CarLuxe",
+        type: "Детейлинг авто · Сайт услуг",
+        outcome:
+          "Детейлинг, где пакеты имеют цену и сравниваются, а не «уточняйте у менеджера».",
+        problem:
+          "Сервисные бизнесы прячутся за «позвоните для расчёта» — клиент не может сравнить и не звонит. А запись получает конкурент, опубликовавший прайс.",
+        built:
+          "Сайт услуг с тёмным автомобильным героем, уровнями сервиса в виде пакетов для наружного, внутреннего и полного детейлинга и путём к записи.",
+        value:
+          "Превращает услугу «только по запросу» в то, что клиент может выбрать прямо со страницы — это разница между лидом и записью.",
+        capabilities: ["Сайт услуг", "Презентация пакетов", "Путь к записи", "Автомобильный арт-дирекшн"],
+        notClaimed: ["Живой или работающий сайт", "Цифры и логотипы внутри дизайна", "Продажи, конверсия или трафик", "Коммерческие отношения с брендом"],
+        scopeNote:
+          "Завершённый продуктовый концепт. Показатели доверия, рейтинги, количество отзывов, год основания и любая коллаборация, видимая внутри дизайна, — это демонстрационный контент концепта, а не подтверждённые утверждения или созданные здесь результаты.",
+        ctaLabel: "Обсудить похожий проект",
       },
     },
   },
@@ -635,6 +1370,7 @@ export const PORTFOLIO: PortfolioCard[] = [
     category: "ai_products",
     status: "prototype",
     shots: [],
+    audio: "/voice_assistant.MP3",
     content: {
       en: {
         name: "Ikorka AI Voice Assistant",
@@ -665,7 +1401,7 @@ export const PORTFOLIO: PortfolioCard[] = [
   {
     key: "dating-crm",
     category: "automation",
-    status: "in_development",
+    status: "prototype",
     shots: [],
     content: {
       en: {
@@ -697,7 +1433,7 @@ export const PORTFOLIO: PortfolioCard[] = [
   {
     key: "leather-clinic",
     category: "websites",
-    status: "in_development",
+    status: "real_client",
     // Public URL supplied by the project owner (portfolio-source/LIVE_PROJECTS.md).
     // No screenshots or verified scope exist yet, so this stays a card, not a case study.
     liveUrl: "https://leatherclinic.org/",
@@ -779,7 +1515,7 @@ export interface CaseDetail {
 export const CASE_DETAILS: CaseDetail[] = [
   {
     slug: "turbotaai",
-    status: "active_development",
+    status: "in_development",
     category: "ai_products",
     liveUrl: "https://turbotaai.com/",
     shots: [
@@ -1019,7 +1755,7 @@ export const CASE_DETAILS: CaseDetail[] = [
   },
   {
     slug: "tutorivo",
-    status: "in_development",
+    status: "launched_mvp",
     category: "platforms",
     shots: [
       "/case-studies/tutorivo/home.webp",
@@ -2188,364 +2924,6 @@ export const CASE_DETAILS: CaseDetail[] = [
       },
     },
   },
-  {
-    slug: "web3-interfaces",
-    status: "concept",
-    category: "web3",
-    shots: [
-      "/case-studies/web3-interfaces/wallet.webp",
-      "/case-studies/web3-interfaces/convex.webp",
-      "/case-studies/web3-interfaces/oxhash.webp",
-      "/case-studies/web3-interfaces/iko.webp",
-    ],
-    shotSpan: ["full", "half", "half", "full"],
-    captions: {
-      en: [
-        "Self-custody wallet — swap with network selection, plus explicit transparency and security sections covering open source, audits and data collection",
-        "Staking product — deposit for boosted yield, with withdrawal terms and a named security audit stated up front",
-        "Layer-2 chain — core features around fees, interoperability and routing, with a builder grant path",
-        "Blockchain for business — a B2B site translating the technology into business outcomes",
-      ],
-      ua: [
-        "Гаманець самозберігання — своп із вибором мережі плюс явні секції прозорості й безпеки: відкритий код, аудити, збір даних",
-        "Стейкінг-продукт — депозит для підвищеної дохідності з умовами виводу та названим аудитом безпеки на видноті",
-        "Layer-2 мережа — ключові можливості навколо комісій, сумісності й маршрутизації зі шляхом для грантів розробникам",
-        "Блокчейн для бізнесу — B2B-сайт, що перекладає технологію в бізнес-результати",
-      ],
-      ru: [
-        "Кошелёк самохранения — своп с выбором сети плюс явные секции прозрачности и безопасности: открытый код, аудиты, сбор данных",
-        "Стейкинг-продукт — депозит для повышенной доходности с условиями вывода и названным аудитом безопасности на виду",
-        "Layer-2 сеть — ключевые возможности вокруг комиссий, совместимости и маршрутизации с путём для грантов разработчикам",
-        "Блокчейн для бизнеса — B2B-сайт, переводящий технологию в бизнес-результаты",
-      ],
-    },
-    content: {
-      en: {
-        name: "Web3 & DeFi Interfaces",
-        type: "Web3 product concepts · Wallet, staking, L2 and B2B",
-        context:
-          "Four product directions across crypto: a self-custody wallet, a staking product, a Layer-2 chain aimed at builders, and a business-facing blockchain site.",
-        problem:
-          "Crypto products ask for an irreversible action from someone who has every reason to be suspicious. Most lose that person on the first screen — the mechanism is written in jargon, custody and fees are left vague, and there is no answer to the only two questions that matter: who holds my assets, and what happens if this breaks.",
-        outcome:
-          "Interfaces that earn the connect: each one states the mechanism in plain language, puts custody, fees and audit status where they cannot be missed, and only then asks for an action.",
-        built: [
-          "A self-custody wallet: swap with source and destination network selection, buy-crypto and add-chain entry points",
-          "Explicit transparency and security sections covering open source, regular audits and what data is not collected",
-          "A staking product presenting deposits, boosted yields and withdrawal terms, with a named third-party audit",
-          "A Layer-2 chain site covering fees, interoperability and routing, plus a grant path for builders",
-          "A B2B blockchain site translating the technology into business outcomes",
-          "Four consistent visual systems, each matched to its audience",
-        ],
-        flow: [
-          "Land on the product",
-          "Understand the mechanism in plain language",
-          "Check custody, fees and audits",
-          "Review the specific action (swap, stake, build)",
-          "Connect or download",
-        ],
-        capabilities: [
-          "Wallet & swap UX",
-          "Network / chain selection",
-          "Staking & yield presentation",
-          "Security & audit framing",
-          "Developer grant funnels",
-          "B2B Web3 positioning",
-        ],
-        tech: ["Web3 product design", "DeFi interface patterns", "Marketing site architecture"],
-        proof: [
-          "Four complete product directions, each with its own audience and visual system — shown below",
-          "Custody, fees, audits and data collection are treated as primary interface content, not footnotes",
-          "Product concepts: interface and positioning work, not deployed protocols",
-        ],
-        notClaimed: [
-          "Any deployed protocol, chain or smart contract",
-          "Total value locked, users or transaction volume",
-          "The statistics and partner logos shown in the designs",
-          "Security audits performed on my behalf",
-          "Custody of anyone's assets",
-        ],
-        scopeNote:
-          "Status: product concepts. This is interface and positioning work for crypto products. The figures, partner logos and audit names inside the designs are placeholder content belonging to those concepts — I do not claim to have deployed a protocol, commissioned an audit, or held anyone's assets.",
-        ctaLabel: "Discuss a Web3 or fintech product",
-        liveLabel: "View live project",
-      },
-      ua: {
-        name: "Web3 та DeFi інтерфейси",
-        type: "Концепти Web3-продуктів · Гаманець, стейкінг, L2 і B2B",
-        context:
-          "Чотири продуктові напрямки в крипті: гаманець самозберігання, стейкінг-продукт, Layer-2 мережа для розробників і бізнес-орієнтований блокчейн-сайт.",
-        problem:
-          "Крипто-продукти просять незворотну дію в людини, яка має всі підстави бути недовірливою. Більшість втрачають її на першому екрані: механіка написана жаргоном, зберігання й комісії лишаються нечіткими, і немає відповіді на два єдино важливі питання — хто тримає мої активи і що буде, якщо це зламається.",
-        outcome:
-          "Інтерфейси, що заслуговують підключення: кожен пояснює механіку простою мовою, ставить зберігання, комісії та статус аудиту туди, де їх неможливо пропустити, і лише потім просить про дію.",
-        built: [
-          "Гаманець самозберігання: своп із вибором мережі відправлення й отримання, точки входу «купити крипто» та «додати мережу»",
-          "Явні секції прозорості й безпеки: відкритий код, регулярні аудити та які дані не збираються",
-          "Стейкінг-продукт із депозитами, підвищеною дохідністю та умовами виводу і названим стороннім аудитом",
-          "Сайт Layer-2 мережі про комісії, сумісність і маршрутизацію плюс шлях грантів для розробників",
-          "B2B блокчейн-сайт, що перекладає технологію в бізнес-результати",
-          "Чотири узгоджені візуальні системи, кожна під свою аудиторію",
-        ],
-        flow: [
-          "Потрапити на продукт",
-          "Зрозуміти механіку простою мовою",
-          "Перевірити зберігання, комісії та аудити",
-          "Оцінити конкретну дію (своп, стейк, білд)",
-          "Під'єднатись або завантажити",
-        ],
-        capabilities: [
-          "UX гаманця та свопу",
-          "Вибір мережі",
-          "Подача стейкінгу й дохідності",
-          "Подача безпеки й аудиту",
-          "Воронки грантів для розробників",
-          "B2B-позиціонування Web3",
-        ],
-        tech: ["Дизайн Web3-продуктів", "Патерни DeFi-інтерфейсів", "Архітектура маркетингового сайту"],
-        proof: [
-          "Чотири повні продуктові напрямки, кожен зі своєю аудиторією та візуальною системою — показані нижче",
-          "Зберігання, комісії, аудити та збір даних подані як основний контент інтерфейсу, а не як виноски",
-          "Продуктові концепти: робота над інтерфейсом і позиціонуванням, а не розгорнуті протоколи",
-        ],
-        notClaimed: [
-          "Будь-який розгорнутий протокол, мережа чи смартконтракт",
-          "TVL, користувачі чи обсяг транзакцій",
-          "Статистика й логотипи партнерів, показані в дизайнах",
-          "Аудити безпеки, проведені на моє замовлення",
-          "Зберігання чиїхось активів",
-        ],
-        scopeNote:
-          "Статус: продуктові концепти. Це робота над інтерфейсом і позиціонуванням крипто-продуктів. Цифри, логотипи партнерів і назви аудитів усередині дизайнів — це демонстраційний контент цих концептів; я не заявляю, що розгорнув протокол, замовляв аудит чи тримав чиїсь активи.",
-        ctaLabel: "Обговорити Web3 або фінтех-продукт",
-        liveLabel: "Переглянути живий проєкт",
-      },
-      ru: {
-        name: "Web3 и DeFi интерфейсы",
-        type: "Концепты Web3-продуктов · Кошелёк, стейкинг, L2 и B2B",
-        context:
-          "Четыре продуктовых направления в крипте: кошелёк самохранения, стейкинг-продукт, Layer-2 сеть для разработчиков и бизнес-ориентированный блокчейн-сайт.",
-        problem:
-          "Крипто-продукты просят необратимое действие у человека, у которого есть все основания быть недоверчивым. Большинство теряют его на первом экране: механика написана жаргоном, хранение и комиссии остаются размытыми, и нет ответа на два единственно важных вопроса — кто держит мои активы и что будет, если это сломается.",
-        outcome:
-          "Интерфейсы, заслуживающие подключения: каждый объясняет механику простым языком, ставит хранение, комиссии и статус аудита туда, где их невозможно пропустить, и только потом просит о действии.",
-        built: [
-          "Кошелёк самохранения: своп с выбором сети отправления и получения, точки входа «купить крипто» и «добавить сеть»",
-          "Явные секции прозрачности и безопасности: открытый код, регулярные аудиты и какие данные не собираются",
-          "Стейкинг-продукт с депозитами, повышенной доходностью и условиями вывода и названным сторонним аудитом",
-          "Сайт Layer-2 сети о комиссиях, совместимости и маршрутизации плюс путь грантов для разработчиков",
-          "B2B блокчейн-сайт, переводящий технологию в бизнес-результаты",
-          "Четыре согласованные визуальные системы, каждая под свою аудиторию",
-        ],
-        flow: [
-          "Попасть на продукт",
-          "Понять механику простым языком",
-          "Проверить хранение, комиссии и аудиты",
-          "Оценить конкретное действие (своп, стейк, билд)",
-          "Подключиться или скачать",
-        ],
-        capabilities: [
-          "UX кошелька и свопа",
-          "Выбор сети",
-          "Подача стейкинга и доходности",
-          "Подача безопасности и аудита",
-          "Воронки грантов для разработчиков",
-          "B2B-позиционирование Web3",
-        ],
-        tech: ["Дизайн Web3-продуктов", "Паттерны DeFi-интерфейсов", "Архитектура маркетингового сайта"],
-        proof: [
-          "Четыре полных продуктовых направления, каждое со своей аудиторией и визуальной системой — показаны ниже",
-          "Хранение, комиссии, аудиты и сбор данных поданы как основной контент интерфейса, а не как сноски",
-          "Продуктовые концепты: работа над интерфейсом и позиционированием, а не развёрнутые протоколы",
-        ],
-        notClaimed: [
-          "Любой развёрнутый протокол, сеть или смартконтракт",
-          "TVL, пользователи или объём транзакций",
-          "Статистика и логотипы партнёров, показанные в дизайнах",
-          "Аудиты безопасности, проведённые по моему заказу",
-          "Хранение чьих-либо активов",
-        ],
-        scopeNote:
-          "Статус: продуктовые концепты. Это работа над интерфейсом и позиционированием крипто-продуктов. Цифры, логотипы партнёров и названия аудитов внутри дизайнов — это демонстрационный контент этих концептов; я не заявляю, что развернул протокол, заказывал аудит или держал чьи-либо активы.",
-        ctaLabel: "Обсудить Web3 или финтех-продукт",
-        liveLabel: "Открыть живой проект",
-      },
-    },
-  },
-  {
-    slug: "dtc-landings",
-    status: "concept",
-    category: "ecommerce",
-    shots: [
-      "/case-studies/dtc-landings/aurea.webp",
-      "/case-studies/dtc-landings/kinex.webp",
-      "/case-studies/dtc-landings/ovulan.webp",
-      "/case-studies/dtc-landings/verna.webp",
-      "/case-studies/dtc-landings/pure.webp",
-      "/case-studies/dtc-landings/carluxe.webp",
-    ],
-    shotSpan: ["half", "half", "half", "half", "half", "half"],
-    captions: {
-      en: [
-        "Skincare — product hero, ingredient benefits and a route into the range",
-        "Wearables — device hero, feature breakdown and an in-use section",
-        "Watches — luxury positioning, warranty and craftsmanship, and the collection grid",
-        "Coffee — bestseller range with roast variants and a brand story",
-        "Electric mobility — product introduction, model comparison and the collection",
-        "Car detailing — service tiers presented as packages",
-      ],
-      ua: [
-        "Догляд за шкірою — герой продукту, переваги складу та шлях до лінійки",
-        "Носимі пристрої — герой девайса, розбір функцій і секція використання",
-        "Годинники — преміальне позиціонування, гарантія й майстерність, сітка колекції",
-        "Кава — лінійка бестселерів із варіантами обсмажування та історія бренду",
-        "Електротранспорт — представлення продукту, порівняння моделей і колекція",
-        "Детейлінг авто — рівні послуг, подані як пакети",
-      ],
-      ru: [
-        "Уход за кожей — герой продукта, преимущества состава и путь к линейке",
-        "Носимые устройства — герой девайса, разбор функций и секция использования",
-        "Часы — премиальное позиционирование, гарантия и мастерство, сетка коллекции",
-        "Кофе — линейка бестселлеров с вариантами обжарки и история бренда",
-        "Электротранспорт — представление продукта, сравнение моделей и коллекция",
-        "Детейлинг авто — уровни услуг, поданные как пакеты",
-      ],
-    },
-    content: {
-      en: {
-        name: "DTC Product Landings",
-        type: "UI/UX concepts · Six consumer brands",
-        context:
-          "A set of conversion landing pages for physical consumer products across six categories: skincare, wearables, luxury watches, coffee, electric mobility and car detailing.",
-        problem:
-          "Most product pages describe the product and forget the decision. The visitor scrolls past beautiful photography, learns nothing they can act on, never reaches a price, and leaves — so paid traffic is spent on a page that was never built to close.",
-        outcome:
-          "A repeatable landing structure that carries a buyer from what it is to why it is better to what it costs — reused across very different categories without rebuilding it each time.",
-        built: [
-          "Six conversion landings, each with a product hero and a single primary action",
-          "Benefit breakdowns that translate specification into a reason to buy",
-          "Range and bestseller grids with pricing",
-          "In-use and lifestyle sections placed after the argument, not instead of it",
-          "Category-appropriate visual systems, from clinical skincare to luxury watches",
-          "A structure reused across six categories to prove it travels",
-        ],
-        flow: ["Arrive from an ad or search", "Understand the product", "See why it is better", "Compare the range", "See the price", "Buy or enquire"],
-        capabilities: [
-          "Conversion landing structure",
-          "Product merchandising",
-          "Benefit and specification design",
-          "Range presentation",
-          "Brand-led art direction",
-          "Reusable design system",
-        ],
-        tech: ["Landing page design", "Conversion structure", "Design systems"],
-        proof: [
-          "Six complete landings across six unrelated categories, shown below",
-          "The same conversion skeleton carries brands as different as a face oil and a Layer-2 of luxury watches",
-          "UI/UX concepts: page design and conversion structure, not deployed stores",
-        ],
-        notClaimed: [
-          "That these are live or trading sites",
-          "The customer counts, ratings and review numbers printed inside the designs",
-          "Sales, conversion rates or traffic",
-          "Relationships with the brands shown",
-          "Any product partnership referenced in the artwork",
-        ],
-        scopeNote:
-          "Status: UI/UX concepts. These are landing page designs. Trust figures visible inside the artwork — customer counts, star ratings, review totals, founding years and any brand collaboration shown — are placeholder content belonging to the concept, not verified claims and not results I produced.",
-        ctaLabel: "Get a landing page that converts",
-        liveLabel: "View live project",
-      },
-      ua: {
-        name: "DTC-лендинги продуктів",
-        type: "UI/UX концепти · Шість споживчих брендів",
-        context:
-          "Набір конверсійних лендингів для фізичних споживчих продуктів у шести категоріях: догляд за шкірою, носимі пристрої, преміальні годинники, кава, електротранспорт і детейлінг авто.",
-        problem:
-          "Більшість сторінок продукту описують товар і забувають про рішення. Відвідувач гортає гарну зйомку, не дізнається нічого, на що можна діяти, не доходить до ціни й іде — тож платний трафік витрачається на сторінку, яку ніколи не будували, щоб закривати.",
-        outcome:
-          "Повторювана структура лендингу, що веде покупця від «що це» до «чому це краще» і до «скільки це коштує» — і перевикористовується в дуже різних категоріях без переробки щоразу.",
-        built: [
-          "Шість конверсійних лендингів, кожен із героєм продукту та однією головною дією",
-          "Розбори переваг, що перекладають характеристики в причину купити",
-          "Сітки лінійки та бестселерів із цінами",
-          "Секції використання й лайфстайл після аргументу, а не замість нього",
-          "Візуальні системи під категорію — від клінічного догляду до преміальних годинників",
-          "Структура, перевикористана в шести категоріях, щоб довести, що вона працює скрізь",
-        ],
-        flow: ["Прийти з реклами чи пошуку", "Зрозуміти продукт", "Побачити, чому він кращий", "Порівняти лінійку", "Побачити ціну", "Купити або залишити запит"],
-        capabilities: [
-          "Структура конверсійного лендингу",
-          "Мерчандайзинг продукту",
-          "Дизайн переваг і характеристик",
-          "Презентація лінійки",
-          "Арт-дирекшн під бренд",
-          "Перевикористовувана дизайн-система",
-        ],
-        tech: ["Дизайн лендингів", "Конверсійна структура", "Дизайн-системи"],
-        proof: [
-          "Шість повних лендингів у шести непов'язаних категоріях — показані нижче",
-          "Той самий конверсійний каркас витримує бренди настільки різні, як олія для обличчя й преміальні годинники",
-          "UI/UX концепти: дизайн сторінок і конверсійна структура, а не розгорнуті магазини",
-        ],
-        notClaimed: [
-          "Що це живі або працюючі сайти",
-          "Кількість клієнтів, рейтинги та число відгуків, надруковані всередині дизайнів",
-          "Продажі, конверсія чи трафік",
-          "Відносини з показаними брендами",
-          "Будь-яка продуктова колаборація, згадана в макеті",
-        ],
-        scopeNote:
-          "Статус: UI/UX концепти. Це дизайн лендингів. Показники довіри всередині макетів — кількість клієнтів, зірковий рейтинг, число відгуків, рік заснування та будь-яка показана колаборація — це демонстраційний контент концепту, а не підтверджені твердження й не результати, які я створив.",
-        ctaLabel: "Отримати лендинг, що конвертує",
-        liveLabel: "Переглянути живий проєкт",
-      },
-      ru: {
-        name: "DTC-лендинги продуктов",
-        type: "UI/UX концепты · Шесть потребительских брендов",
-        context:
-          "Набор конверсионных лендингов для физических потребительских продуктов в шести категориях: уход за кожей, носимые устройства, премиальные часы, кофе, электротранспорт и детейлинг авто.",
-        problem:
-          "Большинство страниц продукта описывают товар и забывают о решении. Посетитель листает красивую съёмку, не узнаёт ничего, на что можно действовать, не доходит до цены и уходит — поэтому платный трафик тратится на страницу, которую никогда не строили, чтобы закрывать.",
-        outcome:
-          "Повторяемая структура лендинга, ведущая покупателя от «что это» к «почему это лучше» и к «сколько это стоит» — и переиспользуемая в очень разных категориях без переделки каждый раз.",
-        built: [
-          "Шесть конверсионных лендингов, каждый с героем продукта и одним главным действием",
-          "Разборы преимуществ, переводящие характеристики в причину купить",
-          "Сетки линейки и бестселлеров с ценами",
-          "Секции использования и лайфстайл после аргумента, а не вместо него",
-          "Визуальные системы под категорию — от клинического ухода до премиальных часов",
-          "Структура, переиспользованная в шести категориях, чтобы доказать, что она работает везде",
-        ],
-        flow: ["Прийти из рекламы или поиска", "Понять продукт", "Увидеть, почему он лучше", "Сравнить линейку", "Увидеть цену", "Купить или оставить запрос"],
-        capabilities: [
-          "Структура конверсионного лендинга",
-          "Мерчандайзинг продукта",
-          "Дизайн преимуществ и характеристик",
-          "Презентация линейки",
-          "Арт-дирекшн под бренд",
-          "Переиспользуемая дизайн-система",
-        ],
-        tech: ["Дизайн лендингов", "Конверсионная структура", "Дизайн-системы"],
-        proof: [
-          "Шесть полных лендингов в шести несвязанных категориях — показаны ниже",
-          "Тот же конверсионный каркас выдерживает бренды настолько разные, как масло для лица и премиальные часы",
-          "UI/UX концепты: дизайн страниц и конверсионная структура, а не развёрнутые магазины",
-        ],
-        notClaimed: [
-          "Что это живые или работающие сайты",
-          "Количество клиентов, рейтинги и число отзывов, напечатанные внутри дизайнов",
-          "Продажи, конверсия или трафик",
-          "Отношения с показанными брендами",
-          "Любая продуктовая коллаборация, упомянутая в макете",
-        ],
-        scopeNote:
-          "Статус: UI/UX концепты. Это дизайн лендингов. Показатели доверия внутри макетов — количество клиентов, звёздный рейтинг, число отзывов, год основания и любая показанная коллаборация — это демонстрационный контент концепта, а не подтверждённые утверждения и не результаты, которые я создал.",
-        ctaLabel: "Получить лендинг, который конвертирует",
-        liveLabel: "Открыть живой проект",
-      },
-    },
-  },
 ];
 
 export function getCaseDetail(slug: string): CaseDetail | undefined {
@@ -2578,6 +2956,8 @@ export const PORTFOLIO_UI: Record<
     outcomeLabel: string;
     problemLabel: string;
     builtLabel: string;
+    valueLabel: string;
+    audioLabel: string;
     capabilitiesLabel: string;
     capsTitle: string;
     capsIntro: string;
@@ -2620,6 +3000,8 @@ export const PORTFOLIO_UI: Record<
     outcomeLabel: "What it changes",
     problemLabel: "Problem",
     builtLabel: "What was built",
+    valueLabel: "Why it matters",
+    audioLabel: "Listen to the demo",
     capabilitiesLabel: "Capabilities",
     capsTitle: "What I can build for you",
     capsIntro: "Each capability below is listed against the projects where it was actually built.",
@@ -2663,6 +3045,8 @@ export const PORTFOLIO_UI: Record<
     outcomeLabel: "Що це змінює",
     problemLabel: "Проблема",
     builtLabel: "Що створено",
+    valueLabel: "Чому це важливо",
+    audioLabel: "Послухати демо",
     capabilitiesLabel: "Можливості",
     capsTitle: "Що я можу побудувати для вас",
     capsIntro: "Кожну можливість нижче вказано разом із проєктами, де її справді реалізовано.",
@@ -2706,6 +3090,8 @@ export const PORTFOLIO_UI: Record<
     outcomeLabel: "Что это меняет",
     problemLabel: "Проблема",
     builtLabel: "Что создано",
+    valueLabel: "Почему это важно",
+    audioLabel: "Послушать демо",
     capabilitiesLabel: "Возможности",
     capsTitle: "Что я могу построить для вас",
     capsIntro: "Каждая возможность ниже указана вместе с проектами, где она действительно реализована.",
@@ -2825,156 +3211,8 @@ export const CASE_UI: Record<
 };
 
 // ---------------------------------------------------------------------------
-// AI Product Development — detailed cases (TurbotaAI, Tutorivo, Dating CRM)
+// Capability matrix — each capability against the projects where it was built.
 // ---------------------------------------------------------------------------
-export interface ProductCaseContent {
-  name: string;
-  context: string;
-  problem: string;
-  designed: string;
-  implemented: string;
-  role: string;
-  capabilities: string[];
-  technologies: string[];
-  proves: string;
-  captions?: string[];
-}
-export interface ProductCase {
-  key: string;
-  status: Status;
-  shots: string[];
-  content: Record<Lang, ProductCaseContent>;
-}
-
-export const PRODUCT_CASES: ProductCase[] = [
-  {
-    key: "turbotaai",
-    status: "active_development",
-    shots: ["/case-studies/turbotaai/landing.webp", "/case-studies/turbotaai/pricing.webp"],
-    content: {
-      en: {
-        name: "TurbotaAI",
-        context: "An AI assistant product built in public — chat, voice and video with accounts and subscriptions.",
-        problem: "Prove that a full AI product — chat/voice/video, accounts and paid subscriptions — fits together end to end.",
-        designed: "MVP architecture for a multi-modal AI assistant: access profiles, subscription/pricing logic and the AI interaction flow.",
-        implemented: "The chat / voice / video experience, an access profile, and subscription / pricing logic, prepared for store release.",
-        role: "Vlad led product decomposition, MVP architecture, backend and AI integration, implementation control, QA and the release process; specialist developers are involved when the approved scope requires it.",
-        capabilities: ["User accounts", "Subscriptions & payments", "AI logic", "iOS/Android release", "MVP architecture"],
-        technologies: ["Next.js", "AI assistant", "Auth / profiles", "Subscriptions"],
-        proves: "That an AI product can be taken from concept and architecture through implementation to a store-ready release — real UX, real accounts, real billing.",
-        captions: ["TurbotaAI — landing", "Pricing & access"],
-      },
-      ua: {
-        name: "TurbotaAI",
-        context: "AI-асистент як продукт у форматі build-in-public — чат, голос і відео з акаунтами та підписками.",
-        problem: "Довести, що повноцінний AI-продукт — чат/голос/відео, акаунти та платні підписки — працює наскрізно.",
-        designed: "MVP-архітектура мультимодального AI-асистента: профілі доступу, логіка підписки/тарифів та потік AI-взаємодії.",
-        implemented: "Досвід чату / голосу / відео, профіль доступу та логіка підписки / тарифів, підготовлені до релізу в сторах.",
-        role: "Влад вів декомпозицію продукту, MVP-архітектуру, бекенд та інтеграцію AI, контроль реалізації, QA і реліз; профільні розробники залучаються, коли цього вимагає погоджений обсяг.",
-        capabilities: ["Акаунти", "Підписки й оплати", "AI-логіка", "Реліз iOS/Android", "MVP-архітектура"],
-        technologies: ["Next.js", "AI-асистент", "Авторизація / профілі", "Підписки"],
-        proves: "Що AI-продукт можна провести від концепту й архітектури через реалізацію до готового до сторів релізу — реальний UX, акаунти й білінг.",
-        captions: ["TurbotaAI — головна сторінка", "Тарифи й доступ"],
-      },
-      ru: {
-        name: "TurbotaAI",
-        context: "AI-ассистент как продукт в формате build-in-public — чат, голос и видео с аккаунтами и подписками.",
-        problem: "Доказать, что полноценный AI-продукт — чат/голос/видео, аккаунты и платные подписки — работает сквозным образом.",
-        designed: "MVP-архитектура мультимодального AI-ассистента: профили доступа, логика подписки/тарифов и поток AI-взаимодействия.",
-        implemented: "Опыт чата / голоса / видео, профиль доступа и логика подписки / тарифов, подготовленные к релизу в сторах.",
-        role: "Влад вёл декомпозицию продукта, MVP-архитектуру, бэкенд и интеграцию AI, контроль реализации, QA и релиз; профильные разработчики привлекаются, когда этого требует согласованный объём.",
-        capabilities: ["Аккаунты", "Подписки и оплаты", "AI-логика", "Релиз iOS/Android", "MVP-архитектура"],
-        technologies: ["Next.js", "AI-ассистент", "Авторизация / профили", "Подписки"],
-        proves: "Что AI-продукт можно провести от концепта и архитектуры через реализацию до готового к сторам релиза — реальный UX, аккаунты и биллинг.",
-        captions: ["TurbotaAI — главная страница", "Тарифы и доступ"],
-      },
-    },
-  },
-  {
-    key: "tutorivo",
-    status: "in_development",
-    shots: ["/case-studies/tutorivo/home.webp", "/case-studies/tutorivo/catalog.webp"],
-    content: {
-      en: {
-        name: "Tutorivo",
-        context: "A multilingual tutor-marketplace web platform, ready to onboard users and take payments.",
-        problem: "Turn a messy, manual tutor/student process into one platform with catalog, applications, roles, moderation and payments.",
-        designed: "MVP architecture for a two-sided marketplace: catalog and search, a tutor application flow, user roles, an admin/moderation layer, lesson-package and payment logic, multilingual.",
-        implemented: "The searchable catalog, the “become a tutor” application, the admin review layer and lesson-package logic across a multilingual structure.",
-        role: "Vlad led product decomposition, MVP architecture, backend, implementation control and QA; specialist developers are involved when the approved scope requires it.",
-        capabilities: ["User accounts", "Payments", "Profiles & roles", "Admin & moderation", "Multilingual", "MVP architecture"],
-        technologies: ["Next.js", "Tailwind", "Multilingual", "Admin", "Payments"],
-        proves: "That a real two-sided platform — accounts, roles, moderation and payments — can be architected and built as a product, not a brochure site.",
-        captions: ["Tutorivo — home", "Tutor catalog"],
-      },
-      ua: {
-        name: "Tutorivo",
-        context: "Багатомовна веб-платформа-маркетплейс репетиторів, готова приймати користувачів і оплати.",
-        problem: "Перетворити хаотичний ручний процес репетитор/учень на одну платформу з каталогом, заявками, ролями, модерацією та оплатами.",
-        designed: "MVP-архітектура двостороннього маркетплейсу: каталог і пошук, потік заявки репетитора, ролі користувачів, шар адмін-модерації, логіка пакетів уроків і оплат, багатомовність.",
-        implemented: "Пошуковий каталог, заявка «стати репетитором», шар адмін-модерації та логіка пакетів уроків у багатомовній структурі.",
-        role: "Влад вів декомпозицію продукту, MVP-архітектуру, бекенд, контроль реалізації та QA; профільні розробники залучаються, коли цього вимагає погоджений обсяг.",
-        capabilities: ["Акаунти", "Оплати", "Профілі й ролі", "Адмін і модерація", "Багатомовність", "MVP-архітектура"],
-        technologies: ["Next.js", "Tailwind", "Багатомовність", "Адмінка", "Оплати"],
-        proves: "Що реальну двосторонню платформу — акаунти, ролі, модерація й оплати — можна спроєктувати й побудувати як продукт, а не сайт-візитку.",
-        captions: ["Tutorivo — головна", "Каталог репетиторів"],
-      },
-      ru: {
-        name: "Tutorivo",
-        context: "Многоязычная веб-платформа-маркетплейс репетиторов, готовая принимать пользователей и оплаты.",
-        problem: "Превратить хаотичный ручной процесс репетитор/ученик в одну платформу с каталогом, заявками, ролями, модерацией и оплатами.",
-        designed: "MVP-архитектура двустороннего маркетплейса: каталог и поиск, поток заявки репетитора, роли пользователей, слой админ-модерации, логика пакетов уроков и оплат, многоязычность.",
-        implemented: "Поисковый каталог, заявка «стать репетитором», слой админ-модерации и логика пакетов уроков в многоязычной структуре.",
-        role: "Влад вёл декомпозицию продукта, MVP-архитектуру, бэкенд, контроль реализации и QA; профильные разработчики привлекаются, когда этого требует согласованный объём.",
-        capabilities: ["Аккаунты", "Оплаты", "Профили и роли", "Админ и модерация", "Многоязычность", "MVP-архитектура"],
-        technologies: ["Next.js", "Tailwind", "Многоязычность", "Админка", "Оплаты"],
-        proves: "Что реальную двустороннюю платформу — аккаунты, роли, модерация и оплаты — можно спроектировать и построить как продукт, а не сайт-визитку.",
-        captions: ["Tutorivo — главная", "Каталог репетиторов"],
-      },
-    },
-  },
-  {
-    key: "dating-crm",
-    status: "in_development",
-    shots: [],
-    content: {
-      en: {
-        name: "Dating CRM",
-        context: "A CRM + automation build for a relationship/dating business — not a consumer dating app.",
-        problem: "Conversations went cold because tracking, reminders and follow-up were manual and inconsistent.",
-        designed: "A CRM data model plus communication and follow-up workflows, with an admin/moderation layer.",
-        implemented: "Automated tracking, reminders and follow-up workflows so no conversation goes cold, with admin/moderation.",
-        role: "Vlad led the data model, automation workflows and implementation control; specialist developers are involved when the approved scope requires it.",
-        capabilities: ["Communication workflows", "Admin & moderation", "Automated follow-up"],
-        technologies: ["CRM data model", "Automation workflows"],
-        proves: "Experience designing communication workflows, follow-up automation and an admin/moderation layer inside a real operational CRM.",
-      },
-      ua: {
-        name: "Dating CRM",
-        context: "Білд CRM + автоматизація для бізнесу у сфері знайомств — не споживчий dating-застосунок.",
-        problem: "Розмови згасали, бо відстеження, нагадування та фолоу-ап робилися вручну й непослідовно.",
-        designed: "Модель даних CRM плюс комунікаційні та фолоу-ап процеси з шаром адмін-модерації.",
-        implemented: "Автоматичне відстеження, нагадування та фолоу-ап процеси, щоб жодна розмова не згасала, з адмін-модерацією.",
-        role: "Влад вів модель даних, процеси автоматизації та контроль реалізації; профільні розробники залучаються, коли цього вимагає погоджений обсяг.",
-        capabilities: ["Комунікаційні процеси", "Адмін і модерація", "Автоматичний фолоу-ап"],
-        technologies: ["Модель даних CRM", "Процеси автоматизації"],
-        proves: "Досвід проєктування комунікаційних процесів, автоматизації фолоу-апу та шару адмін-модерації всередині реальної операційної CRM.",
-      },
-      ru: {
-        name: "Dating CRM",
-        context: "Билд CRM + автоматизация для бизнеса в сфере знакомств — не потребительское dating-приложение.",
-        problem: "Диалоги угасали, потому что трекинг, напоминания и фоллоу-ап делались вручную и непоследовательно.",
-        designed: "Модель данных CRM плюс коммуникационные и фоллоу-ап процессы со слоем админ-модерации.",
-        implemented: "Автоматический трекинг, напоминания и фоллоу-ап процессы, чтобы ни один диалог не угасал, с админ-модерацией.",
-        role: "Влад вёл модель данных, процессы автоматизации и контроль реализации; профильные разработчики привлекаются, когда этого требует согласованный объём.",
-        capabilities: ["Коммуникационные процессы", "Админ и модерация", "Автоматический фоллоу-ап"],
-        technologies: ["Модель данных CRM", "Процессы автоматизации"],
-        proves: "Опыт проектирования коммуникационных процессов, автоматизации фоллоу-апа и слоя админ-модерации внутри реальной операционной CRM.",
-      },
-    },
-  },
-];
-
 export const EXPERIENCE_MATRIX: { capability: Record<Lang, string>; projects: string[] }[] = [
   { capability: { en: "User accounts", ua: "Акаунти користувачів", ru: "Аккаунты пользователей" }, projects: ["TurbotaAI", "Tutorivo"] },
   { capability: { en: "Subscriptions & payments", ua: "Підписки й оплати", ru: "Подписки и оплаты" }, projects: ["TurbotaAI", "Tutorivo"] },
@@ -2987,133 +3225,6 @@ export const EXPERIENCE_MATRIX: { capability: Record<Lang, string>; projects: st
   { capability: { en: "Conversion landing", ua: "Конверсійний лендинг", ru: "Конверсионный лендинг" }, projects: ["SerCrypto Academy"] },
   { capability: { en: "MVP architecture", ua: "MVP-архітектура", ru: "MVP-архитектура" }, projects: ["TurbotaAI", "Tutorivo", "Dating CRM"] },
 ];
-
-export const APD_UI: Record<
-  Lang,
-  {
-    metaTitle: string;
-    metaDesc: string;
-    heroTitle: string;
-    heroSub: string;
-    leadIntro: string;
-    accel: string;
-    casesEyebrow: string;
-    casesTitle: string;
-    matrixTitle: string;
-    matrixCapability: string;
-    matrixProjects: string;
-    howTitle: string;
-    how: string[];
-    ctaTitle: string;
-    ctaPrimary: string;
-    ctaSecondary: string;
-    discoveryTitle: string;
-    discoveryIntro: string;
-    discovery: string[];
-    contextLabel: string;
-    problemLabel: string;
-    designedLabel: string;
-    implementedLabel: string;
-    roleLabel: string;
-    capabilitiesLabel: string;
-    techLabel: string;
-    provesLabel: string;
-  }
-> = {
-  en: {
-    metaTitle: "AI Product Development — mobile apps, SaaS & AI products | Vlad Kuzmenko",
-    metaDesc:
-      "Mobile apps, SaaS and AI products from concept and architecture to release: product decomposition, architecture, frontend/backend, accounts, payments, AI integrations, QA and release. AI tools accelerate engineering — they don't replace it.",
-    heroTitle: "Mobile apps, SaaS and AI products — from concept and architecture to release",
-    heroSub:
-      "Vlad leads product decomposition, architecture, frontend and backend, authentication and accounts, subscriptions/payments where genuinely supported, AI integrations, QA and release preparation — and coordinates specialists when the scope requires it.",
-    leadIntro: "Relevant, real product experience — labelled honestly by build stage, with real screenshots where they exist. No invented metrics or launch results.",
-    accel: "AI tools are used to accelerate development — not to replace engineering, architecture or QA.",
-    casesEyebrow: "Relevant experience",
-    casesTitle: "Product cases",
-    matrixTitle: "Relevant experience matrix",
-    matrixCapability: "Capability",
-    matrixProjects: "Where it was built",
-    howTitle: "How I work",
-    how: ["Product decomposition", "Architecture", "Frontend & backend", "Authentication & accounts", "AI integrations", "QA & security", "Release preparation"],
-    ctaTitle: "Have a mobile app, SaaS or AI product in mind?",
-    ctaPrimary: "Discuss your MVP",
-    ctaSecondary: "Start with Technical Discovery",
-    discoveryTitle: "What Technical Discovery delivers",
-    discoveryIntro: "A paid, scoped first step that turns an idea into a concrete plan you own — before committing to full development.",
-    discovery: ["MVP boundaries", "User journeys", "System architecture", "Backend & data model", "AI logic", "Integrations", "Security & moderation", "Roadmap", "Timeline", "Final development estimate"],
-    contextLabel: "Context",
-    problemLabel: "Problem",
-    designedLabel: "What was designed",
-    implementedLabel: "What was implemented",
-    roleLabel: "Vlad's role",
-    capabilitiesLabel: "Capabilities",
-    techLabel: "Technologies",
-    provesLabel: "What this proves",
-  },
-  ua: {
-    metaTitle: "Розробка AI-продуктів — мобільні застосунки, SaaS та AI | Vlad Kuzmenko",
-    metaDesc:
-      "Мобільні застосунки, SaaS та AI-продукти від концепту й архітектури до релізу: декомпозиція, архітектура, фронтенд/бекенд, акаунти, оплати, AI-інтеграції, QA і реліз. AI-інструменти пришвидшують інженерію — не замінюють її.",
-    heroTitle: "Мобільні застосунки, SaaS та AI-продукти — від концепту й архітектури до релізу",
-    heroSub:
-      "Влад веде декомпозицію продукту, архітектуру, фронтенд і бекенд, автентифікацію та акаунти, підписки/оплати там, де це справді підтримується, AI-інтеграції, QA і підготовку релізу — та координує спеціалістів, коли цього вимагає обсяг.",
-    leadIntro: "Релевантний, реальний продуктовий досвід — чесно позначений за етапом, зі справжніми скриншотами, де вони є. Без вигаданих метрик чи результатів запуску.",
-    accel: "AI-інструменти використовуються для пришвидшення розробки — не для заміни інженерії, архітектури чи QA.",
-    casesEyebrow: "Релевантний досвід",
-    casesTitle: "Продуктові кейси",
-    matrixTitle: "Матриця релевантного досвіду",
-    matrixCapability: "Можливість",
-    matrixProjects: "Де це побудовано",
-    howTitle: "Як я працюю",
-    how: ["Декомпозиція продукту", "Архітектура", "Фронтенд і бекенд", "Автентифікація та акаунти", "AI-інтеграції", "QA і безпека", "Підготовка релізу"],
-    ctaTitle: "Маєте на думці застосунок, SaaS або AI-продукт?",
-    ctaPrimary: "Обговорити ваш MVP",
-    ctaSecondary: "Почати з Technical Discovery",
-    discoveryTitle: "Що дає Technical Discovery",
-    discoveryIntro: "Платний перший етап з чіткими межами, що перетворює ідею на конкретний план, який належить вам — ще до повної розробки.",
-    discovery: ["Межі MVP", "Сценарії користувача", "Архітектура системи", "Бекенд і модель даних", "AI-логіка", "Інтеграції", "Безпека й модерація", "Дорожня карта", "Терміни", "Фінальна оцінка розробки"],
-    contextLabel: "Контекст",
-    problemLabel: "Проблема",
-    designedLabel: "Що спроєктовано",
-    implementedLabel: "Що реалізовано",
-    roleLabel: "Роль Влада",
-    capabilitiesLabel: "Можливості",
-    techLabel: "Технології",
-    provesLabel: "Що це доводить",
-  },
-  ru: {
-    metaTitle: "Разработка AI-продуктов — мобильные приложения, SaaS и AI | Vlad Kuzmenko",
-    metaDesc:
-      "Мобильные приложения, SaaS и AI-продукты от концепта и архитектуры до релиза: декомпозиция, архитектура, фронтенд/бэкенд, аккаунты, оплаты, AI-интеграции, QA и релиз. AI-инструменты ускоряют инженерию — не заменяют её.",
-    heroTitle: "Мобильные приложения, SaaS и AI-продукты — от концепта и архитектуры до релиза",
-    heroSub:
-      "Влад ведёт декомпозицию продукта, архитектуру, фронтенд и бэкенд, аутентификацию и аккаунты, подписки/оплаты там, где это действительно поддерживается, AI-интеграции, QA и подготовку релиза — и координирует специалистов, когда этого требует объём.",
-    leadIntro: "Релевантный, реальный продуктовый опыт — честно помеченный по этапу, с реальными скриншотами, где они есть. Без выдуманных метрик и результатов запуска.",
-    accel: "AI-инструменты используются для ускорения разработки — не для замены инженерии, архитектуры или QA.",
-    casesEyebrow: "Релевантный опыт",
-    casesTitle: "Продуктовые кейсы",
-    matrixTitle: "Матрица релевантного опыта",
-    matrixCapability: "Возможность",
-    matrixProjects: "Где это построено",
-    howTitle: "Как я работаю",
-    how: ["Декомпозиция продукта", "Архитектура", "Фронтенд и бэкенд", "Аутентификация и аккаунты", "AI-интеграции", "QA и безопасность", "Подготовка релиза"],
-    ctaTitle: "Есть на уме приложение, SaaS или AI-продукт?",
-    ctaPrimary: "Обсудить ваш MVP",
-    ctaSecondary: "Начать с Technical Discovery",
-    discoveryTitle: "Что даёт Technical Discovery",
-    discoveryIntro: "Платный первый этап с чёткими границами, превращающий идею в конкретный план, который принадлежит вам — ещё до полной разработки.",
-    discovery: ["Границы MVP", "Сценарии пользователя", "Архитектура системы", "Бэкенд и модель данных", "AI-логика", "Интеграции", "Безопасность и модерация", "Дорожная карта", "Сроки", "Финальная оценка разработки"],
-    contextLabel: "Контекст",
-    problemLabel: "Проблема",
-    designedLabel: "Что спроектировано",
-    implementedLabel: "Что реализовано",
-    roleLabel: "Роль Влада",
-    capabilitiesLabel: "Возможности",
-    techLabel: "Технологии",
-    provesLabel: "Что это доказывает",
-  },
-};
 
 // ---------------------------------------------------------------------------
 // JSON-LD
@@ -3142,19 +3253,6 @@ export function workJsonLd(locale: Lang) {
       ...(p.liveUrl ? { url: p.liveUrl } : {}),
       creator: { "@id": `${SITE.url}/#vlad` },
     })),
-  };
-}
-
-export function apdJsonLd(locale: Lang) {
-  return {
-    "@context": "https://schema.org",
-    "@type": "Service",
-    name: "AI Product Development",
-    serviceType: "Mobile app, SaaS and AI product development",
-    description: APD_UI[locale].metaDesc,
-    provider: { "@id": `${SITE.url}/#vlad` },
-    areaServed: "Worldwide",
-    url: `${SITE.url}${localePath(locale, "ai-product-development")}`,
   };
 }
 

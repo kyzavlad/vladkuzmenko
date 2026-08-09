@@ -196,104 +196,104 @@ function Shot({
   );
 }
 
-/** Big editorial card — image on one side, story on the other. */
-function FeatureCard({
+/** Full editorial case block — the standard unit on /work. */
+function CaseBlock({
   p,
   locale,
   route,
-  flip,
-  priority,
+  index,
 }: {
   p: PortfolioCard;
   locale: Locale;
   route: string;
-  flip?: boolean;
-  priority?: boolean;
+  index: number;
 }) {
   const ui = PORTFOLIO_UI[locale];
   const c = p.content[locale];
+  const flip = index % 2 === 1;
+  const gallery = p.shots.slice(1);
+
   return (
     <article className="luxe-card overflow-hidden">
       <div className={cn("grid lg:grid-cols-2 items-stretch", flip && "lg:[&>figure]:order-2")}>
         {p.shots.length > 0 && (
-          <figure className="relative bg-black/40 border-b lg:border-b-0 lg:border-r border-zinc-800 min-w-0 lg:min-h-[440px]">
-            {/* On lg the figure is a stretched grid item; fill it absolutely so the
-                visual always spans the full height of the card. */}
+          <figure className="relative bg-black/40 border-b lg:border-b-0 lg:border-r border-zinc-800 min-w-0 lg:min-h-[460px]">
             <div className="relative aspect-[16/10] lg:aspect-auto lg:absolute lg:inset-0">
-              <Shot src={p.shots[0]} alt={`${c.name} — ${c.caption ?? c.type}`} priority={priority} />
+              <Shot src={p.shots[0]} alt={`${c.name} — ${c.caption ?? c.type}`} priority={index === 0} />
             </div>
           </figure>
         )}
-        <div className="p-6 sm:p-8 flex flex-col min-w-0">
-          <div className="flex flex-wrap items-center gap-2 mb-3">
+
+        <div className="p-6 sm:p-8 lg:p-10 flex flex-col min-w-0">
+          <div className="flex flex-wrap items-center gap-2.5 mb-3">
+            <span className="text-[11px] tabular-nums text-gray-600">
+              {String(index + 1).padStart(2, "0")}
+            </span>
             <span className="text-[11px] uppercase tracking-[0.16em] text-amber-300/80">
               {CATEGORY_SHORT[p.category][locale]}
             </span>
             <StatusBadge status={p.status} lang={locale} />
           </div>
+
           <h3 className="text-2xl sm:text-3xl font-black tracking-tight mb-1.5 break-words">{c.name}</h3>
           <p className="text-sm text-gray-400 mb-5">{c.type}</p>
+          <p className="text-base sm:text-lg text-gray-200 leading-relaxed mb-6">{c.outcome}</p>
 
-          <p className="text-base sm:text-lg text-gray-200 leading-relaxed mb-5">{c.outcome}</p>
-
-          <dl className="space-y-3 text-sm">
+          <dl className="space-y-4 text-sm">
             <div>
-              <dt className="text-[10px] uppercase tracking-[0.16em] text-gray-500 mb-0.5">{ui.problemLabel}</dt>
+              <dt className="text-[10px] uppercase tracking-[0.16em] text-gray-500 mb-1">{ui.problemLabel}</dt>
               <dd className="text-gray-400 leading-relaxed">{c.problem}</dd>
             </div>
             <div>
-              <dt className="text-[10px] uppercase tracking-[0.16em] text-gray-500 mb-0.5">{ui.builtLabel}</dt>
+              <dt className="text-[10px] uppercase tracking-[0.16em] text-gray-500 mb-1">{ui.builtLabel}</dt>
               <dd className="text-gray-300 leading-relaxed">{c.built}</dd>
             </div>
+            {c.value && (
+              <div>
+                <dt className="text-[10px] uppercase tracking-[0.16em] text-gray-500 mb-1">{ui.valueLabel}</dt>
+                <dd className="text-gray-300 leading-relaxed">{c.value}</dd>
+              </div>
+            )}
           </dl>
 
           <div className="mt-5">
+            <p className="text-[10px] uppercase tracking-[0.16em] text-gray-500 mb-2">{ui.capabilitiesLabel}</p>
             <Tags items={c.capabilities} />
           </div>
+
+          {p.audio && (
+            <div className="mt-5">
+              <p className="text-[10px] uppercase tracking-[0.16em] text-gray-500 mb-2">
+                {ui.audioLabel}
+              </p>
+              {/* eslint-disable-next-line jsx-a11y/media-has-caption */}
+              <audio controls preload="none" src={p.audio} className="w-full max-w-md">
+                {ui.audioLabel}
+              </audio>
+            </div>
+          )}
+
+          {c.scopeNote && (
+            <p className="mt-5 flex items-start gap-2 text-[11px] text-gray-500 leading-relaxed">
+              <ShieldCheck className="h-3.5 w-3.5 text-amber-400/60 shrink-0 mt-0.5" />
+              <span>{c.scopeNote}</span>
+            </p>
+          )}
 
           <CardActions p={p} locale={locale} route={route} full />
         </div>
       </div>
-    </article>
-  );
-}
 
-/** Standard grid card. */
-function ProjectCard({ p, locale, route }: { p: PortfolioCard; locale: Locale; route: string }) {
-  const ui = PORTFOLIO_UI[locale];
-  const c = p.content[locale];
-  return (
-    <article className="luxe-card overflow-hidden flex flex-col self-start">
-      {p.shots.length > 0 && (
-        <figure className="border-b border-zinc-800 bg-black/40">
-          <div className="relative aspect-[16/10]">
-            <Shot src={p.shots[0]} alt={`${c.name} — ${c.caption ?? c.type}`} />
-          </div>
-        </figure>
+      {/* Secondary screens for this project, when it has more than one. */}
+      {gallery.length > 0 && (
+        <div className="border-t border-zinc-800 p-4 sm:p-5 grid grid-cols-2 md:grid-cols-3 gap-3 bg-black/30">
+          {gallery.map((src, i) => (
+            <div key={src} className="relative aspect-[16/10] rounded-lg overflow-hidden border border-zinc-800">
+              <Shot src={src} alt={`${c.name} — ${i + 2}`} />
+            </div>
+          ))}
+        </div>
       )}
-      <div className="p-6 flex flex-col flex-1 min-w-0">
-        <div className="flex flex-wrap items-center gap-2 mb-2">
-          <span className="text-[11px] uppercase tracking-[0.16em] text-amber-300/80">
-            {CATEGORY_SHORT[p.category][locale]}
-          </span>
-          <StatusBadge status={p.status} lang={locale} />
-        </div>
-        <h3 className="text-xl font-bold mb-1 break-words">{c.name}</h3>
-        <p className="text-xs text-gray-400 mb-4">{c.type}</p>
-
-        <p className="text-sm text-gray-200 leading-relaxed mb-4">{c.outcome}</p>
-
-        <div className="text-sm flex-1">
-          <p className="text-[10px] uppercase tracking-[0.16em] text-gray-500 mb-0.5">{ui.builtLabel}</p>
-          <p className="text-gray-400 leading-relaxed">{c.built}</p>
-        </div>
-
-        <div className="mt-4">
-          <Tags items={c.capabilities} />
-        </div>
-
-        <CardActions p={p} locale={locale} route={route} />
-      </div>
     </article>
   );
 }
@@ -305,7 +305,6 @@ export function PortfolioPage() {
   const base = langHref(locale);
   const localeBase = base === "/" ? "" : base;
   const route = `${localeBase}/work`;
-  const productHref = localeBase ? `${localeBase}/ai-product-development` : "/ai-product-development";
 
   const [filter, setFilter] = useState<Filter>("all");
 
@@ -414,35 +413,10 @@ export function PortfolioPage() {
             </h2>
             <p className="text-gray-400 mb-8 max-w-2xl">{ui.featuredIntro}</p>
 
-            <div className="space-y-6">
-              {/* Lead case — full editorial width */}
-              <FeatureCard p={FEATURED[0]} locale={locale} route={route} priority />
-
-              {/* Two-up */}
-              {FEATURED.length > 2 && (
-                <div className="grid md:grid-cols-2 gap-6 items-start">
-                  {FEATURED.slice(1, 3).map((p) => (
-                    <ProjectCard key={p.key} p={p} locale={locale} route={route} />
-                  ))}
-                </div>
-              )}
-              {FEATURED.length === 2 && (
-                <ProjectCard p={FEATURED[1]} locale={locale} route={route} />
-              )}
-
-              {/* Fourth case — mirrored editorial row */}
-              {FEATURED.length > 3 && (
-                <FeatureCard p={FEATURED[3]} locale={locale} route={route} flip />
-              )}
-
-              {/* Anything beyond four featured falls into a grid */}
-              {FEATURED.length > 4 && (
-                <div className="grid md:grid-cols-2 gap-6 items-start">
-                  {FEATURED.slice(4).map((p) => (
-                    <ProjectCard key={p.key} p={p} locale={locale} route={route} />
-                  ))}
-                </div>
-              )}
+            <div className="space-y-8">
+              {FEATURED.map((p, i) => (
+                <CaseBlock key={p.key} p={p} locale={locale} route={route} index={i} />
+              ))}
             </div>
           </div>
         </section>
@@ -461,9 +435,15 @@ export function PortfolioPage() {
             {(filter === "all" || filter === "featured") && (
               <p className="text-gray-400 mb-8 max-w-2xl">{ui.allWorkIntro}</p>
             )}
-            <div className={cn("grid md:grid-cols-2 gap-6 items-start", filter !== "all" && "mt-8")}>
-              {rest.map((p) => (
-                <ProjectCard key={p.key} p={p} locale={locale} route={route} />
+            <div className={cn("space-y-8", filter !== "all" && "mt-8")}>
+              {rest.map((p, i) => (
+                <CaseBlock
+                  key={p.key}
+                  p={p}
+                  locale={locale}
+                  route={route}
+                  index={showFeaturedBlock ? FEATURED.length + i : i}
+                />
               ))}
             </div>
           </div>
@@ -514,18 +494,6 @@ export function PortfolioPage() {
               </Button>
             </PortfolioRequest>
           </div>
-        </div>
-      </section>
-
-      <section className="section-accent py-14">
-        <div className="container mx-auto px-4 max-w-3xl text-center">
-          <p className="text-lg text-gray-300 mb-5">{ui.productCta}</p>
-          <a href={productHref} className="inline-block">
-            <Button className="h-auto min-h-12 px-7 py-3 bg-transparent border border-amber-400/30 text-white hover:bg-amber-400/10">
-              {ui.productCtaBtn}
-              <ArrowRight className="ml-2 h-4 w-4 shrink-0" />
-            </Button>
-          </a>
         </div>
       </section>
 

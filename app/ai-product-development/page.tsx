@@ -1,15 +1,26 @@
-import { I18nProvider } from "@/components/i18n-provider";
-import { AiProductDevelopmentPage } from "@/components/pages/AiProductDevelopmentPage";
+import type { Metadata } from "next";
 import { pageMeta } from "@/lib/page-meta";
-import { APD_UI, apdJsonLd } from "@/lib/portfolio";
+import { PORTFOLIO_UI } from "@/lib/portfolio";
 
-export const metadata = pageMeta("en", "ai-product-development", APD_UI.en.metaTitle, APD_UI.en.metaDesc);
+// /ai-product-development was merged into the portfolio. `output: "export"` cannot
+// emit a server 301, so this route ships a redirect page: the canonical points at
+// /work, a client replace() moves the visitor immediately without adding a history
+// entry, and the page is marked noindex. netlify.toml declares the real 301.
+const TARGET = "/work";
+
+export const metadata: Metadata = {
+  ...pageMeta("en", "work", PORTFOLIO_UI.en.metaTitle, PORTFOLIO_UI.en.metaDesc),
+  alternates: { canonical: TARGET },
+  robots: { index: false, follow: true },
+};
 
 export default function Page() {
   return (
-    <I18nProvider lang="en">
-      <AiProductDevelopmentPage />
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(apdJsonLd("en")) }} />
-    </I18nProvider>
+    <main style={{ background: "#000", color: "#fff", minHeight: "60vh", padding: "8rem 1.5rem" }}>
+      <script dangerouslySetInnerHTML={{ __html: `location.replace(${JSON.stringify(TARGET)})` }} />
+      <p>
+        <a href={TARGET} style={{ color: "#D4AF37" }}>Continue to Selected Work</a>
+      </p>
+    </main>
   );
 }
