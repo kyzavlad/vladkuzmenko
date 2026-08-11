@@ -7,7 +7,7 @@ export const metadata = pageMeta(
   "en",
   "work",
   "Projects — SaaS, AI Products, Marketplaces & Web Apps | Vlad Kuzmenko",
-  "SaaS platforms, marketplaces, AI products, client portals and conversion websites — from MVPs to production systems. Real build stages, real screenshots, no invented metrics.",
+  "SaaS platforms, marketplaces, AI products, client portals and websites — completed projects, working products and interface solutions by Vlad Kuzmenko.",
 );
 
 export default function Page() {
