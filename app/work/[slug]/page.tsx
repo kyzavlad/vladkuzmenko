@@ -14,7 +14,8 @@ export function generateMetadata({ params }: { params: { slug: string } }): Meta
   const project = getCuratedProject(params.slug);
   if (!project) return {};
   const c = project.content.en;
-  return pageMeta("en", `work/${params.slug}`, `${c.name} — ${c.type} | Vlad Kuzmenko`, c.outcome, project.shots[0]);
+  const shareImage = project.caseShots?.[0] ?? project.shots[0];
+  return pageMeta("en", `work/${params.slug}`, `${c.name} — ${c.type} | Vlad Kuzmenko`, c.outcome, shareImage);
 }
 
 export default function Page({ params }: { params: { slug: string } }) {
