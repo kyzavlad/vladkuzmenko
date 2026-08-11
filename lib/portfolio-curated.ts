@@ -44,151 +44,81 @@ const COMMERCIAL_PRIORITY = [
 
 const rank = new Map<string, number>(COMMERCIAL_PRIORITY.map((key, index) => [key, index]));
 
-/**
- * Status copy is intentionally project-specific. It tells a buyer what proof or
- * operating maturity exists without inflating concepts into launched products.
- */
+const COMPLETED = {
+  en: "Completed project",
+  ua: "Завершений проєкт",
+  ru: "Завершённый проект",
+} satisfies Record<Lang, string>;
+
 const PROFESSIONAL_STATUS: Record<string, Record<Lang, string>> = {
   turbotaai: {
-    en: "Working SaaS · active product development",
-    ua: "Робочий SaaS · активний розвиток продукту",
-    ru: "Рабочий SaaS · активное развитие продукта",
+    en: "Working product · in development",
+    ua: "Робочий продукт · у розвитку",
+    ru: "Рабочий продукт · в развитии",
   },
   tutorivo: {
-    en: "Live MVP · tested marketplace flow",
-    ua: "Запущений MVP · перевірений marketplace flow",
-    ru: "Запущенный MVP · проверенный marketplace flow",
+    en: "Launched MVP",
+    ua: "Запущений MVP",
+    ru: "Запущенный MVP",
   },
   "dating-crm": {
-    en: "Operational CRM · validated workflow",
-    ua: "Операційна CRM · перевірений робочий процес",
-    ru: "Операционная CRM · проверенный рабочий процесс",
+    en: "Completed CRM prototype",
+    ua: "Завершений CRM-прототип",
+    ru: "Завершённый CRM-прототип",
   },
   "status-auto": {
-    en: "Buyer journey · interactive system prototype",
-    ua: "Buyer journey · інтерактивний системний прототип",
-    ru: "Buyer journey · интерактивный системный прототип",
+    en: "Interactive prototype",
+    ua: "Інтерактивний прототип",
+    ru: "Интерактивный прототип",
   },
   ikorka: {
-    en: "Voice AI · working call demo",
-    ua: "Voice AI · робоче аудіодемо дзвінка",
-    ru: "Voice AI · рабочее аудиодемо звонка",
+    en: "Working audio demo",
+    ua: "Робоче аудіодемо",
+    ru: "Рабочее аудиодемо",
   },
   "ser-crypto": {
-    en: "Live delivery · public conversion site",
-    ua: "Production-сайт · публічний клієнтський запуск",
-    ru: "Production-сайт · публичный клиентский запуск",
+    en: "Launched client website",
+    ua: "Запущений клієнтський сайт",
+    ru: "Запущенный клиентский сайт",
   },
   "leather-clinic": {
-    en: "Live client website · lead-capture flow",
-    ua: "Production-сайт · lead capture локального сервісу",
-    ru: "Production-сайт · lead capture локального сервиса",
+    en: "Launched client website",
+    ua: "Запущений клієнтський сайт",
+    ru: "Запущенный клиентский сайт",
   },
   "scratch-lab": {
-    en: "Live service website · booking-ready journey",
-    ua: "Production-сайт · шлях до запису й дзвінка",
-    ru: "Production-сайт · путь к записи и звонку",
+    en: "Launched client website",
+    ua: "Запущений клієнтський сайт",
+    ru: "Запущенный клиентский сайт",
   },
   "cod-power-group": {
-    en: "Operations platform · implementation-ready blueprint",
-    ua: "Операційна платформа · blueprint до реалізації",
-    ru: "Операционная платформа · blueprint к реализации",
+    en: "Platform project",
+    ua: "Проєкт платформи",
+    ru: "Проект платформы",
   },
   "ai-agent-interface": {
-    en: "Voice-agent product · validated interaction model",
-    ua: "Voice-agent продукт · перевірена модель взаємодії",
-    ru: "Voice-agent продукт · проверенная модель взаимодействия",
+    en: "Interactive AI prototype",
+    ua: "Інтерактивний AI-прототип",
+    ru: "Интерактивный AI-прототип",
   },
-  "telegram-mining": {
-    en: "Telegram Mini App · retention model defined",
-    ua: "Telegram Mini App · модель утримання й рефералів",
-    ru: "Telegram Mini App · модель удержания и рефералов",
-  },
-  "un-amour": {
-    en: "Commerce storefront · purchase journey designed",
-    ua: "Ecommerce-вітрина · спроєктований purchase flow",
-    ru: "Ecommerce-витрина · спроектированный purchase flow",
-  },
-  "nft-auction": {
-    en: "Live-bidding UX · bid flow validated",
-    ua: "Live-bidding UX · перевірений bid flow",
-    ru: "Live-bidding UX · проверенный bid flow",
-  },
-  "nft-discovery": {
-    en: "Marketplace discovery · mobile flow validated",
-    ua: "Marketplace discovery · перевірений mobile flow",
-    ru: "Marketplace discovery · проверенный mobile flow",
-  },
-  "nft-collections": {
-    en: "Collections UX · mobile navigation system defined",
-    ua: "Collections UX · мобільна система навігації",
-    ru: "Collections UX · мобильная система навигации",
-  },
-  iko: {
-    en: "B2B Web3 positioning · commercial interface",
-    ua: "B2B Web3-позиціонування · комерційний інтерфейс",
-    ru: "B2B Web3-позиционирование · коммерческий интерфейс",
-  },
-  convex: {
-    en: "DeFi staking UX · trust model defined",
-    ua: "DeFi staking UX · trust-first модель",
-    ru: "DeFi staking UX · trust-first модель",
-  },
-  wallet: {
-    en: "Self-custody wallet · security-first product flow",
-    ua: "Self-custody wallet · security-first flow",
-    ru: "Self-custody wallet · security-first flow",
-  },
-  oxhash: {
-    en: "Developer platform · ecosystem acquisition flow",
-    ua: "Developer platform · ecosystem acquisition flow",
-    ru: "Developer platform · ecosystem acquisition flow",
-  },
-  carluxe: {
-    en: "Service commerce · package-to-booking journey",
-    ua: "Service commerce · шлях від пакета до запису",
-    ru: "Service commerce · путь от пакета к записи",
-  },
-  pure: {
-    en: "Product launch · comparison-led purchase flow",
-    ua: "Product launch · comparison-led purchase flow",
-    ru: "Product launch · comparison-led purchase flow",
-  },
-  kinex: {
-    en: "Wearable launch · benefit-led product story",
-    ua: "Wearable launch · benefit-led product story",
-    ru: "Wearable launch · benefit-led product story",
-  },
-  velora: {
-    en: "Commerce catalog · room-first discovery model",
-    ua: "Commerce catalog · room-first discovery",
-    ru: "Commerce catalog · room-first discovery",
-  },
-  aurea: {
-    en: "Beauty commerce · proof-led product story",
-    ua: "Beauty commerce · proof-led product story",
-    ru: "Beauty commerce · proof-led product story",
-  },
-  nevard: {
-    en: "Reusable ecommerce · multi-product framework",
-    ua: "Reusable ecommerce · multi-product framework",
-    ru: "Reusable ecommerce · multi-product framework",
-  },
-  bonatica: {
-    en: "Skincare commerce · need-based merchandising",
-    ua: "Skincare commerce · need-based merchandising",
-    ru: "Skincare commerce · need-based merchandising",
-  },
-  verna: {
-    en: "Repeat-purchase commerce · variant-led ordering",
-    ua: "Repeat-purchase ecommerce · variant-led ordering",
-    ru: "Repeat-purchase ecommerce · variant-led ordering",
-  },
-  ovulan: {
-    en: "Premium commerce · trust-first positioning",
-    ua: "Premium ecommerce · trust-first positioning",
-    ru: "Premium ecommerce · trust-first positioning",
-  },
+  "telegram-mining": COMPLETED,
+  "un-amour": COMPLETED,
+  "nft-auction": COMPLETED,
+  "nft-discovery": COMPLETED,
+  "nft-collections": COMPLETED,
+  iko: COMPLETED,
+  convex: COMPLETED,
+  wallet: COMPLETED,
+  oxhash: COMPLETED,
+  carluxe: COMPLETED,
+  pure: COMPLETED,
+  kinex: COMPLETED,
+  velora: COMPLETED,
+  aurea: COMPLETED,
+  nevard: COMPLETED,
+  bonatica: COMPLETED,
+  verna: COMPLETED,
+  ovulan: COMPLETED,
 };
 
 /** Full-length proof media. These files are not used as heavy card previews. */
@@ -269,8 +199,6 @@ function curate(project: ShowcaseProject): CuratedProject {
       };
       break;
     case "ikorka": {
-      // Ikorka is represented by its verified voice recording. Do not reuse the
-      // unrelated blockchain IKO artwork or any decorative screenshot here.
       const story = project.story;
       curated = {
         ...curated,
@@ -280,15 +208,15 @@ function curate(project: ShowcaseProject): CuratedProject {
           ? {
               en: {
                 ...story.en,
-                evidence: "The case includes the actual recorded voice-assistant conversation.",
+                evidence: "The voice-assistant conversation is available as an audio demo in the case.",
               },
               ua: {
                 ...story.ua,
-                evidence: "У кейсі доступний фактичний аудіозапис розмови голосового асистента.",
+                evidence: "Аудіозапис розмови голосового асистента доступний у кейсі.",
               },
               ru: {
                 ...story.ru,
-                evidence: "В кейсе доступна фактическая аудиозапись разговора голосового ассистента.",
+                evidence: "Аудиозапись разговора голосового ассистента доступна в кейсе.",
               },
             }
           : story,
