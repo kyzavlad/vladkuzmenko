@@ -70,7 +70,7 @@ function fallbackStory(p: ShowcaseProject, locale: Locale): ShowcaseStory {
     previous: c.problem,
     desired: c.outcome,
     system: c.built,
-    flow: [c.problem, c.built, c.value],
+    flow: [c.problem, c.built, c.value].filter(Boolean),
     evidence: hasScreens
       ? locale === "ru"
         ? "Материалы проекта доступны на этой странице."
@@ -322,7 +322,7 @@ export function PortfolioShowcaseCasePage({ slug }: { slug: string }) {
               <div>
                 <p className="text-xs font-semibold uppercase tracking-[.2em] text-zinc-600">{ui.flowLabel}</p>
                 <div className="mt-5 space-y-3">
-                  {story.flow.map((step, index) => (
+                  {story.flow.filter(Boolean).map((step, index) => (
                     <div key={`${p.key}-${index}`} className="flex gap-4 rounded-2xl border border-white/[.08] bg-[#090909] p-5">
                       <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-amber-300/25 bg-amber-300/[.07] text-xs font-bold text-amber-200">{index + 1}</div>
                       <div>
@@ -339,14 +339,16 @@ export function PortfolioShowcaseCasePage({ slug }: { slug: string }) {
 
         <section className="py-12 sm:py-20">
           <div className="container mx-auto max-w-6xl px-4">
-            <div className="grid gap-5 lg:grid-cols-3">
-              <div className="rounded-[26px] border border-amber-300/15 bg-[radial-gradient(circle_at_0%_0%,rgba(245,190,52,.1),transparent_45%),#080808] p-6 sm:p-8 lg:col-span-2">
-                <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-[.19em] text-amber-300/75">
-                  <ShieldCheck className="h-4 w-4" />
-                  {x.verified}
+            <div className={cn("grid gap-5", c.value ? "lg:grid-cols-3" : "lg:grid-cols-1")}>
+              {c.value && (
+                <div className="rounded-[26px] border border-amber-300/15 bg-[radial-gradient(circle_at_0%_0%,rgba(245,190,52,.1),transparent_45%),#080808] p-6 sm:p-8 lg:col-span-2">
+                  <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-[.19em] text-amber-300/75">
+                    <ShieldCheck className="h-4 w-4" />
+                    {x.verified}
+                  </div>
+                  <p className="mt-4 text-lg leading-8 text-zinc-100">{c.value}</p>
                 </div>
-                <p className="mt-4 text-lg leading-8 text-zinc-100">{c.value}</p>
-              </div>
+              )}
               <div className="rounded-[26px] border border-white/[.08] bg-[#080808] p-6 sm:p-8">
                 <p className="text-xs font-semibold uppercase tracking-[.19em] text-zinc-600">{x.evidence}</p>
                 <p className="mt-4 text-sm leading-7 text-zinc-300">{materialsText}</p>
