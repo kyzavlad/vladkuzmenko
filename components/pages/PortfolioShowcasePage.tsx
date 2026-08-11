@@ -48,7 +48,6 @@ const COPY = {
     capabilities: "What is inside",
     case: "Open case study",
     live: "Open live site",
-    openImage: "Open full screenshot",
     voiceProof: "AI voice assistant",
     voiceProofTitle: "Voice assistant for incoming calls",
     voiceProofBody:
@@ -79,7 +78,6 @@ const COPY = {
     capabilities: "Що всередині",
     case: "Відкрити кейс",
     live: "Відкрити живий сайт",
-    openImage: "Відкрити повний скриншот",
     voiceProof: "Голосовий AI-асистент",
     voiceProofTitle: "Асистент для вхідних дзвінків",
     voiceProofBody:
@@ -110,7 +108,6 @@ const COPY = {
     capabilities: "Что внутри",
     case: "Открыть кейс",
     live: "Открыть живой сайт",
-    openImage: "Открыть полный скриншот",
     voiceProof: "Голосовой AI-ассистент",
     voiceProofTitle: "Ассистент для входящих звонков",
     voiceProofBody:
@@ -131,13 +128,18 @@ function StatusBadge({ p, locale }: { p: ShowcaseProject; locale: Locale }) {
   return (
     <span
       className={cn(
-        "inline-flex items-center gap-2 rounded-full border px-3 py-1.5 text-[11px] font-bold shadow-sm",
+        "inline-flex items-center gap-2 rounded-full border bg-white/[.035] px-3 py-1.5 text-[11px] font-semibold text-zinc-200 shadow-sm backdrop-blur-sm",
         green
-          ? "border-emerald-200/70 bg-emerald-300 text-emerald-950 shadow-emerald-400/10"
-          : "border-amber-100/70 bg-amber-300 text-black shadow-amber-300/10",
+          ? "border-emerald-300/20"
+          : "border-amber-300/20",
       )}
     >
-      <span className="h-1.5 w-1.5 rounded-full bg-current" />
+      <span
+        className={cn(
+          "h-1.5 w-1.5 shrink-0 rounded-full",
+          green ? "bg-emerald-300" : "bg-amber-300",
+        )}
+      />
       {statusText(locale, p.status, p.statusLabel)}
     </span>
   );
@@ -166,7 +168,17 @@ function VoiceProof({ p, locale }: { p: ShowcaseProject; locale: Locale }) {
   );
 }
 
-function Media({ p, locale, eager }: { p: ShowcaseProject; locale: Locale; eager?: boolean }) {
+function Media({
+  p,
+  locale,
+  href,
+  eager,
+}: {
+  p: ShowcaseProject;
+  locale: Locale;
+  href: string;
+  eager?: boolean;
+}) {
   const x = COPY[locale];
   const c = p.content[locale];
   const shot = p.shots[0];
@@ -187,7 +199,11 @@ function Media({ p, locale, eager }: { p: ShowcaseProject; locale: Locale; eager
   }
 
   return (
-    <div className="relative flex min-h-[300px] h-full items-center justify-center overflow-hidden bg-[#050505] p-3 sm:p-5">
+    <a
+      href={href}
+      aria-label={`${c.name} — ${COPY[locale].case}`}
+      className="relative flex min-h-[300px] h-full items-center justify-center overflow-hidden bg-[#050505] p-3 sm:p-5"
+    >
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img
         src={shot}
@@ -196,17 +212,8 @@ function Media({ p, locale, eager }: { p: ShowcaseProject; locale: Locale; eager
         decoding="async"
         className="max-h-[420px] w-full object-contain object-top transition duration-500 group-hover:scale-[1.006]"
       />
-      <a
-        href={shot}
-        target="_blank"
-        rel="noopener noreferrer"
-        className="absolute bottom-4 right-4 inline-flex items-center gap-2 rounded-full border border-white/15 bg-black/80 px-3.5 py-2 text-[11px] font-semibold text-white shadow-xl backdrop-blur-md transition hover:border-amber-300/40 hover:text-amber-200"
-      >
-        {x.openImage}
-        <ExternalLink className="h-3.5 w-3.5" />
-      </a>
       <div className="pointer-events-none absolute inset-0 ring-1 ring-inset ring-white/[.06]" />
-    </div>
+    </a>
   );
 }
 
@@ -221,7 +228,7 @@ function Card({ p, locale, index }: { p: ShowcaseProject; locale: Locale; index:
     <article className="group overflow-hidden rounded-[28px] border border-white/[.09] bg-[#080808] shadow-[0_24px_80px_rgba(0,0,0,.3)] transition duration-300 hover:-translate-y-0.5 hover:border-amber-300/22">
       <div className="grid lg:grid-cols-[.88fr_1.12fr]">
         <div className="border-b border-white/[.07] lg:border-b-0 lg:border-r">
-          <Media p={p} locale={locale} eager={index < 2} />
+          <Media p={p} locale={locale} href={href} eager={index < 2} />
         </div>
 
         <div className="p-5 sm:p-7 lg:p-8">
