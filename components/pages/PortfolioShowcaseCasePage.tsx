@@ -16,49 +16,49 @@ type Locale = "en" | "ua" | "ru";
 
 const COPY = {
   en: {
-    previous: "Previous / manual process",
-    desired: "Desired outcome",
-    system: "System designed",
-    evidence: "Evidence available",
-    verified: "Verified result / current proof",
+    previous: "Before the project",
+    desired: "Goal",
+    system: "What was built",
+    evidence: "Project materials",
+    verified: "Result",
     visit: "Open live project",
     missing: "Case not found",
     back: "Back to all work",
     step: "Step",
     audio: "Voice assistant demo",
-    full: "Open full screenshot",
-    proof: "Full project proof",
-    proofNote: "Complete project screenshots are shown without cropping. Open any image to inspect the original file.",
+    full: "Open image",
+    proof: "Project gallery",
+    proofNote: "Main screens and details from the project.",
   },
   ua: {
-    previous: "Попередній / ручний процес",
-    desired: "Бажаний результат",
-    system: "Спроєктована система",
-    evidence: "Доступні докази",
-    verified: "Підтверджений результат / поточний proof",
+    previous: "До проєкту",
+    desired: "Завдання",
+    system: "Що було зроблено",
+    evidence: "Матеріали проєкту",
+    verified: "Результат",
     visit: "Відкрити живий проєкт",
     missing: "Кейс не знайдено",
     back: "Назад до всіх робіт",
     step: "Крок",
     audio: "Аудіодемо асистента",
-    full: "Відкрити повний скриншот",
-    proof: "Повний proof проєкту",
-    proofNote: "Повні скриншоти показані без обрізання. Відкрийте будь-яке зображення, щоб переглянути оригінальний файл.",
+    full: "Відкрити зображення",
+    proof: "Галерея проєкту",
+    proofNote: "Основні екрани та деталі проєкту.",
   },
   ru: {
-    previous: "Предыдущий / ручной процесс",
-    desired: "Желаемый результат",
-    system: "Спроектированная система",
-    evidence: "Доступные доказательства",
-    verified: "Подтверждённый результат / текущий proof",
+    previous: "До проекта",
+    desired: "Задача",
+    system: "Что было сделано",
+    evidence: "Материалы проекта",
+    verified: "Результат",
     visit: "Открыть живой проект",
     missing: "Кейс не найден",
     back: "Назад ко всем работам",
     step: "Шаг",
     audio: "Аудиодемо ассистента",
-    full: "Открыть полный скриншот",
-    proof: "Полный proof проекта",
-    proofNote: "Полные скриншоты показаны без обрезания. Откройте любое изображение, чтобы посмотреть исходный файл.",
+    full: "Открыть изображение",
+    proof: "Галерея проекта",
+    proofNote: "Основные экраны и детали проекта.",
   },
 } as const;
 
@@ -70,25 +70,25 @@ function fallbackStory(p: ShowcaseProject, locale: Locale): ShowcaseStory {
     previous: c.problem,
     desired: c.outcome,
     system: c.built,
-    flow: [c.problem, c.built, c.result],
+    flow: [c.problem, c.built, c.value],
     evidence: hasScreens
       ? locale === "ru"
-        ? "Реальные изображения проекта показаны на этой странице."
+        ? "Материалы проекта доступны на этой странице."
         : locale === "ua"
-          ? "Реальні зображення проєкту показані на цій сторінці."
-          : "Real project images are shown on this page."
+          ? "Матеріали проєкту доступні на цій сторінці."
+          : "Project materials are available on this page."
       : p.audio
         ? locale === "ru"
-          ? "Аудиозапись голосового ассистента доступна на этой странице."
+          ? "Аудиодемо проекта доступно на этой странице."
           : locale === "ua"
-            ? "Аудіозапис голосового асистента доступний на цій сторінці."
-            : "The voice-assistant recording is available on this page."
+            ? "Аудіодемо проєкту доступне на цій сторінці."
+            : "The project audio demo is available on this page."
         : locale === "ru"
-          ? "Визуальный материал не публикуется, пока его нет в проверенных материалах проекта."
+          ? "Описание проекта представлено на этой странице."
           : locale === "ua"
-            ? "Візуальний матеріал не публікується, доки його немає в перевірених матеріалах проєкту."
-            : "No visual asset is published until it exists in verified project materials.",
-    resultNote: c.result,
+            ? "Опис проєкту представлений на цій сторінці."
+            : "The project is described on this page.",
+    resultNote: c.value,
   };
 }
 
@@ -186,6 +186,29 @@ export function PortfolioShowcaseCasePage({ slug }: { slug: string }) {
   const story = p.story?.[locale] ?? fallbackStory(p, locale);
   const route = `${workHref}/${p.caseSlug}`;
   const proofShots = p.caseShots?.length ? p.caseShots : p.shots;
+  const materialsText = proofShots.length > 0
+    ? locale === "ru"
+      ? "Изображения проекта доступны в галерее выше."
+      : locale === "ua"
+        ? "Зображення проєкту доступні в галереї вище."
+        : "Project images are available in the gallery above."
+    : p.audio
+      ? locale === "ru"
+        ? "Аудиодемо проекта доступно на этой странице."
+        : locale === "ua"
+          ? "Аудіодемо проєкту доступне на цій сторінці."
+          : "The project audio demo is available on this page."
+      : p.liveUrl
+        ? locale === "ru"
+          ? "Проект можно открыть по ссылке на этой странице."
+          : locale === "ua"
+            ? "Проєкт можна відкрити за посиланням на цій сторінці."
+            : "The project can be opened from the link on this page."
+        : locale === "ru"
+          ? "Описание и детали проекта представлены в этом кейсе."
+          : locale === "ua"
+            ? "Опис і деталі проєкту представлені в цьому кейсі."
+            : "The project description and details are included in this case.";
 
   return (
     <div className="min-h-screen overflow-x-hidden bg-black text-white">
@@ -250,7 +273,7 @@ export function PortfolioShowcaseCasePage({ slug }: { slug: string }) {
             <div className="container mx-auto max-w-6xl px-4">
               <div className="rounded-[28px] border border-amber-300/15 bg-[radial-gradient(circle_at_20%_0%,rgba(245,190,52,.12),transparent_38%),#070707] p-6 shadow-[0_30px_100px_rgba(0,0,0,.45)] sm:p-9">
                 <p className="text-xs font-bold uppercase tracking-[.19em] text-amber-300/75">{x.audio}</p>
-                <p className="mt-3 max-w-2xl text-lg leading-7 text-zinc-300">{story.evidence}</p>
+                <p className="mt-3 max-w-2xl text-lg leading-7 text-zinc-300">{materialsText}</p>
                 {/* eslint-disable-next-line jsx-a11y/media-has-caption */}
                 <audio controls preload="metadata" src={p.audio} className="mt-6 w-full" />
               </div>
@@ -322,12 +345,11 @@ export function PortfolioShowcaseCasePage({ slug }: { slug: string }) {
                   <ShieldCheck className="h-4 w-4" />
                   {x.verified}
                 </div>
-                <p className="mt-4 text-lg leading-8 text-zinc-100">{story.resultNote}</p>
-                <p className="mt-4 text-sm leading-6 text-zinc-500">{c.result}</p>
+                <p className="mt-4 text-lg leading-8 text-zinc-100">{c.value}</p>
               </div>
               <div className="rounded-[26px] border border-white/[.08] bg-[#080808] p-6 sm:p-8">
                 <p className="text-xs font-semibold uppercase tracking-[.19em] text-zinc-600">{x.evidence}</p>
-                <p className="mt-4 text-sm leading-7 text-zinc-300">{story.evidence}</p>
+                <p className="mt-4 text-sm leading-7 text-zinc-300">{materialsText}</p>
                 {p.liveUrl && (
                   <a href={p.liveUrl} target="_blank" rel="noopener noreferrer" className="mt-5 inline-flex items-center text-sm font-semibold text-amber-300">
                     {x.visit}
