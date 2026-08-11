@@ -113,7 +113,7 @@ export function Hero() {
 
           <button
             type="button"
-            onClick={() => scrollTo("work")}
+            onClick={() => scrollTo("selected-work")}
             className="mt-4 inline-flex flex-col items-center gap-2 text-gray-600 hover:text-amber-300 transition-colors"
             aria-label={t.hero.viewWork}
           >
