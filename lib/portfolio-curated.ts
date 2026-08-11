@@ -35,7 +35,6 @@ const COMMERCIAL_PRIORITY = [
   "bonatica",
   "verna",
   "ovulan",
-  "reverie",
 ] as const;
 
 const rank = new Map<string, number>(COMMERCIAL_PRIORITY.map((key, index) => [key, index]));
@@ -45,17 +44,32 @@ function curate(project: ShowcaseProject): ShowcaseProject {
     case "tutorivo":
       return { ...project, liveUrl: "https://tutorivo.eu/" };
     case "dating-crm":
-      return { ...project, shots: ["/case-studies/dating-crm/hero.avif"], mediaFit: "contain" };
+      return {
+        ...project,
+        shots: ["/portfolio/full/dating-crm-full.png"],
+        mediaFit: "contain",
+      };
     case "leather-clinic":
-      return { ...project, shots: ["/case-studies/leather-clinic/hero.avif"], mediaFit: "cover" };
+      return {
+        ...project,
+        shots: ["/portfolio/full/leather-clinic-full.png"],
+        mediaFit: "contain",
+      };
     case "scratch-lab":
-      return { ...project, shots: ["/case-studies/scratch-lab/hero.avif"], mediaFit: "cover" };
+      return {
+        ...project,
+        shots: ["/portfolio/full/scratch-lab-full.png"],
+        mediaFit: "contain",
+      };
     case "ai-agent-interface":
-      return { ...project, shots: ["/case-studies/ai-agent-interface/hero.avif"], mediaFit: "contain" };
+      return {
+        ...project,
+        shots: ["/portfolio/full/ai-agent-voice-playground-full.png"],
+        mediaFit: "contain",
+      };
     case "ikorka": {
-      // Never reuse the unrelated blockchain IKO artwork here. Ikorka's verified
-      // proof is the actual voice recording, so visual + structured data both
-      // stay image-free until a verified Ikorka photo is available.
+      // Ikorka is represented by its verified voice recording. Do not reuse the
+      // unrelated blockchain IKO artwork or any decorative screenshot here.
       const story = project.story;
       return {
         ...project,
@@ -63,9 +77,18 @@ function curate(project: ShowcaseProject): ShowcaseProject {
         mediaFit: "contain",
         story: story
           ? {
-              en: { ...story.en, evidence: "A real audio recording of the voice assistant is embedded in this case." },
-              ua: { ...story.ua, evidence: "У кейсі вбудований реальний аудіозапис голосового асистента." },
-              ru: { ...story.ru, evidence: "В кейс встроена реальная аудиозапись голосового ассистента." },
+              en: {
+                ...story.en,
+                evidence: "The case includes the actual recorded voice-assistant conversation.",
+              },
+              ua: {
+                ...story.ua,
+                evidence: "У кейсі доступний фактичний аудіозапис розмови голосового асистента.",
+              },
+              ru: {
+                ...story.ru,
+                evidence: "В кейсе доступна фактическая аудиозапись разговора голосового ассистента.",
+              },
             }
           : story,
       };
@@ -76,8 +99,13 @@ function curate(project: ShowcaseProject): ShowcaseProject {
 }
 
 export const CURATED_PORTFOLIO: ShowcaseProject[] = SHOWCASE_PORTFOLIO
+  .filter((project) => project.key !== "reverie")
   .map(curate)
   .sort((a, b) => (rank.get(a.key) ?? 10_000) - (rank.get(b.key) ?? 10_000));
+
+export const CURATED_CASE_SLUGS = CURATED_PORTFOLIO.map(
+  (project) => project.caseSlug ?? project.key,
+);
 
 export function getCuratedProject(slug: string): ShowcaseProject | undefined {
   return CURATED_PORTFOLIO.find((project) => project.caseSlug === slug || project.key === slug);
@@ -127,7 +155,9 @@ export function curatedWorkJsonLd(lang: Lang) {
         name: c.name,
         url: `https://vladkuzmenko.com${localePath(lang)}/work/${project.caseSlug ?? project.key}`,
         description: c.outcome,
-        ...(project.shots[0] ? { image: `https://vladkuzmenko.com${project.shots[0]}` } : {}),
+        ...(project.shots[0]
+          ? { image: `https://vladkuzmenko.com${project.shots[0]}` }
+          : {}),
         ...(project.liveUrl ? { sameAs: project.liveUrl } : {}),
       };
     }),
