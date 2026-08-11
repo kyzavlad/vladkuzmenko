@@ -257,13 +257,15 @@ function Card({ p, locale, index }: { p: ShowcaseProject; locale: Locale; index:
             </div>
           </div>
 
-          <div className="mt-4 rounded-2xl border border-amber-300/15 bg-[linear-gradient(135deg,rgba(245,190,52,.07),rgba(255,255,255,.015))] p-4">
-            <div className="mb-2 flex items-center gap-2 text-[10px] font-bold uppercase tracking-[.18em] text-amber-300/80">
-              <ShieldCheck className="h-3.5 w-3.5" />
-              {x.result}
+          {c.value && (
+            <div className="mt-4 rounded-2xl border border-amber-300/15 bg-[linear-gradient(135deg,rgba(245,190,52,.07),rgba(255,255,255,.015))] p-4">
+              <div className="mb-2 flex items-center gap-2 text-[10px] font-bold uppercase tracking-[.18em] text-amber-300/80">
+                <ShieldCheck className="h-3.5 w-3.5" />
+                {x.result}
+              </div>
+              <p className="text-sm leading-6 text-zinc-200">{c.value}</p>
             </div>
-            <p className="text-sm leading-6 text-zinc-200">{c.value}</p>
-          </div>
+          )}
 
           <div className="mt-5 border-t border-white/[.07] pt-4">
             <p className="text-[10px] font-bold uppercase tracking-[.18em] text-zinc-600">{x.capabilities}</p>
