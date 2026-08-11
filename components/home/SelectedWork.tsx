@@ -1,222 +1,130 @@
 "use client";
 
-import { useState } from "react";
 import { motion } from "framer-motion";
-import { Mic, ArrowRight } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { RequestDialog } from "@/components/ui/request-dialog";
 import { useI18n } from "@/components/i18n-provider";
-import { langHref, type Dict } from "@/lib/i18n";
+import { cn } from "@/lib/utils";
+import { langHref } from "@/lib/i18n";
+import {
+  FEATURED,
+  PORTFOLIO_UI,
+  CATEGORY_SHORT,
+  STATUS_TONE,
+  statusText,
+  type PortfolioCard,
+} from "@/lib/portfolio";
 
-type FeaturedKey = keyof Dict["selected"]["featured"];
-type CompactKey = keyof Dict["selected"]["compact"];
+type Locale = "en" | "ua" | "ru";
 
-const featuredConfig: { key: FeaturedKey; name: string; buildIndex: number; images: string[] }[] = [
-  {
-    key: "tutorivo",
-    name: "Tutorivo",
-    buildIndex: 1,
-    images: [
-      "/case-studies/tutorivo/home.webp",
-      "/case-studies/tutorivo/catalog.webp",
-      "/case-studies/tutorivo/become-tutor.webp",
-      "/case-studies/tutorivo/admin.webp",
-    ],
-  },
-  {
-    key: "statusauto",
-    name: "Status Auto",
-    buildIndex: 0,
-    images: [
-      "/case-studies/status-auto/home.webp",
-      "/case-studies/status-auto/catalog.webp",
-      "/case-studies/status-auto/form.webp",
-    ],
-  },
-  {
-    key: "turbotaai",
-    name: "TurbotaAI",
-    buildIndex: 2,
-    images: [
-      "/case-studies/turbotaai/home.webp",
-      "/case-studies/turbotaai/video.webp",
-      "/case-studies/turbotaai/pricing.webp",
-    ],
-  },
-];
+/** The homepage shows a preview only — the three strongest projects.
+ *  Everything comes from the canonical portfolio data, so a project tells the
+ *  same story here, on /work and on its case page. */
+const HOME_COUNT = 3;
 
-const compactConfig: { key: CompactKey; name: string; buildIndex: number; audio?: string }[] = [
-  { key: "ikorka", name: "Ikorka AI Voice Assistant", buildIndex: 2, audio: "/voice_assistant.MP3" },
-  { key: "datingcrm", name: "Dating CRM", buildIndex: 0 },
-  { key: "leather", name: "Leather Clinic", buildIndex: 1 },
-];
+const toneClass: Record<"green" | "amber", string> = {
+  green: "border-emerald-400/40 bg-emerald-400/10 text-emerald-300",
+  amber: "border-amber-400/40 bg-amber-400/10 text-amber-300",
+};
 
-function RequestSimilar({
-  project,
-  buildIndex,
-  variant = "outline",
-}: {
-  project: string;
-  buildIndex: number;
-  variant?: "premium" | "outline";
-}) {
-  const { t } = useI18n();
-  const s = t.selected;
-  return (
-    <RequestDialog
-      intent="case_study_request"
-      title={`${s.requestLikePrefix} ${project}`}
-      description={s.dialogDescPrefix}
-      submitLabel={s.requestSimilar}
-      successTitle={s.dialogSuccessT}
-      successMessage={s.dialogSuccessM}
-      buttonLabel={`Request similar system — ${project}`}
-      presetBuildIndex={buildIndex}
-      helpLabel={s.helpLabel}
-      helpPlaceholder={s.helpPh}
-      context={{ project }}
-    >
-      <Button
-        className={
-          variant === "premium"
-            ? "premium-button w-full"
-            : "w-full border-amber-400/40 text-amber-200 hover:bg-amber-400/10"
-        }
-        variant={variant === "outline" ? "outline" : "default"}
-      >
-        {s.requestSimilar}
-        <ArrowRight className="ml-2 h-4 w-4" />
-      </Button>
-    </RequestDialog>
-  );
-}
-
-function FeaturedCard({ cfg, i }: { cfg: (typeof featuredConfig)[number]; i: number }) {
-  const { t } = useI18n();
-  const s = t.selected;
-  const cap = s.featured[cfg.key];
-  const [active, setActive] = useState(0);
+function Preview({ p, locale, i }: { p: PortfolioCard; locale: Locale; i: number }) {
+  const ui = PORTFOLIO_UI[locale];
+  const c = p.content[locale];
+  const base = langHref(locale);
+  const localeBase = base === "/" ? "" : base;
+  const href = p.caseSlug ? `${localeBase}/work/${p.caseSlug}` : `${localeBase}/work`;
+  const flip = i % 2 === 1;
 
   return (
-    <motion.div
+    <motion.article
       initial={{ opacity: 0, y: 24 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
       transition={{ delay: i * 0.05 }}
-      className="luxe-card overflow-hidden grid lg:grid-cols-2"
+      className="luxe-card overflow-hidden"
     >
-      {/* Gallery */}
-      <div className="p-4 sm:p-6 flex flex-col gap-3 bg-gradient-to-br from-zinc-950 to-black">
-        <div className="relative rounded-xl overflow-hidden border border-zinc-800 aspect-video bg-zinc-900">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
-            src={cfg.images[active]}
-            alt={`${cfg.name} — ${cap.labels[active]}`}
-            loading="lazy"
-            className="w-full h-full object-cover object-top"
-          />
-          <span className="absolute top-3 right-3 text-[11px] font-medium px-2.5 py-1 rounded-full bg-black/70 border border-amber-400/30 text-amber-200">
-            {cap.status}
-          </span>
-        </div>
-
-        <div className="flex gap-2">
-          {cfg.images.map((src, idx) => (
-            <button
-              key={src}
-              type="button"
-              onClick={() => setActive(idx)}
-              aria-label={cap.labels[idx]}
-              className={`flex-1 relative rounded-md overflow-hidden border aspect-video transition-colors ${
-                active === idx ? "border-amber-400" : "border-zinc-800 hover:border-zinc-600"
-              }`}
-            >
+      <div className={cn("grid lg:grid-cols-2 items-stretch", flip && "lg:[&>figure]:order-2")}>
+        {p.shots.length > 0 && (
+          <figure className="relative bg-black/40 border-b lg:border-b-0 lg:border-r border-zinc-800 min-w-0 lg:min-h-[420px]">
+            <div className="relative aspect-[16/10] lg:aspect-auto lg:absolute lg:inset-0">
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={src} alt={cap.labels[idx]} loading="lazy" className="w-full h-full object-cover object-top" />
-            </button>
-          ))}
-        </div>
-        <p className="text-xs text-gray-500 text-center">{cap.labels[active]}</p>
-      </div>
-
-      {/* Content */}
-      <div className="p-8 flex flex-col">
-        <h3 className="text-2xl font-bold">{cfg.name}</h3>
-        <p className="text-xs uppercase tracking-wide text-amber-300/80 mb-5">{cap.tag}</p>
-
-        <dl className="space-y-4 text-sm flex-1">
-          <div>
-            <dt className="eyebrow mb-1">{s.problem}</dt>
-            <dd className="text-gray-300 leading-relaxed">{cap.problem}</dd>
-          </div>
-          <div>
-            <dt className="eyebrow mb-1">{s.built}</dt>
-            <dd className="text-gray-300 leading-relaxed">{cap.built}</dd>
-          </div>
-          <div>
-            <dt className="eyebrow mb-1">{s.why}</dt>
-            <dd className="text-gray-300 leading-relaxed">{cap.why}</dd>
-          </div>
-          <div className="grid sm:grid-cols-2 gap-4 pt-1">
-            <div>
-              <dt className="eyebrow mb-1">{s.status}</dt>
-              <dd className="text-gray-400">{cap.status}</dd>
+              <img
+                src={p.shots[0]}
+                alt={`${c.name} — ${c.caption ?? c.type}`}
+                loading={i === 0 ? "eager" : "lazy"}
+                decoding="async"
+                className="media-fill"
+              />
             </div>
-            <div>
-              <dt className="eyebrow mb-1">{s.tech}</dt>
-              <dd className="text-gray-400">{cap.tech}</dd>
-            </div>
+          </figure>
+        )}
+
+        <div className="p-6 sm:p-8 lg:p-10 flex flex-col min-w-0">
+          <div className="flex flex-wrap items-center gap-2.5 mb-3">
+            <span className="text-[11px] uppercase tracking-[0.16em] text-amber-300/80">
+              {CATEGORY_SHORT[p.category][locale]}
+            </span>
+            <span
+              className={cn(
+                "inline-flex items-center gap-1.5 rounded-full border px-2.5 py-0.5 text-[11px] font-medium whitespace-nowrap",
+                toneClass[STATUS_TONE[p.status]],
+              )}
+            >
+              <span className="h-1.5 w-1.5 rounded-full bg-current shrink-0" />
+              {statusText(locale, p.status, p.statusLabel)}
+            </span>
           </div>
-        </dl>
 
-        <div className="mt-6 sm:max-w-xs">
-          <RequestSimilar project={cfg.name} buildIndex={cfg.buildIndex} variant="premium" />
+          <h3 className="text-2xl sm:text-3xl font-black tracking-tight mb-1.5 break-words">{c.name}</h3>
+          <p className="text-sm text-gray-400 mb-5">{c.type}</p>
+          <p className="text-base sm:text-lg text-gray-200 leading-relaxed mb-5">{c.outcome}</p>
+
+          <div className="text-sm">
+            <p className="text-[10px] uppercase tracking-[0.16em] text-gray-500 mb-1">{ui.builtLabel}</p>
+            <p className="text-gray-400 leading-relaxed">{c.built}</p>
+          </div>
+
+          <div className="mt-5 rounded-xl border border-amber-400/25 bg-amber-400/[0.04] p-4 sm:p-5">
+            <p className="text-[10px] uppercase tracking-[0.16em] text-amber-300/80 mb-1.5">
+              {ui.resultLabel}
+            </p>
+            <p className="text-sm text-gray-100 leading-relaxed">{c.result}</p>
+          </div>
+
+          <div className="mt-5 flex flex-wrap gap-1.5">
+            {c.capabilities.slice(0, 5).map((cap) => (
+              <span
+                key={cap}
+                className="rounded-full border border-zinc-700 bg-black/40 px-2.5 py-0.5 text-[11px] text-gray-300"
+              >
+                {cap}
+              </span>
+            ))}
+          </div>
+
+          <div className="mt-6">
+            <a href={href} className="max-sm:block">
+              <Button className="premium-button max-sm:w-full h-auto min-h-11 px-6">
+                {p.caseSlug ? ui.viewCase : ui.allWorkTitle}
+                <ArrowRight className="ml-2 h-4 w-4 shrink-0" />
+              </Button>
+            </a>
+          </div>
         </div>
       </div>
-    </motion.div>
-  );
-}
-
-function CompactCard({ cfg, i }: { cfg: (typeof compactConfig)[number]; i: number }) {
-  const { t } = useI18n();
-  const cap = t.selected.compact[cfg.key];
-  return (
-    <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true }}
-      transition={{ delay: i * 0.05 }}
-      className="luxe-card p-6 flex flex-col"
-    >
-      <div className="flex items-center justify-between mb-3">
-        <h3 className="text-lg font-semibold">{cfg.name}</h3>
-        {cfg.audio && <Mic className="h-5 w-5 text-amber-400/80" />}
-      </div>
-      <p className="text-xs uppercase tracking-wide text-amber-300/80 mb-3">{cap.tag}</p>
-      <p className="text-sm text-gray-400 leading-relaxed flex-1">{cap.blurb}</p>
-
-      {cfg.audio && (
-        <div className="mt-4">
-          {/* eslint-disable-next-line jsx-a11y/media-has-caption */}
-          <audio controls preload="none" src={cfg.audio} className="w-full">
-            Your browser does not support the audio element.
-          </audio>
-        </div>
-      )}
-
-      <div className="mt-5">
-        <RequestSimilar project={cfg.name} buildIndex={cfg.buildIndex} />
-      </div>
-    </motion.div>
+    </motion.article>
   );
 }
 
 export function SelectedWork() {
   const { t, lang } = useI18n();
-  const base = langHref(lang);
+  const locale: Locale = lang === "ua" || lang === "ru" ? lang : "en";
+  const base = langHref(locale);
   const workHref = base === "/" ? "/work" : `${base}/work`;
   const allLabel =
-    lang === "ua" ? "Переглянути всі роботи" : lang === "ru" ? "Смотреть все работы" : "View all work";
+    locale === "ua" ? "Переглянути всі роботи" : locale === "ru" ? "Смотреть все работы" : "View all work";
+  const projects = FEATURED.slice(0, HOME_COUNT);
+
   return (
     <section
       id="selected-work"
@@ -237,15 +145,9 @@ export function SelectedWork() {
           <p className="text-lg text-gray-400">{t.selected.desc}</p>
         </motion.div>
 
-        <div className="space-y-6 max-w-6xl mx-auto">
-          {featuredConfig.map((cfg, i) => (
-            <FeaturedCard key={cfg.key} cfg={cfg} i={i} />
-          ))}
-        </div>
-
-        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto mt-6">
-          {compactConfig.map((cfg, i) => (
-            <CompactCard key={cfg.key} cfg={cfg} i={i} />
+        <div className="space-y-8 max-w-6xl mx-auto">
+          {projects.map((p, i) => (
+            <Preview key={p.key} p={p} locale={locale} i={i} />
           ))}
         </div>
 

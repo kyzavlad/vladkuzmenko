@@ -9,3 +9,23 @@
 # Удалите или закомментируйте плагин
 # [[plugins]]
 #   package = "@netlify/plugin-nextjs"
+
+# /ai-product-development was merged into /work. Real 301s so link equity moves;
+# the exported pages also carry a canonical + client redirect as a fallback.
+[[redirects]]
+  from = "/ai-product-development"
+  to = "/work"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/ua/ai-product-development"
+  to = "/ua/work"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/ru/ai-product-development"
+  to = "/ru/work"
+  status = 301
+  force = true
