@@ -27,6 +27,8 @@ const COPY = {
     step: "Step",
     audio: "Voice assistant demo",
     full: "Open full screenshot",
+    proof: "Full project proof",
+    proofNote: "Complete project screenshots are shown without cropping. Open any image to inspect the original file.",
   },
   ua: {
     previous: "Попередній / ручний процес",
@@ -40,6 +42,8 @@ const COPY = {
     step: "Крок",
     audio: "Аудіодемо асистента",
     full: "Відкрити повний скриншот",
+    proof: "Повний proof проєкту",
+    proofNote: "Повні скриншоти показані без обрізання. Відкрийте будь-яке зображення, щоб переглянути оригінальний файл.",
   },
   ru: {
     previous: "Предыдущий / ручной процесс",
@@ -53,6 +57,8 @@ const COPY = {
     step: "Шаг",
     audio: "Аудиодемо ассистента",
     full: "Открыть полный скриншот",
+    proof: "Полный proof проекта",
+    proofNote: "Полные скриншоты показаны без обрезания. Откройте любое изображение, чтобы посмотреть исходный файл.",
   },
 } as const;
 
@@ -91,13 +97,11 @@ function Badge({ p, locale }: { p: ShowcaseProject; locale: Locale }) {
   return (
     <span
       className={cn(
-        "inline-flex items-center gap-1.5 rounded-full border px-3 py-1.5 text-[10px] font-bold",
-        green
-          ? "border-emerald-200/70 bg-emerald-300 text-emerald-950"
-          : "border-amber-100/70 bg-amber-300 text-black",
+        "inline-flex items-center gap-2 rounded-full border bg-white/[.035] px-3 py-1.5 text-[11px] font-semibold text-zinc-200",
+        green ? "border-emerald-300/20" : "border-amber-300/20",
       )}
     >
-      <span className="h-1.5 w-1.5 rounded-full bg-current" />
+      <span className={cn("h-1.5 w-1.5 shrink-0 rounded-full", green ? "bg-emerald-300" : "bg-amber-300")} />
       {statusText(locale, p.status, p.statusLabel)}
     </span>
   );
@@ -125,6 +129,30 @@ function CaseRequest({ locale, route, name }: { locale: Locale; route: string; n
         <ArrowRight className="ml-2 h-4 w-4" />
       </Button>
     </RequestDialog>
+  );
+}
+
+function ProofImage({ shot, name, label, eager = false }: { shot: string; name: string; label: string; eager?: boolean }) {
+  return (
+    <a
+      href={shot}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="group relative flex min-h-[260px] items-start justify-center overflow-hidden rounded-[26px] border border-white/[.09] bg-[#070707] p-3 shadow-[0_24px_80px_rgba(0,0,0,.32)] sm:p-5"
+    >
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img
+        src={shot}
+        alt={name}
+        loading={eager ? "eager" : "lazy"}
+        decoding="async"
+        className="max-h-[820px] w-full object-contain object-top transition duration-500 group-hover:scale-[1.003]"
+      />
+      <span className="absolute bottom-4 right-4 inline-flex items-center gap-2 rounded-full border border-white/15 bg-black/80 px-3.5 py-2 text-[11px] font-semibold text-white shadow-xl backdrop-blur-md transition group-hover:border-amber-300/35 group-hover:text-amber-200">
+        {label}
+        <ExternalLink className="h-3.5 w-3.5" />
+      </span>
+    </a>
   );
 }
 
@@ -157,6 +185,7 @@ export function PortfolioShowcaseCasePage({ slug }: { slug: string }) {
   const c = p.content[locale];
   const story = p.story?.[locale] ?? fallbackStory(p, locale);
   const route = `${workHref}/${p.caseSlug}`;
+  const proofShots = p.caseShots?.length ? p.caseShots : p.shots;
 
   return (
     <div className="min-h-screen overflow-x-hidden bg-black text-white">
@@ -194,34 +223,29 @@ export function PortfolioShowcaseCasePage({ slug }: { slug: string }) {
           </div>
         </section>
 
-        {p.shots[0] && (
+        {proofShots.length > 0 && (
           <section className="py-8 sm:py-12">
             <div className="container mx-auto max-w-6xl px-4">
-              <a
-                href={p.shots[0]}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="group relative block min-h-[360px] overflow-hidden rounded-[28px] border border-white/[.09] bg-[#070707] p-3 shadow-[0_30px_100px_rgba(0,0,0,.45)] sm:min-h-[520px] sm:p-5"
-              >
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
-                  src={p.shots[0]}
-                  alt={`${c.name} — ${c.caption ?? c.type}`}
-                  className={cn(
-                    "absolute inset-0 h-full w-full transition duration-500 group-hover:scale-[1.004]",
-                    p.mediaFit === "contain" ? "object-contain object-top p-3 sm:p-5" : "object-cover object-top",
-                  )}
-                />
-                <span className="absolute bottom-5 right-5 inline-flex items-center gap-2 rounded-full border border-white/15 bg-black/80 px-4 py-2 text-xs font-semibold text-white backdrop-blur-md">
-                  {x.full}
-                  <ExternalLink className="h-3.5 w-3.5" />
-                </span>
-              </a>
+              <div className="mb-5">
+                <p className="text-xs font-semibold uppercase tracking-[.2em] text-amber-300/70">{x.proof}</p>
+                <p className="mt-2 max-w-2xl text-sm leading-6 text-zinc-500">{x.proofNote}</p>
+              </div>
+              <div className="space-y-5">
+                {proofShots.map((shot, index) => (
+                  <ProofImage
+                    key={shot}
+                    shot={shot}
+                    name={`${c.name} — ${c.caption ?? c.type} — ${index + 1}`}
+                    label={x.full}
+                    eager={index === 0}
+                  />
+                ))}
+              </div>
             </div>
           </section>
         )}
 
-        {p.audio && !p.shots[0] && (
+        {p.audio && proofShots.length === 0 && (
           <section className="py-8 sm:py-12">
             <div className="container mx-auto max-w-6xl px-4">
               <div className="rounded-[28px] border border-amber-300/15 bg-[radial-gradient(circle_at_20%_0%,rgba(245,190,52,.12),transparent_38%),#070707] p-6 shadow-[0_30px_100px_rgba(0,0,0,.45)] sm:p-9">
@@ -322,7 +346,7 @@ export function PortfolioShowcaseCasePage({ slug }: { slug: string }) {
               </div>
             </div>
 
-            {p.audio && p.shots[0] && (
+            {p.audio && proofShots.length > 0 && (
               <div className="mt-5 rounded-[26px] border border-white/[.08] bg-[#080808] p-6 sm:p-8">
                 <p className="text-xs font-semibold uppercase tracking-[.19em] text-zinc-600">{x.audio}</p>
                 {/* eslint-disable-next-line jsx-a11y/media-has-caption */}
@@ -331,38 +355,6 @@ export function PortfolioShowcaseCasePage({ slug }: { slug: string }) {
             )}
           </div>
         </section>
-
-        {p.shots.length > 1 && (
-          <section className="border-t border-white/[.06] bg-[#040404] py-12 sm:py-20">
-            <div className="container mx-auto max-w-6xl px-4">
-              <p className="text-xs font-semibold uppercase tracking-[.2em] text-amber-300/70">{ui.galleryLabel}</p>
-              <h2 className="mt-3 text-3xl font-black tracking-tight sm:text-4xl">{ui.galleryNote}</h2>
-              <div className="mt-8 grid gap-4 md:grid-cols-2">
-                {p.shots.slice(1).map((shot, index) => (
-                  <a
-                    key={shot}
-                    href={shot}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="group relative aspect-[16/9] overflow-hidden rounded-[22px] border border-white/[.08] bg-[#090909]"
-                  >
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img
-                      src={shot}
-                      alt={`${c.name} — ${index + 2}`}
-                      loading="lazy"
-                      className={cn(
-                        "absolute inset-0 h-full w-full transition duration-500 group-hover:scale-[1.01]",
-                        p.mediaFit === "contain" ? "object-contain p-3" : "object-cover object-top",
-                      )}
-                    />
-                    <span className="absolute bottom-3 right-3 rounded-full border border-white/15 bg-black/75 px-3 py-1.5 text-[10px] font-semibold text-white backdrop-blur-md">{x.full}</span>
-                  </a>
-                ))}
-              </div>
-            </div>
-          </section>
-        )}
 
         <section className="border-t border-white/[.06] py-14 sm:py-20">
           <div className="container mx-auto max-w-4xl px-4 text-center">
