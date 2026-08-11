@@ -2,13 +2,12 @@ import type { Metadata } from "next";
 import { I18nProvider } from "@/components/i18n-provider";
 import { PortfolioShowcaseCasePage } from "@/components/pages/PortfolioShowcaseCasePage";
 import { pageMeta } from "@/lib/page-meta";
-import { SHOWCASE_CASE_SLUGS } from "@/lib/portfolio-showcase";
-import { getCuratedProject, curatedCaseJsonLd } from "@/lib/portfolio-curated";
+import { CURATED_CASE_SLUGS, getCuratedProject, curatedCaseJsonLd } from "@/lib/portfolio-curated";
 
 export const dynamicParams = false;
 
 export function generateStaticParams() {
-  return SHOWCASE_CASE_SLUGS.map((slug) => ({ slug }));
+  return CURATED_CASE_SLUGS.map((slug) => ({ slug }));
 }
 
 export function generateMetadata({ params }: { params: { slug: string } }): Metadata {
