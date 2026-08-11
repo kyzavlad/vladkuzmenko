@@ -1,10 +1,14 @@
 import { I18nProvider } from "@/components/i18n-provider";
 import { PortfolioShowcasePage } from "@/components/pages/PortfolioShowcasePage";
 import { pageMeta } from "@/lib/page-meta";
-import { PORTFOLIO_UI } from "@/lib/portfolio";
 import { curatedWorkJsonLd } from "@/lib/portfolio-curated";
 
-export const metadata = pageMeta("en", "work", PORTFOLIO_UI.en.metaTitle, PORTFOLIO_UI.en.metaDesc);
+export const metadata = pageMeta(
+  "en",
+  "work",
+  "Projects — SaaS, AI Products, Marketplaces & Web Apps | Vlad Kuzmenko",
+  "SaaS platforms, marketplaces, AI products, client portals and conversion websites — from MVPs to production systems. Real build stages, real screenshots, no invented metrics.",
+);
 
 export default function Page() {
   return (
