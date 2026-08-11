@@ -9,7 +9,8 @@ import { useI18n } from "@/components/i18n-provider";
 import { cn } from "@/lib/utils";
 import { langHref } from "@/lib/i18n";
 import { CASE_UI, CATEGORY_SHORT, STATUS_TONE, statusText } from "@/lib/portfolio";
-import { getShowcaseProject, type ShowcaseProject, type ShowcaseStory } from "@/lib/portfolio-showcase";
+import { type ShowcaseProject, type ShowcaseStory } from "@/lib/portfolio-showcase";
+import { getCuratedProject } from "@/lib/portfolio-curated";
 
 type Locale = "en" | "ua" | "ru";
 
@@ -30,14 +31,16 @@ function fallbackStory(p: ShowcaseProject, locale: Locale): ShowcaseStory {
     flow: [c.problem, c.built, c.result],
     evidence: hasScreens
       ? locale === "ru" ? "Реальные изображения проекта показаны на этой странице." : locale === "ua" ? "Реальні зображення проєкту показані на цій сторінці." : "Real project images are shown on this page."
-      : locale === "ru" ? "Визуальный материал не публикуется, пока его нет в проверенных материалах проекта." : locale === "ua" ? "Візуальний матеріал не публікується, доки його немає в перевірених матеріалах проєкту." : "No visual asset is published until it exists in verified project materials.",
+      : p.audio
+        ? locale === "ru" ? "Реальная запись голосового ассистента доступна на этой странице." : locale === "ua" ? "Реальний запис голосового асистента доступний на цій сторінці." : "A real recording of the voice assistant is available on this page."
+        : locale === "ru" ? "Визуальный материал не публикуется, пока его нет в проверенных материалах проекта." : locale === "ua" ? "Візуальний матеріал не публікується, доки його немає в перевірених матеріалах проєкту." : "No visual asset is published until it exists in verified project materials.",
     resultNote: c.result,
   };
 }
 
 function Badge({ p, locale }: { p: ShowcaseProject; locale: Locale }) {
   const green = STATUS_TONE[p.status] === "green";
-  return <span className={cn("inline-flex items-center gap-1.5 rounded-full border px-2.5 py-1 text-[10px] font-semibold", green ? "border-emerald-400/35 bg-emerald-400/10 text-emerald-200" : "border-amber-400/35 bg-amber-400/10 text-amber-200")}><span className="h-1.5 w-1.5 rounded-full bg-current" />{statusText(locale, p.status, p.statusLabel)}</span>;
+  return <span className={cn("inline-flex items-center gap-1.5 rounded-full border px-3 py-1.5 text-[10px] font-bold", green ? "border-emerald-200/70 bg-emerald-300 text-emerald-950" : "border-amber-100/70 bg-amber-300 text-black")}><span className="h-1.5 w-1.5 rounded-full bg-current" />{statusText(locale, p.status, p.statusLabel)}</span>;
 }
 
 function CaseRequest({ locale, route, name }: { locale: Locale; route: string; name: string }) {
@@ -54,7 +57,7 @@ export function PortfolioShowcaseCasePage({ slug }: { slug: string }) {
   const locale: Locale = lang === "ua" || lang === "ru" ? lang : "en";
   const ui = CASE_UI[locale];
   const x = COPY[locale];
-  const p = getShowcaseProject(slug);
+  const p = getCuratedProject(slug);
   const base = langHref(locale);
   const localeBase = base === "/" ? "" : base;
   const workHref = `${localeBase}/work`;
@@ -88,6 +91,8 @@ export function PortfolioShowcaseCasePage({ slug }: { slug: string }) {
 
         {p.shots[0] && <section className="py-8 sm:py-12"><div className="container mx-auto max-w-6xl px-4"><div className="relative aspect-[16/9] overflow-hidden rounded-[28px] border border-white/[.09] bg-[#070707] shadow-[0_30px_100px_rgba(0,0,0,.45)]">{/* eslint-disable-next-line @next/next/no-img-element */}<img src={p.shots[0]} alt={`${c.name} — ${c.caption ?? c.type}`} className={cn("absolute inset-0 h-full w-full", p.mediaFit === "contain" ? "object-contain p-3 sm:p-5" : "object-cover object-top")} /></div></div></section>}
 
+        {p.audio && !p.shots[0] && <section className="py-8 sm:py-12"><div className="container mx-auto max-w-6xl px-4"><div className="rounded-[28px] border border-amber-300/15 bg-[radial-gradient(circle_at_20%_0%,rgba(245,190,52,.12),transparent_38%),#070707] p-6 shadow-[0_30px_100px_rgba(0,0,0,.45)] sm:p-9"><p className="text-xs font-bold uppercase tracking-[.19em] text-amber-300/75">{x.audio}</p><p className="mt-3 max-w-2xl text-lg leading-7 text-zinc-300">{story.evidence}</p>{/* eslint-disable-next-line jsx-a11y/media-has-caption */}<audio controls preload="metadata" src={p.audio} className="mt-6 w-full" /></div></div></section>}
+
         <section className="py-10 sm:py-16"><div className="container mx-auto max-w-6xl px-4"><div className="grid gap-4 md:grid-cols-2">
           {[[ui.contextLabel, story.context], [ui.problemLabel, c.problem], [x.previous, story.previous], [x.desired, story.desired]].map(([label, body], index) => <div key={label} className={cn("rounded-[24px] border p-6 sm:p-7", index === 3 ? "border-amber-300/15 bg-[linear-gradient(135deg,rgba(245,190,52,.07),#080808)]" : "border-white/[.08] bg-[#080808]")}><p className={cn("text-[10px] font-semibold uppercase tracking-[.19em]", index === 3 ? "text-amber-300/70" : "text-zinc-600")}>{label}</p><p className="mt-3 leading-7 text-zinc-300">{body}</p></div>)}
         </div></div></section>
@@ -100,7 +105,7 @@ export function PortfolioShowcaseCasePage({ slug }: { slug: string }) {
         <section className="py-12 sm:py-20"><div className="container mx-auto max-w-6xl px-4">
           <div className="grid gap-5 lg:grid-cols-3"><div className="rounded-[26px] border border-amber-300/15 bg-[radial-gradient(circle_at_0%_0%,rgba(245,190,52,.1),transparent_45%),#080808] p-6 sm:p-8 lg:col-span-2"><div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-[.19em] text-amber-300/75"><ShieldCheck className="h-4 w-4" />{x.verified}</div><p className="mt-4 text-lg leading-8 text-zinc-100">{story.resultNote}</p><p className="mt-4 text-sm leading-6 text-zinc-500">{c.result}</p></div><div className="rounded-[26px] border border-white/[.08] bg-[#080808] p-6 sm:p-8"><p className="text-xs font-semibold uppercase tracking-[.19em] text-zinc-600">{x.evidence}</p><p className="mt-4 text-sm leading-7 text-zinc-300">{story.evidence}</p>{p.liveUrl && <a href={p.liveUrl} target="_blank" rel="noopener noreferrer" className="mt-5 inline-flex items-center text-sm font-semibold text-amber-300">{x.visit}<ExternalLink className="ml-2 h-3.5 w-3.5" /></a>}</div></div>
           <div className="mt-5 rounded-[26px] border border-white/[.08] bg-[#080808] p-6 sm:p-8"><p className="text-xs font-semibold uppercase tracking-[.19em] text-zinc-600">{ui.capabilitiesLabel}</p><div className="mt-4 flex flex-wrap gap-2">{c.capabilities.map((cap) => <span key={cap} className="rounded-full border border-white/10 bg-white/[.035] px-3 py-1.5 text-xs text-zinc-300">{cap}</span>)}</div></div>
-          {p.audio && <div className="mt-5 rounded-[26px] border border-white/[.08] bg-[#080808] p-6 sm:p-8"><p className="text-xs font-semibold uppercase tracking-[.19em] text-zinc-600">{x.audio}</p>{/* eslint-disable-next-line jsx-a11y/media-has-caption */}<audio controls preload="none" src={p.audio} className="mt-4 w-full" /></div>}
+          {p.audio && p.shots[0] && <div className="mt-5 rounded-[26px] border border-white/[.08] bg-[#080808] p-6 sm:p-8"><p className="text-xs font-semibold uppercase tracking-[.19em] text-zinc-600">{x.audio}</p>{/* eslint-disable-next-line jsx-a11y/media-has-caption */}<audio controls preload="none" src={p.audio} className="mt-4 w-full" /></div>}
         </div></section>
 
         {p.shots.length > 1 && <section className="border-t border-white/[.06] bg-[#040404] py-12 sm:py-20"><div className="container mx-auto max-w-6xl px-4"><p className="text-xs font-semibold uppercase tracking-[.2em] text-amber-300/70">{ui.galleryLabel}</p><h2 className="mt-3 text-3xl font-black tracking-tight sm:text-4xl">{ui.galleryNote}</h2><div className="mt-8 grid gap-4 md:grid-cols-2">{p.shots.slice(1).map((shot, index) => <div key={shot} className="relative aspect-[16/9] overflow-hidden rounded-[22px] border border-white/[.08] bg-[#090909]">{/* eslint-disable-next-line @next/next/no-img-element */}<img src={shot} alt={`${c.name} — ${index + 2}`} className="absolute inset-0 h-full w-full object-contain p-2" loading="lazy" /></div>)}</div></div></section>}
