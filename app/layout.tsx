@@ -4,9 +4,12 @@ import type { ReactNode } from "react";
 import { AppShell } from "@/components/app-shell";
 import { SITE } from "@/lib/site";
 
-const TITLE = "Vlad Kuzmenko — AI Systems, Web Platforms & Content Systems";
+const TITLE = "Vlad Kuzmenko — Growth Systems for Attention, Leads & Sales";
 const DESCRIPTION =
-  "Vlad Kuzmenko builds AI systems, web platforms and content systems for businesses and personal brands — built for attention, leads, sales and execution.";
+  "Vlad Kuzmenko builds growth systems for business: content and distribution that earn qualified attention, and web, AI automation and sales operations that turn it into leads, bookings and deals.";
+// Share images are written out as absolute production URLs so a card never
+// resolves against a deployment preview host.
+const SHARE_IMAGE = `${SITE.url}/og-banner.png`;
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE.url),
@@ -18,6 +21,7 @@ export const metadata: Metadata = {
   applicationName: "Vlad Kuzmenko",
   keywords: [
     "Vlad Kuzmenko",
+    "growth systems",
     "AI systems",
     "web platforms",
     "content systems",
@@ -52,10 +56,10 @@ export const metadata: Metadata = {
     locale: "en_US",
     images: [
       {
-        url: "/og-banner.png",
+        url: SHARE_IMAGE,
         width: 1200,
         height: 630,
-        alt: "Vlad Kuzmenko — AI Systems, Web Platforms & Content Systems",
+        alt: TITLE,
       },
     ],
   },
@@ -64,7 +68,7 @@ export const metadata: Metadata = {
     title: TITLE,
     description: DESCRIPTION,
     creator: "@vladkuzmenkosxy",
-    images: ["/og-banner.png"],
+    images: [SHARE_IMAGE],
   },
 };
 
@@ -82,9 +86,9 @@ const jsonLd = {
       "@id": `${SITE.url}/#vlad`,
       name: "Vlad Kuzmenko",
       url: SITE.url,
-      jobTitle: "Builder — AI systems, web platforms and content systems",
+      jobTitle: "Builder — growth systems for business",
       description:
-        "Builds AI systems, web platforms and content systems for businesses and personal brands.",
+        "Builds growth systems for business: content and distribution that earn attention, and web, AI automation and sales operations that turn it into leads and deals.",
       sameAs: [
         SITE.socials.instagram,
         SITE.socials.youtube,
@@ -103,10 +107,10 @@ const jsonLd = {
     },
     {
       "@type": "ProfessionalService",
-      name: "Vlad Kuzmenko — Digital Systems",
+      name: "Vlad Kuzmenko — Growth Systems",
       url: SITE.url,
       description:
-        "AI systems, web platforms, content systems, automation, lead capture and website audits for businesses and personal brands.",
+        "Growth systems for business: content and distribution, websites and web platforms, AI assistants, automation, CRM and follow-up, and website audits.",
       areaServed: "Worldwide",
       email: SITE.email,
       founder: { "@id": `${SITE.url}/#vlad` },
