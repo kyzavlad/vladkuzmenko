@@ -1,6 +1,6 @@
 import { Header } from "@/components/ui/header";
 import { Hero } from "@/components/home/Hero";
-import { StudioSection } from "@/components/home/StudioSection";
+import { GrowthSystems } from "@/components/home/GrowthSystems";
 import { SelectedWork } from "@/components/home/SelectedWork";
 import { AutoDealerFocus } from "@/components/home/AutoDealerFocus";
 import { ProductsOverview } from "@/components/home/ProductsOverview";
@@ -16,7 +16,7 @@ export function HomeContent() {
     <>
       <Header />
       <Hero />
-      <StudioSection />
+      <GrowthSystems />
       <SelectedWork />
       <AutoDealerFocus />
       <ProductsOverview />

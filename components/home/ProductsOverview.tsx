@@ -48,7 +48,7 @@ export function ProductsOverview() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
           >
-            <Link href={hashHref("work")} className="luxe-card p-8 md:p-10 flex flex-col md:flex-row md:items-center gap-6 group">
+            <Link href={pageHref("growth-systems")} className="luxe-card p-8 md:p-10 flex flex-col md:flex-row md:items-center gap-6 group">
               <div className="w-14 h-14 rounded-xl bg-amber-400/10 flex items-center justify-center shrink-0">
                 <Layers className="h-7 w-7 text-amber-400" />
               </div>

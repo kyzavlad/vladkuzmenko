@@ -25,6 +25,7 @@ export function FooterSection() {
   // Targets line up by index with the dictionary label arrays.
   const exploreTargets = [
     base,
+    pageHref("growth-systems"),
     pageHref("work"),
     pageHref("visibilityos"),
     pageHref("ai-systems"),
@@ -32,7 +33,14 @@ export function FooterSection() {
     hashHref("shop"),
     hashHref("about"),
   ];
-  const workTargets = [SITE.calcom, pageHref("visibilityos"), pageHref("ai-systems"), pageHref("warriors-team"), hashHref("shop")];
+  const workTargets = [
+    SITE.calcom,
+    pageHref("growth-systems"),
+    pageHref("visibilityos"),
+    pageHref("ai-systems"),
+    pageHref("warriors-team"),
+    hashHref("shop"),
+  ];
 
   const [email, setEmail] = useState("");
   const [status, setStatus] = useState<"idle" | "sending" | "done">("idle");

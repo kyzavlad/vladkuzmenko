@@ -13,9 +13,9 @@ export const langHref = (lang: Lang): string => (lang === "en" ? "/" : `/${lang}
 
 const en = {
   meta: {
-    title: "Vlad Kuzmenko — AI Systems, Web Platforms & Content Systems",
+    title: "Vlad Kuzmenko — Growth Systems for Attention, Leads & Sales",
     description:
-      "Vlad Kuzmenko builds AI systems, web platforms and content systems for businesses and personal brands — built for attention, leads, sales and execution.",
+      "Vlad Kuzmenko builds growth systems for business: content and distribution that earn qualified attention, and web, AI automation and sales operations that turn it into leads, bookings and deals.",
     visibilityTitle: "VisibilityOS — AI Website Visibility & Conversion Audit",
     visibilityDesc:
       "An AI-powered visibility and conversion audit that shows where your website loses leads, trust, SEO and AI-search visibility — with a prioritized action plan.",
@@ -26,7 +26,7 @@ const en = {
     warriorsDesc:
       "A selective private circle around business, training, discipline, cars, content and execution. By application.",
   },
-  nav: { home: "Home", work: "Work", products: "Products", visibilityos: "VisibilityOS", warriors: "Warriors Team", shop: "Shop", about: "About" },
+  nav: { home: "Home", services: "Growth Systems", work: "Work", products: "Products", visibilityos: "VisibilityOS", warriors: "Warriors Team", shop: "Shop", about: "About" },
   cta: { bookCall: "Book a Call", askAI: "Ask AI", viewWork: "View Work" },
   form: {
     name: "Your name", namePh: "First name",
@@ -44,34 +44,11 @@ const en = {
     successMsg: "Thanks — this came straight to Vlad Kuzmenko. You'll get a personal reply shortly.",
   },
   hero: {
-    pillars: ["AI Systems", "Web Platforms", "Content Systems"],
-    tagline: "Built for attention, leads, sales and execution.",
+    pillars: ["Traffic Engine", "Conversion Engine", "Growth Engine"],
+    tagline: "Growth systems that turn attention into leads and sales.",
     supporting:
-      "I build premium digital systems for businesses and personal brands — from websites and AI assistants to content engines, lead flows and automation.",
+      "I combine content, web, AI automation and sales operations around one bottleneck — the place where your business is actually losing growth.",
     viewWork: "View Work",
-  },
-  studio: {
-    eyebrow: "What I build",
-    titleA: "Digital systems that turn attention into ", titleB: "leads & sales",
-    desc: "I build the infrastructure behind growth — AI systems, web platforms and content — so attention becomes leads, and leads become sales.",
-    services: [
-      { title: "AI systems & automation", desc: "Workflows that capture, qualify, route and follow up leads — so nothing slips and you respond in seconds." },
-      { title: "Web platforms & websites", desc: "Fast, conversion-focused sites and full platforms — landing pages, business sites and products with admin and payments." },
-      { title: "AI chat & voice assistants", desc: "Assistants that answer instantly, qualify and book — on your site and on the phone, around the clock." },
-      { title: "Content systems", desc: "A repeatable engine that turns one idea into a week of content built to earn attention." },
-      { title: "Lead capture & CRM flows", desc: "Capture, tracking and follow-up wired into Telegram, Sheets and your CRM — every lead accounted for." },
-      { title: "SEO & visibility infrastructure", desc: "The structure that makes you findable in search and AI assistants — and convincing once you're found." },
-    ],
-    startTitle: "Not sure where to start?",
-    startDesc: "Book a call or request a free system audit — I'll point you at the change with the biggest payoff.",
-    systemAudit: "System audit",
-    auditTitle: "Request a free system audit",
-    auditDesc: "Tell me about your business and I'll point you at the highest-leverage fix — leads, speed, site or content.",
-    auditSubmit: "Request audit",
-    auditSuccessT: "Audit requested",
-    auditSuccessM: "Got it — I'll review what you sent and come back with where to focus first.",
-    footnote: "Currently focused on auto dealers and local businesses — the same systems work for any brand that runs on attention and leads.",
-    seeWork: "See selected work",
   },
   selected: {
     eyebrow: "Selected work",
@@ -332,9 +309,9 @@ const en = {
     newsletterDesc: "Occasional updates on builds, products and drops. No spam.",
     subscribed: "You're subscribed.", emailPh: "Enter your email",
     exploreTitle: "Explore",
-    explore: ["Home", "Work", "VisibilityOS", "AI Systems for Business", "Warriors Team", "Shop", "About"],
+    explore: ["Home", "Growth Systems", "Work", "VisibilityOS", "AI Systems for Business", "Warriors Team", "Shop", "About"],
     workTitle: "Work with me",
-    work: ["Book a call", "Request an AI audit", "AI Systems for Business", "Apply to Warriors Team", "Shop"],
+    work: ["Book a call", "Find your bottleneck", "Request an AI audit", "AI Systems for Business", "Apply to Warriors Team", "Shop"],
     contactTitle: "Contact",
     rights: "All rights reserved.",
     privacy: "Privacy Policy", terms: "Terms",
@@ -345,9 +322,9 @@ export type Dict = typeof en;
 
 const ua: Dict = {
   meta: {
-    title: "Влад Кузьменко — AI-системи, веб-платформи та контент-системи",
+    title: "Влад Кузьменко — системи росту для уваги, лідів і продажів",
     description:
-      "Влад Кузьменко будує AI-системи, веб-платформи та контент-системи для бізнесів і особистих брендів — створено для уваги, лідів, продажів і виконання.",
+      "Влад Кузьменко будує системи росту для бізнесу: контент і дистрибуція, що дають якісну увагу, та веб, AI-автоматизація і процеси продажів, що перетворюють її на ліди, записи й угоди.",
     visibilityTitle: "VisibilityOS — AI-аудит видимості та конверсії сайту",
     visibilityDesc:
       "AI-аудит видимості та конверсії, що показує, де ваш сайт втрачає лідів, довіру, SEO та видимість в AI-пошуку — із пріоритезованим планом дій.",
@@ -358,7 +335,7 @@ const ua: Dict = {
     warriorsDesc:
       "Відбіркове приватне коло навколо бізнесу, тренувань, дисципліни, авто, контенту та виконання. За заявкою.",
   },
-  nav: { home: "Головна", work: "Послуги", products: "Продукти", visibilityos: "VisibilityOS", warriors: "Warriors Team", shop: "Магазин", about: "Про мене" },
+  nav: { home: "Головна", services: "Послуги", work: "Роботи", products: "Продукти", visibilityos: "VisibilityOS", warriors: "Warriors Team", shop: "Магазин", about: "Про мене" },
   cta: { bookCall: "Записатись на дзвінок", askAI: "Запитати AI", viewWork: "Переглянути роботи" },
   form: {
     name: "Ваше ім'я", namePh: "Ім'я",
@@ -376,34 +353,11 @@ const ua: Dict = {
     successMsg: "Дякую — це надійшло напряму до Влада Кузьменка. Скоро отримаєте особисту відповідь.",
   },
   hero: {
-    pillars: ["AI-системи", "Веб-платформи", "Контент-системи"],
-    tagline: "Створено для уваги, лідів, продажів і виконання.",
+    pillars: ["Traffic Engine", "Conversion Engine", "Growth Engine"],
+    tagline: "Системи росту, які перетворюють увагу на ліди та продажі.",
     supporting:
-      "Я будую преміальні цифрові системи для бізнесів і особистих брендів — від сайтів і AI-асистентів до контент-двигунів, потоків лідів і автоматизації.",
+      "Я поєдную контент, веб, AI-автоматизацію та процеси продажів навколо одного вузького місця — там, де бізнес справді втрачає ріст.",
     viewWork: "Переглянути роботи",
-  },
-  studio: {
-    eyebrow: "Що я будую",
-    titleA: "Цифрові системи, що перетворюють увагу на ", titleB: "ліди та продажі",
-    desc: "Я будую інфраструктуру зростання — AI-системи, веб-платформи та контент — щоб увага ставала лідами, а ліди — продажами.",
-    services: [
-      { title: "AI-системи й автоматизація", desc: "Процеси, що захоплюють, кваліфікують, маршрутизують і ведуть лідів — нічого не губиться, відповідь за секунди." },
-      { title: "Веб-платформи та сайти", desc: "Швидкі сайти з фокусом на конверсію та повноцінні платформи — лендинги, бізнес-сайти й продукти з адмінкою та оплатами." },
-      { title: "AI-чат і голосові асистенти", desc: "Асистенти, що миттєво відповідають, кваліфікують і записують — на сайті та на телефоні, цілодобово." },
-      { title: "Контент-системи", desc: "Повторюваний механізм, що перетворює одну ідею на тиждень контенту, створеного, щоб привертати увагу." },
-      { title: "Захоплення лідів і CRM-потоки", desc: "Захоплення, трекінг і фолоу-ап у зв'язці з Telegram, Sheets і вашою CRM — кожен лід під контролем." },
-      { title: "SEO та інфраструктура видимості", desc: "Структура, що робить вас помітними в пошуку та AI-асистентах — і переконливими, коли вас знайшли." },
-    ],
-    startTitle: "Не знаєте, з чого почати?",
-    startDesc: "Запишіться на дзвінок або замовте безкоштовний аудит системи — я вкажу на зміну з найбільшим ефектом.",
-    systemAudit: "Аудит системи",
-    auditTitle: "Замовити безкоштовний аудит системи",
-    auditDesc: "Розкажіть про ваш бізнес — і я вкажу на зміну з найбільшим ефектом: ліди, швидкість, сайт чи контент.",
-    auditSubmit: "Замовити аудит",
-    auditSuccessT: "Аудит замовлено",
-    auditSuccessM: "Прийнято — перегляну надіслане й повернусь із тим, на чому сфокусуватись першочергово.",
-    footnote: "Зараз фокус на автодилерах і локальному бізнесі — ті самі системи працюють для будь-якого бренду, що живе на увазі та лідах.",
-    seeWork: "Переглянути обрані роботи",
   },
   selected: {
     eyebrow: "Обрані роботи",
@@ -664,9 +618,9 @@ const ua: Dict = {
     newsletterDesc: "Іноді апдейти про білди, продукти й дропи. Без спаму.",
     subscribed: "Ви підписані.", emailPh: "Введіть ваш email",
     exploreTitle: "Розділи",
-    explore: ["Головна", "Послуги", "VisibilityOS", "AI-системи для бізнесу", "Warriors Team", "Магазин", "Про мене"],
+    explore: ["Головна", "Послуги", "Роботи", "VisibilityOS", "AI-системи для бізнесу", "Warriors Team", "Магазин", "Про мене"],
     workTitle: "Співпраця",
-    work: ["Записатись на дзвінок", "Замовити AI-аудит", "AI-системи для бізнесу", "Заявка у Warriors Team", "Магазин"],
+    work: ["Записатись на дзвінок", "Визначити вузьке місце", "Замовити AI-аудит", "AI-системи для бізнесу", "Заявка у Warriors Team", "Магазин"],
     contactTitle: "Контакти",
     rights: "Усі права захищені.",
     privacy: "Політика конфіденційності", terms: "Умови",
@@ -675,9 +629,9 @@ const ua: Dict = {
 
 const ru: Dict = {
   meta: {
-    title: "Влад Кузьменко — AI-системы, веб-платформы и контент-системы",
+    title: "Влад Кузьменко — системы роста для внимания, лидов и продаж",
     description:
-      "Влад Кузьменко строит AI-системы, веб-платформы и контент-системы для бизнесов и личных брендов — создано для внимания, лидов, продаж и исполнения.",
+      "Влад Кузьменко строит системы роста для бизнеса: контент и дистрибуция, дающие качественное внимание, и веб, AI-автоматизация и процессы продаж, превращающие его в лиды, записи и сделки.",
     visibilityTitle: "VisibilityOS — AI-аудит видимости и конверсии сайта",
     visibilityDesc:
       "AI-аудит видимости и конверсии, показывающий, где ваш сайт теряет лидов, доверие, SEO и видимость в AI-поиске — с приоритизированным планом действий.",
@@ -688,7 +642,7 @@ const ru: Dict = {
     warriorsDesc:
       "Отборочный приватный круг вокруг бизнеса, тренировок, дисциплины, авто, контента и исполнения. По заявке.",
   },
-  nav: { home: "Главная", work: "Услуги", products: "Продукты", visibilityos: "VisibilityOS", warriors: "Warriors Team", shop: "Магазин", about: "Обо мне" },
+  nav: { home: "Главная", services: "Услуги", work: "Работы", products: "Продукты", visibilityos: "VisibilityOS", warriors: "Warriors Team", shop: "Магазин", about: "Обо мне" },
   cta: { bookCall: "Записаться на звонок", askAI: "Спросить AI", viewWork: "Смотреть работы" },
   form: {
     name: "Ваше имя", namePh: "Имя",
@@ -706,34 +660,11 @@ const ru: Dict = {
     successMsg: "Спасибо — это пришло напрямую Владу Кузьменко. Скоро получите личный ответ.",
   },
   hero: {
-    pillars: ["AI-системы", "Веб-платформы", "Контент-системы"],
-    tagline: "Создано для внимания, лидов, продаж и исполнения.",
+    pillars: ["Traffic Engine", "Conversion Engine", "Growth Engine"],
+    tagline: "Системы роста, которые превращают внимание в лиды и продажи.",
     supporting:
-      "Я строю премиальные цифровые системы для бизнесов и личных брендов — от сайтов и AI-ассистентов до контент-движков, потоков лидов и автоматизации.",
+      "Я объединяю контент, веб, AI-автоматизацию и процессы продаж вокруг одного узкого места — там, где бизнес реально теряет рост.",
     viewWork: "Смотреть работы",
-  },
-  studio: {
-    eyebrow: "Что я строю",
-    titleA: "Цифровые системы, превращающие внимание в ", titleB: "лиды и продажи",
-    desc: "Я строю инфраструктуру роста — AI-системы, веб-платформы и контент — чтобы внимание становилось лидами, а лиды — продажами.",
-    services: [
-      { title: "AI-системы и автоматизация", desc: "Процессы, что захватывают, квалифицируют, маршрутизируют и ведут лидов — ничего не теряется, ответ за секунды." },
-      { title: "Веб-платформы и сайты", desc: "Быстрые сайты с фокусом на конверсию и полноценные платформы — лендинги, бизнес-сайты и продукты с админкой и оплатами." },
-      { title: "AI-чат и голосовые ассистенты", desc: "Ассистенты, которые мгновенно отвечают, квалифицируют и записывают — на сайте и на телефоне, круглосуточно." },
-      { title: "Контент-системы", desc: "Повторяемый механизм, превращающий одну идею в неделю контента, созданного, чтобы привлекать внимание." },
-      { title: "Захват лидов и CRM-потоки", desc: "Захват, трекинг и фоллоу-ап в связке с Telegram, Sheets и вашей CRM — каждый лид под контролем." },
-      { title: "SEO и инфраструктура видимости", desc: "Структура, что делает вас заметными в поиске и AI-ассистентах — и убедительными, когда вас нашли." },
-    ],
-    startTitle: "Не знаете, с чего начать?",
-    startDesc: "Запишитесь на звонок или закажите бесплатный аудит системы — я укажу на изменение с наибольшим эффектом.",
-    systemAudit: "Аудит системы",
-    auditTitle: "Заказать бесплатный аудит системы",
-    auditDesc: "Расскажите о вашем бизнесе — и я укажу на изменение с наибольшим эффектом: лиды, скорость, сайт или контент.",
-    auditSubmit: "Заказать аудит",
-    auditSuccessT: "Аудит заказан",
-    auditSuccessM: "Принято — посмотрю присланное и вернусь с тем, на чём сфокусироваться в первую очередь.",
-    footnote: "Сейчас фокус на автодилерах и локальном бизнесе — те же системы работают для любого бренда, который живёт на внимании и лидах.",
-    seeWork: "Смотреть избранные работы",
   },
   selected: {
     eyebrow: "Избранные работы",
@@ -994,9 +925,9 @@ const ru: Dict = {
     newsletterDesc: "Иногда апдейты о сборках, продуктах и дропах. Без спама.",
     subscribed: "Вы подписаны.", emailPh: "Введите ваш email",
     exploreTitle: "Разделы",
-    explore: ["Главная", "Услуги", "VisibilityOS", "AI-системы для бизнеса", "Warriors Team", "Магазин", "Обо мне"],
+    explore: ["Главная", "Услуги", "Работы", "VisibilityOS", "AI-системы для бизнеса", "Warriors Team", "Магазин", "Обо мне"],
     workTitle: "Сотрудничество",
-    work: ["Записаться на звонок", "Заказать AI-аудит", "AI-системы для бизнеса", "Заявка в Warriors Team", "Магазин"],
+    work: ["Записаться на звонок", "Определить узкое место", "Заказать AI-аудит", "AI-системы для бизнеса", "Заявка в Warriors Team", "Магазин"],
     contactTitle: "Контакты",
     rights: "Все права защищены.",
     privacy: "Политика конфиденциальности", terms: "Условия",
