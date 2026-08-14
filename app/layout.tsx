@@ -94,6 +94,8 @@ const jsonLd = {
         SITE.socials.youtube,
         SITE.socials.x,
         SITE.socials.telegram,
+        SITE.socials.tiktok,
+        SITE.socials.whatsapp,
       ],
     },
     {
