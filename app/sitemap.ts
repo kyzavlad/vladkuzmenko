@@ -9,6 +9,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const prefixes = ["", "/ua", "/ru"];
   const pages: { slug: string; priority: number; freq: "weekly" | "monthly" }[] = [
     { slug: "", priority: 1, freq: "weekly" },
+    { slug: "growth-systems", priority: 0.9, freq: "monthly" },
     { slug: "work", priority: 0.9, freq: "monthly" },
     { slug: "visibilityos", priority: 0.8, freq: "monthly" },
     { slug: "ai-systems", priority: 0.8, freq: "monthly" },

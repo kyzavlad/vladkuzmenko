@@ -1,17 +1,11 @@
-import type { Metadata } from "next";
 import { I18nProvider } from "@/components/i18n-provider";
 import { HomeContent } from "@/components/home/HomeContent";
 import { getDict } from "@/lib/i18n";
+import { pageMeta } from "@/lib/page-meta";
 
 const d = getDict("ua");
-const languages = { en: "/", uk: "/ua", ru: "/ru", "x-default": "/" };
 
-export const metadata: Metadata = {
-  title: { absolute: d.meta.title },
-  description: d.meta.description,
-  alternates: { canonical: "/ua", languages },
-  openGraph: { title: d.meta.title, description: d.meta.description, locale: "uk_UA", images: ["/og-banner.png"] },
-};
+export const metadata = pageMeta("ua", "", d.meta.title, d.meta.description);
 
 export default function Page() {
   return (

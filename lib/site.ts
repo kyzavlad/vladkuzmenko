@@ -23,8 +23,9 @@ export const SITE = {
     instagram: "https://www.instagram.com/vladkuzmenkosxy/",
     youtube: "https://www.youtube.com/@vladkuzmenkoai",
     x: "https://x.com/vladkuzmenkosxy",
-    telegram: "https://t.me/vladkuzmenkoai",
-    whatsapp: "https://api.whatsapp.com/send/?phone=380951444853",
+    telegram: "https://t.me/VladKuzmenkoSXY",
+    tiktok: "https://www.tiktok.com/@vladkuzmenkosxy",
+    whatsapp: "https://wa.me/380951444853",
   },
 } as const;
 

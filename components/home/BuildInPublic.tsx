@@ -11,7 +11,7 @@ const channelMeta: { handle: string; href: string; icon: LucideIcon | null }[] =
   { handle: "@vladkuzmenkoai", href: SITE.socials.youtube, icon: Youtube },
   { handle: "@vladkuzmenkosxy", href: SITE.socials.instagram, icon: Instagram },
   { handle: "@vladkuzmenkosxy", href: SITE.socials.x, icon: null },
-  { handle: "@vladkuzmenkoai", href: SITE.socials.telegram, icon: Send },
+  { handle: "@VladKuzmenkoSXY", href: SITE.socials.telegram, icon: Send },
 ];
 
 export function BuildInPublic() {

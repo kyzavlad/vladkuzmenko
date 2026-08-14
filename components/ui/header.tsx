@@ -9,7 +9,15 @@ import { useI18n } from "@/components/i18n-provider";
 import { LANGS, LANG_LABELS, langHref } from "@/lib/i18n";
 
 // Sub-pages that exist in all three languages (for the language switcher).
-const LOCALIZED_SLUGS = new Set(["", "work", "visibilityos", "ai-systems", "auto-dealers", "warriors-team"]);
+const LOCALIZED_SLUGS = new Set([
+  "",
+  "growth-systems",
+  "work",
+  "visibilityos",
+  "ai-systems",
+  "auto-dealers",
+  "warriors-team",
+]);
 
 export function Header() {
   const { lang, t } = useI18n();
@@ -23,6 +31,7 @@ export function Header() {
 
   const navItems: { title: string; href: string; hash?: string }[] = [
     { title: t.nav.home, href: base },
+    { title: t.nav.services, href: pageHref("growth-systems") },
     { title: t.nav.work, href: pageHref("work") },
     { title: t.nav.products, href: hashHref("products"), hash: "products" },
     { title: t.nav.visibilityos, href: pageHref("visibilityos") },
@@ -100,14 +109,15 @@ export function Header() {
           />
         </a>
 
-        {/* Desktop nav */}
-        <nav className="hidden lg:flex items-center gap-1">
+        {/* Desktop nav — kept on a single row at every desktop width, so the
+            labels stay legible instead of wrapping under each other. */}
+        <nav className="hidden xl:flex items-center gap-0.5">
           {navItems.map((item) => (
             <a
               key={item.title}
               href={item.href}
               onClick={(e) => handleNavClick(e, item)}
-              className="px-3.5 py-2 text-sm font-medium text-gray-300 rounded-md hover:bg-white/5 hover:text-amber-200 transition-colors"
+              className="whitespace-nowrap rounded-md px-2 py-2 text-[13px] font-medium text-gray-300 transition-colors hover:bg-white/5 hover:text-amber-200"
             >
               {item.title}
             </a>
@@ -115,12 +125,12 @@ export function Header() {
         </nav>
 
         {/* Right CTAs */}
-        <div className="hidden md:flex items-center gap-3 shrink-0">
+        <div className="hidden md:flex items-center gap-2 shrink-0 xl:gap-3">
           <LangSwitcher />
           <button
             type="button"
             onClick={openAssistant}
-            className="text-sm font-medium text-gray-400 hover:text-amber-200 transition-colors"
+            className="hidden text-sm font-medium text-gray-400 transition-colors hover:text-amber-200 md:inline xl:hidden 2xl:inline"
           >
             {t.cta.askAI}
           </button>
@@ -132,9 +142,9 @@ export function Header() {
           </a>
         </div>
 
-        {/* Mobile toggle */}
-        <div className="flex md:hidden items-center gap-2">
-          <LangSwitcher />
+        {/* Menu toggle — carries the full nav below the desktop breakpoint */}
+        <div className="flex xl:hidden items-center gap-2">
+          <LangSwitcher className="md:hidden" />
           <Button
             variant="ghost"
             size="icon"
@@ -148,7 +158,7 @@ export function Header() {
 
       {/* Mobile menu */}
       {isMobileMenuOpen && (
-        <div className="absolute top-full left-0 right-0 border-t border-amber-400/10 bg-black/95 backdrop-blur-xl shadow-2xl px-4 pt-2 pb-5 flex flex-col gap-1 md:hidden">
+        <div className="absolute top-full left-0 right-0 border-t border-amber-400/10 bg-black/95 backdrop-blur-xl shadow-2xl px-4 pt-2 pb-5 flex flex-col gap-1 xl:hidden">
           {navItems.map((item) => (
             <a
               key={item.title}
