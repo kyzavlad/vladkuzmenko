@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { Calendar, Sparkles, Mail, Loader2, CheckCircle, Send } from "lucide-react";
+import { Calendar, Sparkles, Mail, Loader2, CheckCircle, Send, MessageCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -69,6 +69,26 @@ export function ContactSection() {
                 <Sparkles className="mr-3 h-5 w-5" />
                 {c.askAI}
               </Button>
+              <div className="grid sm:grid-cols-2 gap-3">
+                <a href={SITE.socials.telegram} target="_blank" rel="noopener noreferrer" className="block">
+                  <Button
+                    variant="outline"
+                    className="w-full h-12 justify-start text-base border-white/15 text-white hover:bg-white/5"
+                  >
+                    <Send className="mr-3 h-5 w-5" />
+                    Telegram
+                  </Button>
+                </a>
+                <a href={SITE.socials.whatsapp} target="_blank" rel="noopener noreferrer" className="block">
+                  <Button
+                    variant="outline"
+                    className="w-full h-12 justify-start text-base border-white/15 text-white hover:bg-white/5"
+                  >
+                    <MessageCircle className="mr-3 h-5 w-5" />
+                    WhatsApp
+                  </Button>
+                </a>
+              </div>
               <a href={`mailto:${SITE.email}`} className="block">
                 <Button
                   variant="outline"
