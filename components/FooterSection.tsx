@@ -113,7 +113,7 @@ export function FooterSection() {
               </svg>
               <a href={`mailto:${SITE.email}`} className="hover:text-[#D4AF37] transition-colors underline">{SITE.email}</a>
             </div>
-            <div className="pt-2 flex space-x-2">
+            <div className="pt-2 flex flex-wrap gap-2">
               <TooltipProvider><Tooltip><TooltipTrigger asChild>
                 <Button variant="ghost" size="icon" className="rounded-full text-gray-400 hover:text-[#D4AF37] hover:bg-zinc-800 w-8 h-8" asChild>
                   <a href={SITE.socials.instagram} target="_blank" rel="noopener noreferrer" aria-label="Instagram"><Instagram className="h-4 w-4" /></a>
@@ -126,6 +126,10 @@ export function FooterSection() {
                 <Button variant="ghost" size="icon" className="rounded-full text-gray-400 hover:text-[#D4AF37] hover:bg-zinc-800 w-8 h-8" asChild>
                   <a href={SITE.socials.x} target="_blank" rel="noopener noreferrer" aria-label="X / Twitter"><Twitter className="h-4 w-4" /></a>
                 </Button></TooltipTrigger><TooltipContent><p>X / Twitter</p></TooltipContent></Tooltip></TooltipProvider>
+              <TooltipProvider><Tooltip><TooltipTrigger asChild>
+                <Button variant="ghost" size="icon" className="rounded-full text-gray-400 hover:text-[#D4AF37] hover:bg-zinc-800 w-8 h-8" asChild>
+                  <a href={SITE.socials.tiktok} target="_blank" rel="noopener noreferrer" aria-label="TikTok"><span className="text-[10px] font-bold leading-none">TT</span></a>
+                </Button></TooltipTrigger><TooltipContent><p>TikTok</p></TooltipContent></Tooltip></TooltipProvider>
               <TooltipProvider><Tooltip><TooltipTrigger asChild>
                 <Button variant="ghost" size="icon" className="rounded-full text-gray-400 hover:text-[#D4AF37] hover:bg-zinc-800 w-8 h-8" asChild>
                   <a href={SITE.socials.whatsapp} target="_blank" rel="noopener noreferrer" aria-label="WhatsApp"><MessageCircle className="h-4 w-4" /></a>
