@@ -1,5 +1,4 @@
-import { I18nProvider } from "@/components/i18n-provider";
-import { AutomationPortfolioPage } from "@/components/pages/AutomationPortfolioPage";
+import { AutomationEnglishPage } from "@/components/pages/AutomationEnglishPage";
 import { pageMeta } from "@/lib/page-meta";
 
 export const metadata = pageMeta(
@@ -10,9 +9,5 @@ export const metadata = pageMeta(
 );
 
 export default function Page() {
-  return (
-    <I18nProvider lang="en">
-      <AutomationPortfolioPage />
-    </I18nProvider>
-  );
+  return <AutomationEnglishPage />;
 }
