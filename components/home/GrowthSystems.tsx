@@ -1,17 +1,18 @@
 "use client";
 
 import { useState } from "react";
-import { motion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import { ArrowRight, Compass, Megaphone, Repeat, Workflow } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { RequestDialog } from "@/components/ui/request-dialog";
+import { InteractiveSurface, SignalFlow } from "@/components/ui/premium-interaction";
+import { SelectedWork } from "@/components/home/SelectedWork";
 import { useI18n } from "@/components/i18n-provider";
 import { cn } from "@/lib/utils";
 import { track } from "@/lib/analytics";
 import { langHref } from "@/lib/i18n";
 import {
-  DIAGNOSTIC_INTENT,
   ENGINE_INTENT,
   ENGINE_LABEL,
   ENGINE_ORDER,
@@ -27,33 +28,27 @@ const ENGINE_ICON: Record<EngineKey, LucideIcon> = {
   growth: Repeat,
 };
 
-const STYLE: Record<EngineKey, {
-  border: string;
-  icon: string;
-  label: string;
-  glow: string;
-  button: string;
-}> = {
+const ACCENT: Record<EngineKey, "gold" | "blue" | "violet"> = {
+  traffic: "gold",
+  conversion: "blue",
+  growth: "violet",
+};
+
+const TONE: Record<EngineKey, { active: string; text: string; dot: string }> = {
   traffic: {
-    border: "border-amber-300/20 hover:border-amber-300/35",
-    icon: "border-amber-300/20 bg-amber-300/[.08] text-amber-300",
-    label: "text-amber-300/80",
-    glow: "bg-amber-300/[.07]",
-    button: "border-amber-300/20 bg-amber-300/[.06] text-amber-100 hover:bg-amber-300/[.10]",
+    active: "border-amber-300/22 bg-amber-300/[.055]",
+    text: "text-amber-300/80",
+    dot: "bg-amber-300",
   },
   conversion: {
-    border: "border-sky-300/18 hover:border-sky-300/32",
-    icon: "border-sky-300/20 bg-sky-300/[.07] text-sky-200",
-    label: "text-sky-200/80",
-    glow: "bg-sky-300/[.055]",
-    button: "border-sky-300/20 bg-sky-300/[.05] text-sky-100 hover:bg-sky-300/[.09]",
+    active: "border-sky-300/22 bg-sky-300/[.05]",
+    text: "text-sky-200/80",
+    dot: "bg-sky-300",
   },
   growth: {
-    border: "border-violet-300/18 hover:border-violet-300/32",
-    icon: "border-violet-300/20 bg-violet-300/[.07] text-violet-200",
-    label: "text-violet-200/80",
-    glow: "bg-violet-300/[.055]",
-    button: "border-violet-300/20 bg-violet-300/[.05] text-violet-100 hover:bg-violet-300/[.09]",
+    active: "border-violet-300/22 bg-violet-300/[.05]",
+    text: "text-violet-200/80",
+    dot: "bg-violet-300",
   },
 };
 
@@ -62,109 +57,176 @@ export function GrowthSystems() {
   const x = getGrowthCopy(lang);
   const base = langHref(lang);
   const page = growthRoute(lang);
-  const [picked, setPicked] = useState<number | null>(null);
-  const chosen = picked === null ? null : x.diagnostic.paths[picked];
+  const [active, setActive] = useState<EngineKey>("traffic");
+  const e = x.engines.items[active];
+  const Icon = ENGINE_ICON[active];
 
   return (
     <section
       id="client-systems"
-      className="relative scroll-mt-24 overflow-hidden border-t border-zinc-900 bg-[#030303] py-24 md:py-32"
+      className="relative scroll-mt-24 overflow-hidden border-t border-white/[.07] bg-[#030303] py-20 md:py-28"
     >
-      <div className="pointer-events-none absolute inset-x-0 top-0 h-[460px] bg-[radial-gradient(ellipse_at_top,rgba(245,190,52,.08),transparent_62%)]" />
+      <div className="pointer-events-none absolute inset-x-0 top-0 h-[520px] bg-[radial-gradient(ellipse_at_50%_0%,rgba(245,190,52,.08),transparent_62%)]" />
       <div className="container relative z-10 mx-auto px-4">
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 18 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="mx-auto mb-14 max-w-4xl text-center"
+          className="mx-auto max-w-5xl text-center"
         >
           <span className="eyebrow">{x.home.eyebrow}</span>
-          <h2 className="mt-4 text-4xl font-bold tracking-[-.035em] md:text-6xl">
+          <h2 className="mt-4 text-4xl font-black leading-[1.03] tracking-[-.045em] sm:text-5xl md:text-6xl">
             {x.home.titleA}
             <span className="gradient-gold-text">{x.home.titleB}</span>
           </h2>
-          <p className="mx-auto mt-5 max-w-3xl text-base leading-7 text-gray-400 sm:text-lg sm:leading-8">
+          <p className="mx-auto mt-6 max-w-3xl text-base leading-7 text-zinc-400 sm:text-lg sm:leading-8">
             {x.home.desc}
           </p>
-          <div className="mx-auto mt-7 h-px w-44 bg-gradient-to-r from-transparent via-amber-300/40 to-transparent" />
         </motion.div>
 
-        <div className="mx-auto max-w-6xl space-y-4">
-          {ENGINE_ORDER.map((key, i) => {
-            const e = x.engines.items[key];
-            const Icon = ENGINE_ICON[key];
-            const s = STYLE[key];
+        <div className="mx-auto mt-12 max-w-6xl">
+          <div className="grid gap-2 rounded-[22px] border border-white/[.08] bg-white/[.02] p-2 sm:grid-cols-3">
+            {ENGINE_ORDER.map((key, index) => {
+              const TabIcon = ENGINE_ICON[key];
+              const selected = key === active;
+              return (
+                <button
+                  key={key}
+                  type="button"
+                  onClick={() => {
+                    setActive(key);
+                    track("engine_select", { engine: key, source: "home_workspace" });
+                  }}
+                  className={`relative min-h-[94px] overflow-hidden rounded-2xl border px-4 py-4 text-left transition-colors ${
+                    selected ? TONE[key].active : "border-transparent hover:bg-white/[.035]"
+                  }`}
+                >
+                  {selected && (
+                    <motion.div
+                      layoutId="growth-engine-active"
+                      className="absolute inset-0 rounded-2xl border border-white/[.08]"
+                      transition={{ type: "spring", stiffness: 260, damping: 24 }}
+                    />
+                  )}
+                  <div className="relative flex items-center gap-3">
+                    <span className="flex h-10 w-10 items-center justify-center rounded-xl border border-white/[.08] bg-black/25">
+                      <TabIcon className="h-4 w-4" />
+                    </span>
+                    <div>
+                      <p className="text-[9px] font-bold tracking-[.18em] text-zinc-600">0{index + 1}</p>
+                      <p className="mt-1 text-xs font-bold tracking-[.1em] text-zinc-300 sm:text-sm">{ENGINE_LABEL[key]}</p>
+                    </div>
+                  </div>
+                </button>
+              );
+            })}
+          </div>
 
-            return (
-              <motion.article
-                key={key}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: i * 0.055 }}
-                className={cn(
-                  "group relative overflow-hidden rounded-[28px] border bg-[#080808] transition duration-300",
-                  s.border,
-                )}
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={active}
+              initial={{ opacity: 0, y: 14, filter: "blur(8px)" }}
+              animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+              exit={{ opacity: 0, y: -10, filter: "blur(6px)" }}
+              transition={{ duration: .32 }}
+            >
+              <InteractiveSurface
+                accent={ACCENT[active]}
+                lift={false}
+                className="mt-4 rounded-[30px] border border-white/[.09] bg-[linear-gradient(145deg,rgba(255,255,255,.045),rgba(255,255,255,.012))] shadow-[0_40px_100px_-45px_rgba(0,0,0,.95)]"
               >
-                <div className={cn("pointer-events-none absolute -right-24 -top-28 h-72 w-72 rounded-full blur-[110px]", s.glow)} />
-                <div className="relative grid lg:grid-cols-[1.08fr_.92fr]">
-                  <div className="border-b border-white/[.07] p-6 sm:p-8 lg:border-b-0 lg:border-r lg:p-9">
+                <div className="grid lg:grid-cols-[1.03fr_.97fr]">
+                  <div className="border-b border-white/[.07] p-7 sm:p-9 lg:border-b-0 lg:border-r lg:p-10">
                     <div className="flex items-center justify-between gap-4">
-                      <span className={cn("flex h-12 w-12 items-center justify-center rounded-2xl border", s.icon)}>
+                      <span className="flex h-12 w-12 items-center justify-center rounded-2xl border border-white/[.09] bg-black/30">
                         <Icon className="h-5 w-5" />
                       </span>
-                      <span className="text-[11px] font-semibold uppercase tracking-[.2em] text-zinc-700">
-                        {String(i + 1).padStart(2, "0")}
+                      <span className="text-[10px] font-bold tracking-[.2em] text-zinc-700">
+                        0{ENGINE_ORDER.indexOf(active) + 1}
                       </span>
                     </div>
 
-                    <p className={cn("mt-6 text-[10px] font-bold uppercase tracking-[.2em]", s.label)}>
-                      {ENGINE_LABEL[key]}
+                    <p className={cn("mt-7 text-[10px] font-bold uppercase tracking-[.2em]", TONE[active].text)}>
+                      {ENGINE_LABEL[active]}
                     </p>
-                    <h3 className="mt-3 max-w-2xl text-2xl font-black leading-tight tracking-[-.03em] text-white sm:text-3xl">
+                    <h3 className="mt-3 max-w-2xl text-3xl font-black leading-tight tracking-[-.04em] text-white sm:text-4xl">
                       {e.bottleneck}
                     </h3>
-                    <p className="mt-4 max-w-2xl text-sm leading-6 text-zinc-400 sm:text-base sm:leading-7">
+                    <p className="mt-5 max-w-2xl text-sm leading-7 text-zinc-400 sm:text-base sm:leading-8">
                       {e.outcome}
                     </p>
-                  </div>
 
-                  <div className="flex flex-col justify-between p-6 sm:p-8 lg:p-9">
-                    <div className="flex flex-wrap gap-2">
-                      {e.chips.map((chip) => (
-                        <span
+                    <div className="mt-7 grid gap-3 sm:grid-cols-2">
+                      {e.chips.map((chip, index) => (
+                        <div
                           key={chip}
-                          className="rounded-full border border-white/[.09] bg-white/[.025] px-3 py-1.5 text-[11px] text-zinc-300"
+                          className="flex items-center gap-3 rounded-2xl border border-white/[.07] bg-white/[.018] px-4 py-3"
                         >
-                          {chip}
-                        </span>
+                          <span className={cn("h-2 w-2 shrink-0 rounded-full", index === 0 ? TONE[active].dot : "bg-white/20")} />
+                          <span className="text-sm text-zinc-300">{chip}</span>
+                        </div>
                       ))}
                     </div>
+                  </div>
 
-                    <div className="mt-7 grid gap-3 sm:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2">
+                  <div className="flex flex-col justify-between p-7 sm:p-9 lg:p-10">
+                    <div>
+                      <div className="flex items-center justify-between gap-4">
+                        <div>
+                          <p className="text-[10px] font-bold uppercase tracking-[.18em] text-zinc-600">System view</p>
+                          <p className="mt-2 text-sm text-zinc-400">{ENGINE_LABEL[active]}</p>
+                        </div>
+                        <span className="inline-flex items-center gap-2 rounded-full border border-emerald-300/10 bg-emerald-300/[.04] px-3 py-1.5 text-[9px] font-semibold uppercase tracking-[.16em] text-emerald-300/70">
+                          <span className="h-1.5 w-1.5 rounded-full bg-emerald-300" />
+                          Interactive
+                        </span>
+                      </div>
+
+                      <div className="mt-8 overflow-x-auto pb-2">
+                        <SignalFlow nodes={e.chips.slice(0, 4)} accent={ACCENT[active]} compact />
+                      </div>
+
+                      <div className="mt-8 space-y-4">
+                        {e.chips.slice(0, 4).map((chip, index) => {
+                          const width = [82, 68, 91, 76][index] ?? 72;
+                          return (
+                            <div key={chip} className="grid grid-cols-[105px_1fr_34px] items-center gap-3">
+                              <span className="truncate text-[9px] uppercase tracking-[.12em] text-zinc-600">{chip}</span>
+                              <div className="h-1.5 overflow-hidden rounded-full bg-white/[.06]">
+                                <motion.div
+                                  initial={{ width: 0 }}
+                                  animate={{ width: `${width}%` }}
+                                  transition={{ duration: .8, delay: .12 + index * .08 }}
+                                  className="h-full rounded-full bg-gradient-to-r from-amber-300/70 via-white/35 to-white/10"
+                                />
+                              </div>
+                              <span className="text-right text-[9px] font-mono text-zinc-600">{width}</span>
+                            </div>
+                          );
+                        })}
+                      </div>
+                    </div>
+
+                    <div className="mt-9 grid gap-3 sm:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2">
                       <RequestDialog
-                        intent={ENGINE_INTENT[key]}
+                        intent={ENGINE_INTENT[active]}
                         title={e.cta}
                         description={x.engines.dialogDesc}
-                        buttonLabel={`Home — ${ENGINE_LABEL[key]}`}
+                        buttonLabel={`Home workspace - ${ENGINE_LABEL[active]}`}
                         showBuildType={false}
                         helpLabel={x.engines.helpLabel}
                         helpPlaceholder={x.engines.helpPlaceholder}
                         successTitle={x.engines.successTitle}
                         successMessage={x.engines.successMessage}
-                        context={{ offer: ENGINE_INTENT[key], source: "home_growth_systems", locale: lang, route: base }}
+                        context={{ offer: ENGINE_INTENT[active], source: "home_growth_workspace", locale: lang, route: base }}
                       >
-                        <Button
-                          className={cn("h-auto min-h-11 w-full border px-5 py-2.5 text-sm font-semibold", s.button)}
-                          onClick={() => track("engine_select", { engine: key, source: "home" })}
-                        >
+                        <Button className="premium-button h-auto min-h-12 w-full px-6 py-3">
                           {e.cta}
-                          <ArrowRight className="ml-2 h-4 w-4 shrink-0" />
+                          <ArrowRight className="ml-2 h-4 w-4" />
                         </Button>
                       </RequestDialog>
-                      <a href={`${page}#${engineAnchor(key)}`} className="w-full">
-                        <Button className="h-auto min-h-11 w-full border border-white/[.10] bg-white/[.025] px-5 py-2.5 text-sm text-zinc-200 hover:bg-white/[.055]">
+                      <a href={`${page}#${engineAnchor(active)}`} className="w-full">
+                        <Button className="h-auto min-h-12 w-full border border-white/15 bg-white/[.025] px-6 py-3 text-white hover:bg-white/[.065]">
                           {x.home.details}
                           <ArrowRight className="ml-2 h-4 w-4" />
                         </Button>
@@ -172,120 +234,55 @@ export function GrowthSystems() {
                     </div>
                   </div>
                 </div>
-              </motion.article>
-            );
-          })}
-        </div>
+              </InteractiveSurface>
+            </motion.div>
+          </AnimatePresence>
 
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="mx-auto mt-8 max-w-6xl overflow-hidden rounded-[28px] border border-white/[.09] bg-[#070707]"
-        >
-          <div className="border-b border-white/[.07] p-6 sm:p-8">
-            <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
-              <div>
-                <p className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[.2em] text-amber-300/80">
-                  <Compass className="h-3.5 w-3.5" />
-                  {x.diagnostic.eyebrow}
-                </p>
-                <h3 className="mt-3 text-2xl font-bold tracking-tight sm:text-3xl">{x.home.diagnosticTitle}</h3>
+          <div className="mt-5 rounded-[26px] border border-white/[.08] bg-[#070707] p-5 sm:p-6">
+            <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+              <div className="flex items-center gap-3">
+                <span className="flex h-10 w-10 items-center justify-center rounded-xl border border-white/[.08] bg-white/[.025] text-amber-300">
+                  <Compass className="h-4 w-4" />
+                </span>
+                <div>
+                  <p className="text-sm font-semibold text-zinc-200">{x.home.diagnosticTitle}</p>
+                  <p className="mt-1 text-xs text-zinc-500">{x.home.diagnosticDesc}</p>
+                </div>
               </div>
-              <p className="max-w-md text-sm leading-6 text-gray-400">{x.home.diagnosticDesc}</p>
+              <span className="text-[9px] font-bold uppercase tracking-[.18em] text-zinc-700">Select a situation</span>
+            </div>
+
+            <div className="mt-5 grid gap-3 md:grid-cols-3">
+              {x.diagnostic.paths.map((path) => {
+                const selected = path.engine === active;
+                return (
+                  <button
+                    key={path.value}
+                    type="button"
+                    onClick={() => {
+                      setActive(path.engine);
+                      track("growth_diagnostic_select", { engine: path.engine, situation: path.value });
+                    }}
+                    className={cn(
+                      "rounded-2xl border p-4 text-left transition-all",
+                      selected ? TONE[path.engine].active : "border-white/[.07] bg-white/[.015] hover:border-white/[.13]",
+                    )}
+                  >
+                    <p className={cn("text-[9px] font-bold uppercase tracking-[.16em]", TONE[path.engine].text)}>
+                      {ENGINE_LABEL[path.engine]}
+                    </p>
+                    <p className="mt-2 text-sm font-semibold leading-6 text-zinc-200">{path.situation}</p>
+                    <p className="mt-2 text-xs leading-5 text-zinc-500">{path.detail}</p>
+                  </button>
+                );
+              })}
             </div>
           </div>
+        </div>
+      </div>
 
-          <div className="grid lg:grid-cols-3">
-            {x.diagnostic.paths.map((path, i) => {
-              const active = picked === i;
-              const style = STYLE[path.engine];
-              return (
-                <button
-                  key={path.value}
-                  type="button"
-                  onClick={() => setPicked(active ? null : i)}
-                  aria-pressed={active}
-                  className={cn(
-                    "min-h-[190px] border-b border-white/[.07] p-6 text-left transition last:border-b-0 lg:border-b-0 lg:border-r lg:last:border-r-0 sm:p-7",
-                    active ? "bg-white/[.055]" : "bg-transparent hover:bg-white/[.025]",
-                  )}
-                >
-                  <div className="flex items-center justify-between gap-3">
-                    <span className={cn("text-[10px] font-bold uppercase tracking-[.18em]", style.label)}>
-                      {ENGINE_LABEL[path.engine]}
-                    </span>
-                    <span
-                      className={cn(
-                        "h-2 w-2 rounded-full transition",
-                        active ? style.icon.split(" ").find((v) => v.startsWith("bg-")) || "bg-amber-300" : "bg-zinc-800",
-                      )}
-                    />
-                  </div>
-                  <p className="mt-4 text-base font-bold leading-6 text-zinc-100">{path.situation}</p>
-                  <p className="mt-3 text-sm leading-6 text-zinc-500">{path.detail}</p>
-                </button>
-              );
-            })}
-          </div>
-
-          {chosen && (
-            <motion.div
-              initial={{ opacity: 0, y: 8 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.22 }}
-              className="flex flex-col gap-5 border-t border-white/[.07] bg-white/[.018] p-6 sm:p-8 lg:flex-row lg:items-center lg:justify-between"
-            >
-              <div className="max-w-2xl">
-                <p className={cn("text-[10px] font-bold uppercase tracking-[.2em]", STYLE[chosen.engine].label)}>
-                  {x.home.recommended}
-                </p>
-                <p className="mt-2 text-xl font-bold tracking-tight">{ENGINE_LABEL[chosen.engine]}</p>
-                <p className="mt-2 text-sm leading-6 text-gray-400">{x.engines.items[chosen.engine].outcome}</p>
-              </div>
-              <div className="flex shrink-0 flex-col gap-3 sm:flex-row">
-                <RequestDialog
-                  intent={DIAGNOSTIC_INTENT}
-                  title={x.diagnostic.dialogTitle}
-                  description={x.diagnostic.dialogDesc}
-                  buttonLabel={`Home — Diagnostic (${ENGINE_LABEL[chosen.engine]})`}
-                  showBuildType={false}
-                  helpLabel={x.diagnostic.helpLabel}
-                  helpPlaceholder={x.diagnostic.helpPlaceholder}
-                  successTitle={x.diagnostic.successTitle}
-                  successMessage={x.diagnostic.successMessage}
-                  context={{
-                    offer: ENGINE_INTENT[chosen.engine],
-                    situation: chosen.value,
-                    source: "home_growth_diagnostic",
-                    locale: lang,
-                    route: base,
-                  }}
-                >
-                  <Button className="premium-button h-auto min-h-11 w-full px-6 py-2.5 sm:w-auto">
-                    {x.diagnostic.cta}
-                    <ArrowRight className="ml-2 h-4 w-4" />
-                  </Button>
-                </RequestDialog>
-                <a href={`${page}#${engineAnchor(chosen.engine)}`} className="w-full sm:w-auto">
-                  <Button className="h-auto min-h-11 w-full border border-white/15 bg-white/[.035] px-6 py-2.5 text-white hover:bg-white/[.08] sm:w-auto">
-                    {x.home.details}
-                  </Button>
-                </a>
-              </div>
-            </motion.div>
-          )}
-
-          <div className="border-t border-white/[.07] p-5 text-center">
-            <a
-              href={page}
-              className="inline-flex items-center gap-1.5 text-sm font-semibold text-amber-300 transition-colors hover:text-amber-200"
-            >
-              {x.home.seeAll}
-              <ArrowRight className="h-4 w-4" />
-            </a>
-          </div>
-        </motion.div>
+      <div className="relative z-10 mt-20 border-t border-white/[.06] pt-1">
+        <SelectedWork />
       </div>
     </section>
   );
