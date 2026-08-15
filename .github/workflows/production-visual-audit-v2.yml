@@ -21,10 +21,14 @@ jobs:
         run: |
           npm install --no-save playwright@1.54.2
           npx playwright install --with-deps chromium
-      - name: Run production audit
+      - name: Run production visual audit
         env:
           BASE_URL: https://vladkuzmenko.com
         run: node scripts/production-visual-audit.mjs
+      - name: Run production internal-link audit
+        env:
+          BASE_URL: https://vladkuzmenko.com
+        run: node scripts/production-link-audit.mjs
       - name: Upload screenshots and reports
         if: always()
         uses: actions/upload-artifact@v4
