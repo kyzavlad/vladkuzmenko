@@ -22,6 +22,7 @@ export function HomeContent() {
       <ProductsOverview />
       <WarriorsSection />
       <DropSection />
+      <div id="about" className="scroll-mt-24" aria-hidden="true" />
       <PersonalBrand />
       <ContactSection />
       <FooterSection />
