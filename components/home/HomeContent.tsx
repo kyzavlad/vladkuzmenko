@@ -10,7 +10,7 @@ import { AboutSection } from "@/components/home/AboutSection";
 import { ContactSection } from "@/components/home/ContactSection";
 import { FooterSection } from "@/components/FooterSection";
 
-// Homepage order: ecosystem first, then each business model with its own proof and path.
+// Homepage order: ecosystem first, then each business model with its proof and next path.
 export function HomeContent() {
   return (
     <>
