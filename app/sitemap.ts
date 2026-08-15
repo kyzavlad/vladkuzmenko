@@ -1,8 +1,9 @@
 import type { MetadataRoute } from "next";
 import { CURATED_CASE_SLUGS } from "@/lib/portfolio-curated";
 
-// Localized routes: home + product/community + portfolio pages in EN (/), UA (/ua)
-// and RU (/ru). hreflang alternates are declared in each page's metadata.
+// Localized routes: home + active business/product/community + portfolio pages
+// in EN (/), UA (/ua) and RU (/ru). Legacy capability routes may remain
+// reachable for old inbound links but are not promoted as active product pages.
 export default function sitemap(): MetadataRoute.Sitemap {
   const baseUrl = "https://vladkuzmenko.com";
   const lastModified = new Date();
@@ -12,12 +13,11 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { slug: "growth-systems", priority: 0.9, freq: "monthly" },
     { slug: "work", priority: 0.9, freq: "monthly" },
     { slug: "products", priority: 0.8, freq: "monthly" },
-    { slug: "drop", priority: 0.6, freq: "monthly" },
     { slug: "visibilityos", priority: 0.8, freq: "monthly" },
-    { slug: "ai-systems", priority: 0.8, freq: "monthly" },
-    { slug: "automation", priority: 0.8, freq: "monthly" },
-    { slug: "auto-dealers", priority: 0.9, freq: "monthly" },
-    { slug: "warriors-team", priority: 0.7, freq: "monthly" },
+    { slug: "warriors-team", priority: 0.8, freq: "monthly" },
+    { slug: "drop", priority: 0.7, freq: "monthly" },
+    { slug: "automation", priority: 0.7, freq: "monthly" },
+    { slug: "auto-dealers", priority: 0.8, freq: "monthly" },
     ...CURATED_CASE_SLUGS.map((slug) => ({
       slug: `work/${slug}`,
       priority: 0.7,
@@ -28,9 +28,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const entries: MetadataRoute.Sitemap = [];
   for (const { slug, priority, freq } of pages) {
     for (const prefix of prefixes) {
-      const url = slug
-        ? `${baseUrl}${prefix}/${slug}`
-        : `${baseUrl}${prefix || "/"}`;
+      const url = slug ? `${baseUrl}${prefix}/${slug}` : `${baseUrl}${prefix || "/"}`;
       entries.push({
         url,
         lastModified,
