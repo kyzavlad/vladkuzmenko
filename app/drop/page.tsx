@@ -1,11 +1,14 @@
 import { I18nProvider } from "@/components/i18n-provider";
 import { DropPage } from "@/components/pages/DropPage";
 import { pageMeta } from "@/lib/page-meta";
-import { breadcrumbJsonLd, dropWebPageJsonLd, getEcosystemCopy } from "@/lib/ecosystem";
+import { breadcrumbJsonLd } from "@/lib/ecosystem";
 
-const x = getEcosystemCopy("en");
-
-export const metadata = pageMeta("en", "drop", x.drop.metaTitle, x.drop.metaDesc);
+export const metadata = pageMeta(
+  "en",
+  "drop",
+  "Performance Meal Sets & Essentials | Vlad Kuzmenko",
+  "Performance food for training days, work and travel. Get first access to the first local meal-set line when the real menu and conditions are ready.",
+);
 
 export default function Page() {
   return (
@@ -13,11 +16,7 @@ export default function Page() {
       <DropPage />
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(dropWebPageJsonLd("en")) }}
-      />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd("en", x.drop.eyebrow, "drop")) }}
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd("en", "Performance", "drop")) }}
       />
     </I18nProvider>
   );
