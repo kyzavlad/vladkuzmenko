@@ -6,7 +6,7 @@ import { Calendar, Sparkles, Mail, Loader2, CheckCircle, Send, MessageCircle } f
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { SITE, openAssistant, submitLead } from "@/lib/site";
+import { SITE, submitLead } from "@/lib/site";
 import { useI18n } from "@/components/i18n-provider";
 
 export function ContactSection() {
@@ -61,14 +61,6 @@ export function ContactSection() {
                   {t.cta.bookCall}
                 </Button>
               </a>
-              <Button
-                variant="outline"
-                onClick={openAssistant}
-                className="w-full h-12 justify-start text-base border-amber-400/40 text-amber-200 hover:bg-amber-400/10"
-              >
-                <Sparkles className="mr-3 h-5 w-5" />
-                {c.askAI}
-              </Button>
               <div className="grid sm:grid-cols-2 gap-3">
                 <a href={SITE.socials.telegram} target="_blank" rel="noopener noreferrer" className="block">
                   <Button

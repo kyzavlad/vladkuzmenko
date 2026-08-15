@@ -1,9 +1,9 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Calendar, Sparkles } from "lucide-react";
+import { Calendar } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { SITE, openAssistant } from "@/lib/site";
+import { SITE } from "@/lib/site";
 import { useI18n } from "@/components/i18n-provider";
 
 export function AboutSection() {

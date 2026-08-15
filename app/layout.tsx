@@ -99,16 +99,20 @@ const jsonLd = {
       ],
     },
     {
+      // Language-neutral site node. The site is trilingual, so it declares all
+      // three languages rather than claiming English on /ua and /ru. The
+      // localized description lives on the per-locale WebPage node, which is
+      // emitted by each home route and points back at this @id.
       "@type": "WebSite",
       "@id": `${SITE.url}/#website`,
       url: SITE.url,
       name: "Vlad Kuzmenko",
-      description: DESCRIPTION,
       publisher: { "@id": `${SITE.url}/#vlad` },
-      inLanguage: "en",
+      inLanguage: ["en", "uk", "ru"],
     },
     {
       "@type": "ProfessionalService",
+      "@id": `${SITE.url}/#service`,
       name: "Vlad Kuzmenko — Growth Systems",
       url: SITE.url,
       description:

@@ -1,12 +1,9 @@
 "use client";
 
-import { CartProvider } from "@/context/cart-context";
-import { ShoppingCartSidebar } from "@/components/ui/shopping-cart-sidebar";
-import { VoiceflowScript } from "@/components/voiceflow-script";
 import { Toaster } from "@/components/ui/toaster";
 import { useEffect, useState } from "react";
 import type { ReactNode } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence, MotionConfig } from "framer-motion";
 
 function LoadingAnimation() {
   return (
@@ -38,7 +35,8 @@ function LoadingAnimation() {
 }
 
 /**
- * Client shell: keeps the existing intro animation, cart, assistant and toaster.
+ * Client shell: keeps the existing intro animation and toaster. There is no
+ * cart — the site has no ecommerce flow, and Drop is research, not a shop.
  * Split out of the root layout so the layout can stay a server component and
  * use the Next.js Metadata API for proper SEO.
  */
@@ -55,16 +53,10 @@ export function AppShell({ children }: { children: ReactNode }) {
   // link previews see the real page). The intro animation is a full-screen fixed
   // overlay on top of it, so the visual experience is unchanged.
   return (
-    <CartProvider>
+    <MotionConfig reducedMotion="user">
       {children}
       <AnimatePresence>{isLoading && <LoadingAnimation key="loading" />}</AnimatePresence>
-      {!isLoading && (
-        <>
-          <VoiceflowScript />
-          <ShoppingCartSidebar />
-          <Toaster />
-        </>
-      )}
-    </CartProvider>
+      {!isLoading && <Toaster />}
+    </MotionConfig>
   );
 }

@@ -2,10 +2,11 @@
 
 import React from "react";
 import { motion } from "framer-motion";
-import { ArrowDown, Calendar, Sparkles } from "lucide-react";
+import { ArrowDown, Calendar } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { SITE, openAssistant } from "@/lib/site";
+import { SITE } from "@/lib/site";
 import { useI18n } from "@/components/i18n-provider";
+import { track } from "@/lib/analytics";
 
 const scrollTo = (id: string) => {
   if (typeof document === "undefined") return;
@@ -87,7 +88,12 @@ export function Hero() {
 
           {/* CTAs */}
           <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center items-center pt-2">
-            <a href={SITE.calcom} target="_blank" rel="noopener noreferrer">
+            <a
+              href={SITE.calcom}
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={() => track("calcom_click", { source: "hero" })}
+            >
               <Button size="lg" className="premium-button min-w-[190px] h-12 text-base">
                 <Calendar className="mr-2 h-5 w-5" />
                 {t.cta.bookCall}
@@ -96,24 +102,19 @@ export function Hero() {
             <Button
               size="lg"
               variant="outline"
-              onClick={() => scrollTo("selected-work")}
+              onClick={() => {
+                track("hero_view_work");
+                scrollTo("selected-work");
+              }}
               className="min-w-[190px] h-12 text-base border-amber-400/30 bg-amber-400/[0.03] text-amber-100 hover:bg-amber-400/10"
             >
               {t.cta.viewWork}
             </Button>
-            <button
-              type="button"
-              onClick={openAssistant}
-              className="inline-flex items-center gap-2 text-sm font-medium text-gray-400 hover:text-amber-200 transition-colors h-12 px-3"
-            >
-              <Sparkles className="h-4 w-4" />
-              {t.cta.askAI}
-            </button>
           </div>
 
           <button
             type="button"
-            onClick={() => scrollTo("growth-systems")}
+            onClick={() => scrollTo("ecosystem")}
             className="mt-4 inline-flex flex-col items-center gap-2 text-gray-600 hover:text-amber-300 transition-colors"
             aria-label={t.hero.viewWork}
           >

@@ -4,7 +4,7 @@ import React, { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
 import { Menu, X, Calendar } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { SITE, openAssistant } from "@/lib/site";
+import { SITE } from "@/lib/site";
 import { useI18n } from "@/components/i18n-provider";
 import { LANGS, LANG_LABELS, langHref } from "@/lib/i18n";
 
@@ -13,6 +13,8 @@ const LOCALIZED_SLUGS = new Set([
   "",
   "growth-systems",
   "work",
+  "products",
+  "drop",
   "visibilityos",
   "ai-systems",
   "auto-dealers",
@@ -33,10 +35,9 @@ export function Header() {
     { title: t.nav.home, href: base },
     { title: t.nav.services, href: pageHref("growth-systems") },
     { title: t.nav.work, href: pageHref("work") },
-    { title: t.nav.products, href: hashHref("products"), hash: "products" },
-    { title: t.nav.visibilityos, href: pageHref("visibilityos") },
+    { title: t.nav.products, href: pageHref("products") },
     { title: t.nav.warriors, href: pageHref("warriors-team") },
-    { title: t.nav.shop, href: hashHref("shop"), hash: "shop" },
+    { title: t.nav.drop, href: pageHref("drop") },
     { title: t.nav.about, href: hashHref("about"), hash: "about" },
   ];
 
@@ -111,13 +112,13 @@ export function Header() {
 
         {/* Desktop nav — kept on a single row at every desktop width, so the
             labels stay legible instead of wrapping under each other. */}
-        <nav className="hidden xl:flex items-center gap-0.5">
+        <nav className="hidden xl:flex items-center gap-1">
           {navItems.map((item) => (
             <a
               key={item.title}
               href={item.href}
               onClick={(e) => handleNavClick(e, item)}
-              className="whitespace-nowrap rounded-md px-2 py-2 text-[13px] font-medium text-gray-300 transition-colors hover:bg-white/5 hover:text-amber-200"
+              className="whitespace-nowrap rounded-md px-3 py-2 text-sm font-medium text-gray-300 transition-colors hover:bg-white/5 hover:text-amber-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-300/60"
             >
               {item.title}
             </a>
@@ -127,13 +128,6 @@ export function Header() {
         {/* Right CTAs */}
         <div className="hidden md:flex items-center gap-2 shrink-0 xl:gap-3">
           <LangSwitcher />
-          <button
-            type="button"
-            onClick={openAssistant}
-            className="hidden text-sm font-medium text-gray-400 transition-colors hover:text-amber-200 md:inline xl:hidden 2xl:inline"
-          >
-            {t.cta.askAI}
-          </button>
           <a href={SITE.calcom} target="_blank" rel="noopener noreferrer">
             <Button className="premium-button h-10 px-5">
               <Calendar className="mr-2 h-4 w-4" />
@@ -164,22 +158,12 @@ export function Header() {
               key={item.title}
               href={item.href}
               onClick={(e) => handleNavClick(e, item)}
-              className="py-2.5 px-2 text-base font-medium text-gray-200 hover:text-amber-200 border-b border-border/20 last:border-0"
+              className="rounded-md py-2.5 px-2 text-base font-medium text-gray-200 hover:text-amber-200 border-b border-border/20 last:border-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-300/60"
             >
               {item.title}
             </a>
           ))}
           <div className="pt-3 flex flex-col gap-2">
-            <button
-              type="button"
-              onClick={() => {
-                setMobileMenuOpen(false);
-                openAssistant();
-              }}
-              className="text-sm font-medium text-gray-400 hover:text-amber-200 transition-colors py-2 text-left"
-            >
-              {t.cta.askAI}
-            </button>
             <a href={SITE.calcom} target="_blank" rel="noopener noreferrer">
               <Button className="w-full premium-button">
                 <Calendar className="mr-2 h-4 w-4" />

@@ -26,8 +26,8 @@ const en = {
     warriorsDesc:
       "A selective private circle around business, training, discipline, cars, content and execution. By application.",
   },
-  nav: { home: "Home", services: "Growth Systems", work: "Work", products: "Products", visibilityos: "VisibilityOS", warriors: "Warriors Team", shop: "Shop", about: "About" },
-  cta: { bookCall: "Book a Call", askAI: "Ask AI", viewWork: "View Work" },
+  nav: { home: "Home", services: "Growth Systems", work: "Work", products: "Products", warriors: "Warriors", drop: "Drop", about: "About" },
+  cta: { bookCall: "Book a Call", viewWork: "View Work" },
   form: {
     name: "Your name", namePh: "First name",
     email: "Email", emailPh: "you@email.com",
@@ -45,9 +45,9 @@ const en = {
   },
   hero: {
     pillars: ["Traffic Engine", "Conversion Engine", "Growth Engine"],
-    tagline: "Growth systems that turn attention into leads and sales.",
+    tagline: "Systems and products that turn attention into action.",
     supporting:
-      "I combine content, web, AI automation and sales operations around one bottleneck — the place where your business is actually losing growth.",
+      "For business: Traffic Engine, Conversion Engine and Growth Engine — attention, and what happens to it afterwards. Alongside that: my own digital products, a private circle, and consumer ideas researched before anything is sold.",
     viewWork: "View Work",
   },
   selected: {
@@ -279,7 +279,6 @@ const en = {
   contact: {
     titleA: "Let's ", titleB: "build",
     desc: "Pick whatever's fastest for you. Every option reaches me directly.",
-    askAI: "Ask the AI assistant",
     sendMsgTitle: "Send a message",
     namePh: "Your name", emailPh: "Email", contactPh: "Telegram / Instagram (optional)", messagePh: "What do you want to build?",
     send: "Send message", sending: "Sending…",
@@ -291,9 +290,9 @@ const en = {
     newsletterDesc: "Occasional updates on builds, products and drops. No spam.",
     subscribed: "You're subscribed.", emailPh: "Enter your email",
     exploreTitle: "Explore",
-    explore: ["Home", "Growth Systems", "Work", "VisibilityOS", "AI Systems for Business", "Warriors Team", "Shop", "About"],
+    explore: ["Home", "Growth Systems", "Work", "Products", "VisibilityOS", "AI Systems for Business", "Warriors Team", "Drop", "About"],
     workTitle: "Work with me",
-    work: ["Book a call", "Find your bottleneck", "Request an AI audit", "AI Systems for Business", "Apply to Warriors Team", "Shop"],
+    work: ["Book a call", "Find your bottleneck", "Request an AI audit", "AI Systems for Business", "Apply to Warriors Team", "Drop research list"],
     contactTitle: "Contact",
     rights: "All rights reserved.",
     privacy: "Privacy Policy", terms: "Terms",
@@ -317,8 +316,8 @@ const ua: Dict = {
     warriorsDesc:
       "Відбіркове приватне коло навколо бізнесу, тренувань, дисципліни, авто, контенту та виконання. За заявкою.",
   },
-  nav: { home: "Головна", services: "Послуги", work: "Роботи", products: "Продукти", visibilityos: "VisibilityOS", warriors: "Warriors Team", shop: "Магазин", about: "Про мене" },
-  cta: { bookCall: "Записатись на дзвінок", askAI: "Запитати AI", viewWork: "Переглянути роботи" },
+  nav: { home: "Головна", services: "Послуги", work: "Роботи", products: "Продукти", warriors: "Warriors", drop: "Drop", about: "Про мене" },
+  cta: { bookCall: "Записатись на дзвінок", viewWork: "Переглянути роботи" },
   form: {
     name: "Ваше ім'я", namePh: "Ім'я",
     email: "Email", emailPh: "you@email.com",
@@ -336,9 +335,9 @@ const ua: Dict = {
   },
   hero: {
     pillars: ["Traffic Engine", "Conversion Engine", "Growth Engine"],
-    tagline: "Системи росту, які перетворюють увагу на ліди та продажі.",
+    tagline: "Системи та продукти, які перетворюють увагу на дію.",
     supporting:
-      "Я поєдную контент, веб, AI-автоматизацію та процеси продажів навколо одного вузького місця — там, де бізнес справді втрачає ріст.",
+      "Для бізнесу: Traffic Engine, Conversion Engine і Growth Engine — увага і те, що з нею відбувається далі. Поряд: власні цифрові продукти, приватне коло та споживчі ідеї, які досліджують до того, як щось продавати.",
     viewWork: "Переглянути роботи",
   },
   selected: {
@@ -506,7 +505,7 @@ const ua: Dict = {
     desc: "Приватне коло навколо бізнесу, тренувань, дисципліни, авто, контенту та виконання — на реальних стандартах. Реальні люди, які будують реальні речі й тримають одне одного на вищій планці.",
     whoForLabel: "Для кого це",
     whoFor: "люди, які вже будують — бізнес, контент чи навички — і хочуть гостріше коло й вищі стандарти навколо себе.",
-    note: "Відбірково, за заявкою. Ви подаєте заявку, ми спілкуємось, і я вирішую, чи це фіт — без фейкових цифр, без публічної ціни, без тиску.",
+    note: "Відбір за заявкою. Ви подаєте заявку, ми спілкуємось, і я вирішую, чи підходить формат — без фейкових цифр, без публічної ціни, без тиску.",
     pillars: ["Бізнес і виконання", "Тренування й дисципліна", "Авто й лайфстайл", "Контент і стандарти"],
     forYouTitle: "Це для вас, якщо",
     forYou: ["Ви вже будуєте — бізнес, контент чи навички", "Ви тримаєте себе на реальних стандартах", "Ви хочете гостріше коло навколо себе", "Ви вкладаєте, а не лише споживаєте"],
@@ -515,13 +514,13 @@ const ua: Dict = {
     insideTitle: "Що відбувається всередині",
     inside: ["Чесні розмови про бізнес, білди й що працює", "Тренування, дисципліна й стандарти", "Авто, контент і лайфстайл", "Прямий доступ і чесний фідбек"],
     howTitle: "Як це працює",
-    how: "Ви подаєте заявку. Я особисто читаю кожну. Якщо це фіт, ми спілкуємось на дзвінку й вирішуємо разом. Без публічної ціни — спочатку про фіт.",
+    how: "Ви подаєте заявку. Я особисто читаю кожну. Якщо формат підходить, созвон і вирішуємо разом. Публічної ціни немає — спочатку розуміємо, чи підходимо одне одному.",
     apply: "Подати заявку", learnMore: "Дізнатися більше", talkToVlad: "Поговорити з Владом",
     dialogTitle: "Заявка у Warriors Team",
-    dialogDesc: "Це приватне коло за заявкою. Я особисто читаю кожну заявку — якщо це фіт, домовляємось про дзвінок.",
+    dialogDesc: "Це приватне коло за заявкою. Я особисто читаю кожну заявку — якщо формат підходить, домовляємось про дзвінок.",
     dialogSubmit: "Подати заявку",
     dialogSuccessT: "Заявку отримано",
-    dialogSuccessM: "Я особисто читаю кожну заявку. Якщо це фіт, зв'яжусь, щоб домовитись про дзвінок.",
+    dialogSuccessM: "Я особисто читаю кожну заявку. Якщо формат підходить, зв'яжусь, щоб домовитись про дзвінок.",
     helpLabel: "Що ви будуєте і чому хочете долучитись?", helpPh: "Бізнес, тренування, контент — над чим працюєте",
   },
   shop: {
@@ -570,7 +569,6 @@ const ua: Dict = {
   contact: {
     titleA: "Давайте ", titleB: "будувати",
     desc: "Оберіть, що швидше для вас. Будь-який варіант доходить напряму до мене.",
-    askAI: "Запитати AI-асистента",
     sendMsgTitle: "Надіслати повідомлення",
     namePh: "Ваше ім'я", emailPh: "Email", contactPh: "Telegram / Instagram (необов'язково)", messagePh: "Що ви хочете створити?",
     send: "Надіслати повідомлення", sending: "Надсилаємо…",
@@ -582,9 +580,9 @@ const ua: Dict = {
     newsletterDesc: "Іноді апдейти про білди, продукти й дропи. Без спаму.",
     subscribed: "Ви підписані.", emailPh: "Введіть ваш email",
     exploreTitle: "Розділи",
-    explore: ["Головна", "Послуги", "Роботи", "VisibilityOS", "AI-системи для бізнесу", "Warriors Team", "Магазин", "Про мене"],
+    explore: ["Головна", "Послуги", "Роботи", "Продукти", "VisibilityOS", "AI-системи для бізнесу", "Warriors Team", "Drop", "Про мене"],
     workTitle: "Співпраця",
-    work: ["Записатись на дзвінок", "Визначити вузьке місце", "Замовити AI-аудит", "AI-системи для бізнесу", "Заявка у Warriors Team", "Магазин"],
+    work: ["Записатись на дзвінок", "Визначити вузьке місце", "Замовити AI-аудит", "AI-системи для бізнесу", "Заявка у Warriors Team", "Список дослідження Drop"],
     contactTitle: "Контакти",
     rights: "Усі права захищені.",
     privacy: "Політика конфіденційності", terms: "Умови",
@@ -606,8 +604,8 @@ const ru: Dict = {
     warriorsDesc:
       "Отборочный приватный круг вокруг бизнеса, тренировок, дисциплины, авто, контента и исполнения. По заявке.",
   },
-  nav: { home: "Главная", services: "Услуги", work: "Работы", products: "Продукты", visibilityos: "VisibilityOS", warriors: "Warriors Team", shop: "Магазин", about: "Обо мне" },
-  cta: { bookCall: "Записаться на звонок", askAI: "Спросить AI", viewWork: "Смотреть работы" },
+  nav: { home: "Главная", services: "Услуги", work: "Работы", products: "Продукты", warriors: "Warriors", drop: "Drop", about: "Обо мне" },
+  cta: { bookCall: "Записаться на звонок", viewWork: "Смотреть работы" },
   form: {
     name: "Ваше имя", namePh: "Имя",
     email: "Email", emailPh: "you@email.com",
@@ -625,9 +623,9 @@ const ru: Dict = {
   },
   hero: {
     pillars: ["Traffic Engine", "Conversion Engine", "Growth Engine"],
-    tagline: "Системы роста, которые превращают внимание в лиды и продажи.",
+    tagline: "Системы и продукты, которые превращают внимание в действие.",
     supporting:
-      "Я объединяю контент, веб, AI-автоматизацию и процессы продаж вокруг одного узкого места — там, где бизнес реально теряет рост.",
+      "Для бизнеса: Traffic Engine, Conversion Engine и Growth Engine — внимание и то, что с ним происходит дальше. Рядом: собственные цифровые продукты, приватный круг и потребительские идеи, которые исследуют до того, как что-то продавать.",
     viewWork: "Смотреть работы",
   },
   selected: {
@@ -795,7 +793,7 @@ const ru: Dict = {
     desc: "Приватный круг вокруг бизнеса, тренировок, дисциплины, авто, контента и исполнения — на реальных стандартах. Реальные люди, которые строят реальные вещи и держат друг друга на высокой планке.",
     whoForLabel: "Для кого это",
     whoFor: "люди, которые уже строят — бизнес, контент или навыки — и хотят более острый круг и высокие стандарты вокруг себя.",
-    note: "Отборочно, по заявке. Вы подаёте заявку, мы общаемся, и я решаю, фит ли это — без фейковых цифр, без публичной цены, без давления.",
+    note: "Отбор по заявке. Вы подаёте заявку, мы общаемся, и я решаю, подходит ли формат — без фейковых цифр, без публичной цены, без давления.",
     pillars: ["Бизнес и исполнение", "Тренировки и дисциплина", "Авто и лайфстайл", "Контент и стандарты"],
     forYouTitle: "Это для вас, если",
     forYou: ["Вы уже строите — бизнес, контент или навыки", "Вы держите себя на реальных стандартах", "Вы хотите более острый круг вокруг себя", "Вы вкладываете, а не только потребляете"],
@@ -804,13 +802,13 @@ const ru: Dict = {
     insideTitle: "Что происходит внутри",
     inside: ["Честные разговоры о бизнесе, сборках и что работает", "Тренировки, дисциплина и стандарты", "Авто, контент и лайфстайл", "Прямой доступ и честный фидбек"],
     howTitle: "Как это работает",
-    how: "Вы подаёте заявку. Я лично читаю каждую. Если это фит, мы общаемся на звонке и решаем вместе. Без публичной цены — сначала про фит.",
+    how: "Вы подаёте заявку. Я лично читаю каждую. Если формат подходит, созваниваемся и решаем вместе. Публичной цены нет — сначала понимаем, подходим ли друг другу.",
     apply: "Подать заявку", learnMore: "Узнать больше", talkToVlad: "Поговорить с Владом",
     dialogTitle: "Заявка в Warriors Team",
-    dialogDesc: "Это приватный круг по заявке. Я лично читаю каждую заявку — если это фит, договариваемся о звонке.",
+    dialogDesc: "Это приватный круг по заявке. Я лично читаю каждую заявку — если формат подходит, договариваемся о звонке.",
     dialogSubmit: "Подать заявку",
     dialogSuccessT: "Заявка получена",
-    dialogSuccessM: "Я лично читаю каждую заявку. Если это фит, свяжусь, чтобы договориться о звонке.",
+    dialogSuccessM: "Я лично читаю каждую заявку. Если формат подходит, свяжусь, чтобы договориться о звонке.",
     helpLabel: "Что вы строите и почему хотите присоединиться?", helpPh: "Бизнес, тренировки, контент — над чем работаете",
   },
   shop: {
@@ -859,7 +857,6 @@ const ru: Dict = {
   contact: {
     titleA: "Давайте ", titleB: "строить",
     desc: "Выберите, что быстрее для вас. Любой вариант доходит напрямую до меня.",
-    askAI: "Спросить AI-ассистента",
     sendMsgTitle: "Отправить сообщение",
     namePh: "Ваше имя", emailPh: "Email", contactPh: "Telegram / Instagram (необязательно)", messagePh: "Что вы хотите создать?",
     send: "Отправить сообщение", sending: "Отправляем…",
@@ -871,9 +868,9 @@ const ru: Dict = {
     newsletterDesc: "Иногда апдейты о сборках, продуктах и дропах. Без спама.",
     subscribed: "Вы подписаны.", emailPh: "Введите ваш email",
     exploreTitle: "Разделы",
-    explore: ["Главная", "Услуги", "Работы", "VisibilityOS", "AI-системы для бизнеса", "Warriors Team", "Магазин", "Обо мне"],
+    explore: ["Главная", "Услуги", "Работы", "Продукты", "VisibilityOS", "AI-системы для бизнеса", "Warriors Team", "Drop", "Обо мне"],
     workTitle: "Сотрудничество",
-    work: ["Записаться на звонок", "Определить узкое место", "Заказать AI-аудит", "AI-системы для бизнеса", "Заявка в Warriors Team", "Магазин"],
+    work: ["Записаться на звонок", "Определить узкое место", "Заказать AI-аудит", "AI-системы для бизнеса", "Заявка в Warriors Team", "Список исследования Drop"],
     contactTitle: "Контакты",
     rights: "Все права защищены.",
     privacy: "Политика конфиденциальности", terms: "Условия",

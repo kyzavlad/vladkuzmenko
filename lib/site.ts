@@ -80,15 +80,3 @@ export async function submitLead(
     return false;
   }
 }
-
-/** Open the Voiceflow AI assistant widget (loaded globally in the layout). */
-export function openAssistant(): void {
-  if (typeof window === "undefined") return;
-  try {
-    const vf = (window as unknown as { voiceflow?: { chat?: { open?: () => void } } })
-      .voiceflow;
-    vf?.chat?.open?.();
-  } catch {
-    /* no-op */
-  }
-}
