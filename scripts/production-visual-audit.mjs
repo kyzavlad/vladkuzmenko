@@ -133,24 +133,49 @@ async function auditOne(url, vp) {
   return { url, viewport: vp, status, navError, consoleErrors, pageErrors, screenshot, ...data };
 }
 
+const tasks = [];
 for (const url of urls) {
   const p = new URL(url).pathname;
-  for (const vp of viewports) results.push(await auditOne(url, vp));
+  for (const vp of viewports) tasks.push({ url, vp });
   if (corePaths.has(p)) {
-    for (const vp of extraCoreViewports) results.push(await auditOne(url, vp));
+    for (const vp of extraCoreViewports) tasks.push({ url, vp });
   }
 }
 
+let nextTask = 0;
+let completed = 0;
+const worker = async () => {
+  while (true) {
+    const index = nextTask++;
+    if (index >= tasks.length) return;
+    const { url, vp } = tasks[index];
+    results.push(await auditOne(url, vp));
+    completed += 1;
+    if (completed % 10 === 0 || completed === tasks.length) {
+      console.log(`AUDIT_PROGRESS ${completed}/${tasks.length}`);
+    }
+  }
+};
+await Promise.all(Array.from({ length: Math.min(6, tasks.length) }, () => worker()));
+
 const linkResults = [];
-for (const href of [...internalLinks].sort()) {
-  let status = null; let error = null;
-  try {
-    let res = await fetch(href, { method: 'HEAD', redirect: 'manual' });
-    if (res.status === 405 || res.status === 403) res = await fetch(href, { method: 'GET', redirect: 'manual' });
-    status = res.status;
-  } catch (e) { error = String(e); }
-  linkResults.push({ href, status, error });
-}
+const linkQueue = [...internalLinks].sort();
+let nextLink = 0;
+const linkWorker = async () => {
+  while (true) {
+    const index = nextLink++;
+    if (index >= linkQueue.length) return;
+    const href = linkQueue[index];
+    let status = null; let error = null;
+    try {
+      let res = await fetch(href, { method: 'HEAD', redirect: 'manual' });
+      if (res.status === 405 || res.status === 403) res = await fetch(href, { method: 'GET', redirect: 'manual' });
+      status = res.status;
+    } catch (e) { error = String(e); }
+    linkResults.push({ href, status, error });
+  }
+};
+await Promise.all(Array.from({ length: Math.min(12, linkQueue.length || 1) }, () => linkWorker()));
 await browser.close();
 
 const issues = [];
