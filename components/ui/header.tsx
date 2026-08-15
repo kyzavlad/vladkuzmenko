@@ -2,9 +2,9 @@
 
 import React, { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
-import { Bot, Calendar, Menu, X } from "lucide-react";
+import { Calendar, Menu, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { SITE, openAssistant } from "@/lib/site";
+import { SITE } from "@/lib/site";
 import { useI18n } from "@/components/i18n-provider";
 import { LANGS, LANG_LABELS, langHref, type Lang } from "@/lib/i18n";
 
@@ -15,7 +15,6 @@ const LOCALIZED_SLUGS = new Set([
   "products",
   "drop",
   "visibilityos",
-  "ai-systems",
   "auto-dealers",
   "warriors-team",
 ]);
@@ -58,6 +57,7 @@ export function Header() {
   const { lang, t } = useI18n();
   const pathname = usePathname() || "/";
   const [isMobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
   const labels = NAV_COPY[lang];
 
   const base = langHref(lang);
@@ -65,7 +65,7 @@ export function Header() {
   const pageHref = (slug: string) => (base === "/" ? `/${slug}` : `${base}/${slug}`);
 
   const navItems: { title: string; href: string; hash?: string }[] = [
-    { title: labels.business, href: hashHref("client-systems"), hash: "client-systems" },
+    { title: labels.business, href: pageHref("growth-systems") },
     { title: labels.work, href: pageHref("work") },
     { title: labels.visibility, href: pageHref("visibilityos") },
     { title: labels.warriors, href: pageHref("warriors-team") },
@@ -86,6 +86,8 @@ export function Header() {
   const stripped = pathname.match(/^\/(ua|ru)(\/.*)?$/);
   const rel = stripped ? stripped[2] || "/" : pathname;
   const slug = rel === "/" ? "" : rel.replace(/^\//, "").split("/")[0];
+  const isHome = slug === "";
+
   const switchHref = (l: (typeof LANGS)[number]) => {
     const b = l === "en" ? "" : `/${l}`;
     if (slug === "work") return `${b}${rel}` || "/";
@@ -97,8 +99,14 @@ export function Header() {
     const onEsc = (e: KeyboardEvent) => {
       if (e.key === "Escape") setMobileMenuOpen(false);
     };
+    const onScroll = () => setScrolled(window.scrollY > 150);
+    onScroll();
     window.addEventListener("keydown", onEsc);
-    return () => window.removeEventListener("keydown", onEsc);
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => {
+      window.removeEventListener("keydown", onEsc);
+      window.removeEventListener("scroll", onScroll);
+    };
   }, []);
 
   const LangSwitcher = ({ className = "" }: { className?: string }) => (
@@ -130,12 +138,18 @@ export function Header() {
   return (
     <header className="fixed left-0 top-0 z-30 w-full border-b border-white/[.07] bg-black/72 backdrop-blur-2xl">
       <div className="container relative mx-auto flex h-[80px] items-center justify-between gap-4 px-4 sm:px-6">
-        <a href={base} className="flex shrink-0 items-center" aria-label="Vlad Kuzmenko — Home">
+        <a
+          href={base}
+          className={`flex w-[170px] shrink-0 items-center transition-all duration-500 sm:w-[190px] ${
+            isHome && !scrolled ? "pointer-events-none -translate-y-2 opacity-0" : "translate-y-0 opacity-100"
+          }`}
+          aria-label="Vlad Kuzmenko — Home"
+        >
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src="/brand/vlad-kuzmenko-logo-gold.png"
             alt="Vlad Kuzmenko"
-            className="h-11 w-auto select-none sm:h-12"
+            className="h-auto w-full select-none"
           />
         </a>
 
@@ -145,7 +159,7 @@ export function Header() {
               key={item.title}
               href={item.href}
               onClick={(e) => handleNavClick(e, item)}
-              className="whitespace-nowrap rounded-lg px-3 py-2 text-[13px] font-medium text-zinc-300 transition-colors hover:bg-white/[.045] hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-300/60"
+              className="relative whitespace-nowrap rounded-lg px-3 py-2 text-[13px] font-medium text-zinc-400 transition-colors after:absolute after:bottom-0 after:left-3 after:h-px after:w-0 after:bg-amber-300/80 after:transition-all hover:text-white hover:after:w-[calc(100%-24px)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-300/60"
             >
               {item.title}
             </a>
@@ -154,14 +168,6 @@ export function Header() {
 
         <div className="hidden shrink-0 items-center gap-2 md:flex">
           <LangSwitcher />
-          <button
-            type="button"
-            onClick={openAssistant}
-            className="hidden h-10 items-center gap-2 rounded-xl border border-sky-300/15 bg-sky-300/[.04] px-3.5 text-sm font-semibold text-sky-100/80 transition hover:border-sky-300/30 hover:bg-sky-300/[.08] xl:inline-flex"
-          >
-            <Bot className="h-4 w-4" />
-            {t.cta.askAI}
-          </button>
           <a href={SITE.calcom} target="_blank" rel="noopener noreferrer">
             <Button className="premium-button h-10 px-4 xl:px-5">
               <Calendar className="mr-2 h-4 w-4" />
@@ -197,18 +203,7 @@ export function Header() {
                 {item.title}
               </a>
             ))}
-            <div className="mt-2 grid gap-2 border-t border-white/[.07] pt-4 sm:grid-cols-2">
-              <button
-                type="button"
-                onClick={() => {
-                  setMobileMenuOpen(false);
-                  openAssistant();
-                }}
-                className="inline-flex min-h-11 items-center justify-center gap-2 rounded-xl border border-sky-300/15 bg-sky-300/[.04] px-4 text-sm font-semibold text-sky-100/80"
-              >
-                <Bot className="h-4 w-4" />
-                {t.cta.askAI}
-              </button>
+            <div className="mt-2 border-t border-white/[.07] pt-4">
               <a href={SITE.calcom} target="_blank" rel="noopener noreferrer">
                 <Button className="premium-button min-h-11 w-full">
                   <Calendar className="mr-2 h-4 w-4" />
