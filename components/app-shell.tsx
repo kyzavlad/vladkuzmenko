@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import type { ReactNode } from "react";
 import { motion, AnimatePresence, MotionConfig } from "framer-motion";
 
+// Keep the assistant mounted only after the initial loading transition.
 function LoadingAnimation() {
   return (
     <motion.div initial={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.5 }} className="loading-animation">
