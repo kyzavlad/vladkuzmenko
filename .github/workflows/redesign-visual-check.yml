@@ -1,0 +1,51 @@
+name: Ecosystem redesign visual QA
+
+on:
+  push:
+    branches:
+      - redesign/audience-first-ecosystem-20260815
+
+permissions:
+  contents: read
+
+jobs:
+  visual-qa:
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - name: Install project dependencies
+        run: npm ci
+      - name: Install Playwright Chromium
+        run: |
+          npm install --no-save playwright@1.54.2
+          npx playwright install --with-deps chromium
+      - name: Build static site
+        run: npm run build
+      - name: Serve static export
+        run: |
+          python3 -m http.server 4173 -d out >/tmp/vk-site.log 2>&1 &
+          for i in {1..30}; do
+            if curl -fsS http://127.0.0.1:4173/ru/ >/dev/null; then
+              echo "Static site is ready"
+              break
+            fi
+            sleep 1
+          done
+          curl -fsS http://127.0.0.1:4173/ru/ >/dev/null
+      - name: Capture responsive screenshots and runtime checks
+        env:
+          BASE_URL: http://127.0.0.1:4173
+        run: node scripts/redesign-visual-check.mjs
+      - name: Upload visual QA artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ecosystem-redesign-visual-qa
+          path: redesign-visual-artifact
+          if-no-files-found: warn
+          retention-days: 7
