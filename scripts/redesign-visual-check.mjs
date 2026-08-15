@@ -39,18 +39,20 @@ for (const viewport of viewports) {
     page.on("pageerror", (err) => consoleErrors.push(err.message));
 
     const response = await page.goto(`${baseURL}${route}`, { waitUntil: "networkidle", timeout: 45000 });
-    await page.waitForTimeout(1200);
+    await page.waitForTimeout(900);
 
-    // Move through the page once so whileInView sections settle before the full-page capture.
-    await page.evaluate(async () => {
-      const step = Math.max(500, Math.floor(window.innerHeight * 0.75));
-      for (let y = 0; y < document.documentElement.scrollHeight; y += step) {
-        window.scrollTo(0, y);
-        await new Promise((resolve) => setTimeout(resolve, 60));
-      }
-      window.scrollTo(0, 0);
-    });
-    await page.waitForTimeout(300);
+    // Framer Motion sections start hidden and animate when they enter the viewport.
+    // Visit every section at a human-like pace and let its transition settle before
+    // taking the full-page screenshot. This makes the artifact represent what a
+    // real visitor sees instead of capturing elements mid-animation at opacity 0.
+    const sectionCount = await page.locator("section").count();
+    for (let index = 0; index < sectionCount; index += 1) {
+      const section = page.locator("section").nth(index);
+      await section.scrollIntoViewIfNeeded();
+      await page.waitForTimeout(520);
+    }
+    await page.evaluate(() => window.scrollTo(0, 0));
+    await page.waitForTimeout(800);
 
     const metrics = await page.evaluate(() => ({
       scrollWidth: document.documentElement.scrollWidth,
