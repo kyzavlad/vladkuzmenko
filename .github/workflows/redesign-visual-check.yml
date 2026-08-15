@@ -26,17 +26,18 @@ jobs:
           npx playwright install --with-deps chromium
       - name: Build static site
         run: npm run build
-      - name: Serve static export
+      - name: Serve static export with clean URLs
         run: |
-          python3 -m http.server 4173 -d out >/tmp/vk-site.log 2>&1 &
-          for i in {1..30}; do
-            if curl -fsS http://127.0.0.1:4173/ru/ >/dev/null; then
+          npx --yes serve@14 out -l 4173 >/tmp/vk-site.log 2>&1 &
+          for i in {1..45}; do
+            if curl -fsS http://127.0.0.1:4173/ru >/dev/null; then
               echo "Static site is ready"
               break
             fi
             sleep 1
           done
-          curl -fsS http://127.0.0.1:4173/ru/ >/dev/null
+          curl -fsS http://127.0.0.1:4173/ru >/dev/null
+          curl -fsS http://127.0.0.1:4173/ru/products >/dev/null
       - name: Capture responsive screenshots and runtime checks
         env:
           BASE_URL: http://127.0.0.1:4173
