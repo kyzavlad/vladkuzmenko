@@ -11,7 +11,7 @@ permissions:
 jobs:
   visual-qa:
     runs-on: ubuntu-latest
-    timeout-minutes: 35
+    timeout-minutes: 45
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -38,10 +38,14 @@ jobs:
           done
           curl -fsS http://127.0.0.1:4173/ru >/dev/null
           curl -fsS http://127.0.0.1:4173/ru/products >/dev/null
-      - name: Capture responsive screenshots and runtime checks
+      - name: Capture key responsive screenshots and runtime checks
         env:
           BASE_URL: http://127.0.0.1:4173
         run: node scripts/redesign-visual-check.mjs
+      - name: Check every sitemap route on mobile and desktop
+        env:
+          BASE_URL: http://127.0.0.1:4173
+        run: node scripts/full-site-responsive-check.mjs
       - name: Upload visual QA artifact
         if: always()
         uses: actions/upload-artifact@v4
