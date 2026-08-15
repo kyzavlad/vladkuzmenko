@@ -3,8 +3,8 @@
 import { motion } from "framer-motion";
 import {
   ArrowRight,
-  BriefcaseBusiness,
   Dumbbell,
+  Layers,
   PlayCircle,
   ScanSearch,
   Shield,
@@ -171,7 +171,7 @@ const COPY: Record<Lang, Copy> = {
 const ORDER: PathKey[] = ["business", "visibility", "warriors", "performance", "media"];
 
 const ICONS: Record<PathKey, LucideIcon> = {
-  business: BriefcaseBusiness,
+  business: Layers,
   visibility: ScanSearch,
   warriors: Shield,
   performance: Dumbbell,
