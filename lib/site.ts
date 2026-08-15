@@ -3,10 +3,6 @@
 // with a clean, consistent payload (intent + contact fields + page/UTM context).
 // Cal.com is used only for "Book a call" buttons — never for website forms.
 
-// Webhook is read from an env var so it isn't hardcoded across the app.
-// It is a public ingestion endpoint (not a secret); the fallback keeps the site
-// working if the env var is not set. To override, set NEXT_PUBLIC_LEAD_WEBHOOK_URL
-// in the host (see README / PR notes).
 const WEBHOOK_URL =
   process.env.NEXT_PUBLIC_LEAD_WEBHOOK_URL ||
   "https://n8n.vladkuzmenkoai.com/webhook/b60f2736-ecb9-451a-b38e-5018c3935013";
@@ -16,18 +12,42 @@ export const SITE = {
   domain: "vladkuzmenko.com",
   url: "https://vladkuzmenko.com",
   email: "ai@vladkuzmenko.com",
-  // Real Cal.com booking link (booking only — not used for website forms)
   calcom: "https://cal.com/vladkuzmenko.com/call",
   webhook: WEBHOOK_URL,
   socials: {
     instagram: "https://www.instagram.com/vladkuzmenkosxy/",
-    youtube: "https://www.youtube.com/@vladkuzmenkoai",
+    youtube: "https://www.youtube.com/@VladKuzmenkoSpeech",
     x: "https://x.com/vladkuzmenkosxy",
     telegram: "https://t.me/VladKuzmenkoSXY",
     tiktok: "https://www.tiktok.com/@vladkuzmenkosxy",
     whatsapp: "https://wa.me/380951444853",
   },
 } as const;
+
+/** Open the globally mounted Voiceflow assistant from an explicit site CTA. */
+export function openAssistant(): void {
+  if (typeof window === "undefined") return;
+
+  const tryOpen = () => {
+    const vf = (window as typeof window & {
+      voiceflow?: { chat?: { open?: () => void } };
+    }).voiceflow;
+
+    if (vf?.chat?.open) {
+      vf.chat.open();
+      return true;
+    }
+    return false;
+  };
+
+  if (tryOpen()) return;
+
+  let attempts = 0;
+  const timer = window.setInterval(() => {
+    attempts += 1;
+    if (tryOpen() || attempts >= 12) window.clearInterval(timer);
+  }, 250);
+}
 
 /** Pull any UTM parameters from the current URL (campaign attribution). */
 function collectUtm(): Record<string, string> {
