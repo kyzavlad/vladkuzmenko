@@ -24,7 +24,7 @@ const CHANNELS: {
   {
     key: "youtube",
     label: "YouTube",
-    handle: "@vladkuzmenkoai",
+    handle: "@VladKuzmenkoSpeech",
     href: SITE.socials.youtube,
     icon: Youtube,
     glow: "group-hover:shadow-[0_0_40px_-12px_rgba(239,68,68,.45)]",
