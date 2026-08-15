@@ -59,7 +59,8 @@ function WaitlistButton({
           subtle
             ? "w-full h-11 bg-transparent border border-amber-400/30 text-white hover:bg-amber-400/10"
             : "premium-button h-12 px-8 text-base",
-          block && !subtle && "w-full"
+          block && !subtle && "w-full",
+          "whitespace-normal text-center leading-5"
         )}
       >
         <Check className="mr-2 h-5 w-5" />
@@ -184,7 +185,7 @@ export function AiSystemsPage() {
                   viewport={{ once: true }}
                   transition={{ delay: i * 0.05 }}
                   className={cn(
-                    "luxe-card p-7 flex flex-col",
+                    "luxe-card min-w-0 p-7 flex flex-col",
                     recommended && "ring-1 ring-amber-400/30 border-amber-400/40"
                   )}
                 >
