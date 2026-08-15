@@ -2,13 +2,12 @@
 
 import React, { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
-import { Menu, X, Calendar } from "lucide-react";
+import { Calendar, Menu, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { SITE } from "@/lib/site";
 import { useI18n } from "@/components/i18n-provider";
-import { LANGS, LANG_LABELS, langHref } from "@/lib/i18n";
+import { LANGS, LANG_LABELS, langHref, type Lang } from "@/lib/i18n";
 
-// Sub-pages that exist in all three languages (for the language switcher).
 const LOCALIZED_SLUGS = new Set([
   "",
   "growth-systems",
@@ -21,24 +20,29 @@ const LOCALIZED_SLUGS = new Set([
   "warriors-team",
 ]);
 
+const NAV_COPY: Record<Lang, { home: string; business: string; work: string; software: string; warriors: string; performance: string; about: string }> = {
+  en: { home: "Home", business: "For Business", work: "Work", software: "Software", warriors: "Warriors", performance: "Performance", about: "About" },
+  ua: { home: "Головна", business: "Для бізнесу", work: "Роботи", software: "Software", warriors: "Warriors", performance: "Performance", about: "Про мене" },
+  ru: { home: "Главная", business: "Для бизнеса", work: "Работы", software: "Software", warriors: "Warriors", performance: "Performance", about: "Обо мне" },
+};
+
 export function Header() {
   const { lang, t } = useI18n();
   const pathname = usePathname() || "/";
   const [isMobileMenuOpen, setMobileMenuOpen] = useState(false);
-
-  const base = langHref(lang); // "/" | "/ua" | "/ru"
-  // Locale-aware absolute hash links: /#work, /ua#work, /ru#work
+  const base = langHref(lang);
+  const n = NAV_COPY[lang];
   const hashHref = (id: string) => `${base === "/" ? "/" : base}#${id}`;
   const pageHref = (slug: string) => (base === "/" ? `/${slug}` : `${base}/${slug}`);
 
   const navItems: { title: string; href: string; hash?: string }[] = [
-    { title: t.nav.home, href: base },
-    { title: t.nav.services, href: pageHref("growth-systems") },
-    { title: t.nav.work, href: pageHref("work") },
-    { title: t.nav.products, href: pageHref("products") },
-    { title: t.nav.warriors, href: pageHref("warriors-team") },
-    { title: t.nav.drop, href: pageHref("drop") },
-    { title: t.nav.about, href: hashHref("about"), hash: "about" },
+    { title: n.home, href: base },
+    { title: n.business, href: pageHref("growth-systems") },
+    { title: n.work, href: pageHref("work") },
+    { title: n.software, href: pageHref("products") },
+    { title: n.warriors, href: pageHref("warriors-team") },
+    { title: n.performance, href: pageHref("drop") },
+    { title: n.about, href: hashHref("about"), hash: "about" },
   ];
 
   const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, item: { hash?: string }) => {
@@ -51,13 +55,11 @@ export function Header() {
     }
   };
 
-  // Path-aware language switch: keep the same localized sub-page when possible.
   const stripped = pathname.match(/^\/(ua|ru)(\/.*)?$/);
   const rel = stripped ? stripped[2] || "/" : pathname;
   const slug = rel === "/" ? "" : rel.replace(/^\//, "").split("/")[0];
   const switchHref = (l: (typeof LANGS)[number]) => {
     const b = l === "en" ? "" : `/${l}`;
-    // Detail routes like /work/<slug>: preserve the full sub-path across locales.
     if (slug === "work") return `${b}${rel}` || "/";
     const useSlug = LOCALIZED_SLUGS.has(slug) ? slug : "";
     return useSlug ? `${b}/${useSlug}` : b || "/";
@@ -86,9 +88,7 @@ export function Header() {
                 /* no-op */
               }
             }}
-            className={`px-1.5 py-1 rounded transition-colors ${
-              l === lang ? "text-amber-300" : "text-gray-500 hover:text-amber-200"
-            }`}
+            className={`rounded px-1.5 py-1 transition-colors ${l === lang ? "text-amber-300" : "text-gray-500 hover:text-amber-200"}`}
           >
             {LANG_LABELS[l]}
           </a>
@@ -98,78 +98,44 @@ export function Header() {
   );
 
   return (
-    <header className="w-full z-30 fixed top-0 left-0 bg-black/70 backdrop-blur-xl border-b border-amber-400/10">
-      <div className="container relative mx-auto h-[80px] flex items-center justify-between gap-4">
-        {/* Logo */}
-        <a href={base} className="flex items-center shrink-0" aria-label="Vlad Kuzmenko — Home">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
-            src="/brand/vlad-kuzmenko-logo-gold.png"
-            alt="Vlad Kuzmenko"
-            className="h-11 sm:h-12 w-auto select-none"
-          />
+    <header className="fixed left-0 top-0 z-30 w-full border-b border-amber-400/10 bg-black/75 backdrop-blur-xl">
+      <div className="container relative mx-auto flex h-[80px] items-center justify-between gap-4">
+        <a href={base} className="flex shrink-0 items-center" aria-label="Vlad Kuzmenko — Home">
+          <img src="/brand/vlad-kuzmenko-logo-gold.png" alt="Vlad Kuzmenko" className="h-11 w-auto select-none sm:h-12" />
         </a>
 
-        {/* Desktop nav — kept on a single row at every desktop width, so the
-            labels stay legible instead of wrapping under each other. */}
-        <nav className="hidden xl:flex items-center gap-1">
+        <nav className="hidden items-center gap-0.5 xl:flex">
           {navItems.map((item) => (
-            <a
-              key={item.title}
-              href={item.href}
-              onClick={(e) => handleNavClick(e, item)}
-              className="whitespace-nowrap rounded-md px-3 py-2 text-sm font-medium text-gray-300 transition-colors hover:bg-white/5 hover:text-amber-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-300/60"
-            >
+            <a key={item.title} href={item.href} onClick={(e) => handleNavClick(e, item)} className="whitespace-nowrap rounded-md px-2.5 py-2 text-sm font-medium text-gray-300 transition-colors hover:bg-white/5 hover:text-amber-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-300/60">
               {item.title}
             </a>
           ))}
         </nav>
 
-        {/* Right CTAs */}
-        <div className="hidden md:flex items-center gap-2 shrink-0 xl:gap-3">
+        <div className="hidden shrink-0 items-center gap-2 md:flex xl:gap-3">
           <LangSwitcher />
           <a href={SITE.calcom} target="_blank" rel="noopener noreferrer">
-            <Button className="premium-button h-10 px-5">
-              <Calendar className="mr-2 h-4 w-4" />
-              {t.cta.bookCall}
-            </Button>
+            <Button className="premium-button h-10 px-5"><Calendar className="mr-2 h-4 w-4" />{t.cta.bookCall}</Button>
           </a>
         </div>
 
-        {/* Menu toggle — carries the full nav below the desktop breakpoint */}
-        <div className="flex xl:hidden items-center gap-2">
+        <div className="flex items-center gap-2 xl:hidden">
           <LangSwitcher className="md:hidden" />
-          <Button
-            variant="ghost"
-            size="icon"
-            onClick={() => setMobileMenuOpen((o) => !o)}
-            aria-label="Toggle menu"
-          >
-            {isMobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+          <Button variant="ghost" size="icon" onClick={() => setMobileMenuOpen((o) => !o)} aria-label="Toggle menu">
+            {isMobileMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
           </Button>
         </div>
       </div>
 
-      {/* Mobile menu */}
       {isMobileMenuOpen && (
-        <div className="absolute top-full left-0 right-0 border-t border-amber-400/10 bg-black/95 backdrop-blur-xl shadow-2xl px-4 pt-2 pb-5 flex flex-col gap-1 xl:hidden">
+        <div className="absolute left-0 right-0 top-full flex flex-col gap-1 border-t border-amber-400/10 bg-black/95 px-4 pb-5 pt-2 shadow-2xl backdrop-blur-xl xl:hidden">
           {navItems.map((item) => (
-            <a
-              key={item.title}
-              href={item.href}
-              onClick={(e) => handleNavClick(e, item)}
-              className="rounded-md py-2.5 px-2 text-base font-medium text-gray-200 hover:text-amber-200 border-b border-border/20 last:border-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-300/60"
-            >
+            <a key={item.title} href={item.href} onClick={(e) => handleNavClick(e, item)} className="rounded-md border-b border-border/20 px-2 py-2.5 text-base font-medium text-gray-200 last:border-0 hover:text-amber-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-300/60">
               {item.title}
             </a>
           ))}
-          <div className="pt-3 flex flex-col gap-2">
-            <a href={SITE.calcom} target="_blank" rel="noopener noreferrer">
-              <Button className="w-full premium-button">
-                <Calendar className="mr-2 h-4 w-4" />
-                {t.cta.bookCall}
-              </Button>
-            </a>
+          <div className="flex flex-col gap-2 pt-3">
+            <a href={SITE.calcom} target="_blank" rel="noopener noreferrer"><Button className="premium-button w-full"><Calendar className="mr-2 h-4 w-4" />{t.cta.bookCall}</Button></a>
           </div>
         </div>
       )}
