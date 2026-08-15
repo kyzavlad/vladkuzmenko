@@ -22,9 +22,9 @@ type Locale = "en" | "ua" | "ru";
 
 const COPY = {
   en: {
-    eyebrow: "Portfolio",
-    title: "Selected projects",
-    desc: "A short selection of the strongest products, platforms and systems from the full portfolio.",
+    eyebrow: "Proof",
+    title: "What has actually been built",
+    desc: "Three systems from this work, shown end to end: the problem, what was built and where it runs today.",
     task: "Task",
     built: "What was built",
     result: "Result",
@@ -35,9 +35,9 @@ const COPY = {
     noVisual: "Project preview",
   },
   ua: {
-    eyebrow: "Портфоліо",
-    title: "Вибрані проєкти",
-    desc: "Коротка добірка найсильніших продуктів, платформ і систем з повного портфоліо.",
+    eyebrow: "Доказ",
+    title: "Що вже побудовано",
+    desc: "Три системи з цієї роботи повністю: задача, що було побудовано і де це працює сьогодні.",
     task: "Завдання",
     built: "Що зроблено",
     result: "Результат",
@@ -48,9 +48,9 @@ const COPY = {
     noVisual: "Прев’ю проєкту",
   },
   ru: {
-    eyebrow: "Портфолио",
-    title: "Избранные проекты",
-    desc: "Короткая подборка самых сильных продуктов, платформ и систем из полного портфолио.",
+    eyebrow: "Доказательство",
+    title: "Что уже построено",
+    desc: "Три системы из этой работы целиком: задача, что было построено и где это работает сегодня.",
     task: "Задача",
     built: "Что сделано",
     result: "Результат",
@@ -213,20 +213,18 @@ export function SelectedWork() {
   const projects = HOME_FEATURED.length ? HOME_FEATURED : CURATED_PORTFOLIO.slice(0, 3);
 
   return (
-    <section
-      id="selected-work"
-      className="section-accent relative border-t border-zinc-900 bg-black py-24 md:py-32"
-    >
+    /* Proof lives inside Client Growth Systems — it inherits that section's background. */
+    <section id="selected-work" className="relative scroll-mt-24 pb-4 pt-16 md:pt-20">
       <div className="container mx-auto px-4">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="mx-auto mb-14 max-w-3xl text-center"
+          className="mx-auto mb-12 max-w-3xl text-center"
         >
           <span className="eyebrow">{x.eyebrow}</span>
-          <h2 className="mt-4 text-4xl font-bold tracking-tight md:text-6xl">{x.title}</h2>
-          <p className="mt-5 text-lg leading-8 text-gray-400">{x.desc}</p>
+          <h2 className="mt-4 text-3xl font-black tracking-[-.04em] sm:text-4xl md:text-5xl">{x.title}</h2>
+          <p className="mt-5 text-base leading-7 text-zinc-400 sm:text-lg sm:leading-8">{x.desc}</p>
         </motion.div>
 
         <div className="mx-auto max-w-6xl space-y-6 sm:space-y-8">

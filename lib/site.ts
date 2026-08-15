@@ -24,31 +24,6 @@ export const SITE = {
   },
 } as const;
 
-/** Open the globally mounted Voiceflow assistant from an explicit site CTA. */
-export function openAssistant(): void {
-  if (typeof window === "undefined") return;
-
-  const tryOpen = () => {
-    const vf = (window as typeof window & {
-      voiceflow?: { chat?: { open?: () => void } };
-    }).voiceflow;
-
-    if (vf?.chat?.open) {
-      vf.chat.open();
-      return true;
-    }
-    return false;
-  };
-
-  if (tryOpen()) return;
-
-  let attempts = 0;
-  const timer = window.setInterval(() => {
-    attempts += 1;
-    if (tryOpen() || attempts >= 12) window.clearInterval(timer);
-  }, 250);
-}
-
 /** Pull any UTM parameters from the current URL (campaign attribution). */
 function collectUtm(): Record<string, string> {
   if (typeof window === "undefined") return {};

@@ -1,7 +1,7 @@
 "use client";
 
 import type { MouseEvent, ReactNode } from "react";
-import { motion } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
 import { cn } from "@/lib/utils";
 
 type Accent = "gold" | "blue" | "violet" | "green" | "rose";
@@ -88,9 +88,10 @@ export function SignalFlow({
   compact?: boolean;
 }) {
   const palette = ACCENTS[accent];
+  const reduced = useReducedMotion();
 
   return (
-    <div className={cn("flex min-w-0 items-center", compact ? "gap-2" : "gap-3 sm:gap-4")}>
+    <div className={cn("flex w-full min-w-0 items-center", compact ? "gap-2" : "gap-3 sm:gap-4")}>
       {nodes.map((node, index) => (
         <div key={`${node}-${index}`} className="contents">
           <motion.div
@@ -110,9 +111,13 @@ export function SignalFlow({
           {index < nodes.length - 1 && (
             <div className="relative h-px min-w-3 flex-1 overflow-hidden bg-white/[.07]">
               <motion.div
-                initial={{ x: "-100%" }}
-                animate={{ x: "120%" }}
-                transition={{ duration: 2.2, repeat: Infinity, delay: index * .3, ease: "linear" }}
+                initial={reduced ? false : { x: "-100%" }}
+                animate={reduced ? { x: "0%" } : { x: "120%" }}
+                transition={
+                  reduced
+                    ? { duration: 0 }
+                    : { duration: 2.2, repeat: Infinity, delay: index * .3, ease: "linear" }
+                }
                 className={cn("absolute inset-y-0 w-2/3 bg-gradient-to-r", palette.line)}
               />
             </div>

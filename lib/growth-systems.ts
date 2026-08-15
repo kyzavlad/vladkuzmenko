@@ -144,6 +144,10 @@ export type GrowthCopy = {
     diagnosticTitle: string;
     diagnosticDesc: string;
     recommended: string;
+    /** Label above the conceptual system diagram in the homepage workspace. */
+    systemView: string;
+    /** Hint next to the diagnostic situation cards. */
+    situationHint: string;
   };
 };
 
@@ -425,6 +429,8 @@ const en: GrowthCopy = {
     diagnosticTitle: "Where is the bottleneck right now?",
     diagnosticDesc: "Pick the situation that matches your business — no tooling knowledge required.",
     recommended: "Suggested starting point",
+    systemView: "What this system covers",
+    situationHint: "Pick the one that sounds like you",
   },
 };
 
@@ -706,6 +712,8 @@ const ua: GrowthCopy = {
     diagnosticTitle: "Де зараз вузьке місце?",
     diagnosticDesc: "Оберіть ситуацію, яка збігається з вашою — розбиратися в інструментах не потрібно.",
     recommended: "Рекомендована відправна точка",
+    systemView: "Що охоплює ця система",
+    situationHint: "Оберіть те, що схоже на вашу ситуацію",
   },
 };
 
@@ -987,6 +995,8 @@ const ru: GrowthCopy = {
     diagnosticTitle: "Где сейчас узкое место?",
     diagnosticDesc: "Выберите ситуацию, которая совпадает с вашей — разбираться в инструментах не нужно.",
     recommended: "Рекомендуемая отправная точка",
+    systemView: "Что охватывает эта система",
+    situationHint: "Выберите то, что похоже на вашу ситуацию",
   },
 };
 

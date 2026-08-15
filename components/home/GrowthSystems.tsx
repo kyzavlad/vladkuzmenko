@@ -136,7 +136,7 @@ export function GrowthSystems() {
                 className="mt-4 rounded-[30px] border border-white/[.09] bg-[linear-gradient(145deg,rgba(255,255,255,.045),rgba(255,255,255,.012))] shadow-[0_40px_100px_-45px_rgba(0,0,0,.95)]"
               >
                 <div className="grid lg:grid-cols-[1.03fr_.97fr]">
-                  <div className="border-b border-white/[.07] p-7 sm:p-9 lg:border-b-0 lg:border-r lg:p-10">
+                  <div className="min-w-0 border-b border-white/[.07] p-7 sm:p-9 lg:border-b-0 lg:border-r lg:p-10">
                     <div className="flex items-center justify-between gap-4">
                       <span className="flex h-12 w-12 items-center justify-center rounded-2xl border border-white/[.09] bg-black/30">
                         <Icon className="h-5 w-5" />
@@ -169,42 +169,40 @@ export function GrowthSystems() {
                     </div>
                   </div>
 
-                  <div className="flex flex-col justify-between p-7 sm:p-9 lg:p-10">
+                  <div className="flex min-w-0 flex-col justify-between p-7 sm:p-9 lg:p-10">
                     <div>
-                      <div className="flex items-center justify-between gap-4">
-                        <div>
-                          <p className="text-[10px] font-bold uppercase tracking-[.18em] text-zinc-600">System view</p>
-                          <p className="mt-2 text-sm text-zinc-400">{ENGINE_LABEL[active]}</p>
-                        </div>
-                        <span className="inline-flex items-center gap-2 rounded-full border border-emerald-300/10 bg-emerald-300/[.04] px-3 py-1.5 text-[9px] font-semibold uppercase tracking-[.16em] text-emerald-300/70">
-                          <span className="h-1.5 w-1.5 rounded-full bg-emerald-300" />
-                          Interactive
-                        </span>
+                      <p className="text-[10px] font-bold uppercase tracking-[.18em] text-zinc-600">
+                        {x.home.systemView}
+                      </p>
+                      <p className="mt-2 text-sm text-zinc-400">{ENGINE_LABEL[active]}</p>
+
+                      <div className="mt-7 overflow-x-auto pb-2">
+                        <SignalFlow nodes={e.chips.slice(0, 3)} accent={ACCENT[active]} compact />
                       </div>
 
-                      <div className="mt-8 overflow-x-auto pb-2">
-                        <SignalFlow nodes={e.chips.slice(0, 4)} accent={ACCENT[active]} compact />
-                      </div>
-
-                      <div className="mt-8 space-y-4">
-                        {e.chips.slice(0, 4).map((chip, index) => {
-                          const width = [82, 68, 91, 76][index] ?? 72;
-                          return (
-                            <div key={chip} className="grid grid-cols-[105px_1fr_34px] items-center gap-3">
-                              <span className="truncate text-[9px] uppercase tracking-[.12em] text-zinc-600">{chip}</span>
-                              <div className="h-1.5 overflow-hidden rounded-full bg-white/[.06]">
-                                <motion.div
-                                  initial={{ width: 0 }}
-                                  animate={{ width: `${width}%` }}
-                                  transition={{ duration: .8, delay: .12 + index * .08 }}
-                                  className="h-full rounded-full bg-gradient-to-r from-amber-300/70 via-white/35 to-white/10"
+                      {/* What the engine actually contains — real scope, not measured data. */}
+                      <ul className="mt-8 space-y-px">
+                        {e.build.slice(0, 4).map((line, index) => (
+                          <motion.li
+                            key={line}
+                            initial={{ opacity: 0, x: -8 }}
+                            animate={{ opacity: 1, x: 0 }}
+                            transition={{ duration: .4, delay: .1 + index * .07 }}
+                            className="relative flex gap-4 py-3"
+                          >
+                            <span className="relative flex w-6 shrink-0 justify-center">
+                              {index < Math.min(e.build.length, 4) - 1 && (
+                                <span
+                                  aria-hidden="true"
+                                  className="absolute left-1/2 top-5 h-[calc(100%+.75rem)] w-px -translate-x-1/2 bg-white/[.08]"
                                 />
-                              </div>
-                              <span className="text-right text-[9px] font-mono text-zinc-600">{width}</span>
-                            </div>
-                          );
-                        })}
-                      </div>
+                              )}
+                              <span className={cn("relative mt-1.5 h-2 w-2 rounded-full", TONE[active].dot)} />
+                            </span>
+                            <span className="text-[13px] leading-6 text-zinc-400">{line}</span>
+                          </motion.li>
+                        ))}
+                      </ul>
                     </div>
 
                     <div className="mt-9 grid gap-3 sm:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2">
@@ -249,7 +247,7 @@ export function GrowthSystems() {
                   <p className="mt-1 text-xs text-zinc-500">{x.home.diagnosticDesc}</p>
                 </div>
               </div>
-              <span className="text-[9px] font-bold uppercase tracking-[.18em] text-zinc-700">Select a situation</span>
+              <span className="text-[9px] font-bold uppercase tracking-[.18em] text-zinc-700">{x.home.situationHint}</span>
             </div>
 
             <div className="mt-5 grid gap-3 md:grid-cols-3">
