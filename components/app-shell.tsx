@@ -1,6 +1,7 @@
 "use client";
 
 import { Toaster } from "@/components/ui/toaster";
+import { VoiceflowScript } from "@/components/voiceflow-script";
 import { useEffect, useState } from "react";
 import type { ReactNode } from "react";
 import { motion, AnimatePresence, MotionConfig } from "framer-motion";
@@ -34,12 +35,6 @@ function LoadingAnimation() {
   );
 }
 
-/**
- * Client shell: keeps the existing intro animation and toaster. There is no
- * cart — the site has no ecommerce flow, and Drop is research, not a shop.
- * Split out of the root layout so the layout can stay a server component and
- * use the Next.js Metadata API for proper SEO.
- */
 export function AppShell({ children }: { children: ReactNode }) {
   const [isLoading, setIsLoading] = useState(true);
 
@@ -49,14 +44,16 @@ export function AppShell({ children }: { children: ReactNode }) {
     return () => clearTimeout(t);
   }, []);
 
-  // Page content is always rendered so it exists in the static HTML (crawlers and
-  // link previews see the real page). The intro animation is a full-screen fixed
-  // overlay on top of it, so the visual experience is unchanged.
   return (
     <MotionConfig reducedMotion="user">
       {children}
       <AnimatePresence>{isLoading && <LoadingAnimation key="loading" />}</AnimatePresence>
-      {!isLoading && <Toaster />}
+      {!isLoading && (
+        <>
+          <VoiceflowScript />
+          <Toaster />
+        </>
+      )}
     </MotionConfig>
   );
 }
