@@ -2,6 +2,7 @@
 
 import Script from "next/script";
 
+// Global assistant entry used by both the floating launcher and explicit Ask AI CTAs.
 export function VoiceflowScript() {
   return (
     <>
