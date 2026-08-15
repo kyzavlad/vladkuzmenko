@@ -9,44 +9,43 @@ import { track } from "@/lib/analytics";
 
 type PathKey = "business" | "software" | "warriors" | "performance" | "media";
 type PathCopy = { kicker: string; title: string; text: string; chips: string[]; cta: string };
-
 type SectionCopy = { eyebrow: string; title: string; desc: string; paths: Record<PathKey, PathCopy> };
 
 const COPY: Record<Lang, SectionCopy> = {
   en: {
-    eyebrow: "Choose your path",
-    title: "Five ways into the ecosystem",
-    desc: "Come for growth, software, a stronger circle, performance products or the media. Each direction has one clear job and its own next step.",
+    eyebrow: "Choose what you need",
+    title: "What do you want to strengthen right now?",
+    desc: "Business growth, your website, your circle, your daily routine or the media. Pick one direction and go straight to the relevant next step.",
     paths: {
-      business: { kicker: "For businesses", title: "Turn attention into enquiries, meetings and sales.", text: "Growth systems built around the actual bottleneck: qualified attention, conversion, follow-up and the operating layer behind it.", chips: ["Traffic", "Conversion", "Automation", "Sales operations"], cta: "Explore Growth Systems" },
-      software: { kicker: "For website owners", title: "See what your website is losing before you redesign it.", text: "VisibilityOS brings conversion, trust, SEO and AI-search signals into one evidence-led website review.", chips: ["AI search", "AEO", "Conversion", "Evidence"], cta: "Open VisibilityOS" },
-      warriors: { kicker: "For builders", title: "Build inside a circle that raises the standard.", text: "Warriors Team is a private network for people already building business, body, skill and reputation who want sharper peers and direct feedback.", chips: ["Business", "Training", "Accountability", "Network"], cta: "Explore Warriors Team" },
-      performance: { kicker: "For active lives", title: "Food and essentials that make the routine easier to keep.", text: "The consumer line starts with practical performance food for training days and demanding schedules, then expands only into products that earn their place.", chips: ["Performance food", "Training days", "Essentials"], cta: "See the first line" },
-      media: { kicker: "For the journey", title: "Business, training, cars, ideas and the work behind the scenes.", text: "Long-form thinking, short-form moments and real build proof across YouTube, Instagram, TikTok, X and Telegram.", chips: ["YouTube", "Instagram", "TikTok", "Telegram"], cta: "Open media & profile" },
+      business: { kicker: "Business", title: "More qualified enquiries, meetings and sales.", text: "If the bottleneck is attention, conversion or follow-up, start with the loss and build the system around it.", chips: ["Traffic", "Conversion", "Automation", "Sales"], cta: "Explore Growth Systems" },
+      software: { kicker: "Website & visibility", title: "Understand why your website is not turning traffic into action.", text: "VisibilityOS shows where trust, conversion and visibility are being lost across search and AI answers.", chips: ["Conversion", "Trust", "SEO", "AI visibility"], cta: "Open VisibilityOS" },
+      warriors: { kicker: "Circle", title: "Stronger people around you. A higher standard of decisions.", text: "Warriors Team is a selective private network for people already building and willing to contribute, execute and be challenged.", chips: ["Business", "Training", "Feedback", "Network"], cta: "Explore Warriors Team" },
+      performance: { kicker: "Routine", title: "Make food and everyday discipline easier to keep consistent.", text: "The first consumer line focuses on practical meal sets for training days and demanding schedules.", chips: ["Meal sets", "Training days", "Essentials"], cta: "See the first line" },
+      media: { kicker: "Media", title: "Follow the projects, training, cars and ideas behind the work.", text: "Long-form depth and short-form moments across YouTube, Instagram, TikTok, X and Telegram.", chips: ["YouTube", "Instagram", "TikTok", "Telegram"], cta: "Open media & profile" },
     },
   },
   ua: {
-    eyebrow: "Оберіть напрям",
-    title: "П’ять входів в одну екосистему",
-    desc: "Бізнес, software, сильне оточення, performance-продукти або контент. Кожен напрям має одну зрозумілу задачу і свій наступний крок.",
+    eyebrow: "Оберіть, що вам потрібно",
+    title: "Що ви хочете посилити зараз?",
+    desc: "Ріст бізнесу, сайт, оточення, щоденний режим або медіа. Оберіть один напрям і одразу переходьте до релевантного наступного кроку.",
     paths: {
-      business: { kicker: "Для бізнесу", title: "Перетворити увагу на звернення, зустрічі та продажі.", text: "Growth systems навколо реального вузького місця: якісна увага, конверсія, follow-up і операційний шар за ними.", chips: ["Traffic", "Conversion", "Automation", "Sales operations"], cta: "Відкрити Growth Systems" },
-      software: { kicker: "Для власників сайтів", title: "Побачити, що втрачає сайт, до того як переробляти його навмання.", text: "VisibilityOS збирає conversion, trust, SEO та AI-search сигнали в один evidence-led розбір сайту.", chips: ["AI search", "AEO", "Conversion", "Evidence"], cta: "Відкрити VisibilityOS" },
-      warriors: { kicker: "Для builders", title: "Будувати в колі, яке підвищує стандарт.", text: "Warriors Team — приватна мережа для тих, хто вже будує бізнес, тіло, навичку й репутацію та хоче сильніше оточення і прямий фідбек.", chips: ["Бізнес", "Тренування", "Accountability", "Network"], cta: "Відкрити Warriors Team" },
-      performance: { kicker: "Для активного життя", title: "Їжа та базові речі, з якими режим легше тримати.", text: "Споживча лінійка починається з практичного performance-харчування для тренувальних днів і щільного графіка.", chips: ["Performance food", "Training days", "Essentials"], cta: "Подивитися першу лінійку" },
-      media: { kicker: "Для тих, хто стежить за шляхом", title: "Бізнес, тренування, авто, думки та робота за кадром.", text: "Довгі відео, короткі моменти й реальні build proof у YouTube, Instagram, TikTok, X та Telegram.", chips: ["YouTube", "Instagram", "TikTok", "Telegram"], cta: "Відкрити медіа та профіль" },
+      business: { kicker: "Бізнес", title: "Більше якісних звернень, зустрічей і продажів.", text: "Якщо вузьке місце у трафіку, конверсії або follow-up, починаємо з втрати й будуємо систему навколо неї.", chips: ["Traffic", "Conversion", "Automation", "Sales"], cta: "Відкрити Growth Systems" },
+      software: { kicker: "Сайт і видимість", title: "Зрозуміти, чому сайт не перетворює трафік на дію.", text: "VisibilityOS показує, де втрачаються довіра, конверсія та видимість у пошуку й AI-відповідях.", chips: ["Конверсія", "Довіра", "SEO", "AI-видимість"], cta: "Відкрити VisibilityOS" },
+      warriors: { kicker: "Оточення", title: "Сильніші люди поруч. Вищий стандарт рішень.", text: "Warriors Team — вибіркова приватна мережа для тих, хто вже будує, готовий робити внесок, виконувати й приймати прямий фідбек.", chips: ["Бізнес", "Тренування", "Фідбек", "Нетворк"], cta: "Відкрити Warriors Team" },
+      performance: { kicker: "Режим", title: "Спростити харчування і щоденну дисципліну.", text: "Перша споживча лінійка фокусується на практичних наборах їжі для тренувальних днів і щільного графіка.", chips: ["Набори їжі", "Тренувальні дні", "Essentials"], cta: "Подивитися першу лінійку" },
+      media: { kicker: "Медіа", title: "Стежити за проєктами, тренуваннями, авто та ідеями за роботою.", text: "Глибші відео й короткі моменти в YouTube, Instagram, TikTok, X та Telegram.", chips: ["YouTube", "Instagram", "TikTok", "Telegram"], cta: "Відкрити медіа та профіль" },
     },
   },
   ru: {
-    eyebrow: "Выберите направление",
-    title: "Пять входов в одну экосистему",
-    desc: "Бизнес, software, сильное окружение, performance-продукты или контент. У каждого направления одна понятная задача и свой следующий шаг.",
+    eyebrow: "Выберите, что вам нужно",
+    title: "Что вы хотите усилить сейчас?",
+    desc: "Рост бизнеса, сайт, окружение, ежедневный режим или медиа. Выберите одно направление и сразу переходите к релевантному следующему шагу.",
     paths: {
-      business: { kicker: "Для бизнеса", title: "Превратить внимание в обращения, встречи и продажи.", text: "Growth systems вокруг реального узкого места: качественное внимание, конверсия, follow-up и операционный слой за ними.", chips: ["Traffic", "Conversion", "Automation", "Sales operations"], cta: "Открыть Growth Systems" },
-      software: { kicker: "Для владельцев сайтов", title: "Увидеть, что теряет сайт, до того как переделывать его наугад.", text: "VisibilityOS собирает conversion, trust, SEO и AI-search сигналы в один evidence-led разбор сайта.", chips: ["AI search", "AEO", "Conversion", "Evidence"], cta: "Открыть VisibilityOS" },
-      warriors: { kicker: "Для builders", title: "Строить в кругу, который повышает стандарт.", text: "Warriors Team — приватная сеть для тех, кто уже строит бизнес, тело, навык и репутацию и хочет сильнее окружение и прямой фидбек.", chips: ["Бизнес", "Тренировки", "Accountability", "Network"], cta: "Открыть Warriors Team" },
-      performance: { kicker: "Для активной жизни", title: "Питание и базовые вещи, с которыми режим легче держать.", text: "Потребительская линейка начинается с практичного performance-питания для тренировочных дней и плотного графика.", chips: ["Performance food", "Training days", "Essentials"], cta: "Посмотреть первую линейку" },
-      media: { kicker: "Для тех, кто следит за путём", title: "Бизнес, тренировки, машины, мысли и работа за кадром.", text: "Длинные видео, короткие моменты и реальные build proof в YouTube, Instagram, TikTok, X и Telegram.", chips: ["YouTube", "Instagram", "TikTok", "Telegram"], cta: "Открыть медиа и профиль" },
+      business: { kicker: "Бизнес", title: "Больше качественных обращений, встреч и продаж.", text: "Если узкое место в трафике, конверсии или follow-up, начинаем с потери и строим систему вокруг неё.", chips: ["Traffic", "Conversion", "Automation", "Sales"], cta: "Открыть Growth Systems" },
+      software: { kicker: "Сайт и видимость", title: "Понять, почему сайт не превращает трафик в действие.", text: "VisibilityOS показывает, где теряются доверие, конверсия и видимость в поиске и AI-ответах.", chips: ["Конверсия", "Доверие", "SEO", "AI-видимость"], cta: "Открыть VisibilityOS" },
+      warriors: { kicker: "Окружение", title: "Сильнее люди вокруг. Выше стандарт решений.", text: "Warriors Team — отборная закрытая сеть для тех, кто уже строит, готов вносить вклад, исполнять и принимать прямой фидбек.", chips: ["Бизнес", "Тренировки", "Фидбек", "Нетворк"], cta: "Открыть Warriors Team" },
+      performance: { kicker: "Режим", title: "Упростить питание и ежедневную дисциплину.", text: "Первая потребительская линейка фокусируется на практичных наборах еды для тренировочных дней и плотного графика.", chips: ["Наборы еды", "Тренировочные дни", "Essentials"], cta: "Посмотреть первую линейку" },
+      media: { kicker: "Медиа", title: "Следить за проектами, тренировками, машинами и идеями за работой.", text: "Более глубокие видео и короткие моменты в YouTube, Instagram, TikTok, X и Telegram.", chips: ["YouTube", "Instagram", "TikTok", "Telegram"], cta: "Открыть медиа и профиль" },
     },
   },
 };
