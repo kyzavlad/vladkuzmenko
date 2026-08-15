@@ -1,23 +1,15 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { ArrowUpRight, Instagram, Send, Twitter, Youtube } from "lucide-react";
+import { ArrowUpRight, Instagram, Send, Youtube } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 import { SITE } from "@/lib/site";
 import { useI18n } from "@/components/i18n-provider";
 import { track } from "@/lib/analytics";
 import { getEcosystemCopy } from "@/lib/ecosystem";
+import { TikTokIcon, XIcon } from "@/components/ui/social-icons";
 
 type ChannelKey = "youtube" | "instagram" | "tiktok" | "x" | "telegram";
-
-/** TikTok has no lucide glyph; this is the official mark drawn as a path. */
-function TikTokIcon({ className }: { className?: string }) {
-  return (
-    <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" className={className}>
-      <path d="M16.6 5.82A4.28 4.28 0 0 1 15.54 3h-3.09v12.4a2.59 2.59 0 0 1-2.59 2.5 2.59 2.59 0 0 1-2.59-2.59 2.59 2.59 0 0 1 3.36-2.47v-3.2a5.8 5.8 0 0 0-.77-.05A5.79 5.79 0 0 0 4.07 15.4a5.79 5.79 0 0 0 5.79 5.79 5.79 5.79 0 0 0 5.79-5.79V9.01a7.35 7.35 0 0 0 4.29 1.37V7.29a4.29 4.29 0 0 1-3.34-1.47z" />
-    </svg>
-  );
-}
 
 /** Handles and links come from SITE.socials — never duplicated here. */
 const CHANNELS: {
@@ -58,7 +50,7 @@ const CHANNELS: {
     label: "X",
     handle: "@vladkuzmenkosxy",
     href: SITE.socials.x,
-    icon: Twitter,
+    icon: XIcon,
     glow: "group-hover:shadow-[0_0_40px_-12px_rgba(255,255,255,.3)]",
   },
   {

@@ -10,10 +10,11 @@ import {
 import {
   Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger,
 } from "@/components/ui/dialog";
-import { Instagram, Send, Twitter, Youtube, MessageCircle, Loader2, Check } from "lucide-react";
+import { Instagram, Send, Youtube, MessageCircle, Loader2, Check } from "lucide-react";
 import { SITE, submitLead } from "@/lib/site";
 import { useI18n } from "@/components/i18n-provider";
 import { langHref } from "@/lib/i18n";
+import { TikTokIcon, XIcon } from "@/components/ui/social-icons";
 
 export function FooterSection() {
   const { lang, t } = useI18n();
@@ -125,11 +126,11 @@ export function FooterSection() {
                 </Button></TooltipTrigger><TooltipContent><p>YouTube</p></TooltipContent></Tooltip></TooltipProvider>
               <TooltipProvider><Tooltip><TooltipTrigger asChild>
                 <Button variant="ghost" size="icon" className="rounded-full text-gray-400 hover:text-[#D4AF37] hover:bg-zinc-800 w-8 h-8" asChild>
-                  <a href={SITE.socials.x} target="_blank" rel="noopener noreferrer" aria-label="X / Twitter"><Twitter className="h-4 w-4" /></a>
-                </Button></TooltipTrigger><TooltipContent><p>X / Twitter</p></TooltipContent></Tooltip></TooltipProvider>
+                  <a href={SITE.socials.x} target="_blank" rel="noopener noreferrer" aria-label="X"><XIcon className="h-4 w-4" /></a>
+                </Button></TooltipTrigger><TooltipContent><p>X</p></TooltipContent></Tooltip></TooltipProvider>
               <TooltipProvider><Tooltip><TooltipTrigger asChild>
                 <Button variant="ghost" size="icon" className="rounded-full text-gray-400 hover:text-[#D4AF37] hover:bg-zinc-800 w-8 h-8" asChild>
-                  <a href={SITE.socials.tiktok} target="_blank" rel="noopener noreferrer" aria-label="TikTok"><span className="text-[10px] font-bold leading-none">TT</span></a>
+                  <a href={SITE.socials.tiktok} target="_blank" rel="noopener noreferrer" aria-label="TikTok"><TikTokIcon className="h-4 w-4" /></a>
                 </Button></TooltipTrigger><TooltipContent><p>TikTok</p></TooltipContent></Tooltip></TooltipProvider>
               <TooltipProvider><Tooltip><TooltipTrigger asChild>
                 <Button variant="ghost" size="icon" className="rounded-full text-gray-400 hover:text-[#D4AF37] hover:bg-zinc-800 w-8 h-8" asChild>
@@ -161,7 +162,7 @@ export function FooterSection() {
               <DialogContent className="max-w-2xl max-h-[80vh] overflow-y-auto bg-zinc-900 border-zinc-800">
                 <DialogHeader><DialogTitle className="text-white">{f.terms}</DialogTitle></DialogHeader>
                 <div className="prose prose-sm prose-invert mt-4 text-gray-300">
-                  <p>This site presents Vlad Kuzmenko's services and products. Reservations and waitlist / early-access requests are expressions of interest — not a completed purchase. Pricing and availability may change.</p>
+                  <p>This site presents Vlad Kuzmenko&rsquo;s services and products. Waitlist, early-access and research-list requests are expressions of interest — not a purchase, and nothing on this site is sold through it.</p>
                 </div>
               </DialogContent>
             </Dialog>

@@ -135,7 +135,7 @@ const en: EcosystemCopy = {
   navigator: {
     eyebrow: "The ecosystem",
     title: "Four directions, one operating standard",
-    desc: "Client work pays for the rest and comes first. The other three are built to the same standard and shown at whatever stage they are actually at.",
+    desc: "Client work is the main commercial direction. Alongside it: my own products, Warriors Team and new consumer projects — each shown at the stage it is actually at.",
     stageLabel: "Stage",
     jumpLabel: "See on this page",
     pageLabel: "Open full page",
@@ -143,7 +143,7 @@ const en: EcosystemCopy = {
       systems: {
         name: "Client Growth Systems",
         purpose: "Get qualified attention, and turn it into leads, bookings and deals.",
-        stage: "Primary business · taking clients",
+        stage: "Main direction · open to new projects",
         examples: ["Traffic Engine", "Conversion Engine", "Growth Engine", "Bottleneck diagnostic"],
       },
       products: {
@@ -160,7 +160,7 @@ const en: EcosystemCopy = {
       },
       drop: {
         name: "Vlad Kuzmenko Drop",
-        purpose: "Consumer product experiments. Researched in public before anything is sold.",
+        purpose: "Consumer products: validate the demand first, build second.",
         stage: "Concept · validating demand",
         examples: ["Performance meal kits — concept", "Training essentials — later"],
       },
@@ -192,20 +192,20 @@ const en: EcosystemCopy = {
         problem:
           "Leads, follow-up and content depend on someone remembering, so things slip and nothing is tracked.",
         whoFor: "Founders, operators, freelancers and agency owners who want the system in-house.",
-        status: "Early access · waitlist open, no payment taken",
+        status: "Early access · waitlist open, nothing charged at this stage",
         slug: "ai-systems",
       },
     ],
     open: "Open product",
     allCta: "Not sure which one fits? Describe the situation",
-    note: "Early access means exactly that: the product exists, it is not finished, and nothing is charged before it is.",
+    note: "Both products are in early access. At this stage nothing is charged here.",
     heroLead:
       "Two products so far. Both came out of client work, both are in early access, and both are described here at the stage they are actually at.",
     faqTitle: "Questions",
     faq: [
       {
         q: "Are these finished products?",
-        a: "No. Both are in early access. VisibilityOS audits are AI-assisted and reviewed personally; AI Systems for Business is open as a waitlist with no payment taken.",
+        a: "No. Both are in early access. VisibilityOS audits are AI-assisted and reviewed personally; AI Systems for Business is open as a waitlist, and nothing is charged at this stage.",
       },
       {
         q: "How is this different from client work?",
@@ -233,7 +233,7 @@ const en: EcosystemCopy = {
     ],
     accessLabel: "Access",
     access:
-      "By application. Every application is read personally; if it is a fit, we talk on a call and decide together. No public price — fit comes first.",
+      "By application. Every application is read personally; if the format suits, we talk on a call and decide together. No public price — first we work out whether it suits both sides.",
     cta: "Apply to join",
     open: "Learn more",
   },
@@ -243,8 +243,8 @@ const en: EcosystemCopy = {
       "A consumer-product lab, not a shop. The current concept under research is a performance meal system for active people. Nothing is for sale yet — this page exists to validate demand before anything is built.",
     eyebrow: "Consumer product lab",
     stageBadge: "Concept · research",
-    title: "Drop is where consumer products get tested before they exist",
-    lead: "No stock, no prices, no launch date. One concept is being researched at a time, in public, and it only becomes a product if the research holds up.",
+    title: "Validate the demand first, build the product second",
+    lead: "No stock, no prices, no launch date. One concept at a time, worked through in the open — and it only becomes a product if the research holds up.",
     concept: {
       label: "Current concept under research",
       name: "Performance meal system",
@@ -252,7 +252,7 @@ const en: EcosystemCopy = {
       whoFor:
         "People who train regularly, work long hours, and currently solve food with whatever is fastest.",
       whyNow:
-        "It is the consumer problem I understand from the inside, and it is the one people around me actually ask about.",
+        "A problem I understand from the inside, and the one people around me actually ask about.",
       researchingLabel: "What is being researched",
       researching: [
         "Who exactly this is for, and where they live",
@@ -271,33 +271,33 @@ const en: EcosystemCopy = {
       desc: "Mentioned so the direction is honest — not in production, not being researched yet.",
       items: ["Training essentials", "Execution planner"],
     },
-    cta: "Join the research list",
-    dialogTitle: "Join the Drop research list",
+    cta: "Join the research",
+    dialogTitle: "Join the Drop research",
     dialogDesc:
       "This is research, not a pre-order. Tell me how you currently handle food on training days and what would have to be true for a system like this to be worth it. Nothing is charged and nothing is shipped.",
     helpLabel: "How you handle food now, and what would make this worth it",
     helpPlaceholder: "How you eat on training days, what you would change, what would stop you",
-    successTitle: "You are on the research list",
+    successTitle: "You are on the list",
     successMessage:
       "Thanks — this goes straight to me. You will hear from me when there is something real to show, not before.",
     disclaimer:
       "Nothing on this page is for sale. No prices, no stock, no delivery, no launch date. If this becomes a product, it will be because the research supported it.",
-    homeTitle: "Consumer products, researched before they exist",
+    homeTitle: "Validate the demand first, build the product second",
     homeDesc:
       "Drop is a lab, not a shop. The current concept is a performance meal system for people who train — at the research stage, with nothing for sale.",
     open: "See the research",
   },
   social: {
     eyebrow: "Personal",
-    titleA: "Life, ideas, ",
-    titleB: "machines, results",
-    desc: "How I live, what I am thinking about, cars and training, and the projects I am working on.",
+    titleA: "Life ",
+    titleB: "outside work",
+    desc: "Everyday life, training, cars, thoughts, projects and what happens off camera.",
     channels: {
-      youtube: "Longer videos — ideas, projects and what happens behind them.",
-      instagram: "Daily life, training, cars and moments.",
-      tiktok: "Short videos, stories and the strong moments.",
-      x: "Short thoughts and observations, as they come.",
-      telegram: "Personal updates and things that do not fit anywhere else.",
+      youtube: "Long-form video: ideas, projects and what happens off camera.",
+      instagram: "Everyday life, training, cars.",
+      tiktok: "Short videos and the moments worth keeping.",
+      x: "Short thoughts and observations.",
+      telegram: "Personal updates and things that do not fit the other channels.",
     },
   },
 };
@@ -306,7 +306,7 @@ const ua: EcosystemCopy = {
   navigator: {
     eyebrow: "Екосистема",
     title: "Чотири напрями, один стандарт роботи",
-    desc: "Клієнтські системи — основний бізнес і перший пріоритет; вони фінансують решту. Інші три напрями зроблені за тим самим стандартом і показані на тій стадії, на якій реально є.",
+    desc: "Робота з клієнтами — основний комерційний напрям. Поряд розвиваються власні продукти, Warriors Team і нові споживчі проєкти — кожен на своїй реальній стадії.",
     stageLabel: "Стадія",
     jumpLabel: "Подивитись на цій сторінці",
     pageLabel: "Відкрити повну сторінку",
@@ -314,7 +314,7 @@ const ua: EcosystemCopy = {
       systems: {
         name: "Client Growth Systems",
         purpose: "Отримати якісну увагу і перетворити її на звернення, зустрічі та угоди.",
-        stage: "Основний бізнес · беру клієнтів",
+        stage: "Основний напрям · відкритий до нових проєктів",
         examples: ["Traffic Engine", "Conversion Engine", "Growth Engine", "Діагностика вузького місця"],
       },
       products: {
@@ -331,8 +331,8 @@ const ua: EcosystemCopy = {
       },
       drop: {
         name: "Vlad Kuzmenko Drop",
-        purpose: "Експерименти зі споживчими продуктами. Досліджую відкрито, перш ніж щось продавати.",
-        stage: "Концепт · перевіряю попит",
+        purpose: "Споживчі продукти: спочатку перевіряємо попит, потім створюємо.",
+        stage: "Концепт · перевіряємо попит",
         examples: ["Система харчування — концепт", "Тренувальні базові речі — пізніше"],
       },
     },
@@ -363,20 +363,20 @@ const ua: EcosystemCopy = {
         problem:
           "Ліди, фолоу-ап і контент тримаються на тому, що хтось згадає — тому щось губиться, а трекінгу немає.",
         whoFor: "Засновники, оператори, фрілансери та власники агенцій, яким потрібна система всередині.",
-        status: "Ранній доступ · лист очікування відкритий, оплата не стягується",
+        status: "Ранній доступ · лист очікування відкритий, на цьому етапі оплати немає",
         slug: "ai-systems",
       },
     ],
     open: "Відкрити продукт",
     allCta: "Не впевнені, що підходить? Опишіть ситуацію",
-    note: "Ранній доступ означає рівно те, що написано: продукт існує, він не завершений, і оплату не беруть, поки він таким не стане.",
+    note: "Обидва продукти в ранньому доступі. На цьому етапі оплата тут не приймається.",
     heroLead:
       "Поки що два продукти. Обидва виросли з клієнтської роботи, обидва в ранньому доступі, і обидва описані тут на реальній стадії.",
     faqTitle: "Питання",
     faq: [
       {
         q: "Це завершені продукти?",
-        a: "Ні. Обидва в ранньому доступі. Аудити VisibilityOS робляться за допомогою AI і переглядаються особисто; AI-системи для бізнесу відкриті як лист очікування без оплати.",
+        a: "Ні. Обидва в ранньому доступі. Аудити VisibilityOS робляться за допомогою AI і переглядаються особисто; AI-системи для бізнесу відкриті як лист очікування, і на цьому етапі оплати немає.",
       },
       {
         q: "Чим це відрізняється від клієнтської роботи?",
@@ -404,7 +404,7 @@ const ua: EcosystemCopy = {
     ],
     accessLabel: "Доступ",
     access:
-      "За заявкою. Кожну заявку читаю особисто; якщо це фіт — спілкуємось на дзвінку й вирішуємо разом. Без публічної ціни: спочатку фіт.",
+      "За заявкою. Кожну заявку читаю особисто; якщо формат підходить — созвон і вирішуємо разом. Публічної ціни немає: спочатку розуміємо, чи підходимо одне одному.",
     cta: "Подати заявку",
     open: "Дізнатися більше",
   },
@@ -414,8 +414,8 @@ const ua: EcosystemCopy = {
       "Лабораторія споживчих продуктів, а не магазин. Поточний концепт у дослідженні — система харчування для активних людей. Нічого не продається: сторінка існує, щоб перевірити попит до того, як щось буде зроблено.",
     eyebrow: "Лабораторія споживчих продуктів",
     stageBadge: "Концепт · дослідження",
-    title: "Drop — це місце, де споживчі продукти перевіряють до того, як вони існують",
-    lead: "Ні складу, ні цін, ні дати запуску. Досліджую один концепт за раз, відкрито — і він стає продуктом лише тоді, коли дослідження це витримує.",
+    title: "Спочатку перевіряємо попит, потім створюємо продукт",
+    lead: "Ні складу, ні цін, ні дати запуску. Один концепт за раз: вивчаємо задачу відкрито, і продукт зʼявляється лише тоді, коли це підтвердилось.",
     concept: {
       label: "Поточний концепт у дослідженні",
       name: "Система готового харчування",
@@ -423,7 +423,7 @@ const ua: EcosystemCopy = {
       whoFor:
         "Люди, які регулярно тренуються, багато працюють і зараз закривають питання їжі тим, що швидше.",
       whyNow:
-        "Це споживча задача, яку я розумію зсередини, і саме про неї найчастіше питають люди поруч.",
+        "Задача, яку я розумію зсередини і про яку найчастіше питають довкола.",
       researchingLabel: "Що саме досліджую",
       researching: [
         "Хто саме цільова людина і де вона живе",
@@ -442,33 +442,33 @@ const ua: EcosystemCopy = {
       desc: "Згадані, щоб напрям був чесним — не у виробництві й поки навіть не в дослідженні.",
       items: ["Тренувальні базові речі", "Планер виконання"],
     },
-    cta: "Долучитись до списку дослідження",
-    dialogTitle: "Список дослідження Drop",
+    cta: "Долучитися до дослідження",
+    dialogTitle: "Долучитися до дослідження Drop",
     dialogDesc:
       "Це дослідження, а не передзамовлення. Напишіть, як зараз вирішуєте питання їжі в тренувальні дні і що має бути правдою, щоб така система була вартою уваги. Оплати немає, доставки теж.",
     helpLabel: "Як ви харчуєтесь зараз і що зробило б це вартим уваги",
     helpPlaceholder: "Як їсте в тренувальні дні, що змінили б, що зупинило б вас",
-    successTitle: "Ви у списку дослідження",
+    successTitle: "Ви у списку",
     successMessage:
       "Дякую — це йде напряму до мене. Напишу, коли буде що показати по-справжньому, не раніше.",
     disclaimer:
       "Ніщо на цій сторінці не продається. Без цін, без складу, без доставки, без дати запуску. Якщо це стане продуктом — то тому, що дослідження це підтвердило.",
-    homeTitle: "Споживчі продукти, які досліджують до того, як вони існують",
+    homeTitle: "Спочатку перевіряємо попит, потім створюємо продукт",
     homeDesc:
-      "Drop — це лабораторія, а не магазин. Поточний концепт — система харчування для тих, хто тренується. Стадія дослідження, нічого не продається.",
+      "Drop — це лабораторія, а не магазин. Поточний концепт — система харчування для тих, хто тренується. Поки триває дослідження, нічого не продається.",
     open: "Подивитись дослідження",
   },
   social: {
     eyebrow: "Особисте",
-    titleA: "Життя, ідеї, ",
-    titleB: "мотори й результати",
-    desc: "Як я живу, про що думаю, авто й тренування, і проєкти, над якими працюю.",
+    titleA: "Життя ",
+    titleB: "поза роботою",
+    desc: "Повсякденне життя, тренування, авто, думки, проєкти і те, що відбувається за кадром.",
     channels: {
-      youtube: "Довші відео — ідеї, проєкти й те, що за ними стоїть.",
-      instagram: "Щоденне життя, тренування, авто й моменти.",
-      tiktok: "Короткі відео, історії та сильні моменти.",
-      x: "Короткі думки й спостереження, як вони є.",
-      telegram: "Особисті апдейти й те, що не вміщується деінде.",
+      youtube: "Довгі відео: ідеї, проєкти й те, що відбувається за кадром.",
+      instagram: "Повсякденне життя, тренування, авто.",
+      tiktok: "Короткі відео й сильні моменти.",
+      x: "Короткі думки й спостереження.",
+      telegram: "Особисті апдейти й те, що не потрапляє в інші канали.",
     },
   },
 };
@@ -477,7 +477,7 @@ const ru: EcosystemCopy = {
   navigator: {
     eyebrow: "Экосистема",
     title: "Четыре направления, один стандарт работы",
-    desc: "Клиентские системы — основной бизнес и первый приоритет; они финансируют остальное. Другие три направления сделаны по тому же стандарту и показаны на той стадии, на которой реально находятся.",
+    desc: "Работа с клиентами — основное коммерческое направление. Рядом развиваются собственные продукты, Warriors Team и новые потребительские проекты — каждый на своей реальной стадии.",
     stageLabel: "Стадия",
     jumpLabel: "Посмотреть на этой странице",
     pageLabel: "Открыть полную страницу",
@@ -485,7 +485,7 @@ const ru: EcosystemCopy = {
       systems: {
         name: "Client Growth Systems",
         purpose: "Получить качественное внимание и превратить его в обращения, встречи и сделки.",
-        stage: "Основной бизнес · беру клиентов",
+        stage: "Основное направление · открыт к новым проектам",
         examples: ["Traffic Engine", "Conversion Engine", "Growth Engine", "Диагностика узкого места"],
       },
       products: {
@@ -502,8 +502,8 @@ const ru: EcosystemCopy = {
       },
       drop: {
         name: "Vlad Kuzmenko Drop",
-        purpose: "Эксперименты с потребительскими продуктами. Исследую открыто, прежде чем что-то продавать.",
-        stage: "Концепт · проверяю спрос",
+        purpose: "Потребительские продукты: сначала проверяем спрос, потом создаём.",
+        stage: "Концепт · проверяем спрос",
         examples: ["Система питания — концепт", "Тренировочные базовые вещи — позже"],
       },
     },
@@ -534,20 +534,20 @@ const ru: EcosystemCopy = {
         problem:
           "Лиды, фоллоу-ап и контент держатся на том, что кто-то вспомнит — поэтому что-то теряется, а трекинга нет.",
         whoFor: "Основатели, операторы, фрилансеры и владельцы агентств, которым нужна система внутри.",
-        status: "Ранний доступ · лист ожидания открыт, оплата не берётся",
+        status: "Ранний доступ · лист ожидания открыт, на этом этапе оплаты нет",
         slug: "ai-systems",
       },
     ],
     open: "Открыть продукт",
     allCta: "Не уверены, что подходит? Опишите ситуацию",
-    note: "Ранний доступ означает ровно то, что написано: продукт существует, он не закончен, и оплату не берут, пока он таким не станет.",
+    note: "Оба продукта находятся в раннем доступе. На текущем этапе оплата здесь не принимается.",
     heroLead:
       "Пока два продукта. Оба выросли из клиентской работы, оба в раннем доступе, и оба описаны здесь на реальной стадии.",
     faqTitle: "Вопросы",
     faq: [
       {
         q: "Это законченные продукты?",
-        a: "Нет. Оба в раннем доступе. Аудиты VisibilityOS делаются с помощью AI и просматриваются лично; AI-системы для бизнеса открыты как лист ожидания без оплаты.",
+        a: "Нет. Оба в раннем доступе. Аудиты VisibilityOS делаются с помощью AI и просматриваются лично; AI-системы для бизнеса открыты как лист ожидания, и на этом этапе оплаты нет.",
       },
       {
         q: "Чем это отличается от клиентской работы?",
@@ -575,7 +575,7 @@ const ru: EcosystemCopy = {
     ],
     accessLabel: "Доступ",
     access:
-      "По заявке. Каждую заявку читаю лично; если это фит — общаемся на звонке и решаем вместе. Без публичной цены: сначала фит.",
+      "По заявке. Каждую заявку читаю лично; если формат подходит — созваниваемся и решаем вместе. Публичной цены нет: сначала понимаем, подходим ли друг другу.",
     cta: "Подать заявку",
     open: "Узнать больше",
   },
@@ -585,8 +585,8 @@ const ru: EcosystemCopy = {
       "Лаборатория потребительских продуктов, а не магазин. Текущий концепт в исследовании — система питания для активных людей. Ничего не продаётся: страница существует, чтобы проверить спрос до того, как что-то будет сделано.",
     eyebrow: "Лаборатория потребительских продуктов",
     stageBadge: "Концепт · исследование",
-    title: "Drop — это место, где потребительские продукты проверяют до того, как они существуют",
-    lead: "Ни склада, ни цен, ни даты запуска. Исследую один концепт за раз, открыто — и он становится продуктом только если исследование это выдерживает.",
+    title: "Сначала проверяем спрос, потом создаём продукт",
+    lead: "Ни склада, ни цен, ни даты запуска. Один концепт за раз: изучаем задачу открыто, и продукт появляется только если это подтвердилось.",
     concept: {
       label: "Текущий концепт в исследовании",
       name: "Система готового питания",
@@ -594,7 +594,7 @@ const ru: EcosystemCopy = {
       whoFor:
         "Люди, которые регулярно тренируются, много работают и сейчас закрывают вопрос еды тем, что быстрее.",
       whyNow:
-        "Это потребительская задача, которую я понимаю изнутри, и именно про неё чаще всего спрашивают люди рядом.",
+        "Задача, которую я понимаю изнутри, и о которой чаще всего спрашивают вокруг.",
       researchingLabel: "Что именно исследую",
       researching: [
         "Кто именно целевой человек и где он живёт",
@@ -613,33 +613,33 @@ const ru: EcosystemCopy = {
       desc: "Упомянуты, чтобы направление было честным — не в производстве и пока даже не в исследовании.",
       items: ["Тренировочные базовые вещи", "Планер исполнения"],
     },
-    cta: "Вступить в список исследования",
-    dialogTitle: "Список исследования Drop",
+    cta: "Присоединиться к исследованию",
+    dialogTitle: "Присоединиться к исследованию Drop",
     dialogDesc:
       "Это исследование, а не предзаказ. Напишите, как сейчас решаете вопрос еды в тренировочные дни и что должно быть правдой, чтобы такая система была нужна. Оплаты нет, доставки тоже.",
     helpLabel: "Как вы питаетесь сейчас и что сделало бы это нужным",
     helpPlaceholder: "Как едите в тренировочные дни, что бы изменили, что бы вас остановило",
-    successTitle: "Вы в списке исследования",
+    successTitle: "Вы в списке",
     successMessage:
       "Спасибо — это идёт напрямую мне. Напишу, когда будет что показать по-настоящему, не раньше.",
     disclaimer:
       "Ничто на этой странице не продаётся. Без цен, без склада, без доставки, без даты запуска. Если это станет продуктом — то потому, что исследование это подтвердило.",
-    homeTitle: "Потребительские продукты, которые исследуют до того, как они существуют",
+    homeTitle: "Сначала проверяем спрос, потом создаём продукт",
     homeDesc:
-      "Drop — это лаборатория, а не магазин. Текущий концепт — система питания для тех, кто тренируется. Стадия исследования, ничего не продаётся.",
+      "Drop — это лаборатория, а не магазин. Текущий концепт — система питания для тех, кто тренируется. Пока идёт исследование, ничего не продаётся.",
     open: "Посмотреть исследование",
   },
   social: {
     eyebrow: "Личное",
-    titleA: "Жизнь, идеи, ",
-    titleB: "моторы и результаты",
-    desc: "Как я живу, о чём думаю, авто и тренировки, и проекты, над которыми работаю.",
+    titleA: "Жизнь ",
+    titleB: "вне работы",
+    desc: "Повседневная жизнь, тренировки, авто, мысли, проекты и то, что происходит за кадром.",
     channels: {
-      youtube: "Видео подлиннее — идеи, проекты и то, что стоит за ними.",
-      instagram: "Повседневная жизнь, тренировки, авто и моменты.",
-      tiktok: "Короткие видео, истории и сильные моменты.",
-      x: "Короткие мысли и наблюдения, как есть.",
-      telegram: "Личные апдейты и то, что не помещается в остальных каналах.",
+      youtube: "Длинные видео: идеи, проекты и то, что происходит за кадром.",
+      instagram: "Повседневная жизнь, тренировки, авто.",
+      tiktok: "Короткие видео и сильные моменты.",
+      x: "Короткие мысли и наблюдения.",
+      telegram: "Личные апдейты и то, что не попадает в другие каналы.",
     },
   },
 };
@@ -656,6 +656,33 @@ export const directionRoute = (lang: Lang, key: DirectionKey): string =>
   `${localePath(lang)}/${DIRECTION_ROUTE[key]}`;
 
 export const productRoute = (lang: Lang, slug: string): string => `${localePath(lang)}/${slug}`;
+
+/** hreflang-style language code for schema (Ukrainian is `uk`). */
+const SCHEMA_LANG: Record<Lang, string> = { en: "en", ua: "uk", ru: "ru" };
+
+/**
+ * Per-locale WebPage node.
+ *
+ * The root layout emits one language-neutral WebSite node for the whole site.
+ * Each localized home route adds this WebPage, which carries the native
+ * description and the real page language and points back at that WebSite @id —
+ * so no page ever claims `inLanguage: "en"` for RU/UA content, and there is
+ * never a second, contradicting WebSite node.
+ */
+export function localeHomeJsonLd(lang: Lang, name: string, description: string) {
+  const url = `https://vladkuzmenko.com${localePath(lang) || "/"}`;
+  return {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    "@id": `${url}#webpage`,
+    url,
+    name,
+    description,
+    inLanguage: SCHEMA_LANG[lang],
+    isPartOf: { "@id": "https://vladkuzmenko.com/#website" },
+    about: { "@id": "https://vladkuzmenko.com/#vlad" },
+  };
+}
 
 /**
  * ItemList of the four real directions. Every entry points at a page that exists.

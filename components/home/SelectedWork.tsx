@@ -22,8 +22,8 @@ type Locale = "en" | "ua" | "ru";
 
 const COPY = {
   en: {
-    eyebrow: "Selected work",
-    title: "Top projects",
+    eyebrow: "Portfolio",
+    title: "Selected projects",
     desc: "A short selection of the strongest products, platforms and systems from the full portfolio.",
     task: "Task",
     built: "What was built",
@@ -35,8 +35,8 @@ const COPY = {
     noVisual: "Project preview",
   },
   ua: {
-    eyebrow: "Вибрані роботи",
-    title: "Топ проєкти",
+    eyebrow: "Портфоліо",
+    title: "Вибрані проєкти",
     desc: "Коротка добірка найсильніших продуктів, платформ і систем з повного портфоліо.",
     task: "Завдання",
     built: "Що зроблено",
@@ -48,8 +48,8 @@ const COPY = {
     noVisual: "Прев’ю проєкту",
   },
   ru: {
-    eyebrow: "Избранные работы",
-    title: "Топ проекты",
+    eyebrow: "Портфолио",
+    title: "Избранные проекты",
     desc: "Короткая подборка самых сильных продуктов, платформ и систем из полного портфолио.",
     task: "Задача",
     built: "Что сделано",
