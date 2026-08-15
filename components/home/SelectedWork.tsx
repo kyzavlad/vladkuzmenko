@@ -13,12 +13,12 @@ import {
 } from "@/lib/portfolio";
 import {
   CURATED_PORTFOLIO,
+  HOME_FEATURED,
   type CuratedProject,
 } from "@/lib/portfolio-curated";
+import { track } from "@/lib/analytics";
 
 type Locale = "en" | "ua" | "ru";
-
-const HOME_COUNT = 3;
 
 const COPY = {
   en: {
@@ -178,7 +178,11 @@ function Preview({ p, locale, i }: { p: CuratedProject; locale: Locale; i: numbe
           </div>
 
           <div className="mt-5 flex flex-col gap-3 border-t border-white/[.07] pt-5 sm:flex-row">
-            <a href={href} className="sm:w-auto">
+            <a
+              href={href}
+              className="sm:w-auto"
+              onClick={() => track("portfolio_open", { project: p.key, source: "home" })}
+            >
               <Button className="premium-button min-h-11 w-full px-6 sm:w-auto">
                 {x.open}
                 <ArrowRight className="ml-2 h-4 w-4" />
@@ -205,7 +209,8 @@ export function SelectedWork() {
   const x = COPY[locale];
   const base = langHref(locale);
   const workHref = base === "/" ? "/work" : `${base}/work`;
-  const projects = CURATED_PORTFOLIO.slice(0, HOME_COUNT);
+  // Explicit homepage curation — see HOME_FEATURED_KEYS in lib/portfolio-curated.
+  const projects = HOME_FEATURED.length ? HOME_FEATURED : CURATED_PORTFOLIO.slice(0, 3);
 
   return (
     <section

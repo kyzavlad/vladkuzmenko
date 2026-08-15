@@ -27,10 +27,11 @@ export function FooterSection() {
     base,
     pageHref("growth-systems"),
     pageHref("work"),
+    pageHref("products"),
     pageHref("visibilityos"),
     pageHref("ai-systems"),
     pageHref("warriors-team"),
-    hashHref("shop"),
+    pageHref("drop"),
     hashHref("about"),
   ];
   const workTargets = [
@@ -39,7 +40,7 @@ export function FooterSection() {
     pageHref("visibilityos"),
     pageHref("ai-systems"),
     pageHref("warriors-team"),
-    hashHref("shop"),
+    pageHref("drop"),
   ];
 
   const [email, setEmail] = useState("");

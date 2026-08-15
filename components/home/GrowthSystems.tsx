@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button";
 import { RequestDialog } from "@/components/ui/request-dialog";
 import { useI18n } from "@/components/i18n-provider";
 import { cn } from "@/lib/utils";
+import { track } from "@/lib/analytics";
 import { langHref } from "@/lib/i18n";
 import {
   DIAGNOSTIC_INTENT,
@@ -40,7 +41,7 @@ export function GrowthSystems() {
 
   return (
     <section
-      id="growth-systems"
+      id="client-systems"
       className="section-accent relative scroll-mt-24 border-t border-zinc-900 bg-black py-24 md:py-32"
     >
       <div className="container mx-auto px-4">
@@ -109,7 +110,10 @@ export function GrowthSystems() {
                     successMessage={x.engines.successMessage}
                     context={{ offer: ENGINE_INTENT[key], source: "home_growth_systems", locale: lang, route: base }}
                   >
-                    <Button className="premium-button h-auto min-h-11 w-full px-5 py-2.5 text-sm">
+                    <Button
+                      className="premium-button h-auto min-h-11 w-full px-5 py-2.5 text-sm"
+                      onClick={() => track("engine_select", { engine: key, source: "home" })}
+                    >
                       {e.cta}
                       <ArrowRight className="ml-2 h-4 w-4 shrink-0" />
                     </Button>

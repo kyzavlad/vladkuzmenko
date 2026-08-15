@@ -233,6 +233,27 @@ export const CURATED_PORTFOLIO: CuratedProject[] = SHOWCASE_PORTFOLIO
   .map(curate)
   .sort((a, b) => (rank.get(a.key) ?? 10_000) - (rank.get(b.key) ?? 10_000));
 
+/**
+ * Homepage proof, curated explicitly.
+ *
+ * Kept separate from CURATED_PORTFOLIO ordering so homepage evidence can change
+ * without touching the commercial ordering of /work. Selection rules, in order:
+ *   1. a real working / launched product beats a concept;
+ *   2. a real public or client implementation beats an internal prototype;
+ *   3. verified screenshots must exist;
+ *   4. commercial relevance to the current Growth Systems offer;
+ *   5. variety across AI product / platform / conversion web.
+ *
+ * turbotaai   — working AI SaaS, public URL, customer app + operations console.
+ * tutorivo    — launched and tested MVP, real two-sided marketplace.
+ * ser-crypto  — live client conversion landing; the closest proof to Conversion Engine.
+ */
+export const HOME_FEATURED_KEYS = ["turbotaai", "tutorivo", "ser-crypto"] as const;
+
+export const HOME_FEATURED: CuratedProject[] = HOME_FEATURED_KEYS.map((key) =>
+  CURATED_PORTFOLIO.find((project) => project.key === key),
+).filter((project): project is CuratedProject => Boolean(project));
+
 export const CURATED_CASE_SLUGS = CURATED_PORTFOLIO.map(
   (project) => project.caseSlug ?? project.key,
 );

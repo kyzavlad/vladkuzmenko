@@ -3,6 +3,7 @@ import { HomeContent } from "@/components/home/HomeContent";
 import { LangAutoRedirect } from "@/components/LangAutoRedirect";
 import { getDict } from "@/lib/i18n";
 import { pageMeta } from "@/lib/page-meta";
+import { ecosystemItemListJsonLd } from "@/lib/ecosystem";
 
 const d = getDict("en");
 
@@ -13,6 +14,10 @@ export default function Page() {
     <I18nProvider lang="en">
       <LangAutoRedirect />
       <HomeContent />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(ecosystemItemListJsonLd("en")) }}
+      />
     </I18nProvider>
   );
 }
