@@ -1,7 +1,6 @@
 "use client";
 
 import { Toaster } from "@/components/ui/toaster";
-import { VoiceflowScript } from "@/components/voiceflow-script";
 import { useEffect, useState } from "react";
 import type { ReactNode } from "react";
 import { motion, AnimatePresence, MotionConfig } from "framer-motion";
@@ -48,12 +47,7 @@ export function AppShell({ children }: { children: ReactNode }) {
     <MotionConfig reducedMotion="user">
       {children}
       <AnimatePresence>{isLoading && <LoadingAnimation key="loading" />}</AnimatePresence>
-      {!isLoading && (
-        <>
-          <VoiceflowScript />
-          <Toaster />
-        </>
-      )}
+      {!isLoading && <Toaster />}
     </MotionConfig>
   );
 }
