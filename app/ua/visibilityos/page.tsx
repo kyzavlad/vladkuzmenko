@@ -1,10 +1,13 @@
 import { I18nProvider } from "@/components/i18n-provider";
 import { VisibilityOsPage } from "@/components/pages/VisibilityOsPage";
-import { getDict } from "@/lib/i18n";
 import { pageMeta } from "@/lib/page-meta";
 
-const d = getDict("ua");
-export const metadata = pageMeta("ua", "visibilityos", d.meta.visibilityTitle, d.meta.visibilityDesc);
+export const metadata = pageMeta(
+  "ua",
+  "visibilityos",
+  "VisibilityOS Website Intelligence | Conversion, Trust та AI Search",
+  "Evidence-led website intelligence для conversion, trust, technical health, SEO, AEO та AI-search readiness, з особистим review ранніх scans.",
+);
 
 export default function Page() {
   return (
