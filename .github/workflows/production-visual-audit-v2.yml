@@ -21,7 +21,7 @@ jobs:
         run: |
           npm install --no-save playwright@1.54.2
           npx playwright install --with-deps chromium
-      - name: Run production visual audit
+      - name: Run final production visual audit
         env:
           BASE_URL: https://vladkuzmenko.com
         run: node scripts/production-visual-audit.mjs
@@ -33,7 +33,7 @@ jobs:
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: production-site-visual-audit
+          name: production-site-visual-audit-final
           path: site-audit-artifact
           if-no-files-found: warn
           retention-days: 14
