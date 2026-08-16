@@ -1,0 +1,102 @@
+name: Website Release Quality
+
+on:
+  push:
+    branches:
+      - main
+      - site-finish-20260816
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: website-release-quality-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  quality:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Lint release surface
+        run: |
+          npx eslint \
+            components/home/Hero.tsx \
+            components/home/EcosystemCore.tsx \
+            components/home/EcosystemNavigator.tsx \
+            components/home/VisibilitySection.tsx \
+            components/home/WarriorsSection.tsx \
+            components/home/DropSection.tsx \
+            components/home/PersonalBrand.tsx \
+            components/home/HomeContent.tsx \
+            components/home/ContactSection.tsx \
+            components/FooterSection.tsx \
+            components/ui/legacy-redirect.tsx \
+            components/ui/direction-page-hero.tsx \
+            components/pages/VisibilityOsPage.tsx \
+            components/pages/WarriorsTeamPage.tsx \
+            components/pages/DropPage.tsx \
+            lib/directions.ts \
+            app/not-found.tsx \
+            app/sitemap.ts
+
+      - name: Typecheck with known-debt guard
+        shell: bash
+        run: |
+          set +e
+          npx tsc --noEmit --pretty false > /tmp/tsc.log 2>&1
+          status=$?
+          set -e
+          cat /tmp/tsc.log
+
+          if [ "$status" -eq 0 ]; then
+            echo "Typecheck is fully clean."
+            exit 0
+          fi
+
+          error_count=$(grep -c "error TS" /tmp/tsc.log || true)
+          unexpected=$(grep "error TS" /tmp/tsc.log | grep -v "components/pages/PortfolioShowcaseCasePage.tsx" || true)
+
+          if [ "$error_count" -ne 2 ] || [ -n "$unexpected" ]; then
+            echo "Unexpected TypeScript error set. Expected exactly the 2 known PortfolioShowcaseCasePage.tsx errors."
+            exit 1
+          fi
+
+          echo "Only the 2 pre-existing PortfolioShowcaseCasePage.tsx errors remain; no new TypeScript errors detected."
+
+      - name: Production static build
+        run: npm run build
+
+      - name: Validate exported locale shells
+        shell: bash
+        run: |
+          test -f out/index.html
+          test -f out/ua.html
+          test -f out/ru.html
+          grep -q '<html lang="en"' out/index.html
+          grep -q '<html lang="uk"' out/ua.html
+          grep -q '<html lang="ru"' out/ru.html
+
+      - name: Reject retired homepage/product copy
+        shell: bash
+        run: |
+          if grep -R -E "Собственные продукты, а не клиентские проекты|Власні продукти, а не клієнтські проєкти|AI-системы для бизнеса|AI-системи для бізнесу" out/index.html out/ua.html out/ru.html; then
+            echo "Retired positioning leaked into the homepage export."
+            exit 1
+          fi
