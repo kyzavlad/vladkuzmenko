@@ -1,10 +1,15 @@
 "use client";
 
-import { motion, useMotionValue, useReducedMotion, useSpring, useTransform } from "framer-motion";
-import { Dumbbell, Layers, ScanSearch, Shield } from "lucide-react";
+import {
+  motion,
+  useMotionValue,
+  useReducedMotion,
+  useSpring,
+  useTransform,
+} from "framer-motion";
+import { Dumbbell, Layers3, ScanSearch, Shield } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
-import type { MouseEvent as ReactMouseEvent } from "react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import type { Direction, DirectionKey } from "@/lib/directions";
 
 type EcosystemCoreProps = {
@@ -16,7 +21,7 @@ type EcosystemCoreProps = {
 const ORDER: DirectionKey[] = ["business", "visibility", "warriors", "performance"];
 
 const ICONS: Record<DirectionKey, LucideIcon> = {
-  business: Layers,
+  business: Layers3,
   visibility: ScanSearch,
   warriors: Shield,
   performance: Dumbbell,
@@ -27,36 +32,43 @@ const ACCENTS: Record<
   { solid: string; glow: string; border: string; surface: string }
 > = {
   business: {
-    solid: "#e7bf3a",
-    glow: "rgba(231,191,58,.34)",
-    border: "rgba(231,191,58,.48)",
-    surface: "rgba(231,191,58,.08)",
+    solid: "#e8c547",
+    glow: "rgba(232,197,71,.34)",
+    border: "rgba(232,197,71,.46)",
+    surface: "rgba(232,197,71,.075)",
   },
   visibility: {
     solid: "#7dd3fc",
-    glow: "rgba(125,211,252,.28)",
-    border: "rgba(125,211,252,.42)",
-    surface: "rgba(125,211,252,.07)",
+    glow: "rgba(125,211,252,.27)",
+    border: "rgba(125,211,252,.40)",
+    surface: "rgba(125,211,252,.065)",
   },
   warriors: {
     solid: "#c4b5fd",
-    glow: "rgba(196,181,253,.28)",
-    border: "rgba(196,181,253,.42)",
-    surface: "rgba(196,181,253,.07)",
+    glow: "rgba(196,181,253,.26)",
+    border: "rgba(196,181,253,.40)",
+    surface: "rgba(196,181,253,.065)",
   },
   performance: {
     solid: "#6ee7b7",
-    glow: "rgba(110,231,183,.26)",
-    border: "rgba(110,231,183,.42)",
-    surface: "rgba(110,231,183,.07)",
+    glow: "rgba(110,231,183,.24)",
+    border: "rgba(110,231,183,.38)",
+    surface: "rgba(110,231,183,.06)",
   },
 };
 
-const POSITIONS: Record<DirectionKey, string> = {
-  business: "left-[1%] top-[42%]",
-  visibility: "right-[1%] top-[14%]",
-  warriors: "right-[-1%] bottom-[16%]",
-  performance: "left-[8%] bottom-[3%]",
+const PATHS: Record<DirectionKey, string> = {
+  business: "M720 470 C640 560 420 610 245 780",
+  visibility: "M720 470 C690 570 610 650 565 780",
+  warriors: "M720 470 C760 570 840 650 875 780",
+  performance: "M720 470 C810 555 1035 620 1190 780",
+};
+
+const tagLine = (key: DirectionKey, item: Direction) => {
+  if (key === "business") return [item.tags[0], item.tags[1], item.tags[item.tags.length - 1]].filter(Boolean).join(" · ");
+  if (key === "warriors") return [item.tags[0], item.tags[2], item.tags[3]].filter(Boolean).join(" · ");
+  if (key === "performance") return [item.tags[0], item.tags[2], item.tags[3]].filter(Boolean).join(" · ");
+  return item.tags.slice(0, 3).join(" · ");
 };
 
 export function EcosystemCore({
@@ -70,174 +82,211 @@ export function EcosystemCore({
 
   const pointerX = useMotionValue(0);
   const pointerY = useMotionValue(0);
-  const springX = useSpring(pointerX, { stiffness: 90, damping: 24, mass: 0.7 });
-  const springY = useSpring(pointerY, { stiffness: 90, damping: 24, mass: 0.7 });
-  const rotateY = useTransform(springX, [-0.5, 0.5], [-5, 5]);
-  const rotateX = useTransform(springY, [-0.5, 0.5], [4, -4]);
-  const shiftX = useTransform(springX, [-0.5, 0.5], [-8, 8]);
-  const shiftY = useTransform(springY, [-0.5, 0.5], [-8, 8]);
+  const springX = useSpring(pointerX, { stiffness: 75, damping: 26, mass: 0.7 });
+  const springY = useSpring(pointerY, { stiffness: 75, damping: 26, mass: 0.7 });
+  const fieldX = useTransform(springX, [-0.5, 0.5], [-20, 20]);
+  const fieldY = useTransform(springY, [-0.5, 0.5], [-14, 14]);
+  const sheenX = useTransform(springX, [-0.5, 0.5], [-35, 35]);
+  const sheenY = useTransform(springY, [-0.5, 0.5], [-24, 24]);
 
-  const handlePointerMove = (event: ReactMouseEvent<HTMLDivElement>) => {
+  useEffect(() => {
     if (reduced) return;
-    const rect = event.currentTarget.getBoundingClientRect();
-    pointerX.set((event.clientX - rect.left) / rect.width - 0.5);
-    pointerY.set((event.clientY - rect.top) / rect.height - 0.5);
-  };
 
-  const resetPointer = () => {
-    pointerX.set(0);
-    pointerY.set(0);
-  };
+    const handlePointer = (event: PointerEvent) => {
+      pointerX.set(event.clientX / Math.max(window.innerWidth, 1) - 0.5);
+      pointerY.set(event.clientY / Math.max(window.innerHeight, 1) - 0.5);
+    };
+
+    const resetPointer = () => {
+      pointerX.set(0);
+      pointerY.set(0);
+    };
+
+    window.addEventListener("pointermove", handlePointer, { passive: true });
+    window.addEventListener("blur", resetPointer);
+
+    return () => {
+      window.removeEventListener("pointermove", handlePointer);
+      window.removeEventListener("blur", resetPointer);
+    };
+  }, [pointerX, pointerY, reduced]);
 
   return (
-    <div
-      className="relative mx-auto w-full max-w-[720px]"
-      style={{ perspective: "1200px" }}
-      onMouseMove={handlePointerMove}
-      onMouseLeave={resetPointer}
-    >
-      <div className="relative aspect-[1/1] min-h-[430px] w-full sm:min-h-[520px] lg:min-h-0">
-        <div
-          aria-hidden="true"
-          className="absolute inset-[7%] rounded-full blur-[70px] transition-colors duration-700"
+    <div className="pointer-events-none absolute inset-0 z-[4] overflow-hidden" aria-hidden="false">
+      <motion.div
+        aria-hidden="true"
+        className="absolute left-1/2 top-[48%] h-[620px] w-[980px] -translate-x-1/2 -translate-y-1/2 rounded-[50%] blur-[90px]"
+        style={
+          reduced
+            ? { background: `radial-gradient(ellipse at center, ${accent.glow} 0%, rgba(212,175,55,.06) 30%, transparent 68%)` }
+            : {
+                x: fieldX,
+                y: fieldY,
+                background: `radial-gradient(ellipse at center, ${accent.glow} 0%, rgba(212,175,55,.06) 30%, transparent 68%)`,
+              }
+        }
+      />
+
+      <motion.div
+        aria-hidden="true"
+        className="absolute left-1/2 top-[47%] h-[530px] w-[760px] -translate-x-1/2 -translate-y-1/2 rounded-[48%] opacity-75 blur-[1px]"
+        style={
+          reduced
+            ? undefined
+            : {
+                x: sheenX,
+                y: sheenY,
+              }
+        }
+      >
+        <motion.div
+          className="absolute inset-[4%] rounded-[48%] border border-white/[.035]"
+          animate={reduced ? undefined : { rotate: 360 }}
+          transition={reduced ? undefined : { duration: 42, repeat: Infinity, ease: "linear" }}
           style={{
-            background: `radial-gradient(circle at 50% 50%, ${accent.glow} 0%, transparent 68%)`,
+            background:
+              "conic-gradient(from 210deg, transparent 0deg, rgba(255,255,255,.025) 58deg, transparent 104deg, rgba(231,191,58,.07) 172deg, transparent 236deg, rgba(255,255,255,.02) 312deg, transparent 360deg)",
+            boxShadow: "inset 0 0 100px rgba(212,175,55,.025)",
           }}
         />
-
         <motion.div
-          aria-hidden="true"
-          className="absolute inset-[9%]"
-          style={reduced ? undefined : { rotateX, rotateY, x: shiftX, y: shiftY }}
-        >
-          <motion.div
-            className="absolute inset-[7%] rounded-full border border-white/[.06]"
-            animate={reduced ? undefined : { rotate: 360 }}
-            transition={reduced ? undefined : { duration: 58, repeat: Infinity, ease: "linear" }}
-          >
-            <span className="absolute left-1/2 top-[-4px] h-2 w-2 -translate-x-1/2 rounded-full bg-amber-200/80 shadow-[0_0_20px_rgba(244,211,94,.7)]" />
-            <span className="absolute bottom-[12%] right-[8%] h-1.5 w-1.5 rounded-full bg-white/30" />
-          </motion.div>
+          className="absolute inset-[17%] rounded-[48%] border border-white/[.045]"
+          animate={reduced ? undefined : { rotate: -360 }}
+          transition={reduced ? undefined : { duration: 58, repeat: Infinity, ease: "linear" }}
+        />
+        <div
+          className="absolute inset-[27%] rounded-[46%] border border-white/[.055]"
+          style={{
+            background:
+              "radial-gradient(ellipse at 42% 35%, rgba(255,255,255,.065), transparent 22%), radial-gradient(ellipse at 58% 62%, rgba(212,175,55,.07), transparent 38%)",
+            boxShadow: `0 0 90px ${accent.glow}, inset 0 0 54px rgba(255,255,255,.025)`,
+          }}
+        />
+      </motion.div>
 
-          <motion.div
-            className="absolute inset-[16%] rounded-full border border-white/[.075]"
-            animate={reduced ? undefined : { rotate: -360 }}
-            transition={reduced ? undefined : { duration: 42, repeat: Infinity, ease: "linear" }}
-          >
-            <span
-              className="absolute right-[8%] top-[20%] h-2 w-2 rounded-full transition-colors duration-500"
-              style={{ backgroundColor: accent.solid, boxShadow: `0 0 22px ${accent.glow}` }}
-            />
-          </motion.div>
-
-          <div className="absolute inset-[23%] rounded-full border border-white/[.08] bg-[radial-gradient(circle_at_32%_22%,rgba(255,255,255,.16),transparent_19%),radial-gradient(circle_at_65%_72%,rgba(255,196,70,.12),transparent_26%),linear-gradient(145deg,#171717_0%,#050505_42%,#141414_72%,#020202_100%)] shadow-[inset_0_1px_1px_rgba(255,255,255,.13),inset_0_-18px_50px_rgba(0,0,0,.9),0_42px_100px_rgba(0,0,0,.72)]">
-            <motion.div
-              aria-hidden="true"
-              className="absolute inset-[4%] rounded-full opacity-90"
-              animate={reduced ? undefined : { rotate: [0, 16, 0, -12, 0] }}
-              transition={reduced ? undefined : { duration: 18, repeat: Infinity, ease: "easeInOut" }}
-              style={{
-                background:
-                  "conic-gradient(from 215deg, transparent 0deg, rgba(255,255,255,.11) 34deg, transparent 68deg, rgba(212,175,55,.22) 126deg, transparent 184deg, rgba(255,255,255,.07) 242deg, transparent 312deg)",
-                filter: "blur(1px)",
-              }}
-            />
-            <div className="absolute inset-[13%] rounded-full border border-amber-200/20 bg-[radial-gradient(circle_at_50%_42%,rgba(250,211,88,.24),rgba(92,66,8,.09)_32%,rgba(5,5,5,.96)_68%)] shadow-[inset_0_0_48px_rgba(212,175,55,.10),0_0_70px_rgba(212,175,55,.10)]">
-              <div className="absolute inset-[18%] rounded-full border border-white/[.09] bg-black/80 shadow-[inset_0_0_32px_rgba(255,220,110,.10)]" />
-              <div
-                className="absolute inset-[31%] rounded-full border transition-colors duration-500"
-                style={{
-                  borderColor: accent.border,
-                  background: `radial-gradient(circle at 38% 34%, rgba(255,255,255,.24), transparent 18%), radial-gradient(circle, ${accent.surface}, rgba(0,0,0,.96) 70%)`,
-                  boxShadow: `0 0 54px ${accent.glow}, inset 0 0 22px ${accent.glow}`,
-                }}
-              />
-              <motion.div
-                className="absolute left-1/2 top-1/2 h-[1px] w-[38%] origin-left -translate-y-1/2 bg-gradient-to-r from-amber-200/70 to-transparent"
-                animate={reduced ? undefined : { rotate: 360 }}
-                transition={reduced ? undefined : { duration: 16, repeat: Infinity, ease: "linear" }}
-              />
-            </div>
-          </div>
-
-          <div className="absolute inset-[2%] rounded-full border border-white/[.035]" />
-          <div className="absolute inset-[30%] rounded-full border border-amber-200/[.08]" />
-        </motion.div>
-
-        <div className="pointer-events-none absolute inset-[18%] hidden rounded-full border border-dashed border-white/[.045] lg:block" />
-
-        {ORDER.map((key, index) => {
-          const Icon = ICONS[key];
-          const item = directions[key];
-          const itemAccent = ACCENTS[key];
+      <svg
+        aria-hidden="true"
+        viewBox="0 0 1440 900"
+        preserveAspectRatio="none"
+        className="absolute inset-0 hidden h-full w-full lg:block"
+      >
+        <defs>
+          <linearGradient id="signal-fade" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stopColor="rgba(255,255,255,0)" />
+            <stop offset="46%" stopColor="rgba(255,255,255,.08)" />
+            <stop offset="100%" stopColor="rgba(255,255,255,.02)" />
+          </linearGradient>
+        </defs>
+        {ORDER.map((key) => {
           const isActive = active === key;
-
+          const itemAccent = ACCENTS[key];
           return (
-            <motion.a
-              key={key}
-              href={hrefs[key]}
-              onMouseEnter={() => setActive(key)}
-              onFocus={() => setActive(key)}
-              onClick={() => onDirectionOpen?.(key)}
-              whileHover={reduced ? undefined : { y: -4, scale: 1.012 }}
-              whileFocus={reduced ? undefined : { y: -2 }}
-              className={`group absolute z-20 hidden w-[190px] rounded-2xl border bg-black/65 px-3.5 py-3 text-left backdrop-blur-xl transition-[border-color,background-color,box-shadow] duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-300/50 lg:block ${POSITIONS[key]}`}
-              style={{
-                borderColor: isActive ? itemAccent.border : "rgba(255,255,255,.09)",
-                backgroundColor: isActive ? itemAccent.surface : "rgba(5,5,5,.68)",
-                boxShadow: isActive ? `0 18px 50px rgba(0,0,0,.42), 0 0 36px ${itemAccent.glow}` : "0 14px 42px rgba(0,0,0,.30)",
-              }}
-              aria-label={item.title}
-            >
-              <span className="flex items-center gap-3">
-                <span
-                  className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl border bg-black/70 transition-colors duration-300"
-                  style={{ borderColor: isActive ? itemAccent.border : "rgba(255,255,255,.09)", color: itemAccent.solid }}
-                >
-                  <Icon className="h-4 w-4" />
-                </span>
-                <span className="min-w-0">
-                  <span className="block text-[9px] font-semibold uppercase tracking-[.22em] text-zinc-600">
-                    0{index + 1}
-                  </span>
-                  <span className="mt-0.5 block text-[12px] font-semibold leading-4 text-zinc-200 transition-colors group-hover:text-white">
-                    {item.short}
-                  </span>
-                </span>
-              </span>
-            </motion.a>
+            <g key={key}>
+              <path d={PATHS[key]} fill="none" stroke="url(#signal-fade)" strokeWidth="1" />
+              <motion.path
+                d={PATHS[key]}
+                fill="none"
+                stroke={itemAccent.solid}
+                strokeWidth={isActive ? 1.2 : 0.7}
+                strokeLinecap="round"
+                strokeDasharray="4 16"
+                initial={false}
+                animate={
+                  reduced
+                    ? { opacity: isActive ? 0.55 : 0.12 }
+                    : {
+                        opacity: isActive ? 0.72 : 0.11,
+                        strokeDashoffset: isActive ? [0, -80] : 0,
+                      }
+                }
+                transition={
+                  reduced
+                    ? { duration: 0.25 }
+                    : {
+                        opacity: { duration: 0.35 },
+                        strokeDashoffset: { duration: 4.2, repeat: Infinity, ease: "linear" },
+                      }
+                }
+              />
+            </g>
           );
         })}
+      </svg>
 
-        <div className="absolute inset-x-0 bottom-0 z-20 grid grid-cols-2 gap-2 px-1 lg:hidden">
+      <div aria-hidden="true" className="absolute inset-x-0 bottom-[142px] hidden justify-center lg:flex">
+        <div className="relative h-6 w-[68%] max-w-5xl">
+          <div className="absolute left-1/2 top-1/2 h-px w-full -translate-x-1/2 -translate-y-1/2 bg-gradient-to-r from-transparent via-amber-200/[.13] to-transparent" />
+          <motion.span
+            className="absolute left-[12%] top-1/2 h-1 w-1 -translate-y-1/2 rounded-full bg-amber-200 shadow-[0_0_16px_rgba(232,197,71,.8)]"
+            animate={reduced ? undefined : { left: ["12%", "88%", "12%"] }}
+            transition={reduced ? undefined : { duration: 8, repeat: Infinity, ease: "easeInOut" }}
+          />
+        </div>
+      </div>
+
+      <div
+        id="ecosystem-rail"
+        className="pointer-events-auto absolute inset-x-0 bottom-5 z-20 mx-auto w-full max-w-[1180px] px-4 sm:bottom-7 sm:px-6 lg:bottom-8"
+      >
+        <div className="grid grid-cols-2 gap-2.5 lg:grid-cols-4 lg:gap-3">
           {ORDER.map((key, index) => {
-            const Icon = ICONS[key];
             const item = directions[key];
+            const Icon = ICONS[key];
             const itemAccent = ACCENTS[key];
+            const isActive = active === key;
 
             return (
-              <a
+              <motion.a
                 key={key}
                 href={hrefs[key]}
+                onMouseEnter={() => setActive(key)}
+                onFocus={() => setActive(key)}
                 onClick={() => onDirectionOpen?.(key)}
-                className="flex min-h-[58px] items-center gap-2.5 rounded-2xl border border-white/[.09] bg-black/70 px-3 py-2.5 backdrop-blur-xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-300/50"
+                whileHover={reduced ? undefined : { y: -5 }}
+                whileTap={reduced ? undefined : { scale: 0.99 }}
+                className="group relative min-h-[76px] overflow-hidden rounded-2xl border bg-black/55 px-3.5 py-3 text-left shadow-[inset_0_1px_0_rgba(255,255,255,.045),0_18px_60px_rgba(0,0,0,.32)] backdrop-blur-2xl transition-[border-color,background-color,box-shadow] duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-300/50 sm:min-h-[82px] sm:px-4"
+                style={{
+                  borderColor: isActive ? itemAccent.border : "rgba(255,255,255,.095)",
+                  backgroundColor: isActive ? itemAccent.surface : "rgba(6,6,6,.58)",
+                  boxShadow: isActive
+                    ? `inset 0 1px 0 rgba(255,255,255,.065), 0 18px 60px rgba(0,0,0,.38), 0 0 34px ${itemAccent.glow}`
+                    : "inset 0 1px 0 rgba(255,255,255,.04), 0 18px 60px rgba(0,0,0,.28)",
+                }}
                 aria-label={item.title}
               >
-                <span
-                  className="flex h-8 w-8 shrink-0 items-center justify-center rounded-xl border bg-black/70"
-                  style={{ borderColor: itemAccent.border, color: itemAccent.solid }}
-                >
-                  <Icon className="h-3.5 w-3.5" />
-                </span>
-                <span className="min-w-0">
-                  <span className="block text-[8px] font-semibold uppercase tracking-[.2em] text-zinc-600">
-                    0{index + 1}
+                <div
+                  aria-hidden="true"
+                  className="absolute inset-x-0 top-0 h-px opacity-80 transition-opacity duration-300"
+                  style={{
+                    background: `linear-gradient(90deg, transparent, ${itemAccent.solid}, transparent)`,
+                    opacity: isActive ? 0.62 : 0.12,
+                  }}
+                />
+                <div className="flex items-center gap-3">
+                  <span
+                    className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl border bg-black/55 transition-colors duration-300"
+                    style={{
+                      borderColor: isActive ? itemAccent.border : "rgba(255,255,255,.09)",
+                      color: itemAccent.solid,
+                    }}
+                  >
+                    <Icon className="h-4 w-4" />
                   </span>
-                  <span className="block truncate text-[11px] font-semibold text-zinc-200 sm:text-[12px]">
-                    {item.short}
+                  <span className="min-w-0 flex-1">
+                    <span className="flex items-center justify-between gap-2">
+                      <span className="truncate text-[12px] font-semibold text-zinc-100 sm:text-[13px]">
+                        {item.short}
+                      </span>
+                      <span className="hidden text-[9px] font-semibold tracking-[.18em] text-zinc-600 sm:block">
+                        0{index + 1}
+                      </span>
+                    </span>
+                    <span className="mt-1 block truncate text-[9px] font-medium text-zinc-500 sm:text-[10px]">
+                      {tagLine(key, item)}
+                    </span>
                   </span>
-                </span>
-              </a>
+                </div>
+              </motion.a>
             );
           })}
         </div>
