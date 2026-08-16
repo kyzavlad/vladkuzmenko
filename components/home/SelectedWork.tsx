@@ -54,32 +54,22 @@ function Preview({ p, locale, i }: { p: CuratedProject; locale: Locale; i: numbe
   const c = p.content[locale];
   const base = langHref(locale);
   const localeBase = base === "/" ? "" : base;
-  const href = p.caseSlug ? `${localeBase}/work/${p.caseSlug}` : `${localeBase}/work`;
+  const href = p.caseSlug ? `${localeBase}/work/${p.caseSlug}` : `${localeBase}/growth-systems#portfolio`;
   const shot = p.key === "turbotaai" ? "/case-studies/turbotaai/home-2026-08-16.webp" : p.shots[0];
 
   return (
-    <motion.article
-      initial={{ opacity: 0, y: 22 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
-      transition={{ delay: i * .05 }}
-      className="group overflow-hidden rounded-[30px] border border-white/[.09] bg-[#080808] shadow-[0_30px_90px_rgba(0,0,0,.34)] transition duration-300 hover:-translate-y-0.5 hover:border-amber-300/22"
-    >
+    <motion.article initial={{ opacity: 0, y: 22 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * .05 }} className="group overflow-hidden rounded-[30px] border border-white/[.09] bg-[#080808] shadow-[0_30px_90px_rgba(0,0,0,.34)] transition duration-300 hover:-translate-y-0.5 hover:border-amber-300/22">
       <div className="grid lg:grid-cols-[.9fr_1.1fr]">
         <div className="border-b border-white/[.07] lg:border-b-0 lg:border-r">
           {shot ? (
             <a href={href} aria-label={`${c.name} — ${x.open}`} className="relative flex min-h-[320px] h-full items-center justify-center overflow-hidden bg-[#050505] p-3 sm:p-5">
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                src={shot} alt={`${c.name} — ${c.caption ?? c.type}`}
-                loading={i === 0 ? "eager" : "lazy"} decoding="async"
-                className="max-h-[440px] w-full rounded-xl object-contain object-top transition duration-500 group-hover:scale-[1.006]"
-              />
+              <img src={shot} alt={`${c.name} — ${c.caption ?? c.type}`} loading={i === 0 ? "eager" : "lazy"} decoding="async" className="max-h-[440px] w-full rounded-xl object-contain object-top transition duration-500 group-hover:scale-[1.006]" />
               <div className="pointer-events-none absolute inset-0 bg-gradient-to-tr from-amber-300/[.025] via-transparent to-sky-300/[.025]" />
               <div className="pointer-events-none absolute inset-0 ring-1 ring-inset ring-white/[.06]" />
             </a>
           ) : (
-            <div className="relative flex min-h-[320px] h-full items-center justify-center overflow-hidden bg-[radial-gradient(circle_at_20%_20%,rgba(245,190,52,.11),transparent_34%),#050505] p-8 text-center">
-              <Layers3 className="h-8 w-8 text-amber-300/65" />
-            </div>
+            <div className="relative flex min-h-[320px] h-full items-center justify-center overflow-hidden bg-[radial-gradient(circle_at_20%_20%,rgba(245,190,52,.11),transparent_34%),#050505] p-8 text-center"><Layers3 className="h-8 w-8 text-amber-300/65" /></div>
           )}
         </div>
 
@@ -95,14 +85,8 @@ function Preview({ p, locale, i }: { p: CuratedProject; locale: Locale; i: numbe
           <p className="mt-4 text-base font-medium leading-7 text-zinc-100 sm:text-lg">{c.outcome}</p>
 
           <div className="mt-5 grid gap-3 sm:grid-cols-2">
-            <div className="rounded-2xl border border-white/[.08] bg-white/[.018] p-4">
-              <p className="text-[10px] font-bold uppercase tracking-[.18em] text-zinc-600">{x.task}</p>
-              <p className="mt-2 text-sm leading-6 text-zinc-400">{c.problem}</p>
-            </div>
-            <div className="rounded-2xl border border-white/[.08] bg-white/[.018] p-4">
-              <p className="text-[10px] font-bold uppercase tracking-[.18em] text-zinc-600">{x.built}</p>
-              <p className="mt-2 text-sm leading-6 text-zinc-300">{c.built}</p>
-            </div>
+            <div className="rounded-2xl border border-white/[.08] bg-white/[.018] p-4"><p className="text-[10px] font-bold uppercase tracking-[.18em] text-zinc-600">{x.task}</p><p className="mt-2 text-sm leading-6 text-zinc-400">{c.problem}</p></div>
+            <div className="rounded-2xl border border-white/[.08] bg-white/[.018] p-4"><p className="text-[10px] font-bold uppercase tracking-[.18em] text-zinc-600">{x.built}</p><p className="mt-2 text-sm leading-6 text-zinc-300">{c.built}</p></div>
           </div>
 
           {c.value && (
@@ -114,20 +98,12 @@ function Preview({ p, locale, i }: { p: CuratedProject; locale: Locale; i: numbe
 
           <div className="mt-5 border-t border-white/[.07] pt-4">
             <p className="text-[10px] font-bold uppercase tracking-[.18em] text-zinc-600">{x.capabilities}</p>
-            <div className="mt-3 flex flex-wrap gap-2">
-              {c.capabilities.slice(0, 6).map((cap) => <span key={cap} className="rounded-full border border-white/10 bg-white/[.03] px-3 py-1.5 text-[11px] text-zinc-300">{cap}</span>)}
-            </div>
+            <div className="mt-3 flex flex-wrap gap-2">{c.capabilities.slice(0, 6).map((cap) => <span key={cap} className="rounded-full border border-white/10 bg-white/[.03] px-3 py-1.5 text-[11px] text-zinc-300">{cap}</span>)}</div>
           </div>
 
           <div className="mt-5 flex flex-col gap-3 border-t border-white/[.07] pt-5 sm:flex-row">
-            <a href={href} onClick={() => track("portfolio_open", { project: p.key, source: "home" })}>
-              <Button className="premium-button min-h-11 w-full px-6 sm:w-auto">{x.open}<ArrowRight className="ml-2 h-4 w-4" /></Button>
-            </a>
-            {p.liveUrl && (
-              <a href={p.liveUrl} target="_blank" rel="noopener noreferrer">
-                <Button className="min-h-11 w-full border border-white/15 bg-white/[.035] px-6 text-white hover:bg-white/[.08] sm:w-auto">{x.live}<ExternalLink className="ml-2 h-4 w-4" /></Button>
-              </a>
-            )}
+            <a href={href} onClick={() => track("portfolio_open", { project: p.key, source: "home" })}><Button className="premium-button min-h-11 w-full px-6 sm:w-auto">{x.open}<ArrowRight className="ml-2 h-4 w-4" /></Button></a>
+            {p.liveUrl && <a href={p.liveUrl} target="_blank" rel="noopener noreferrer"><Button className="min-h-11 w-full border border-white/15 bg-white/[.035] px-6 text-white hover:bg-white/[.08] sm:w-auto">{x.live}<ExternalLink className="ml-2 h-4 w-4" /></Button></a>}
           </div>
         </div>
       </div>
@@ -140,28 +116,22 @@ export function SelectedWork() {
   const locale: Locale = lang === "ua" || lang === "ru" ? lang : "en";
   const x = COPY[locale];
   const base = langHref(locale);
-  const workHref = base === "/" ? "/work" : `${base}/work`;
+  const localeBase = base === "/" ? "" : base;
+  const workHref = `${localeBase}/growth-systems#portfolio`;
   const projects = HOME_FEATURED.length ? HOME_FEATURED : CURATED_PORTFOLIO.slice(0, 3);
 
   return (
     <section id="selected-work" className="relative scroll-mt-24 pb-6 pt-10 md:pt-12">
       <div className="container mx-auto px-4">
-        <motion.div
-          initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
-          className="mx-auto mb-8 max-w-6xl border-l border-amber-300/30 pl-5 sm:pl-7"
-        >
+        <motion.div initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="mx-auto mb-8 max-w-6xl border-l border-amber-300/30 pl-5 sm:pl-7">
           <span className="text-[10px] font-semibold uppercase tracking-[.22em] text-amber-300/72">{x.eyebrow}</span>
           <h2 className="section-title mt-3 max-w-3xl text-3xl text-white sm:text-4xl md:text-[44px]">{x.title}</h2>
           <p className="section-lead mt-3 max-w-2xl text-sm leading-7 text-zinc-500 sm:text-base">{x.desc}</p>
         </motion.div>
 
-        <div className="mx-auto max-w-6xl space-y-6 sm:space-y-8">
-          {projects.map((p, i) => <Preview key={p.key} p={p} locale={locale} i={i} />)}
-        </div>
+        <div className="mx-auto max-w-6xl space-y-6 sm:space-y-8">{projects.map((p, i) => <Preview key={p.key} p={p} locale={locale} i={i} />)}</div>
 
-        <div className="mt-10 text-center">
-          <a href={workHref}><Button className="premium-button h-auto min-h-12 px-7 py-3">{x.all}<ArrowRight className="ml-2 h-4 w-4" /></Button></a>
-        </div>
+        <div className="mt-10 text-center"><a href={workHref}><Button className="premium-button h-auto min-h-12 px-7 py-3">{x.all}<ArrowRight className="ml-2 h-4 w-4" /></Button></a></div>
       </div>
     </section>
   );
