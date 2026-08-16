@@ -2,12 +2,7 @@ import type { Lang } from "@/lib/i18n";
 
 export type DirectionKey = "business" | "visibility" | "warriors" | "performance";
 
-export const DIRECTION_ORDER: DirectionKey[] = [
-  "business",
-  "visibility",
-  "warriors",
-  "performance",
-];
+export const DIRECTION_ORDER: DirectionKey[] = ["business", "visibility", "warriors", "performance"];
 
 export type DirectionAccent = "gold" | "blue" | "violet" | "green";
 
@@ -75,9 +70,9 @@ const en: DirectionCopy = {
       short: "Performance",
       label: "Performance",
       title: "Performance",
-      outcome: "Practical products that make training days and a demanding routine easier to keep.",
-      text: "Starting with food systems for active people, then expanding only where the product genuinely earns its place.",
-      tags: ["Meal sets", "Training days", "Routine", "Essentials"],
+      outcome: "Practical products that make a demanding work-and-training routine easier to hold.",
+      text: "Starting with ready meal systems for active schedules, then expanding only where the product genuinely earns its place.",
+      tags: ["Meal sets", "Active schedule", "Routine", "Essentials"],
       cta: "Explore Performance",
     },
   },
@@ -121,9 +116,9 @@ const ua: DirectionCopy = {
       short: "Performance",
       label: "Performance",
       title: "Performance",
-      outcome: "Практичні продукти, з якими легше тримати тренувальний день і насичений ритм.",
-      text: "Починаємо з системи харчування для активних людей і розширюємо лінійку лише там, де продукт справді потрібен.",
-      tags: ["Набори їжі", "Тренувальні дні", "Режим", "Essentials"],
+      outcome: "Практичні продукти, з якими легше тримати щільний ритм роботи, тренувань і життя.",
+      text: "Починаємо з готових систем харчування для активного графіка й розширюємо лінійку лише там, де продукт справді потрібен.",
+      tags: ["Meal Sets", "Активний графік", "Режим", "Essentials"],
       cta: "Відкрити Performance",
     },
   },
@@ -167,9 +162,9 @@ const ru: DirectionCopy = {
       short: "Performance",
       label: "Performance",
       title: "Performance",
-      outcome: "Практичные продукты, с которыми легче держать тренировочный день и плотный ритм.",
-      text: "Начинаем с системы питания для активных людей и расширяем линейку только там, где продукт действительно нужен.",
-      tags: ["Наборы еды", "Тренировочные дни", "Режим", "Essentials"],
+      outcome: "Практичные продукты, с которыми легче держать плотный ритм работы, тренировок и жизни.",
+      text: "Начинаем с готовых систем питания для активного графика и расширяем линейку только там, где продукт действительно нужен.",
+      tags: ["Meal Sets", "Активный график", "Режим", "Essentials"],
       cta: "Открыть Performance",
     },
   },
@@ -179,5 +174,4 @@ const COPY: Record<Lang, DirectionCopy> = { en, ua, ru };
 
 export const getDirectionCopy = (lang: Lang): DirectionCopy => COPY[lang] ?? en;
 
-export const getDirections = (lang: Lang): Record<DirectionKey, Direction> =>
-  getDirectionCopy(lang).items;
+export const getDirections = (lang: Lang): Record<DirectionKey, Direction> => getDirectionCopy(lang).items;
