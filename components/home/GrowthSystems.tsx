@@ -61,6 +61,12 @@ export function GrowthSystems() {
   const e = x.engines.items[active];
   const Icon = ENGINE_ICON[active];
 
+  // The diagnostic situations are authored problem-first; the section presents
+  // everything as Traffic -> Conversion -> Growth, so align them to that order.
+  const diagnosticPaths = ENGINE_ORDER.map((key) =>
+    x.diagnostic.paths.find((path) => path.engine === key),
+  ).filter((path): path is (typeof x.diagnostic.paths)[number] => Boolean(path));
+
   return (
     <section
       id="client-systems"
@@ -75,11 +81,11 @@ export function GrowthSystems() {
           className="mx-auto max-w-5xl text-center"
         >
           <span className="eyebrow">{x.home.eyebrow}</span>
-          <h2 className="mt-4 text-4xl font-black leading-[1.03] tracking-[-.045em] sm:text-5xl md:text-6xl">
+          <h2 className="section-title mt-4 text-4xl text-white sm:text-5xl md:text-[56px]">
             {x.home.titleA}
-            <span className="gradient-gold-text">{x.home.titleB}</span>
+            <span className="gradient-gold-text italic">{x.home.titleB}</span>
           </h2>
-          <p className="mx-auto mt-6 max-w-3xl text-base leading-7 text-zinc-400 sm:text-lg sm:leading-8">
+          <p className="section-lead mx-auto mt-6 max-w-3xl text-base leading-8 text-zinc-400 sm:text-lg sm:leading-9">
             {x.home.desc}
           </p>
         </motion.div>
@@ -251,7 +257,7 @@ export function GrowthSystems() {
             </div>
 
             <div className="mt-5 grid gap-3 md:grid-cols-3">
-              {x.diagnostic.paths.map((path) => {
+              {diagnosticPaths.map((path) => {
                 const selected = path.engine === active;
                 return (
                   <button

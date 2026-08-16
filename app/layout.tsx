@@ -1,8 +1,26 @@
 import "./globals.css";
 import type { Metadata, Viewport } from "next";
 import type { ReactNode } from "react";
+import { Manrope, Playfair_Display } from "next/font/google";
 import { AppShell } from "@/components/app-shell";
 import { SITE } from "@/lib/site";
+
+// Both faces ship Cyrillic, so RU and UA get the same typographic quality as EN
+// instead of falling back to the system UI stack.
+const sans = Manrope({
+  subsets: ["latin", "latin-ext", "cyrillic"],
+  weight: ["300", "400", "500", "600", "700", "800"],
+  variable: "--font-sans",
+  display: "swap",
+});
+
+const display = Playfair_Display({
+  subsets: ["latin", "latin-ext", "cyrillic"],
+  weight: ["400", "500", "600", "700"],
+  style: ["normal", "italic"],
+  variable: "--font-display",
+  display: "swap",
+});
 
 const TITLE = "Vlad Kuzmenko — Growth Systems for Attention, Leads & Sales";
 const DESCRIPTION =
@@ -126,7 +144,7 @@ const jsonLd = {
 
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
-    <html lang="en" className="dark">
+    <html lang="en" className={`dark ${sans.variable} ${display.variable}`}>
       <body suppressHydrationWarning>
         <AppShell>{children}</AppShell>
         <script

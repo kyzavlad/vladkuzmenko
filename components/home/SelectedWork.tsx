@@ -223,8 +223,8 @@ export function SelectedWork() {
           className="mx-auto mb-12 max-w-3xl text-center"
         >
           <span className="eyebrow">{x.eyebrow}</span>
-          <h2 className="mt-4 text-3xl font-black tracking-[-.04em] sm:text-4xl md:text-5xl">{x.title}</h2>
-          <p className="mt-5 text-base leading-7 text-zinc-400 sm:text-lg sm:leading-8">{x.desc}</p>
+          <h2 className="section-title mt-4 text-3xl text-white sm:text-4xl md:text-[46px]">{x.title}</h2>
+          <p className="section-lead mt-5 text-base leading-8 text-zinc-400 sm:text-lg">{x.desc}</p>
         </motion.div>
 
         <div className="mx-auto max-w-6xl space-y-6 sm:space-y-8">

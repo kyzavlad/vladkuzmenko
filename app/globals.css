@@ -61,11 +61,28 @@ html {
 body {
   background: #000;
   color: #fff;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
+  font-family: var(--font-sans), -apple-system, BlinkMacSystemFont, 'Segoe UI',
+    'Roboto', 'Helvetica Neue', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+/* Editorial display face for section headings — pairs with the script wordmark. */
+.font-display {
+  font-family: var(--font-display), 'Iowan Old Style', Georgia, serif;
+}
+
+/* Section heading rhythm: large, lighter weight, tight tracking. */
+.section-title {
+  font-family: var(--font-display), 'Iowan Old Style', Georgia, serif;
+  font-weight: 500;
+  letter-spacing: -0.02em;
+  line-height: 1.08;
+}
+
+.section-lead {
+  font-weight: 350;
+  letter-spacing: 0.005em;
 }
 
 /* Premium Gold Gradient */
