@@ -22,41 +22,40 @@ const ICONS: Record<DirectionKey, LucideIcon> = {
   performance: Dumbbell,
 };
 
-/** Every card is structurally identical — only the accent changes. */
 const TONE: Record<DirectionAccent, {
-  badge: string;
+  label: string;
   icon: string;
-  hover: string;
+  line: string;
   cta: string;
-  rule: string;
+  halo: string;
 }> = {
   gold: {
-    badge: "border-amber-300/20 bg-amber-300/[.06] text-amber-200/90",
-    icon: "border-amber-300/22 text-amber-200",
-    hover: "hover:border-amber-300/28",
+    label: "text-amber-200",
+    icon: "border-amber-300/25 bg-amber-300/[.07] text-amber-200",
+    line: "from-amber-300/70",
     cta: "text-amber-300 hover:text-amber-200",
-    rule: "from-amber-300/45",
+    halo: "rgba(232,197,71,.10)",
   },
   blue: {
-    badge: "border-sky-300/20 bg-sky-300/[.06] text-sky-200/90",
-    icon: "border-sky-300/22 text-sky-200",
-    hover: "hover:border-sky-300/28",
+    label: "text-sky-200",
+    icon: "border-sky-300/25 bg-sky-300/[.06] text-sky-200",
+    line: "from-sky-300/65",
     cta: "text-sky-200 hover:text-sky-100",
-    rule: "from-sky-300/45",
+    halo: "rgba(125,211,252,.09)",
   },
   violet: {
-    badge: "border-violet-300/20 bg-violet-300/[.06] text-violet-200/90",
-    icon: "border-violet-300/22 text-violet-200",
-    hover: "hover:border-violet-300/28",
+    label: "text-violet-200",
+    icon: "border-violet-300/25 bg-violet-300/[.06] text-violet-200",
+    line: "from-violet-300/65",
     cta: "text-violet-200 hover:text-violet-100",
-    rule: "from-violet-300/45",
+    halo: "rgba(196,181,253,.09)",
   },
   green: {
-    badge: "border-emerald-300/20 bg-emerald-300/[.06] text-emerald-200/90",
-    icon: "border-emerald-300/22 text-emerald-200",
-    hover: "hover:border-emerald-300/28",
+    label: "text-emerald-200",
+    icon: "border-emerald-300/25 bg-emerald-300/[.06] text-emerald-200",
+    line: "from-emerald-300/65",
     cta: "text-emerald-200 hover:text-emerald-100",
-    rule: "from-emerald-300/45",
+    halo: "rgba(110,231,183,.08)",
   },
 };
 
@@ -79,55 +78,61 @@ const VISUAL_LABELS: Record<DirectionKey, Record<string, string[]>> = {
   },
 };
 
-/**
- * Conceptual interface visuals. They illustrate how each direction works —
- * none of them represent measured business data.
- */
-function DirectionVisual({ path, labels }: { path: DirectionKey; labels: string[] }) {
+function DirectionVisual({
+  type,
+  labels,
+  accent,
+}: {
+  type: DirectionKey;
+  labels: string[];
+  accent: DirectionAccent;
+}) {
   const reduced = useReducedMotion();
 
-  if (path === "business") {
+  if (type === "business") {
     return (
-      <div className="relative flex h-[168px] items-center overflow-hidden rounded-2xl border border-amber-300/10 bg-black/40 px-4">
+      <div className="relative flex min-h-[220px] items-center overflow-hidden rounded-[24px] border border-amber-300/10 bg-black/40 px-5 sm:px-7">
         <div
           aria-hidden="true"
-          className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,.028)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,.028)_1px,transparent_1px)] bg-[size:30px_30px] [mask-image:radial-gradient(ellipse_at_center,black_18%,transparent_76%)]"
+          className="absolute inset-0 opacity-50 [background-image:linear-gradient(rgba(255,255,255,.03)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,.03)_1px,transparent_1px)] [background-size:32px_32px] [mask-image:radial-gradient(ellipse_at_center,black_16%,transparent_78%)]"
         />
-        <div className="relative w-full overflow-x-auto py-4">
-          <SignalFlow nodes={labels} accent="gold" compact />
+        <div className="relative w-full overflow-x-auto py-6">
+          <SignalFlow nodes={labels} accent={accent} compact />
         </div>
       </div>
     );
   }
 
-  if (path === "visibility") {
+  if (type === "visibility") {
     return (
-      <div className="relative h-[168px] overflow-hidden rounded-2xl border border-sky-300/10 bg-black/40 p-5">
+      <div className="relative min-h-[220px] overflow-hidden rounded-[24px] border border-sky-300/10 bg-black/40 p-6 sm:p-7">
         {!reduced && (
           <motion.div
-            animate={{ y: [0, 108, 0] }}
-            transition={{ duration: 3.4, repeat: Infinity, ease: "easeInOut" }}
-            className="absolute inset-x-4 top-4 h-px bg-gradient-to-r from-transparent via-sky-300/80 to-transparent shadow-[0_0_18px_rgba(125,211,252,.45)]"
+            aria-hidden="true"
+            animate={{ y: [0, 150, 0] }}
+            transition={{ duration: 3.8, repeat: Infinity, ease: "easeInOut" }}
+            className="absolute inset-x-5 top-5 h-px bg-gradient-to-r from-transparent via-sky-300/80 to-transparent shadow-[0_0_22px_rgba(125,211,252,.45)]"
           />
         )}
-        <div className="space-y-4 pt-2">
-          {labels.map((label, i) => (
-            <div key={label} className="grid grid-cols-[1fr_auto] items-center gap-3">
-              <span className="truncate text-[10px] font-semibold uppercase tracking-[.13em] text-zinc-500">
-                {label}
-              </span>
-              {/* A scan pass across each area — no scores, no measured values. */}
+        <div className="relative space-y-5 pt-3">
+          {labels.map((label, row) => (
+            <div key={label} className="grid grid-cols-[1fr_auto] items-center gap-4">
+              <span className="text-[10px] font-semibold uppercase tracking-[.14em] text-zinc-500">{label}</span>
               <div className="flex gap-1.5" aria-hidden="true">
                 {[0, 1, 2, 3, 4].map((dot) => (
                   <motion.span
                     key={dot}
-                    animate={reduced ? undefined : { opacity: [.16, .9, .16] }}
+                    className="h-1.5 w-1.5 rounded-full bg-sky-300"
+                    animate={
+                      reduced
+                        ? { opacity: .45 }
+                        : { opacity: [.16, .95, .16], scale: [.9, 1.18, .9] }
+                    }
                     transition={
                       reduced
-                        ? undefined
-                        : { duration: 2.4, repeat: Infinity, ease: "easeInOut", delay: i * .18 + dot * .1 }
+                        ? { duration: .2 }
+                        : { duration: 2.4, repeat: Infinity, ease: "easeInOut", delay: row * .17 + dot * .09 }
                     }
-                    className="h-1.5 w-1.5 rounded-full bg-sky-300 opacity-50"
                   />
                 ))}
               </div>
@@ -138,36 +143,40 @@ function DirectionVisual({ path, labels }: { path: DirectionKey; labels: string[
     );
   }
 
-  if (path === "warriors") {
+  if (type === "warriors") {
     return (
-      <div className="relative h-[168px] overflow-hidden rounded-2xl border border-violet-300/10 bg-black/40">
-        <svg viewBox="0 0 420 180" className="absolute inset-0 h-full w-full" aria-hidden="true">
-          {[[70,90,180,40],[70,90,180,140],[180,40,310,90],[180,140,310,90],[180,40,180,140],[310,90,368,46],[310,90,368,134]].map((line, i) => (
+      <div className="relative min-h-[220px] overflow-hidden rounded-[24px] border border-violet-300/10 bg-black/40">
+        <svg viewBox="0 0 520 230" className="absolute inset-0 h-full w-full" aria-hidden="true">
+          {[
+            [65, 115, 190, 48], [65, 115, 190, 182], [190, 48, 325, 115],
+            [190, 182, 325, 115], [190, 48, 190, 182], [325, 115, 445, 60],
+            [325, 115, 445, 170], [445, 60, 445, 170],
+          ].map((line, index) => (
             <motion.line
-              key={i}
+              key={index}
               x1={line[0]}
               y1={line[1]}
               x2={line[2]}
               y2={line[3]}
-              stroke="rgba(196,181,253,.24)"
+              stroke="rgba(196,181,253,.22)"
               strokeWidth="1"
-              initial={{ pathLength: 0 }}
-              whileInView={{ pathLength: 1 }}
+              initial={reduced ? false : { pathLength: 0, opacity: 0 }}
+              whileInView={{ pathLength: 1, opacity: 1 }}
               viewport={{ once: true }}
-              transition={{ duration: .75, delay: i * .06 }}
+              transition={{ duration: .75, delay: index * .05 }}
             />
           ))}
-          {[[70,90],[180,40],[180,140],[310,90],[368,46],[368,134]].map((point, i) => (
+          {[[65,115],[190,48],[190,182],[325,115],[445,60],[445,170]].map((point, index) => (
             <motion.circle
-              key={i}
+              key={index}
               cx={point[0]}
               cy={point[1]}
-              r={i === 0 ? 8 : 5.5}
-              fill="rgba(196,181,253,.88)"
-              initial={{ scale: 0 }}
+              r={index === 0 ? 8 : 5.5}
+              fill={index === 0 ? "rgba(232,197,71,.95)" : "rgba(196,181,253,.88)"}
+              initial={reduced ? false : { scale: 0 }}
               whileInView={{ scale: 1 }}
               viewport={{ once: true }}
-              transition={{ type: "spring", delay: .18 + i * .07 }}
+              transition={{ type: "spring", delay: .15 + index * .06 }}
             />
           ))}
         </svg>
@@ -176,15 +185,21 @@ function DirectionVisual({ path, labels }: { path: DirectionKey; labels: string[
   }
 
   return (
-    <div className="grid h-[168px] grid-cols-4 gap-2 rounded-2xl border border-emerald-300/10 bg-black/40 p-4">
-      {labels.map((label, i) => (
+    <div className="grid min-h-[220px] grid-cols-2 gap-2 rounded-[24px] border border-emerald-300/10 bg-black/40 p-4 sm:grid-cols-4">
+      {labels.map((label, index) => (
         <motion.div
           key={label}
-          whileHover={{ y: -4 }}
-          className="flex flex-col items-center justify-center gap-3 rounded-xl border border-emerald-300/10 bg-emerald-300/[.035] px-1 text-center"
+          whileHover={reduced ? undefined : { y: -4 }}
+          className="relative flex min-h-[90px] flex-col items-center justify-center gap-3 overflow-hidden rounded-2xl border border-emerald-300/10 bg-emerald-300/[.03] px-2 text-center"
         >
-          <span className={`h-2 w-2 shrink-0 rounded-full ${i < 3 ? "bg-emerald-300/75 shadow-[0_0_12px_rgba(110,231,183,.4)]" : "bg-white/15"}`} />
-          <span className="text-[8.5px] font-bold uppercase leading-3 tracking-[.06em] text-zinc-500">{label}</span>
+          <span
+            className={`h-2 w-2 rounded-full ${
+              index < 3
+                ? "bg-emerald-300/80 shadow-[0_0_14px_rgba(110,231,183,.4)]"
+                : "bg-white/15"
+            }`}
+          />
+          <span className="text-[9px] font-bold uppercase tracking-[.07em] text-zinc-500">{label}</span>
         </motion.div>
       ))}
     </div>
@@ -207,96 +222,102 @@ export function EcosystemNavigator() {
   return (
     <section
       id="ecosystem"
-      className="relative scroll-mt-24 overflow-hidden border-t border-white/[.07] bg-black py-20 md:py-28"
+      className="relative scroll-mt-24 overflow-hidden border-t border-white/[.07] bg-[#020202] py-24 md:py-32"
     >
-      <div className="pointer-events-none absolute left-1/2 top-0 h-[420px] w-[90%] -translate-x-1/2 bg-[radial-gradient(ellipse_at_top,rgba(245,190,52,.07),transparent_62%)]" />
+      <div className="pointer-events-none absolute inset-0" aria-hidden="true">
+        <div className="absolute left-1/2 top-0 h-[520px] w-[92%] -translate-x-1/2 bg-[radial-gradient(ellipse_at_top,rgba(212,175,55,.085),transparent_64%)]" />
+        <div className="absolute left-1/2 top-12 h-px w-[min(760px,76vw)] -translate-x-1/2 bg-gradient-to-r from-transparent via-amber-300/35 to-transparent shadow-[0_0_28px_rgba(212,175,55,.14)]" />
+        <div className="absolute bottom-0 left-1/2 top-44 hidden w-px -translate-x-[590px] bg-gradient-to-b from-amber-300/0 via-amber-300/[.09] to-transparent xl:block" />
+      </div>
+
       <div className="container relative z-10 mx-auto px-4">
         <motion.div
           initial={{ opacity: 0, y: 16 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="mx-auto mb-12 max-w-3xl text-center md:mb-14"
+          className="mx-auto mb-14 max-w-4xl text-center md:mb-16"
         >
-          <span className="eyebrow">{x.eyebrow}</span>
-          <h2 className="section-title mt-4 text-4xl text-white sm:text-5xl md:text-[56px]">
+          <span className="text-[10px] font-semibold uppercase tracking-[.24em] text-amber-300/70">{x.eyebrow}</span>
+          <h2 className="section-title mt-4 text-[clamp(2.7rem,5vw,4.7rem)] text-zinc-100">
             {x.titleA}
-            <span className="gradient-gold-text italic">{x.titleB}</span>
+            <em className="gradient-gold-text font-normal italic">{x.titleB}</em>
           </h2>
-          <p className="section-lead mx-auto mt-5 max-w-2xl text-base leading-8 text-zinc-400 sm:text-lg">
+          <p className="section-lead mx-auto mt-5 max-w-2xl text-sm leading-7 text-zinc-400 sm:text-base sm:leading-8">
             {x.desc}
           </p>
         </motion.div>
 
-        {/* Four cards on one grid — identical footprint keeps them equal in status. */}
-        <div className="mx-auto grid max-w-6xl gap-4 sm:gap-5 lg:grid-cols-2">
+        <div className="mx-auto flex max-w-6xl flex-col gap-5 sm:gap-6">
           {DIRECTION_ORDER.map((key, index) => {
             const item = x.items[key];
             const Icon = ICONS[key];
             const accent = DIRECTION_ACCENT[key];
             const tone = TONE[accent];
+            const labels = VISUAL_LABELS[key][lang] ?? [];
 
             return (
-              <motion.div
+              <motion.article
                 key={key}
-                initial={{ opacity: 0, y: 22 }}
+                initial={{ opacity: 0, y: 24 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-50px" }}
-                transition={{ duration: .55, delay: Math.min(index, 1) * .08, ease: [0.16, 1, 0.3, 1] }}
-                className="flex h-full"
+                viewport={{ once: true, margin: "-60px" }}
+                transition={{ duration: .6, ease: [0.16, 1, 0.3, 1] }}
               >
                 <InteractiveSurface
                   accent={accent}
-                  className={`flex h-full w-full flex-col rounded-[26px] border border-white/[.09] bg-[linear-gradient(155deg,rgba(255,255,255,.05),rgba(255,255,255,.012))] p-6 shadow-[0_40px_90px_-50px_rgba(0,0,0,.95)] transition-colors sm:p-7 ${tone.hover}`}
+                  className="group relative overflow-hidden rounded-[30px] border border-white/[.09] bg-[linear-gradient(145deg,rgba(255,255,255,.045),rgba(255,255,255,.012)_50%,rgba(0,0,0,.32))] shadow-[0_38px_110px_-64px_rgba(0,0,0,.95)]"
                 >
-                  <div className="flex items-center justify-between gap-3">
-                    <span className={`flex h-11 w-11 items-center justify-center rounded-2xl border bg-black/40 ${tone.icon}`}>
-                      <Icon className="h-[18px] w-[18px]" />
-                    </span>
-                    <span className={`rounded-full border px-3 py-1 text-[9.5px] font-semibold uppercase tracking-[.16em] ${tone.badge}`}>
-                      {item.label}
-                    </span>
-                  </div>
+                  <div
+                    aria-hidden="true"
+                    className="pointer-events-none absolute -right-20 -top-28 h-80 w-80 rounded-full blur-[85px] transition-opacity duration-500 group-hover:opacity-100"
+                    style={{ background: `radial-gradient(circle, ${tone.halo}, transparent 68%)` }}
+                  />
 
-                  <h3 className="mt-6 text-2xl font-bold tracking-[-.02em] text-white sm:text-[28px]">
-                    {item.title}
-                  </h3>
-                  <div className={`mt-3 h-px w-14 bg-gradient-to-r to-transparent ${tone.rule}`} />
+                  <div className="grid min-h-[330px] lg:grid-cols-[1.04fr_.96fr]">
+                    <div className="relative flex flex-col justify-center p-7 sm:p-9 lg:p-11">
+                      <div className="flex items-center justify-between gap-4">
+                        <div className="flex items-center gap-3">
+                          <span className={`flex h-11 w-11 items-center justify-center rounded-2xl border ${tone.icon}`}>
+                            <Icon className="h-[18px] w-[18px]" />
+                          </span>
+                          <span className={`text-[10px] font-semibold uppercase tracking-[.18em] ${tone.label}`}>{item.label}</span>
+                        </div>
+                        <span className="font-display text-2xl italic text-white/[.13]">{String(index + 1).padStart(2, "0")}</span>
+                      </div>
 
-                  <p className="mt-4 text-[10px] font-semibold uppercase tracking-[.17em] text-zinc-600">
-                    {x.outcomeLabel}
-                  </p>
-                  <p className="mt-2 text-base font-medium leading-7 text-zinc-100">{item.outcome}</p>
+                      <h3 className="mt-7 text-3xl font-semibold tracking-[-.035em] text-white sm:text-[36px]">{item.title}</h3>
+                      <div className={`mt-4 h-px w-20 bg-gradient-to-r to-transparent ${tone.line}`} />
 
-                  <p className="section-lead mt-3 text-sm leading-7 text-zinc-500">{item.text}</p>
+                      <p className="mt-5 text-[10px] font-semibold uppercase tracking-[.17em] text-zinc-600">{x.outcomeLabel}</p>
+                      <p className="mt-2 max-w-xl text-lg font-medium leading-8 text-zinc-100">{item.outcome}</p>
+                      <p className="section-lead mt-3 max-w-xl text-sm leading-7 text-zinc-500">{item.text}</p>
 
-                  <div className="mt-5 flex flex-wrap gap-2">
-                    {item.tags.map((tag) => (
-                      <span
-                        key={tag}
-                        className="rounded-full border border-white/[.09] bg-white/[.028] px-3 py-1.5 text-[11px] text-zinc-300"
+                      <div className="mt-5 flex flex-wrap gap-2">
+                        {item.tags.map((tag) => (
+                          <span key={tag} className="rounded-full border border-white/[.09] bg-white/[.025] px-3 py-1.5 text-[11px] text-zinc-300">
+                            {tag}
+                          </span>
+                        ))}
+                      </div>
+
+                      <a
+                        href={href[key]}
+                        onClick={() => track("ecosystem_direction_open", { direction: key })}
+                        className={`mt-7 inline-flex min-h-11 w-fit items-center gap-2 text-sm font-semibold transition-colors ${tone.cta}`}
                       >
-                        {tag}
-                      </span>
-                    ))}
-                  </div>
+                        {item.cta}
+                        <ArrowRight className="h-4 w-4" />
+                      </a>
+                    </div>
 
-                  <div className="mt-6">
-                    <DirectionVisual path={key} labels={VISUAL_LABELS[key][lang] ?? []} />
-                  </div>
-
-                  {/* Pushed to the bottom so all four CTAs align across the grid. */}
-                  <div className="mt-auto pt-6">
-                    <a
-                      href={href[key]}
-                      onClick={() => track("ecosystem_direction_open", { direction: key })}
-                      className={`inline-flex min-h-11 items-center gap-2 text-sm font-semibold transition-colors ${tone.cta}`}
-                    >
-                      {item.cta}
-                      <ArrowRight className="h-4 w-4" />
-                    </a>
+                    <div className="flex items-center border-t border-white/[.07] p-5 sm:p-7 lg:border-l lg:border-t-0 lg:p-8">
+                      <div className="w-full">
+                        <DirectionVisual type={key} labels={labels} accent={accent} />
+                      </div>
+                    </div>
                   </div>
                 </InteractiveSurface>
-              </motion.div>
+              </motion.article>
             );
           })}
         </div>

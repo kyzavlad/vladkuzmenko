@@ -1,30 +1,29 @@
+"use client";
+
 import { Header } from "@/components/ui/header";
 import { Hero } from "@/components/home/Hero";
 import { EcosystemNavigator } from "@/components/home/EcosystemNavigator";
 import { GrowthSystems } from "@/components/home/GrowthSystems";
-import { ProductsOverview } from "@/components/home/ProductsOverview";
+import { VisibilitySection } from "@/components/home/VisibilitySection";
 import { WarriorsSection } from "@/components/home/WarriorsSection";
 import { DropSection } from "@/components/home/DropSection";
 import { PersonalBrand } from "@/components/home/PersonalBrand";
-import { AboutSection } from "@/components/home/AboutSection";
 import { ContactSection } from "@/components/home/ContactSection";
 import { FooterSection } from "@/components/FooterSection";
 
-// Homepage order: ecosystem first, then each business model with its proof and next path.
 export function HomeContent() {
   return (
-    <>
+    <main className="min-h-screen overflow-x-hidden bg-black text-white">
       <Header />
       <Hero />
       <EcosystemNavigator />
       <GrowthSystems />
-      <ProductsOverview />
+      <VisibilitySection />
       <WarriorsSection />
       <DropSection />
       <PersonalBrand />
-      <AboutSection />
       <ContactSection />
       <FooterSection />
-    </>
+    </main>
   );
 }
