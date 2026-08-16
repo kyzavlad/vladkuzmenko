@@ -9,7 +9,7 @@ import {
 } from "framer-motion";
 import { Dumbbell, Layers3, ScanSearch, Shield } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import type { Direction, DirectionKey } from "@/lib/directions";
 
 type EcosystemCoreProps = {
@@ -23,6 +23,18 @@ type Accent = {
   glow: string;
   border: string;
   surface: string;
+};
+
+type Point = {
+  x: number;
+  y: number;
+};
+
+type Geometry = {
+  width: number;
+  height: number;
+  source: Point;
+  targets: Record<DirectionKey, Point>;
 };
 
 const ORDER: DirectionKey[] = ["business", "visibility", "warriors", "performance"];
@@ -61,13 +73,6 @@ const ACCENTS: Record<DirectionKey, Accent> = {
   },
 };
 
-const PATHS: Record<DirectionKey, string> = {
-  business: "M720 655 C640 700 410 742 225 820",
-  visibility: "M720 655 C690 708 610 758 555 820",
-  warriors: "M720 655 C760 708 840 758 885 820",
-  performance: "M720 655 C810 700 1040 742 1215 820",
-};
-
 const tagLine = (key: DirectionKey, item: Direction) => {
   if (key === "business") {
     return [item.tags[0], item.tags[1], item.tags[item.tags.length - 1]]
@@ -78,6 +83,17 @@ const tagLine = (key: DirectionKey, item: Direction) => {
     return [item.tags[0], item.tags[2], item.tags[3]].filter(Boolean).join(" · ");
   }
   return item.tags.slice(0, 3).join(" · ");
+};
+
+const curvePath = (source: Point, target: Point) => {
+  const deltaY = Math.max(target.y - source.y, 1);
+  const deltaX = target.x - source.x;
+  const firstY = source.y + Math.min(118, deltaY * 0.34);
+  const secondY = target.y - Math.min(74, deltaY * 0.22);
+  const firstX = source.x + deltaX * 0.12;
+  const secondX = target.x - deltaX * 0.08;
+
+  return `M ${source.x.toFixed(1)} ${source.y.toFixed(1)} C ${firstX.toFixed(1)} ${firstY.toFixed(1)}, ${secondX.toFixed(1)} ${secondY.toFixed(1)}, ${target.x.toFixed(1)} ${target.y.toFixed(1)}`;
 };
 
 function DirectionSignal({
@@ -209,7 +225,12 @@ export function EcosystemCore({
 }: EcosystemCoreProps) {
   const reduced = Boolean(useReducedMotion());
   const [active, setActive] = useState<DirectionKey>("business");
+  const [paused, setPaused] = useState(false);
+  const [geometry, setGeometry] = useState<Geometry | null>(null);
   const accent = ACCENTS[active];
+
+  const rootRef = useRef<HTMLDivElement>(null);
+  const cardRefs = useRef<Partial<Record<DirectionKey, HTMLAnchorElement | null>>>({});
 
   const pointerX = useMotionValue(0);
   const pointerY = useMotionValue(0);
@@ -217,8 +238,87 @@ export function EcosystemCore({
   const springY = useSpring(pointerY, { stiffness: 70, damping: 27, mass: 0.72 });
   const fieldX = useTransform(springX, [-0.5, 0.5], [-28, 28]);
   const fieldY = useTransform(springY, [-0.5, 0.5], [-16, 16]);
-  const coreX = useTransform(springX, [-0.5, 0.5], [-12, 12]);
-  const coreY = useTransform(springY, [-0.5, 0.5], [-6, 6]);
+
+  const measureGeometry = useCallback(() => {
+    const root = rootRef.current;
+    const sourceElement = document.getElementById("hero-signal-source");
+    if (!root || !sourceElement) return;
+
+    const rootRect = root.getBoundingClientRect();
+    const sourceRect = sourceElement.getBoundingClientRect();
+    const source: Point = {
+      x: sourceRect.left - rootRect.left + sourceRect.width / 2,
+      y: sourceRect.top - rootRect.top + sourceRect.height / 2,
+    };
+
+    const targetEntries = ORDER.map((key) => {
+      const node = cardRefs.current[key];
+      if (!node) return null;
+      const rect = node.getBoundingClientRect();
+
+      return [
+        key,
+        {
+          x: rect.left - rootRect.left + rect.width / 2,
+          y: rect.top - rootRect.top + 3,
+        },
+      ] as const;
+    }).filter(Boolean) as Array<readonly [DirectionKey, Point]>;
+
+    if (targetEntries.length !== ORDER.length) return;
+
+    setGeometry({
+      width: rootRect.width,
+      height: rootRect.height,
+      source,
+      targets: Object.fromEntries(targetEntries) as Record<DirectionKey, Point>,
+    });
+  }, []);
+
+  useEffect(() => {
+    if (reduced || paused) return;
+
+    const timer = window.setInterval(() => {
+      setActive((current) => {
+        const index = ORDER.indexOf(current);
+        return ORDER[(index + 1) % ORDER.length];
+      });
+    }, 3600);
+
+    return () => window.clearInterval(timer);
+  }, [paused, reduced]);
+
+  useEffect(() => {
+    const raf = window.requestAnimationFrame(measureGeometry);
+    const observer = new ResizeObserver(() => {
+      window.requestAnimationFrame(measureGeometry);
+    });
+
+    if (rootRef.current) observer.observe(rootRef.current);
+
+    const sourceElement = document.getElementById("hero-signal-source");
+    if (sourceElement) observer.observe(sourceElement);
+
+    ORDER.forEach((key) => {
+      const node = cardRefs.current[key];
+      if (node) observer.observe(node);
+    });
+
+    const onResize = () => window.requestAnimationFrame(measureGeometry);
+    window.addEventListener("resize", onResize, { passive: true });
+
+    if (document.fonts?.ready) {
+      document.fonts.ready.then(() => {
+        window.requestAnimationFrame(measureGeometry);
+      });
+    }
+
+    return () => {
+      window.cancelAnimationFrame(raf);
+      observer.disconnect();
+      window.removeEventListener("resize", onResize);
+    };
+  }, [measureGeometry]);
 
   useEffect(() => {
     if (reduced) return;
@@ -243,10 +343,10 @@ export function EcosystemCore({
   }, [pointerX, pointerY, reduced]);
 
   return (
-    <div className="pointer-events-none absolute inset-0 z-[4] overflow-hidden">
+    <div ref={rootRef} className="pointer-events-none absolute inset-0 z-[4] overflow-hidden">
       <motion.div
         aria-hidden="true"
-        className="absolute left-1/2 top-[39%] h-[620px] w-[980px] -translate-x-1/2 -translate-y-1/2 rounded-[50%] blur-[92px]"
+        className="absolute left-1/2 top-[37%] h-[620px] w-[980px] -translate-x-1/2 -translate-y-1/2 rounded-[50%] blur-[94px]"
         style={
           reduced
             ? {
@@ -260,106 +360,65 @@ export function EcosystemCore({
         }
       />
 
-      <svg
-        aria-hidden="true"
-        viewBox="0 0 1440 900"
-        preserveAspectRatio="none"
-        className="absolute inset-0 hidden h-full w-full lg:block"
-      >
-        <defs>
-          <linearGradient id="ambient-line" x1="0" y1="0" x2="1" y2="1">
-            <stop offset="0" stopColor="rgba(255,255,255,0)" />
-            <stop offset="0.48" stopColor={accent.solid} stopOpacity="0.13" />
-            <stop offset="1" stopColor="rgba(255,255,255,0)" />
-          </linearGradient>
-        </defs>
-        <motion.path
-          d="M-80 275 C320 120 515 272 770 218 C1040 158 1180 245 1510 132"
-          fill="none"
-          stroke="url(#ambient-line)"
-          strokeWidth="0.7"
-          animate={reduced ? undefined : { pathLength: [0.68, 1, 0.68], opacity: [0.1, 0.28, 0.1] }}
-          transition={reduced ? undefined : { duration: 12, repeat: Infinity, ease: "easeInOut" }}
-        />
-      </svg>
-
-      <div
-        aria-hidden="true"
-        className="absolute left-1/2 top-[72.5%] hidden h-[150px] w-[330px] -translate-x-1/2 -translate-y-1/2 sm:block"
-      >
-        <motion.div
-          className="absolute left-1/2 top-1/2 h-[118px] w-[118px] -translate-x-1/2 -translate-y-1/2 rounded-full border border-white/[.045]"
-          style={
-            reduced
-              ? undefined
-              : {
-                  x: coreX,
-                  y: coreY,
-                }
-          }
+      {geometry ? (
+        <svg
+          aria-hidden="true"
+          viewBox={`0 0 ${geometry.width} ${geometry.height}`}
+          preserveAspectRatio="none"
+          className="absolute inset-0 hidden h-full w-full lg:block"
         >
-          <motion.div
-            className="absolute inset-[16px] rounded-full border border-white/[.055]"
-            animate={reduced ? undefined : { rotate: 360 }}
-            transition={reduced ? undefined : { duration: 34, repeat: Infinity, ease: "linear" }}
-          />
-          <motion.div
-            className="absolute inset-[35px] rounded-full border"
-            style={{ borderColor: accent.border, boxShadow: `0 0 28px ${accent.glow}` }}
-            animate={reduced ? undefined : { scale: [0.94, 1.08, 0.94], opacity: [0.28, 0.72, 0.28] }}
-            transition={reduced ? undefined : { duration: 4.2, repeat: Infinity, ease: "easeInOut" }}
-          />
-          <motion.span
-            className="absolute left-1/2 top-1/2 h-2.5 w-2.5 -translate-x-1/2 -translate-y-1/2 rounded-full"
-            style={{ backgroundColor: accent.solid, boxShadow: `0 0 24px ${accent.glow}` }}
-            animate={reduced ? undefined : { scale: [0.92, 1.16, 0.92], opacity: [0.7, 1, 0.7] }}
-            transition={reduced ? undefined : { duration: 2.5, repeat: Infinity, ease: "easeInOut" }}
-          />
-        </motion.div>
-      </div>
+          <defs>
+            <linearGradient
+              id="active-signal-gradient"
+              gradientUnits="userSpaceOnUse"
+              x1={geometry.source.x}
+              y1={geometry.source.y}
+              x2={geometry.targets[active].x}
+              y2={geometry.targets[active].y}
+            >
+              <stop offset="0" stopColor="#e8c547" stopOpacity="0.78" />
+              <stop offset="0.34" stopColor="#e8c547" stopOpacity="0.34" />
+              <stop offset="1" stopColor={accent.solid} stopOpacity="0.88" />
+            </linearGradient>
+            <filter id="active-signal-glow" x="-40%" y="-40%" width="180%" height="180%">
+              <feGaussianBlur stdDeviation="2.2" result="blur" />
+              <feMerge>
+                <feMergeNode in="blur" />
+                <feMergeNode in="SourceGraphic" />
+              </feMerge>
+            </filter>
+          </defs>
 
-      <svg
-        aria-hidden="true"
-        viewBox="0 0 1440 900"
-        preserveAspectRatio="none"
-        className="absolute inset-0 hidden h-full w-full lg:block"
-      >
-        {ORDER.map((key) => {
-          const itemAccent = ACCENTS[key];
-          const isActive = active === key;
-          return (
-            <g key={key}>
-              <path
-                d={PATHS[key]}
-                fill="none"
-                stroke="rgba(255,255,255,.065)"
-                strokeWidth="0.8"
-                strokeDasharray="4 8"
-              />
-              <motion.path
-                d={PATHS[key]}
-                fill="none"
-                stroke={itemAccent.solid}
-                strokeWidth={isActive ? 1.15 : 0.65}
-                strokeLinecap="round"
-                initial={false}
-                animate={
-                  reduced
-                    ? { pathLength: 1, opacity: isActive ? 0.46 : 0.1 }
-                    : isActive
-                      ? { pathLength: [0.15, 1], opacity: [0.16, 0.72] }
-                      : { pathLength: 1, opacity: 0.09 }
-                }
-                transition={
-                  reduced || !isActive
-                    ? { duration: 0.25 }
-                    : { duration: 1.5, repeat: Infinity, repeatType: "reverse", ease: "easeInOut" }
-                }
-              />
-            </g>
-          );
-        })}
-      </svg>
+          {ORDER.map((key) => (
+            <path
+              key={`base-${key}`}
+              d={curvePath(geometry.source, geometry.targets[key])}
+              fill="none"
+              stroke="rgba(255,255,255,.075)"
+              strokeWidth="0.85"
+              strokeDasharray="2 9"
+              strokeLinecap="round"
+            />
+          ))}
+
+          <motion.path
+            key={`active-${active}-${geometry.width}-${geometry.height}`}
+            d={curvePath(geometry.source, geometry.targets[active])}
+            fill="none"
+            stroke="url(#active-signal-gradient)"
+            strokeWidth="1.35"
+            strokeLinecap="round"
+            filter="url(#active-signal-glow)"
+            initial={reduced ? false : { pathLength: 0, opacity: 0 }}
+            animate={{ pathLength: 1, opacity: reduced ? 0.5 : 0.82 }}
+            transition={
+              reduced
+                ? { duration: 0.2 }
+                : { duration: 1.15, ease: [0.16, 1, 0.3, 1] }
+            }
+          />
+        </svg>
+      ) : null}
 
       <div
         id="ecosystem-rail"
@@ -374,10 +433,21 @@ export function EcosystemCore({
           return (
             <motion.a
               key={key}
+              ref={(node) => {
+                cardRefs.current[key] = node;
+              }}
               href={hrefs[key]}
               aria-label={item.cta}
-              onMouseEnter={() => setActive(key)}
-              onFocus={() => setActive(key)}
+              onMouseEnter={() => {
+                setPaused(true);
+                setActive(key);
+              }}
+              onMouseLeave={() => setPaused(false)}
+              onFocus={() => {
+                setPaused(true);
+                setActive(key);
+              }}
+              onBlur={() => setPaused(false)}
               onClick={() => onDirectionOpen?.(key)}
               initial={false}
               animate={{ y: isActive && !reduced ? -4 : 0, scale: isActive && !reduced ? 1.008 : 1 }}
@@ -421,7 +491,10 @@ export function EcosystemCore({
                   className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl border bg-black/32 sm:h-10 sm:w-10"
                   style={{ borderColor: isActive ? itemAccent.border : "rgba(255,255,255,.10)" }}
                 >
-                  <Icon className="h-4 w-4" style={{ color: isActive ? itemAccent.solid : "rgba(255,255,255,.72)" }} />
+                  <Icon
+                    className="h-4 w-4"
+                    style={{ color: isActive ? itemAccent.solid : "rgba(255,255,255,.72)" }}
+                  />
                 </div>
 
                 <div className="min-w-0 flex-1">
