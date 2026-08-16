@@ -1,7 +1,7 @@
 "use client";
 
 import { motion, useReducedMotion } from "framer-motion";
-import { ArrowRight, BriefcaseBusiness, CheckCircle2, Dumbbell, PackageCheck, UtensilsCrossed } from "lucide-react";
+import { ArrowRight, Briefcase, CheckCircle2, Dumbbell, PackageCheck, UtensilsCrossed } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { RequestDialog } from "@/components/ui/request-dialog";
 import { InteractiveSurface } from "@/components/ui/premium-interaction";
@@ -64,7 +64,7 @@ const COPY: Record<Lang, {
   },
 };
 
-const MOMENT_ICONS = [BriefcaseBusiness, Dumbbell, UtensilsCrossed, CheckCircle2];
+const MOMENT_ICONS = [Briefcase, Dumbbell, UtensilsCrossed, CheckCircle2];
 
 export function DropSection() {
   const { lang } = useI18n();
@@ -132,10 +132,7 @@ export function DropSection() {
           <motion.div initial={{ opacity: 0, y: 20, scale: .985 }} whileInView={{ opacity: 1, y: 0, scale: 1 }} viewport={{ once: true }} transition={{ duration: .65, ease: [0.16, 1, 0.3, 1] }}>
             <InteractiveSurface accent="green" lift={false} className="relative overflow-hidden rounded-[32px] border border-emerald-200/[.12] bg-[linear-gradient(145deg,rgba(110,231,183,.055),rgba(255,255,255,.016)_48%,rgba(0,0,0,.5))] p-6 shadow-[0_42px_120px_-60px_rgba(16,185,129,.18)] sm:p-8">
               <div className="flex items-center justify-between gap-4">
-                <div>
-                  <p className="text-sm font-semibold text-zinc-100">{x.product}</p>
-                  <p className="mt-1 text-[10px] uppercase tracking-[.17em] text-zinc-600">{x.systemLabel}</p>
-                </div>
+                <div><p className="text-sm font-semibold text-zinc-100">{x.product}</p><p className="mt-1 text-[10px] uppercase tracking-[.17em] text-zinc-600">{x.systemLabel}</p></div>
                 <span className="flex h-10 w-10 items-center justify-center rounded-xl border border-emerald-300/20 bg-emerald-300/[.055] text-emerald-200"><UtensilsCrossed className="h-4 w-4" /></span>
               </div>
 
@@ -154,10 +151,7 @@ export function DropSection() {
               </div>
 
               <div className="mt-5 rounded-2xl border border-white/[.07] bg-black/28 px-5 py-4">
-                <div className="flex items-center gap-3">
-                  <span className="h-2 w-2 rounded-full bg-emerald-300 shadow-[0_0_14px_rgba(110,231,183,.45)]" />
-                  <p className="text-xs leading-6 text-zinc-500">{x.productDesc}</p>
-                </div>
+                <div className="flex items-center gap-3"><span className="h-2 w-2 rounded-full bg-emerald-300 shadow-[0_0_14px_rgba(110,231,183,.45)]" /><p className="text-xs leading-6 text-zinc-500">{x.productDesc}</p></div>
               </div>
             </InteractiveSurface>
           </motion.div>
