@@ -1,24 +1,18 @@
 import { I18nProvider } from "@/components/i18n-provider";
-import { DropPage } from "@/components/pages/DropPage";
+import { PerformancePage } from "@/components/pages/PerformancePage";
 import { pageMeta } from "@/lib/page-meta";
-import { breadcrumbJsonLd, dropWebPageJsonLd, getEcosystemCopy } from "@/lib/ecosystem";
+import { breadcrumbJsonLd } from "@/lib/ecosystem";
+import { PERFORMANCE_META, performanceWebPageJsonLd } from "@/lib/performance";
 
-const x = getEcosystemCopy("ru");
-
-export const metadata = pageMeta("ru", "drop", x.drop.metaTitle, x.drop.metaDesc);
+const meta = PERFORMANCE_META.ru;
+export const metadata = pageMeta("ru", "drop", meta.title, meta.description);
 
 export default function Page() {
   return (
     <I18nProvider lang="ru">
-      <DropPage />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(dropWebPageJsonLd("ru")) }}
-      />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd("ru", x.drop.eyebrow, "drop")) }}
-      />
+      <PerformancePage />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(performanceWebPageJsonLd("ru")) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd("ru", "Performance", "drop")) }} />
     </I18nProvider>
   );
 }

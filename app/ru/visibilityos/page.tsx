@@ -1,5 +1,5 @@
 import { I18nProvider } from "@/components/i18n-provider";
-import { VisibilityOsPage } from "@/components/pages/VisibilityOsPage";
+import { VisibilityOsPremiumPage } from "@/components/pages/VisibilityOsPremiumPage";
 import { getDict } from "@/lib/i18n";
 import { pageMeta } from "@/lib/page-meta";
 
@@ -9,7 +9,7 @@ export const metadata = pageMeta("ru", "visibilityos", d.meta.visibilityTitle, d
 export default function Page() {
   return (
     <I18nProvider lang="ru">
-      <VisibilityOsPage />
+      <VisibilityOsPremiumPage />
     </I18nProvider>
   );
 }
