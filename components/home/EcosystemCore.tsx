@@ -37,35 +37,35 @@ const ICONS: Record<DirectionKey, LucideIcon> = {
 const ACCENTS: Record<DirectionKey, Accent> = {
   business: {
     solid: "#e8c547",
-    glow: "rgba(232,197,71,.30)",
-    border: "rgba(232,197,71,.44)",
-    surface: "rgba(232,197,71,.070)",
+    glow: "rgba(232,197,71,.28)",
+    border: "rgba(232,197,71,.43)",
+    surface: "rgba(232,197,71,.065)",
   },
   visibility: {
     solid: "#7dd3fc",
-    glow: "rgba(125,211,252,.25)",
-    border: "rgba(125,211,252,.38)",
-    surface: "rgba(125,211,252,.060)",
+    glow: "rgba(125,211,252,.23)",
+    border: "rgba(125,211,252,.37)",
+    surface: "rgba(125,211,252,.055)",
   },
   warriors: {
     solid: "#c4b5fd",
-    glow: "rgba(196,181,253,.24)",
-    border: "rgba(196,181,253,.38)",
-    surface: "rgba(196,181,253,.060)",
+    glow: "rgba(196,181,253,.22)",
+    border: "rgba(196,181,253,.37)",
+    surface: "rgba(196,181,253,.055)",
   },
   performance: {
     solid: "#6ee7b7",
-    glow: "rgba(110,231,183,.22)",
-    border: "rgba(110,231,183,.36)",
-    surface: "rgba(110,231,183,.055)",
+    glow: "rgba(110,231,183,.20)",
+    border: "rgba(110,231,183,.35)",
+    surface: "rgba(110,231,183,.05)",
   },
 };
 
 const PATHS: Record<DirectionKey, string> = {
-  business: "M720 642 C650 690 410 724 225 812",
-  visibility: "M720 642 C690 700 610 745 555 812",
-  warriors: "M720 642 C758 700 842 744 885 812",
-  performance: "M720 642 C810 690 1040 725 1215 812",
+  business: "M720 655 C640 700 410 742 225 820",
+  visibility: "M720 655 C690 708 610 758 555 820",
+  warriors: "M720 655 C760 708 840 758 885 820",
+  performance: "M720 655 C810 700 1040 742 1215 820",
 };
 
 const tagLine = (key: DirectionKey, item: Direction) => {
@@ -213,13 +213,12 @@ export function EcosystemCore({
 
   const pointerX = useMotionValue(0);
   const pointerY = useMotionValue(0);
-  const springX = useSpring(pointerX, { stiffness: 68, damping: 25, mass: 0.74 });
-  const springY = useSpring(pointerY, { stiffness: 68, damping: 25, mass: 0.74 });
-  const fieldX = useTransform(springX, [-0.5, 0.5], [-34, 34]);
-  const fieldY = useTransform(springY, [-0.5, 0.5], [-22, 22]);
-  const lensX = useTransform(springX, [-0.5, 0.5], [-18, 18]);
-  const lensY = useTransform(springY, [-0.5, 0.5], [-8, 8]);
-  const lensRotate = useTransform(springX, [-0.5, 0.5], [-3, 3]);
+  const springX = useSpring(pointerX, { stiffness: 70, damping: 27, mass: 0.72 });
+  const springY = useSpring(pointerY, { stiffness: 70, damping: 27, mass: 0.72 });
+  const fieldX = useTransform(springX, [-0.5, 0.5], [-28, 28]);
+  const fieldY = useTransform(springY, [-0.5, 0.5], [-16, 16]);
+  const coreX = useTransform(springX, [-0.5, 0.5], [-12, 12]);
+  const coreY = useTransform(springY, [-0.5, 0.5], [-6, 6]);
 
   useEffect(() => {
     if (reduced) return;
@@ -245,24 +244,22 @@ export function EcosystemCore({
 
   return (
     <div className="pointer-events-none absolute inset-0 z-[4] overflow-hidden">
-      {/* Pointer-responsive ambient spotlight, inspired by interactive spotlight mechanics without a runtime 3D scene. */}
       <motion.div
         aria-hidden="true"
-        className="absolute left-1/2 top-[46%] h-[760px] w-[1180px] -translate-x-1/2 -translate-y-1/2 rounded-[50%] blur-[118px]"
+        className="absolute left-1/2 top-[39%] h-[620px] w-[980px] -translate-x-1/2 -translate-y-1/2 rounded-[50%] blur-[92px]"
         style={
           reduced
             ? {
-                background: `radial-gradient(ellipse at center, ${accent.glow} 0%, rgba(212,175,55,.035) 36%, transparent 71%)`,
+                background: `radial-gradient(ellipse at center, ${accent.glow} 0%, rgba(212,175,55,.026) 34%, transparent 70%)`,
               }
             : {
                 x: fieldX,
                 y: fieldY,
-                background: `radial-gradient(ellipse at center, ${accent.glow} 0%, rgba(212,175,55,.035) 36%, transparent 71%)`,
+                background: `radial-gradient(ellipse at center, ${accent.glow} 0%, rgba(212,175,55,.026) 34%, transparent 70%)`,
               }
         }
       />
 
-      {/* Slow background paths create continuity without crossing or obscuring the headline. */}
       <svg
         aria-hidden="true"
         viewBox="0 0 1440 900"
@@ -272,92 +269,55 @@ export function EcosystemCore({
         <defs>
           <linearGradient id="ambient-line" x1="0" y1="0" x2="1" y2="1">
             <stop offset="0" stopColor="rgba(255,255,255,0)" />
-            <stop offset="0.45" stopColor={accent.solid} stopOpacity="0.14" />
+            <stop offset="0.48" stopColor={accent.solid} stopOpacity="0.13" />
             <stop offset="1" stopColor="rgba(255,255,255,0)" />
           </linearGradient>
         </defs>
         <motion.path
-          d="M-80 270 C320 120 515 275 770 215 C1040 150 1180 245 1510 130"
+          d="M-80 275 C320 120 515 272 770 218 C1040 158 1180 245 1510 132"
           fill="none"
           stroke="url(#ambient-line)"
           strokeWidth="0.7"
-          animate={reduced ? undefined : { pathLength: [0.65, 1, 0.65], opacity: [0.12, 0.32, 0.12] }}
-          transition={reduced ? undefined : { duration: 11, repeat: Infinity, ease: "easeInOut" }}
-        />
-        <motion.path
-          d="M-120 725 C260 590 465 720 710 690 C1010 650 1180 560 1550 700"
-          fill="none"
-          stroke="url(#ambient-line)"
-          strokeWidth="0.7"
-          animate={reduced ? undefined : { pathLength: [1, 0.62, 1], opacity: [0.11, 0.28, 0.11] }}
-          transition={reduced ? undefined : { duration: 13, repeat: Infinity, ease: "easeInOut" }}
+          animate={reduced ? undefined : { pathLength: [0.68, 1, 0.68], opacity: [0.1, 0.28, 0.1] }}
+          transition={reduced ? undefined : { duration: 12, repeat: Infinity, ease: "easeInOut" }}
         />
       </svg>
 
-      {/* Perspective floor: a reusable spatial motif that fades before the content area. */}
-      <motion.div
-        aria-hidden="true"
-        className="absolute -bottom-[255px] left-1/2 hidden h-[560px] w-[1120px] -translate-x-1/2 opacity-[.26] sm:block"
-        style={
-          reduced
-            ? {
-                backgroundImage:
-                  "linear-gradient(rgba(255,255,255,.055) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.05) 1px,transparent 1px)",
-                backgroundSize: "62px 62px",
-                transform: "translateX(-50%) perspective(900px) rotateX(67deg)",
-                maskImage: "linear-gradient(to bottom, transparent, black 24%, black 62%, transparent 88%)",
-              }
-            : {
-                x: lensX,
-                backgroundImage:
-                  "linear-gradient(rgba(255,255,255,.055) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.05) 1px,transparent 1px)",
-                backgroundSize: "62px 62px",
-                transform: "translateX(-50%) perspective(900px) rotateX(67deg)",
-                maskImage: "linear-gradient(to bottom, transparent, black 24%, black 62%, transparent 88%)",
-              }
-        }
-      />
-
-      {/* Refractive signal lens lives below the headline safe zone instead of covering text. */}
       <div
         aria-hidden="true"
-        className="absolute left-1/2 top-[68%] hidden h-[260px] w-[620px] -translate-x-1/2 -translate-y-1/2 sm:block"
-        style={{ perspective: "1200px" }}
+        className="absolute left-1/2 top-[72.5%] hidden h-[150px] w-[330px] -translate-x-1/2 -translate-y-1/2 sm:block"
       >
         <motion.div
-          className="absolute inset-[4%] rounded-[50%] border border-white/[.055] bg-white/[.006] shadow-[inset_0_1px_0_rgba(255,255,255,.06),0_0_80px_rgba(0,0,0,.32)] backdrop-blur-[1px]"
+          className="absolute left-1/2 top-1/2 h-[118px] w-[118px] -translate-x-1/2 -translate-y-1/2 rounded-full border border-white/[.045]"
           style={
             reduced
-              ? {
-                  background: `radial-gradient(ellipse at 50% 52%, ${accent.surface}, rgba(255,255,255,.004) 42%, transparent 70%)`,
-                }
+              ? undefined
               : {
-                  x: lensX,
-                  y: lensY,
-                  rotateZ: lensRotate,
-                  background: `radial-gradient(ellipse at 50% 52%, ${accent.surface}, rgba(255,255,255,.004) 42%, transparent 70%)`,
+                  x: coreX,
+                  y: coreY,
                 }
           }
         >
           <motion.div
-            className="absolute inset-[12%] rounded-[50%] border border-white/[.04]"
+            className="absolute inset-[16px] rounded-full border border-white/[.055]"
             animate={reduced ? undefined : { rotate: 360 }}
-            transition={reduced ? undefined : { duration: 42, repeat: Infinity, ease: "linear" }}
+            transition={reduced ? undefined : { duration: 34, repeat: Infinity, ease: "linear" }}
           />
           <motion.div
-            className="absolute inset-[26%] rounded-[50%] border"
-            style={{ borderColor: accent.border, boxShadow: `0 0 42px ${accent.glow}` }}
-            animate={reduced ? undefined : { scale: [0.98, 1.025, 0.98], opacity: [0.28, 0.56, 0.28] }}
-            transition={reduced ? undefined : { duration: 4.8, repeat: Infinity, ease: "easeInOut" }}
+            className="absolute inset-[35px] rounded-full border"
+            style={{ borderColor: accent.border, boxShadow: `0 0 28px ${accent.glow}` }}
+            animate={reduced ? undefined : { scale: [0.94, 1.08, 0.94], opacity: [0.28, 0.72, 0.28] }}
+            transition={reduced ? undefined : { duration: 4.2, repeat: Infinity, ease: "easeInOut" }}
           />
-          <div
-            className="absolute left-1/2 top-1/2 h-2 w-2 -translate-x-1/2 -translate-y-1/2 rounded-full"
+          <motion.span
+            className="absolute left-1/2 top-1/2 h-2.5 w-2.5 -translate-x-1/2 -translate-y-1/2 rounded-full"
             style={{ backgroundColor: accent.solid, boxShadow: `0 0 24px ${accent.glow}` }}
+            animate={reduced ? undefined : { scale: [0.92, 1.16, 0.92], opacity: [0.7, 1, 0.7] }}
+            transition={reduced ? undefined : { duration: 2.5, repeat: Infinity, ease: "easeInOut" }}
           />
         </motion.div>
       </div>
 
-      {/* Signal routes begin below the main copy; they explain that every path resolves to one of four directions. */}
       <svg
         aria-hidden="true"
         viewBox="0 0 1440 900"
@@ -372,7 +332,7 @@ export function EcosystemCore({
               <path
                 d={PATHS[key]}
                 fill="none"
-                stroke="rgba(255,255,255,.07)"
+                stroke="rgba(255,255,255,.065)"
                 strokeWidth="0.8"
                 strokeDasharray="4 8"
               />
@@ -385,15 +345,15 @@ export function EcosystemCore({
                 initial={false}
                 animate={
                   reduced
-                    ? { pathLength: 1, opacity: isActive ? 0.48 : 0.11 }
+                    ? { pathLength: 1, opacity: isActive ? 0.46 : 0.1 }
                     : isActive
-                      ? { pathLength: [0.16, 1], opacity: [0.18, 0.72] }
-                      : { pathLength: 1, opacity: 0.1 }
+                      ? { pathLength: [0.15, 1], opacity: [0.16, 0.72] }
+                      : { pathLength: 1, opacity: 0.09 }
                 }
                 transition={
                   reduced || !isActive
                     ? { duration: 0.25 }
-                    : { duration: 1.4, repeat: Infinity, repeatType: "reverse", ease: "easeInOut" }
+                    : { duration: 1.5, repeat: Infinity, repeatType: "reverse", ease: "easeInOut" }
                 }
               />
             </g>
@@ -422,23 +382,23 @@ export function EcosystemCore({
               initial={false}
               animate={{ y: isActive && !reduced ? -4 : 0, scale: isActive && !reduced ? 1.008 : 1 }}
               transition={{ type: "spring", stiffness: 260, damping: 26 }}
-              className="group relative min-h-[76px] overflow-hidden rounded-[18px] border bg-black/46 px-3.5 py-3 text-left shadow-[inset_0_1px_0_rgba(255,255,255,.045),0_18px_55px_rgba(0,0,0,.34)] backdrop-blur-2xl outline-none transition-colors duration-500 focus-visible:ring-2 focus-visible:ring-white/55 sm:min-h-[86px] sm:px-4 sm:py-3.5"
+              className="group relative min-h-[76px] overflow-hidden rounded-[18px] border bg-black/52 px-3.5 py-3 text-left shadow-[inset_0_1px_0_rgba(255,255,255,.045),0_18px_55px_rgba(0,0,0,.34)] backdrop-blur-xl outline-none transition-colors duration-500 focus-visible:ring-2 focus-visible:ring-white/55 sm:min-h-[86px] sm:px-4 sm:py-3.5"
               style={{
                 borderColor: isActive ? itemAccent.border : "rgba(255,255,255,.10)",
                 background: isActive
-                  ? `linear-gradient(145deg, ${itemAccent.surface}, rgba(0,0,0,.62) 62%)`
-                  : "linear-gradient(145deg, rgba(255,255,255,.025), rgba(0,0,0,.64) 66%)",
+                  ? `linear-gradient(145deg, ${itemAccent.surface}, rgba(0,0,0,.68) 62%)`
+                  : "linear-gradient(145deg, rgba(255,255,255,.024), rgba(0,0,0,.70) 66%)",
                 boxShadow: isActive
-                  ? `inset 0 1px 0 rgba(255,255,255,.07), 0 18px 55px rgba(0,0,0,.34), 0 0 34px ${itemAccent.glow}`
+                  ? `inset 0 1px 0 rgba(255,255,255,.07), 0 18px 55px rgba(0,0,0,.34), 0 0 30px ${itemAccent.glow}`
                   : "inset 0 1px 0 rgba(255,255,255,.045), 0 18px 55px rgba(0,0,0,.34)",
               }}
             >
               <div
                 aria-hidden="true"
-                className="absolute inset-0 opacity-[.22] transition-opacity duration-500 group-hover:opacity-[.34]"
+                className="absolute inset-0 opacity-[.20] transition-opacity duration-500 group-hover:opacity-[.32]"
                 style={{
                   background:
-                    "radial-gradient(circle at 20% -20%,rgba(255,255,255,.16),transparent 38%),linear-gradient(120deg,transparent 25%,rgba(255,255,255,.025) 48%,transparent 70%)",
+                    "radial-gradient(circle at 20% -20%,rgba(255,255,255,.15),transparent 38%),linear-gradient(120deg,transparent 25%,rgba(255,255,255,.024) 48%,transparent 70%)",
                 }}
               />
 
