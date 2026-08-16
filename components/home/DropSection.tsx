@@ -7,7 +7,8 @@ import { RequestDialog } from "@/components/ui/request-dialog";
 import { InteractiveSurface } from "@/components/ui/premium-interaction";
 import { useI18n } from "@/components/i18n-provider";
 import { track } from "@/lib/analytics";
-import { DROP_INTENT, directionRoute, getEcosystemCopy } from "@/lib/ecosystem";
+import { DROP_INTENT, directionRoute } from "@/lib/ecosystem";
+import { PERFORMANCE_DIALOG } from "@/lib/performance";
 import type { Lang } from "@/lib/i18n";
 
 const COPY: Record<Lang, {
@@ -69,8 +70,8 @@ const MOMENT_ICONS = [Briefcase, Dumbbell, UtensilsCrossed, CheckCircle2];
 export function DropSection() {
   const { lang } = useI18n();
   const reduced = useReducedMotion();
-  const legacy = getEcosystemCopy(lang).drop;
   const x = COPY[lang];
+  const modal = PERFORMANCE_DIALOG[lang];
   const href = directionRoute(lang, "drop");
 
   return (
@@ -108,16 +109,16 @@ export function DropSection() {
             <div className="mt-8 flex flex-col gap-3 sm:flex-row">
               <RequestDialog
                 intent={DROP_INTENT}
-                title={legacy.dialogTitle}
-                description={legacy.dialogDesc}
-                successTitle={legacy.successTitle}
-                successMessage={legacy.successMessage}
+                title={modal.title}
+                description={modal.description}
+                successTitle={modal.successTitle}
+                successMessage={modal.successMessage}
                 buttonLabel="Home - Performance launch interest"
                 showBuildType={false}
                 compact
-                helpLabel={legacy.helpLabel}
-                helpPlaceholder={legacy.helpPlaceholder}
-                context={{ concept: "performance_meal_system", stage: "prelaunch", source: "home_performance", locale: lang }}
+                helpLabel={modal.helpLabel}
+                helpPlaceholder={modal.helpPlaceholder}
+                context={{ concept: "performance_meal_system", stage: "validation", source: "home_performance", locale: lang }}
               >
                 <Button className="premium-button h-auto min-h-12 w-full px-7 py-3 sm:w-auto" onClick={() => track("drop_interest_open", { source: "home_performance" })}>
                   {x.research}<ArrowRight className="ml-2 h-4 w-4" />

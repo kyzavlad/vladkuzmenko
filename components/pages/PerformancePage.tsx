@@ -10,7 +10,8 @@ import { DirectionPageHero } from "@/components/ui/direction-page-hero";
 import { InteractiveSurface } from "@/components/ui/premium-interaction";
 import { useI18n } from "@/components/i18n-provider";
 import { track } from "@/lib/analytics";
-import { DROP_INTENT, getEcosystemCopy } from "@/lib/ecosystem";
+import { DROP_INTENT } from "@/lib/ecosystem";
+import { PERFORMANCE_DIALOG } from "@/lib/performance";
 import type { Lang } from "@/lib/i18n";
 
 const COPY: Record<Lang, {
@@ -111,21 +112,21 @@ const ICONS = [Briefcase, Dumbbell, UtensilsCrossed, Clock3];
 export function PerformancePage() {
   const { lang } = useI18n();
   const reduced = useReducedMotion();
-  const legacy = getEcosystemCopy(lang).drop;
   const x = COPY[lang];
+  const modal = PERFORMANCE_DIALOG[lang];
   const route = `${lang === "en" ? "" : `/${lang}`}/drop`;
 
   const dialog = (source: string) => ({
     intent: DROP_INTENT,
-    title: legacy.dialogTitle,
-    description: legacy.dialogDesc,
-    successTitle: legacy.successTitle,
-    successMessage: legacy.successMessage,
+    title: modal.title,
+    description: modal.description,
+    successTitle: modal.successTitle,
+    successMessage: modal.successMessage,
     buttonLabel: `Performance - ${source}`,
     showBuildType: false,
     compact: true,
-    helpLabel: legacy.helpLabel,
-    helpPlaceholder: legacy.helpPlaceholder,
+    helpLabel: modal.helpLabel,
+    helpPlaceholder: modal.helpPlaceholder,
     context: { concept: "performance_meal_system", stage: "validation", source, locale: lang, route },
   });
 
