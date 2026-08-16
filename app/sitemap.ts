@@ -8,7 +8,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const pages: { slug: string; priority: number; freq: "weekly" | "monthly" }[] = [
     { slug: "", priority: 1, freq: "weekly" },
     { slug: "growth-systems", priority: 0.9, freq: "monthly" },
-    { slug: "work", priority: 0.9, freq: "monthly" },
     { slug: "visibilityos", priority: 0.8, freq: "monthly" },
     { slug: "warriors-team", priority: 0.8, freq: "monthly" },
     { slug: "drop", priority: 0.7, freq: "monthly" },
@@ -28,7 +27,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
         url,
         lastModified,
         changeFrequency: freq,
-        priority: prefix === "" ? priority : Math.max(0.4, priority - 0.1),
+        priority: prefix === "" ? priority : Number(Math.max(0.4, priority - 0.1).toFixed(1)),
       });
     }
   }
