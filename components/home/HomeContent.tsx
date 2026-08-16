@@ -7,7 +7,7 @@ import { GrowthSystems } from "@/components/home/GrowthSystems";
 import { VisibilitySection } from "@/components/home/VisibilitySection";
 import { WarriorsSection } from "@/components/home/WarriorsSection";
 import { DropSection } from "@/components/home/DropSection";
-import { PersonalBrand } from "@/components/home/PersonalBrand";
+import { PersonalBrandFinal } from "@/components/home/PersonalBrandFinal";
 import { ContactSection } from "@/components/home/ContactSection";
 import { SectionBridge } from "@/components/home/SectionBridge";
 import { FooterSection } from "@/components/FooterSection";
@@ -28,7 +28,7 @@ export function HomeContent() {
       <SectionBridge tone="green" />
       <DropSection />
       <SectionBridge tone="gold" />
-      <PersonalBrand />
+      <PersonalBrandFinal />
       <SectionBridge tone="gold" />
       <ContactSection />
       <FooterSection />

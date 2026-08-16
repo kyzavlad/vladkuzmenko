@@ -21,36 +21,9 @@ const COPY: Record<Lang, {
   performance: string;
   about: string;
 }> = {
-  en: {
-    signoff: "Systems, products and a stronger standard of execution.",
-    nav: "Explore",
-    growth: "For business",
-    work: "Work",
-    visibility: "VisibilityOS",
-    warriors: "Warriors Team",
-    performance: "Performance",
-    about: "About",
-  },
-  ua: {
-    signoff: "Системи, продукти і вища планка виконання.",
-    nav: "Навігація",
-    growth: "Для бізнесу",
-    work: "Роботи",
-    visibility: "VisibilityOS",
-    warriors: "Warriors Team",
-    performance: "Performance",
-    about: "Про мене",
-  },
-  ru: {
-    signoff: "Системы, продукты и более высокая планка исполнения.",
-    nav: "Навигация",
-    growth: "Для бизнеса",
-    work: "Работы",
-    visibility: "VisibilityOS",
-    warriors: "Warriors Team",
-    performance: "Performance",
-    about: "Обо мне",
-  },
+  en: { signoff: "Systems, products and a stronger standard of execution.", nav: "Explore", growth: "For business", work: "Work", visibility: "VisibilityOS", warriors: "Warriors Team", performance: "Performance", about: "About" },
+  ua: { signoff: "Системи, продукти і вища планка виконання.", nav: "Навігація", growth: "Для бізнесу", work: "Роботи", visibility: "VisibilityOS", warriors: "Warriors Team", performance: "Performance", about: "Про мене" },
+  ru: { signoff: "Системы, продукты и более высокая планка исполнения.", nav: "Навигация", growth: "Для бизнеса", work: "Работы", visibility: "VisibilityOS", warriors: "Warriors Team", performance: "Performance", about: "Обо мне" },
 };
 
 export function FooterSection() {
@@ -65,7 +38,7 @@ export function FooterSection() {
 
   const nav = [
     [x.growth, pageHref("growth-systems")],
-    [x.work, pageHref("work")],
+    [x.work, pageHref("growth-systems#portfolio")],
     [x.visibility, pageHref("visibilityos")],
     [x.warriors, pageHref("warriors-team")],
     [x.performance, pageHref("drop")],
@@ -87,6 +60,7 @@ export function FooterSection() {
       <div className="container relative z-10 mx-auto px-4">
         <div className="grid gap-10 lg:grid-cols-[1.05fr_.7fr_1.25fr] lg:gap-14">
           <div>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
             <img src="/brand/vlad-kuzmenko-logo-gold.png" alt="Vlad Kuzmenko" className="h-auto w-[210px]" />
             <p className="mt-4 max-w-sm text-sm leading-7 text-zinc-500">{x.signoff}</p>
             <div className="mt-6 flex flex-wrap gap-2">
@@ -99,22 +73,14 @@ export function FooterSection() {
                 ["WhatsApp", SITE.socials.whatsapp, MessageCircle],
               ].map(([label, href, Icon]) => {
                 const SocialIcon = Icon as React.ComponentType<{ className?: string }>;
-                return (
-                  <a key={String(label)} href={String(href)} target="_blank" rel="noopener noreferrer" aria-label={String(label)} className="flex h-9 w-9 items-center justify-center rounded-full border border-white/[.08] bg-white/[.025] text-zinc-500 transition-colors hover:border-amber-300/25 hover:text-amber-300">
-                    <SocialIcon className="h-4 w-4" />
-                  </a>
-                );
+                return <a key={String(label)} href={String(href)} target="_blank" rel="noopener noreferrer" aria-label={String(label)} className="flex h-9 w-9 items-center justify-center rounded-full border border-white/[.08] bg-white/[.025] text-zinc-500 transition-colors hover:border-amber-300/25 hover:text-amber-300"><SocialIcon className="h-4 w-4" /></a>;
               })}
             </div>
           </div>
 
           <div>
             <h3 className="text-[10px] font-semibold uppercase tracking-[.2em] text-zinc-600">{x.nav}</h3>
-            <nav className="mt-5 space-y-2.5">
-              {nav.map(([label, href]) => (
-                <a key={label} href={href} className="block text-sm text-zinc-400 transition-colors hover:text-amber-300">{label}</a>
-              ))}
-            </nav>
+            <nav className="mt-5 space-y-2.5">{nav.map(([label, href]) => <a key={label} href={href} className="block text-sm text-zinc-400 transition-colors hover:text-amber-300">{label}</a>)}</nav>
           </div>
 
           <div>
@@ -125,16 +91,10 @@ export function FooterSection() {
             ) : (
               <form className="relative mt-5 flex max-w-md" onSubmit={subscribe}>
                 <Input type="email" required value={email} onChange={(event) => setEmail(event.target.value)} placeholder={f.emailPh} className="h-12 rounded-xl bg-white/[.035] pr-12 text-white placeholder:text-zinc-600" />
-                <Button type="submit" size="icon" variant="ghost" disabled={status === "sending"} className="absolute right-1.5 top-1/2 h-9 w-9 -translate-y-1/2 rounded-lg text-zinc-500 hover:bg-white/[.05] hover:text-amber-300">
-                  {status === "sending" ? <Loader2 className="h-4 w-4 animate-spin" /> : <Send className="h-4 w-4" />}
-                  <span className="sr-only">{f.newsletterTitle}</span>
-                </Button>
+                <Button type="submit" size="icon" variant="ghost" disabled={status === "sending"} className="absolute right-1.5 top-1/2 h-9 w-9 -translate-y-1/2 rounded-lg text-zinc-500 hover:bg-white/[.05] hover:text-amber-300">{status === "sending" ? <Loader2 className="h-4 w-4 animate-spin" /> : <Send className="h-4 w-4" />}<span className="sr-only">{f.newsletterTitle}</span></Button>
               </form>
             )}
-
-            <a href={`mailto:${SITE.email}`} className="mt-5 inline-flex items-center gap-2 text-sm text-zinc-500 transition-colors hover:text-amber-300">
-              <Mail className="h-4 w-4" /> {SITE.email}
-            </a>
+            <a href={`mailto:${SITE.email}`} className="mt-5 inline-flex items-center gap-2 text-sm text-zinc-500 transition-colors hover:text-amber-300"><Mail className="h-4 w-4" /> {SITE.email}</a>
           </div>
         </div>
 
@@ -145,19 +105,14 @@ export function FooterSection() {
               <DialogTrigger className="text-zinc-600 transition-colors hover:text-amber-300">{f.privacy}</DialogTrigger>
               <DialogContent className="max-h-[80vh] max-w-2xl overflow-y-auto border-zinc-800 bg-zinc-950">
                 <DialogHeader><DialogTitle className="text-white">{f.privacy}</DialogTitle></DialogHeader>
-                <div className="mt-4 space-y-3 text-sm leading-7 text-zinc-400">
-                  <p>When you submit a form on this site, the information you provide is sent to Vlad Kuzmenko so he can respond.</p>
-                  <p>Your information is not sold. To request access or deletion, email <a href={`mailto:${SITE.email}`} className="text-amber-300">{SITE.email}</a>.</p>
-                </div>
+                <div className="mt-4 space-y-3 text-sm leading-7 text-zinc-400"><p>When you submit a form on this site, the information you provide is sent to Vlad Kuzmenko so he can respond.</p><p>Your information is not sold. To request access or deletion, email <a href={`mailto:${SITE.email}`} className="text-amber-300">{SITE.email}</a>.</p></div>
               </DialogContent>
             </Dialog>
             <Dialog>
               <DialogTrigger className="text-zinc-600 transition-colors hover:text-amber-300">{f.terms}</DialogTrigger>
               <DialogContent className="max-h-[80vh] max-w-2xl overflow-y-auto border-zinc-800 bg-zinc-950">
                 <DialogHeader><DialogTitle className="text-white">{f.terms}</DialogTitle></DialogHeader>
-                <div className="mt-4 text-sm leading-7 text-zinc-400">
-                  <p>This site presents Vlad Kuzmenko services, projects and product concepts. Research-list and early-access requests are expressions of interest, not a purchase.</p>
-                </div>
+                <div className="mt-4 text-sm leading-7 text-zinc-400"><p>This site presents Vlad Kuzmenko services, projects and product concepts. Research-list and early-access requests are expressions of interest, not a purchase.</p></div>
               </DialogContent>
             </Dialog>
           </nav>

@@ -27,30 +27,9 @@ const NAV_COPY: Record<Lang, {
   performance: string;
   about: string;
 }> = {
-  en: {
-    business: "For business",
-    work: "Work",
-    visibility: "VisibilityOS",
-    warriors: "Warriors",
-    performance: "Performance",
-    about: "About",
-  },
-  ua: {
-    business: "Для бізнесу",
-    work: "Роботи",
-    visibility: "VisibilityOS",
-    warriors: "Warriors",
-    performance: "Performance",
-    about: "Про мене",
-  },
-  ru: {
-    business: "Для бизнеса",
-    work: "Работы",
-    visibility: "VisibilityOS",
-    warriors: "Warriors",
-    performance: "Performance",
-    about: "Обо мне",
-  },
+  en: { business: "For business", work: "Work", visibility: "VisibilityOS", warriors: "Warriors", performance: "Performance", about: "About" },
+  ua: { business: "Для бізнесу", work: "Роботи", visibility: "VisibilityOS", warriors: "Warriors", performance: "Performance", about: "Про мене" },
+  ru: { business: "Для бизнеса", work: "Работы", visibility: "VisibilityOS", warriors: "Warriors", performance: "Performance", about: "Обо мне" },
 };
 
 export function Header() {
@@ -66,20 +45,20 @@ export function Header() {
 
   const navItems: { title: string; href: string; hash?: string }[] = [
     { title: labels.business, href: pageHref("growth-systems") },
-    { title: labels.work, href: pageHref("work") },
+    { title: labels.work, href: pageHref("growth-systems#portfolio") },
     { title: labels.visibility, href: pageHref("visibilityos") },
     { title: labels.warriors, href: pageHref("warriors-team") },
     { title: labels.performance, href: pageHref("drop") },
     { title: labels.about, href: hashHref("about"), hash: "about" },
   ];
 
-  const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, item: { hash?: string }) => {
+  const handleNavClick = (event: React.MouseEvent<HTMLAnchorElement>, item: { hash?: string }) => {
     setMobileMenuOpen(false);
     if (!item.hash || typeof document === "undefined") return;
-    const el = document.getElementById(item.hash);
-    if (el) {
-      e.preventDefault();
-      el.scrollIntoView({ behavior: "smooth" });
+    const element = document.getElementById(item.hash);
+    if (element) {
+      event.preventDefault();
+      element.scrollIntoView({ behavior: "smooth" });
     }
   };
 
@@ -88,17 +67,15 @@ export function Header() {
   const slug = rel === "/" ? "" : rel.replace(/^\//, "").split("/")[0];
   const isHome = slug === "";
 
-  const switchHref = (l: (typeof LANGS)[number]) => {
-    const b = l === "en" ? "" : `/${l}`;
-    if (slug === "work") return `${b}${rel}` || "/";
+  const switchHref = (language: (typeof LANGS)[number]) => {
+    const languageBase = language === "en" ? "" : `/${language}`;
+    if (slug === "work") return `${languageBase}${rel}` || "/";
     const useSlug = LOCALIZED_SLUGS.has(slug) ? slug : "";
-    return useSlug ? `${b}/${useSlug}` : b || "/";
+    return useSlug ? `${languageBase}/${useSlug}` : languageBase || "/";
   };
 
   useEffect(() => {
-    const onEsc = (e: KeyboardEvent) => {
-      if (e.key === "Escape") setMobileMenuOpen(false);
-    };
+    const onEsc = (event: KeyboardEvent) => { if (event.key === "Escape") setMobileMenuOpen(false); };
     const onScroll = () => setScrolled(window.scrollY > 150);
     onScroll();
     window.addEventListener("keydown", onEsc);
@@ -111,24 +88,18 @@ export function Header() {
 
   const LangSwitcher = ({ className = "" }: { className?: string }) => (
     <div className={`flex items-center gap-1 text-xs font-semibold ${className}`}>
-      {LANGS.map((l, idx) => (
-        <React.Fragment key={l}>
-          {idx > 0 && <span className="text-zinc-700">/</span>}
+      {LANGS.map((language, index) => (
+        <React.Fragment key={language}>
+          {index > 0 ? <span className="text-zinc-700">/</span> : null}
           <a
-            href={switchHref(l)}
-            aria-current={l === lang ? "true" : undefined}
+            href={switchHref(language)}
+            aria-current={language === lang ? "true" : undefined}
             onClick={() => {
-              try {
-                localStorage.setItem("vk_lang", l);
-              } catch {
-                /* no-op */
-              }
+              try { localStorage.setItem("vk_lang", language); } catch { /* no-op */ }
             }}
-            className={`rounded px-1.5 py-1 transition-colors ${
-              l === lang ? "text-amber-300" : "text-gray-500 hover:text-amber-200"
-            }`}
+            className={`rounded px-1.5 py-1 transition-colors ${language === lang ? "text-amber-300" : "text-gray-500 hover:text-amber-200"}`}
           >
-            {LANG_LABELS[l]}
+            {LANG_LABELS[language]}
           </a>
         </React.Fragment>
       ))}
@@ -138,82 +109,36 @@ export function Header() {
   return (
     <header className="fixed left-0 top-0 z-30 w-full border-b border-white/[.07] bg-black/72 backdrop-blur-2xl">
       <div className="container relative mx-auto flex h-[80px] items-center justify-between gap-4 px-4 sm:px-6">
-        <a
-          href={base}
-          className={`flex w-[170px] shrink-0 items-center transition-all duration-500 sm:w-[190px] ${
-            isHome && !scrolled ? "pointer-events-none -translate-y-2 opacity-0" : "translate-y-0 opacity-100"
-          }`}
-          aria-label="Vlad Kuzmenko — Home"
-        >
+        <a href={base} className={`flex w-[170px] shrink-0 items-center transition-all duration-500 sm:w-[190px] ${isHome && !scrolled ? "pointer-events-none -translate-y-2 opacity-0" : "translate-y-0 opacity-100"}`} aria-label="Vlad Kuzmenko — Home">
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
-            src="/brand/vlad-kuzmenko-logo-gold.png"
-            alt="Vlad Kuzmenko"
-            className="h-auto w-full select-none"
-          />
+          <img src="/brand/vlad-kuzmenko-logo-gold.png" alt="Vlad Kuzmenko" className="h-auto w-full select-none" />
         </a>
 
         <nav className="hidden items-center gap-0.5 xl:flex">
           {navItems.map((item) => (
-            <a
-              key={item.title}
-              href={item.href}
-              onClick={(e) => handleNavClick(e, item)}
-              className="relative whitespace-nowrap rounded-lg px-3 py-2 text-[13px] font-medium text-zinc-400 transition-colors after:absolute after:bottom-0 after:left-3 after:h-px after:w-0 after:bg-amber-300/80 after:transition-all hover:text-white hover:after:w-[calc(100%-24px)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-300/60"
-            >
-              {item.title}
-            </a>
+            <a key={item.title} href={item.href} onClick={(event) => handleNavClick(event, item)} className="relative whitespace-nowrap rounded-lg px-3 py-2 text-[13px] font-medium text-zinc-400 transition-colors after:absolute after:bottom-0 after:left-3 after:h-px after:w-0 after:bg-amber-300/80 after:transition-all hover:text-white hover:after:w-[calc(100%-24px)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-300/60">{item.title}</a>
           ))}
         </nav>
 
         <div className="hidden shrink-0 items-center gap-2 md:flex">
           <LangSwitcher />
-          <a href={SITE.calcom} target="_blank" rel="noopener noreferrer">
-            <Button className="premium-button h-10 px-4 xl:px-5">
-              <Calendar className="mr-2 h-4 w-4" />
-              {t.cta.bookCall}
-            </Button>
-          </a>
+          <a href={SITE.calcom} target="_blank" rel="noopener noreferrer"><Button className="premium-button h-10 px-4 xl:px-5"><Calendar className="mr-2 h-4 w-4" />{t.cta.bookCall}</Button></a>
         </div>
 
         <div className="flex items-center gap-2 xl:hidden">
           <LangSwitcher className="md:hidden" />
-          <Button
-            variant="ghost"
-            size="icon"
-            onClick={() => setMobileMenuOpen((open) => !open)}
-            aria-label="Toggle menu"
-            aria-expanded={isMobileMenuOpen}
-          >
-            {isMobileMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
-          </Button>
+          <Button variant="ghost" size="icon" onClick={() => setMobileMenuOpen((open) => !open)} aria-label="Toggle menu" aria-expanded={isMobileMenuOpen}>{isMobileMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}</Button>
         </div>
       </div>
 
-      {isMobileMenuOpen && (
+      {isMobileMenuOpen ? (
         <div className="absolute left-0 right-0 top-full border-t border-white/[.07] bg-[#050505]/98 px-4 pb-5 pt-2 shadow-2xl backdrop-blur-2xl xl:hidden">
           <div className="container mx-auto flex flex-col gap-1 px-0">
-            {navItems.map((item) => (
-              <a
-                key={item.title}
-                href={item.href}
-                onClick={(e) => handleNavClick(e, item)}
-                className="rounded-xl border-b border-white/[.05] px-3 py-3 text-base font-medium text-zinc-200 last:border-0 hover:bg-white/[.04] hover:text-white"
-              >
-                {item.title}
-              </a>
-            ))}
-            <div className="mt-2 border-t border-white/[.07] pt-4">
-              <a href={SITE.calcom} target="_blank" rel="noopener noreferrer">
-                <Button className="premium-button min-h-11 w-full">
-                  <Calendar className="mr-2 h-4 w-4" />
-                  {t.cta.bookCall}
-                </Button>
-              </a>
-            </div>
+            {navItems.map((item) => <a key={item.title} href={item.href} onClick={(event) => handleNavClick(event, item)} className="rounded-xl border-b border-white/[.05] px-3 py-3 text-base font-medium text-zinc-200 last:border-0 hover:bg-white/[.04] hover:text-white">{item.title}</a>)}
+            <div className="mt-2 border-t border-white/[.07] pt-4"><a href={SITE.calcom} target="_blank" rel="noopener noreferrer"><Button className="premium-button min-h-11 w-full"><Calendar className="mr-2 h-4 w-4" />{t.cta.bookCall}</Button></a></div>
           </div>
         </div>
-      )}
+      ) : null}
     </header>
   );
 }
