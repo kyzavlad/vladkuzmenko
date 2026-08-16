@@ -1,59 +1,59 @@
 "use client";
 
 import { motion, useReducedMotion } from "framer-motion";
-import { ArrowDown, ArrowRight, Dumbbell, Layers, ScanSearch, Shield } from "lucide-react";
-import type { LucideIcon } from "lucide-react";
+import { ArrowDown, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useI18n } from "@/components/i18n-provider";
+import { EcosystemCore } from "@/components/home/EcosystemCore";
 import { track } from "@/lib/analytics";
 import { langHref, type Lang } from "@/lib/i18n";
-import { DIRECTION_ORDER, getDirections, type DirectionKey } from "@/lib/directions";
+import { getDirections, type DirectionKey } from "@/lib/directions";
 
-const ICONS: Record<DirectionKey, LucideIcon> = {
-  business: Layers,
-  visibility: ScanSearch,
-  warriors: Shield,
-  performance: Dumbbell,
-};
-
-const COPY: Record<Lang, {
-  eyebrow: string;
-  titleA: string;
-  titleB: string;
-  desc: string;
-  primary: string;
-  secondary: string;
-  railLabel: string;
-}> = {
+const COPY: Record<
+  Lang,
+  {
+    eyebrow: string;
+    line1: string;
+    line2: string;
+    line3: string;
+    desc: string;
+    primary: string;
+    secondary: string;
+    transition: string;
+  }
+> = {
   en: {
     eyebrow: "Vlad Kuzmenko · Ecosystem",
-    titleA: "An ecosystem for people who ",
-    titleB: "build",
+    line1: "Systems for business.",
+    line2: "Products for people.",
+    line3: "An environment for growth.",
     desc:
-      "Growth systems for business, software that shows where a website loses people, a private network of operators, and products for staying in shape. Four directions — each with one clear next step.",
-    primary: "Explore the directions",
-    secondary: "See real work",
-    railLabel: "Four directions",
+      "Four independent directions — Client Growth Systems, VisibilityOS, Warriors Team and Performance — connected by one standard: less friction, a clearer next step and stronger execution.",
+    primary: "Explore the ecosystem",
+    secondary: "View real work",
+    transition: "Four directions · one operating standard",
   },
   ua: {
     eyebrow: "Vlad Kuzmenko · Екосистема",
-    titleA: "Екосистема для тих, хто ",
-    titleB: "будує",
+    line1: "Системи для бізнесу.",
+    line2: "Продукти для людей.",
+    line3: "Середовище для зростання.",
     desc:
-      "Системи росту для бізнесу, софт, який показує, де сайт втрачає людей, закрита мережа тих, хто вже будує, і продукти для форми. Чотири напрями — у кожного один зрозумілий наступний крок.",
-    primary: "Обрати напрям",
+      "Чотири самостійні напрями — Client Growth Systems, VisibilityOS, Warriors Team і Performance — поєднані одним стандартом: менше тертя, зрозуміліший наступний крок і вища якість виконання.",
+    primary: "Відкрити екосистему",
     secondary: "Подивитися роботи",
-    railLabel: "Чотири напрями",
+    transition: "Чотири напрями · один стандарт виконання",
   },
   ru: {
     eyebrow: "Vlad Kuzmenko · Экосистема",
-    titleA: "Экосистема для тех, кто ",
-    titleB: "строит",
+    line1: "Системы для бизнеса.",
+    line2: "Продукты для людей.",
+    line3: "Среда для роста.",
     desc:
-      "Системы роста для бизнеса, софт, который показывает, где сайт теряет людей, закрытая среда тех, кто уже строит, и продукты для формы. Четыре направления — у каждого один понятный следующий шаг.",
-    primary: "Выбрать направление",
+      "Четыре самостоятельных направления — Client Growth Systems, VisibilityOS, Warriors Team и Performance — объединены одним стандартом: меньше трения, яснее следующий шаг и выше качество исполнения.",
+    primary: "Открыть экосистему",
     secondary: "Посмотреть работы",
-    railLabel: "Четыре направления",
+    transition: "Четыре направления · один стандарт исполнения",
   },
 };
 
@@ -70,7 +70,7 @@ export function Hero() {
   const base = langHref(lang);
   const prefix = base === "/" ? "" : base;
 
-  const href: Record<DirectionKey, string> = {
+  const hrefs: Record<DirectionKey, string> = {
     business: "#client-systems",
     visibility: `${prefix}/visibilityos`,
     warriors: `${prefix}/warriors-team`,
@@ -78,125 +78,119 @@ export function Hero() {
   };
 
   return (
-    <section id="top" className="relative flex min-h-[96vh] items-center overflow-hidden bg-black pt-24 sm:pt-20">
-      <div className="pointer-events-none absolute inset-0">
-        <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,.03)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,.03)_1px,transparent_1px)] bg-[size:72px_72px] [mask-image:radial-gradient(ellipse_at_center,black_8%,transparent_70%)]" />
-        <motion.div
-          animate={reduced ? undefined : { opacity: [.55, .9, .55], scale: [1, 1.06, 1] }}
-          transition={reduced ? undefined : { duration: 12, repeat: Infinity, ease: "easeInOut" }}
-          className="absolute left-1/2 top-[26%] h-[520px] w-[760px] -translate-x-1/2 rounded-full bg-amber-300/[.10] opacity-70 blur-[170px]"
-        />
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_50%_42%,transparent_0%,rgba(0,0,0,.24)_44%,rgba(0,0,0,.95)_84%)]" />
+    <section
+      id="top"
+      className="relative flex min-h-[100svh] items-center overflow-hidden bg-black !py-0 lg:min-h-[900px]"
+    >
+      <div className="pointer-events-none absolute inset-0" aria-hidden="true">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_18%_28%,rgba(212,175,55,.09),transparent_31%),radial-gradient(circle_at_82%_44%,rgba(255,255,255,.035),transparent_32%),linear-gradient(180deg,#030303_0%,#000_58%,#020202_100%)]" />
+        <div className="absolute inset-0 opacity-[.42] [background-image:linear-gradient(rgba(255,255,255,.028)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,.028)_1px,transparent_1px)] [background-size:72px_72px] [mask-image:radial-gradient(ellipse_at_52%_46%,black_8%,transparent_76%)]" />
+        <div className="absolute inset-x-0 bottom-0 h-44 bg-gradient-to-b from-transparent via-black/80 to-black" />
       </div>
 
-      <div className="container relative z-10 mx-auto px-5 py-12 sm:px-6 lg:py-14">
-        <div className="mx-auto flex max-w-4xl flex-col items-center text-center">
-          <motion.img
-            initial={{ opacity: 0, y: 18, scale: .97 }}
-            animate={{ opacity: 1, y: 0, scale: 1 }}
-            transition={{ duration: .9, ease: [0.16, 1, 0.3, 1] }}
-            src="/brand/vlad-kuzmenko-logo-gold.png"
-            alt="Vlad Kuzmenko"
-            className="h-auto w-[250px] select-none drop-shadow-[0_16px_60px_rgba(212,175,55,.22)] sm:w-[330px] lg:w-[400px]"
-          />
+      <div className="container relative z-10 mx-auto px-5 py-24 sm:px-6 sm:py-24 lg:py-20">
+        <div className="grid items-center gap-8 lg:grid-cols-[minmax(0,.9fr)_minmax(520px,1.1fr)] lg:gap-6 xl:gap-10">
+          <div className="relative z-20 max-w-[690px] pt-2 lg:pt-0">
+            <motion.img
+              initial={reduced ? false : { opacity: 0, y: 18, scale: 0.98 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
+              src="/brand/vlad-kuzmenko-logo-gold.png"
+              alt="Vlad Kuzmenko"
+              className="h-auto w-[270px] select-none drop-shadow-[0_18px_54px_rgba(212,175,55,.17)] sm:w-[330px] lg:w-[365px]"
+            />
 
-          <motion.div
-            initial={{ opacity: 0, y: 16 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: .7, delay: .14, ease: [0.16, 1, 0.3, 1] }}
-            className="flex w-full flex-col items-center"
-          >
-            <div className="mt-7 inline-flex items-center gap-2.5 rounded-full border border-amber-300/18 bg-amber-300/[.045] px-4 py-1.5 backdrop-blur-sm">
-              <span className="h-1 w-1 rounded-full bg-amber-300/80" />
-              <span className="text-[10px] font-semibold uppercase tracking-[.24em] text-amber-200/85 sm:text-[11px]">
-                {x.eyebrow}
-              </span>
-            </div>
+            <motion.div
+              initial={reduced ? false : { opacity: 0, y: 18 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.72, delay: reduced ? 0 : 0.12, ease: [0.16, 1, 0.3, 1] }}
+            >
+              <div className="mt-7 inline-flex items-center gap-2.5 rounded-full border border-amber-200/[.16] bg-white/[.025] px-4 py-1.5 shadow-[inset_0_1px_0_rgba(255,255,255,.045)] backdrop-blur-xl">
+                <span className="h-1.5 w-1.5 rounded-full bg-amber-300 shadow-[0_0_14px_rgba(252,211,77,.72)]" />
+                <span className="text-[10px] font-semibold uppercase tracking-[.24em] text-amber-100/80 sm:text-[11px]">
+                  {x.eyebrow}
+                </span>
+              </div>
 
-            <h1 className="section-title mt-6 max-w-3xl text-[2.35rem] text-white sm:text-[54px] lg:text-[64px]">
-              {x.titleA}
-              <span className="gradient-gold-text italic">{x.titleB}</span>
-            </h1>
+              <h1 className="mt-7 max-w-[690px] text-[2.55rem] font-semibold leading-[.98] tracking-[-.045em] text-white sm:text-[3.6rem] lg:text-[4.35rem] xl:text-[4.65rem]">
+                <span className="block">{x.line1}</span>
+                <span className="mt-2 block text-zinc-200">{x.line2}</span>
+                <span className="font-display mt-2 block bg-gradient-to-r from-[#f8dc73] via-[#d9ab21] to-[#8b6508] bg-clip-text pb-1 pr-3 text-transparent italic">
+                  {x.line3}
+                </span>
+              </h1>
 
-            <p className="section-lead mt-6 max-w-2xl text-[15px] leading-7 text-zinc-400 sm:text-[17px] sm:leading-8">
-              {x.desc}
-            </p>
-          </motion.div>
+              <p className="section-lead mt-7 max-w-xl text-[14px] leading-7 text-zinc-400 sm:text-[16px] sm:leading-8">
+                {x.desc}
+              </p>
 
-          {/* The four directions, introduced in the hero and expanded below. */}
-          <motion.div
-            initial={{ opacity: 0, y: 18 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: .7, delay: .3, ease: [0.16, 1, 0.3, 1] }}
-            className="mt-9 w-full"
-          >
-            <div className="flex items-center gap-4">
-              <span className="h-px flex-1 bg-gradient-to-r from-transparent to-amber-300/25" />
-              <span className="shrink-0 text-[9px] font-semibold uppercase tracking-[.26em] text-zinc-600 sm:text-[10px]">
-                {x.railLabel}
-              </span>
-              <span className="h-px flex-1 bg-gradient-to-l from-transparent to-amber-300/25" />
-            </div>
+              <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+                <Button
+                  size="lg"
+                  onClick={() => {
+                    track("hero_primary", { target: "ecosystem" });
+                    scrollTo("ecosystem");
+                  }}
+                  className="premium-button h-auto min-h-12 rounded-xl px-7 py-3.5 text-[15px]"
+                >
+                  {x.primary}
+                  <ArrowDown className="ml-2 h-4 w-4" />
+                </Button>
 
-            <div className="mt-5 grid grid-cols-2 gap-2.5 sm:gap-3 lg:grid-cols-4">
-              {DIRECTION_ORDER.map((key, index) => {
-                const Icon = ICONS[key];
-                const item = directions[key];
-                return (
-                  <motion.a
-                    key={key}
-                    href={href[key]}
-                    onClick={() => track("hero_direction_open", { direction: key })}
-                    initial={{ opacity: 0, y: 12 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: .5, delay: .38 + index * .07 }}
-                    whileHover={{ y: -3 }}
-                    className="group/pill flex min-h-[64px] items-center gap-3 rounded-2xl border border-white/[.09] bg-white/[.028] px-3.5 py-3 text-left backdrop-blur-sm transition-colors hover:border-amber-300/28 hover:bg-white/[.05] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-300/50 sm:px-4"
+                <Button
+                  asChild
+                  size="lg"
+                  variant="outline"
+                  className="h-auto min-h-12 rounded-xl border-white/[.13] bg-white/[.025] px-7 py-3.5 text-[15px] text-white shadow-[inset_0_1px_0_rgba(255,255,255,.045)] backdrop-blur-xl hover:border-white/25 hover:bg-white/[.06]"
+                >
+                  <a
+                    href={`${prefix}/work`}
+                    onClick={() => track("hero_view_work", { target: "work" })}
                   >
-                    <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-xl border border-white/[.1] bg-black/40 text-amber-200/85 transition-colors group-hover/pill:border-amber-300/30">
-                      <Icon className="h-[15px] w-[15px]" />
-                    </span>
-                    <span className="min-w-0 text-[12px] font-semibold leading-4 text-zinc-300 transition-colors group-hover/pill:text-white sm:text-[13px]">
-                      {item.short}
-                    </span>
-                  </motion.a>
-                );
-              })}
-            </div>
-          </motion.div>
+                    {x.secondary}
+                    <ArrowRight className="ml-2 h-4 w-4" />
+                  </a>
+                </Button>
+              </div>
+            </motion.div>
+          </div>
 
           <motion.div
-            initial={{ opacity: 0, y: 14 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: .6, delay: .52 }}
-            className="mt-8 flex w-full flex-col justify-center gap-3 sm:w-auto sm:flex-row"
+            initial={reduced ? false : { opacity: 0, x: 28, scale: 0.97 }}
+            animate={{ opacity: 1, x: 0, scale: 1 }}
+            transition={{ duration: 1, delay: reduced ? 0 : 0.18, ease: [0.16, 1, 0.3, 1] }}
+            className="relative z-10 -mx-3 sm:mx-0 lg:-mr-8 xl:-mr-12"
           >
-            <Button
-              size="lg"
-              onClick={() => {
-                track("hero_primary", { target: "ecosystem" });
-                scrollTo("ecosystem");
-              }}
-              className="premium-button h-auto min-h-12 px-7 py-3 text-base"
-            >
-              {x.primary}
-              <ArrowDown className="ml-2 h-4 w-4" />
-            </Button>
-            <Button
-              size="lg"
-              variant="outline"
-              onClick={() => {
-                track("hero_view_work", { target: "selected-work" });
-                scrollTo("selected-work");
-              }}
-              className="h-auto min-h-12 border-white/15 bg-white/[.025] px-7 py-3 text-base text-white hover:border-white/25 hover:bg-white/[.06]"
-            >
-              {x.secondary}
-              <ArrowRight className="ml-2 h-4 w-4" />
-            </Button>
+            <EcosystemCore
+              directions={directions}
+              hrefs={hrefs}
+              onDirectionOpen={(direction) =>
+                track("hero_direction_open", { direction })
+              }
+            />
           </motion.div>
         </div>
       </div>
+
+      <motion.button
+        type="button"
+        onClick={() => scrollTo("ecosystem")}
+        initial={reduced ? false : { opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.7, delay: reduced ? 0 : 0.72 }}
+        className="group absolute bottom-5 left-1/2 z-20 hidden -translate-x-1/2 items-center gap-4 text-[9px] font-semibold uppercase tracking-[.28em] text-zinc-600 transition-colors hover:text-zinc-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-300/50 sm:flex"
+        aria-label={x.primary}
+      >
+        <span className="h-px w-20 bg-gradient-to-r from-transparent to-amber-300/25" />
+        <span>{x.transition}</span>
+        <span className="relative h-px w-20 overflow-hidden bg-white/[.07]">
+          <motion.span
+            className="absolute inset-y-0 left-0 w-8 bg-gradient-to-r from-transparent via-amber-200/80 to-transparent"
+            animate={reduced ? undefined : { x: [-36, 86] }}
+            transition={reduced ? undefined : { duration: 2.8, repeat: Infinity, ease: "easeInOut", repeatDelay: 0.8 }}
+          />
+        </span>
+      </motion.button>
     </section>
   );
 }
