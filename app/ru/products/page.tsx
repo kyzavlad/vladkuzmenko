@@ -1,5 +1,11 @@
-import { redirect } from "next/navigation";
+import type { Metadata } from "next";
+import { LegacyRedirect } from "@/components/ui/legacy-redirect";
+
+export const metadata: Metadata = {
+  robots: { index: false, follow: true },
+  alternates: { canonical: "/ru/visibilityos" },
+};
 
 export default function Page() {
-  redirect("/ru/visibilityos");
+  return <LegacyRedirect href="/ru/visibilityos" />;
 }
