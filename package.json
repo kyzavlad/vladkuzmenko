@@ -7,7 +7,7 @@
   },
   "scripts": {
     "dev": "next dev",
-    "build": "next build && node scripts/set-locale-lang.mjs && cp -r out out_deploy",
+    "build": "next build",
     "start": "next start",
     "lint": "next lint"
   },

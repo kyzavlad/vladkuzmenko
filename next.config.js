@@ -1,6 +1,5 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  output: 'export',
   eslint: {
     ignoreDuringBuilds: true,
   },
@@ -14,7 +13,7 @@ const nextConfig = {
     loaderFile: './image-loader.js'
   },
   webpack: (config) => {
-    config.resolve.fallback = { 
+    config.resolve.fallback = {
       ...config.resolve.fallback,
       fs: false,
       module: false,

@@ -1,6 +1,7 @@
 import "./globals.css";
 import type { Metadata, Viewport } from "next";
 import type { ReactNode } from "react";
+import { headers } from "next/headers";
 import { Manrope, Playfair_Display } from "next/font/google";
 import { AppShell } from "@/components/app-shell";
 import { SITE } from "@/lib/site";
@@ -25,8 +26,6 @@ const display = Playfair_Display({
 const TITLE = "Vlad Kuzmenko — Growth Systems for Attention, Leads & Sales";
 const DESCRIPTION =
   "Vlad Kuzmenko builds growth systems for business: content and distribution that earn qualified attention, and web, AI automation and sales operations that turn it into leads, bookings and deals.";
-// Share images are written out as absolute production URLs so a card never
-// resolves against a deployment preview host.
 const SHARE_IMAGE = `${SITE.url}/og-banner.png`;
 
 export const metadata: Metadata = {
@@ -117,10 +116,6 @@ const jsonLd = {
       ],
     },
     {
-      // Language-neutral site node. The site is trilingual, so it declares all
-      // three languages rather than claiming English on /ua and /ru. The
-      // localized description lives on the per-locale WebPage node, which is
-      // emitted by each home route and points back at this @id.
       "@type": "WebSite",
       "@id": `${SITE.url}/#website`,
       url: SITE.url,
@@ -143,8 +138,10 @@ const jsonLd = {
 };
 
 export default function RootLayout({ children }: { children: ReactNode }) {
+  const lang = headers().get("x-site-lang") || "en";
+
   return (
-    <html lang="en" className={`dark ${sans.variable} ${display.variable}`}>
+    <html lang={lang} className={`dark ${sans.variable} ${display.variable}`}>
       <body suppressHydrationWarning>
         <AppShell>{children}</AppShell>
         <script
