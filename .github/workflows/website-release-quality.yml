@@ -56,6 +56,7 @@ jobs:
             components/pages/VisibilityOsPage.tsx \
             components/pages/VisibilityOsPremiumPage.tsx \
             components/pages/VisibilityOsMarketPage.tsx \
+            components/pages/VisibilityOsIntentBridge.tsx \
             components/pages/WarriorsTeamPage.tsx \
             components/pages/DropPage.tsx \
             lib/directions.ts \
