@@ -1,15 +1,18 @@
 import { I18nProvider } from "@/components/i18n-provider";
-import { VisibilityOsPremiumPage } from "@/components/pages/VisibilityOsPremiumPage";
-import { getDict } from "@/lib/i18n";
+import { VisibilityOsMarketPage } from "@/components/pages/VisibilityOsMarketPage";
 import { pageMeta } from "@/lib/page-meta";
 
-const d = getDict("en");
-export const metadata = pageMeta("en", "visibilityos", d.meta.visibilityTitle, d.meta.visibilityDesc);
+export const metadata = pageMeta(
+  "en",
+  "visibilityos",
+  "VisibilityOS — Website, Local SEO & Conversion Visibility Map",
+  "Scan a public website in its real service and location context. Map crawl, SEO, local relevance, trust and conversion signals, compare competitors and get a prioritized Growth Queue."
+);
 
 export default function Page() {
   return (
     <I18nProvider lang="en">
-      <VisibilityOsPremiumPage />
+      <VisibilityOsMarketPage />
     </I18nProvider>
   );
 }

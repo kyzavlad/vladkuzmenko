@@ -10,7 +10,9 @@ const WEBHOOK_URL =
 export const SITE = {
   name: "Vlad Kuzmenko",
   domain: "vladkuzmenko.com",
-  url: "https://vladkuzmenko.com",
+  // Vercel's production routing resolves the canonical public site on www.
+  // Keep one absolute host for metadata, structured data and share assets.
+  url: "https://www.vladkuzmenko.com",
   email: "ai@vladkuzmenko.com",
   calcom: "https://cal.com/vladkuzmenko.com/call",
   webhook: WEBHOOK_URL,

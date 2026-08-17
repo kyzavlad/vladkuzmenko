@@ -1,15 +1,18 @@
 import { I18nProvider } from "@/components/i18n-provider";
-import { VisibilityOsPremiumPage } from "@/components/pages/VisibilityOsPremiumPage";
-import { getDict } from "@/lib/i18n";
+import { VisibilityOsMarketPage } from "@/components/pages/VisibilityOsMarketPage";
 import { pageMeta } from "@/lib/page-meta";
 
-const d = getDict("ru");
-export const metadata = pageMeta("ru", "visibilityos", d.meta.visibilityTitle, d.meta.visibilityDesc);
+export const metadata = pageMeta(
+  "ru",
+  "visibilityos",
+  "VisibilityOS — карта видимости сайта, Local SEO и конверсии",
+  "Просканируйте публичный сайт в контексте реальной услуги и географии. Проверьте crawl, SEO, local relevance, trust и conversion сигналы, сравните конкурентов и получите Growth Queue."
+);
 
 export default function Page() {
   return (
     <I18nProvider lang="ru">
-      <VisibilityOsPremiumPage />
+      <VisibilityOsMarketPage />
     </I18nProvider>
   );
 }

@@ -1,14 +1,15 @@
 import type { MetadataRoute } from "next";
 import { CURATED_CASE_SLUGS } from "@/lib/portfolio-curated";
+import { SITE } from "@/lib/site";
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const baseUrl = "https://vladkuzmenko.com";
+  const baseUrl = SITE.url;
   const lastModified = new Date();
   const prefixes = ["", "/ua", "/ru"];
   const pages: { slug: string; priority: number; freq: "weekly" | "monthly" }[] = [
     { slug: "", priority: 1, freq: "weekly" },
     { slug: "growth-systems", priority: 0.9, freq: "monthly" },
-    { slug: "visibilityos", priority: 0.8, freq: "monthly" },
+    { slug: "visibilityos", priority: 0.95, freq: "weekly" },
     { slug: "warriors-team", priority: 0.8, freq: "monthly" },
     { slug: "drop", priority: 0.7, freq: "monthly" },
     { slug: "auto-dealers", priority: 0.7, freq: "monthly" },
