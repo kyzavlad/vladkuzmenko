@@ -49,6 +49,7 @@ jobs:
             components/FooterSection.tsx \
             components/business/BusinessPortfolioSection.tsx \
             components/ui/header.tsx \
+            components/ui/page-depth-section.tsx \
             components/ui/legacy-redirect.tsx \
             components/ui/direction-page-hero.tsx \
             components/pages/VisibilityOsPage.tsx \
@@ -56,6 +57,7 @@ jobs:
             components/pages/DropPage.tsx \
             lib/directions.ts \
             lib/portfolio-curated.ts \
+            lib/portfolio-schema.ts \
             app/not-found.tsx \
             app/sitemap.ts
 

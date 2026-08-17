@@ -23,6 +23,24 @@
   box-shadow: 0 28px 90px rgba(0, 0, 0, 0.24);
 }
 
+/* Legacy capability pages remain as noindex redirects for old links only.
+ * They are intentionally removed from the current business journey. */
+.shell :global(main a[href$="/ai-systems"]),
+.shell :global(main a[href$="/work"]) {
+  display: none;
+}
+
+/* The capability grid contains two current deep-dive destinations after the
+ * legacy links above are removed. Keep the composition intentional on desktop. */
+@media (min-width: 1024px) {
+  .shell :global(main div.grid:has(> a[href$="/ai-systems"])) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    max-width: 880px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
+
 @media (max-width: 768px) {
   .shell :global(main > section:not(:first-child) .section-title) {
     letter-spacing: -0.02em;
