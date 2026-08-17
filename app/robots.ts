@@ -1,5 +1,6 @@
 import type { MetadataRoute } from "next";
-import { SITE } from "@/lib/site";
+
+const PRODUCTION_ORIGIN = "https://www.vladkuzmenko.com";
 
 export default function robots(): MetadataRoute.Robots {
   return {
@@ -8,7 +9,7 @@ export default function robots(): MetadataRoute.Robots {
       allow: "/",
       disallow: ["/api/"],
     },
-    sitemap: `${SITE.url}/sitemap.xml`,
-    host: SITE.url,
+    sitemap: `${PRODUCTION_ORIGIN}/sitemap.xml`,
+    host: PRODUCTION_ORIGIN,
   };
 }
