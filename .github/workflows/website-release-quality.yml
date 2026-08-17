@@ -4,7 +4,7 @@ on:
   push:
     branches:
       - main
-      - site-finish-20260816
+      - "site-finish-*"
   pull_request:
     branches:
       - main
@@ -47,12 +47,15 @@ jobs:
             components/home/HomeContent.tsx \
             components/home/ContactSection.tsx \
             components/FooterSection.tsx \
+            components/business/BusinessPortfolioSection.tsx \
+            components/ui/header.tsx \
             components/ui/legacy-redirect.tsx \
             components/ui/direction-page-hero.tsx \
             components/pages/VisibilityOsPage.tsx \
             components/pages/WarriorsTeamPage.tsx \
             components/pages/DropPage.tsx \
             lib/directions.ts \
+            lib/portfolio-curated.ts \
             app/not-found.tsx \
             app/sitemap.ts
 
