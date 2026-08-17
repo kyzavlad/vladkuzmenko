@@ -55,6 +55,7 @@ jobs:
             components/ui/direction-page-hero.tsx \
             components/pages/VisibilityOsPage.tsx \
             components/pages/VisibilityOsPremiumPage.tsx \
+            components/pages/VisibilityOsMarketPage.tsx \
             components/pages/WarriorsTeamPage.tsx \
             components/pages/DropPage.tsx \
             lib/directions.ts \
@@ -62,10 +63,14 @@ jobs:
             lib/portfolio-schema.ts \
             lib/visibilityos-scan.ts \
             app/api/visibilityos/scan/route.ts \
+            app/visibilityos/page.tsx \
+            app/ua/visibilityos/page.tsx \
+            app/ru/visibilityos/page.tsx \
             app/layout.tsx \
+            app/robots.ts \
+            app/sitemap.ts \
             middleware.ts \
-            app/not-found.tsx \
-            app/sitemap.ts
+            app/not-found.tsx
 
       - name: Typecheck with known-debt guard
         shell: bash
@@ -100,6 +105,9 @@ jobs:
           test -f .next/BUILD_ID
           test -f .next/server/app-paths-manifest.json
           grep -q 'api/visibilityos/scan' .next/server/app-paths-manifest.json
+          grep -q 'visibilityos' .next/server/app-paths-manifest.json
+          grep -q 'robots.txt' .next/server/app-paths-manifest.json
+          grep -q 'sitemap.xml' .next/server/app-paths-manifest.json
           test -f .next/server/middleware-manifest.json
 
       - name: Reject retired positioning on changed release surfaces
@@ -111,6 +119,7 @@ jobs:
             components/home/EcosystemNavigator.tsx
             components/home/VisibilitySection.tsx
             components/pages/VisibilityOsPremiumPage.tsx
+            components/pages/VisibilityOsMarketPage.tsx
           )
           if grep -E "Собственные продукты, а не клиентские проекты|Власні продукти, а не клієнтські проєкти|AI-системы для бизнеса|AI-системи для бізнесу" "${files[@]}"; then
             echo "Retired positioning leaked into a current release surface."
