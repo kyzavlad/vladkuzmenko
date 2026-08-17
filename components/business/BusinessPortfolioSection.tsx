@@ -1,7 +1,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import { ArrowRight, ExternalLink, Layers3, ShieldCheck } from "lucide-react";
+import { ArrowRight, AudioLines, ExternalLink, Layers3, ShieldCheck } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useI18n } from "@/components/i18n-provider";
 import { cn } from "@/lib/utils";
@@ -25,6 +25,8 @@ const COPY: Record<Lang, {
   open: string;
   live: string;
   noVisual: string;
+  audioProof: string;
+  audioHint: string;
 }> = {
   en: {
     eyebrow: "Selected & complete work",
@@ -39,6 +41,8 @@ const COPY: Record<Lang, {
     open: "Open project",
     live: "Open live site",
     noVisual: "Project without a public visual preview",
+    audioProof: "Real voice demo",
+    audioHint: "Play the actual assistant conversation. This audio is the proof asset for the project, so it takes the place of a decorative screenshot.",
   },
   ua: {
     eyebrow: "Вибрані та всі роботи",
@@ -53,6 +57,8 @@ const COPY: Record<Lang, {
     open: "Відкрити проєкт",
     live: "Відкрити живий сайт",
     noVisual: "Проєкт без публічного візуального прев’ю",
+    audioProof: "Реальне голосове демо",
+    audioHint: "Увімкніть реальний діалог асистента. Для цього проєкту аудіо є доказом роботи, тому воно займає місце декоративного скриншота.",
   },
   ru: {
     eyebrow: "Избранные и все работы",
@@ -67,6 +73,8 @@ const COPY: Record<Lang, {
     open: "Открыть проект",
     live: "Открыть живой сайт",
     noVisual: "Проект без публичного визуального превью",
+    audioProof: "Реальное голосовое демо",
+    audioHint: "Включите реальный диалог ассистента. Для этого проекта аудио и есть доказательство работы, поэтому оно занимает место декоративного скриншота.",
   },
 };
 
@@ -90,6 +98,7 @@ function ProjectCard({ project, lang, index }: { project: ShowcaseProject; lang:
   const localeBase = base === "/" ? "" : base;
   const href = project.caseSlug ? `${localeBase}/work/${project.caseSlug}` : undefined;
   const shot = project.shots[0];
+  const audioAsPrimaryProof = Boolean(project.audio && !shot);
 
   return (
     <article className="group overflow-hidden rounded-[28px] border border-white/[.085] bg-[linear-gradient(145deg,rgba(255,255,255,.032),rgba(255,255,255,.009))] transition duration-300 hover:-translate-y-0.5 hover:border-amber-300/20">
@@ -100,6 +109,27 @@ function ProjectCard({ project, lang, index }: { project: ShowcaseProject; lang:
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img src={shot} alt={`${c.name} — ${c.caption ?? c.type}`} loading={index < 2 ? "eager" : "lazy"} decoding="async" className="max-h-full w-full object-contain object-top transition duration-500 group-hover:scale-[1.008]" />
             </a>
+          ) : audioAsPrimaryProof ? (
+            <div className="absolute inset-0 flex items-center justify-center overflow-hidden bg-[radial-gradient(circle_at_50%_15%,rgba(245,190,52,.13),transparent_40%),linear-gradient(145deg,#090805,#040404_58%,#020202)] p-6 sm:p-8">
+              <div aria-hidden="true" className="absolute inset-0 opacity-30 [background-image:linear-gradient(rgba(255,255,255,.025)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,.025)_1px,transparent_1px)] [background-size:34px_34px] [mask-image:radial-gradient(ellipse_at_center,black_5%,transparent_78%)]" />
+              <div className="relative w-full max-w-md rounded-[26px] border border-amber-300/[.16] bg-black/55 p-5 shadow-[0_24px_80px_rgba(0,0,0,.45)] sm:p-6">
+                <div className="flex items-center justify-between gap-4">
+                  <div className="flex items-center gap-3">
+                    <span className="flex h-11 w-11 items-center justify-center rounded-2xl border border-amber-300/20 bg-amber-300/[.06] text-amber-200"><AudioLines className="h-5 w-5" /></span>
+                    <div><p className="text-[10px] font-semibold uppercase tracking-[.18em] text-amber-300/65">{x.audioProof}</p><p className="mt-1 text-sm font-semibold text-zinc-100">{c.name}</p></div>
+                  </div>
+                  <span className="h-2 w-2 rounded-full bg-amber-300 shadow-[0_0_18px_rgba(245,190,52,.55)]" />
+                </div>
+                <p className="mt-5 text-sm leading-7 text-zinc-500">{x.audioHint}</p>
+                <div className="mt-5 rounded-2xl border border-white/[.08] bg-white/[.035] p-3">
+                  {/* eslint-disable-next-line jsx-a11y/media-has-caption */}
+                  <audio controls preload="metadata" src={project.audio} className="w-full" />
+                </div>
+                <div className="mt-5 flex items-end gap-1" aria-hidden="true">
+                  {[20, 34, 24, 46, 31, 52, 27, 42, 22, 48, 30, 38, 26, 45, 21, 34].map((height, waveIndex) => <span key={waveIndex} className="w-full max-w-2 rounded-full bg-gradient-to-t from-amber-500/25 to-amber-200/65" style={{ height }} />)}
+                </div>
+              </div>
+            </div>
           ) : (
             <div className="absolute inset-0 flex items-center justify-center bg-[radial-gradient(circle_at_30%_10%,rgba(245,190,52,.1),transparent_45%),#050505] p-8 text-center">
               <div><Layers3 className="mx-auto h-7 w-7 text-amber-300/60" /><p className="mt-4 text-sm text-zinc-500">{x.noVisual}</p></div>
@@ -127,7 +157,7 @@ function ProjectCard({ project, lang, index }: { project: ShowcaseProject; lang:
 
           <div className="mt-5 border-t border-white/[.07] pt-4"><p className="text-[10px] font-bold uppercase tracking-[.17em] text-zinc-600">{x.capabilities}</p><div className="mt-3 flex flex-wrap gap-2">{c.capabilities.slice(0, 6).map((cap) => <span key={cap} className="rounded-full border border-white/[.08] bg-white/[.025] px-3 py-1.5 text-[11px] text-zinc-400">{cap}</span>)}</div></div>
 
-          {project.audio && <div className="mt-5 rounded-2xl border border-white/[.07] bg-black/30 p-3">{/* eslint-disable-next-line jsx-a11y/media-has-caption */}<audio controls preload="metadata" src={project.audio} className="w-full" /></div>}
+          {project.audio && shot && <div className="mt-5 rounded-2xl border border-white/[.07] bg-black/30 p-3">{/* eslint-disable-next-line jsx-a11y/media-has-caption */}<audio controls preload="metadata" src={project.audio} className="w-full" /></div>}
 
           <div className="mt-5 flex flex-col gap-2.5 border-t border-white/[.07] pt-5 sm:flex-row">
             {href && <a href={href}><Button className="premium-button min-h-11 w-full px-6 sm:w-auto">{x.open}<ArrowRight className="ml-2 h-4 w-4" /></Button></a>}

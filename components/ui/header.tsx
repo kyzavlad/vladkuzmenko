@@ -27,9 +27,9 @@ const NAV_COPY: Record<Lang, {
   performance: string;
   about: string;
 }> = {
-  en: { business: "For business", work: "Work", visibility: "VisibilityOS", warriors: "Warriors", performance: "Performance", about: "About" },
-  ua: { business: "Для бізнесу", work: "Роботи", visibility: "VisibilityOS", warriors: "Warriors", performance: "Performance", about: "Про мене" },
-  ru: { business: "Для бизнеса", work: "Работы", visibility: "VisibilityOS", warriors: "Warriors", performance: "Performance", about: "Обо мне" },
+  en: { business: "Business", work: "Projects", visibility: "VisibilityOS", warriors: "Warriors", performance: "Performance", about: "About" },
+  ua: { business: "Бізнес", work: "Проєкти", visibility: "VisibilityOS", warriors: "Warriors", performance: "Performance", about: "Про мене" },
+  ru: { business: "Бизнес", work: "Проекты", visibility: "VisibilityOS", warriors: "Warriors", performance: "Performance", about: "Обо мне" },
 };
 
 export function Header() {

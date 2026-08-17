@@ -167,6 +167,13 @@ function curate(project: ShowcaseProject): CuratedProject {
   };
 
   switch (project.key) {
+    case "turbotaai":
+      curated = {
+        ...curated,
+        shots: ["/case-studies/turbotaai/home-2026-08-16.webp"],
+        mediaFit: "contain",
+      };
+      break;
     case "tutorivo":
       curated = { ...curated, liveUrl: "https://tutorivo.eu/" };
       break;
