@@ -73,7 +73,6 @@ function isBlockedIpv4(address: string): boolean {
     (a === 172 && b >= 16 && b <= 31) ||
     (a === 192 && b === 0) ||
     (a === 192 && b === 168) ||
-    (a === 192 && b === 0 && parts[2] === 2) ||
     (a === 198 && (b === 18 || b === 19)) ||
     (a === 198 && b === 51 && parts[2] === 100) ||
     (a === 203 && b === 0 && parts[2] === 113) ||
@@ -121,7 +120,7 @@ async function assertPublicHost(url: URL): Promise<void> {
     return;
   }
 
-  let addresses: Awaited<ReturnType<typeof lookup>>;
+  let addresses: Array<{ address: string; family: number }>;
   try {
     addresses = await lookup(hostname, { all: true, verbatim: true });
   } catch {
