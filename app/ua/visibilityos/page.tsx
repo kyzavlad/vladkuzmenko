@@ -1,18 +1,18 @@
 import { I18nProvider } from "@/components/i18n-provider";
-import { VisibilityOsPremiumPage } from "@/components/pages/VisibilityOsPremiumPage";
+import { VisibilityOsMarketPage } from "@/components/pages/VisibilityOsMarketPage";
 import { pageMeta } from "@/lib/page-meta";
 
 export const metadata = pageMeta(
   "ua",
   "visibilityos",
-  "VisibilityOS — живий скан доказів сайту",
-  "Проскануйте публічний сайт за видимими SEO, trust, technical і conversion-path сигналами, отримайте докази та пріоритети й запросіть ручну перевірку там, де потрібне судження."
+  "VisibilityOS — карта видимості сайту, Local SEO та конверсії",
+  "Проскануйте публічний сайт у контексті реальної послуги й географії. Перевірте crawl, SEO, local relevance, trust і conversion сигнали, порівняйте конкурентів та отримайте Growth Queue."
 );
 
 export default function Page() {
   return (
     <I18nProvider lang="ua">
-      <VisibilityOsPremiumPage />
+      <VisibilityOsMarketPage />
     </I18nProvider>
   );
 }
