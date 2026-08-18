@@ -2,10 +2,11 @@
 
 ## Runtime ownership
 
-- **Next.js / Vercel** owns the public product, signed automation API and SaaS application surface.
+- **Next.js / Vercel** owns the public product, monitoring endpoints, signed automation API and SaaS application surface.
 - **Dedicated Supabase project** owns accounts, workspaces, projects, scan history, Growth Queue, events and notification preferences.
 - **Local n8n** is a worker/orchestrator only. It does not own customer state and it does not need an inbound public webhook.
-- The existing `/api/visibilityos/scan` remains the canonical scanner.
+- `/api/visibilityos/scan` remains the canonical full Visibility Map scanner.
+- `/api/visibilityos/health` is the lightweight daily health scanner.
 
 This separation lets the local worker stop or restart without losing product history and avoids exposing the local Mac/n8n instance to inbound internet traffic.
 
@@ -29,13 +30,14 @@ openssl rand -hex 32
 
 ## Database bootstrap
 
-Apply:
+Apply all migrations in order:
 
 ```text
 supabase/migrations/20260818070000_visibilityos_saas_v1.sql
+supabase/migrations/20260818073000_visibilityos_monitoring_modes.sql
 ```
 
-The migration creates:
+The migrations create:
 
 - profiles, workspaces and membership
 - projects and competitors
@@ -46,8 +48,9 @@ The migration creates:
 - notification preferences/deliveries
 - RLS policies for tenant isolation
 - service-role-only automation RPCs
+- separate daily-health and weekly-growth persistence semantics
 
-Do not apply this migration to the existing `dacha-tv-prod` project. VisibilityOS requires its own project/database.
+Do not apply these migrations to the existing `dacha-tv-prod` project. VisibilityOS requires its own project/database.
 
 ## n8n worker
 
@@ -71,16 +74,53 @@ Flow:
 ```text
 Hourly Scheduler
   -> signed /api/visibilityos/automation/jobs
-  -> existing /api/visibilityos/scan
+  -> daily: /api/visibilityos/health
+     weekly: /api/visibilityos/scan
   -> signed /api/visibilityos/automation/callback
-  -> scan history + Growth Queue + events
+  -> daily health history/events OR weekly full history/Growth Queue/events
 ```
 
 No inbound public n8n webhook is required for scheduled monitoring.
 
+## Daily vs weekly monitoring
+
+### Daily health
+
+The daily worker intentionally stays lightweight. It checks:
+
+- homepage availability/status
+- HTTPS
+- canonical
+- page indexability directive
+- `robots.txt` availability
+- security-header coverage
+
+It does not crawl the site map, scan extra pages, compare competitors or refresh the Growth Queue.
+
+Daily runs compare only with the previous successful **daily** run. They can create events such as:
+
+- availability down / recovered
+- canonical changed
+- `robots.txt` lost / recovered
+- indexability regressed / recovered
+- security-header coverage regressed / recovered
+
+### Weekly growth scan
+
+The weekly worker runs the full Visibility Map and can update:
+
+- sampled pages
+- normalized findings
+- pillar/score history
+- competitor context
+- persistent Growth Queue
+- material weekly deltas
+
+Weekly runs compare only with the previous successful **weekly** run. Daily compact results never become a score baseline.
+
 ## Signature contract
 
-Signed requests use:
+Signed automation requests use:
 
 ```text
 x-visibilityos-timestamp: <unix seconds>
@@ -103,16 +143,27 @@ The web app rejects signatures outside a five-minute replay window.
 - Daily failures retry after six hours; weekly failures retry after twelve hours.
 - Successful daily jobs schedule the next daily run one day later.
 - Successful weekly jobs schedule the next weekly run seven days later.
+- A callback is accepted only for the currently claimed job key.
+- Replaying a completed idempotency key returns duplicate and does not create a second run.
 
 ## Material-change events in V1
 
-The first monitoring release emits events only for observable changes:
+The first monitoring release emits events only for observable changes.
+
+Daily examples:
+
+- availability/indexability regressions and recoveries
+- canonical change
+- robots/security drift
+
+Weekly examples:
 
 - baseline created
 - score changed by at least 5 points
 - a finding regressed to `fail`
 - a prior `warn`/`fail` finding recovered to `pass`
-- scheduled scan failed
+
+Both modes can emit `scan.failed` for failed scheduled work.
 
 This intentionally avoids noisy daily reports and avoids inventing rankings, traffic, leads or revenue.
 
@@ -121,7 +172,7 @@ This intentionally avoids noisy daily reports and avoids inventing rankings, tra
 Do not merge/release the SaaS layer until all are verified:
 
 1. Dedicated VisibilityOS Supabase project exists.
-2. Migration applies successfully.
+2. Both migrations apply successfully.
 3. Supabase security and performance advisors are reviewed.
 4. RLS tenant-isolation test passes with two users/workspaces.
 5. Vercel production env contains all three server secrets.
@@ -130,13 +181,15 @@ Do not merge/release the SaaS layer until all are verified:
 8. Invalid/missing signature -> 401.
 9. Stale signature -> 401.
 10. Due job can be claimed only once while leased.
-11. Successful scheduled scan persists history and refreshes Growth Queue.
-12. Replayed callback with the same idempotency key does not duplicate the run/event.
-13. Failed scan does not overwrite the prior successful baseline.
-14. Existing public scanner SSRF rejection remains green.
-15. EN / UA / RU public VisibilityOS routes still render correctly.
-16. GitHub lint/typecheck/build/runtime-route gates pass for the exact commit.
-17. Exact deployed commit and production runtime are verified before calling SaaS live.
+11. Daily job reaches the health endpoint and persists only health history/events.
+12. Weekly job reaches the full scanner and refreshes scan history/Growth Queue.
+13. Replayed callback with the same idempotency key does not duplicate the run/event.
+14. Failed scan does not overwrite the prior successful baseline.
+15. Daily and weekly runs compare only against their own prior successful mode.
+16. Public scanner and health scanner both reject private/localhost targets.
+17. EN / UA / RU public VisibilityOS routes still render correctly.
+18. GitHub lint/typecheck/build/runtime-route gates pass for the exact commit.
+19. Exact deployed commit and production runtime are verified before calling SaaS live.
 
 ## Next product layer
 
