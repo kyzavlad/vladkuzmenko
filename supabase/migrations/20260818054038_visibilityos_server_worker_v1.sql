@@ -1,0 +1,5 @@
+-- Applied server-worker bootstrap.
+-- Supabase migration history: 20260818054038 / visibilityos_server_worker_v1.
+--
+-- Enables pg_cron/pg_net, creates visibilityos_runtime_config and the Vault-backed
+-- scheduler functions used by the VisibilityOS monitor Edge Function.

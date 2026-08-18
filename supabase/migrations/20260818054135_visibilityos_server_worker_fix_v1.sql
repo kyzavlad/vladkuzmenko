@@ -1,0 +1,5 @@
+-- Applied worker bootstrap compatibility fix.
+-- Supabase migration history: 20260818054135 / visibilityos_server_worker_fix_v1.
+--
+-- Resolves gen_random_bytes through the extensions schema before creating the
+-- Vault-backed scheduler secret.

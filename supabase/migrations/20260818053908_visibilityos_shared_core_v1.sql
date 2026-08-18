@@ -1,0 +1,10 @@
+-- Applied to the shared Supabase project qpmktvybhlwbwsxevifj on 2026-08-18.
+--
+-- This migration is intentionally represented as a history marker in Git because
+-- the first shared-project bootstrap was executed through the Supabase Management
+-- API after inspecting the live Dacha TV schema. The canonical live objects all
+-- use the visibilityos_ prefix; the earlier generic-table draft migrations were
+-- removed from this repository to prevent accidental application to Dacha TV.
+--
+-- Production source of truth for this version: Supabase migration history
+-- version 20260818053908, name visibilityos_shared_core_v1.
