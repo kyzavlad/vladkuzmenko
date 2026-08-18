@@ -59,11 +59,11 @@ const en: DirectionCopy = {
     },
     warriors: {
       short: "Warriors Team",
-      label: "Private network",
+      label: "Private execution circle",
       title: "Warriors Team",
-      outcome: "A stronger circle, direct feedback and a higher execution standard.",
-      text: "A selective network for people already building and looking for stronger people around them.",
-      tags: ["Business", "Training", "Feedback", "Network"],
+      outcome: "A curated peer circle that remembers the commitment and expects the proof.",
+      text: "For builders already executing: weekly Commit + Proof, focused live sessions, direct feedback and useful introductions.",
+      tags: ["Execution", "Accountability", "Feedback", "Network"],
       cta: "Explore Warriors Team",
     },
     performance: {
@@ -105,11 +105,11 @@ const ua: DirectionCopy = {
     },
     warriors: {
       short: "Warriors Team",
-      label: "Приватна мережа",
+      label: "Приватне execution-коло",
       title: "Warriors Team",
-      outcome: "Сильніше оточення, прямий фідбек і вищий стандарт виконання.",
-      text: "Вибіркова мережа для тих, хто вже будує і хоче сильніших людей поруч.",
-      tags: ["Бізнес", "Тренування", "Фідбек", "Нетворк"],
+      outcome: "Відібране peer-коло, яке пам'ятає commitment і очікує proof.",
+      text: "Для builders, які вже виконують: weekly Commit + Proof, фокусні live-сесії, direct feedback і корисні introductions.",
+      tags: ["Execution", "Accountability", "Feedback", "Network"],
       cta: "Відкрити Warriors Team",
     },
     performance: {
@@ -151,11 +151,11 @@ const ru: DirectionCopy = {
     },
     warriors: {
       short: "Warriors Team",
-      label: "Закрытая сеть",
+      label: "Закрытый execution-круг",
       title: "Warriors Team",
-      outcome: "Сильное окружение, прямой фидбек и более высокий стандарт исполнения.",
-      text: "Отборная сеть для тех, кто уже строит и хочет более сильных людей рядом.",
-      tags: ["Бизнес", "Тренировки", "Фидбек", "Нетворк"],
+      outcome: "Отобранный peer-круг, который помнит commitment и ждёт proof.",
+      text: "Для builders, которые уже исполняют: weekly Commit + Proof, фокусные live-сессии, direct feedback и полезные introductions.",
+      tags: ["Execution", "Accountability", "Feedback", "Network"],
       cta: "Открыть Warriors Team",
     },
     performance: {
