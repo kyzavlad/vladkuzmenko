@@ -1,6 +1,7 @@
 "use client";
 
 import { Toaster } from "@/components/ui/toaster";
+import { CalLeadGate } from "@/components/ui/cal-lead-gate";
 import { useEffect, useState } from "react";
 import type { ReactNode } from "react";
 import { motion, AnimatePresence, MotionConfig } from "framer-motion";
@@ -46,6 +47,7 @@ export function AppShell({ children }: { children: ReactNode }) {
   return (
     <MotionConfig reducedMotion="user">
       {children}
+      <CalLeadGate />
       <AnimatePresence>{isLoading && <LoadingAnimation key="loading" />}</AnimatePresence>
       {!isLoading && <Toaster />}
     </MotionConfig>
