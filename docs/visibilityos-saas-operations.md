@@ -1,34 +1,33 @@
 # VisibilityOS SaaS operations
 
-## Runtime ownership
+## Canonical production architecture
 
-- **Next.js / Vercel** owns the public product, monitoring endpoints, signed automation API and SaaS application surface.
-- **Dedicated Supabase project** owns accounts, workspaces, projects, scan history, Growth Queue, events and notification preferences.
-- **Local n8n** is a worker/orchestrator only. It does not own customer state and it does not need an inbound public webhook.
-- `/api/visibilityos/scan` remains the canonical full Visibility Map scanner.
-- `/api/visibilityos/health` is the lightweight daily health scanner.
+VisibilityOS does not depend on a founder-owned n8n workflow for its core monitoring loop.
 
-This separation lets the local worker stop or restart without losing product history and avoids exposing the local Mac/n8n instance to inbound internet traffic.
+- **Next.js / Vercel** owns the public Visibility Map, the lightweight health scan, acquisition pages and the account application.
+- **Dedicated Supabase** owns Auth, workspaces, projects, scan history, Growth Queue, events, notification preferences and the monitoring scheduler.
+- **Supabase pg_cron** is the scheduler.
+- **Supabase Edge Function `visibilityos-monitor-worker`** is the recurring worker.
+- `/api/visibilityos/health` is the lightweight daily scanner.
+- `/api/visibilityos/scan` is the canonical weekly/full Visibility Map scanner.
 
-## Required production environment
-
-Set these only in the Vercel project environment. Never commit their values.
+The runtime loop is:
 
 ```text
-VISIBILITYOS_SUPABASE_URL=https://<visibilityos-project-ref>.supabase.co
-VISIBILITYOS_SUPABASE_SERVICE_ROLE_KEY=<server-only service role key>
-VISIBILITYOS_AUTOMATION_SECRET=<at least 32 random bytes>
+pg_cron
+  -> visibilityos-monitor-worker Edge Function
+  -> claim due projects with a DB lease
+  -> daily: /api/visibilityos/health
+     weekly: /api/visibilityos/scan
+  -> visibilityos_record_automation_callback RPC
+  -> scan history + evidence deltas + events + Growth Queue
 ```
 
-The service-role key is server-only and must never use a `NEXT_PUBLIC_` prefix.
-
-Generate the automation secret with a cryptographically secure generator, for example:
-
-```bash
-openssl rand -hex 32
-```
+This keeps the product online if a personal n8n instance, laptop or other founder system is offline. n8n remains useful for internal sales/content/ops workflows, but it is not a production dependency of the customer product.
 
 ## Database bootstrap
+
+Use a dedicated VisibilityOS Supabase project. Never apply these migrations to `dacha-tv-prod`.
 
 Apply all migrations in order:
 
@@ -36,59 +35,37 @@ Apply all migrations in order:
 supabase/migrations/20260818070000_visibilityos_saas_v1.sql
 supabase/migrations/20260818073000_visibilityos_monitoring_modes.sql
 supabase/migrations/20260818074500_visibilityos_scan_result_guards.sql
+supabase/migrations/20260818080000_visibilityos_server_worker.sql
 ```
 
-The migrations create:
+The migrations create tenant-scoped persistence, RLS, job leases/idempotency, separate daily/weekly baselines, runtime configuration and the protected cron bootstrap function.
 
-- profiles, workspaces and membership
-- projects and competitors
-- future connected-data metadata
-- scan runs, pages and findings
-- persistent Growth Queue
-- material-change events
-- notification preferences/deliveries
-- RLS policies for tenant isolation
-- service-role-only automation RPCs
-- separate daily-health and weekly-growth persistence semantics
-- database-level guards against mixing daily health and weekly full-scan result shapes
+After the Edge Function is deployed, configure the scheduler once as Postgres admin:
 
-Do not apply these migrations to the existing `dacha-tv-prod` project. VisibilityOS requires its own project/database.
+```sql
+select public.visibilityos_configure_monitor_worker(
+  'https://<visibilityos-project-ref>.supabase.co',
+  '*/15 * * * *'
+);
+```
 
-## n8n worker
+The bootstrap function generates a 32-byte random cron secret inside Supabase Vault. The secret is never committed or copied into the website. `pg_cron` reads it from Vault and sends it to the Edge Function in `x-visibilityos-cron-secret`. The Edge Function validates it through a service-role-only RPC before claiming any work.
 
-Import:
+## Runtime configuration
+
+`public.visibilityos_runtime_config` is server-only. The first key is:
 
 ```text
-n8n/VisibilityOS_Monitoring_Worker.json
+app_base_url = https://www.vladkuzmenko.com
 ```
 
-The workflow is intentionally inactive in source control.
-
-Create one n8n **Crypto** credential containing the same value as `VISIBILITYOS_AUTOMATION_SECRET`, then assign it to both:
-
-- `Sign Job Pull`
-- `Sign Callback`
-
-The worker runs hourly and asks the SaaS backend for due daily and weekly jobs. The database decides which projects are due. A 30-minute database lease prevents concurrent duplicate work; callback idempotency prevents duplicate persistence if a request is retried.
-
-Flow:
-
-```text
-Hourly Scheduler
-  -> signed /api/visibilityos/automation/jobs
-  -> daily: /api/visibilityos/health
-     weekly: /api/visibilityos/scan
-  -> signed /api/visibilityos/automation/callback
-  -> daily health history/events OR weekly full history/Growth Queue/events
-```
-
-No inbound public n8n webhook is required for scheduled monitoring.
+For a controlled pre-production E2E test this value may temporarily point at an accessible release candidate. Before activating production monitoring it must point at the canonical production domain.
 
 ## Daily vs weekly monitoring
 
 ### Daily health
 
-The daily worker intentionally stays lightweight. It checks:
+Daily checks intentionally stay lightweight:
 
 - homepage availability/status
 - HTTPS
@@ -97,19 +74,11 @@ The daily worker intentionally stays lightweight. It checks:
 - `robots.txt` availability
 - security-header coverage
 
-It does not crawl the site map, scan extra pages, compare competitors or refresh the Growth Queue.
-
-Daily runs compare only with the previous successful **daily** run. They can create events such as:
-
-- availability down / recovered
-- canonical changed
-- `robots.txt` lost / recovered
-- indexability regressed / recovered
-- security-header coverage regressed / recovered
+Daily runs compare only with the prior successful **daily** run. They do not crawl the rest of the site, compare competitors, refresh the Growth Queue or overwrite the full visibility score.
 
 ### Weekly growth scan
 
-The weekly worker runs the full Visibility Map and can update:
+Weekly monitoring runs the full Visibility Map and can persist:
 
 - sampled pages
 - normalized findings
@@ -118,91 +87,61 @@ The weekly worker runs the full Visibility Map and can update:
 - persistent Growth Queue
 - material weekly deltas
 
-Weekly runs compare only with the previous successful **weekly** run. Daily compact results never become a score baseline.
+Weekly runs compare only with the prior successful **weekly** run.
 
-## Signature contract
+## Reliability rules
 
-Signed automation requests use:
+- Database leasing prevents two workers from claiming the same project concurrently.
+- Callback idempotency prevents duplicate scan/event persistence.
+- A failed scan is recorded but never becomes the successful baseline.
+- Daily failures retry after the configured short retry window; weekly failures retry separately.
+- The worker claims weekly jobs first, so a weekly scan leases the project before the same pass can claim a redundant daily scan.
+- Each cron invocation claims a bounded batch. Remaining due projects are handled by later scheduler passes.
+- The Edge Function isolates per-project failures and reports a worker summary in function logs.
 
-```text
-x-visibilityos-timestamp: <unix seconds>
-x-visibilityos-signature: v1=<hex HMAC-SHA256>
-```
+## Secrets
 
-Signed bytes are exactly:
+No VisibilityOS monitoring secret belongs in source control.
 
-```text
-<timestamp>.<raw request body>
-```
+The Edge Function receives Supabase server credentials automatically from the hosted runtime. It prefers `SUPABASE_SECRET_KEYS.default` and falls back to the legacy service-role environment variable only while both Supabase key systems coexist.
 
-The web app rejects signatures outside a five-minute replay window.
-
-## Failure semantics
-
-- A failed scheduled scan is stored as a failed run.
-- It creates a `scan.failed` event.
-- It does **not** replace the last successful baseline.
-- Daily failures retry after six hours; weekly failures retry after twelve hours.
-- Successful daily jobs schedule the next daily run one day later.
-- Successful weekly jobs schedule the next weekly run seven days later.
-- A callback is accepted only for the currently claimed job key.
-- Replaying a completed idempotency key returns duplicate and does not create a second run.
-
-## Material-change events in V1
-
-The first monitoring release emits events only for observable changes.
-
-Daily examples:
-
-- availability/indexability regressions and recoveries
-- canonical change
-- robots/security drift
-
-Weekly examples:
-
-- baseline created
-- score changed by at least 5 points
-- a finding regressed to `fail`
-- a prior `warn`/`fail` finding recovered to `pass`
-
-Both modes can emit `scan.failed` for failed scheduled work.
-
-This intentionally avoids noisy daily reports and avoids inventing rankings, traffic, leads or revenue.
+The scheduler-specific secret exists only in Supabase Vault.
 
 ## Release gates
 
-Do not merge/release the SaaS layer until all are verified:
+Do not call the SaaS live until all are verified:
 
 1. Dedicated VisibilityOS Supabase project exists.
-2. All three migrations apply successfully.
+2. All migrations apply successfully.
 3. Supabase security and performance advisors are reviewed.
-4. RLS tenant-isolation test passes with two users/workspaces.
-5. Vercel production env contains all three server secrets.
-6. n8n workflow imports on the actual local n8n version.
-7. Both Crypto nodes use the matching HMAC credential.
-8. Invalid/missing signature -> 401.
-9. Stale signature -> 401.
-10. Due job can be claimed only once while leased.
-11. Daily job reaches the health endpoint and persists only health history/events.
-12. Weekly job reaches the full scanner and refreshes scan history/Growth Queue.
-13. Replayed callback with the same idempotency key does not duplicate the run/event.
-14. Failed scan does not overwrite the prior successful baseline.
-15. Daily and weekly runs compare only against their own prior successful mode.
-16. Public scanner and health scanner both reject private/localhost targets.
-17. EN / UA / RU public VisibilityOS routes still render correctly.
-18. GitHub lint/typecheck/build/runtime-route gates pass for the exact commit.
-19. Exact deployed commit and production runtime are verified before calling SaaS live.
+4. RLS tenant isolation passes with two independent users/workspaces.
+5. `visibilityos-monitor-worker` is deployed with JWT gateway verification disabled because it performs its own Vault-backed secret verification.
+6. Missing/incorrect cron secret returns 401.
+7. The pg_cron job is installed and its run history is healthy.
+8. Due job can be claimed only once while leased.
+9. Daily job reaches the health endpoint and persists only daily health history/events.
+10. Weekly job reaches the full scanner and refreshes full history/Growth Queue.
+11. Replayed idempotency key cannot duplicate a run/event.
+12. Failed scan cannot overwrite the prior successful baseline.
+13. Daily and weekly runs compare only against their own prior successful mode.
+14. Public scanner and health scanner reject private/localhost targets.
+15. Auth/session flows work on desktop/mobile.
+16. EN/UA/RU acquisition routes remain intact.
+17. GitHub lint/typecheck/build/runtime-route gates pass for the exact release commit.
+18. Exact production deployment commit/domain/runtime are verified before customer monitoring is enabled.
 
-## Next product layer
+## Product completion order
 
-After the monitoring foundation is live, add the account application in this order:
+After the server monitoring loop is verified, finish the customer product in this order:
 
 1. Auth and workspace bootstrap.
-2. Create/save project from a Visibility Map.
-3. Project dashboard with score/history/evidence deltas.
-4. Growth Queue status changes and post-fix verification.
-5. Notification delivery from `visibility_events`.
-6. GSC connection.
-7. GBP connection.
-8. SERP/Map Pack source and citation/review intelligence only when backed by real connected data.
-9. Billing after activation/retention is proven with founder customers.
+2. Save a successful Visibility Map as a project without re-entering domain/service/location.
+3. Project dashboard with current state, history and material deltas.
+4. Growth Queue action lifecycle: open, planned, in progress, done, dismissed.
+5. Post-fix verification against observable evidence.
+6. In-app event feed and notification preferences.
+7. Email delivery for material alerts/digests.
+8. Connected first-party data only when real credentials/data exist (GSC first, then GBP; SERP/Map Pack only through a compliant source).
+9. Manual beta provisioning first; billing only after the recurring product loop is proven with real users.
+
+The product is an operating loop and outcome, not a crawler, dashboard or automation-tool showcase.
