@@ -60,12 +60,25 @@ export type VisibilityEventRow = {
   created_at: string;
 };
 
+export type VisibilityScanResultPreview = {
+  score?: number;
+  mode?: string;
+  version?: number;
+  pillars?: {
+    search?: number | null;
+    local?: number | null;
+    conversion?: number | null;
+    trust?: number | null;
+  };
+};
+
 export type VisibilityScanRunRow = {
   id: string;
   project_id: string;
   job_type: "baseline" | "manual" | "daily" | "weekly" | "verify";
   status: "success" | "failed";
   error: string | null;
+  result: VisibilityScanResultPreview | null;
   finished_at: string;
   created_at: string;
 };
@@ -159,15 +172,11 @@ async function parseResponse<T>(response: Response): Promise<T> {
   const text = await response.text();
   let payload: unknown = null;
   if (text) {
-    try {
-      payload = JSON.parse(text);
-    } catch {
-      payload = text;
-    }
+    try { payload = JSON.parse(text); } catch { payload = text; }
   }
 
   if (!response.ok) {
-    const body = payload && typeof payload === "object" ? (payload as Record<string, unknown>) : null;
+    const body = payload && typeof payload === "object" ? payload as Record<string, unknown> : null;
     const message =
       (body && typeof body.message === "string" && body.message) ||
       (body && typeof body.msg === "string" && body.msg) ||
@@ -261,19 +270,18 @@ export async function signOutVisibilityUser(session?: VisibilitySession | null) 
 }
 
 async function authedFetch<T>(path: string, init: RequestInit = {}, explicitSession?: VisibilitySession | null) {
-  let session = explicitSession ?? (await getValidVisibilitySession());
+  let session = explicitSession ?? await getValidVisibilitySession();
   if (!session) throw new VisibilityApiError("authentication_required", 401);
 
-  const perform = (accessToken: string) =>
-    fetch(`${SUPABASE_URL}${path}`, {
-      ...init,
-      headers: {
-        apikey: SUPABASE_PUBLISHABLE_KEY,
-        Authorization: `Bearer ${accessToken}`,
-        "Content-Type": "application/json",
-        ...(init.headers || {}),
-      },
-    });
+  const perform = (accessToken: string) => fetch(`${SUPABASE_URL}${path}`, {
+    ...init,
+    headers: {
+      apikey: SUPABASE_PUBLISHABLE_KEY,
+      Authorization: `Bearer ${accessToken}`,
+      "Content-Type": "application/json",
+      ...(init.headers || {}),
+    },
+  });
 
   let response = await perform(session.access_token);
   if (response.status === 401 && session.refresh_token) {
@@ -291,26 +299,15 @@ async function rpc<T>(name: string, args: Record<string, unknown>) {
   });
 }
 
+const PROJECT_FIELDS = [
+  "id", "name", "url", "lang", "service", "location", "status",
+  "monitoring_enabled", "daily_health_enabled", "weekly_full_scan_enabled",
+  "last_score", "last_scan_at", "next_daily_scan_at", "next_weekly_scan_at", "created_at",
+].join(",");
+
 export async function listVisibilityProjects() {
-  const select = [
-    "id",
-    "name",
-    "url",
-    "lang",
-    "service",
-    "location",
-    "status",
-    "monitoring_enabled",
-    "daily_health_enabled",
-    "weekly_full_scan_enabled",
-    "last_score",
-    "last_scan_at",
-    "next_daily_scan_at",
-    "next_weekly_scan_at",
-    "created_at",
-  ].join(",");
   return authedFetch<VisibilityProject[]>(
-    `/rest/v1/visibilityos_projects?select=${encodeURIComponent(select)}&status=neq.archived&order=created_at.desc`,
+    `/rest/v1/visibilityos_projects?select=${encodeURIComponent(PROJECT_FIELDS)}&status=neq.archived&order=created_at.desc`,
   );
 }
 
@@ -332,10 +329,15 @@ export async function createVisibilityProject(input: {
   });
 }
 
-export async function recordVisibilityUserScan(projectId: string, result: unknown) {
-  return rpc<Record<string, unknown>>("visibilityos_record_user_scan", {
+export async function recordVisibilityUserScan(
+  projectId: string,
+  result: unknown,
+  requestedJobType: "manual" | "verify" = "manual",
+) {
+  return rpc<Record<string, unknown>>("visibilityos_record_user_scan_v2", {
     p_project_id: projectId,
     p_result: result,
+    p_requested_job_type: requestedJobType,
   });
 }
 
@@ -351,7 +353,10 @@ export async function setVisibilityActionStatus(
 
 export async function updateVisibilityProject(
   projectId: string,
-  patch: Partial<Pick<VisibilityProject, "monitoring_enabled" | "status" | "name" | "service" | "location">>,
+  patch: Partial<Pick<
+    VisibilityProject,
+    "monitoring_enabled" | "daily_health_enabled" | "weekly_full_scan_enabled" | "status" | "name" | "service" | "location"
+  >>,
 ) {
   return authedFetch<VisibilityProject[]>(
     `/rest/v1/visibilityos_projects?id=eq.${encodeURIComponent(projectId)}`,
@@ -364,57 +369,24 @@ export async function updateVisibilityProject(
 }
 
 export async function loadVisibilityProjectBundle(projectId: string): Promise<VisibilityProjectBundle> {
-  const projectFields = [
-    "id",
-    "name",
-    "url",
-    "lang",
-    "service",
-    "location",
-    "status",
-    "monitoring_enabled",
-    "daily_health_enabled",
-    "weekly_full_scan_enabled",
-    "last_score",
-    "last_scan_at",
-    "next_daily_scan_at",
-    "next_weekly_scan_at",
-    "created_at",
-  ].join(",");
   const actionFields = [
-    "id",
-    "project_id",
-    "action_key",
-    "lane",
-    "category",
-    "impact",
-    "confidence",
-    "effort",
-    "title",
-    "reason",
-    "evidence",
-    "action",
-    "status",
-    "verification_status",
-    "first_observed_at",
-    "last_observed_at",
-    "done_at",
-    "verified_at",
-    "updated_at",
+    "id", "project_id", "action_key", "lane", "category", "impact", "confidence", "effort",
+    "title", "reason", "evidence", "action", "status", "verification_status",
+    "first_observed_at", "last_observed_at", "done_at", "verified_at", "updated_at",
   ].join(",");
 
   const [projects, actions, events, runs, competitors] = await Promise.all([
     authedFetch<VisibilityProject[]>(
-      `/rest/v1/visibilityos_projects?select=${encodeURIComponent(projectFields)}&id=eq.${encodeURIComponent(projectId)}&limit=1`,
+      `/rest/v1/visibilityos_projects?select=${encodeURIComponent(PROJECT_FIELDS)}&id=eq.${encodeURIComponent(projectId)}&limit=1`,
     ),
     authedFetch<VisibilityGrowthActionRow[]>(
-      `/rest/v1/visibilityos_growth_actions?select=${encodeURIComponent(actionFields)}&project_id=eq.${encodeURIComponent(projectId)}&status=neq.dismissed&order=lane.asc,updated_at.desc`,
+      `/rest/v1/visibilityos_growth_actions?select=${encodeURIComponent(actionFields)}&project_id=eq.${encodeURIComponent(projectId)}&status=neq.dismissed&order=updated_at.desc`,
     ),
     authedFetch<VisibilityEventRow[]>(
-      `/rest/v1/visibilityos_events?select=id,project_id,event_type,severity,title,payload,created_at&project_id=eq.${encodeURIComponent(projectId)}&order=created_at.desc&limit=30`,
+      `/rest/v1/visibilityos_events?select=id,project_id,event_type,severity,title,payload,created_at&project_id=eq.${encodeURIComponent(projectId)}&order=created_at.desc&limit=40`,
     ),
     authedFetch<VisibilityScanRunRow[]>(
-      `/rest/v1/visibilityos_scan_runs?select=id,project_id,job_type,status,error,finished_at,created_at&project_id=eq.${encodeURIComponent(projectId)}&order=finished_at.desc&limit=30`,
+      `/rest/v1/visibilityos_scan_runs?select=id,project_id,job_type,status,error,result,finished_at,created_at&project_id=eq.${encodeURIComponent(projectId)}&order=finished_at.desc&limit=40`,
     ),
     authedFetch<VisibilityCompetitorRow[]>(
       `/rest/v1/visibilityos_project_competitors?select=id,project_id,url,created_at&project_id=eq.${encodeURIComponent(projectId)}&order=created_at.asc`,
