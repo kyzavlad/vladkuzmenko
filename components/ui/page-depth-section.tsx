@@ -26,13 +26,13 @@ const COPY: Record<Lang, Record<DepthRoute, DepthCopy>> = {
       ],
     },
     "warriors-team": {
-      eyebrow: "The point of the network",
-      title: "A strong circle is valuable when it improves the quality of decisions",
-      intro: "The format is built around real work, direct context and useful relationships rather than passive networking or motivational noise.",
+      eyebrow: "What compounds",
+      title: "Training becomes valuable when it turns into repeatable capability",
+      intro: "Warriors is designed to move members from information to implementation: learn the next move, build it on a real project, get feedback and keep the proof.",
       cards: [
-        { title: "Real context", text: "Bring an actual business, training or execution problem instead of discussing ideas in the abstract." },
-        { title: "Direct feedback", text: "Useful feedback should make the next move clearer, even when the answer is not comfortable." },
-        { title: "Relevant network", text: "Introductions matter when there is a real reason for two people to help each other move faster." },
+        { title: "Skill", text: "Build practical capability in AI systems, client acquisition, content and business operations instead of collecting disconnected theory." },
+        { title: "Execution", text: "Every track pushes toward a real artifact, conversation, workflow, published asset or measurable business change." },
+        { title: "Network", text: "Use live reviews and the private community to unblock work, compare experience and move faster with relevant people around you." },
       ],
     },
     drop: {
@@ -58,13 +58,13 @@ const COPY: Record<Lang, Record<DepthRoute, DepthCopy>> = {
       ],
     },
     "warriors-team": {
-      eyebrow: "Сенс мережі",
-      title: "Сильне коло має цінність, коли підвищує якість рішень",
-      intro: "Формат будується навколо реальної роботи, прямого контексту й корисних зв’язків, а не пасивного нетворкінгу чи мотиваційного шуму.",
+      eyebrow: "Що накопичується",
+      title: "Навчання стає цінним, коли перетворюється на повторювану здатність",
+      intro: "Warriors переводить від інформації до implementation: вивчити наступний крок, реалізувати його на реальному проєкті, отримати feedback і зберегти proof.",
       cards: [
-        { title: "Реальний контекст", text: "Приносити конкретну бізнес-, тренувальну або виконавчу задачу замість абстрактних розмов." },
-        { title: "Прямий фідбек", text: "Корисний фідбек має робити наступний крок яснішим, навіть коли відповідь некомфортна." },
-        { title: "Релевантна мережа", text: "Знайомства мають сенс, коли є реальна причина двом людям допомогти одне одному рухатися швидше." },
+        { title: "Skill", text: "Будувати практичні навички в AI systems, client acquisition, content і business operations замість накопичення розрізненої теорії." },
+        { title: "Execution", text: "Кожен track веде до реального artifact, conversation, workflow, published asset або measurable business change." },
+        { title: "Network", text: "Використовувати live reviews і private community, щоб розблоковувати роботу, порівнювати досвід і рухатись швидше з релевантними людьми поруч." },
       ],
     },
     drop: {
@@ -90,13 +90,13 @@ const COPY: Record<Lang, Record<DepthRoute, DepthCopy>> = {
       ],
     },
     "warriors-team": {
-      eyebrow: "Смысл сети",
-      title: "Сильное окружение ценно, когда повышает качество решений",
-      intro: "Формат строится вокруг реальной работы, прямого контекста и полезных связей, а не пассивного нетворкинга или мотивационного шума.",
+      eyebrow: "Что накапливается",
+      title: "Обучение становится ценным, когда превращается в повторяемый навык",
+      intro: "Warriors переводит от информации к implementation: изучить следующий шаг, реализовать его на реальном проекте, получить feedback и сохранить proof.",
       cards: [
-        { title: "Реальный контекст", text: "Приносить конкретную бизнес-, тренировочную или исполнительскую задачу вместо абстрактных разговоров." },
-        { title: "Прямой фидбек", text: "Полезный фидбек должен делать следующий шаг яснее, даже когда ответ не самый комфортный." },
-        { title: "Релевантная сеть", text: "Знакомства имеют смысл, когда есть реальная причина двум людям помочь друг другу двигаться быстрее." },
+        { title: "Skill", text: "Строить практические навыки в AI systems, client acquisition, content и business operations вместо накопления разрозненной теории." },
+        { title: "Execution", text: "Каждый track ведёт к реальному artifact, conversation, workflow, published asset или measurable business change." },
+        { title: "Network", text: "Использовать live reviews и private community, чтобы разблокировать работу, сравнивать опыт и двигаться быстрее с релевантными людьми рядом." },
       ],
     },
     drop: {
