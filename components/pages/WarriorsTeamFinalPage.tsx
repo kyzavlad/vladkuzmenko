@@ -49,6 +49,8 @@ type Copy = {
   liveValue: string;
   deliveryLabel: string;
   deliveryValue: string;
+  imageLine: string;
+  groupLine: string;
   productEyebrow: string;
   productTitle: string;
   productLead: string;
@@ -123,6 +125,8 @@ const COPY: Record<Lang, Copy> = {
     liveValue: "Weekly",
     deliveryLabel: "Private layer",
     deliveryValue: "Member hub + Telegram",
+    imageLine: "Skills · execution · network",
+    groupLine: "A stronger room around real work.",
     productEyebrow: "The product",
     productTitle: "A private operating environment, not another video course.",
     productLead: "The value is the combination: practical knowledge, implementation pressure, review and a selective circle. The platform exists to make the work easier, not to manufacture activity.",
@@ -175,7 +179,7 @@ const COPY: Record<Lang, Copy> = {
     ],
     accessEyebrow: "Access",
     accessTitle: "Application first. Membership second.",
-    accessLead: "Warriors stays inside the main VladKuzmenko platform. No second website, no separate Vercel project and no public instant checkout.",
+    accessLead: "Warriors lives inside the main VladKuzmenko platform, so the journey from application to learning and community stays in one coherent system.",
     access: [
       { title: "Apply", text: "Tell us what you are building, the current bottleneck and the path you want to strengthen first." },
       { title: "Fit review", text: "We check whether the club can genuinely help and whether the applicant adds signal to the room." },
@@ -242,6 +246,8 @@ const COPY: Record<Lang, Copy> = {
     liveValue: "Щотижня",
     deliveryLabel: "Закрита частина",
     deliveryValue: "Кабінет + Telegram",
+    imageLine: "Навички · реалізація · оточення",
+    groupLine: "Сильніше оточення навколо реальної роботи.",
     productEyebrow: "Продукт",
     productTitle: "Закрите робоче середовище, а не ще один відеокурс.",
     productLead: "Цінність у поєднанні: практичні знання, тиск до реалізації, розбори та відібране оточення. Платформа існує для роботи, а не для імітації активності.",
@@ -294,7 +300,7 @@ const COPY: Record<Lang, Copy> = {
     ],
     accessEyebrow: "Доступ",
     accessTitle: "Спочатку заявка. Потім участь.",
-    accessLead: "Warriors залишається всередині основної платформи VladKuzmenko. Без другого сайту, окремого Vercel-проєкту чи миттєвої публічної оплати.",
+    accessLead: "Warriors живе всередині основної платформи VladKuzmenko, тому шлях від заявки до матеріалів і спільноти зібраний в одній системі.",
     access: [
       { title: "Заявка", text: "Розкажіть, що будуєте, де зараз головна проблема та який напрям хочете посилити першим." },
       { title: "Перевірка відповідності", text: "Ми дивимось, чи клуб справді може допомогти і чи кандидат посилить середовище." },
@@ -318,7 +324,7 @@ const COPY: Record<Lang, Copy> = {
     faqEyebrow: "Питання",
     faqTitle: "Чим Warriors є — і чим не є.",
     faq: [
-      { q: "Warriors — це курс чи mastermind?", a: "Не лише курс і не лише група. Це закрита участь, що поєднує практичне навчання, реалізацію, живі розбори та відібрану бізнес-мережу." },
+      { q: "Warriors — це курс чи закрита група?", a: "Не лише курс і не лише група. Це закрита участь, що поєднує практичне навчання, реалізацію, живі розбори та відібрану бізнес-мережу." },
       { q: "Чому доступ за відбором?", a: "Тому що якість оточення є частиною продукту. Менша група серйозних учасників корисніша за необмежений відкритий доступ." },
       { q: "Чому $290 на місяць або $2,900 на рік?", a: "Це вище за масову освітню підписку, тому що тут є закрите оточення та живі робочі сесії. Водночас ми не імітуємо ціну зрілих дорогих приватних мереж, поки Warriors ще нарощує свою цінність." },
       { q: "Чи доступні всі напрями?", a: "Так. Обидва плани включають усі поточні напрями. Починайте з головного вузького місця і переходьте далі, коли зміняться пріоритети." },
@@ -335,8 +341,8 @@ const COPY: Record<Lang, Copy> = {
     dialogSuccessM: "Заявка прийшла. Якщо відповідність сильна, Vlad напише з наступним кроком і варіантами участі.",
     fields: [
       { id: "name", label: "Ваше ім'я", required: true, placeholder: "Ім'я та прізвище" },
-      { id: "email", label: "Email", type: "email", required: true, placeholder: "you@email.com" },
-      { id: "phone", label: "Telegram / WhatsApp", type: "tel", required: true, placeholder: "@handle або номер" },
+      { id: "email", label: "Електронна пошта", type: "email", required: true, placeholder: "you@email.com" },
+      { id: "phone", label: "Telegram / WhatsApp", type: "tel", required: true, placeholder: "@ім'я або номер" },
       { id: "track", label: "Перший напрям для посилення", type: "select", required: true, options: ["ШІ-системи", "Залучення клієнтів", "Контент-система", "Управління бізнесом"] },
       { id: "project", label: "Що ви будуєте зараз?", type: "textarea", required: true, placeholder: "Бізнес, проєкт, поточна стадія та посилання, якщо є" },
       { id: "goal30", label: "Що хочете змінити за наступні 30 днів?", type: "textarea", required: true, placeholder: "Конкретний результат" },
@@ -361,6 +367,8 @@ const COPY: Record<Lang, Copy> = {
     liveValue: "Каждую неделю",
     deliveryLabel: "Закрытая часть",
     deliveryValue: "Кабинет + Telegram",
+    imageLine: "Навыки · реализация · окружение",
+    groupLine: "Более сильное окружение вокруг реальной работы.",
     productEyebrow: "Продукт",
     productTitle: "Закрытая рабочая среда, а не ещё один видеокурс.",
     productLead: "Ценность в сочетании: практические знания, давление к реализации, разборы и отобранное окружение. Платформа существует для работы, а не для имитации активности.",
@@ -413,7 +421,7 @@ const COPY: Record<Lang, Copy> = {
     ],
     accessEyebrow: "Доступ",
     accessTitle: "Сначала заявка. Потом участие.",
-    accessLead: "Warriors остаётся внутри основной платформы VladKuzmenko. Без второго сайта, отдельного Vercel-проекта и мгновенной публичной оплаты.",
+    accessLead: "Warriors живёт внутри основной платформы VladKuzmenko, поэтому путь от заявки до материалов и сообщества собран в одной системе.",
     access: [
       { title: "Заявка", text: "Расскажите, что строите, где сейчас главная проблема и какое направление хотите усилить первым." },
       { title: "Проверка соответствия", text: "Мы смотрим, действительно ли клуб может помочь и усилит ли кандидат само окружение." },
@@ -437,7 +445,7 @@ const COPY: Record<Lang, Copy> = {
     faqEyebrow: "Вопросы",
     faqTitle: "Чем Warriors является — и чем не является.",
     faq: [
-      { q: "Warriors — это курс или мастермайнд?", a: "Не только курс и не только группа. Это закрытое участие, которое объединяет практическое обучение, реализацию, живые разборы и отобранную бизнес-сеть." },
+      { q: "Warriors — это курс или закрытая группа?", a: "Не только курс и не только группа. Это закрытое участие, которое объединяет практическое обучение, реализацию, живые разборы и отобранную бизнес-сеть." },
       { q: "Почему доступ по отбору?", a: "Потому что качество окружения является частью продукта. Меньшая группа серьёзных участников полезнее неограниченного открытого доступа." },
       { q: "Почему $290 в месяц или $2,900 в год?", a: "Это выше массовой образовательной подписки, потому что здесь есть закрытое окружение и живые рабочие сессии. При этом мы не изображаем цену зрелых дорогих частных сетей, пока Warriors ещё наращивает свою ценность." },
       { q: "Доступны все направления?", a: "Да. Оба плана включают все текущие направления. Начинайте с главного узкого места и переходите дальше, когда изменятся приоритеты." },
@@ -468,97 +476,49 @@ function ApplyButton({ className = "" }: { className?: string }) {
   const { lang } = useI18n();
   const c = COPY[lang];
   return (
-    <RequestDialog
-      intent="warriors_team_application"
-      title={c.dialogTitle}
-      description={c.dialogDesc}
-      submitLabel={c.dialogSubmit}
-      successTitle={c.dialogSuccessT}
-      successMessage={c.dialogSuccessM}
-      buttonLabel="Warriors - Apply"
-      fields={c.fields}
-      context={{ source: "warriors_team_page", locale: lang, offer: "warriors_private_club_v1", monthly_price_usd: 290, annual_price_usd: 2900 }}
-    >
-      <Button className={`premium-button h-auto min-h-12 px-7 py-3.5 text-sm sm:text-base ${className}`}>
-        {c.primary}<ArrowRight className="ml-2 h-4 w-4" />
-      </Button>
+    <RequestDialog intent="warriors_team_application" title={c.dialogTitle} description={c.dialogDesc} submitLabel={c.dialogSubmit} successTitle={c.dialogSuccessT} successMessage={c.dialogSuccessM} buttonLabel="Warriors - Apply" fields={c.fields} context={{ source: "warriors_team_page", locale: lang, offer: "warriors_private_club_v1", monthly_price_usd: 290, annual_price_usd: 2900 }}>
+      <Button className={`premium-button h-auto min-h-12 px-7 py-3.5 text-sm sm:text-base ${className}`}>{c.primary}<ArrowRight className="ml-2 h-4 w-4" /></Button>
     </RequestDialog>
   );
 }
 
 function SectionHeading({ eyebrow, title, lead }: { eyebrow: string; title: string; lead?: string }) {
-  return (
-    <div className="mx-auto max-w-3xl text-center">
-      <p className="text-[10px] font-semibold uppercase tracking-[.23em] text-violet-200/70">{eyebrow}</p>
-      <h2 className="section-title mt-4 text-[clamp(2.35rem,4.7vw,4.5rem)] text-zinc-100">{title}</h2>
-      {lead ? <p className="mx-auto mt-5 max-w-2xl text-sm leading-7 text-zinc-500 sm:text-base">{lead}</p> : null}
-    </div>
-  );
+  return <div className="mx-auto max-w-3xl text-center"><p className="text-[10px] font-semibold uppercase tracking-[.23em] text-violet-200/70">{eyebrow}</p><h2 className="section-title mt-4 text-[clamp(2.35rem,4.7vw,4.5rem)] text-zinc-100">{title}</h2>{lead ? <p className="mx-auto mt-5 max-w-2xl text-sm leading-7 text-zinc-500 sm:text-base">{lead}</p> : null}</div>;
 }
 
 export function WarriorsTeamFinalPage() {
   const { lang } = useI18n();
   const reduced = useReducedMotion();
   const c = COPY[lang];
-
   return (
     <div className="min-h-screen overflow-x-hidden bg-[#020203] text-white">
       <Header />
       <main>
         <section className="relative overflow-hidden border-b border-white/[.07] pb-20 pt-28 sm:pb-28 sm:pt-36">
-          <div className="pointer-events-none absolute inset-0" aria-hidden="true">
-            <div className="absolute left-1/2 top-0 h-[720px] w-[98%] -translate-x-1/2 bg-[radial-gradient(ellipse_at_top,rgba(139,92,246,.17),rgba(212,175,55,.035)_38%,transparent_70%)]" />
-          </div>
-          <div className="container relative z-10 mx-auto max-w-6xl px-4 sm:px-6">
-            <div className="grid items-center gap-12 lg:grid-cols-[1.05fr_.95fr] lg:gap-14">
-              <motion.div initial={reduced ? false : { opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: .6 }}>
-                <span className="inline-flex items-center gap-2 rounded-full border border-emerald-300/15 bg-emerald-300/[.035] px-3 py-1.5 text-[10px] font-semibold uppercase tracking-[.15em] text-emerald-200"><span className="h-1.5 w-1.5 rounded-full bg-emerald-300" />{c.badge}</span>
-                <p className="mt-6 text-[10px] font-semibold uppercase tracking-[.22em] text-violet-200/70">{c.eyebrow}</p>
-                <h1 className="section-title mt-4 max-w-3xl text-[clamp(2.75rem,5.3vw,5.25rem)] leading-[.96] tracking-[-.045em] text-zinc-100">{c.titleA}<em className="bg-gradient-to-br from-violet-100 via-violet-300 to-amber-200 bg-clip-text font-normal italic text-transparent">{c.titleB}</em></h1>
-                <p className="mt-7 max-w-2xl text-base leading-8 text-zinc-300 sm:text-lg">{c.lead}</p>
-                <p className="mt-4 max-w-2xl text-sm leading-7 text-zinc-600">{c.support}</p>
-                <div className="mt-8 flex flex-col gap-3 sm:flex-row"><ApplyButton /><a href="#inside"><Button className="h-auto min-h-12 w-full border border-violet-300/18 bg-violet-300/[.045] px-7 py-3.5 text-white hover:bg-violet-300/[.085] sm:w-auto">{c.secondary}</Button></a></div>
-                <p className="mt-4 flex max-w-xl items-start gap-2 text-xs leading-6 text-zinc-600"><ShieldCheck className="mt-1 h-3.5 w-3.5 shrink-0 text-violet-200/55" />{c.proofLine}</p>
-              </motion.div>
-
-              <motion.div initial={reduced ? false : { opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: .65, delay: .06 }}>
-                <div className="overflow-hidden rounded-[30px] border border-violet-200/[.13] bg-[linear-gradient(145deg,rgba(196,181,253,.07),rgba(255,255,255,.018)_48%,rgba(0,0,0,.62))] p-4 shadow-[0_44px_110px_-58px_rgba(139,92,246,.3)] sm:p-5">
-                  <div className="relative aspect-[4/3] overflow-hidden rounded-[22px] border border-white/[.08]">
-                    <Image src="/warriors-discussion.jpg" alt="Warriors private club" fill priority sizes="(max-width: 1024px) 100vw, 46vw" className="object-cover opacity-72 saturate-[.8]" />
-                    <div className="absolute inset-0 bg-gradient-to-t from-[#050307] via-transparent to-violet-950/10" />
-                    <div className="absolute bottom-4 left-4 right-4 rounded-2xl border border-white/[.08] bg-black/58 p-4 backdrop-blur-xl"><div className="flex items-center justify-between gap-4"><div><p className="text-xs font-semibold uppercase tracking-[.17em] text-violet-100/70">Warriors</p><p className="mt-1 text-sm text-zinc-300">Skills · execution · network</p></div><Flame className="h-5 w-5 text-violet-200" /></div></div>
-                  </div>
-                  <div className="mt-4 grid gap-3 sm:grid-cols-2">
-                    {[
-                      [c.accessLabel, c.accessValue, ShieldCheck],
-                      [c.tracksLabel, c.tracksValue, BookOpenCheck],
-                      [c.liveLabel, c.liveValue, Users],
-                      [c.deliveryLabel, c.deliveryValue, Network],
-                    ].map(([label, value, Icon]) => { const I = Icon as LucideIcon; return <div key={String(label)} className="rounded-2xl border border-white/[.07] bg-black/25 p-4"><div className="flex items-center justify-between gap-3"><p className="text-[9px] font-semibold uppercase tracking-[.16em] text-zinc-600">{String(label)}</p><I className="h-3.5 w-3.5 text-violet-200/55" /></div><p className="mt-2 text-base font-semibold text-zinc-100">{String(value)}</p></div>; })}
-                  </div>
-                </div>
-              </motion.div>
-            </div>
-          </div>
+          <div className="pointer-events-none absolute inset-0" aria-hidden="true"><div className="absolute left-1/2 top-0 h-[720px] w-[98%] -translate-x-1/2 bg-[radial-gradient(ellipse_at_top,rgba(139,92,246,.17),rgba(212,175,55,.035)_38%,transparent_70%)]" /></div>
+          <div className="container relative z-10 mx-auto max-w-6xl px-4 sm:px-6"><div className="grid items-center gap-12 lg:grid-cols-[1.05fr_.95fr] lg:gap-14">
+            <motion.div initial={reduced ? false : { opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: .6 }}><span className="inline-flex items-center gap-2 rounded-full border border-emerald-300/15 bg-emerald-300/[.035] px-3 py-1.5 text-[10px] font-semibold uppercase tracking-[.15em] text-emerald-200"><span className="h-1.5 w-1.5 rounded-full bg-emerald-300" />{c.badge}</span><p className="mt-6 text-[10px] font-semibold uppercase tracking-[.22em] text-violet-200/70">{c.eyebrow}</p><h1 className="section-title mt-4 max-w-3xl text-[clamp(2.75rem,5.3vw,5.25rem)] leading-[.96] tracking-[-.045em] text-zinc-100">{c.titleA}<em className="bg-gradient-to-br from-violet-100 via-violet-300 to-amber-200 bg-clip-text font-normal italic text-transparent">{c.titleB}</em></h1><p className="mt-7 max-w-2xl text-base leading-8 text-zinc-300 sm:text-lg">{c.lead}</p><p className="mt-4 max-w-2xl text-sm leading-7 text-zinc-600">{c.support}</p><div className="mt-8 flex flex-col gap-3 sm:flex-row"><ApplyButton /><a href="#inside"><Button className="h-auto min-h-12 w-full border border-violet-300/18 bg-violet-300/[.045] px-7 py-3.5 text-white hover:bg-violet-300/[.085] sm:w-auto">{c.secondary}</Button></a></div><p className="mt-4 flex max-w-xl items-start gap-2 text-xs leading-6 text-zinc-600"><ShieldCheck className="mt-1 h-3.5 w-3.5 shrink-0 text-violet-200/55" />{c.proofLine}</p></motion.div>
+            <motion.div initial={reduced ? false : { opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: .65, delay: .06 }}><div className="overflow-hidden rounded-[30px] border border-violet-200/[.13] bg-[linear-gradient(145deg,rgba(196,181,253,.07),rgba(255,255,255,.018)_48%,rgba(0,0,0,.62))] p-4 shadow-[0_44px_110px_-58px_rgba(139,92,246,.3)] sm:p-5"><div className="relative aspect-[4/3] overflow-hidden rounded-[22px] border border-white/[.08]"><Image src="/warriors-discussion.jpg" alt="Warriors private club" fill priority sizes="(max-width: 1024px) 100vw, 46vw" className="object-cover opacity-72 saturate-[.8]" /><div className="absolute inset-0 bg-gradient-to-t from-[#050307] via-transparent to-violet-950/10" /><div className="absolute bottom-4 left-4 right-4 rounded-2xl border border-white/[.08] bg-black/58 p-4 backdrop-blur-xl"><div className="flex items-center justify-between gap-4"><div><p className="text-xs font-semibold uppercase tracking-[.17em] text-violet-100/70">Warriors</p><p className="mt-1 text-sm text-zinc-300">{c.imageLine}</p></div><Flame className="h-5 w-5 text-violet-200" /></div></div></div><div className="mt-4 grid gap-3 sm:grid-cols-2">{[[c.accessLabel,c.accessValue,ShieldCheck],[c.tracksLabel,c.tracksValue,BookOpenCheck],[c.liveLabel,c.liveValue,Users],[c.deliveryLabel,c.deliveryValue,Network]].map(([label,value,Icon]) => { const I = Icon as LucideIcon; return <div key={String(label)} className="rounded-2xl border border-white/[.07] bg-black/25 p-4"><div className="flex items-center justify-between gap-3"><p className="text-[9px] font-semibold uppercase tracking-[.16em] text-zinc-600">{String(label)}</p><I className="h-3.5 w-3.5 text-violet-200/55" /></div><p className="mt-2 text-base font-semibold text-zinc-100">{String(value)}</p></div>; })}</div></div></motion.div>
+          </div></div>
         </section>
 
-        <section id="inside" className="scroll-mt-24 border-b border-white/[.06] py-20 md:py-24"><div className="container mx-auto max-w-6xl px-4 sm:px-6"><SectionHeading eyebrow={c.productEyebrow} title={c.productTitle} lead={c.productLead} /><div className="mx-auto mt-10 grid max-w-5xl gap-3 sm:grid-cols-2 lg:grid-cols-4">{c.anti.map((item, index) => <div key={item} className="flex min-h-28 flex-col justify-between rounded-[22px] border border-white/[.07] bg-white/[.016] p-5"><X className="h-4 w-4 text-zinc-700" /><p className="mt-5 text-sm leading-6 text-zinc-400">{item}</p><span className="mt-4 text-[9px] tracking-[.16em] text-zinc-800">0{index + 1}</span></div>)}</div></div></section>
+        <section id="inside" className="scroll-mt-24 border-b border-white/[.06] py-20 md:py-24"><div className="container mx-auto max-w-6xl px-4 sm:px-6"><SectionHeading eyebrow={c.productEyebrow} title={c.productTitle} lead={c.productLead} /><div className="mx-auto mt-10 grid max-w-5xl gap-3 sm:grid-cols-2 lg:grid-cols-4">{c.anti.map((item,index)=><div key={item} className="flex min-h-28 flex-col justify-between rounded-[22px] border border-white/[.07] bg-white/[.016] p-5"><X className="h-4 w-4 text-zinc-700"/><p className="mt-5 text-sm leading-6 text-zinc-400">{item}</p><span className="mt-4 text-[9px] tracking-[.16em] text-zinc-800">0{index+1}</span></div>)}</div></div></section>
 
-        <section className="relative overflow-hidden border-b border-white/[.06] py-24 md:py-32"><div className="container relative z-10 mx-auto max-w-6xl px-4 sm:px-6"><SectionHeading eyebrow={c.tracksEyebrow} title={c.tracksTitle} lead={c.tracksLead} /><div className="mt-12 grid gap-4 md:grid-cols-2 xl:grid-cols-4">{c.tracks.map((track, index) => { const Icon = TRACK_ICONS[index] ?? Target; return <InteractiveSurface key={track.title} accent="violet" className="h-full rounded-[28px] border border-white/[.08] bg-white/[.018] p-6"><div className="flex items-center justify-between"><span className="flex h-11 w-11 items-center justify-center rounded-xl border border-violet-300/16 bg-violet-300/[.045] text-violet-200"><Icon className="h-4 w-4" /></span><span className="text-[9px] tracking-[.14em] text-zinc-700">0{index + 1}</span></div><h3 className="mt-6 text-lg font-semibold text-zinc-100">{track.title}</h3><p className="mt-3 text-sm leading-7 text-zinc-500">{track.text}</p><div className="mt-5 border-t border-white/[.06] pt-4"><p className="text-xs font-medium leading-5 text-violet-100/75">{track.outcome}</p></div></InteractiveSurface>; })}</div></div></section>
+        <section className="relative overflow-hidden border-b border-white/[.06] py-24 md:py-32"><div className="container relative z-10 mx-auto max-w-6xl px-4 sm:px-6"><SectionHeading eyebrow={c.tracksEyebrow} title={c.tracksTitle} lead={c.tracksLead}/><div className="mt-12 grid gap-4 md:grid-cols-2 xl:grid-cols-4">{c.tracks.map((track,index)=>{const Icon=TRACK_ICONS[index]??Target;return <InteractiveSurface key={track.title} accent="violet" className="h-full rounded-[28px] border border-white/[.08] bg-white/[.018] p-6"><div className="flex items-center justify-between"><span className="flex h-11 w-11 items-center justify-center rounded-xl border border-violet-300/16 bg-violet-300/[.045] text-violet-200"><Icon className="h-4 w-4"/></span><span className="text-[9px] tracking-[.14em] text-zinc-700">0{index+1}</span></div><h3 className="mt-6 text-lg font-semibold text-zinc-100">{track.title}</h3><p className="mt-3 text-sm leading-7 text-zinc-500">{track.text}</p><div className="mt-5 border-t border-white/[.06] pt-4"><p className="text-xs font-medium leading-5 text-violet-100/75">{track.outcome}</p></div></InteractiveSurface>})}</div></div></section>
 
-        <section className="border-b border-white/[.06] py-24 md:py-32"><div className="container mx-auto max-w-6xl px-4 sm:px-6"><SectionHeading eyebrow={c.loopEyebrow} title={c.loopTitle} lead={c.loopLead} /><div className="mx-auto mt-12 grid max-w-5xl gap-4 md:grid-cols-4">{c.loop.map((item, index) => { const Icon = LOOP_ICONS[index] ?? Target; return <div key={item.title} className="relative rounded-[25px] border border-white/[.075] bg-white/[.016] p-5"><span className="flex h-10 w-10 items-center justify-center rounded-xl border border-violet-300/16 bg-violet-300/[.045] text-violet-200"><Icon className="h-4 w-4" /></span><p className="mt-5 text-[9px] font-semibold uppercase tracking-[.16em] text-zinc-700">{item.meta}</p><h3 className="mt-2 text-sm font-semibold text-zinc-100">{item.title}</h3><p className="mt-3 text-xs leading-6 text-zinc-500">{item.text}</p>{index < c.loop.length - 1 ? <ArrowRight className="absolute -right-3 top-1/2 z-10 hidden h-4 w-4 -translate-y-1/2 text-violet-300/25 md:block" /> : null}</div>; })}</div></div></section>
+        <section className="border-b border-white/[.06] py-24 md:py-32"><div className="container mx-auto max-w-6xl px-4 sm:px-6"><SectionHeading eyebrow={c.loopEyebrow} title={c.loopTitle} lead={c.loopLead}/><div className="mx-auto mt-12 grid max-w-5xl gap-4 md:grid-cols-4">{c.loop.map((item,index)=>{const Icon=LOOP_ICONS[index]??Target;return <div key={item.title} className="relative rounded-[25px] border border-white/[.075] bg-white/[.016] p-5"><span className="flex h-10 w-10 items-center justify-center rounded-xl border border-violet-300/16 bg-violet-300/[.045] text-violet-200"><Icon className="h-4 w-4"/></span><p className="mt-5 text-[9px] font-semibold uppercase tracking-[.16em] text-zinc-700">{item.meta}</p><h3 className="mt-2 text-sm font-semibold text-zinc-100">{item.title}</h3><p className="mt-3 text-xs leading-6 text-zinc-500">{item.text}</p>{index<c.loop.length-1?<ArrowRight className="absolute -right-3 top-1/2 z-10 hidden h-4 w-4 -translate-y-1/2 text-violet-300/25 md:block"/>:null}</div>})}</div></div></section>
 
-        <section className="relative overflow-hidden border-b border-white/[.06] py-24 md:py-32"><div className="container relative z-10 mx-auto max-w-6xl px-4 sm:px-6"><SectionHeading eyebrow={c.clubEyebrow} title={c.clubTitle} lead={c.clubLead} /><div className="mt-12 grid gap-5 lg:grid-cols-[.9fr_1.1fr]"><div className="relative min-h-[420px] overflow-hidden rounded-[28px] border border-white/[.08]"><Image src="/warriors-group-photo.jpg" alt="Warriors members" fill sizes="(max-width: 1024px) 100vw, 42vw" className="object-cover opacity-58 saturate-[.72]" /><div className="absolute inset-0 bg-gradient-to-t from-black via-black/25 to-violet-950/10" /><div className="absolute inset-x-5 bottom-5 rounded-2xl border border-white/[.08] bg-black/62 p-5 backdrop-blur-xl"><p className="text-[10px] font-semibold uppercase tracking-[.18em] text-violet-200/65">Warriors</p><p className="mt-2 text-sm leading-6 text-zinc-300">A stronger room around real work.</p></div></div><div className="grid gap-4 sm:grid-cols-2">{c.clubItems.map((item, index) => <div key={item.title} className="rounded-[26px] border border-white/[.075] bg-white/[.018] p-6"><div className="flex items-start justify-between gap-4"><span className="flex h-10 w-10 items-center justify-center rounded-xl border border-violet-300/15 bg-violet-300/[.04] text-violet-200">{index === 0 ? <LayoutDashboard className="h-4 w-4" /> : index === 1 ? <MessageSquareText className="h-4 w-4" /> : index === 2 ? <Users className="h-4 w-4" /> : <Network className="h-4 w-4" />}</span><span className="text-[10px] tracking-[.17em] text-zinc-800">0{index + 1}</span></div><h3 className="mt-5 text-lg font-semibold text-zinc-100">{item.title}</h3><p className="mt-3 text-sm leading-7 text-zinc-500">{item.text}</p></div>)}</div></div></div></section>
+        <section className="relative overflow-hidden border-b border-white/[.06] py-24 md:py-32"><div className="container relative z-10 mx-auto max-w-6xl px-4 sm:px-6"><SectionHeading eyebrow={c.clubEyebrow} title={c.clubTitle} lead={c.clubLead}/><div className="mt-12 grid gap-5 lg:grid-cols-[.9fr_1.1fr]"><div className="relative min-h-[420px] overflow-hidden rounded-[28px] border border-white/[.08]"><Image src="/warriors-group-photo.jpg" alt="Warriors members" fill sizes="(max-width: 1024px) 100vw, 42vw" className="object-cover opacity-58 saturate-[.72]"/><div className="absolute inset-0 bg-gradient-to-t from-black via-black/25 to-violet-950/10"/><div className="absolute inset-x-5 bottom-5 rounded-2xl border border-white/[.08] bg-black/62 p-5 backdrop-blur-xl"><p className="text-[10px] font-semibold uppercase tracking-[.18em] text-violet-200/65">Warriors</p><p className="mt-2 text-sm leading-6 text-zinc-300">{c.groupLine}</p></div></div><div className="grid gap-4 sm:grid-cols-2">{c.clubItems.map((item,index)=><div key={item.title} className="rounded-[26px] border border-white/[.075] bg-white/[.018] p-6"><div className="flex items-start justify-between gap-4"><span className="flex h-10 w-10 items-center justify-center rounded-xl border border-violet-300/15 bg-violet-300/[.04] text-violet-200">{index===0?<LayoutDashboard className="h-4 w-4"/>:index===1?<MessageSquareText className="h-4 w-4"/>:index===2?<Users className="h-4 w-4"/>:<Network className="h-4 w-4"/>}</span><span className="text-[10px] tracking-[.17em] text-zinc-800">0{index+1}</span></div><h3 className="mt-5 text-lg font-semibold text-zinc-100">{item.title}</h3><p className="mt-3 text-sm leading-7 text-zinc-500">{item.text}</p></div>)}</div></div></div></section>
 
-        <section className="border-b border-white/[.06] py-24 md:py-32"><div className="container mx-auto max-w-6xl px-4 sm:px-6"><SectionHeading eyebrow={c.fitEyebrow} title={c.fitTitle} lead={c.fitLead} /><div className="mx-auto mt-12 grid max-w-5xl gap-5 lg:grid-cols-2"><div className="rounded-[28px] border border-emerald-300/[.12] bg-emerald-300/[.025] p-6 sm:p-7"><h3 className="flex items-center gap-2 text-lg font-semibold text-zinc-100"><Check className="h-5 w-5 text-emerald-200" />{c.forYouTitle}</h3><ul className="mt-6 space-y-4">{c.forYou.map((item) => <li key={item} className="flex items-start gap-3 text-sm leading-6 text-zinc-400"><Check className="mt-1 h-4 w-4 shrink-0 text-emerald-200/70" />{item}</li>)}</ul></div><div className="rounded-[28px] border border-white/[.08] bg-white/[.014] p-6 sm:p-7"><h3 className="flex items-center gap-2 text-lg font-semibold text-zinc-100"><X className="h-5 w-5 text-zinc-600" />{c.notForYouTitle}</h3><ul className="mt-6 space-y-4">{c.notForYou.map((item) => <li key={item} className="flex items-start gap-3 text-sm leading-6 text-zinc-500"><X className="mt-1 h-4 w-4 shrink-0 text-zinc-700" />{item}</li>)}</ul></div></div></div></section>
+        <section className="border-b border-white/[.06] py-24 md:py-32"><div className="container mx-auto max-w-6xl px-4 sm:px-6"><SectionHeading eyebrow={c.fitEyebrow} title={c.fitTitle} lead={c.fitLead}/><div className="mx-auto mt-12 grid max-w-5xl gap-5 lg:grid-cols-2"><div className="rounded-[28px] border border-emerald-300/[.12] bg-emerald-300/[.025] p-6 sm:p-7"><h3 className="flex items-center gap-2 text-lg font-semibold text-zinc-100"><Check className="h-5 w-5 text-emerald-200"/>{c.forYouTitle}</h3><ul className="mt-6 space-y-4">{c.forYou.map(item=><li key={item} className="flex items-start gap-3 text-sm leading-6 text-zinc-400"><Check className="mt-1 h-4 w-4 shrink-0 text-emerald-200/70"/>{item}</li>)}</ul></div><div className="rounded-[28px] border border-white/[.08] bg-white/[.014] p-6 sm:p-7"><h3 className="flex items-center gap-2 text-lg font-semibold text-zinc-100"><X className="h-5 w-5 text-zinc-600"/>{c.notForYouTitle}</h3><ul className="mt-6 space-y-4">{c.notForYou.map(item=><li key={item} className="flex items-start gap-3 text-sm leading-6 text-zinc-500"><X className="mt-1 h-4 w-4 shrink-0 text-zinc-700"/>{item}</li>)}</ul></div></div></div></section>
 
-        <section className="border-b border-white/[.06] py-24 md:py-32"><div className="container mx-auto max-w-6xl px-4 sm:px-6"><SectionHeading eyebrow={c.accessEyebrow} title={c.accessTitle} lead={c.accessLead} /><div className="mx-auto mt-12 grid max-w-5xl gap-4 md:grid-cols-4">{c.access.map((item, index) => <div key={item.title} className="relative rounded-[25px] border border-white/[.075] bg-white/[.016] p-5"><span className="flex h-10 w-10 items-center justify-center rounded-xl border border-violet-300/16 bg-violet-300/[.045] text-violet-200">{index === 0 ? <Target className="h-4 w-4" /> : index === 1 ? <ShieldCheck className="h-4 w-4" /> : index === 2 ? <CircleDollarSign className="h-4 w-4" /> : <Rocket className="h-4 w-4" />}</span><p className="mt-5 text-[9px] font-semibold uppercase tracking-[.16em] text-zinc-700">0{index + 1}</p><h3 className="mt-2 text-sm font-semibold text-zinc-100">{item.title}</h3><p className="mt-3 text-xs leading-6 text-zinc-500">{item.text}</p></div>)}</div></div></section>
+        <section className="border-b border-white/[.06] py-24 md:py-32"><div className="container mx-auto max-w-6xl px-4 sm:px-6"><SectionHeading eyebrow={c.accessEyebrow} title={c.accessTitle} lead={c.accessLead}/><div className="mx-auto mt-12 grid max-w-5xl gap-4 md:grid-cols-4">{c.access.map((item,index)=><div key={item.title} className="relative rounded-[25px] border border-white/[.075] bg-white/[.016] p-5"><span className="flex h-10 w-10 items-center justify-center rounded-xl border border-violet-300/16 bg-violet-300/[.045] text-violet-200">{index===0?<Target className="h-4 w-4"/>:index===1?<ShieldCheck className="h-4 w-4"/>:index===2?<CircleDollarSign className="h-4 w-4"/>:<Rocket className="h-4 w-4"/>}</span><p className="mt-5 text-[9px] font-semibold uppercase tracking-[.16em] text-zinc-700">0{index+1}</p><h3 className="mt-2 text-sm font-semibold text-zinc-100">{item.title}</h3><p className="mt-3 text-xs leading-6 text-zinc-500">{item.text}</p></div>)}</div></div></section>
 
-        <section className="relative overflow-hidden border-b border-white/[.06] py-24 md:py-32"><div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,rgba(139,92,246,.11),transparent_60%)]" /><div className="container relative z-10 mx-auto max-w-5xl px-4 sm:px-6"><SectionHeading eyebrow={c.pricingEyebrow} title={c.pricingTitle} lead={c.pricingLead} /><div className="mt-12 grid gap-5 md:grid-cols-2"><div className="rounded-[30px] border border-white/[.09] bg-white/[.018] p-7 sm:p-8"><p className="text-xs font-semibold uppercase tracking-[.18em] text-zinc-500">{c.monthlyLabel}</p><div className="mt-5 flex items-end gap-2"><span className="text-5xl font-semibold tracking-[-.05em] text-white">{c.monthlyPrice}</span><span className="pb-1 text-sm text-zinc-500">{c.monthlyPeriod}</span></div><p className="mt-4 text-sm leading-7 text-zinc-500">{c.monthlyDesc}</p><div className="mt-7"><ApplyButton className="w-full" /></div></div><div className="relative rounded-[30px] border border-violet-300/[.22] bg-[linear-gradient(145deg,rgba(139,92,246,.12),rgba(255,255,255,.02)_55%,rgba(212,175,55,.035))] p-7 shadow-[0_32px_90px_-48px_rgba(139,92,246,.45)] sm:p-8"><span className="absolute right-5 top-5 rounded-full border border-amber-200/20 bg-amber-200/[.06] px-3 py-1 text-[9px] font-semibold uppercase tracking-[.14em] text-amber-100">{c.annualBadge}</span><p className="text-xs font-semibold uppercase tracking-[.18em] text-violet-200/70">{c.annualLabel}</p><div className="mt-5 flex items-end gap-2"><span className="text-5xl font-semibold tracking-[-.05em] text-white">{c.annualPrice}</span><span className="pb-1 text-sm text-zinc-500">{c.annualPeriod}</span></div><p className="mt-4 text-sm leading-7 text-zinc-400">{c.annualDesc}</p><div className="mt-7"><ApplyButton className="w-full" /></div></div></div><div className="mx-auto mt-7 grid max-w-4xl gap-3 sm:grid-cols-2 lg:grid-cols-3">{c.planBullets.map((item) => <div key={item} className="flex items-start gap-2 rounded-2xl border border-white/[.06] bg-black/20 p-4 text-sm text-zinc-400"><Check className="mt-0.5 h-4 w-4 shrink-0 text-violet-200/75" />{item}</div>)}</div><p className="mx-auto mt-6 max-w-2xl text-center text-xs leading-6 text-zinc-600">{c.planFootnote}</p></div></section>
+        <section className="relative overflow-hidden border-b border-white/[.06] py-24 md:py-32"><div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,rgba(139,92,246,.11),transparent_60%)]"/><div className="container relative z-10 mx-auto max-w-5xl px-4 sm:px-6"><SectionHeading eyebrow={c.pricingEyebrow} title={c.pricingTitle} lead={c.pricingLead}/><div className="mt-12 grid gap-5 md:grid-cols-2"><div className="rounded-[30px] border border-white/[.09] bg-white/[.018] p-7 sm:p-8"><p className="text-xs font-semibold uppercase tracking-[.18em] text-zinc-500">{c.monthlyLabel}</p><div className="mt-5 flex items-end gap-2"><span className="text-5xl font-semibold tracking-[-.05em] text-white">{c.monthlyPrice}</span><span className="pb-1 text-sm text-zinc-500">{c.monthlyPeriod}</span></div><p className="mt-4 text-sm leading-7 text-zinc-500">{c.monthlyDesc}</p><div className="mt-7"><ApplyButton className="w-full"/></div></div><div className="relative rounded-[30px] border border-violet-300/[.22] bg-[linear-gradient(145deg,rgba(139,92,246,.12),rgba(255,255,255,.02)_55%,rgba(212,175,55,.035))] p-7 shadow-[0_32px_90px_-48px_rgba(139,92,246,.45)] sm:p-8"><span className="absolute right-5 top-5 rounded-full border border-amber-200/20 bg-amber-200/[.06] px-3 py-1 text-[9px] font-semibold uppercase tracking-[.14em] text-amber-100">{c.annualBadge}</span><p className="text-xs font-semibold uppercase tracking-[.18em] text-violet-200/70">{c.annualLabel}</p><div className="mt-5 flex items-end gap-2"><span className="text-5xl font-semibold tracking-[-.05em] text-white">{c.annualPrice}</span><span className="pb-1 text-sm text-zinc-500">{c.annualPeriod}</span></div><p className="mt-4 text-sm leading-7 text-zinc-400">{c.annualDesc}</p><div className="mt-7"><ApplyButton className="w-full"/></div></div></div><div className="mx-auto mt-7 grid max-w-4xl gap-3 sm:grid-cols-2 lg:grid-cols-3">{c.planBullets.map(item=><div key={item} className="flex items-start gap-2 rounded-2xl border border-white/[.06] bg-black/20 p-4 text-sm text-zinc-400"><Check className="mt-0.5 h-4 w-4 shrink-0 text-violet-200/75"/>{item}</div>)}</div><p className="mx-auto mt-6 max-w-2xl text-center text-xs leading-6 text-zinc-600">{c.planFootnote}</p></div></section>
 
-        <section className="border-b border-white/[.06] py-24 md:py-28"><div className="container mx-auto max-w-4xl px-4 sm:px-6"><SectionHeading eyebrow={c.faqEyebrow} title={c.faqTitle} /><div className="mt-10 space-y-3">{c.faq.map((item) => <details key={item.q} className="group rounded-[22px] border border-white/[.075] bg-white/[.016] p-5 open:border-violet-300/15"><summary className="flex cursor-pointer list-none items-center justify-between gap-4 text-sm font-semibold text-zinc-200"><span>{item.q}</span><ArrowRight className="h-4 w-4 shrink-0 text-zinc-600 transition-transform group-open:rotate-90" /></summary><p className="mt-4 pr-6 text-sm leading-7 text-zinc-500">{item.a}</p></details>)}</div></div></section>
+        <section className="border-b border-white/[.06] py-24 md:py-28"><div className="container mx-auto max-w-4xl px-4 sm:px-6"><SectionHeading eyebrow={c.faqEyebrow} title={c.faqTitle}/><div className="mt-10 space-y-3">{c.faq.map(item=><details key={item.q} className="group rounded-[22px] border border-white/[.075] bg-white/[.016] p-5 open:border-violet-300/15"><summary className="flex cursor-pointer list-none items-center justify-between gap-4 text-sm font-semibold text-zinc-200"><span>{item.q}</span><ArrowRight className="h-4 w-4 shrink-0 text-zinc-600 transition-transform group-open:rotate-90"/></summary><p className="mt-4 pr-6 text-sm leading-7 text-zinc-500">{item.a}</p></details>)}</div></div></section>
 
-        <section className="relative overflow-hidden py-24 md:py-32"><div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(139,92,246,.10),transparent_64%)]" /><div className="container relative z-10 mx-auto max-w-4xl px-4 text-center sm:px-6"><p className="text-[10px] font-semibold uppercase tracking-[.23em] text-violet-200/70">{c.finalEyebrow}</p><h2 className="section-title mx-auto mt-4 max-w-4xl text-[clamp(2.8rem,5.5vw,5.2rem)] leading-[.96] text-zinc-100">{c.finalTitle}</h2><p className="mx-auto mt-5 max-w-2xl text-sm leading-7 text-zinc-500 sm:text-base">{c.finalDesc}</p><div className="mt-8 flex justify-center"><ApplyButton /></div></div></section>
+        <section className="relative overflow-hidden py-24 md:py-32"><div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(139,92,246,.10),transparent_64%)]"/><div className="container relative z-10 mx-auto max-w-4xl px-4 text-center sm:px-6"><p className="text-[10px] font-semibold uppercase tracking-[.23em] text-violet-200/70">{c.finalEyebrow}</p><h2 className="section-title mx-auto mt-4 max-w-4xl text-[clamp(2.8rem,5.5vw,5.2rem)] leading-[.96] text-zinc-100">{c.finalTitle}</h2><p className="mx-auto mt-5 max-w-2xl text-sm leading-7 text-zinc-500 sm:text-base">{c.finalDesc}</p><div className="mt-8 flex justify-center"><ApplyButton/></div></div></section>
       </main>
       <FooterSection />
     </div>
