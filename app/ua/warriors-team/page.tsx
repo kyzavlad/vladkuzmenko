@@ -1,10 +1,13 @@
 import { I18nProvider } from "@/components/i18n-provider";
 import { WarriorsTeamFinalPage } from "@/components/pages/WarriorsTeamFinalPage";
-import { getDict } from "@/lib/i18n";
 import { pageMeta } from "@/lib/page-meta";
 
-const d = getDict("ua");
-export const metadata = pageMeta("ua", "warriors-team", d.meta.warriorsTitle, d.meta.warriorsDesc);
+export const metadata = pageMeta(
+  "ua",
+  "warriors-team",
+  "Warriors — навчання + execution network | Vlad Kuzmenko",
+  "Практичні AI systems, client acquisition, content і business tracks разом із weekly implementation та private execution community.",
+);
 
 export default function Page() {
   return <I18nProvider lang="ua"><WarriorsTeamFinalPage /></I18nProvider>;
