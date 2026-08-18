@@ -1,10 +1,13 @@
 import { I18nProvider } from "@/components/i18n-provider";
 import { WarriorsTeamFinalPage } from "@/components/pages/WarriorsTeamFinalPage";
-import { getDict } from "@/lib/i18n";
 import { pageMeta } from "@/lib/page-meta";
 
-const d = getDict("ru");
-export const metadata = pageMeta("ru", "warriors-team", d.meta.warriorsTitle, d.meta.warriorsDesc);
+export const metadata = pageMeta(
+  "ru",
+  "warriors-team",
+  "Warriors Founding Circle — закрытый круг исполнения",
+  "Отобранный закрытый круг для builders, которые уже исполняют: weekly Commit + Proof, две фокусные live-сессии каждый месяц, direct feedback и полезные introductions.",
+);
 
 export default function Page() {
   return <I18nProvider lang="ru"><WarriorsTeamFinalPage /></I18nProvider>;
