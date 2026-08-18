@@ -55,8 +55,7 @@ jobs:
             components/ui/direction-page-hero.tsx \
             components/pages/VisibilityOsPage.tsx \
             components/pages/VisibilityOsPremiumPage.tsx \
-            components/pages/VisibilityOsMarketPage.tsx \
-            components/pages/VisibilityOsIntentBridge.tsx \
+            components/pages/VisibilityOsMarketPageV3.tsx \
             components/pages/VisibilityOsAppPage.tsx \
             components/pages/WarriorsTeamPage.tsx \
             components/pages/DropPage.tsx \
@@ -86,6 +85,8 @@ jobs:
           grep -q 'visibilityos_claim_due_jobs' supabase/functions/visibilityos-monitor-worker/index.ts
           grep -q 'visibilityos_record_automation_callback' supabase/functions/visibilityos-monitor-worker/index.ts
           grep -q 'visibilityos_verify_cron_secret' supabase/functions/visibilityos-monitor-worker/index.ts
+          test -f supabase/migrations/20260818102000_visibilityos_explicit_verify_runs_v2.sql
+          grep -q 'visibilityos_record_user_scan_v2' supabase/migrations/20260818102000_visibilityos_explicit_verify_runs_v2.sql
 
       - name: Typecheck with known-debt guard
         shell: bash
@@ -136,9 +137,23 @@ jobs:
             components/home/EcosystemNavigator.tsx
             components/home/VisibilitySection.tsx
             components/pages/VisibilityOsPremiumPage.tsx
-            components/pages/VisibilityOsMarketPage.tsx
+            components/pages/VisibilityOsMarketPageV3.tsx
           )
           if grep -E "Собственные продукты, а не клиентские проекты|Власні продукти, а не клієнтські проєкти|AI-системы для бизнеса|AI-системи для бізнесу" "${files[@]}"; then
             echo "Retired positioning leaked into a current release surface."
+            exit 1
+          fi
+
+      - name: Reject retired VisibilityOS beta claims
+        shell: bash
+        run: |
+          files=(
+            components/pages/VisibilityOsMarketPageV3.tsx
+            app/visibilityos/page.tsx
+            app/ua/visibilityos/page.tsx
+            app/ru/visibilityos/page.tsx
+          )
+          if grep -Ei "monitoring beta|join beta|join monitoring beta|приєднатись до monitoring beta|присоединиться к monitoring beta" "${files[@]}"; then
+            echo "VisibilityOS is live; beta positioning must not appear on current public routes."
             exit 1
           fi
