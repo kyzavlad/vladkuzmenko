@@ -68,7 +68,7 @@
     },
     {
       "parameters": {
-        "jsCode": "const output = [];\nfor (const item of $input.all()) {\n  const jobs = Array.isArray(item.json.jobs) ? item.json.jobs : [];\n  for (const job of jobs) output.push({ json: job });\n}\nreturn output;"
+        "jsCode": "const output = [];\nfor (const item of $input.all()) {\n  const jobs = Array.isArray(item.json.jobs) ? item.json.jobs : [];\n  for (const job of jobs) {\n    output.push({\n      json: {\n        ...job,\n        scanEndpoint: job.jobType === 'daily'\n          ? 'https://www.vladkuzmenko.com/api/visibilityos/health'\n          : 'https://www.vladkuzmenko.com/api/visibilityos/scan',\n      },\n    });\n  }\n}\nreturn output;"
       },
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
@@ -79,7 +79,7 @@
     {
       "parameters": {
         "method": "POST",
-        "url": "https://www.vladkuzmenko.com/api/visibilityos/scan",
+        "url": "={{ $json.scanEndpoint }}",
         "sendHeaders": true,
         "headerParameters": {
           "parameters": [
@@ -95,11 +95,12 @@
       "typeVersion": 4.2,
       "position": [320, 0],
       "id": "a56e884b-bea6-4b5d-8d22-12bc0305aec6",
-      "name": "Run Visibility Scan"
+      "name": "Run Visibility Scan",
+      "onError": "continueRegularOutput"
     },
     {
       "parameters": {
-        "jsCode": "const job = $('Flatten Jobs').item.json;\nconst scan = $json;\nconst timestamp = Math.floor(Date.now() / 1000).toString();\n\nconst callback = scan && scan.ok === true && scan.result\n  ? {\n      projectId: job.projectId,\n      jobType: job.jobType,\n      idempotencyKey: job.idempotencyKey,\n      ok: true,\n      result: scan.result,\n      finishedAt: new Date().toISOString(),\n    }\n  : {\n      projectId: job.projectId,\n      jobType: job.jobType,\n      idempotencyKey: job.idempotencyKey,\n      ok: false,\n      error: String(scan?.error || 'visibility_scan_failed').slice(0, 2000),\n      finishedAt: new Date().toISOString(),\n    };\n\nconst body = JSON.stringify(callback);\nreturn [{\n  json: {\n    ...callback,\n    body,\n    timestamp,\n    signingValue: `${timestamp}.${body}`,\n  },\n}];"
+        "jsCode": "const job = $('Flatten Jobs').item.json;\nconst scan = $json;\nconst timestamp = Math.floor(Date.now() / 1000).toString();\n\nconst callback = scan && scan.ok === true && scan.result\n  ? {\n      projectId: job.projectId,\n      jobType: job.jobType,\n      idempotencyKey: job.idempotencyKey,\n      ok: true,\n      result: scan.result,\n      finishedAt: new Date().toISOString(),\n    }\n  : {\n      projectId: job.projectId,\n      jobType: job.jobType,\n      idempotencyKey: job.idempotencyKey,\n      ok: false,\n      error: String(scan?.error?.message || scan?.error || scan?.message || 'visibility_scan_failed').slice(0, 2000),\n      finishedAt: new Date().toISOString(),\n    };\n\nconst body = JSON.stringify(callback);\nreturn [{\n  json: {\n    ...callback,\n    body,\n    timestamp,\n    signingValue: `${timestamp}.${body}`,\n  },\n}];"
       },
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
