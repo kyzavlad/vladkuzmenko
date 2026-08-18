@@ -1,0 +1,7 @@
+-- Applied shared-project VisibilityOS RPC layer.
+-- Supabase migration history: 20260818054019 / visibilityos_product_rpcs_v1.
+--
+-- Creates authenticated project/workspace/action RPCs plus service-role-only job
+-- claiming/callback persistence. Live definitions are verified in the shared
+-- Supabase project and are intentionally not replaced by the retired generic-table
+-- prototype migrations.

@@ -69,6 +69,9 @@ export function Header() {
 
   const switchHref = (language: (typeof LANGS)[number]) => {
     const languageBase = language === "en" ? "" : `/${language}`;
+    if (rel === "/visibilityos/app" || rel.startsWith("/visibilityos/app/")) {
+      return `${languageBase}/visibilityos/app`;
+    }
     if (slug === "work") return `${languageBase}${rel}` || "/";
     const useSlug = LOCALIZED_SLUGS.has(slug) ? slug : "";
     return useSlug ? `${languageBase}/${useSlug}` : languageBase || "/";

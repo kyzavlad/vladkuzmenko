@@ -1,0 +1,5 @@
+-- Applied VisibilityOS API privilege hardening.
+-- Supabase migration history: 20260818054358 / visibilityos_api_privileges_v1.
+--
+-- Anonymous access is revoked from VisibilityOS customer tables; authenticated
+-- access is constrained by RLS and the internal runtime table stays service-only.

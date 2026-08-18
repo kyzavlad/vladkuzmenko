@@ -57,21 +57,35 @@ jobs:
             components/pages/VisibilityOsPremiumPage.tsx \
             components/pages/VisibilityOsMarketPage.tsx \
             components/pages/VisibilityOsIntentBridge.tsx \
+            components/pages/VisibilityOsAppPage.tsx \
             components/pages/WarriorsTeamPage.tsx \
             components/pages/DropPage.tsx \
             lib/directions.ts \
             lib/portfolio-curated.ts \
             lib/portfolio-schema.ts \
             lib/visibilityos-scan.ts \
+            lib/visibilityos-client.ts \
             app/api/visibilityos/scan/route.ts \
+            app/api/visibilityos/health/route.ts \
             app/visibilityos/page.tsx \
+            app/visibilityos/app/page.tsx \
             app/ua/visibilityos/page.tsx \
+            app/ua/visibilityos/app/page.tsx \
             app/ru/visibilityos/page.tsx \
+            app/ru/visibilityos/app/page.tsx \
             app/layout.tsx \
             app/robots.ts \
             app/sitemap.ts \
             middleware.ts \
             app/not-found.tsx
+
+      - name: Validate server-native monitoring source
+        shell: bash
+        run: |
+          test -f supabase/functions/visibilityos-monitor-worker/index.ts
+          grep -q 'visibilityos_claim_due_jobs' supabase/functions/visibilityos-monitor-worker/index.ts
+          grep -q 'visibilityos_record_automation_callback' supabase/functions/visibilityos-monitor-worker/index.ts
+          grep -q 'visibilityos_verify_cron_secret' supabase/functions/visibilityos-monitor-worker/index.ts
 
       - name: Typecheck with known-debt guard
         shell: bash
@@ -106,6 +120,8 @@ jobs:
           test -f .next/BUILD_ID
           test -f .next/server/app-paths-manifest.json
           grep -q 'api/visibilityos/scan' .next/server/app-paths-manifest.json
+          grep -q 'api/visibilityos/health' .next/server/app-paths-manifest.json
+          grep -q 'visibilityos/app' .next/server/app-paths-manifest.json
           grep -q 'visibilityos' .next/server/app-paths-manifest.json
           grep -q 'robots.txt' .next/server/app-paths-manifest.json
           grep -q 'sitemap.xml' .next/server/app-paths-manifest.json
