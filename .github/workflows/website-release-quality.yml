@@ -66,6 +66,7 @@ jobs:
             lib/visibilityos-automation.ts \
             lib/visibilityos-store.ts \
             app/api/visibilityos/scan/route.ts \
+            app/api/visibilityos/health/route.ts \
             app/api/visibilityos/automation/jobs/route.ts \
             app/api/visibilityos/automation/callback/route.ts \
             app/visibilityos/page.tsx \
@@ -113,6 +114,7 @@ jobs:
           test -f .next/BUILD_ID
           test -f .next/server/app-paths-manifest.json
           grep -q 'api/visibilityos/scan' .next/server/app-paths-manifest.json
+          grep -q 'api/visibilityos/health' .next/server/app-paths-manifest.json
           grep -q 'api/visibilityos/automation/jobs' .next/server/app-paths-manifest.json
           grep -q 'api/visibilityos/automation/callback' .next/server/app-paths-manifest.json
           grep -q 'visibilityos' .next/server/app-paths-manifest.json
