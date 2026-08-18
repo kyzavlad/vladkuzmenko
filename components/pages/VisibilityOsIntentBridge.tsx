@@ -1,30 +1,27 @@
 "use client";
 
 import { useEffect } from "react";
+import { usePathname } from "next/navigation";
 
 /**
- * The product cards are visible before a user runs a scan, while the contextual
- * request form intentionally renders only after a real scan exists. This small
- * bridge preserves the same CTA semantics: before results it moves the visitor
- * to the scan input; after results the page's native handlers take over and
- * move to the contextual request form.
+ * Keeps pre-scan product CTAs focused on the free Visibility Map while exposing
+ * the saved-project workspace as a persistent next step.
  */
 export function VisibilityOsIntentBridge() {
+  const pathname = usePathname();
+
   useEffect(() => {
     const product = document.getElementById("product");
     if (!product) return;
 
     const handleIntent = (event: Event) => {
       if (document.getElementById("request-plan")) return;
-
       const target = event.target;
       if (!(target instanceof Element)) return;
       const button = target.closest("button[type='button']");
       if (!button || !product.contains(button)) return;
-
       const scan = document.getElementById("scan");
       if (!scan) return;
-
       scan.scrollIntoView({ behavior: "smooth", block: "start" });
       window.setTimeout(() => {
         document.getElementById("visibility-url")?.focus({ preventScroll: true });
@@ -35,5 +32,19 @@ export function VisibilityOsIntentBridge() {
     return () => product.removeEventListener("click", handleIntent, true);
   }, []);
 
-  return null;
+  const prefix = pathname.startsWith("/ua/")
+    ? "/ua"
+    : pathname.startsWith("/ru/")
+      ? "/ru"
+      : "";
+  const label = prefix === "/ua" ? "Кабінет" : prefix === "/ru" ? "Кабинет" : "Workspace";
+
+  return (
+    <a
+      href={`${prefix}/visibilityos/app`}
+      className="fixed bottom-4 right-4 z-40 rounded-full border border-sky-200/15 bg-black/80 px-4 py-2 text-[11px] font-medium text-sky-100 shadow-[0_12px_40px_rgba(0,0,0,.45)] backdrop-blur-xl transition hover:border-sky-200/30 hover:bg-[#071015] sm:bottom-6 sm:right-6"
+    >
+      VisibilityOS · {label}
+    </a>
+  );
 }
