@@ -63,7 +63,11 @@ jobs:
             lib/portfolio-curated.ts \
             lib/portfolio-schema.ts \
             lib/visibilityos-scan.ts \
+            lib/visibilityos-automation.ts \
+            lib/visibilityos-store.ts \
             app/api/visibilityos/scan/route.ts \
+            app/api/visibilityos/automation/jobs/route.ts \
+            app/api/visibilityos/automation/callback/route.ts \
             app/visibilityos/page.tsx \
             app/ua/visibilityos/page.tsx \
             app/ru/visibilityos/page.tsx \
@@ -72,6 +76,9 @@ jobs:
             app/sitemap.ts \
             middleware.ts \
             app/not-found.tsx
+
+      - name: Validate n8n workflow JSON
+        run: node -e "JSON.parse(require('fs').readFileSync('n8n/VisibilityOS_Monitoring_Worker.json', 'utf8'))"
 
       - name: Typecheck with known-debt guard
         shell: bash
@@ -106,6 +113,8 @@ jobs:
           test -f .next/BUILD_ID
           test -f .next/server/app-paths-manifest.json
           grep -q 'api/visibilityos/scan' .next/server/app-paths-manifest.json
+          grep -q 'api/visibilityos/automation/jobs' .next/server/app-paths-manifest.json
+          grep -q 'api/visibilityos/automation/callback' .next/server/app-paths-manifest.json
           grep -q 'visibilityos' .next/server/app-paths-manifest.json
           grep -q 'robots.txt' .next/server/app-paths-manifest.json
           grep -q 'sitemap.xml' .next/server/app-paths-manifest.json
