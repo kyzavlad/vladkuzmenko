@@ -34,10 +34,10 @@
         "type": "SHA256",
         "value": "={{ $json.signingValue }}",
         "dataPropertyName": "signatureDigest",
-        "encoding": "HEX"
+        "encoding": "hex"
       },
       "type": "n8n-nodes-base.crypto",
-      "typeVersion": 1,
+      "typeVersion": 2,
       "position": [-430, 0],
       "id": "0292c65e-5213-4280-ae74-23d0c8e2315e",
       "name": "Sign Job Pull"
@@ -114,10 +114,10 @@
         "type": "SHA256",
         "value": "={{ $json.signingValue }}",
         "dataPropertyName": "signatureDigest",
-        "encoding": "HEX"
+        "encoding": "hex"
       },
       "type": "n8n-nodes-base.crypto",
-      "typeVersion": 1,
+      "typeVersion": 2,
       "position": [820, 0],
       "id": "a140c102-e9f1-45ce-871a-3585fe85f3f3",
       "name": "Sign Callback"
