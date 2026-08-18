@@ -35,6 +35,7 @@ Apply all migrations in order:
 ```text
 supabase/migrations/20260818070000_visibilityos_saas_v1.sql
 supabase/migrations/20260818073000_visibilityos_monitoring_modes.sql
+supabase/migrations/20260818074500_visibilityos_scan_result_guards.sql
 ```
 
 The migrations create:
@@ -49,6 +50,7 @@ The migrations create:
 - RLS policies for tenant isolation
 - service-role-only automation RPCs
 - separate daily-health and weekly-growth persistence semantics
+- database-level guards against mixing daily health and weekly full-scan result shapes
 
 Do not apply these migrations to the existing `dacha-tv-prod` project. VisibilityOS requires its own project/database.
 
@@ -172,7 +174,7 @@ This intentionally avoids noisy daily reports and avoids inventing rankings, tra
 Do not merge/release the SaaS layer until all are verified:
 
 1. Dedicated VisibilityOS Supabase project exists.
-2. Both migrations apply successfully.
+2. All three migrations apply successfully.
 3. Supabase security and performance advisors are reviewed.
 4. RLS tenant-isolation test passes with two users/workspaces.
 5. Vercel production env contains all three server secrets.
