@@ -7,15 +7,12 @@ import {
   BookOpenCheck,
   Check,
   CircleDollarSign,
-  Clock3,
   Flame,
   LayoutDashboard,
   MessageSquareText,
   Network,
-  PlayCircle,
   Rocket,
   ShieldCheck,
-  Sparkles,
   Target,
   Trophy,
   Users,
@@ -31,10 +28,10 @@ import { InteractiveSurface } from "@/components/ui/premium-interaction";
 import { useI18n } from "@/components/i18n-provider";
 import type { Lang } from "@/lib/i18n";
 
-const TRACK_ICONS: LucideIcon[] = [Workflow, Target, PlayCircle, LayoutDashboard];
+const TRACK_ICONS: LucideIcon[] = [Workflow, Target, BookOpenCheck, LayoutDashboard];
 const LOOP_ICONS: LucideIcon[] = [BookOpenCheck, Rocket, MessageSquareText, Trophy];
 
-const COPY: Record<Lang, {
+type Copy = {
   badge: string;
   eyebrow: string;
   titleA: string;
@@ -44,9 +41,8 @@ const COPY: Record<Lang, {
   primary: string;
   secondary: string;
   proofLine: string;
-  membershipLabel: string;
-  membershipValue: string;
-  membershipNote: string;
+  accessLabel: string;
+  accessValue: string;
   tracksLabel: string;
   tracksValue: string;
   liveLabel: string;
@@ -65,10 +61,10 @@ const COPY: Record<Lang, {
   loopTitle: string;
   loopLead: string;
   loop: { title: string; text: string; meta: string }[];
-  platformEyebrow: string;
-  platformTitle: string;
-  platformLead: string;
-  platformItems: { title: string; text: string }[];
+  clubEyebrow: string;
+  clubTitle: string;
+  clubLead: string;
+  clubItems: { title: string; text: string }[];
   fitEyebrow: string;
   fitTitle: string;
   fitLead: string;
@@ -80,11 +76,20 @@ const COPY: Record<Lang, {
   accessTitle: string;
   accessLead: string;
   access: { title: string; text: string }[];
-  priceEyebrow: string;
-  priceTitle: string;
-  priceDesc: string;
-  priceBullets: string[];
-  noCharge: string;
+  pricingEyebrow: string;
+  pricingTitle: string;
+  pricingLead: string;
+  monthlyLabel: string;
+  monthlyPrice: string;
+  monthlyPeriod: string;
+  monthlyDesc: string;
+  annualLabel: string;
+  annualPrice: string;
+  annualPeriod: string;
+  annualDesc: string;
+  annualBadge: string;
+  planBullets: string[];
+  planFootnote: string;
   faqEyebrow: string;
   faqTitle: string;
   faq: { q: string; a: string }[];
@@ -97,338 +102,364 @@ const COPY: Record<Lang, {
   dialogSuccessT: string;
   dialogSuccessM: string;
   fields: RequestField[];
-}> = {
+};
+
+const COPY: Record<Lang, Copy> = {
   en: {
-    badge: "Founding access · applications open",
-    eyebrow: "Warriors · learning + execution network",
-    titleA: "Learn skills that pay. ",
-    titleB: "Execute with people who do.",
-    lead: "One membership for practical skill tracks, live implementation sessions and a private execution network. Learn the system, apply it to a real project and show the proof.",
-    support: "The closest product model is an integrated learning community: structured tracks + live guidance + chat + execution. Warriors keeps that loop, but the content, positioning and operating system are original and built around the work we actually do.",
-    primary: "Apply for founding access",
+    badge: "Private club · applications open",
+    eyebrow: "Warriors · skills + execution + network",
+    titleA: "Build useful skills. ",
+    titleB: "Execute around people who do.",
+    lead: "A private club for builders who want practical training, direct feedback, weekly implementation and a stronger circle around real work.",
+    support: "Warriors combines structured learning with a selective community. You learn the next move, apply it to a real project, review the result and keep building with people who are doing the same.",
+    primary: "Apply for access",
     secondary: "See what is inside",
-    proofLine: "No fake member counts, fake income claims or borrowed course material. The first cohort is built around real execution and measurable output.",
-    membershipLabel: "Founding membership",
-    membershipValue: "$49 / month",
-    membershipNote: "after acceptance · cancel anytime",
-    tracksLabel: "Skill tracks",
-    tracksValue: "4 starting tracks",
-    liveLabel: "Implementation",
-    liveValue: "Weekly live review",
-    deliveryLabel: "Founding delivery",
-    deliveryValue: "Private hub + Telegram",
+    proofLine: "Access is selective. No fake member counts, income promises or borrowed course material.",
+    accessLabel: "Access",
+    accessValue: "Application only",
+    tracksLabel: "Learning paths",
+    tracksValue: "4 starting paths",
+    liveLabel: "Working sessions",
+    liveValue: "Weekly",
+    deliveryLabel: "Private layer",
+    deliveryValue: "Member hub + Telegram",
     productEyebrow: "The product",
-    productTitle: "Not a course library. An execution environment.",
-    productLead: "A lesson only matters when it changes what you can build, sell or ship. Every track is designed around action, feedback and proof instead of passive completion.",
-    anti: ["No separate course purchases", "No passive binge-watching", "No invented gurus or testimonials", "No public spam community"],
-    tracksEyebrow: "Starting tracks",
-    tracksTitle: "Four paths. One membership.",
-    tracksLead: "Start with the bottleneck that matters most. All founding members can move between tracks as their next problem changes.",
+    productTitle: "A private operating environment, not another video course.",
+    productLead: "The value is the combination: practical knowledge, implementation pressure, review and a selective circle. The platform exists to make the work easier, not to manufacture activity.",
+    anti: ["No passive course collecting", "No public spam community", "No guaranteed-income claims", "No access without application"],
+    tracksEyebrow: "Learning paths",
+    tracksTitle: "Four practical paths inside one club.",
+    tracksLead: "Start with the bottleneck that matters most. Move between paths as your next business problem changes.",
     tracks: [
-      { title: "AI Systems", text: "Build useful automations around leads, follow-up, operations and customer journeys without overengineering.", outcome: "Ship one working automation" },
-      { title: "Client Acquisition", text: "Choose a market, sharpen the offer, find prospects, run outreach and improve the sales conversation from evidence.", outcome: "Create a repeatable acquisition loop" },
-      { title: "Content Engine", text: "Turn ideas and real work into short-form and long-form content with a repeatable production and distribution system.", outcome: "Publish consistently with a system" },
-      { title: "Business Operator", text: "Improve positioning, offer economics, priorities, delivery and decision-making around what actually moves cash flow.", outcome: "Run the business with clearer numbers" },
+      { title: "AI Systems", text: "Build useful automation for leads, follow-up, operations and customer journeys without unnecessary complexity.", outcome: "Ship a working automation" },
+      { title: "Client Acquisition", text: "Sharpen the offer, find prospects, run outreach, improve sales conversations and build a repeatable acquisition loop.", outcome: "Create a repeatable client pipeline" },
+      { title: "Content Engine", text: "Turn ideas and real work into a repeatable short-form, long-form and distribution system.", outcome: "Publish consistently with a system" },
+      { title: "Business Operator", text: "Improve positioning, priorities, delivery, economics and decisions around what actually moves cash flow.", outcome: "Operate with clearer priorities and numbers" },
     ],
-    loopEyebrow: "The execution loop",
-    loopTitle: "Learn → apply → get feedback → show proof.",
-    loopLead: "The loop borrows the strongest mechanic of modern membership platforms: education and community live in one operating rhythm instead of separate products.",
+    loopEyebrow: "How members work",
+    loopTitle: "Learn → build → review → prove.",
+    loopLead: "Every learning unit points toward an implementation step. The club is designed around output, not time spent watching lessons.",
     loop: [
-      { title: "Learn the next move", text: "Short, structured lessons explain only what is needed for the next implementation step.", meta: "Track" },
-      { title: "Build on a real project", text: "Every module ends in an action: a page, workflow, offer, outreach batch, script, asset or measurable change.", meta: "Mission" },
-      { title: "Get reviewed", text: "Use the private chat and weekly live review to unblock the work, pressure-test decisions and improve the output.", meta: "Feedback" },
-      { title: "Post the proof", text: "Wins are concrete: shipped assets, replies, booked calls, working systems, published content or another verifiable result.", meta: "Proof" },
+      { title: "Learn the next move", text: "Use concise lessons, models and templates for the decision or skill you need now.", meta: "Learn" },
+      { title: "Build on a real project", text: "Turn the material into a page, workflow, offer, outreach batch, content asset or another real change.", meta: "Build" },
+      { title: "Get reviewed", text: "Bring blockers and decisions to the private community and weekly working session for direct feedback.", meta: "Review" },
+      { title: "Show the result", text: "Progress is visible through shipped assets, conversations, systems, content and measurable business changes.", meta: "Prove" },
     ],
-    platformEyebrow: "Founding delivery",
-    platformTitle: "Lean first. Custom software only when members earn the need.",
-    platformLead: "The Real World proves the power of putting learning, community and execution in one product. Warriors v1 keeps that product architecture without wasting cash on a custom app before paid behavior tells us exactly what to build.",
-    platformItems: [
-      { title: "Structured member hub", text: "Tracks, lessons, missions, templates and live-session archive live under the Warriors area of the main VladKuzmenko platform." },
-      { title: "Private execution chat", text: "Telegram is the fast communication layer for the founding cohort: help, feedback, proof posts and useful peer conversations." },
-      { title: "Weekly live implementation", text: "One focused session each week for reviews, hot seats, current tactics and decisions members are implementing now." },
-      { title: "Future member app", text: "Profiles, searchable resources, progress, marketplace and deeper community tooling are built only after recurring paid usage justifies them." },
+    clubEyebrow: "Why the club matters",
+    clubTitle: "Knowledge is easier to act on when the room raises the standard.",
+    clubLead: "The long-term product is the combination of skill, access and relationships. We start lean, but the club is designed to become more valuable as the quality of members and shared experience compounds.",
+    clubItems: [
+      { title: "Private member hub", text: "Learning paths, practical missions, templates and recordings live inside the main VladKuzmenko platform." },
+      { title: "Private community", text: "Telegram is the fast communication layer for questions, feedback, useful introductions and proof of work." },
+      { title: "Weekly working session", text: "Focused live review for current projects, decisions, hot seats and implementation problems." },
+      { title: "Business-model exchange", text: "Members can openly break down what they are testing, what worked, what failed and what they would do differently." },
     ],
     fitEyebrow: "Who it is for",
-    fitTitle: "For people trying to turn skills into output.",
-    fitLead: "There is no follower-count or revenue gate for the founding cohort. The useful filter is willingness to execute and show what happened.",
-    forYouTitle: "Strong fit",
+    fitTitle: "For people who want to turn knowledge into capability.",
+    fitLead: "There is no follower-count or revenue requirement. The useful filter is seriousness, execution and whether the person strengthens the room.",
+    forYouTitle: "Good fit",
     forYou: [
-      "You want a practical path into AI systems, client acquisition, content or operating a small business.",
-      "You are willing to implement each week, even if your project is still early.",
-      "You want feedback from people doing the work rather than another isolated video course.",
-      "You can share useful questions, lessons or proof instead of only consuming.",
-      "You care about building income-producing capability, not motivational entertainment.",
+      "You are building a business, product, content engine, service or serious professional skill.",
+      "You want practical guidance and a place to implement it with accountability.",
+      "You can contribute useful questions, experience, feedback or connections.",
+      "You are comfortable sharing real work and receiving direct feedback.",
+      "You value a smaller, higher-signal group over a huge public community.",
     ],
-    notForYouTitle: "Wrong fit",
+    notForYouTitle: "Not a fit",
     notForYou: [
-      "You expect a guaranteed income result from buying access.",
-      "You want copied courses, signals, shortcuts or a get-rich-quick promise.",
-      "You will not execute outside the platform.",
-      "You mainly want a group to spam with your offer.",
-      "You need hundreds of hours of theory before taking the first action.",
+      "You expect guaranteed income from buying access.",
+      "You only want passive entertainment or hundreds of hours of theory.",
+      "You will not implement outside the platform.",
+      "You want a group mainly to pitch your own offer.",
+      "You are not comfortable with a selective, contribution-based environment.",
     ],
     accessEyebrow: "Access",
-    accessTitle: "A simple founding flow.",
-    accessLead: "No separate Vercel product, no second website and no fake checkout. Warriors lives inside the main VladKuzmenko platform and uses the existing lead pipeline until billing deserves deeper automation.",
+    accessTitle: "Application first. Membership second.",
+    accessLead: "Warriors stays inside the main VladKuzmenko platform. No second website, no separate Vercel project and no public instant checkout.",
     access: [
-      { title: "Apply", text: "Choose the starting track, describe the current goal and show what you are already working on." },
-      { title: "Fit", text: "A short review confirms that the membership matches the goal and that the founding format is useful." },
-      { title: "Activate", text: "Accepted founding members activate the $49/month membership. Nothing is charged for the application." },
-      { title: "Start executing", text: "Enter the hub and private chat, pick the first mission and bring the result to the next live review." },
+      { title: "Apply", text: "Tell us what you are building, the current bottleneck and the path you want to strengthen first." },
+      { title: "Fit review", text: "We check whether the club can genuinely help and whether the applicant adds signal to the room." },
+      { title: "Choose a plan", text: "Accepted members choose monthly or annual access. Payment happens only after approval." },
+      { title: "Enter the club", text: "Get access to the member hub, private community and the next working session." },
     ],
-    priceEyebrow: "Founding membership",
-    priceTitle: "$49/month for all starting tracks.",
-    priceDesc: "One membership, not four course purchases. The founding price gives access to every starting track, the private execution network, weekly live implementation and new modules released into the same system.",
-    priceBullets: ["All 4 starting tracks", "Private founding community", "Weekly live implementation", "Missions + templates", "Proof and feedback loop", "Cancel anytime"],
-    noCharge: "The application is free. Payment is only requested after acceptance while the founding cohort and billing flow are being validated.",
+    pricingEyebrow: "Private membership",
+    pricingTitle: "Choose flexibility or commit for the year.",
+    pricingLead: "Both plans include the same access. The annual plan is preferred for members who want the network and skill-building to compound over time.",
+    monthlyLabel: "Monthly",
+    monthlyPrice: "$290",
+    monthlyPeriod: "/ month",
+    monthlyDesc: "Flexible access for members who want to start without an annual commitment.",
+    annualLabel: "Annual",
+    annualPrice: "$2,900",
+    annualPeriod: "/ year",
+    annualDesc: "Best for long-term participation. Equivalent to two months included compared with monthly access.",
+    annualBadge: "Preferred · 2 months included",
+    planBullets: ["All 4 learning paths", "Private member hub", "Private Telegram community", "Weekly working sessions", "Templates and implementation missions", "Feedback and useful introductions"],
+    planFootnote: "Application is free. Payment is offered only after approval. Founding pricing may increase as the member experience expands.",
     faqEyebrow: "Questions",
-    faqTitle: "What Warriors is actually becoming.",
+    faqTitle: "What Warriors is — and what it is not.",
     faq: [
-      { q: "Is Warriors a mastermind?", a: "No. The core product is broader: structured skill tracks, implementation, live guidance and community in one membership. Peer accountability is one mechanic, not the whole product." },
-      { q: "Is it a copy of The Real World?", a: "No. The Real World is the closest benchmark for the integrated membership model, but Warriors uses original curriculum, a narrower operator-led scope and no borrowed branding, copy, lessons or fabricated scale claims." },
-      { q: "Why not build a full custom community app now?", a: "Because software is not the first risk. The first risk is whether people pay, execute and stay. The founding stack proves that before we spend time and Vercel budget on features members may not need." },
-      { q: "Do I get every track?", a: "Yes. Founding access is one membership with all current tracks. You start with the track closest to your bottleneck and can move later." },
-      { q: "Are results guaranteed?", a: "No. The product supplies training, implementation structure, feedback and community. Outcomes still depend on the member doing the work and on the market they operate in." },
-      { q: "What gets added later?", a: "Only features supported by member behavior: deeper progress tracking, searchable profiles/resources, marketplace mechanics, more live formats and additional tracks where there is real demand." },
+      { q: "Is Warriors a course or a mastermind?", a: "Neither by itself. It is a private membership that combines practical learning, implementation, live review and a selective business network." },
+      { q: "Why is access selective?", a: "Because the quality of the room is part of the product. A smaller group of serious contributors is more useful than unrestricted access." },
+      { q: "Why $290/month or $2,900/year?", a: "The price is intentionally above a mass course subscription because membership includes a selective community and live implementation. It is still below mature high-ticket private networks while Warriors proves and expands its member value." },
+      { q: "Do I get every learning path?", a: "Yes. Both plans include all current paths. Start with the area closest to your bottleneck and move later when priorities change." },
+      { q: "Are business results guaranteed?", a: "No. Warriors provides training, environment, feedback and access. Results depend on execution, market conditions and the member's decisions." },
+      { q: "What gets added later?", a: "Only what real member behavior justifies: deeper progress tracking, stronger member profiles, searchable resources, more events and other tools that materially improve the club." },
     ],
-    finalEyebrow: "Warriors founding access",
-    finalTitle: "Stop collecting information. Build something with it.",
-    finalDesc: "Choose the skill that matters now, execute it on a real project and use the network to move faster. That is the product.",
-    dialogTitle: "Apply for Warriors Founding Access",
-    dialogDesc: "Tell us what you are trying to build, which track is closest to your current goal and what you want to execute in the next 30 days.",
+    finalEyebrow: "Warriors",
+    finalTitle: "Build faster with a stronger room around you.",
+    finalDesc: "If you want practical skills, direct feedback and a private network built around execution, apply for access.",
+    dialogTitle: "Apply to Warriors",
+    dialogDesc: "Tell us what you are building, what you want to improve and what you can bring to a private execution-focused club.",
     dialogSubmit: "Submit application",
     dialogSuccessT: "Application received",
-    dialogSuccessM: "Your application is in. If the founding format matches the goal, Vlad will reach out with the next step before any payment.",
+    dialogSuccessM: "Your application is in. If the fit is strong, Vlad will reach out with the next step and membership options.",
     fields: [
       { id: "name", label: "Your name", required: true, placeholder: "First and last name" },
       { id: "email", label: "Email", type: "email", required: true, placeholder: "you@email.com" },
       { id: "phone", label: "Telegram / WhatsApp", type: "tel", required: true, placeholder: "@handle or number" },
-      { id: "track", label: "Best starting track", type: "select", required: true, options: ["AI Systems", "Client Acquisition", "Content Engine", "Business Operator"] },
-      { id: "project", label: "What are you working on now?", type: "textarea", required: true, placeholder: "Business, project, current stage and link if available" },
-      { id: "goal30", label: "What do you want to execute in the next 30 days?", type: "textarea", required: true, placeholder: "A concrete outcome, not a vague goal" },
-      { id: "proof", label: "What have you already done?", type: "textarea", required: true, placeholder: "Anything shipped, sold, published, tested or built so far" },
+      { id: "track", label: "First area to strengthen", type: "select", required: true, options: ["AI Systems", "Client Acquisition", "Content Engine", "Business Operator"] },
+      { id: "project", label: "What are you building now?", type: "textarea", required: true, placeholder: "Business, project, current stage and link if available" },
+      { id: "goal30", label: "What do you want to change in the next 30 days?", type: "textarea", required: true, placeholder: "A concrete outcome" },
+      { id: "contribution", label: "What could you contribute to the club?", type: "textarea", required: true, placeholder: "Experience, skills, feedback, connections or perspective" },
     ],
   },
   ua: {
-    badge: "Founding access · заявки відкриті",
-    eyebrow: "Warriors · навчання + execution network",
-    titleA: "Освойте навички, що дають результат. ",
-    titleB: "Виконуйте поруч із тими, хто діє.",
-    lead: "Одна membership для практичних skill tracks, live implementation sessions і приватної execution network. Вивчіть систему, застосуйте її на реальному проєкті та покажіть proof.",
-    support: "Найближча продуктова модель — інтегрована learning community: structured tracks + live guidance + chat + execution. Warriors бере цей сильний цикл, але контент, позиціонування й operating system є оригінальними та побудованими навколо роботи, яку ми реально робимо.",
-    primary: "Подати заявку на founding access",
+    badge: "Закритий клуб · заявки відкриті",
+    eyebrow: "Warriors · навички + реалізація + оточення",
+    titleA: "Розвивайте корисні навички. ",
+    titleB: "Дійте поруч із тими, хто теж діє.",
+    lead: "Закритий клуб для тих, хто будує реальні проєкти й хоче практичне навчання, прямий зворотний зв'язок, щотижневу роботу та сильніше оточення.",
+    support: "Warriors поєднує структуроване навчання з відібраною спільнотою. Ви вивчаєте наступний крок, застосовуєте його на реальному проєкті, розбираєте результат і продовжуєте рухатись разом з іншими учасниками.",
+    primary: "Подати заявку",
     secondary: "Що всередині",
-    proofLine: "Без фейкової кількості учасників, вигаданих доходів чи запозичених курсів. Перша cohort будується навколо реального execution і вимірюваного output.",
-    membershipLabel: "Founding membership",
-    membershipValue: "$49 / місяць",
-    membershipNote: "після прийняття · cancel anytime",
-    tracksLabel: "Skill tracks",
+    proofLine: "Доступ за відбором. Без вигаданих цифр, обіцянок доходу чи запозичених курсів.",
+    accessLabel: "Доступ",
+    accessValue: "Лише за заявкою",
+    tracksLabel: "Напрями",
     tracksValue: "4 стартові напрями",
-    liveLabel: "Implementation",
-    liveValue: "Weekly live review",
-    deliveryLabel: "Founding delivery",
-    deliveryValue: "Private hub + Telegram",
+    liveLabel: "Робочі сесії",
+    liveValue: "Щотижня",
+    deliveryLabel: "Закрита частина",
+    deliveryValue: "Кабінет + Telegram",
     productEyebrow: "Продукт",
-    productTitle: "Не бібліотека курсів. Execution environment.",
-    productLead: "Урок має сенс лише тоді, коли змінює те, що ви можете побудувати, продати або запустити. Кожен track побудований навколо action, feedback і proof замість пасивного completion.",
-    anti: ["Без окремої купівлі курсів", "Без пасивного binge-watching", "Без вигаданих gurus чи testimonials", "Без public spam community"],
-    tracksEyebrow: "Стартові tracks",
-    tracksTitle: "Чотири шляхи. Одна membership.",
-    tracksLead: "Починайте з bottleneck, який має найбільше значення. Усі founding members можуть переходити між tracks, коли змінюється наступна задача.",
+    productTitle: "Закрите робоче середовище, а не ще один відеокурс.",
+    productLead: "Цінність у поєднанні: практичні знання, тиск до реалізації, розбори та відібране оточення. Платформа існує для роботи, а не для імітації активності.",
+    anti: ["Без пасивного накопичення курсів", "Без публічної спам-спільноти", "Без гарантій доходу", "Без автоматичного доступу"],
+    tracksEyebrow: "Напрями навчання",
+    tracksTitle: "Чотири практичні напрями в одному клубі.",
+    tracksLead: "Починайте з того вузького місця, яке зараз найбільше впливає на результат. Переходьте між напрямами, коли змінюються пріоритети.",
     tracks: [
-      { title: "AI Systems", text: "Створюйте корисні automation-системи для leads, follow-up, operations і customer journeys без overengineering.", outcome: "Запустити одну working automation" },
-      { title: "Client Acquisition", text: "Оберіть market, посильте offer, знайдіть prospects, запустіть outreach і покращуйте sales conversation на основі evidence.", outcome: "Створити repeatable acquisition loop" },
-      { title: "Content Engine", text: "Перетворюйте ідеї та реальну роботу на short-form і long-form content через repeatable production + distribution system.", outcome: "Публікувати стабільно через систему" },
-      { title: "Business Operator", text: "Покращуйте positioning, offer economics, priorities, delivery і рішення навколо того, що реально рухає cash flow.", outcome: "Керувати бізнесом з яснішими numbers" },
+      { title: "ШІ-системи", text: "Створюйте корисні автоматизації для лідів, повторних контактів, операцій та клієнтського шляху без зайвої складності.", outcome: "Запустити робочу автоматизацію" },
+      { title: "Залучення клієнтів", text: "Посильте пропозицію, знайдіть потенційних клієнтів, запустіть системний контакт і покращуйте продажі на основі реальних відповідей.", outcome: "Створити повторюваний потік клієнтів" },
+      { title: "Контент-система", text: "Перетворюйте ідеї та реальну роботу на стабільну систему короткого, довгого контенту й дистрибуції.", outcome: "Публікувати стабільно через систему" },
+      { title: "Управління бізнесом", text: "Покращуйте позиціонування, пріоритети, виконання, економіку та рішення навколо того, що реально рухає грошовий потік.", outcome: "Керувати з яснішими пріоритетами й цифрами" },
     ],
-    loopEyebrow: "Execution loop",
-    loopTitle: "Learn → apply → get feedback → show proof.",
-    loopLead: "Цикл бере найсильнішу механіку сучасних membership platforms: education і community живуть в одному operating rhythm, а не продаються як розрізнені продукти.",
+    loopEyebrow: "Як працюють учасники",
+    loopTitle: "Вивчити → реалізувати → розібрати → показати результат.",
+    loopLead: "Кожен навчальний блок веде до конкретної дії. Клуб побудований навколо результату, а не кількості переглянутих уроків.",
     loop: [
-      { title: "Вивчіть наступний крок", text: "Короткі structured lessons пояснюють лише те, що потрібно для наступної implementation дії.", meta: "Track" },
-      { title: "Будуйте на реальному проєкті", text: "Кожен module завершується action: page, workflow, offer, outreach batch, script, asset або measurable change.", meta: "Mission" },
-      { title: "Отримайте review", text: "Private chat і weekly live review допомагають розблокувати роботу, перевірити рішення й покращити output.", meta: "Feedback" },
-      { title: "Покажіть proof", text: "Wins конкретні: shipped assets, replies, booked calls, working systems, published content або інший verifiable result.", meta: "Proof" },
+      { title: "Вивчіть наступний крок", text: "Використовуйте короткі уроки, моделі й шаблони саме для тієї задачі, яка потрібна зараз.", meta: "Навчання" },
+      { title: "Зробіть на реальному проєкті", text: "Перетворіть матеріал на сторінку, автоматизацію, пропозицію, серію контактів, контент або іншу реальну зміну.", meta: "Реалізація" },
+      { title: "Отримайте розбір", text: "Приносьте блокери й рішення у закриту спільноту та на щотижневу робочу сесію.", meta: "Розбір" },
+      { title: "Покажіть результат", text: "Прогрес видно через запущені матеріали, діалоги, системи, контент і вимірювані зміни в бізнесі.", meta: "Результат" },
     ],
-    platformEyebrow: "Founding delivery",
-    platformTitle: "Спочатку lean. Custom software лише коли учасники доведуть потребу.",
-    platformLead: "The Real World показує силу об'єднання learning, community та execution в одному продукті. Warriors v1 залишає цю product architecture, але не спалює cash і Vercel budget на custom app до того, як paid behavior покаже, що саме треба будувати.",
-    platformItems: [
-      { title: "Structured member hub", text: "Tracks, lessons, missions, templates і live-session archive живуть у Warriors-зоні основної VladKuzmenko platform." },
-      { title: "Private execution chat", text: "Telegram — швидкий communication layer для founding cohort: help, feedback, proof posts і корисні peer conversations." },
-      { title: "Weekly live implementation", text: "Одна сфокусована сесія щотижня для reviews, hot seats, актуальних tactics і рішень, які учасники реалізують зараз." },
-      { title: "Future member app", text: "Profiles, searchable resources, progress, marketplace та deeper community tooling будуємо лише після recurring paid usage." },
+    clubEyebrow: "Чому клуб важливий",
+    clubTitle: "Знання легше перетворювати на дію, коли оточення піднімає планку.",
+    clubLead: "Довгострокова цінність Warriors — у поєднанні навичок, доступу й відносин. Ми починаємо просто, але клуб має ставати сильнішим разом із якістю учасників і накопиченим досвідом.",
+    clubItems: [
+      { title: "Закритий кабінет", text: "Напрями, практичні завдання, шаблони й записи сесій живуть у Warriors-зоні основної платформи VladKuzmenko." },
+      { title: "Закрита спільнота", text: "Telegram — швидкий канал для запитань, зворотного зв'язку, корисних знайомств і результатів роботи." },
+      { title: "Щотижнева робоча сесія", text: "Сфокусований живий розбір поточних проєктів, рішень, складних ситуацій та реалізації." },
+      { title: "Обмін бізнес-моделями", text: "Учасники можуть відкрито розбирати, що вони тестують, що спрацювало, що ні та що зробили б інакше." },
     ],
     fitEyebrow: "Для кого",
-    fitTitle: "Для тих, хто хоче перетворити skills на output.",
-    fitLead: "У founding cohort немає follower-count чи revenue gate. Корисний фільтр — готовність виконувати й показувати, що сталося.",
-    forYouTitle: "Strong fit",
+    fitTitle: "Для тих, хто хоче перетворювати знання на реальні можливості.",
+    fitLead: "Немає вимоги щодо кількості підписників або доходу. Важливі серйозність, готовність діяти та здатність посилювати оточення.",
+    forYouTitle: "Підходить",
     forYou: [
-      "Ви хочете практичний шлях в AI systems, client acquisition, content або operating small business.",
-      "Готові implement щотижня, навіть якщо проєкт ще ранній.",
-      "Хочете feedback від людей, які роблять роботу, а не ще один isolated video course.",
-      "Можете ділитися корисними питаннями, lessons або proof, а не лише consume.",
-      "Цікавить income-producing capability, а не motivational entertainment.",
+      "Ви будуєте бізнес, продукт, контент-систему, послугу або серйозну професійну навичку.",
+      "Хочете практичне навчання та середовище, де його потрібно застосовувати.",
+      "Можете додавати корисні питання, досвід, зворотний зв'язок або контакти.",
+      "Готові показувати реальну роботу та приймати прямий зворотний зв'язок.",
+      "Цінуєте менше, але сильніше коло замість великої публічної спільноти.",
     ],
-    notForYouTitle: "Wrong fit",
+    notForYouTitle: "Не підходить",
     notForYou: [
-      "Очікуєте guaranteed income result від купівлі доступу.",
-      "Шукаєте copied courses, signals, shortcuts або get-rich-quick promise.",
-      "Не будете execute поза платформою.",
-      "Головна мета — spam групи своїм offer.",
-      "Потрібні сотні годин theory до першої дії.",
+      "Очікуєте гарантованого доходу лише від купівлі доступу.",
+      "Хочете тільки пасивний контент або сотні годин теорії.",
+      "Не плануєте нічого реалізовувати поза платформою.",
+      "Шукаєте групу переважно для просування власної пропозиції.",
+      "Не готові до відбору та середовища, де важливий внесок кожного.",
     ],
     accessEyebrow: "Доступ",
-    accessTitle: "Простий founding flow.",
-    accessLead: "Без окремого Vercel product, другого сайту чи fake checkout. Warriors живе всередині основної VladKuzmenko platform і використовує існуючий lead pipeline, поки billing не виправдає глибшу automation.",
+    accessTitle: "Спочатку заявка. Потім участь.",
+    accessLead: "Warriors залишається всередині основної платформи VladKuzmenko. Без другого сайту, окремого Vercel-проєкту чи миттєвої публічної оплати.",
     access: [
-      { title: "Apply", text: "Оберіть starting track, опишіть current goal і покажіть, над чим уже працюєте." },
-      { title: "Fit", text: "Короткий review підтверджує, що membership відповідає цілі й founding format буде корисним." },
-      { title: "Activate", text: "Accepted founding members активують membership за $49/місяць. За application оплати немає." },
-      { title: "Start executing", text: "Увійдіть у hub і private chat, оберіть першу mission і принесіть результат на наступний live review." },
+      { title: "Заявка", text: "Розкажіть, що будуєте, де зараз головна проблема та який напрям хочете посилити першим." },
+      { title: "Перевірка відповідності", text: "Ми дивимось, чи клуб справді може допомогти і чи кандидат посилить середовище." },
+      { title: "Вибір плану", text: "Після схвалення можна обрати місячну або річну участь. Оплата лише після рішення." },
+      { title: "Вхід у клуб", text: "Отримайте доступ до кабінету, закритої спільноти та найближчої робочої сесії." },
     ],
-    priceEyebrow: "Founding membership",
-    priceTitle: "$49/місяць за всі стартові tracks.",
-    priceDesc: "Одна membership, а не чотири окремі курси. Founding price дає доступ до всіх стартових tracks, private execution network, weekly live implementation і нових modules в тій самій системі.",
-    priceBullets: ["Усі 4 стартові tracks", "Private founding community", "Weekly live implementation", "Missions + templates", "Proof + feedback loop", "Cancel anytime"],
-    noCharge: "Application безкоштовна. Payment запитується лише після acceptance, поки founding cohort і billing flow проходять validation.",
+    pricingEyebrow: "Закрита участь",
+    pricingTitle: "Оберіть гнучкість або рік у сильному середовищі.",
+    pricingLead: "Обидва плани дають однаковий доступ. Річний варіант створений для тих, хто хоче накопичувати навички, зв'язки та результат протягом року.",
+    monthlyLabel: "Щомісячно",
+    monthlyPrice: "$290",
+    monthlyPeriod: "/ місяць",
+    monthlyDesc: "Гнучкий формат без річного зобов'язання.",
+    annualLabel: "На рік",
+    annualPrice: "$2,900",
+    annualPeriod: "/ рік",
+    annualDesc: "Основний формат для довгострокової участі. Два місяці фактично включені у вартість.",
+    annualBadge: "Рекомендовано · 2 місяці включено",
+    planBullets: ["Усі 4 напрями навчання", "Закритий кабінет", "Закрита Telegram-спільнота", "Щотижневі робочі сесії", "Шаблони та практичні завдання", "Зворотний зв'язок і корисні знайомства"],
+    planFootnote: "Заявка безкоштовна. Оплата доступна лише після схвалення. Ціна першого набору може зростати разом із розвитком клубу.",
     faqEyebrow: "Питання",
-    faqTitle: "Чим Warriors реально стає.",
+    faqTitle: "Чим Warriors є — і чим не є.",
     faq: [
-      { q: "Warriors — це mastermind?", a: "Ні. Core product ширший: structured skill tracks, implementation, live guidance і community в одній membership. Peer accountability — одна механіка, а не весь продукт." },
-      { q: "Це копія The Real World?", a: "Ні. The Real World — найближчий benchmark для integrated membership model, але Warriors використовує original curriculum, вужчий operator-led scope і не копіює branding, copy, lessons чи fabricated scale claims." },
-      { q: "Чому не будувати full custom community app зараз?", a: "Бо software — не перший risk. Спочатку треба довести, що люди платять, виконують і залишаються. Founding stack перевіряє це до витрат на features, які можуть не знадобитися." },
-      { q: "Я отримую всі tracks?", a: "Так. Founding access — одна membership з усіма поточними tracks. Починаєте з найближчого bottleneck і можете перейти пізніше." },
-      { q: "Результати гарантовані?", a: "Ні. Product дає training, implementation structure, feedback і community. Outcome залежить від виконання та market." },
-      { q: "Що додається пізніше?", a: "Лише features, підтверджені member behavior: deeper progress tracking, searchable profiles/resources, marketplace mechanics, більше live formats і додаткові tracks за реального demand." },
+      { q: "Warriors — це курс чи mastermind?", a: "Не лише курс і не лише група. Це закрита участь, що поєднує практичне навчання, реалізацію, живі розбори та відібрану бізнес-мережу." },
+      { q: "Чому доступ за відбором?", a: "Тому що якість оточення є частиною продукту. Менша група серйозних учасників корисніша за необмежений відкритий доступ." },
+      { q: "Чому $290 на місяць або $2,900 на рік?", a: "Це вище за масову освітню підписку, тому що тут є закрите оточення та живі робочі сесії. Водночас ми не імітуємо ціну зрілих дорогих приватних мереж, поки Warriors ще нарощує свою цінність." },
+      { q: "Чи доступні всі напрями?", a: "Так. Обидва плани включають усі поточні напрями. Починайте з головного вузького місця і переходьте далі, коли зміняться пріоритети." },
+      { q: "Чи гарантований бізнес-результат?", a: "Ні. Warriors дає навчання, середовище, зворотний зв'язок і доступ. Результат залежить від реалізації, ринку та рішень учасника." },
+      { q: "Що буде додано пізніше?", a: "Лише те, що підтвердить реальна поведінка учасників: глибший прогрес, профілі, пошук матеріалів, більше подій та інші функції, що реально підсилюють клуб." },
     ],
-    finalEyebrow: "Warriors founding access",
-    finalTitle: "Не збирайте інформацію. Побудуйте щось із неї.",
-    finalDesc: "Оберіть skill, який потрібен зараз, реалізуйте його на реальному проєкті й використовуйте network, щоб рухатись швидше. Це і є продукт.",
-    dialogTitle: "Заявка на Warriors Founding Access",
-    dialogDesc: "Розкажіть, що хочете побудувати, який track найближчий до current goal і що хочете виконати за наступні 30 днів.",
+    finalEyebrow: "Warriors",
+    finalTitle: "Рухайтесь швидше, коли поруч сильніше оточення.",
+    finalDesc: "Якщо вам потрібні практичні навички, прямий зворотний зв'язок і закрита мережа навколо реальної роботи — подайте заявку.",
+    dialogTitle: "Заявка у Warriors",
+    dialogDesc: "Розкажіть, що будуєте, що хочете посилити та що можете додати до закритого клубу, орієнтованого на результат.",
     dialogSubmit: "Надіслати заявку",
     dialogSuccessT: "Заявку отримано",
-    dialogSuccessM: "Заявка прийшла. Якщо founding format відповідає цілі, Vlad напише з наступним кроком до будь-якої оплати.",
+    dialogSuccessM: "Заявка прийшла. Якщо відповідність сильна, Vlad напише з наступним кроком і варіантами участі.",
     fields: [
       { id: "name", label: "Ваше ім'я", required: true, placeholder: "Ім'я та прізвище" },
       { id: "email", label: "Email", type: "email", required: true, placeholder: "you@email.com" },
       { id: "phone", label: "Telegram / WhatsApp", type: "tel", required: true, placeholder: "@handle або номер" },
-      { id: "track", label: "Найкращий starting track", type: "select", required: true, options: ["AI Systems", "Client Acquisition", "Content Engine", "Business Operator"] },
-      { id: "project", label: "Над чим ви працюєте зараз?", type: "textarea", required: true, placeholder: "Business, project, current stage і link, якщо є" },
-      { id: "goal30", label: "Що хочете виконати за наступні 30 днів?", type: "textarea", required: true, placeholder: "Конкретний outcome, не vague goal" },
-      { id: "proof", label: "Що вже зроблено?", type: "textarea", required: true, placeholder: "Що вже shipped, sold, published, tested або built" },
+      { id: "track", label: "Перший напрям для посилення", type: "select", required: true, options: ["ШІ-системи", "Залучення клієнтів", "Контент-система", "Управління бізнесом"] },
+      { id: "project", label: "Що ви будуєте зараз?", type: "textarea", required: true, placeholder: "Бізнес, проєкт, поточна стадія та посилання, якщо є" },
+      { id: "goal30", label: "Що хочете змінити за наступні 30 днів?", type: "textarea", required: true, placeholder: "Конкретний результат" },
+      { id: "contribution", label: "Що ви можете додати до клубу?", type: "textarea", required: true, placeholder: "Досвід, навички, зворотний зв'язок, контакти або погляд" },
     ],
   },
   ru: {
-    badge: "Founding access · заявки открыты",
-    eyebrow: "Warriors · обучение + execution network",
-    titleA: "Освойте навыки, которые дают результат. ",
-    titleB: "Исполняйте рядом с теми, кто действует.",
-    lead: "Одна membership для практических skill tracks, live implementation sessions и закрытой execution network. Изучите систему, примените её на реальном проекте и покажите proof.",
-    support: "Ближайшая продуктовая модель — интегрированная learning community: structured tracks + live guidance + chat + execution. Warriors берёт этот сильный цикл, но контент, позиционирование и operating system оригинальны и построены вокруг работы, которую мы реально делаем.",
-    primary: "Подать заявку на founding access",
+    badge: "Закрытый клуб · заявки открыты",
+    eyebrow: "Warriors · навыки + реализация + окружение",
+    titleA: "Развивайте полезные навыки. ",
+    titleB: "Действуйте рядом с теми, кто тоже действует.",
+    lead: "Закрытый клуб для тех, кто строит реальные проекты и хочет практическое обучение, прямую обратную связь, еженедельную совместную работу и более сильное окружение.",
+    support: "Warriors объединяет структурированное обучение с отобранным сообществом. Вы изучаете следующий шаг, применяете его на реальном проекте, разбираете результат и продолжаете двигаться вместе с другими участниками.",
+    primary: "Подать заявку",
     secondary: "Что внутри",
-    proofLine: "Без фейкового числа участников, выдуманных доходов или заимствованных курсов. Первая cohort строится вокруг реального execution и измеримого output.",
-    membershipLabel: "Founding membership",
-    membershipValue: "$49 / месяц",
-    membershipNote: "после принятия · cancel anytime",
-    tracksLabel: "Skill tracks",
+    proofLine: "Доступ по отбору. Без выдуманных цифр, обещаний дохода и заимствованных курсов.",
+    accessLabel: "Доступ",
+    accessValue: "Только по заявке",
+    tracksLabel: "Направления",
     tracksValue: "4 стартовых направления",
-    liveLabel: "Implementation",
-    liveValue: "Weekly live review",
-    deliveryLabel: "Founding delivery",
-    deliveryValue: "Private hub + Telegram",
+    liveLabel: "Рабочие сессии",
+    liveValue: "Каждую неделю",
+    deliveryLabel: "Закрытая часть",
+    deliveryValue: "Кабинет + Telegram",
     productEyebrow: "Продукт",
-    productTitle: "Не библиотека курсов. Execution environment.",
-    productLead: "Урок имеет смысл только тогда, когда меняет то, что вы способны построить, продать или запустить. Каждый track построен вокруг action, feedback и proof вместо пассивного completion.",
-    anti: ["Без отдельной покупки курсов", "Без пассивного binge-watching", "Без придуманных gurus или testimonials", "Без public spam community"],
-    tracksEyebrow: "Стартовые tracks",
-    tracksTitle: "Четыре пути. Одна membership.",
-    tracksLead: "Начинайте с bottleneck, который важнее всего. Все founding members могут переходить между tracks, когда меняется следующая задача.",
+    productTitle: "Закрытая рабочая среда, а не ещё один видеокурс.",
+    productLead: "Ценность в сочетании: практические знания, давление к реализации, разборы и отобранное окружение. Платформа существует для работы, а не для имитации активности.",
+    anti: ["Без пассивного накопления курсов", "Без публичного спам-сообщества", "Без гарантий дохода", "Без автоматического доступа"],
+    tracksEyebrow: "Направления обучения",
+    tracksTitle: "Четыре практических направления внутри одного клуба.",
+    tracksLead: "Начинайте с того узкого места, которое сильнее всего влияет на результат сейчас. Переходите между направлениями, когда меняются приоритеты.",
     tracks: [
-      { title: "AI Systems", text: "Стройте полезные automation-системы вокруг leads, follow-up, operations и customer journeys без overengineering.", outcome: "Запустить одну working automation" },
-      { title: "Client Acquisition", text: "Выберите market, усилите offer, найдите prospects, запустите outreach и улучшайте sales conversation на основании evidence.", outcome: "Создать repeatable acquisition loop" },
-      { title: "Content Engine", text: "Превращайте идеи и реальную работу в short-form и long-form content через repeatable production + distribution system.", outcome: "Публиковаться стабильно через систему" },
-      { title: "Business Operator", text: "Улучшайте positioning, offer economics, priorities, delivery и решения вокруг того, что реально двигает cash flow.", outcome: "Управлять бизнесом с более ясными numbers" },
+      { title: "ИИ-системы", text: "Создавайте полезные автоматизации для лидов, повторных контактов, операций и клиентского пути без лишней сложности.", outcome: "Запустить рабочую автоматизацию" },
+      { title: "Привлечение клиентов", text: "Усильте предложение, найдите потенциальных клиентов, запустите системный контакт и улучшайте продажи на основе реальных ответов.", outcome: "Создать повторяемый поток клиентов" },
+      { title: "Контент-система", text: "Превращайте идеи и реальную работу в стабильную систему короткого, длинного контента и распространения.", outcome: "Публиковаться стабильно через систему" },
+      { title: "Управление бизнесом", text: "Улучшайте позиционирование, приоритеты, выполнение, экономику и решения вокруг того, что реально двигает денежный поток.", outcome: "Управлять с более ясными приоритетами и цифрами" },
     ],
-    loopEyebrow: "Execution loop",
-    loopTitle: "Learn → apply → get feedback → show proof.",
-    loopLead: "Цикл берёт сильнейшую механику современных membership platforms: education и community живут в одном operating rhythm, а не продаются как разрозненные продукты.",
+    loopEyebrow: "Как работают участники",
+    loopTitle: "Изучить → реализовать → разобрать → показать результат.",
+    loopLead: "Каждый учебный блок ведёт к конкретному действию. Клуб построен вокруг результата, а не количества просмотренных уроков.",
     loop: [
-      { title: "Изучите следующий шаг", text: "Короткие structured lessons объясняют только то, что нужно для следующего implementation-действия.", meta: "Track" },
-      { title: "Стройте на реальном проекте", text: "Каждый module заканчивается action: page, workflow, offer, outreach batch, script, asset или measurable change.", meta: "Mission" },
-      { title: "Получите review", text: "Private chat и weekly live review помогают разблокировать работу, проверить решения и улучшить output.", meta: "Feedback" },
-      { title: "Покажите proof", text: "Wins конкретны: shipped assets, replies, booked calls, working systems, published content или другой verifiable result.", meta: "Proof" },
+      { title: "Изучите следующий шаг", text: "Используйте короткие уроки, модели и шаблоны именно для той задачи, которая нужна сейчас.", meta: "Обучение" },
+      { title: "Сделайте на реальном проекте", text: "Превратите материал в страницу, автоматизацию, предложение, серию контактов, контент или другое реальное изменение.", meta: "Реализация" },
+      { title: "Получите разбор", text: "Приносите блокеры и решения в закрытое сообщество и на еженедельную рабочую сессию.", meta: "Разбор" },
+      { title: "Покажите результат", text: "Прогресс виден через запущенные материалы, диалоги, системы, контент и измеримые изменения в бизнесе.", meta: "Результат" },
     ],
-    platformEyebrow: "Founding delivery",
-    platformTitle: "Сначала lean. Custom software только когда участники докажут потребность.",
-    platformLead: "The Real World показывает силу объединения learning, community и execution в одном продукте. Warriors v1 сохраняет эту product architecture, но не сжигает cash и Vercel budget на custom app до того, как paid behavior покажет, что именно нужно строить.",
-    platformItems: [
-      { title: "Structured member hub", text: "Tracks, lessons, missions, templates и live-session archive живут в Warriors-зоне основной VladKuzmenko platform." },
-      { title: "Private execution chat", text: "Telegram — быстрый communication layer для founding cohort: help, feedback, proof posts и полезные peer conversations." },
-      { title: "Weekly live implementation", text: "Одна сфокусированная сессия в неделю для reviews, hot seats, актуальных tactics и решений, которые участники реализуют сейчас." },
-      { title: "Future member app", text: "Profiles, searchable resources, progress, marketplace и deeper community tooling строим только после recurring paid usage." },
+    clubEyebrow: "Почему клуб важен",
+    clubTitle: "Знания легче превращать в действие, когда окружение поднимает планку.",
+    clubLead: "Долгосрочная ценность Warriors — в сочетании навыков, доступа и отношений. Мы начинаем просто, но клуб должен становиться сильнее вместе с качеством участников и накопленным опытом.",
+    clubItems: [
+      { title: "Закрытый кабинет", text: "Направления, практические задания, шаблоны и записи сессий живут в зоне Warriors на основной платформе VladKuzmenko." },
+      { title: "Закрытое сообщество", text: "Telegram — быстрый канал для вопросов, обратной связи, полезных знакомств и результатов работы." },
+      { title: "Еженедельная рабочая сессия", text: "Сфокусированный живой разбор текущих проектов, решений, сложных ситуаций и реализации." },
+      { title: "Обмен бизнес-моделями", text: "Участники могут открыто разбирать, что они тестируют, что сработало, что нет и что сделали бы иначе." },
     ],
     fitEyebrow: "Для кого",
-    fitTitle: "Для тех, кто хочет превратить skills в output.",
-    fitLead: "В founding cohort нет follower-count или revenue gate. Полезный фильтр — готовность исполнять и показывать, что произошло.",
-    forYouTitle: "Strong fit",
+    fitTitle: "Для тех, кто хочет превращать знания в реальные возможности.",
+    fitLead: "Нет требования по количеству подписчиков или доходу. Важны серьёзность, готовность действовать и способность усиливать окружение.",
+    forYouTitle: "Подходит",
     forYou: [
-      "Вам нужен практический путь в AI systems, client acquisition, content или operating small business.",
-      "Готовы implement каждую неделю, даже если проект ещё ранний.",
-      "Хотите feedback от людей, которые делают работу, а не ещё один isolated video course.",
-      "Можете делиться полезными вопросами, lessons или proof, а не только consume.",
-      "Вас интересует income-producing capability, а не motivational entertainment.",
+      "Вы строите бизнес, продукт, контент-систему, услугу или серьёзный профессиональный навык.",
+      "Хотите практическое обучение и среду, где его нужно применять.",
+      "Можете добавлять полезные вопросы, опыт, обратную связь или контакты.",
+      "Готовы показывать реальную работу и принимать прямую обратную связь.",
+      "Цените меньшее, но более сильное окружение вместо огромного публичного сообщества.",
     ],
-    notForYouTitle: "Wrong fit",
+    notForYouTitle: "Не подходит",
     notForYou: [
-      "Ожидаете guaranteed income result от покупки доступа.",
-      "Ищете copied courses, signals, shortcuts или get-rich-quick promise.",
-      "Не будете execute вне платформы.",
-      "Главная цель — spam группы своим offer.",
-      "Нужны сотни часов theory до первого действия.",
+      "Ожидаете гарантированного дохода только от покупки доступа.",
+      "Хотите лишь пассивный контент или сотни часов теории.",
+      "Не планируете ничего реализовывать за пределами платформы.",
+      "Ищете группу главным образом для продвижения собственного предложения.",
+      "Не готовы к отбору и среде, где важен вклад каждого.",
     ],
     accessEyebrow: "Доступ",
-    accessTitle: "Простой founding flow.",
-    accessLead: "Без отдельного Vercel product, второго сайта или fake checkout. Warriors живёт внутри основной VladKuzmenko platform и использует существующий lead pipeline, пока billing не оправдает более глубокую automation.",
+    accessTitle: "Сначала заявка. Потом участие.",
+    accessLead: "Warriors остаётся внутри основной платформы VladKuzmenko. Без второго сайта, отдельного Vercel-проекта и мгновенной публичной оплаты.",
     access: [
-      { title: "Apply", text: "Выберите starting track, опишите current goal и покажите, над чем уже работаете." },
-      { title: "Fit", text: "Короткий review подтверждает, что membership соответствует цели и founding format будет полезен." },
-      { title: "Activate", text: "Accepted founding members активируют membership за $49/месяц. За application оплаты нет." },
-      { title: "Start executing", text: "Войдите в hub и private chat, выберите первую mission и принесите результат на следующий live review." },
+      { title: "Заявка", text: "Расскажите, что строите, где сейчас главная проблема и какое направление хотите усилить первым." },
+      { title: "Проверка соответствия", text: "Мы смотрим, действительно ли клуб может помочь и усилит ли кандидат само окружение." },
+      { title: "Выбор плана", text: "После одобрения можно выбрать помесячное или годовое участие. Оплата только после решения." },
+      { title: "Вход в клуб", text: "Получите доступ к кабинету, закрытому сообществу и ближайшей рабочей сессии." },
     ],
-    priceEyebrow: "Founding membership",
-    priceTitle: "$49/месяц за все стартовые tracks.",
-    priceDesc: "Одна membership, а не четыре отдельных курса. Founding price даёт доступ ко всем стартовым tracks, private execution network, weekly live implementation и новым modules в той же системе.",
-    priceBullets: ["Все 4 стартовых tracks", "Private founding community", "Weekly live implementation", "Missions + templates", "Proof + feedback loop", "Cancel anytime"],
-    noCharge: "Application бесплатна. Payment запрашивается только после acceptance, пока founding cohort и billing flow проходят validation.",
+    pricingEyebrow: "Закрытое участие",
+    pricingTitle: "Выберите гибкость или год в сильном окружении.",
+    pricingLead: "Оба плана дают одинаковый доступ. Годовой вариант создан для тех, кто хочет накапливать навыки, связи и результат в течение года.",
+    monthlyLabel: "Ежемесячно",
+    monthlyPrice: "$290",
+    monthlyPeriod: "/ месяц",
+    monthlyDesc: "Гибкий формат без годового обязательства.",
+    annualLabel: "На год",
+    annualPrice: "$2,900",
+    annualPeriod: "/ год",
+    annualDesc: "Основной формат для долгосрочного участия. Два месяца фактически включены в стоимость.",
+    annualBadge: "Рекомендуем · 2 месяца включено",
+    planBullets: ["Все 4 направления обучения", "Закрытый кабинет", "Закрытое Telegram-сообщество", "Еженедельные рабочие сессии", "Шаблоны и практические задания", "Обратная связь и полезные знакомства"],
+    planFootnote: "Заявка бесплатна. Оплата доступна только после одобрения. Цена первого набора может повышаться по мере развития клуба.",
     faqEyebrow: "Вопросы",
-    faqTitle: "Чем Warriors реально становится.",
+    faqTitle: "Чем Warriors является — и чем не является.",
     faq: [
-      { q: "Warriors — это mastermind?", a: "Нет. Core product шире: structured skill tracks, implementation, live guidance и community в одной membership. Peer accountability — одна механика, а не весь продукт." },
-      { q: "Это копия The Real World?", a: "Нет. The Real World — ближайший benchmark для integrated membership model, но Warriors использует original curriculum, более узкий operator-led scope и не копирует branding, copy, lessons или fabricated scale claims." },
-      { q: "Почему не строить full custom community app сейчас?", a: "Потому что software — не первый risk. Сначала нужно доказать, что люди платят, исполняют и остаются. Founding stack проверяет это до расходов на features, которые могут не понадобиться." },
-      { q: "Я получаю все tracks?", a: "Да. Founding access — одна membership со всеми текущими tracks. Начинаете с ближайшего bottleneck и можете перейти позже." },
-      { q: "Результаты гарантированы?", a: "Нет. Product даёт training, implementation structure, feedback и community. Outcome зависит от исполнения и market." },
-      { q: "Что добавляется позже?", a: "Только features, подтверждённые member behavior: deeper progress tracking, searchable profiles/resources, marketplace mechanics, больше live formats и дополнительные tracks при реальном demand." },
+      { q: "Warriors — это курс или мастермайнд?", a: "Не только курс и не только группа. Это закрытое участие, которое объединяет практическое обучение, реализацию, живые разборы и отобранную бизнес-сеть." },
+      { q: "Почему доступ по отбору?", a: "Потому что качество окружения является частью продукта. Меньшая группа серьёзных участников полезнее неограниченного открытого доступа." },
+      { q: "Почему $290 в месяц или $2,900 в год?", a: "Это выше массовой образовательной подписки, потому что здесь есть закрытое окружение и живые рабочие сессии. При этом мы не изображаем цену зрелых дорогих частных сетей, пока Warriors ещё наращивает свою ценность." },
+      { q: "Доступны все направления?", a: "Да. Оба плана включают все текущие направления. Начинайте с главного узкого места и переходите дальше, когда изменятся приоритеты." },
+      { q: "Гарантирован ли бизнес-результат?", a: "Нет. Warriors даёт обучение, среду, обратную связь и доступ. Результат зависит от реализации, рынка и решений участника." },
+      { q: "Что будет добавлено позже?", a: "Только то, что подтвердит реальное поведение участников: более глубокий прогресс, профили, поиск материалов, больше событий и другие функции, которые действительно усиливают клуб." },
     ],
-    finalEyebrow: "Warriors founding access",
-    finalTitle: "Не собирайте информацию. Постройте что-то из неё.",
-    finalDesc: "Выберите skill, который нужен сейчас, реализуйте его на реальном проекте и используйте network, чтобы двигаться быстрее. Это и есть продукт.",
-    dialogTitle: "Заявка на Warriors Founding Access",
-    dialogDesc: "Расскажите, что хотите построить, какой track ближе к current goal и что хотите исполнить за следующие 30 дней.",
+    finalEyebrow: "Warriors",
+    finalTitle: "Двигайтесь быстрее, когда рядом более сильное окружение.",
+    finalDesc: "Если вам нужны практические навыки, прямая обратная связь и закрытая сеть вокруг реальной работы — подайте заявку.",
+    dialogTitle: "Заявка в Warriors",
+    dialogDesc: "Расскажите, что строите, что хотите усилить и что можете добавить в закрытый клуб, ориентированный на результат.",
     dialogSubmit: "Отправить заявку",
     dialogSuccessT: "Заявка получена",
-    dialogSuccessM: "Заявка пришла. Если founding format соответствует цели, Vlad напишет с следующим шагом до любой оплаты.",
+    dialogSuccessM: "Заявка пришла. Если соответствие сильное, Vlad напишет с следующим шагом и вариантами участия.",
     fields: [
       { id: "name", label: "Ваше имя", required: true, placeholder: "Имя и фамилия" },
-      { id: "email", label: "Email", type: "email", required: true, placeholder: "you@email.com" },
-      { id: "phone", label: "Telegram / WhatsApp", type: "tel", required: true, placeholder: "@handle или номер" },
-      { id: "track", label: "Лучший starting track", type: "select", required: true, options: ["AI Systems", "Client Acquisition", "Content Engine", "Business Operator"] },
-      { id: "project", label: "Над чем вы работаете сейчас?", type: "textarea", required: true, placeholder: "Business, project, current stage и link, если есть" },
-      { id: "goal30", label: "Что хотите исполнить за следующие 30 дней?", type: "textarea", required: true, placeholder: "Конкретный outcome, не vague goal" },
-      { id: "proof", label: "Что уже сделано?", type: "textarea", required: true, placeholder: "Что уже shipped, sold, published, tested или built" },
+      { id: "email", label: "Электронная почта", type: "email", required: true, placeholder: "you@email.com" },
+      { id: "phone", label: "Telegram / WhatsApp", type: "tel", required: true, placeholder: "@имя или номер" },
+      { id: "track", label: "Первое направление для усиления", type: "select", required: true, options: ["ИИ-системы", "Привлечение клиентов", "Контент-система", "Управление бизнесом"] },
+      { id: "project", label: "Что вы строите сейчас?", type: "textarea", required: true, placeholder: "Бизнес, проект, текущая стадия и ссылка, если есть" },
+      { id: "goal30", label: "Что хотите изменить за следующие 30 дней?", type: "textarea", required: true, placeholder: "Конкретный результат" },
+      { id: "contribution", label: "Что вы можете добавить в клуб?", type: "textarea", required: true, placeholder: "Опыт, навыки, обратная связь, контакты или взгляд" },
     ],
   },
 };
@@ -444,9 +475,9 @@ function ApplyButton({ className = "" }: { className?: string }) {
       submitLabel={c.dialogSubmit}
       successTitle={c.dialogSuccessT}
       successMessage={c.dialogSuccessM}
-      buttonLabel="Warriors Founding Access - Apply"
+      buttonLabel="Warriors - Apply"
       fields={c.fields}
-      context={{ source: "warriors_team_page", locale: lang, offer: "warriors_founding_membership_v1", founding_price_usd_monthly: 49 }}
+      context={{ source: "warriors_team_page", locale: lang, offer: "warriors_private_club_v1", monthly_price_usd: 290, annual_price_usd: 2900 }}
     >
       <Button className={`premium-button h-auto min-h-12 px-7 py-3.5 text-sm sm:text-base ${className}`}>
         {c.primary}<ArrowRight className="ml-2 h-4 w-4" />
@@ -459,7 +490,7 @@ function SectionHeading({ eyebrow, title, lead }: { eyebrow: string; title: stri
   return (
     <div className="mx-auto max-w-3xl text-center">
       <p className="text-[10px] font-semibold uppercase tracking-[.23em] text-violet-200/70">{eyebrow}</p>
-      <h2 className="section-title mt-4 text-[clamp(2.45rem,5vw,4.7rem)] text-zinc-100">{title}</h2>
+      <h2 className="section-title mt-4 text-[clamp(2.35rem,4.7vw,4.5rem)] text-zinc-100">{title}</h2>
       {lead ? <p className="mx-auto mt-5 max-w-2xl text-sm leading-7 text-zinc-500 sm:text-base">{lead}</p> : null}
     </div>
   );
@@ -474,50 +505,36 @@ export function WarriorsTeamFinalPage() {
     <div className="min-h-screen overflow-x-hidden bg-[#020203] text-white">
       <Header />
       <main>
-        <section className="relative overflow-hidden border-b border-white/[.07] pb-24 pt-32 sm:pb-32 sm:pt-40">
+        <section className="relative overflow-hidden border-b border-white/[.07] pb-20 pt-28 sm:pb-28 sm:pt-36">
           <div className="pointer-events-none absolute inset-0" aria-hidden="true">
-            <div className="absolute left-1/2 top-0 h-[760px] w-[98%] -translate-x-1/2 bg-[radial-gradient(ellipse_at_top,rgba(139,92,246,.18),rgba(212,175,55,.035)_38%,transparent_70%)]" />
-            <div className="absolute right-[8%] top-28 h-72 w-72 rounded-full bg-violet-500/[.045] blur-3xl" />
+            <div className="absolute left-1/2 top-0 h-[720px] w-[98%] -translate-x-1/2 bg-[radial-gradient(ellipse_at_top,rgba(139,92,246,.17),rgba(212,175,55,.035)_38%,transparent_70%)]" />
           </div>
-
           <div className="container relative z-10 mx-auto max-w-6xl px-4 sm:px-6">
-            <div className="grid items-center gap-12 lg:grid-cols-[1.06fr_.94fr] lg:gap-14">
-              <motion.div initial={reduced ? false : { opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: .65 }}>
-                <span className="inline-flex items-center gap-2 rounded-full border border-emerald-300/15 bg-emerald-300/[.035] px-3 py-1.5 text-[10px] font-semibold uppercase tracking-[.17em] text-emerald-200">
-                  <span className="h-1.5 w-1.5 rounded-full bg-emerald-300 shadow-[0_0_10px_rgba(110,231,183,.7)]" />{c.badge}
-                </span>
-                <p className="mt-6 text-[10px] font-semibold uppercase tracking-[.24em] text-violet-200/70">{c.eyebrow}</p>
-                <h1 className="section-title mt-4 max-w-4xl text-[clamp(3.25rem,7vw,6.7rem)] leading-[.91] tracking-[-.052em] text-zinc-100">
-                  {c.titleA}<em className="bg-gradient-to-br from-violet-100 via-violet-300 to-amber-200 bg-clip-text font-normal italic text-transparent">{c.titleB}</em>
-                </h1>
-                <p className="mt-7 max-w-2xl text-base leading-8 text-zinc-300 sm:text-lg sm:leading-9">{c.lead}</p>
+            <div className="grid items-center gap-12 lg:grid-cols-[1.05fr_.95fr] lg:gap-14">
+              <motion.div initial={reduced ? false : { opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: .6 }}>
+                <span className="inline-flex items-center gap-2 rounded-full border border-emerald-300/15 bg-emerald-300/[.035] px-3 py-1.5 text-[10px] font-semibold uppercase tracking-[.15em] text-emerald-200"><span className="h-1.5 w-1.5 rounded-full bg-emerald-300" />{c.badge}</span>
+                <p className="mt-6 text-[10px] font-semibold uppercase tracking-[.22em] text-violet-200/70">{c.eyebrow}</p>
+                <h1 className="section-title mt-4 max-w-3xl text-[clamp(2.75rem,5.3vw,5.25rem)] leading-[.96] tracking-[-.045em] text-zinc-100">{c.titleA}<em className="bg-gradient-to-br from-violet-100 via-violet-300 to-amber-200 bg-clip-text font-normal italic text-transparent">{c.titleB}</em></h1>
+                <p className="mt-7 max-w-2xl text-base leading-8 text-zinc-300 sm:text-lg">{c.lead}</p>
                 <p className="mt-4 max-w-2xl text-sm leading-7 text-zinc-600">{c.support}</p>
-                <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-                  <ApplyButton />
-                  <a href="#inside"><Button className="h-auto min-h-12 w-full border border-violet-300/18 bg-violet-300/[.045] px-7 py-3.5 text-white hover:bg-violet-300/[.085] sm:w-auto">{c.secondary}</Button></a>
-                </div>
+                <div className="mt-8 flex flex-col gap-3 sm:flex-row"><ApplyButton /><a href="#inside"><Button className="h-auto min-h-12 w-full border border-violet-300/18 bg-violet-300/[.045] px-7 py-3.5 text-white hover:bg-violet-300/[.085] sm:w-auto">{c.secondary}</Button></a></div>
                 <p className="mt-4 flex max-w-xl items-start gap-2 text-xs leading-6 text-zinc-600"><ShieldCheck className="mt-1 h-3.5 w-3.5 shrink-0 text-violet-200/55" />{c.proofLine}</p>
               </motion.div>
 
-              <motion.div initial={reduced ? false : { opacity: 0, y: 20, scale: .985 }} animate={{ opacity: 1, y: 0, scale: 1 }} transition={{ duration: .7, delay: .08 }} className="relative">
-                <div className="relative overflow-hidden rounded-[32px] border border-violet-200/[.13] bg-[linear-gradient(145deg,rgba(196,181,253,.075),rgba(255,255,255,.018)_48%,rgba(0,0,0,.62))] p-4 shadow-[0_46px_120px_-54px_rgba(139,92,246,.28)] sm:p-5">
-                  <div className="relative aspect-[4/3] overflow-hidden rounded-[24px] border border-white/[.08]">
-                    <Image src="/warriors-discussion.jpg" alt="Warriors learning and execution community" fill priority sizes="(max-width: 1024px) 100vw, 46vw" className="object-cover opacity-72 saturate-[.78]" />
+              <motion.div initial={reduced ? false : { opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: .65, delay: .06 }}>
+                <div className="overflow-hidden rounded-[30px] border border-violet-200/[.13] bg-[linear-gradient(145deg,rgba(196,181,253,.07),rgba(255,255,255,.018)_48%,rgba(0,0,0,.62))] p-4 shadow-[0_44px_110px_-58px_rgba(139,92,246,.3)] sm:p-5">
+                  <div className="relative aspect-[4/3] overflow-hidden rounded-[22px] border border-white/[.08]">
+                    <Image src="/warriors-discussion.jpg" alt="Warriors private club" fill priority sizes="(max-width: 1024px) 100vw, 46vw" className="object-cover opacity-72 saturate-[.8]" />
                     <div className="absolute inset-0 bg-gradient-to-t from-[#050307] via-transparent to-violet-950/10" />
-                    <div className="absolute bottom-4 left-4 right-4 rounded-2xl border border-white/[.08] bg-black/58 p-4 backdrop-blur-xl">
-                      <div className="flex items-center justify-between gap-4"><div><p className="text-xs font-semibold uppercase tracking-[.18em] text-violet-100/70">Warriors</p><p className="mt-1 text-sm text-zinc-300">Learn · build · review · prove</p></div><Flame className="h-5 w-5 shrink-0 text-violet-200" /></div>
-                    </div>
+                    <div className="absolute bottom-4 left-4 right-4 rounded-2xl border border-white/[.08] bg-black/58 p-4 backdrop-blur-xl"><div className="flex items-center justify-between gap-4"><div><p className="text-xs font-semibold uppercase tracking-[.17em] text-violet-100/70">Warriors</p><p className="mt-1 text-sm text-zinc-300">Skills · execution · network</p></div><Flame className="h-5 w-5 text-violet-200" /></div></div>
                   </div>
                   <div className="mt-4 grid gap-3 sm:grid-cols-2">
                     {[
-                      [c.membershipLabel, c.membershipValue, c.membershipNote, CircleDollarSign],
-                      [c.tracksLabel, c.tracksValue, "All included", Sparkles],
-                      [c.liveLabel, c.liveValue, "Implementation, not lectures", Users],
-                      [c.deliveryLabel, c.deliveryValue, "Inside the main site", Network],
-                    ].map(([label, value, note, Icon]) => {
-                      const I = Icon as LucideIcon;
-                      return <div key={String(label)} className="rounded-2xl border border-white/[.07] bg-black/25 p-4"><div className="flex items-center justify-between gap-3"><p className="text-[9px] font-semibold uppercase tracking-[.17em] text-zinc-600">{String(label)}</p><I className="h-3.5 w-3.5 text-violet-200/55" /></div><p className="mt-2 text-base font-semibold text-zinc-100">{String(value)}</p><p className="mt-1 text-[10px] leading-5 text-zinc-600">{String(note)}</p></div>;
-                    })}
+                      [c.accessLabel, c.accessValue, ShieldCheck],
+                      [c.tracksLabel, c.tracksValue, BookOpenCheck],
+                      [c.liveLabel, c.liveValue, Users],
+                      [c.deliveryLabel, c.deliveryValue, Network],
+                    ].map(([label, value, Icon]) => { const I = Icon as LucideIcon; return <div key={String(label)} className="rounded-2xl border border-white/[.07] bg-black/25 p-4"><div className="flex items-center justify-between gap-3"><p className="text-[9px] font-semibold uppercase tracking-[.16em] text-zinc-600">{String(label)}</p><I className="h-3.5 w-3.5 text-violet-200/55" /></div><p className="mt-2 text-base font-semibold text-zinc-100">{String(value)}</p></div>; })}
                   </div>
                 </div>
               </motion.div>
@@ -525,94 +542,23 @@ export function WarriorsTeamFinalPage() {
           </div>
         </section>
 
-        <section id="inside" className="scroll-mt-24 border-b border-white/[.06] py-20 md:py-24">
-          <div className="container mx-auto max-w-6xl px-4 sm:px-6">
-            <SectionHeading eyebrow={c.productEyebrow} title={c.productTitle} lead={c.productLead} />
-            <div className="mx-auto mt-10 grid max-w-5xl gap-3 sm:grid-cols-2 lg:grid-cols-4">
-              {c.anti.map((item, index) => <div key={item} className="flex min-h-28 flex-col justify-between rounded-[22px] border border-white/[.07] bg-white/[.016] p-5"><X className="h-4 w-4 text-zinc-700" /><p className="mt-5 text-sm leading-6 text-zinc-400">{item}</p><span className="mt-4 text-[9px] tracking-[.16em] text-zinc-800">0{index + 1}</span></div>)}
-            </div>
-          </div>
-        </section>
+        <section id="inside" className="scroll-mt-24 border-b border-white/[.06] py-20 md:py-24"><div className="container mx-auto max-w-6xl px-4 sm:px-6"><SectionHeading eyebrow={c.productEyebrow} title={c.productTitle} lead={c.productLead} /><div className="mx-auto mt-10 grid max-w-5xl gap-3 sm:grid-cols-2 lg:grid-cols-4">{c.anti.map((item, index) => <div key={item} className="flex min-h-28 flex-col justify-between rounded-[22px] border border-white/[.07] bg-white/[.016] p-5"><X className="h-4 w-4 text-zinc-700" /><p className="mt-5 text-sm leading-6 text-zinc-400">{item}</p><span className="mt-4 text-[9px] tracking-[.16em] text-zinc-800">0{index + 1}</span></div>)}</div></div></section>
 
-        <section className="relative overflow-hidden border-b border-white/[.06] py-24 md:py-32">
-          <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_50%_20%,rgba(139,92,246,.075),transparent_55%)]" aria-hidden="true" />
-          <div className="container relative z-10 mx-auto max-w-6xl px-4 sm:px-6">
-            <SectionHeading eyebrow={c.tracksEyebrow} title={c.tracksTitle} lead={c.tracksLead} />
-            <div className="mt-12 grid gap-4 md:grid-cols-2 xl:grid-cols-4">
-              {c.tracks.map((track, index) => {
-                const Icon = TRACK_ICONS[index] ?? Sparkles;
-                return <motion.div key={track.title} initial={reduced ? false : { opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: index * .06 }}><InteractiveSurface accent="violet" className="h-full rounded-[28px] border border-white/[.08] bg-white/[.018] p-6"><div className="flex items-center justify-between"><span className="flex h-11 w-11 items-center justify-center rounded-xl border border-violet-300/16 bg-violet-300/[.045] text-violet-200"><Icon className="h-4 w-4" /></span><span className="text-[9px] uppercase tracking-[.14em] text-zinc-700">0{index + 1}</span></div><h3 className="mt-6 text-lg font-semibold text-zinc-100">{track.title}</h3><p className="mt-3 text-sm leading-7 text-zinc-500">{track.text}</p><div className="mt-5 border-t border-white/[.06] pt-4"><p className="text-[9px] uppercase tracking-[.16em] text-zinc-700">Outcome</p><p className="mt-2 text-xs font-medium leading-5 text-violet-100/75">{track.outcome}</p></div></InteractiveSurface></motion.div>;
-              })}
-            </div>
-          </div>
-        </section>
+        <section className="relative overflow-hidden border-b border-white/[.06] py-24 md:py-32"><div className="container relative z-10 mx-auto max-w-6xl px-4 sm:px-6"><SectionHeading eyebrow={c.tracksEyebrow} title={c.tracksTitle} lead={c.tracksLead} /><div className="mt-12 grid gap-4 md:grid-cols-2 xl:grid-cols-4">{c.tracks.map((track, index) => { const Icon = TRACK_ICONS[index] ?? Target; return <InteractiveSurface key={track.title} accent="violet" className="h-full rounded-[28px] border border-white/[.08] bg-white/[.018] p-6"><div className="flex items-center justify-between"><span className="flex h-11 w-11 items-center justify-center rounded-xl border border-violet-300/16 bg-violet-300/[.045] text-violet-200"><Icon className="h-4 w-4" /></span><span className="text-[9px] tracking-[.14em] text-zinc-700">0{index + 1}</span></div><h3 className="mt-6 text-lg font-semibold text-zinc-100">{track.title}</h3><p className="mt-3 text-sm leading-7 text-zinc-500">{track.text}</p><div className="mt-5 border-t border-white/[.06] pt-4"><p className="text-xs font-medium leading-5 text-violet-100/75">{track.outcome}</p></div></InteractiveSurface>; })}</div></div></section>
 
-        <section className="border-b border-white/[.06] py-24 md:py-32">
-          <div className="container mx-auto max-w-6xl px-4 sm:px-6">
-            <SectionHeading eyebrow={c.loopEyebrow} title={c.loopTitle} lead={c.loopLead} />
-            <div className="mx-auto mt-12 grid max-w-5xl gap-4 md:grid-cols-4">
-              {c.loop.map((item, index) => {
-                const Icon = LOOP_ICONS[index] ?? Target;
-                return <div key={item.title} className="relative rounded-[25px] border border-white/[.075] bg-white/[.016] p-5"><span className="flex h-10 w-10 items-center justify-center rounded-xl border border-violet-300/16 bg-violet-300/[.045] text-violet-200"><Icon className="h-4 w-4" /></span><p className="mt-5 text-[9px] font-semibold uppercase tracking-[.16em] text-zinc-700">{item.meta}</p><h3 className="mt-2 text-sm font-semibold text-zinc-100">{item.title}</h3><p className="mt-3 text-xs leading-6 text-zinc-500">{item.text}</p>{index < c.loop.length - 1 ? <ArrowRight className="absolute -right-3 top-1/2 z-10 hidden h-4 w-4 -translate-y-1/2 text-violet-300/25 md:block" /> : null}</div>;
-              })}
-            </div>
-          </div>
-        </section>
+        <section className="border-b border-white/[.06] py-24 md:py-32"><div className="container mx-auto max-w-6xl px-4 sm:px-6"><SectionHeading eyebrow={c.loopEyebrow} title={c.loopTitle} lead={c.loopLead} /><div className="mx-auto mt-12 grid max-w-5xl gap-4 md:grid-cols-4">{c.loop.map((item, index) => { const Icon = LOOP_ICONS[index] ?? Target; return <div key={item.title} className="relative rounded-[25px] border border-white/[.075] bg-white/[.016] p-5"><span className="flex h-10 w-10 items-center justify-center rounded-xl border border-violet-300/16 bg-violet-300/[.045] text-violet-200"><Icon className="h-4 w-4" /></span><p className="mt-5 text-[9px] font-semibold uppercase tracking-[.16em] text-zinc-700">{item.meta}</p><h3 className="mt-2 text-sm font-semibold text-zinc-100">{item.title}</h3><p className="mt-3 text-xs leading-6 text-zinc-500">{item.text}</p>{index < c.loop.length - 1 ? <ArrowRight className="absolute -right-3 top-1/2 z-10 hidden h-4 w-4 -translate-y-1/2 text-violet-300/25 md:block" /> : null}</div>; })}</div></div></section>
 
-        <section className="relative overflow-hidden border-b border-white/[.06] py-24 md:py-32">
-          <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(139,92,246,.065),transparent_60%)]" aria-hidden="true" />
-          <div className="container relative z-10 mx-auto max-w-6xl px-4 sm:px-6">
-            <SectionHeading eyebrow={c.platformEyebrow} title={c.platformTitle} lead={c.platformLead} />
-            <div className="mt-12 grid gap-5 lg:grid-cols-[.9fr_1.1fr]">
-              <div className="relative min-h-[420px] overflow-hidden rounded-[28px] border border-white/[.08]">
-                <Image src="/warriors-group-photo.jpg" alt="Warriors founding community" fill sizes="(max-width: 1024px) 100vw, 42vw" className="object-cover opacity-58 saturate-[.7]" />
-                <div className="absolute inset-0 bg-gradient-to-t from-black via-black/25 to-violet-950/10" />
-                <div className="absolute inset-x-5 bottom-5 rounded-2xl border border-white/[.08] bg-black/62 p-5 backdrop-blur-xl"><p className="text-[10px] font-semibold uppercase tracking-[.18em] text-violet-200/65">Product principle</p><p className="mt-2 text-sm leading-6 text-zinc-300">Prove paid behavior first. Build deeper software second.</p></div>
-              </div>
-              <div className="grid gap-4 sm:grid-cols-2">{c.platformItems.map((item, index) => <div key={item.title} className="rounded-[26px] border border-white/[.075] bg-[linear-gradient(145deg,rgba(255,255,255,.025),rgba(255,255,255,.009))] p-6"><div className="flex items-start justify-between gap-4"><span className="flex h-10 w-10 items-center justify-center rounded-xl border border-violet-300/15 bg-violet-300/[.04] text-violet-200">{index === 0 ? <LayoutDashboard className="h-4 w-4" /> : index === 1 ? <MessageSquareText className="h-4 w-4" /> : index === 2 ? <Users className="h-4 w-4" /> : <Rocket className="h-4 w-4" />}</span><span className="text-[10px] tracking-[.17em] text-zinc-800">0{index + 1}</span></div><h3 className="mt-5 text-lg font-semibold text-zinc-100">{item.title}</h3><p className="mt-3 text-sm leading-7 text-zinc-500">{item.text}</p></div>)}</div>
-            </div>
-          </div>
-        </section>
+        <section className="relative overflow-hidden border-b border-white/[.06] py-24 md:py-32"><div className="container relative z-10 mx-auto max-w-6xl px-4 sm:px-6"><SectionHeading eyebrow={c.clubEyebrow} title={c.clubTitle} lead={c.clubLead} /><div className="mt-12 grid gap-5 lg:grid-cols-[.9fr_1.1fr]"><div className="relative min-h-[420px] overflow-hidden rounded-[28px] border border-white/[.08]"><Image src="/warriors-group-photo.jpg" alt="Warriors members" fill sizes="(max-width: 1024px) 100vw, 42vw" className="object-cover opacity-58 saturate-[.72]" /><div className="absolute inset-0 bg-gradient-to-t from-black via-black/25 to-violet-950/10" /><div className="absolute inset-x-5 bottom-5 rounded-2xl border border-white/[.08] bg-black/62 p-5 backdrop-blur-xl"><p className="text-[10px] font-semibold uppercase tracking-[.18em] text-violet-200/65">Warriors</p><p className="mt-2 text-sm leading-6 text-zinc-300">A stronger room around real work.</p></div></div><div className="grid gap-4 sm:grid-cols-2">{c.clubItems.map((item, index) => <div key={item.title} className="rounded-[26px] border border-white/[.075] bg-white/[.018] p-6"><div className="flex items-start justify-between gap-4"><span className="flex h-10 w-10 items-center justify-center rounded-xl border border-violet-300/15 bg-violet-300/[.04] text-violet-200">{index === 0 ? <LayoutDashboard className="h-4 w-4" /> : index === 1 ? <MessageSquareText className="h-4 w-4" /> : index === 2 ? <Users className="h-4 w-4" /> : <Network className="h-4 w-4" />}</span><span className="text-[10px] tracking-[.17em] text-zinc-800">0{index + 1}</span></div><h3 className="mt-5 text-lg font-semibold text-zinc-100">{item.title}</h3><p className="mt-3 text-sm leading-7 text-zinc-500">{item.text}</p></div>)}</div></div></div></section>
 
-        <section className="border-b border-white/[.06] py-24 md:py-32">
-          <div className="container mx-auto max-w-6xl px-4 sm:px-6">
-            <SectionHeading eyebrow={c.fitEyebrow} title={c.fitTitle} lead={c.fitLead} />
-            <div className="mx-auto mt-12 grid max-w-5xl gap-5 lg:grid-cols-2">
-              <div className="rounded-[28px] border border-emerald-300/[.12] bg-emerald-300/[.025] p-6 sm:p-7"><h3 className="flex items-center gap-2 text-lg font-semibold text-zinc-100"><Check className="h-5 w-5 text-emerald-200" />{c.forYouTitle}</h3><ul className="mt-6 space-y-4">{c.forYou.map((item) => <li key={item} className="flex items-start gap-3 text-sm leading-6 text-zinc-400"><Check className="mt-1 h-4 w-4 shrink-0 text-emerald-200/70" />{item}</li>)}</ul></div>
-              <div className="rounded-[28px] border border-white/[.08] bg-white/[.014] p-6 sm:p-7"><h3 className="flex items-center gap-2 text-lg font-semibold text-zinc-100"><X className="h-5 w-5 text-zinc-600" />{c.notForYouTitle}</h3><ul className="mt-6 space-y-4">{c.notForYou.map((item) => <li key={item} className="flex items-start gap-3 text-sm leading-6 text-zinc-500"><X className="mt-1 h-4 w-4 shrink-0 text-zinc-700" />{item}</li>)}</ul></div>
-            </div>
-          </div>
-        </section>
+        <section className="border-b border-white/[.06] py-24 md:py-32"><div className="container mx-auto max-w-6xl px-4 sm:px-6"><SectionHeading eyebrow={c.fitEyebrow} title={c.fitTitle} lead={c.fitLead} /><div className="mx-auto mt-12 grid max-w-5xl gap-5 lg:grid-cols-2"><div className="rounded-[28px] border border-emerald-300/[.12] bg-emerald-300/[.025] p-6 sm:p-7"><h3 className="flex items-center gap-2 text-lg font-semibold text-zinc-100"><Check className="h-5 w-5 text-emerald-200" />{c.forYouTitle}</h3><ul className="mt-6 space-y-4">{c.forYou.map((item) => <li key={item} className="flex items-start gap-3 text-sm leading-6 text-zinc-400"><Check className="mt-1 h-4 w-4 shrink-0 text-emerald-200/70" />{item}</li>)}</ul></div><div className="rounded-[28px] border border-white/[.08] bg-white/[.014] p-6 sm:p-7"><h3 className="flex items-center gap-2 text-lg font-semibold text-zinc-100"><X className="h-5 w-5 text-zinc-600" />{c.notForYouTitle}</h3><ul className="mt-6 space-y-4">{c.notForYou.map((item) => <li key={item} className="flex items-start gap-3 text-sm leading-6 text-zinc-500"><X className="mt-1 h-4 w-4 shrink-0 text-zinc-700" />{item}</li>)}</ul></div></div></div></section>
 
-        <section className="border-b border-white/[.06] py-24 md:py-32">
-          <div className="container mx-auto max-w-6xl px-4 sm:px-6">
-            <SectionHeading eyebrow={c.accessEyebrow} title={c.accessTitle} lead={c.accessLead} />
-            <div className="mx-auto mt-12 grid max-w-5xl gap-4 md:grid-cols-4">
-              {c.access.map((item, index) => <div key={item.title} className="relative rounded-[25px] border border-white/[.075] bg-white/[.016] p-5"><span className="flex h-10 w-10 items-center justify-center rounded-xl border border-violet-300/16 bg-violet-300/[.045] text-violet-200">{index === 0 ? <Target className="h-4 w-4" /> : index === 1 ? <ShieldCheck className="h-4 w-4" /> : index === 2 ? <CircleDollarSign className="h-4 w-4" /> : <Rocket className="h-4 w-4" />}</span><p className="mt-5 text-[9px] font-semibold uppercase tracking-[.16em] text-zinc-700">0{index + 1}</p><h3 className="mt-2 text-sm font-semibold text-zinc-100">{item.title}</h3><p className="mt-3 text-xs leading-6 text-zinc-500">{item.text}</p>{index < c.access.length - 1 ? <ArrowRight className="absolute -right-3 top-1/2 z-10 hidden h-4 w-4 -translate-y-1/2 text-violet-300/25 md:block" /> : null}</div>)}
-            </div>
-          </div>
-        </section>
+        <section className="border-b border-white/[.06] py-24 md:py-32"><div className="container mx-auto max-w-6xl px-4 sm:px-6"><SectionHeading eyebrow={c.accessEyebrow} title={c.accessTitle} lead={c.accessLead} /><div className="mx-auto mt-12 grid max-w-5xl gap-4 md:grid-cols-4">{c.access.map((item, index) => <div key={item.title} className="relative rounded-[25px] border border-white/[.075] bg-white/[.016] p-5"><span className="flex h-10 w-10 items-center justify-center rounded-xl border border-violet-300/16 bg-violet-300/[.045] text-violet-200">{index === 0 ? <Target className="h-4 w-4" /> : index === 1 ? <ShieldCheck className="h-4 w-4" /> : index === 2 ? <CircleDollarSign className="h-4 w-4" /> : <Rocket className="h-4 w-4" />}</span><p className="mt-5 text-[9px] font-semibold uppercase tracking-[.16em] text-zinc-700">0{index + 1}</p><h3 className="mt-2 text-sm font-semibold text-zinc-100">{item.title}</h3><p className="mt-3 text-xs leading-6 text-zinc-500">{item.text}</p></div>)}</div></div></section>
 
-        <section className="relative overflow-hidden border-b border-white/[.06] py-24 md:py-28">
-          <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,rgba(139,92,246,.095),transparent_58%)]" aria-hidden="true" />
-          <div className="container relative z-10 mx-auto max-w-5xl px-4 sm:px-6">
-            <div className="rounded-[34px] border border-violet-200/[.14] bg-[linear-gradient(145deg,rgba(139,92,246,.075),rgba(255,255,255,.018)_45%,rgba(212,175,55,.02))] p-6 sm:p-9 lg:p-10">
-              <div className="grid gap-9 lg:grid-cols-[1fr_.78fr] lg:items-end">
-                <div><p className="text-[10px] font-semibold uppercase tracking-[.21em] text-amber-200/70">{c.priceEyebrow}</p><h2 className="section-title mt-3 text-[clamp(2.8rem,5vw,4.8rem)] text-zinc-100">{c.priceTitle}</h2><p className="mt-5 max-w-2xl text-sm leading-7 text-zinc-500 sm:text-base">{c.priceDesc}</p><div className="mt-7 grid gap-3 sm:grid-cols-2">{c.priceBullets.map((item) => <div key={item} className="flex items-start gap-2 text-sm text-zinc-400"><Check className="mt-0.5 h-4 w-4 shrink-0 text-violet-200/75" />{item}</div>)}</div></div>
-                <div className="rounded-[26px] border border-white/[.085] bg-black/35 p-6"><div className="flex items-center justify-between"><p className="text-xs font-semibold uppercase tracking-[.18em] text-zinc-600">Warriors Founding</p><Clock3 className="h-4 w-4 text-violet-200/60" /></div><p className="mt-5 text-4xl font-semibold tracking-[-.04em] text-white">$49<span className="ml-1 text-base font-normal text-zinc-500">/mo</span></p><p className="mt-2 text-xs leading-6 text-zinc-600">{c.membershipNote}</p><div className="mt-6"><ApplyButton className="w-full" /></div><p className="mt-4 text-[11px] leading-5 text-zinc-600">{c.noCharge}</p></div>
-              </div>
-            </div>
-          </div>
-        </section>
+        <section className="relative overflow-hidden border-b border-white/[.06] py-24 md:py-32"><div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,rgba(139,92,246,.11),transparent_60%)]" /><div className="container relative z-10 mx-auto max-w-5xl px-4 sm:px-6"><SectionHeading eyebrow={c.pricingEyebrow} title={c.pricingTitle} lead={c.pricingLead} /><div className="mt-12 grid gap-5 md:grid-cols-2"><div className="rounded-[30px] border border-white/[.09] bg-white/[.018] p-7 sm:p-8"><p className="text-xs font-semibold uppercase tracking-[.18em] text-zinc-500">{c.monthlyLabel}</p><div className="mt-5 flex items-end gap-2"><span className="text-5xl font-semibold tracking-[-.05em] text-white">{c.monthlyPrice}</span><span className="pb-1 text-sm text-zinc-500">{c.monthlyPeriod}</span></div><p className="mt-4 text-sm leading-7 text-zinc-500">{c.monthlyDesc}</p><div className="mt-7"><ApplyButton className="w-full" /></div></div><div className="relative rounded-[30px] border border-violet-300/[.22] bg-[linear-gradient(145deg,rgba(139,92,246,.12),rgba(255,255,255,.02)_55%,rgba(212,175,55,.035))] p-7 shadow-[0_32px_90px_-48px_rgba(139,92,246,.45)] sm:p-8"><span className="absolute right-5 top-5 rounded-full border border-amber-200/20 bg-amber-200/[.06] px-3 py-1 text-[9px] font-semibold uppercase tracking-[.14em] text-amber-100">{c.annualBadge}</span><p className="text-xs font-semibold uppercase tracking-[.18em] text-violet-200/70">{c.annualLabel}</p><div className="mt-5 flex items-end gap-2"><span className="text-5xl font-semibold tracking-[-.05em] text-white">{c.annualPrice}</span><span className="pb-1 text-sm text-zinc-500">{c.annualPeriod}</span></div><p className="mt-4 text-sm leading-7 text-zinc-400">{c.annualDesc}</p><div className="mt-7"><ApplyButton className="w-full" /></div></div></div><div className="mx-auto mt-7 grid max-w-4xl gap-3 sm:grid-cols-2 lg:grid-cols-3">{c.planBullets.map((item) => <div key={item} className="flex items-start gap-2 rounded-2xl border border-white/[.06] bg-black/20 p-4 text-sm text-zinc-400"><Check className="mt-0.5 h-4 w-4 shrink-0 text-violet-200/75" />{item}</div>)}</div><p className="mx-auto mt-6 max-w-2xl text-center text-xs leading-6 text-zinc-600">{c.planFootnote}</p></div></section>
 
-        <section className="border-b border-white/[.06] py-24 md:py-28">
-          <div className="container mx-auto max-w-4xl px-4 sm:px-6"><SectionHeading eyebrow={c.faqEyebrow} title={c.faqTitle} /><div className="mt-10 space-y-3">{c.faq.map((item) => <details key={item.q} className="group rounded-[22px] border border-white/[.075] bg-white/[.016] p-5 open:border-violet-300/15"><summary className="flex cursor-pointer list-none items-center justify-between gap-4 text-sm font-semibold text-zinc-200"><span>{item.q}</span><ArrowRight className="h-4 w-4 shrink-0 text-zinc-600 transition-transform group-open:rotate-90" /></summary><p className="mt-4 pr-6 text-sm leading-7 text-zinc-500">{item.a}</p></details>)}</div></div>
-        </section>
+        <section className="border-b border-white/[.06] py-24 md:py-28"><div className="container mx-auto max-w-4xl px-4 sm:px-6"><SectionHeading eyebrow={c.faqEyebrow} title={c.faqTitle} /><div className="mt-10 space-y-3">{c.faq.map((item) => <details key={item.q} className="group rounded-[22px] border border-white/[.075] bg-white/[.016] p-5 open:border-violet-300/15"><summary className="flex cursor-pointer list-none items-center justify-between gap-4 text-sm font-semibold text-zinc-200"><span>{item.q}</span><ArrowRight className="h-4 w-4 shrink-0 text-zinc-600 transition-transform group-open:rotate-90" /></summary><p className="mt-4 pr-6 text-sm leading-7 text-zinc-500">{item.a}</p></details>)}</div></div></section>
 
-        <section className="relative overflow-hidden py-24 md:py-32">
-          <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(139,92,246,.10),transparent_64%)]" aria-hidden="true" />
-          <div className="container relative z-10 mx-auto max-w-4xl px-4 text-center sm:px-6"><p className="text-[10px] font-semibold uppercase tracking-[.23em] text-violet-200/70">{c.finalEyebrow}</p><h2 className="section-title mx-auto mt-4 max-w-4xl text-[clamp(3rem,6vw,5.7rem)] leading-[.95] text-zinc-100">{c.finalTitle}</h2><p className="mx-auto mt-5 max-w-2xl text-sm leading-7 text-zinc-500 sm:text-base">{c.finalDesc}</p><div className="mt-8 flex justify-center"><ApplyButton /></div></div>
-        </section>
+        <section className="relative overflow-hidden py-24 md:py-32"><div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(139,92,246,.10),transparent_64%)]" /><div className="container relative z-10 mx-auto max-w-4xl px-4 text-center sm:px-6"><p className="text-[10px] font-semibold uppercase tracking-[.23em] text-violet-200/70">{c.finalEyebrow}</p><h2 className="section-title mx-auto mt-4 max-w-4xl text-[clamp(2.8rem,5.5vw,5.2rem)] leading-[.96] text-zinc-100">{c.finalTitle}</h2><p className="mx-auto mt-5 max-w-2xl text-sm leading-7 text-zinc-500 sm:text-base">{c.finalDesc}</p><div className="mt-8 flex justify-center"><ApplyButton /></div></div></section>
       </main>
       <FooterSection />
     </div>

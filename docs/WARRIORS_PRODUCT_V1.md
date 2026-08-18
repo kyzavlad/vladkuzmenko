@@ -5,224 +5,160 @@ Owner: Vlad Kuzmenko
 Public routes: `/warriors-team`, `/ua/warriors-team`, `/ru/warriors-team`  
 Canonical lead intent: `warriors_team_application`
 
-## 1. Product definition
+## Product definition
 
-Warriors is a paid learning + execution membership.
+Warriors is a **selective private skills + execution club**.
 
-The closest benchmark for the **product mechanics** is The Real World by Andrew Tate: multiple practical skill tracks inside one membership, community, live guidance, progress through action, and a strong identity around execution.
+The product intentionally combines two proven mechanics:
 
-Warriors does **not** copy The Real World's branding, sales copy, proprietary lessons, fabricated member counts, income claims, mentor claims or political/ideological positioning.
+1. an integrated learning membership, similar in structure to The Real World: multiple practical skill paths, community, live guidance and implementation;
+2. a selective private-network layer inspired by high-ticket clubs such as War Room: access is not automatic and the quality of the room is part of the product.
 
-Our product is built around systems Vlad can credibly teach and operate:
+Warriors does not copy third-party branding, lessons, sales copy, ideology, claims, member counts or proprietary material.
+
+## Starting learning paths
 
 1. AI Systems
 2. Client Acquisition
 3. Content Engine
 4. Business Operator
 
-The core promise is not guaranteed income. The product gives members practical training, implementation missions, feedback and an execution network so they can turn useful skills into real output.
+All plans include every current path.
 
-## 2. Why this replaces the small-mastermind concept
+## Core operating loop
 
-The prior 8-person mastermind model was too narrow and did not match the product benchmark or the intended scalable business model.
+`Learn → Build → Review → Prove → Continue`
 
-Warriors should be a membership platform with a repeatable learning loop:
+Every learning unit should lead to a real implementation action. The product is evaluated by member output and retention, not lesson consumption.
 
-`Choose track → Learn next move → Implement → Get feedback → Post proof → Continue`
+## Private-club layer
 
-Peer accountability remains useful, but it is one mechanic inside the product rather than the whole product.
+The private layer adds:
 
-## 3. Founding offer
+- selective application and fit review;
+- private Telegram community;
+- weekly implementation / working session;
+- direct peer and operator feedback;
+- useful introductions where there is mutual relevance;
+- business-model exchange and project breakdowns;
+- member contribution expectations;
+- removal / pause if behavior consistently damages the room.
 
-- Founding price: **USD 49/month** after acceptance.
-- Application: free.
-- Cancellation: anytime.
-- Access: all four starting tracks in one membership.
-- Community: private founding Telegram.
-- Live: one implementation/review session per week.
-- Resources: structured lessons, missions, templates and live archive under the Warriors area of the main VladKuzmenko platform.
-- No separate Vercel project.
-- No separate website.
-- No public fake checkout.
+## Founding pricing
 
-## 4. Starting tracks
+### Monthly
 
-### AI Systems
+**USD 290/month**
 
-Outcome: ship useful automation around leads, follow-up, operations or customer journeys.
+- full access;
+- cancel at the next billing boundary;
+- no annual commitment.
 
-Curriculum themes:
-- outcome-first automation design;
-- lead capture and qualification;
-- CRM / database handoff;
-- follow-up workflows;
-- AI assistants and agents where justified;
-- production QA and failure handling;
-- simple ROI measurement.
+### Annual — preferred
 
-### Client Acquisition
+**USD 2,900/year**
 
-Outcome: build a repeatable path from target market to sales conversations.
+- same full access;
+- equivalent to two months included compared with monthly billing;
+- preferred for members who want relationships and capability to compound.
 
-Curriculum themes:
-- niche / market selection;
-- offer and positioning;
-- prospect research;
-- outreach systems;
-- follow-up;
-- discovery / sales conversations;
-- proof and iteration.
+Application is free. Payment is only offered after approval.
 
-### Content Engine
+The pricing logic is deliberate: above mass education subscriptions because Warriors includes a selective network and weekly working sessions, but below mature high-ticket private networks until the club has materially more proven member density, events, mentors and outcomes.
 
-Outcome: publish useful content consistently through a repeatable system.
+## Public positioning
 
-Curriculum themes:
-- audience and narrative;
-- ideas / hooks;
-- short-form scripting;
-- editing workflow;
-- long-form to short-form repurposing;
-- distribution;
-- feedback and repeat-what-works loop.
+Warriors is not positioned as a cheap course subscription.
 
-### Business Operator
+Public promise:
 
-Outcome: make better business decisions around cash flow and delivery.
+> Practical skills, weekly implementation and a selective private network around real work.
 
-Curriculum themes:
-- positioning;
-- offer economics;
-- prioritization;
-- simple unit economics;
-- delivery systems;
-- measurement;
-- contingency decisions;
-- operating cadence.
+Access language:
 
-## 5. Member operating rhythm
+> Application first. Membership second.
 
-### Track lesson
+Do not publicly imply guaranteed income, guaranteed clients, guaranteed networking outcomes or scale that does not exist.
 
-Consume the smallest useful amount of training required for the next action.
+## Founding delivery stack
 
-### Mission
+Everything remains inside the **single existing VladKuzmenko project**.
 
-Every module ends with something concrete to build or change.
+- Public sales page: main VladKuzmenko site.
+- Member hub: Warriors area on the main site.
+- Lead capture: existing `warriors_team_application` pipeline.
+- Community: private Telegram.
+- Weekly session: lightweight video-call tool.
+- Billing: accepted-member payment flow.
+- Tracking: existing lead pipeline + simple cohort tracking until recurring usage justifies deeper backend work.
 
-Examples:
-- create one working lead workflow;
-- send a real outreach batch;
-- publish a real short-form piece;
-- rewrite an offer;
-- instrument one useful metric.
+No separate Vercel project and no separate Warriors website.
 
-### Feedback
-
-Use private chat and the weekly live implementation session for specific blockers and review.
-
-### Proof
-
-Members post verifiable output rather than motivational updates.
-
-Proof may include:
-- shipped page/workflow;
-- published content;
-- real prospect replies;
-- booked call;
-- sale;
-- improved measured conversion;
-- another concrete project artifact.
-
-## 6. Founding delivery stack
-
-All product work stays in the **single existing VladKuzmenko website/project**.
-
-- Public sales page: current main site.
-- Application: existing website lead pipeline via `warriors_team_application`.
-- Member resources: Warriors area on the main site.
-- Community: private Telegram for the founding cohort.
-- Live: lightweight video-call provider.
-- Billing: accepted-member payment flow; no fake public checkout.
-- Tracking: existing pipeline + simple cohort sheet until product behavior justifies a dedicated backend.
-
-## 7. Custom app gate
-
-Do not build a separate community application or separate Vercel project during founding validation.
-
-A deeper member workspace is justified only when recurring paid use shows concrete needs such as:
-
-- searchable lesson library;
-- progress persistence;
-- member profiles;
-- proof / wins feed;
-- live-session archive filtering;
-- marketplace;
-- permissions by track or level;
-- billing/access automation.
-
-Even then, it must live inside the existing main VladKuzmenko project unless there is a documented technical reason to split it.
-
-## 8. Application data
+## Application data
 
 Collect:
 
 1. name;
 2. email;
 3. Telegram / WhatsApp;
-4. chosen starting track;
-5. current project / stage;
-6. concrete 30-day execution goal;
-7. evidence of what has already been done.
+4. first area to strengthen;
+5. current project and stage;
+6. concrete 30-day objective;
+7. what the applicant can contribute to the club.
 
-## 9. Founding member fit
+## Fit principles
 
 Strong fit:
 
-- wants a practical skill path;
-- is willing to implement weekly;
-- values feedback and community;
-- will share useful proof / lessons;
-- accepts that results are not guaranteed.
+- actively building something real;
+- willing to implement weekly;
+- values direct feedback;
+- can contribute experience, questions, feedback or connections;
+- prefers a smaller high-signal environment.
 
 Wrong fit:
 
-- wants a get-rich-quick promise;
-- expects copied courses or signals;
-- will not execute;
+- expects guaranteed income;
+- wants passive entertainment only;
+- will not implement;
 - wants to spam the group;
-- wants only entertainment / motivation.
+- rejects contribution-based selective access.
 
-## 10. First 30-day validation metrics
+## Validation metrics
 
 Track:
 
 - qualified applications;
-- accepted → activated rate;
+- acceptance rate;
+- accepted → paid conversion;
+- monthly vs annual selection;
 - weekly active members;
-- lesson → mission completion;
-- weekly live attendance;
-- proof posts per active member;
-- useful help / feedback interactions;
-- month-two retention intention;
-- which track produces the strongest engagement;
+- mission / implementation completion;
+- weekly-session attendance;
+- useful feedback interactions;
+- member-to-member introductions;
+- month-two retention;
+- voluntary referrals;
 - repeated feature requests.
 
-Do not use raw member count as the primary KPI.
+## Expansion gate
 
-## 11. Product expansion order
+Do not build a separate app or project. Add deeper member software inside the main site only when recurring paid behavior proves concrete needs such as:
 
-1. Prove founding offer and member execution.
-2. Improve the strongest two tracks first.
-3. Add missing templates / lessons from observed blockers.
-4. Automate billing/access only when manual work becomes costly.
-5. Build deeper member software only after usage proves the feature set.
-6. Add a marketplace only when enough members can genuinely buy/sell useful services.
+- persistent progress;
+- searchable lesson library;
+- member profiles;
+- proof / wins feed;
+- event archive;
+- billing automation;
+- stronger role / access controls;
+- marketplace mechanics.
 
-## 12. Source principles used
+## Next value upgrades before any major price increase
 
-- Business Mastery: measurable offer/economics and decision discipline.
-- AI Automation: outcome-first systems, production usefulness and avoid overbuilding.
-- Social Media & Client Acquisition: audience quality, direct offers, action and measurable results.
-- Content Creation + AI: attention, retention, production systems and repeat-what-works.
-- The Real World: reference for the integrated membership mechanics only: multi-track education + community + live guidance + execution loop.
+1. prove weekly working sessions;
+2. build a small but strong first cohort;
+3. collect verified member outcomes and retention evidence;
+4. add structured onboarding;
+5. add member profiles / areas of expertise if introductions become valuable;
+6. add periodic online or in-person events only when demand and economics support them.
