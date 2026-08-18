@@ -39,6 +39,7 @@ type Copy = {
   secondary: string;
   truth: string;
   mockKicker: string;
+  mockStatus: string;
   mockName: string;
   mockLine: string;
   mockStats: { value: string; label: string }[];
@@ -89,6 +90,7 @@ const COPY: Record<Lang, Copy> = {
     secondary: "See the Core Set",
     truth: "This is product validation, not a pre-order. Nothing is charged until production, food-safety, delivery and unit economics are confirmed.",
     mockKicker: "Pilot concept",
+    mockStatus: "validation",
     mockName: "CORE SET",
     mockLine: "Six ready meals for three busy days.",
     mockStats: [
@@ -191,6 +193,7 @@ const COPY: Record<Lang, Copy> = {
     secondary: "Подивитися Core Set",
     truth: "Це валідація продукту, не передзамовлення. Оплати немає, доки не підтверджені виробництво, безпека, доставка та економіка продукту.",
     mockKicker: "Концепт пілоту",
+    mockStatus: "пілот",
     mockName: "CORE SET",
     mockLine: "Шість готових страв на три насичені дні.",
     mockStats: [
@@ -206,7 +209,7 @@ const COPY: Record<Lang, Copy> = {
       { title: "Справжня готова їжа", text: "Приготовані страви, які можна взяти, розігріти й з’їсти. Не порошок як основа і не щоденне замовлення з ресторану." },
       { title: "Компактний набір", text: "Робоча гіпотеза пілоту — шість страв на три складні дні замість п’яти контейнерів на кожен день." },
       { title: "Зрозуміле харчування", text: "Після фіналізації рецептури на кожній страві мають бути чітко вказані склад, калорійність і макронутрієнти." },
-      { title: "Планова зручність", text: "Менша кількість запланованих доставок має спрощувати режим і робити операційну модель передбачуванішою." },
+      { title: "Планова доставка", text: "Менша кількість запланованих доставок має спрощувати режим і робити операційну модель передбачуванішою." },
     ],
     momentsEyebrow: "Де продукт справді потрібен",
     momentsTitle: "Для переходів між справами, де режим зазвичай ламається.",
@@ -293,6 +296,7 @@ const COPY: Record<Lang, Copy> = {
     secondary: "Посмотреть Core Set",
     truth: "Это валидация продукта, не предзаказ. Оплаты нет, пока не подтверждены производство, безопасность, доставка и экономика продукта.",
     mockKicker: "Концепт пилота",
+    mockStatus: "пилот",
     mockName: "CORE SET",
     mockLine: "Шесть готовых блюд на три насыщенных дня.",
     mockStats: [
@@ -356,7 +360,7 @@ const COPY: Record<Lang, Copy> = {
     priceCards: [
       { title: "Сейчас", value: "Список пилота", text: "Бесплатная заявка. Узнаём, кому нужен продукт, в какие моменты и какой диапазон цены воспринимается нормально." },
       { title: "Дальше", value: "Малый платный пилот", text: "Ограниченный реальный тест только после подтверждения кухни, безопасности, срока хранения и доставки." },
-      { title: "Позже", value: "Регулярные наборы", text: "Подписка или плановое повторное заказывание только если люди реально возвращаются, а экономика сходится." },
+      { title: "Позже", value: "Регулярные наборы", text: "Подписка или плановые повторные заказы только если люди реально возвращаются, а экономика сходится." },
     ],
     waitEyebrow: "Пилот Performance",
     waitTitle: "Помогите сформировать первый набор до того, как он станет каталогом.",
@@ -468,7 +472,7 @@ export function PerformancePage() {
                     </div>
                   </div>
                   <div className="mt-4 flex items-center justify-between gap-4 rounded-2xl border border-white/[.07] bg-black/28 px-4 py-3.5">
-                    <div><p className="text-[9px] uppercase tracking-[.15em] text-zinc-700">Performance 01</p><p className="mt-1 text-xs text-zinc-400">Core Set · validation</p></div>
+                    <div><p className="text-[9px] uppercase tracking-[.15em] text-zinc-700">Performance 01</p><p className="mt-1 text-xs text-zinc-400">Core Set · {x.mockStatus}</p></div>
                     <Zap className="h-4 w-4 text-amber-200/65" />
                   </div>
                 </InteractiveSurface>

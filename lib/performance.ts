@@ -2,16 +2,16 @@ import type { Lang } from "@/lib/i18n";
 
 export const PERFORMANCE_META: Record<Lang, { title: string; description: string }> = {
   en: {
-    title: "Performance — Meal Sets for an Active Schedule | Vlad Kuzmenko",
-    description: "Performance is a consumer-product direction built around active work-and-training schedules. The first product being validated is Performance Meal Sets. Nothing is sold before the product and delivery model are ready.",
+    title: "Performance — Ready Meal Sets for Active Days | Vlad Kuzmenko",
+    description: "Performance is a ready-meal brand for busy work, training and life schedules. The first Core Set pilot is being validated before production, delivery and paid orders open.",
   },
   ua: {
-    title: "Performance — Meal Sets для активного графіка | Vlad Kuzmenko",
-    description: "Performance — напрям практичних продуктів для активного ритму роботи, тренувань і життя. Перший продукт у валідації — Performance Meal Sets. Продажів немає, доки продукт і модель доставки не готові.",
+    title: "Performance — готові набори їжі для активних днів | Vlad Kuzmenko",
+    description: "Performance — бренд готових страв для щільного ритму роботи, тренувань і життя. Перший пілот Core Set проходить валідацію до відкриття виробництва, доставки й оплати.",
   },
   ru: {
-    title: "Performance — Meal Sets для активного графика | Vlad Kuzmenko",
-    description: "Performance — направление практичных продуктов для активного ритма работы, тренировок и жизни. Первый продукт в валидации — Performance Meal Sets. Продаж нет, пока продукт и модель доставки не готовы.",
+    title: "Performance — готовые наборы еды для активных дней | Vlad Kuzmenko",
+    description: "Performance — бренд готовых блюд для плотного ритма работы, тренировок и жизни. Первый пилот Core Set проходит валидацию до открытия производства, доставки и оплаты.",
   },
 };
 
@@ -24,28 +24,28 @@ export const PERFORMANCE_DIALOG: Record<Lang, {
   successMessage: string;
 }> = {
   en: {
-    title: "Get Performance launch updates",
-    description: "This is product validation, not a pre-order. Tell me what your normal work-and-training schedule looks like and what would make a ready-meal system genuinely useful. Nothing is charged here.",
-    helpLabel: "Your schedule and what would make this useful",
-    helpPlaceholder: "How your day usually works, where food becomes inconvenient, what you would actually want from a meal system",
-    successTitle: "You are on the update list",
-    successMessage: "Thanks. This goes directly to me. I will reach out when there is something concrete to test or show.",
+    title: "Request a Performance pilot invite",
+    description: "This is demand validation, not a pre-order. Share your city, routine, useful meal frequency and price comfort. Nothing is charged here.",
+    helpLabel: "Where food breaks down in your week",
+    helpPlaceholder: "What usually happens and what would make the set genuinely useful",
+    successTitle: "Pilot request received",
+    successMessage: "Thanks. Your routine and preferences are now part of the validation. I will only reach out when there is something concrete to test or confirm.",
   },
   ua: {
-    title: "Дізнатися про запуск Performance",
-    description: "Це валідація продукту, не передзамовлення. Розкажіть, як виглядає ваш звичайний графік роботи й тренувань та що зробило б систему готового харчування справді корисною. Тут нічого не оплачується.",
-    helpLabel: "Ваш графік і що зробило б це корисним",
-    helpPlaceholder: "Як зазвичай проходить день, де харчування створює незручності, чого ви реально очікували б від такої системи",
-    successTitle: "Ви у списку оновлень",
-    successMessage: "Дякую. Це потрапляє напряму до мене. Напишу, коли буде щось конкретне для тесту або показу.",
+    title: "Запросити участь у пілоті Performance",
+    description: "Це перевірка попиту, не передзамовлення. Вкажіть місто, свій режим, потрібну кількість готових страв і комфортну ціну. Тут нічого не оплачується.",
+    helpLabel: "Де харчування найчастіше ламається у вашому тижні",
+    helpPlaceholder: "Що зазвичай відбувається і що зробило б набір справді корисним",
+    successTitle: "Запит на пілот отримано",
+    successMessage: "Дякую. Ваш режим і побажання увійшли у валідацію. Напишу лише тоді, коли буде конкретний продукт для тесту або підтвердження.",
   },
   ru: {
-    title: "Узнать о запуске Performance",
-    description: "Это валидация продукта, не предзаказ. Расскажите, как выглядит ваш обычный график работы и тренировок и что сделало бы систему готового питания действительно полезной. Здесь ничего не оплачивается.",
-    helpLabel: "Ваш график и что сделало бы это полезным",
-    helpPlaceholder: "Как обычно проходит день, где питание создаёт неудобства, чего вы реально ждали бы от такой системы",
-    successTitle: "Вы в списке обновлений",
-    successMessage: "Спасибо. Это попадает напрямую ко мне. Напишу, когда будет что-то конкретное для теста или показа.",
+    title: "Запросить участие в пилоте Performance",
+    description: "Это проверка спроса, не предзаказ. Укажите город, свой режим, нужное количество готовых блюд и комфортную цену. Здесь ничего не оплачивается.",
+    helpLabel: "Где питание чаще всего ломается в вашей неделе",
+    helpPlaceholder: "Что обычно происходит и что сделало бы набор действительно полезным",
+    successTitle: "Запрос на пилот получен",
+    successMessage: "Спасибо. Ваш режим и пожелания вошли в валидацию. Напишу только тогда, когда будет конкретный продукт для теста или подтверждения.",
   },
 };
 
@@ -63,7 +63,7 @@ export function performanceWebPageJsonLd(lang: Lang) {
     url: `https://vladkuzmenko.com${localePath(lang)}/drop`,
     about: {
       "@type": "Thing",
-      name: "Performance Meal Sets",
+      name: "Performance Core Set",
       description: meta.description,
     },
     isPartOf: { "@id": "https://vladkuzmenko.com/#website" },
