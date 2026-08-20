@@ -19,12 +19,11 @@ const COPY: Record<Lang, {
   work: string;
   visibility: string;
   warriors: string;
-  performance: string;
   about: string;
 }> = {
-  en: { signoff: "Systems, products and a stronger standard of execution.", nav: "Explore", growth: "Business", work: "Projects", visibility: "VisibilityOS", warriors: "Warriors Team", performance: "Performance", about: "About" },
-  ua: { signoff: "Системи, продукти і вища планка виконання.", nav: "Навігація", growth: "Бізнес", work: "Проєкти", visibility: "VisibilityOS", warriors: "Warriors Team", performance: "Performance", about: "Про мене" },
-  ru: { signoff: "Системы, продукты и более высокая планка исполнения.", nav: "Навигация", growth: "Бизнес", work: "Проекты", visibility: "VisibilityOS", warriors: "Warriors Team", performance: "Performance", about: "Обо мне" },
+  en: { signoff: "Systems, products and a stronger standard of execution.", nav: "Explore", growth: "Business", work: "Projects", visibility: "VisibilityOS", warriors: "Warriors Team", about: "About" },
+  ua: { signoff: "Системи, продукти і вища планка виконання.", nav: "Навігація", growth: "Бізнес", work: "Проєкти", visibility: "VisibilityOS", warriors: "Warriors Team", about: "Про мене" },
+  ru: { signoff: "Системы, продукты и более высокая планка исполнения.", nav: "Навигация", growth: "Бизнес", work: "Проекты", visibility: "VisibilityOS", warriors: "Warriors Team", about: "Обо мне" },
 };
 
 export function FooterSection() {
@@ -39,10 +38,9 @@ export function FooterSection() {
 
   const nav = [
     [x.growth, pageHref("growth-systems")],
-    [x.work, pageHref("growth-systems#portfolio")],
+    [x.work, hashHref("owned-ventures")],
     [x.visibility, pageHref("visibilityos")],
     [x.warriors, pageHref("warriors-team")],
-    [x.performance, pageHref("drop")],
     [x.about, hashHref("about")],
   ];
 

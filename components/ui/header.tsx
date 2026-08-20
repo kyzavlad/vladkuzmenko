@@ -24,12 +24,11 @@ const NAV_COPY: Record<Lang, {
   work: string;
   visibility: string;
   warriors: string;
-  performance: string;
   about: string;
 }> = {
-  en: { business: "Business", work: "Projects", visibility: "VisibilityOS", warriors: "Warriors", performance: "Performance", about: "About" },
-  ua: { business: "Бізнес", work: "Проєкти", visibility: "VisibilityOS", warriors: "Warriors", performance: "Performance", about: "Про мене" },
-  ru: { business: "Бизнес", work: "Проекты", visibility: "VisibilityOS", warriors: "Warriors", performance: "Performance", about: "Обо мне" },
+  en: { business: "Business", work: "Projects", visibility: "VisibilityOS", warriors: "Warriors", about: "About" },
+  ua: { business: "Бізнес", work: "Проєкти", visibility: "VisibilityOS", warriors: "Warriors", about: "Про мене" },
+  ru: { business: "Бизнес", work: "Проекты", visibility: "VisibilityOS", warriors: "Warriors", about: "Обо мне" },
 };
 
 export function Header() {
@@ -45,10 +44,9 @@ export function Header() {
 
   const navItems: { title: string; href: string; hash?: string }[] = [
     { title: labels.business, href: pageHref("growth-systems") },
-    { title: labels.work, href: pageHref("growth-systems#portfolio") },
+    { title: labels.work, href: hashHref("owned-ventures"), hash: "owned-ventures" },
     { title: labels.visibility, href: pageHref("visibilityos") },
     { title: labels.warriors, href: pageHref("warriors-team") },
-    { title: labels.performance, href: pageHref("drop") },
     { title: labels.about, href: hashHref("about"), hash: "about" },
   ];
 
