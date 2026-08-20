@@ -4,7 +4,7 @@ import { motion, useReducedMotion } from "framer-motion";
 import { ArrowDown, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useI18n } from "@/components/i18n-provider";
-import { EcosystemCore } from "@/components/home/EcosystemCore";
+import { CoreDirectionsRail } from "@/components/home/CoreDirectionsRail";
 import { track } from "@/lib/analytics";
 import { langHref, type Lang } from "@/lib/i18n";
 import { getDirections, type DirectionKey } from "@/lib/directions";
@@ -23,7 +23,7 @@ const COPY: Record<Lang, {
     headlineA2: "and the right environment",
     headlineB: "for people who",
     headlineAccent: "build",
-    desc: "Business growth, VisibilityOS, Warriors Team and Performance — four independent directions under one brand. Choose what helps you move forward now.",
+    desc: "Business growth, VisibilityOS and Warriors Team — three core directions under one brand. Owned ecommerce ventures live in the projects portfolio and earn more attention only after the economics are proven.",
     primary: "Choose a direction",
     secondary: "View real work",
   },
@@ -32,7 +32,7 @@ const COPY: Record<Lang, {
     headlineA2: "і сильне оточення",
     headlineB: "для тих, хто",
     headlineAccent: "будує",
-    desc: "Зростання бізнесу, VisibilityOS, Warriors Team і Performance — чотири самостійні напрями під одним брендом. Оберіть те, що допоможе рухатися далі саме зараз.",
+    desc: "Зростання бізнесу, VisibilityOS і Warriors Team — три основні напрями під одним брендом. Власні ecommerce-проєкти живуть у портфелі та отримують більше уваги лише після підтвердження економіки.",
     primary: "Обрати напрям",
     secondary: "Подивитися роботи",
   },
@@ -41,7 +41,7 @@ const COPY: Record<Lang, {
     headlineA2: "и сильное окружение",
     headlineB: "для тех, кто",
     headlineAccent: "строит",
-    desc: "Рост бизнеса, VisibilityOS, Warriors Team и Performance — четыре самостоятельных направления под одним брендом. Выберите то, что поможет двигаться дальше именно сейчас.",
+    desc: "Рост бизнеса, VisibilityOS и Warriors Team — три основных направления под одним брендом. Собственные ecommerce-проекты живут в портфеле и получают больше внимания только после подтверждения экономики.",
     primary: "Выбрать направление",
     secondary: "Смотреть работы",
   },
@@ -77,7 +77,7 @@ export function Hero() {
         <div className="absolute inset-x-0 bottom-0 h-60 bg-gradient-to-b from-transparent via-black/54 to-black" />
       </div>
 
-      <EcosystemCore directions={directions} hrefs={hrefs} onDirectionOpen={(direction) => track("hero_direction_open", { direction })} />
+      <CoreDirectionsRail directions={directions} hrefs={hrefs} onDirectionOpen={(direction) => track("hero_direction_open", { direction })} />
 
       <div className="container relative z-10 mx-auto flex w-full justify-center px-5 pb-[250px] pt-[112px] sm:px-6 sm:pb-[228px] sm:pt-[116px] lg:pb-[206px] lg:pt-[98px]">
         <div className="mx-auto flex w-full max-w-[1240px] flex-col items-center text-center">
