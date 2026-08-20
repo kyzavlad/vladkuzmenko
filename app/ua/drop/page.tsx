@@ -5,7 +5,10 @@ import { breadcrumbJsonLd } from "@/lib/ecosystem";
 import { PERFORMANCE_META, performanceWebPageJsonLd } from "@/lib/performance";
 
 const meta = PERFORMANCE_META.ua;
-export const metadata = pageMeta("ua", "drop", meta.title, meta.description);
+export const metadata = {
+  ...pageMeta("ua", "drop", meta.title, meta.description),
+  robots: { index: false, follow: false, googleBot: { index: false, follow: false } },
+};
 
 export default function Page() {
   return (
