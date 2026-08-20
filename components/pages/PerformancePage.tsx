@@ -381,7 +381,7 @@ export function PerformancePage() {
                 </div>
 
                 <h1 className="mt-5 text-[clamp(2.65rem,5.8vw,5.7rem)] font-semibold leading-[.94] tracking-[-.045em] text-zinc-100">
-                  {x.titleA}<em className="bg-gradient-to-br from-emerald-100 via-emerald-300 to-amber-200 bg-clip-text font-normal italic text-transparent">{x.titleB}</em>
+                  {x.titleA}<em className="bg-gradient-to-br from-emerald-100 via-emerald-300 to-amber-200 bg-clip-text font-normal italic text-transparent [box-decoration-break:clone] [-webkit-box-decoration-break:clone]">{x.titleB}</em>
                 </h1>
                 <p className="mt-7 max-w-2xl text-base leading-8 text-zinc-300 sm:text-lg">{x.lead}</p>
                 <p className="mt-4 max-w-2xl text-sm leading-7 text-zinc-500">{x.support}</p>
