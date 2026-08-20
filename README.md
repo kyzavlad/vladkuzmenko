@@ -9,6 +9,7 @@ Production website and product ecosystem for Vlad Kuzmenko.
 - Release policy: [`docs/DEVELOPMENT_RELEASE_POLICY.md`](docs/DEVELOPMENT_RELEASE_POLICY.md)
 - Local release verification: `npm run verify:release`
 - GitHub Actions are intentionally not used for normal release validation.
+- New branches, duplicate repositories and duplicate Vercel projects are not part of the normal workflow.
 
 ## Local setup
 
