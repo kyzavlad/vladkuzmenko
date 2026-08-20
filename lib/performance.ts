@@ -2,16 +2,16 @@ import type { Lang } from "@/lib/i18n";
 
 export const PERFORMANCE_META: Record<Lang, { title: string; description: string }> = {
   en: {
-    title: "Performance — Ready Meal Sets for Active Days | Vlad Kuzmenko",
-    description: "Performance is a ready-meal brand for busy work, training and life schedules. The first Core Set pilot is being validated before production, delivery and paid orders open.",
+    title: "Performance Complete — Fast Complete Meal for Busy Days | Vlad Kuzmenko",
+    description: "Performance Complete is a 17-meal powdered-food concept for busy work and training days. The public page validates positioning, price and demand before any compliant paid launch.",
   },
   ua: {
-    title: "Performance — готові набори їжі для активних днів | Vlad Kuzmenko",
-    description: "Performance — бренд готових страв для щільного ритму роботи, тренувань і життя. Перший пілот Core Set проходить валідацію до відкриття виробництва, доставки й оплати.",
+    title: "Performance Complete — швидкий повноцінний прийом їжі | Vlad Kuzmenko",
+    description: "Performance Complete — концепт порошкового харчування на 17 прийомів їжі для щільного ритму роботи й тренувань. Сторінка перевіряє позиціонування, ціну та попит до будь-якого платного запуску.",
   },
   ru: {
-    title: "Performance — готовые наборы еды для активных дней | Vlad Kuzmenko",
-    description: "Performance — бренд готовых блюд для плотного ритма работы, тренировок и жизни. Первый пилот Core Set проходит валидацию до открытия производства, доставки и оплаты.",
+    title: "Performance Complete — быстрый полноценный приём пищи | Vlad Kuzmenko",
+    description: "Performance Complete — концепт порошкового питания на 17 приёмов пищи для плотного ритма работы и тренировок. Страница проверяет позиционирование, цену и спрос до любого платного запуска.",
   },
 };
 
@@ -24,28 +24,28 @@ export const PERFORMANCE_DIALOG: Record<Lang, {
   successMessage: string;
 }> = {
   en: {
-    title: "Request a Performance pilot invite",
-    description: "This is demand validation, not a pre-order. Share your city, routine, useful meal frequency and price comfort. Nothing is charged here.",
-    helpLabel: "Where food breaks down in your week",
-    helpPlaceholder: "What usually happens and what would make the set genuinely useful",
-    successTitle: "Pilot request received",
-    successMessage: "Thanks. Your routine and preferences are now part of the validation. I will only reach out when there is something concrete to test or confirm.",
+    title: "Join the Performance Complete founding test",
+    description: "This is demand validation, not a checkout. Tell us how often a fast complete meal would help, which flavour you would start with and how the target price feels.",
+    helpLabel: "When would you actually use it?",
+    helpPlaceholder: "Workday lunch, after training, travel, late day, or another recurring situation",
+    successTitle: "Founding-test request received",
+    successMessage: "Thanks. Your use case and price feedback are now part of the validation. I will only reach out when there is a concrete next step to test or buy.",
   },
   ua: {
-    title: "Запросити участь у пілоті Performance",
-    description: "Це перевірка попиту, не передзамовлення. Вкажіть місто, свій режим, потрібну кількість готових страв і комфортну ціну. Тут нічого не оплачується.",
-    helpLabel: "Де харчування найчастіше ламається у вашому тижні",
-    helpPlaceholder: "Що зазвичай відбувається і що зробило б набір справді корисним",
-    successTitle: "Запит на пілот отримано",
-    successMessage: "Дякую. Ваш режим і побажання увійшли у валідацію. Напишу лише тоді, коли буде конкретний продукт для тесту або підтвердження.",
+    title: "Долучитися до першого тесту Performance Complete",
+    description: "Це перевірка попиту, не оплата. Вкажіть, як часто вам був би корисний швидкий повноцінний прийом їжі, який смак обрали б першим і як сприймаєте цільову ціну.",
+    helpLabel: "Коли ви реально використовували б продукт?",
+    helpPlaceholder: "Обід під час роботи, після тренування, у дорозі, пізно ввечері або інший повторюваний момент",
+    successTitle: "Запит на перший тест отримано",
+    successMessage: "Дякую. Ваш сценарій використання та оцінка ціни увійшли у валідацію. Напишу лише тоді, коли буде конкретний наступний крок для тесту або покупки.",
   },
   ru: {
-    title: "Запросить участие в пилоте Performance",
-    description: "Это проверка спроса, не предзаказ. Укажите город, свой режим, нужное количество готовых блюд и комфортную цену. Здесь ничего не оплачивается.",
-    helpLabel: "Где питание чаще всего ломается в вашей неделе",
-    helpPlaceholder: "Что обычно происходит и что сделало бы набор действительно полезным",
-    successTitle: "Запрос на пилот получен",
-    successMessage: "Спасибо. Ваш режим и пожелания вошли в валидацию. Напишу только тогда, когда будет конкретный продукт для теста или подтверждения.",
+    title: "Присоединиться к первому тесту Performance Complete",
+    description: "Это проверка спроса, не оплата. Укажите, как часто вам пригодился бы быстрый полноценный приём пищи, какой вкус выбрали бы первым и как воспринимаете целевую цену.",
+    helpLabel: "Когда вы реально использовали бы продукт?",
+    helpPlaceholder: "Обед во время работы, после тренировки, в дороге, поздно вечером или другой повторяющийся момент",
+    successTitle: "Запрос на первый тест получен",
+    successMessage: "Спасибо. Ваш сценарий использования и оценка цены вошли в валидацию. Напишу только тогда, когда появится конкретный следующий шаг для теста или покупки.",
   },
 };
 
@@ -57,13 +57,13 @@ export function performanceWebPageJsonLd(lang: Lang) {
   return {
     "@context": "https://schema.org",
     "@type": "WebPage",
-    name: "Performance",
+    name: "Performance Complete",
     description: meta.description,
     inLanguage: SCHEMA_LANG[lang],
     url: `https://vladkuzmenko.com${localePath(lang)}/drop`,
     about: {
       "@type": "Thing",
-      name: "Performance Core Set",
+      name: "Performance Complete",
       description: meta.description,
     },
     isPartOf: { "@id": "https://vladkuzmenko.com/#website" },
