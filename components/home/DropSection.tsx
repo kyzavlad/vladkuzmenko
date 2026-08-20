@@ -1,7 +1,7 @@
 "use client";
 
 import { motion, useReducedMotion } from "framer-motion";
-import { ArrowRight, Briefcase, CheckCircle2, Dumbbell, PackageCheck, UtensilsCrossed } from "lucide-react";
+import { ArrowRight, Briefcase, CheckCircle2, Dumbbell, PackageCheck, TimerReset } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { RequestDialog } from "@/components/ui/request-dialog";
 import { InteractiveSurface } from "@/components/ui/premium-interaction";
@@ -26,46 +26,46 @@ const COPY: Record<Lang, {
 }> = {
   en: {
     eyebrow: "Performance",
-    badge: "First product · Meal Sets",
-    titleA: "Food that keeps up with ",
-    titleB: "your pace.",
-    desc: "For days where work, training and a packed schedule run back to back. Performance is about practical products that remove small daily decisions and make a demanding routine easier to hold.",
-    product: "Performance Meal Sets",
-    productDesc: "A ready-meal system for an active schedule: less time rebuilding the food plan, more consistency across work, training and the rest of the day. Menu, production and delivery format are being prepared before launch.",
-    systemLabel: "Designed around a real day",
-    moments: ["Work", "Training", "Ready meal", "Routine"],
-    research: "Get launch updates",
+    badge: "First product · Complete Meal",
+    titleA: "A complete meal in ",
+    titleB: "about a minute.",
+    desc: "For the moments when work, training or travel leave no room to cook. Performance starts with one simple product: a measured powdered meal designed to make a demanding day easier to keep consistent.",
+    product: "Performance Complete",
+    productDesc: "17 meals per pouch, a 90 g serving format and a category benchmark around 400 kcal and 40 g plant protein. The first public step validates the use case and price before any compliant paid launch.",
+    systemLabel: "Built around recurring real-life friction",
+    moments: ["Work", "Training", "60 sec prep", "Routine"],
+    research: "Join the founding test",
     open: "Explore Performance",
   },
   ua: {
     eyebrow: "Performance",
-    badge: "Перший продукт · Meal Sets",
-    titleA: "Їжа, яка тримає ",
-    titleB: "ваш темп.",
-    desc: "Для днів, де робота, тренування та щільний графік ідуть підряд. Performance — це практичні продукти, які прибирають зайві щоденні рішення й допомагають легше тримати активний ритм.",
-    product: "Performance Meal Sets",
-    productDesc: "Система готових прийомів їжі для активного графіка: менше часу на постійне складання раціону, більше стабільності між роботою, тренуванням та рештою дня. Меню, виробництво й формат доставки готуються до запуску.",
-    systemLabel: "Під реальний ритм дня",
-    moments: ["Робота", "Тренування", "Готова їжа", "Режим"],
-    research: "Дізнатися про запуск",
+    badge: "Перший продукт · Complete Meal",
+    titleA: "Повноцінний прийом їжі приблизно ",
+    titleB: "за хвилину.",
+    desc: "Для моментів, коли робота, тренування або дорога не залишають часу готувати. Performance починається з одного простого продукту: порційного порошкового харчування для стабільного активного дня.",
+    product: "Performance Complete",
+    productDesc: "17 прийомів їжі в пакеті, формат порції 90 г і категорійний орієнтир близько 400 ккал та 40 г рослинного білка. Спочатку перевіряємо сценарій використання й ціну, а вже потім відкриваємо легальний платний запуск.",
+    systemLabel: "Під повторювані моменти реального дня",
+    moments: ["Робота", "Тренування", "60 сек", "Режим"],
+    research: "Долучитися до першого тесту",
     open: "Відкрити Performance",
   },
   ru: {
     eyebrow: "Performance",
-    badge: "Первый продукт · Meal Sets",
-    titleA: "Еда, которая держит ",
-    titleB: "ваш ритм.",
-    desc: "Для дней, где работа, тренировки и плотный график идут подряд. Performance — это практичные продукты, которые убирают лишние ежедневные решения и помогают легче держать активный ритм.",
-    product: "Performance Meal Sets",
-    productDesc: "Система готовых приёмов пищи для активного графика: меньше времени на постоянную пересборку рациона, больше стабильности между работой, тренировкой и остальным днём. Меню, производство и формат доставки готовятся к запуску.",
-    systemLabel: "Под реальный ритм дня",
-    moments: ["Работа", "Тренировка", "Готовая еда", "Режим"],
-    research: "Узнать о запуске",
+    badge: "Первый продукт · Complete Meal",
+    titleA: "Полноценный приём пищи примерно ",
+    titleB: "за минуту.",
+    desc: "Для моментов, когда работа, тренировка или дорога не оставляют времени готовить. Performance начинается с одного простого продукта: порционного порошкового питания для стабильного активного дня.",
+    product: "Performance Complete",
+    productDesc: "17 приёмов пищи в пакете, формат порции 90 г и категорийный ориентир около 400 ккал и 40 г растительного белка. Сначала проверяем сценарий использования и цену, а уже потом открываем легальный платный запуск.",
+    systemLabel: "Под повторяющиеся моменты реального дня",
+    moments: ["Работа", "Тренировка", "60 сек", "Режим"],
+    research: "Присоединиться к первому тесту",
     open: "Открыть Performance",
   },
 };
 
-const MOMENT_ICONS = [Briefcase, Dumbbell, UtensilsCrossed, CheckCircle2];
+const MOMENT_ICONS = [Briefcase, Dumbbell, TimerReset, CheckCircle2];
 
 export function DropSection() {
   const { lang } = useI18n();
@@ -113,12 +113,12 @@ export function DropSection() {
                 description={modal.description}
                 successTitle={modal.successTitle}
                 successMessage={modal.successMessage}
-                buttonLabel="Home - Performance launch interest"
+                buttonLabel="Home - Performance founding test"
                 showBuildType={false}
                 compact
                 helpLabel={modal.helpLabel}
                 helpPlaceholder={modal.helpPlaceholder}
-                context={{ concept: "performance_meal_system", stage: "validation", source: "home_performance", locale: lang }}
+                context={{ concept: "performance_complete", stage: "demand_validation", source: "home_performance", locale: lang }}
               >
                 <Button className="premium-button h-auto min-h-12 w-full px-7 py-3 sm:w-auto" onClick={() => track("drop_interest_open", { source: "home_performance" })}>
                   {x.research}<ArrowRight className="ml-2 h-4 w-4" />
@@ -134,7 +134,7 @@ export function DropSection() {
             <InteractiveSurface accent="green" lift={false} className="relative overflow-hidden rounded-[32px] border border-emerald-200/[.12] bg-[linear-gradient(145deg,rgba(110,231,183,.055),rgba(255,255,255,.016)_48%,rgba(0,0,0,.5))] p-6 shadow-[0_42px_120px_-60px_rgba(16,185,129,.18)] sm:p-8">
               <div className="flex items-center justify-between gap-4">
                 <div><p className="text-sm font-semibold text-zinc-100">{x.product}</p><p className="mt-1 text-[10px] uppercase tracking-[.17em] text-zinc-600">{x.systemLabel}</p></div>
-                <span className="flex h-10 w-10 items-center justify-center rounded-xl border border-emerald-300/20 bg-emerald-300/[.055] text-emerald-200"><UtensilsCrossed className="h-4 w-4" /></span>
+                <span className="flex h-10 w-10 items-center justify-center rounded-xl border border-emerald-300/20 bg-emerald-300/[.055] text-emerald-200"><PackageCheck className="h-4 w-4" /></span>
               </div>
 
               <div className="relative mt-7 grid gap-3 sm:grid-cols-4">
