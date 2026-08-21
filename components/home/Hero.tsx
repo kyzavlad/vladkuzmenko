@@ -19,31 +19,31 @@ const COPY: Record<Lang, {
   secondary: string;
 }> = {
   en: {
-    headlineA1: "Systems, products",
-    headlineA2: "and the right environment",
-    headlineB: "for people who",
+    headlineA1: "More demand.",
+    headlineA2: "Clearer systems. A stronger environment.",
+    headlineB: "For people who",
     headlineAccent: "build",
-    desc: "Business growth, VisibilityOS and Warriors Team — three core directions under one brand. Owned ecommerce ventures live in the projects portfolio and earn more attention only after the economics are proven.",
-    primary: "Choose a direction",
-    secondary: "View real work",
+    desc: "Choose the bottleneck in front of you: earn more qualified demand and turn it into sales, see where your website loses trust and action, or strengthen the skills and environment that help you execute faster.",
+    primary: "Choose your entry point",
+    secondary: "See real work",
   },
   ua: {
-    headlineA1: "Системи, продукти",
-    headlineA2: "і сильне оточення",
-    headlineB: "для тих, хто",
+    headlineA1: "Більше попиту.",
+    headlineA2: "Ясніші системи. Сильніше оточення.",
+    headlineB: "Для тих, хто",
     headlineAccent: "будує",
-    desc: "Зростання бізнесу, VisibilityOS і Warriors Team — три основні напрями під одним брендом. Власні ecommerce-проєкти живуть у портфелі та отримують більше уваги лише після підтвердження економіки.",
-    primary: "Обрати напрям",
-    secondary: "Подивитися роботи",
+    desc: "Оберіть вузьке місце, яке стримує наступний крок: залучити й довести більше попиту до угоди, побачити, де сайт втрачає довіру та дію, або посилити навички й оточення, щоб рухатися швидше.",
+    primary: "Обрати точку входу",
+    secondary: "Дивитися реальні роботи",
   },
   ru: {
-    headlineA1: "Системы, продукты",
-    headlineA2: "и сильное окружение",
-    headlineB: "для тех, кто",
+    headlineA1: "Больше спроса.",
+    headlineA2: "Яснее системы. Сильнее окружение.",
+    headlineB: "Для тех, кто",
     headlineAccent: "строит",
-    desc: "Рост бизнеса, VisibilityOS и Warriors Team — три основных направления под одним брендом. Собственные ecommerce-проекты живут в портфеле и получают больше внимания только после подтверждения экономики.",
-    primary: "Выбрать направление",
-    secondary: "Смотреть работы",
+    desc: "Выберите узкое место, которое тормозит следующий шаг: привлечь и довести больше спроса до сделки, увидеть, где сайт теряет доверие и действие, или усилить навыки и окружение, чтобы двигаться быстрее.",
+    primary: "Выбрать точку входа",
+    secondary: "Смотреть реальные работы",
   },
 };
 
@@ -79,7 +79,7 @@ export function Hero() {
 
       <CoreDirectionsRail directions={directions} hrefs={hrefs} onDirectionOpen={(direction) => track("hero_direction_open", { direction })} />
 
-      <div className="container relative z-10 mx-auto flex w-full justify-center px-5 pb-[250px] pt-[112px] sm:px-6 sm:pb-[228px] sm:pt-[116px] lg:pb-[206px] lg:pt-[98px]">
+      <div className="container relative z-10 mx-auto flex w-full justify-center px-5 pb-[250px] pt-[112px] sm:px-6 sm:pb-[228px] sm:pt-[116px] lg:pb-[206px] lg:pt-[108px]">
         <div className="mx-auto flex w-full max-w-[1240px] flex-col items-center text-center">
           <motion.img initial={reduced ? false : { opacity: 0, y: 16, scale: 0.978 }} animate={{ opacity: 1, y: 0, scale: 1 }} transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }} src="/brand/vlad-kuzmenko-logo-gold.png" alt="Vlad Kuzmenko" className="h-auto w-[244px] select-none drop-shadow-[0_22px_72px_rgba(212,175,55,.20)] sm:w-[294px] lg:w-[330px]" />
 
@@ -100,7 +100,7 @@ export function Hero() {
             </motion.h1>
           </div>
 
-          <motion.p initial={reduced ? false : { opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.72, delay: reduced ? 0 : 0.18, ease: [0.16, 1, 0.3, 1] }} className="relative z-20 mt-2 max-w-[780px] text-[12px] leading-6 text-zinc-400 sm:text-[14px] sm:leading-7 lg:text-[15px]">{x.desc}</motion.p>
+          <motion.p initial={reduced ? false : { opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.72, delay: reduced ? 0 : 0.18, ease: [0.16, 1, 0.3, 1] }} className="relative z-20 mt-2 max-w-[840px] text-[12px] leading-6 text-zinc-400 sm:text-[14px] sm:leading-7 lg:text-[15px]">{x.desc}</motion.p>
 
           <motion.div initial={reduced ? false : { opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.72, delay: reduced ? 0 : 0.24, ease: [0.16, 1, 0.3, 1] }} className="relative z-30 mt-6 flex w-full max-w-[520px] flex-col gap-3 sm:w-auto sm:max-w-none sm:flex-row">
             <Button size="lg" onClick={() => { track("hero_primary", { target: "ecosystem_rail" }); scrollTo("ecosystem-rail"); }} className="premium-button h-auto min-h-12 rounded-xl px-7 py-3.5 text-[14px] shadow-[0_16px_45px_rgba(184,134,11,.16)] sm:text-[15px]">{x.primary}<ArrowDown className="ml-2 h-4 w-4" /></Button>

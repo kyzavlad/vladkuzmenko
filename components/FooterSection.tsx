@@ -21,9 +21,9 @@ const COPY: Record<Lang, {
   warriors: string;
   about: string;
 }> = {
-  en: { signoff: "Systems, products and a stronger standard of execution.", nav: "Explore", growth: "Business", work: "Projects", visibility: "VisibilityOS", warriors: "Warriors Team", about: "About" },
-  ua: { signoff: "Системи, продукти і вища планка виконання.", nav: "Навігація", growth: "Бізнес", work: "Проєкти", visibility: "VisibilityOS", warriors: "Warriors Team", about: "Про мене" },
-  ru: { signoff: "Системы, продукты и более высокая планка исполнения.", nav: "Навигация", growth: "Бизнес", work: "Проекты", visibility: "VisibilityOS", warriors: "Warriors Team", about: "Обо мне" },
+  en: { signoff: "Growth systems, owned products and real work — from idea to a result that can be tested.", nav: "Explore", growth: "Business", work: "Projects", visibility: "VisibilityOS", warriors: "Warriors Team", about: "About" },
+  ua: { signoff: "Системи росту, власні продукти й реальна робота — від ідеї до результату, який можна перевірити.", nav: "Навігація", growth: "Бізнес", work: "Проєкти", visibility: "VisibilityOS", warriors: "Warriors Team", about: "Про мене" },
+  ru: { signoff: "Системы роста, собственные продукты и реальная работа — от идеи до результата, который можно проверить.", nav: "Навигация", growth: "Бизнес", work: "Проекты", visibility: "VisibilityOS", warriors: "Warriors Team", about: "Обо мне" },
 };
 
 export function FooterSection() {
