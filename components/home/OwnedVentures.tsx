@@ -1,7 +1,7 @@
 "use client";
 
 import { motion, useReducedMotion } from "framer-motion";
-import { BarChart3, PackageCheck, Search, ShoppingBag, TrendingUp } from "lucide-react";
+import { PackageCheck, ShoppingBag, TrendingUp } from "lucide-react";
 import { useI18n } from "@/components/i18n-provider";
 import type { Lang } from "@/lib/i18n";
 
@@ -28,88 +28,88 @@ type Copy = {
 
 const COPY: Record<Lang, Copy> = {
   en: {
-    eyebrow: "Owned ecommerce",
-    titleA: "A store has one job: ",
-    titleB: "sell.",
-    desc: "So these projects are judged by the market, not by how finished they look: demand, purchase, margin and repeat behaviour decide what earns more capital and attention.",
-    currentFocus: "How the project becomes revenue",
+    eyebrow: "Owned ecommerce portfolio",
+    titleA: "Built to turn demand into ",
+    titleB: "revenue.",
+    desc: "Two commerce systems in different markets, run around the same discipline: a clear offer, a low-friction buying path, dependable fulfilment and reinvestment into what performs best.",
+    currentFocus: "Commerce engine",
     dacha: {
-      status: "Active project",
+      status: "Operating store",
       label: "Ukraine · Ecommerce",
       title: "Dacha TV",
-      outcome: "An existing ecommerce asset being turned from a catalogue into a more predictable path from product intent to a completed order.",
-      detail: "People already search for the products. The work now is to remove friction around discovery, product choice, checkout, fulfilment and the reasons to buy again.",
-      flow: ["Search intent", "Product", "Order", "Fulfilment", "Margin", "Repeat"],
-      tags: ["Google intent", "Production catalogue", "Merchant feed", "Order system"],
+      outcome: "A Ukrainian ecommerce operation built around real search intent, a structured catalogue and a direct path from product discovery to completed order.",
+      detail: "Dacha TV connects demand, catalogue, checkout, fulfilment and repeat purchase into one operating system. The objective is simple: make it easier to find the right product, buy it and come back again.",
+      flow: ["Demand", "Catalogue", "Checkout", "Fulfilment", "Repeat", "Growth"],
+      tags: ["Search demand", "Production catalogue", "Merchant feed", "Order operations"],
     },
     international: {
-      status: "Research / validation",
-      label: "International ecommerce",
-      title: "The next international brand",
-      outcome: "We are not looking for a pretty store idea. We are looking for a product the market is willing to validate with money.",
-      detail: "Demand, landed cost, margin, supplier quality and creative potential are checked before time is spent on a brand or a full store. Only a strong candidate earns a sample and controlled paid test.",
-      flow: ["Demand", "Economics", "Supplier", "Sample", "Creative", "Purchase"],
-      tags: ["Winner-first", "Unit economics", "Supplier RFQ", "Controlled test"],
+      status: "International brand",
+      label: "International · Automotive ecommerce",
+      title: "Automotive Interior Brand",
+      outcome: "A premium automotive ecommerce brand built around one clear transformation: stock interior to a more distinctive premium night cockpit.",
+      detail: "The commercial system starts with visual creative, moves qualified attention into a focused hero-product page and carries the customer through purchase, fulfilment and the next reason to return. The product is the transformation, not another generic LED accessory.",
+      flow: ["Creative", "Hero product", "Purchase", "Fulfilment", "Customer", "Scale"],
+      tags: ["Hero-led store", "Paid acquisition", "Premium positioning", "International fulfilment"],
     },
-    note: "Private label, broader fulfilment and more countries are rewards for proven purchases and economics — not the starting point.",
+    note: "Both ventures follow the same rule: keep the customer journey simple, measure the commercial path and put more attention and capital behind what proves strongest.",
   },
   ua: {
-    eyebrow: "Власний ecommerce",
-    titleA: "У магазину одна робота: ",
-    titleB: "продавати.",
-    desc: "Тому ці проєкти оцінює ринок, а не зовнішня готовність: попит, покупка, маржа та повторна поведінка визначають, що отримує більше капіталу й уваги.",
-    currentFocus: "Як проєкт перетворюється на виручку",
+    eyebrow: "Власний ecommerce-портфель",
+    titleA: "Створено, щоб перетворювати попит на ",
+    titleB: "виручку.",
+    desc: "Дві ecommerce-системи в різних ринках працюють за однією дисципліною: зрозумілий офер, простий шлях до покупки, надійне виконання замовлення та більше уваги до того, що працює найкраще.",
+    currentFocus: "Комерційний двигун",
     dacha: {
-      status: "Активний проєкт",
+      status: "Діючий магазин",
       label: "Україна · Ecommerce",
       title: "Дача TV",
-      outcome: "Наявний ecommerce-актив, який перетворюємо з каталогу на більш передбачуваний шлях від наміру купити до виконаного замовлення.",
-      detail: "Люди вже шукають ці товари. Тепер робота — прибрати тертя у пошуку, виборі товару, оформленні, виконанні замовлення та причинах купити знову.",
-      flow: ["Пошуковий попит", "Товар", "Замовлення", "Виконання", "Маржа", "Повтор"],
-      tags: ["Google intent", "Продакшн-каталог", "Merchant feed", "Система замовлень"],
+      outcome: "Український ecommerce-проєкт, побудований навколо реального пошукового попиту, структурованого каталогу й прямого шляху від вибору товару до виконаного замовлення.",
+      detail: "Дача TV з'єднує попит, каталог, checkout, виконання та повторну покупку в одну операційну систему. Завдання просте: допомогти швидше знайти потрібний товар, купити його й мати причину повернутися.",
+      flow: ["Попит", "Каталог", "Checkout", "Виконання", "Повтор", "Зростання"],
+      tags: ["Пошуковий попит", "Продакшн-каталог", "Merchant feed", "Операції замовлень"],
     },
     international: {
-      status: "Дослідження / перевірка",
-      label: "Міжнародний ecommerce",
-      title: "Наступний міжнародний бренд",
-      outcome: "Ми шукаємо не красиву ідею магазину, а товар, який ринок готовий підтвердити грошима.",
-      detail: "Попит, повна собівартість із доставкою, маржа, постачальник і потенціал креативів перевіряються до витрат часу на бренд і повний магазин. Лише сильний кандидат отримує зразок і контрольований платний тест.",
-      flow: ["Попит", "Економіка", "Постачальник", "Зразок", "Креатив", "Покупка"],
-      tags: ["Winner-first", "Юніт-економіка", "Supplier RFQ", "Контрольований тест"],
+      status: "Міжнародний бренд",
+      label: "International · Automotive ecommerce",
+      title: "Automotive Interior Brand",
+      outcome: "Преміальний автомобільний ecommerce-бренд навколо однієї зрозумілої трансформації: звичайний салон у виразний premium night cockpit.",
+      detail: "Комерційна система починається з сильного візуального креативу, переводить якісну увагу на сфокусовану сторінку hero-продукту й веде покупця через оплату, fulfilment та наступну причину повернутися. Ми продаємо трансформацію, а не ще один generic LED accessory.",
+      flow: ["Креатив", "Hero-продукт", "Покупка", "Fulfilment", "Клієнт", "Масштаб"],
+      tags: ["Hero-led store", "Paid acquisition", "Premium positioning", "International fulfilment"],
     },
-    note: "Private label, ширший fulfilment і нові країни — це нагорода за підтверджені покупки та економіку, а не стартова точка.",
+    note: "Обидва проєкти працюють за одним правилом: спрощувати шлях покупця, вимірювати комерційний ланцюжок і спрямовувати більше уваги та капіталу туди, де система показує найсильніший результат.",
   },
   ru: {
-    eyebrow: "Собственный ecommerce",
-    titleA: "У магазина одна работа: ",
-    titleB: "продавать.",
-    desc: "Поэтому эти проекты оценивает рынок, а не внешняя готовность: спрос, покупка, маржа и повторное поведение решают, что получает больше капитала и внимания.",
-    currentFocus: "Как проект превращается в выручку",
+    eyebrow: "Собственный ecommerce-портфель",
+    titleA: "Создано, чтобы превращать спрос в ",
+    titleB: "выручку.",
+    desc: "Две ecommerce-системы в разных рынках работают по одной дисциплине: понятный оффер, простой путь к покупке, надёжное выполнение заказа и больше внимания к тому, что работает сильнее всего.",
+    currentFocus: "Коммерческий двигатель",
     dacha: {
-      status: "Активный проект",
+      status: "Действующий магазин",
       label: "Украина · Ecommerce",
       title: "Дача TV",
-      outcome: "Существующий ecommerce-актив, который превращаем из каталога в более предсказуемый путь от намерения купить до выполненного заказа.",
-      detail: "Люди уже ищут эти товары. Теперь задача — убрать трение в поиске, выборе товара, оформлении, выполнении заказа и причинах купить снова.",
-      flow: ["Поисковый спрос", "Товар", "Заказ", "Выполнение", "Маржа", "Повтор"],
-      tags: ["Google intent", "Продакшн-каталог", "Merchant feed", "Система заказов"],
+      outcome: "Украинский ecommerce-проект, построенный вокруг реального поискового спроса, структурированного каталога и прямого пути от выбора товара до выполненного заказа.",
+      detail: "Дача TV соединяет спрос, каталог, checkout, выполнение и повторную покупку в одну операционную систему. Задача простая: помочь быстрее найти нужный товар, купить его и дать причину вернуться снова.",
+      flow: ["Спрос", "Каталог", "Checkout", "Выполнение", "Повтор", "Рост"],
+      tags: ["Поисковый спрос", "Продакшн-каталог", "Merchant feed", "Операции заказов"],
     },
     international: {
-      status: "Исследование / проверка",
-      label: "Международный ecommerce",
-      title: "Следующий международный бренд",
-      outcome: "Мы ищем не красивую идею магазина, а товар, который рынок готов подтвердить деньгами.",
-      detail: "Спрос, полная себестоимость с доставкой, маржа, поставщик и потенциал креативов проверяются до затрат времени на бренд и полноценный магазин. Только сильный кандидат получает образец и контролируемый платный тест.",
-      flow: ["Спрос", "Экономика", "Поставщик", "Образец", "Креатив", "Покупка"],
-      tags: ["Winner-first", "Юнит-экономика", "Supplier RFQ", "Контролируемый тест"],
+      status: "Международный бренд",
+      label: "International · Automotive ecommerce",
+      title: "Automotive Interior Brand",
+      outcome: "Премиальный автомобильный ecommerce-бренд вокруг одной понятной трансформации: обычный салон в выразительный premium night cockpit.",
+      detail: "Коммерческая система начинается с сильного визуального креатива, переводит качественное внимание на сфокусированную страницу hero-продукта и ведёт покупателя через оплату, fulfilment и следующую причину вернуться. Мы продаём трансформацию, а не ещё один generic LED accessory.",
+      flow: ["Креатив", "Hero-продукт", "Покупка", "Fulfilment", "Клиент", "Масштаб"],
+      tags: ["Hero-led store", "Paid acquisition", "Premium positioning", "International fulfilment"],
     },
-    note: "Private label, более широкий fulfilment и новые страны — это награда за подтверждённые покупки и экономику, а не стартовая точка.",
+    note: "Оба проекта работают по одному правилу: упрощать путь покупателя, измерять коммерческую цепочку и направлять больше внимания и капитала туда, где система показывает самый сильный результат.",
   },
 };
 
-function VentureCard({ index, active, venture, currentFocus }: { index: number; active?: boolean; venture: Venture; currentFocus: string }) {
+function VentureCard({ index, emerald, venture, currentFocus }: { index: number; emerald?: boolean; venture: Venture; currentFocus: string }) {
   const reduced = Boolean(useReducedMotion());
-  const accent = active ? {
+  const accent = emerald ? {
     border: "rgba(110,231,183,.18)",
     glow: "rgba(16,185,129,.16)",
     solid: "#6ee7b7",
@@ -131,7 +131,7 @@ function VentureCard({ index, active, venture, currentFocus }: { index: number; 
       className="group relative overflow-hidden rounded-[34px] border p-5 shadow-[0_50px_140px_-72px_rgba(0,0,0,.96)] sm:p-7"
       style={{
         borderColor: accent.border,
-        background: active
+        background: emerald
           ? "linear-gradient(145deg,rgba(110,231,183,.075),rgba(8,15,11,.92)_36%,rgba(2,4,3,.98)_78%)"
           : "linear-gradient(145deg,rgba(251,191,36,.055),rgba(13,12,8,.91)_34%,rgba(2,4,3,.98)_78%)",
       }}
@@ -151,7 +151,7 @@ function VentureCard({ index, active, venture, currentFocus }: { index: number; 
 
         <div className="mt-7 flex items-start gap-4">
           <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl border bg-black/30" style={{ borderColor: accent.border, color: accent.solid }}>
-            {active ? <ShoppingBag className="h-5 w-5" /> : <Search className="h-5 w-5" />}
+            <ShoppingBag className="h-5 w-5" />
           </span>
           <div>
             <h3 className="text-2xl font-semibold tracking-[-.035em] text-zinc-50 sm:text-3xl">{venture.title}</h3>
@@ -163,7 +163,7 @@ function VentureCard({ index, active, venture, currentFocus }: { index: number; 
 
         <div className="mt-6 rounded-[22px] border border-white/[.07] bg-black/30 p-4 sm:p-5">
           <div className="flex items-center gap-2 text-[9px] font-semibold uppercase tracking-[.17em] text-zinc-600">
-            {active ? <TrendingUp className="h-3.5 w-3.5" /> : <BarChart3 className="h-3.5 w-3.5" />}
+            <TrendingUp className="h-3.5 w-3.5" />
             {currentFocus}
           </div>
           <div className="mt-4 flex flex-wrap items-center gap-2">
@@ -208,7 +208,7 @@ export function OwnedVentures() {
         </motion.div>
 
         <div className="mt-11 grid gap-5 lg:grid-cols-2">
-          <VentureCard index={0} active venture={x.dacha} currentFocus={x.currentFocus} />
+          <VentureCard index={0} emerald venture={x.dacha} currentFocus={x.currentFocus} />
           <VentureCard index={1} venture={x.international} currentFocus={x.currentFocus} />
         </div>
 
