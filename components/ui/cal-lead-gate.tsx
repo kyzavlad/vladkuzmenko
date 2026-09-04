@@ -1,9 +1,9 @@
 "use client";
 
 import { useEffect, useState, type FormEvent } from "react";
+import { usePathname } from "next/navigation";
 import { ArrowRight, ExternalLink, Loader2 } from "lucide-react";
 
-import { useI18n } from "@/components/i18n-provider";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -14,7 +14,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { track } from "@/lib/analytics";
-import type { Lang } from "@/lib/i18n";
+import { getDict, type Lang } from "@/lib/i18n";
 import { SITE, submitLead } from "@/lib/site";
 
 type PendingBooking = {
@@ -68,10 +68,17 @@ const EMPTY_FORM = {
   message: "",
 };
 
+function languageFromPathname(pathname: string): Lang {
+  if (pathname === "/ua" || pathname.startsWith("/ua/")) return "ua";
+  if (pathname === "/ru" || pathname.startsWith("/ru/")) return "ru";
+  return "en";
+}
+
 export function CalLeadGate() {
-  const { lang, t } = useI18n();
+  const pathname = usePathname();
+  const lang = languageFromPathname(pathname);
   const copy = COPY[lang];
-  const formCopy = t.form;
+  const formCopy = getDict(lang).form;
   const [open, setOpen] = useState(false);
   const [pending, setPending] = useState<PendingBooking | null>(null);
   const [data, setData] = useState(EMPTY_FORM);
@@ -134,6 +141,11 @@ export function CalLeadGate() {
     event.preventDefault();
     if (!pending || submitting || !data.name.trim() || !data.email.trim()) return;
 
+    // Open the calendar tab synchronously from the user gesture so browser popup
+    // protection does not block it after the async lead-capture request finishes.
+    const calendarWindow = window.open("about:blank", "_blank");
+    if (calendarWindow) calendarWindow.opener = null;
+
     setSubmitting(true);
     setError(false);
 
@@ -153,6 +165,7 @@ export function CalLeadGate() {
     setSubmitting(false);
 
     if (!ok) {
+      calendarWindow?.close();
       setError(true);
       return;
     }
@@ -162,6 +175,14 @@ export function CalLeadGate() {
       buttonLabel: pending.buttonLabel,
     });
 
+    if (calendarWindow) {
+      calendarWindow.location.replace(pending.href);
+      setOpen(false);
+      window.setTimeout(reset, 250);
+      return;
+    }
+
+    // Rare fallback when the browser blocks even a synchronous new tab.
     window.location.assign(pending.href);
   };
 
