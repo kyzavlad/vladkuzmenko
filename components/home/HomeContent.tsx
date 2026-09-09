@@ -2,10 +2,7 @@
 
 import { Header } from "@/components/ui/header";
 import { Hero } from "@/components/home/Hero";
-import { EcosystemNavigator } from "@/components/home/EcosystemNavigator";
 import { GrowthSystems } from "@/components/home/GrowthSystems";
-import { VisibilitySection } from "@/components/home/VisibilitySection";
-import { WarriorsSection } from "@/components/home/WarriorsSection";
 import { OwnedVentures } from "@/components/home/OwnedVentures";
 import { PersonalBrandFinal } from "@/components/home/PersonalBrandFinal";
 import { ContactSection } from "@/components/home/ContactSection";
@@ -18,13 +15,7 @@ export function HomeContent() {
       <Header />
       <Hero />
       <SectionBridge tone="gold" />
-      <EcosystemNavigator />
-      <SectionBridge tone="gold" />
       <GrowthSystems />
-      <SectionBridge tone="blue" />
-      <VisibilitySection />
-      <SectionBridge tone="violet" />
-      <WarriorsSection />
       <SectionBridge tone="gold" />
       <OwnedVentures />
       <SectionBridge tone="gold" />

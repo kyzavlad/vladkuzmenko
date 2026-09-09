@@ -38,9 +38,7 @@ export function FooterSection() {
 
   const nav = [
     [x.growth, pageHref("growth-systems")],
-    [x.work, hashHref("owned-ventures")],
-    [x.visibility, pageHref("visibilityos")],
-    [x.warriors, pageHref("warriors-team")],
+    [x.work, pageHref("work")],
     [x.about, hashHref("about")],
   ];
 
