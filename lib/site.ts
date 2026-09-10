@@ -5,7 +5,7 @@
 
 const WEBHOOK_URL =
   process.env.NEXT_PUBLIC_LEAD_WEBHOOK_URL ||
-  "https://n8n.vladkuzmenkoai.com/webhook/b60f2736-ecb9-451a-b38e-5018c3935013";
+  "https://n8n.vladkuzmenko.com/webhook/website-lead";
 
 export const SITE = {
   name: "Vlad Kuzmenko",
