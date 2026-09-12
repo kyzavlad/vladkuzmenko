@@ -4,10 +4,8 @@ import { motion, useReducedMotion } from "framer-motion";
 import { ArrowDown, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useI18n } from "@/components/i18n-provider";
-import { CoreDirectionsRail } from "@/components/home/CoreDirectionsRail";
 import { track } from "@/lib/analytics";
 import { langHref, type Lang } from "@/lib/i18n";
-import { getDirections, type DirectionKey } from "@/lib/directions";
 
 const COPY: Record<Lang, {
   headlineA1: string;
@@ -19,56 +17,49 @@ const COPY: Record<Lang, {
   secondary: string;
 }> = {
   en: {
-    headlineA1: "More demand.",
-    headlineA2: "Clearer systems. A stronger environment.",
-    headlineB: "For people who",
-    headlineAccent: "build",
-    desc: "Choose the bottleneck in front of you: earn more qualified demand and turn it into sales, see where your website loses trust and action, or strengthen the skills and environment that help you execute faster.",
-    primary: "Choose your entry point",
+    headlineA1: "Websites. AI. Automation.",
+    headlineA2: "Built around your business.",
+    headlineB: "From a clear problem to",
+    headlineAccent: "a working solution",
+    desc: "Tell me what needs to work better. We identify the priority, agree one useful paid project and build it through to a clear handover.",
+    primary: "Discuss your project",
     secondary: "See real work",
   },
   ua: {
-    headlineA1: "Більше попиту.",
-    headlineA2: "Ясніші системи. Сильніше оточення.",
-    headlineB: "Для тих, хто",
-    headlineAccent: "будує",
-    desc: "Оберіть вузьке місце, яке стримує наступний крок: залучити й довести більше попиту до угоди, побачити, де сайт втрачає довіру та дію, або посилити навички й оточення, щоб рухатися швидше.",
-    primary: "Обрати точку входу",
+    headlineA1: "Сайти. ШІ. Автоматизація.",
+    headlineA2: "Для задач вашого бізнесу.",
+    headlineB: "Від конкретної задачі до",
+    headlineAccent: "робочого рішення",
+    desc: "Розкажіть, що має працювати краще. Визначимо пріоритет, погодимо один корисний оплачуваний проєкт і доведемо його до передачі вам.",
+    primary: "Обговорити проєкт",
     secondary: "Дивитися реальні роботи",
   },
   ru: {
-    headlineA1: "Больше спроса.",
-    headlineA2: "Яснее системы. Сильнее окружение.",
-    headlineB: "Для тех, кто",
-    headlineAccent: "строит",
-    desc: "Выберите узкое место, которое тормозит следующий шаг: привлечь и довести больше спроса до сделки, увидеть, где сайт теряет доверие и действие, или усилить навыки и окружение, чтобы двигаться быстрее.",
-    primary: "Выбрать точку входа",
+    headlineA1: "Сайты. ИИ. Автоматизация.",
+    headlineA2: "Для задач вашего бизнеса.",
+    headlineB: "От конкретной задачи к",
+    headlineAccent: "работающему решению",
+    desc: "Расскажите, что должно работать лучше. Определим приоритет, согласуем один полезный оплачиваемый проект и доведём его до передачи вам.",
+    primary: "Обсудить проект",
     secondary: "Смотреть реальные работы",
   },
 };
 
 const scrollTo = (id: string) => {
   if (typeof document === "undefined") return;
-  document.getElementById(id)?.scrollIntoView({ behavior: "smooth", block: "center" });
+  document.getElementById(id)?.scrollIntoView({ behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth", block: "center" });
 };
 
 export function Hero() {
   const { lang } = useI18n();
   const x = COPY[lang];
-  const directions = getDirections(lang);
   const reduced = useReducedMotion();
   const base = langHref(lang);
   const prefix = base === "/" ? "" : base;
 
-  const hrefs: Record<DirectionKey, string> = {
-    business: "#client-systems",
-    visibility: `${prefix}/visibilityos`,
-    warriors: `${prefix}/warriors-team`,
-    performance: `${prefix}/drop`,
-  };
 
   return (
-    <section id="top" className="relative flex min-h-[980px] items-center overflow-hidden bg-black !py-0 sm:min-h-[940px] lg:min-h-[900px]">
+    <section id="top" className="relative flex min-h-[760px] items-center overflow-hidden bg-black !py-0 sm:min-h-[780px] lg:min-h-[820px]">
       <div className="pointer-events-none absolute inset-0" aria-hidden="true">
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_50%_27%,rgba(212,175,55,.11),transparent_35%),radial-gradient(ellipse_at_18%_72%,rgba(255,255,255,.025),transparent_30%),radial-gradient(ellipse_at_82%_72%,rgba(125,211,252,.024),transparent_28%),linear-gradient(180deg,#030303_0%,#000_54%,#020202_100%)]" />
         <div className="absolute inset-0 opacity-[.24] [background-image:linear-gradient(rgba(255,255,255,.022)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,.022)_1px,transparent_1px)] [background-size:72px_72px] [mask-image:radial-gradient(ellipse_at_50%_52%,black_4%,transparent_78%)]" />
@@ -77,9 +68,8 @@ export function Hero() {
         <div className="absolute inset-x-0 bottom-0 h-60 bg-gradient-to-b from-transparent via-black/54 to-black" />
       </div>
 
-      <CoreDirectionsRail directions={directions} hrefs={hrefs} onDirectionOpen={(direction) => track("hero_direction_open", { direction })} />
 
-      <div className="container relative z-10 mx-auto flex w-full justify-center px-5 pb-[250px] pt-[112px] sm:px-6 sm:pb-[228px] sm:pt-[116px] lg:pb-[206px] lg:pt-[108px]">
+      <div className="container relative z-10 mx-auto flex w-full justify-center px-5 pb-20 pt-[112px] sm:px-6 sm:pb-24 sm:pt-[116px] lg:pb-28 lg:pt-[108px]">
         <div className="mx-auto flex w-full max-w-[1240px] flex-col items-center text-center">
           <motion.img initial={reduced ? false : { opacity: 0, y: 16, scale: 0.978 }} animate={{ opacity: 1, y: 0, scale: 1 }} transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }} src="/brand/vlad-kuzmenko-logo-gold.png" alt="Vlad Kuzmenko" className="h-auto w-[244px] select-none drop-shadow-[0_22px_72px_rgba(212,175,55,.20)] sm:w-[294px] lg:w-[330px]" />
 
@@ -103,9 +93,9 @@ export function Hero() {
           <motion.p initial={reduced ? false : { opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.72, delay: reduced ? 0 : 0.18, ease: [0.16, 1, 0.3, 1] }} className="relative z-20 mt-2 max-w-[840px] text-[12px] leading-6 text-zinc-400 sm:text-[14px] sm:leading-7 lg:text-[15px]">{x.desc}</motion.p>
 
           <motion.div initial={reduced ? false : { opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.72, delay: reduced ? 0 : 0.24, ease: [0.16, 1, 0.3, 1] }} className="relative z-30 mt-6 flex w-full max-w-[520px] flex-col gap-3 sm:w-auto sm:max-w-none sm:flex-row">
-            <Button size="lg" onClick={() => { track("hero_primary", { target: "ecosystem_rail" }); scrollTo("ecosystem-rail"); }} className="premium-button h-auto min-h-12 rounded-xl px-7 py-3.5 text-[14px] shadow-[0_16px_45px_rgba(184,134,11,.16)] sm:text-[15px]">{x.primary}<ArrowDown className="ml-2 h-4 w-4" /></Button>
+            <Button size="lg" onClick={() => { track("hero_primary", { target: "contact" }); scrollTo("contact"); }} className="premium-button h-auto min-h-12 rounded-xl px-7 py-3.5 text-[14px] shadow-[0_16px_45px_rgba(184,134,11,.16)] sm:text-[15px]">{x.primary}<ArrowDown className="ml-2 h-4 w-4" /></Button>
             <Button asChild size="lg" variant="outline" className="h-auto min-h-12 rounded-xl border-white/[.13] bg-black/62 px-7 py-3.5 text-[14px] text-white shadow-[inset_0_1px_0_rgba(255,255,255,.055),0_14px_42px_rgba(0,0,0,.24)] backdrop-blur-md hover:border-white/25 hover:bg-white/[.06] sm:text-[15px]">
-              <a href={`${prefix}/growth-systems#portfolio`} onClick={() => track("hero_view_work", { target: "business_portfolio" })}>{x.secondary}<ArrowRight className="ml-2 h-4 w-4" /></a>
+              <a href={`${prefix}/work`} onClick={() => track("hero_view_work", { target: "business_portfolio" })}>{x.secondary}<ArrowRight className="ml-2 h-4 w-4" /></a>
             </Button>
           </motion.div>
         </div>

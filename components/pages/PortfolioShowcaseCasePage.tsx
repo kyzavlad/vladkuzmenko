@@ -70,7 +70,7 @@ function fallbackStory(p: ShowcaseProject, locale: Locale): ShowcaseStory {
     previous: c.problem,
     desired: c.outcome,
     system: c.built,
-    flow: [c.problem, c.built, c.value].filter(Boolean),
+    flow: [c.problem, c.built, c.value].filter((value): value is string => Boolean(value)),
     evidence: hasScreens
       ? locale === "ru"
         ? "Материалы проекта доступны на этой странице."
@@ -88,7 +88,7 @@ function fallbackStory(p: ShowcaseProject, locale: Locale): ShowcaseStory {
           : locale === "ua"
             ? "Опис проєкту представлений на цій сторінці."
             : "The project is described on this page.",
-    resultNote: c.value,
+    resultNote: c.value ?? "",
   };
 }
 

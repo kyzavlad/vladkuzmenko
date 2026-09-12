@@ -44,9 +44,7 @@ export function Header() {
 
   const navItems: { title: string; href: string; hash?: string }[] = [
     { title: labels.business, href: pageHref("growth-systems") },
-    { title: labels.work, href: hashHref("owned-ventures"), hash: "owned-ventures" },
-    { title: labels.visibility, href: pageHref("visibilityos") },
-    { title: labels.warriors, href: pageHref("warriors-team") },
+    { title: labels.work, href: pageHref("work") },
     { title: labels.about, href: hashHref("about"), hash: "about" },
   ];
 

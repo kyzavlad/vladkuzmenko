@@ -5,7 +5,7 @@
 
 const WEBHOOK_URL =
   process.env.NEXT_PUBLIC_LEAD_WEBHOOK_URL ||
-  "https://n8n.vladkuzmenkoai.com/webhook/b60f2736-ecb9-451a-b38e-5018c3935013";
+  "https://n8n.vladkuzmenko.com/webhook/website-lead";
 
 export const SITE = {
   name: "Vlad Kuzmenko",
@@ -48,7 +48,7 @@ function collectUtm(): Record<string, string> {
  * Submit a website lead to the n8n webhook.
  * Enriches every payload with a consistent envelope:
  *   source, sourcePage, referrer, submittedAt, utm_* (+ the caller's intent/fields).
- * Callers should always pass at least an `intent`. Returns true on a 2xx response.
+ * Callers should always pass at least an `intent`. Returns true only after the intake confirms a persisted record.
  */
 export async function submitLead(
   payload: Record<string, unknown>
@@ -71,9 +71,15 @@ export async function submitLead(
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(enriched),
     });
-    return res.ok;
+    if (!res.ok) return false;
+    const receipt: unknown = await res.json();
+    if (!receipt || typeof receipt !== "object") return false;
+    const result = receipt as Record<string, unknown>;
+    return result.ok === true && result.status === "persisted" &&
+      typeof result.leadId === "string" && result.leadId.startsWith("WEB-");
   } catch (err) {
     console.error("submitLead failed", err);
     return false;
   }
 }
+

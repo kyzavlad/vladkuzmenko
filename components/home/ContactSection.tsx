@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { motion } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
 import { Calendar, Mail, Loader2, CheckCircle, Send, MessageCircle, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -50,6 +50,7 @@ const COPY: Record<Lang, {
 
 export function ContactSection() {
   const { lang, t } = useI18n();
+  const reduced = useReducedMotion();
   const c = t.contact;
   const x = COPY[lang];
   const [form, setForm] = useState<Record<string, string>>({});
@@ -58,9 +59,10 @@ export function ContactSection() {
   const [error, setError] = useState(false);
 
   const set = (key: string, value: string) => setForm((previous) => ({ ...previous, [key]: value }));
-  const valid = Boolean(form.name?.trim() && form.email?.trim() && form.message?.trim());
+  const valid = Boolean(form.name?.trim() && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email?.trim() || "") && form.message?.trim());
 
   const submit = async () => {
+    if (submitting) return;
     if (!valid) {
       setError(true);
       return;
@@ -86,14 +88,14 @@ export function ContactSection() {
       </div>
 
       <div className="container relative z-10 mx-auto px-4">
-        <motion.div initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="mx-auto mb-12 max-w-4xl text-center">
+        <motion.div initial={reduced ? false : { opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="mx-auto mb-12 max-w-4xl text-center">
           <span className="text-[10px] font-semibold uppercase tracking-[.24em] text-amber-300/70">{x.eyebrow}</span>
           <h2 className="section-title mt-4 text-[clamp(2.8rem,5vw,4.8rem)] text-zinc-100">{x.titleA}<em className="gradient-gold-text font-normal italic">{x.titleB}</em></h2>
           <p className="section-lead mx-auto mt-5 max-w-2xl text-sm leading-7 text-zinc-400 sm:text-base sm:leading-8">{x.desc}</p>
         </motion.div>
 
         <div className="mx-auto grid max-w-6xl gap-5 lg:grid-cols-[.85fr_1.15fr]">
-          <motion.div initial={{ opacity: 0, y: 18 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="flex flex-col rounded-[32px] border border-white/[.09] bg-[linear-gradient(145deg,rgba(255,255,255,.04),rgba(255,255,255,.012))] p-6 sm:p-8">
+          <motion.div initial={reduced ? false : { opacity: 0, y: 18 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="flex flex-col rounded-[32px] border border-white/[.09] bg-[linear-gradient(145deg,rgba(255,255,255,.04),rgba(255,255,255,.012))] p-6 sm:p-8">
             <div className="flex h-12 w-12 items-center justify-center rounded-2xl border border-amber-300/22 bg-amber-300/[.06] text-amber-200"><Calendar className="h-5 w-5" /></div>
             <h3 className="mt-6 text-2xl font-semibold tracking-tight text-zinc-100">{x.callTitle}</h3>
             <p className="mt-3 text-sm leading-7 text-zinc-500">{x.callDesc}</p>
@@ -111,9 +113,9 @@ export function ContactSection() {
             </div>
           </motion.div>
 
-          <motion.div initial={{ opacity: 0, y: 18 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="rounded-[32px] border border-white/[.09] bg-[linear-gradient(145deg,rgba(255,255,255,.045),rgba(255,255,255,.012))] p-6 shadow-[0_36px_100px_-62px_rgba(212,175,55,.16)] sm:p-8">
+          <motion.div initial={reduced ? false : { opacity: 0, y: 18 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="rounded-[32px] border border-white/[.09] bg-[linear-gradient(145deg,rgba(255,255,255,.045),rgba(255,255,255,.012))] p-6 shadow-[0_36px_100px_-62px_rgba(212,175,55,.16)] sm:p-8">
             {done ? (
-              <div className="flex min-h-[360px] flex-col items-center justify-center text-center">
+              <div role="status" className="flex min-h-[360px] flex-col items-center justify-center text-center">
                 <div className="mb-4 inline-flex h-14 w-14 items-center justify-center rounded-full border border-amber-300/20 bg-amber-300/[.08] text-amber-300"><CheckCircle className="h-7 w-7" /></div>
                 <h3 className="text-2xl font-semibold">{c.sentTitle}</h3>
                 <p className="mt-2 max-w-md text-sm leading-7 text-zinc-500">{c.sentMsg}</p>
@@ -124,18 +126,18 @@ export function ContactSection() {
                   <h3 className="text-xl font-semibold text-zinc-100">{x.formTitle}</h3>
                   <span className="h-2 w-2 rounded-full bg-amber-300 shadow-[0_0_15px_rgba(212,175,55,.5)]" />
                 </div>
-                <div className="space-y-4">
+                <form className="space-y-4" aria-busy={submitting} onSubmit={(event) => { event.preventDefault(); void submit(); }}>
                   <div className="grid gap-4 sm:grid-cols-2">
-                    <Input value={form.name || ""} onChange={(event) => set("name", event.target.value)} placeholder={c.namePh} className="border-white/10 bg-white/5 text-white placeholder:text-gray-500" />
-                    <Input type="email" value={form.email || ""} onChange={(event) => set("email", event.target.value)} placeholder={c.emailPh} className="border-white/10 bg-white/5 text-white placeholder:text-gray-500" />
+                    <Input aria-label={c.namePh} name="name" autoComplete="name" required value={form.name || ""} onChange={(event) => set("name", event.target.value)} placeholder={c.namePh} className="border-white/10 bg-white/5 text-white placeholder:text-gray-500" />
+                    <Input aria-label={c.emailPh} name="email" autoComplete="email" required type="email" value={form.email || ""} onChange={(event) => set("email", event.target.value)} placeholder={c.emailPh} className="border-white/10 bg-white/5 text-white placeholder:text-gray-500" />
                   </div>
-                  <Input value={form.phone || ""} onChange={(event) => set("phone", event.target.value)} placeholder={c.contactPh} className="border-white/10 bg-white/5 text-white placeholder:text-gray-500" />
-                  <Textarea value={form.message || ""} onChange={(event) => set("message", event.target.value)} placeholder={c.messagePh} className="min-h-[150px] border-white/10 bg-white/5 text-white placeholder:text-gray-500" />
-                  {error && <p className="text-sm text-red-400">{c.errorMsg}</p>}
-                  <Button onClick={submit} disabled={submitting || !valid} className="premium-button h-auto min-h-12 w-full px-6 py-3.5 text-base disabled:opacity-50">
+                  <Input aria-label={c.contactPh} name="contact" value={form.phone || ""} onChange={(event) => set("phone", event.target.value)} placeholder={c.contactPh} className="border-white/10 bg-white/5 text-white placeholder:text-gray-500" />
+                  <Textarea aria-label={c.messagePh} name="message" required value={form.message || ""} onChange={(event) => set("message", event.target.value)} placeholder={c.messagePh} className="min-h-[150px] border-white/10 bg-white/5 text-white placeholder:text-gray-500" />
+                  {error && <p role="alert" className="text-sm text-red-400">{c.errorMsg}</p>}
+                  <Button type="submit" disabled={submitting || !valid} className="premium-button h-auto min-h-12 w-full px-6 py-3.5 text-base disabled:opacity-50">
                     {submitting ? <><Loader2 className="mr-2 h-5 w-5 animate-spin" />{c.sending}</> : <><Send className="mr-2 h-5 w-5" />{c.send}</>}
                   </Button>
-                </div>
+                </form>
               </>
             )}
           </motion.div>
