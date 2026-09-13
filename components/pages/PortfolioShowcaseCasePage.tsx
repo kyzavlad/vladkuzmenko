@@ -11,6 +11,7 @@ import { langHref } from "@/lib/i18n";
 import { CASE_UI, CATEGORY_SHORT, STATUS_TONE, statusText } from "@/lib/portfolio";
 import { type ShowcaseProject, type ShowcaseStory } from "@/lib/portfolio-showcase";
 import { getCuratedProject } from "@/lib/portfolio-curated";
+import { StableProjectImage } from "@/components/ui/stable-project-image";
 
 type Locale = "en" | "ua" | "ru";
 
@@ -138,16 +139,9 @@ function ProofImage({ shot, name, label, eager = false }: { shot: string; name: 
       href={shot}
       target="_blank"
       rel="noopener noreferrer"
-      className="group relative flex min-h-[260px] items-start justify-center overflow-hidden rounded-[26px] border border-white/[.09] bg-[#070707] p-3 shadow-[0_24px_80px_rgba(0,0,0,.32)] sm:p-5"
+      className="group relative block h-[420px] overflow-hidden rounded-[26px] border border-white/[.09] bg-[#070707] shadow-[0_24px_80px_rgba(0,0,0,.32)] sm:h-[620px]"
     >
-      {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img
-        src={shot}
-        alt={name}
-        loading={eager ? "eager" : "lazy"}
-        decoding="async"
-        className="max-h-[820px] w-full object-contain object-top transition duration-500 group-hover:scale-[1.003]"
-      />
+      <StableProjectImage src={shot} alt={name} priority={eager} sizes="(max-width: 768px) 100vw, 1040px" className="p-3 group-hover:scale-[1.003] sm:p-5" />
       <span className="absolute bottom-4 right-4 inline-flex items-center gap-2 rounded-full border border-white/15 bg-black/80 px-3.5 py-2 text-[11px] font-semibold text-white shadow-xl backdrop-blur-md transition group-hover:border-amber-300/35 group-hover:text-amber-200">
         {label}
         <ExternalLink className="h-3.5 w-3.5" />

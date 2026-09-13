@@ -1,7 +1,7 @@
 "use client";
 
 import { motion, useReducedMotion } from "framer-motion";
-import { PackageCheck, ShoppingBag, TrendingUp } from "lucide-react";
+import { ExternalLink, PackageCheck, ShoppingBag, TrendingUp } from "lucide-react";
 import { useI18n } from "@/components/i18n-provider";
 import type { Lang } from "@/lib/i18n";
 
@@ -13,6 +13,7 @@ type Venture = {
   detail: string;
   flow: string[];
   tags: string[];
+  href: string;
 };
 
 type Copy = {
@@ -21,6 +22,7 @@ type Copy = {
   titleB: string;
   desc: string;
   currentFocus: string;
+  openStore: string;
   dacha: Venture;
   international: Venture;
   note: string;
@@ -33,6 +35,7 @@ const COPY: Record<Lang, Copy> = {
     titleB: "revenue.",
     desc: "Two commerce systems in different markets, run around the same discipline: a clear offer, a low-friction buying path, dependable fulfilment and reinvestment into what performs best.",
     currentFocus: "Commerce engine",
+    openStore: "Open store",
     dacha: {
       status: "Operating store",
       label: "Ukraine · Ecommerce",
@@ -41,15 +44,17 @@ const COPY: Record<Lang, Copy> = {
       detail: "Dacha TV connects demand, catalogue, checkout, fulfilment and repeat purchase into one operating system. The objective is simple: make it easier to find the right product, buy it and come back again.",
       flow: ["Demand", "Catalogue", "Checkout", "Fulfilment", "Repeat", "Growth"],
       tags: ["Search demand", "Production catalogue", "Merchant feed", "Order operations"],
+      href: "https://dachatv.com",
     },
     international: {
       status: "International brand",
       label: "International · Automotive ecommerce",
-      title: "Automotive Interior Brand",
+      title: "Cabin Motif",
       outcome: "A premium automotive ecommerce brand built around one clear transformation: stock interior to a more distinctive premium night cockpit.",
       detail: "The commercial system starts with visual creative, moves qualified attention into a focused hero-product page and carries the customer through purchase, fulfilment and the next reason to return. The product is the transformation, not another generic LED accessory.",
       flow: ["Creative", "Hero product", "Purchase", "Fulfilment", "Customer", "Scale"],
       tags: ["Hero-led store", "Paid acquisition", "Premium positioning", "International fulfilment"],
+      href: "https://cabinmotif.com",
     },
     note: "Both ventures follow the same rule: keep the customer journey simple, measure the commercial path and put more attention and capital behind what proves strongest.",
   },
@@ -59,6 +64,7 @@ const COPY: Record<Lang, Copy> = {
     titleB: "виручку.",
     desc: "Дві ecommerce-системи в різних ринках працюють за однією дисципліною: зрозумілий офер, простий шлях до покупки, надійне виконання замовлення та більше уваги до того, що працює найкраще.",
     currentFocus: "Комерційний двигун",
+    openStore: "Відкрити магазин",
     dacha: {
       status: "Діючий магазин",
       label: "Україна · Ecommerce",
@@ -67,15 +73,17 @@ const COPY: Record<Lang, Copy> = {
       detail: "Дача TV з'єднує попит, каталог, checkout, виконання та повторну покупку в одну операційну систему. Завдання просте: допомогти швидше знайти потрібний товар, купити його й мати причину повернутися.",
       flow: ["Попит", "Каталог", "Checkout", "Виконання", "Повтор", "Зростання"],
       tags: ["Пошуковий попит", "Продакшн-каталог", "Merchant feed", "Операції замовлень"],
+      href: "https://dachatv.com",
     },
     international: {
       status: "Міжнародний бренд",
       label: "International · Automotive ecommerce",
-      title: "Automotive Interior Brand",
+      title: "Cabin Motif",
       outcome: "Преміальний автомобільний ecommerce-бренд навколо однієї зрозумілої трансформації: звичайний салон у виразний premium night cockpit.",
       detail: "Комерційна система починається з сильного візуального креативу, переводить якісну увагу на сфокусовану сторінку hero-продукту й веде покупця через оплату, fulfilment та наступну причину повернутися. Ми продаємо трансформацію, а не ще один generic LED accessory.",
       flow: ["Креатив", "Hero-продукт", "Покупка", "Fulfilment", "Клієнт", "Масштаб"],
       tags: ["Hero-led store", "Paid acquisition", "Premium positioning", "International fulfilment"],
+      href: "https://cabinmotif.com",
     },
     note: "Обидва проєкти працюють за одним правилом: спрощувати шлях покупця, вимірювати комерційний ланцюжок і спрямовувати більше уваги та капіталу туди, де система показує найсильніший результат.",
   },
@@ -85,6 +93,7 @@ const COPY: Record<Lang, Copy> = {
     titleB: "выручку.",
     desc: "Две ecommerce-системы в разных рынках работают по одной дисциплине: понятный оффер, простой путь к покупке, надёжное выполнение заказа и больше внимания к тому, что работает сильнее всего.",
     currentFocus: "Коммерческий двигатель",
+    openStore: "Открыть магазин",
     dacha: {
       status: "Действующий магазин",
       label: "Украина · Ecommerce",
@@ -93,21 +102,23 @@ const COPY: Record<Lang, Copy> = {
       detail: "Дача TV соединяет спрос, каталог, checkout, выполнение и повторную покупку в одну операционную систему. Задача простая: помочь быстрее найти нужный товар, купить его и дать причину вернуться снова.",
       flow: ["Спрос", "Каталог", "Checkout", "Выполнение", "Повтор", "Рост"],
       tags: ["Поисковый спрос", "Продакшн-каталог", "Merchant feed", "Операции заказов"],
+      href: "https://dachatv.com",
     },
     international: {
       status: "Международный бренд",
       label: "International · Automotive ecommerce",
-      title: "Automotive Interior Brand",
+      title: "Cabin Motif",
       outcome: "Премиальный автомобильный ecommerce-бренд вокруг одной понятной трансформации: обычный салон в выразительный premium night cockpit.",
       detail: "Коммерческая система начинается с сильного визуального креатива, переводит качественное внимание на сфокусированную страницу hero-продукта и ведёт покупателя через оплату, fulfilment и следующую причину вернуться. Мы продаём трансформацию, а не ещё один generic LED accessory.",
       flow: ["Креатив", "Hero-продукт", "Покупка", "Fulfilment", "Клиент", "Масштаб"],
       tags: ["Hero-led store", "Paid acquisition", "Premium positioning", "International fulfilment"],
+      href: "https://cabinmotif.com",
     },
     note: "Оба проекта работают по одному правилу: упрощать путь покупателя, измерять коммерческую цепочку и направлять больше внимания и капитала туда, где система показывает самый сильный результат.",
   },
 };
 
-function VentureCard({ index, emerald, venture, currentFocus }: { index: number; emerald?: boolean; venture: Venture; currentFocus: string }) {
+function VentureCard({ index, emerald, venture, currentFocus, openStore }: { index: number; emerald?: boolean; venture: Venture; currentFocus: string; openStore: string }) {
   const reduced = Boolean(useReducedMotion());
   const accent = emerald ? {
     border: "rgba(110,231,183,.18)",
@@ -181,6 +192,10 @@ function VentureCard({ index, emerald, venture, currentFocus }: { index: number;
             <span key={tag} className="rounded-full border border-white/[.08] bg-white/[.018] px-3 py-1.5 text-[11px] text-zinc-500">{tag}</span>
           ))}
         </div>
+        <a href={venture.href} target="_blank" rel="noopener noreferrer" className="mt-6 inline-flex min-h-11 items-center gap-2 rounded-xl border border-white/[.1] bg-white/[.025] px-4 py-2.5 text-sm font-medium text-zinc-200 transition hover:border-white/20 hover:bg-white/[.055] hover:text-white">
+          {openStore}
+          <ExternalLink className="h-4 w-4" />
+        </a>
       </div>
     </motion.article>
   );
@@ -208,8 +223,8 @@ export function OwnedVentures() {
         </motion.div>
 
         <div className="mt-11 grid gap-5 lg:grid-cols-2">
-          <VentureCard index={0} emerald venture={x.dacha} currentFocus={x.currentFocus} />
-          <VentureCard index={1} venture={x.international} currentFocus={x.currentFocus} />
+          <VentureCard index={0} emerald venture={x.dacha} currentFocus={x.currentFocus} openStore={x.openStore} />
+          <VentureCard index={1} venture={x.international} currentFocus={x.currentFocus} openStore={x.openStore} />
         </div>
 
         <div className="mx-auto mt-6 flex max-w-5xl items-start gap-3 rounded-2xl border border-emerald-300/[.09] bg-emerald-300/[.018] p-4 sm:p-5">
