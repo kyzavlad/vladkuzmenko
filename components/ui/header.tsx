@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
+import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { Calendar, Menu, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -108,9 +109,8 @@ export function Header() {
   return (
     <header className="fixed left-0 top-0 z-30 w-full border-b border-white/[.07] bg-black/72 backdrop-blur-2xl">
       <div className="container relative mx-auto flex h-[80px] items-center justify-between gap-4 px-4 sm:px-6">
-        <a href={base} className={`flex w-[170px] shrink-0 items-center transition-all duration-500 sm:w-[190px] ${isHome && !scrolled ? "pointer-events-none -translate-y-2 opacity-0" : "translate-y-0 opacity-100"}`} aria-label="Vlad Kuzmenko — Home">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="/brand/vlad-kuzmenko-logo-gold.png" alt="Vlad Kuzmenko" className="h-auto w-full select-none" />
+        <a href={base} className={`flex w-[142px] shrink-0 items-center transition-all duration-500 sm:w-[190px] ${isHome && !scrolled ? "pointer-events-none -translate-y-2 opacity-0" : "translate-y-0 opacity-100"}`} aria-label="Vlad Kuzmenko — Home">
+          <Image src="/brand/vlad-kuzmenko-logo-gold.png" alt="Vlad Kuzmenko" width={1800} height={548} priority className="h-auto w-full select-none" />
         </a>
 
         <nav className="hidden items-center gap-0.5 xl:flex">

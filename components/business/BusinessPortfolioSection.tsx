@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { useI18n } from "@/components/i18n-provider";
 import { cn } from "@/lib/utils";
 import { langHref, type Lang } from "@/lib/i18n";
+import { StableProjectImage } from "@/components/ui/stable-project-image";
 import { CATEGORY_ORDER, CATEGORY_SHORT, STATUS_TONE, statusText, type Category } from "@/lib/portfolio";
 import { CURATED_PORTFOLIO } from "@/lib/portfolio-curated";
 import type { ShowcaseProject } from "@/lib/portfolio-showcase";
@@ -105,9 +106,8 @@ function ProjectCard({ project, lang, index }: { project: ShowcaseProject; lang:
       <div className="grid lg:grid-cols-[.88fr_1.12fr]">
         <div className="relative min-h-[260px] overflow-hidden border-b border-white/[.07] bg-[#050505] lg:min-h-[360px] lg:border-b-0 lg:border-r">
           {shot ? (
-            <a href={href ?? "#portfolio"} className="absolute inset-0 flex items-center justify-center p-4 sm:p-5">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={shot} alt={`${c.name} — ${c.caption ?? c.type}`} loading={index < 2 ? "eager" : "lazy"} decoding="async" className="max-h-full w-full object-contain object-top transition duration-500 group-hover:scale-[1.008]" />
+            <a href={href ?? "#portfolio"} className="absolute inset-0">
+              <StableProjectImage src={shot} alt={`${c.name} — ${c.caption ?? c.type}`} priority={index < 2} sizes="(max-width: 1024px) 100vw, 44vw" className="p-4 group-hover:scale-[1.008] sm:p-5" />
             </a>
           ) : audioAsPrimaryProof ? (
             <div className="absolute inset-0 flex items-center justify-center overflow-hidden bg-[radial-gradient(circle_at_50%_15%,rgba(245,190,52,.13),transparent_40%),linear-gradient(145deg,#090805,#040404_58%,#020202)] p-6 sm:p-8">

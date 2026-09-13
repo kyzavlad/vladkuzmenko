@@ -9,6 +9,7 @@ import { langHref } from "@/lib/i18n";
 import { CATEGORY_SHORT, STATUS_TONE, statusText } from "@/lib/portfolio";
 import { CURATED_PORTFOLIO, HOME_FEATURED, type CuratedProject } from "@/lib/portfolio-curated";
 import { track } from "@/lib/analytics";
+import { StableProjectImage } from "@/components/ui/stable-project-image";
 
 type Locale = "en" | "ua" | "ru";
 
@@ -62,9 +63,8 @@ function Preview({ p, locale, i }: { p: CuratedProject; locale: Locale; i: numbe
       <div className="grid lg:grid-cols-[.9fr_1.1fr]">
         <div className="border-b border-white/[.07] lg:border-b-0 lg:border-r">
           {shot ? (
-            <a href={href} aria-label={`${c.name} — ${x.open}`} className="relative flex min-h-[320px] h-full items-center justify-center overflow-hidden bg-[#050505] p-3 sm:p-5">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={shot} alt={`${c.name} — ${c.caption ?? c.type}`} loading={i === 0 ? "eager" : "lazy"} decoding="async" className="max-h-[440px] w-full rounded-xl object-contain object-top transition duration-500 group-hover:scale-[1.006]" />
+            <a href={href} aria-label={`${c.name} — ${x.open}`} className="relative block h-[320px] overflow-hidden bg-[#050505] p-3 sm:h-[380px] sm:p-5 lg:h-full lg:min-h-[420px]">
+              <StableProjectImage src={shot} alt={`${c.name} — ${c.caption ?? c.type}`} priority={i === 0} sizes="(max-width: 1024px) 100vw, 45vw" className="p-3 group-hover:scale-[1.006] sm:p-5" />
               <div className="pointer-events-none absolute inset-0 bg-gradient-to-tr from-amber-300/[.025] via-transparent to-sky-300/[.025]" />
               <div className="pointer-events-none absolute inset-0 ring-1 ring-inset ring-white/[.06]" />
             </a>

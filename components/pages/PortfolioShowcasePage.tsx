@@ -26,6 +26,7 @@ import {
 } from "@/lib/portfolio";
 import { CURATED_PORTFOLIO } from "@/lib/portfolio-curated";
 import type { ShowcaseProject } from "@/lib/portfolio-showcase";
+import { StableProjectImage } from "@/components/ui/stable-project-image";
 
 type Locale = "en" | "ua" | "ru";
 type Filter = "all" | Category;
@@ -202,16 +203,9 @@ function Media({
     <a
       href={href}
       aria-label={`${c.name} — ${COPY[locale].case}`}
-      className="relative flex min-h-[300px] h-full items-center justify-center overflow-hidden bg-[#050505] p-3 sm:p-5"
+      className="relative block h-[300px] overflow-hidden bg-[#050505] sm:h-[380px] lg:h-full lg:min-h-[420px]"
     >
-      {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img
-        src={shot}
-        alt={`${c.name} — ${c.caption ?? c.type}`}
-        loading={eager ? "eager" : "lazy"}
-        decoding="async"
-        className="max-h-[420px] w-full object-contain object-top transition duration-500 group-hover:scale-[1.006]"
-      />
+      <StableProjectImage src={shot} alt={`${c.name} — ${c.caption ?? c.type}`} priority={eager} sizes="(max-width: 1024px) 100vw, 44vw" className="p-3 group-hover:scale-[1.006] sm:p-5" />
       <div className="pointer-events-none absolute inset-0 ring-1 ring-inset ring-white/[.06]" />
     </a>
   );

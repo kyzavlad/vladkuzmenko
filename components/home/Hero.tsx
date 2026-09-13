@@ -1,6 +1,7 @@
 "use client";
 
 import { motion, useReducedMotion } from "framer-motion";
+import Image from "next/image";
 import { ArrowDown, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useI18n } from "@/components/i18n-provider";
@@ -59,7 +60,7 @@ export function Hero() {
 
 
   return (
-    <section id="top" className="relative flex min-h-[760px] items-center overflow-hidden bg-black !py-0 sm:min-h-[780px] lg:min-h-[820px]">
+    <section id="top" className="relative flex min-h-[760px] items-start overflow-hidden bg-black !py-0 sm:min-h-[780px] lg:min-h-[820px] lg:items-center">
       <div className="pointer-events-none absolute inset-0" aria-hidden="true">
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_50%_27%,rgba(212,175,55,.11),transparent_35%),radial-gradient(ellipse_at_18%_72%,rgba(255,255,255,.025),transparent_30%),radial-gradient(ellipse_at_82%_72%,rgba(125,211,252,.024),transparent_28%),linear-gradient(180deg,#030303_0%,#000_54%,#020202_100%)]" />
         <div className="absolute inset-0 opacity-[.24] [background-image:linear-gradient(rgba(255,255,255,.022)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,.022)_1px,transparent_1px)] [background-size:72px_72px] [mask-image:radial-gradient(ellipse_at_50%_52%,black_4%,transparent_78%)]" />
@@ -69,9 +70,11 @@ export function Hero() {
       </div>
 
 
-      <div className="container relative z-10 mx-auto flex w-full justify-center px-5 pb-20 pt-[112px] sm:px-6 sm:pb-24 sm:pt-[116px] lg:pb-28 lg:pt-[108px]">
+      <div className="container relative z-10 mx-auto flex w-full justify-center px-5 pb-20 pt-[156px] sm:px-6 sm:pb-24 sm:pt-[132px] lg:pb-28 lg:pt-[108px]">
         <div className="mx-auto flex w-full max-w-[1240px] flex-col items-center text-center">
-          <motion.img initial={reduced ? false : { opacity: 0, y: 16, scale: 0.978 }} animate={{ opacity: 1, y: 0, scale: 1 }} transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }} src="/brand/vlad-kuzmenko-logo-gold.png" alt="Vlad Kuzmenko" className="h-auto w-[244px] select-none drop-shadow-[0_22px_72px_rgba(212,175,55,.20)] sm:w-[294px] lg:w-[330px]" />
+          <motion.div initial={reduced ? false : { opacity: 0, y: 16, scale: 0.978 }} animate={{ opacity: 1, y: 0, scale: 1 }} transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }} className="w-[244px] shrink-0 sm:w-[294px] lg:w-[330px]">
+            <Image src="/brand/vlad-kuzmenko-logo-gold.png" alt="Vlad Kuzmenko" width={1800} height={548} priority className="h-auto w-full select-none drop-shadow-[0_22px_72px_rgba(212,175,55,.20)]" />
+          </motion.div>
 
           <div className="relative mt-6 w-full">
             <div aria-hidden="true" className="pointer-events-none absolute inset-x-0 -top-4 hidden lg:block">
