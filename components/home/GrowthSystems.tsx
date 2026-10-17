@@ -15,12 +15,67 @@ import { langHref } from "@/lib/i18n";
 import {
   ENGINE_INTENT,
   ENGINE_LABEL,
-  ENGINE_ORDER,
   engineAnchor,
   getGrowthCopy,
   growthRoute,
   type EngineKey,
 } from "@/lib/growth-systems";
+
+// Homepage proposal only: keep shared routes and lead intents unchanged.
+const HOME_ENGINE_ORDER: EngineKey[] = ["conversion", "growth", "traffic"];
+const HOME_PROJECT_COPY = {
+  "en": {
+    "bottleneck": "A website, platform or integration for one clear business task",
+    "outcome": "Agree the scope and acceptance criteria, review a working version, then receive the finished project and handover.",
+    "chips": [
+      "Websites and catalogues",
+      "Client platforms",
+      "Integrations",
+      "Handover"
+    ],
+    "build": [
+      "One defined user flow",
+      "Agreed inputs and integrations",
+      "Acceptance checks",
+      "Source and operating handover"
+    ],
+    "cta": "Discuss your project"
+  },
+  "ua": {
+    "bottleneck": "Сайт, платформа чи інтеграція під конкретне бізнес-завдання",
+    "outcome": "Узгодимо обсяг і критерії приймання, перевіримо робочу версію та передамо готовий проєкт з інструкцією.",
+    "chips": [
+      "Сайти й каталоги",
+      "Клієнтські платформи",
+      "Інтеграції",
+      "Передача проєкту"
+    ],
+    "build": [
+      "Один визначений сценарій",
+      "Узгоджені дані й інтеграції",
+      "Перевірка приймання",
+      "Вихідні файли та інструкція"
+    ],
+    "cta": "Обговорити проєкт"
+  },
+  "ru": {
+    "bottleneck": "Сайт, платформа или интеграция под конкретную задачу бизнеса",
+    "outcome": "Согласуем объём и критерии приёмки, проверим рабочую версию и передадим готовый проект с инструкцией.",
+    "chips": [
+      "Сайты и каталоги",
+      "Клиентские платформы",
+      "Интеграции",
+      "Передача проекта"
+    ],
+    "build": [
+      "Один определённый сценарий",
+      "Согласованные данные и интеграции",
+      "Проверка приёмки",
+      "Исходники и инструкция"
+    ],
+    "cta": "Обсудить проект"
+  }
+};
 
 const ENGINE_ICON: Record<EngineKey, LucideIcon> = {
   traffic: Megaphone,
@@ -57,13 +112,14 @@ export function GrowthSystems() {
   const x = getGrowthCopy(lang);
   const base = langHref(lang);
   const page = growthRoute(lang);
-  const [active, setActive] = useState<EngineKey>("traffic");
-  const e = x.engines.items[active];
+  const [active, setActive] = useState<EngineKey>("conversion");
+  const e = active === "conversion"
+    ? { ...x.engines.items[active], ...HOME_PROJECT_COPY[lang] }
+    : x.engines.items[active];
   const Icon = ENGINE_ICON[active];
 
-  // The diagnostic situations are authored problem-first; the section presents
-  // everything as Traffic -> Conversion -> Growth, so align them to that order.
-  const diagnosticPaths = ENGINE_ORDER.map((key) =>
+  // Keep the homepage diagnostic cards aligned with its local tab order.
+  const diagnosticPaths = HOME_ENGINE_ORDER.map((key) =>
     x.diagnostic.paths.find((path) => path.engine === key),
   ).filter((path): path is (typeof x.diagnostic.paths)[number] => Boolean(path));
 
@@ -92,7 +148,7 @@ export function GrowthSystems() {
 
         <div className="mx-auto mt-12 max-w-6xl">
           <div className="grid gap-2 rounded-[22px] border border-white/[.08] bg-white/[.02] p-2 sm:grid-cols-3">
-            {ENGINE_ORDER.map((key, index) => {
+            {HOME_ENGINE_ORDER.map((key, index) => {
               const TabIcon = ENGINE_ICON[key];
               const selected = key === active;
               return (
@@ -148,7 +204,7 @@ export function GrowthSystems() {
                         <Icon className="h-5 w-5" />
                       </span>
                       <span className="text-[10px] font-bold tracking-[.2em] text-zinc-700">
-                        0{ENGINE_ORDER.indexOf(active) + 1}
+                        0{HOME_ENGINE_ORDER.indexOf(active) + 1}
                       </span>
                     </div>
 
