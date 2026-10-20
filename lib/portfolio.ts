@@ -331,49 +331,49 @@ export const PORTFOLIO: PortfolioCard[] = [
     key: "ser-crypto",
     category: "websites",
     status: "real_client",
+    statusLabel: { en: "Website case study", ua: "Кейс сайту", ru: "Кейс сайта" },
     caseSlug: "ser-crypto",
-    liveUrl: "https://landing.ser-crypto.com/",
     shots: ["/case-studies/ser-crypto/landing.webp"],
     content: {
       en: {
         name: "SerCrypto Academy",
-        type: "Conversion landing · Live client project",
+        type: "Conversion landing · Client website",
         outcome:
-          "A live public page that presents the offer clearly and moves visitors along one route: understand it, then register.",
+          "A landing page that presents the offer clearly and gives visitors a direct route to registration.",
         problem:
           "The brand needed a clear public landing that presents its offer and routes visitors toward registration.",
         built:
           "A responsive public landing: information architecture, offer and access presentation, and a single conversion route to registration.",
         result:
-          "A live public landing that carries the brand's offer end to end: the proposition, how access works, the packages, and a single unambiguous route to registration. The page is published and reachable, and the conversion path is the delivered scope.",
+          "The landing-page work brings together the brand's offer, access options, packages and registration path. The saved preview documents the page structure and interface.",
         capabilities: ["Landing IA", "Responsive web", "Offer presentation", "Conversion route"],
         caption: "SerCrypto Academy — landing hero",
       },
       ua: {
         name: "SerCrypto Academy",
-        type: "Конверсійний лендинг · Живий клієнтський проєкт",
+        type: "Конверсійний лендинг · Клієнтський сайт",
         outcome:
-          "Живий публічний сайт, що зрозуміло презентує пропозицію та веде відвідувача одним шляхом: розібратися — і зареєструватися.",
+          "Лендинг, що зрозуміло презентує пропозицію та дає відвідувачам прямий шлях до реєстрації.",
         problem:
           "Бренду потрібен був зрозумілий публічний лендинг, що презентує пропозицію та веде відвідувачів до реєстрації.",
         built:
           "Адаптивний публічний лендинг: інформаційна архітектура, презентація пропозиції та доступу і єдиний конверсійний шлях до реєстрації.",
         result:
-          "Живий публічний лендинг, що несе пропозицію бренду наскрізно: сама пропозиція, як влаштований доступ, пакети та єдиний однозначний шлях до реєстрації. Сторінка опублікована й доступна, а конверсійний шлях — це і є зданий обсяг.",
+          "Робота над лендингом поєднує пропозицію бренду, варіанти доступу, пакети та шлях до реєстрації. Збережений приклад показує структуру сторінки й інтерфейс.",
         capabilities: ["Архітектура лендингу", "Адаптивний веб", "Презентація пропозиції", "Конверсійний шлях"],
         caption: "SerCrypto Academy — головний екран",
       },
       ru: {
         name: "SerCrypto Academy",
-        type: "Конверсионный лендинг · Живой клиентский проект",
+        type: "Конверсионный лендинг · Клиентский сайт",
         outcome:
-          "Живой публичный сайт, который понятно презентует предложение и ведёт посетителя одним путём: разобраться — и зарегистрироваться.",
+          "Лендинг, который понятно презентует предложение и даёт посетителям прямой путь к регистрации.",
         problem:
           "Бренду нужен был понятный публичный лендинг, презентующий предложение и ведущий посетителей к регистрации.",
         built:
           "Адаптивный публичный лендинг: информационная архитектура, презентация предложения и доступа и единый конверсионный путь к регистрации.",
         result:
-          "Живой публичный лендинг, несущий предложение бренда сквозным образом: само предложение, как устроен доступ, пакеты и единственный однозначный путь к регистрации. Страница опубликована и доступна, а конверсионный путь — это и есть сданный объём.",
+          "Работа над лендингом объединяет предложение бренда, варианты доступа, пакеты и путь к регистрации. Сохранённый пример показывает структуру страницы и интерфейс.",
         capabilities: ["Архитектура лендинга", "Адаптивный веб", "Презентация предложения", "Конверсионный путь"],
         caption: "SerCrypto Academy — главный экран",
       },
@@ -2100,8 +2100,8 @@ export const CASE_DETAILS: CaseDetail[] = [
   {
     slug: "ser-crypto",
     status: "real_client",
+    statusLabel: { en: "Website case study", ua: "Кейс сайту", ru: "Кейс сайта" },
     category: "websites",
-    liveUrl: "https://landing.ser-crypto.com/",
     shots: ["/case-studies/ser-crypto/landing.webp"],
     shotSpan: ["full"],
     captions: {
@@ -2114,7 +2114,7 @@ export const CASE_DETAILS: CaseDetail[] = [
         name: "SerCrypto Academy",
         type: "Conversion landing · Web platform",
         context:
-          "A live public landing for a crypto-education brand. My scope was the public web experience — not the trading education itself.",
+          "A landing-page project for a crypto-education brand. The work focuses on the public web experience and registration path.",
         problem:
           "The brand needed a clear, premium public landing that presents its offer and moves visitors toward registration.",
         outcome:
@@ -2128,13 +2128,12 @@ export const CASE_DETAILS: CaseDetail[] = [
         ],
         flow: ["Visitor lands on the offer", "Reads the mechanics and what access includes", "Reviews packages", "Registers"],
         result:
-          "A live public landing that carries the brand's offer end to end: the proposition, how access works, the packages, and a single unambiguous route to registration. The page is published and reachable, and the conversion path is the delivered scope.",
+          "The landing-page work brings together the brand's offer, access options, packages and registration path. The saved preview documents the page structure and interface.",
         capabilities: ["Landing IA", "Responsive web", "Offer & pricing presentation", "Conversion route"],
         tech: ["Responsive web", "Landing information architecture"],
         proof: [
-          "A live, publicly reachable landing at landing.ser-crypto.com",
-          "The public information architecture and conversion route are the delivered scope",
-          "One verified screenshot is published here — the live site shows the current version",
+          "Saved screenshot of the landing-page interface",
+          "Offer structure, access options and registration path shown in the preview",
         ],
         ctaLabel: "Discuss a landing like this",
         liveLabel: "View live project",
@@ -2143,7 +2142,7 @@ export const CASE_DETAILS: CaseDetail[] = [
         name: "SerCrypto Academy",
         type: "Конверсійний лендинг · Веб-платформа",
         context:
-          "Живий публічний лендинг для бренду крипто-освіти. Мій обсяг — публічний веб-досвід, а не сама торгова освіта.",
+          "Лендинг для бренду криптоосвіти. Робота охоплює публічний вебінтерфейс і шлях до реєстрації.",
         problem:
           "Бренду потрібен був зрозумілий преміальний публічний лендинг, що презентує пропозицію та веде відвідувачів до реєстрації.",
         outcome:
@@ -2157,13 +2156,12 @@ export const CASE_DETAILS: CaseDetail[] = [
         ],
         flow: ["Відвідувач потрапляє на пропозицію", "Читає механіку й що включає доступ", "Переглядає пакети", "Реєструється"],
         result:
-          "Живий публічний лендинг, що несе пропозицію бренду наскрізно: сама пропозиція, як влаштований доступ, пакети та єдиний однозначний шлях до реєстрації. Сторінка опублікована й доступна, а конверсійний шлях — це і є зданий обсяг.",
+          "Робота над лендингом поєднує пропозицію бренду, варіанти доступу, пакети та шлях до реєстрації. Збережений приклад показує структуру сторінки й інтерфейс.",
         capabilities: ["Архітектура лендингу", "Адаптивний веб", "Презентація пропозиції та тарифів", "Конверсійний шлях"],
         tech: ["Адаптивний веб", "Інформаційна архітектура лендингу"],
         proof: [
-          "Живий, публічно доступний лендинг на landing.ser-crypto.com",
-          "Публічна інформаційна архітектура та конверсійний шлях — це і є зданий обсяг",
-          "Тут опубліковано один підтверджений скриншот — актуальну версію показує живий сайт",
+          "Збережений скриншот інтерфейсу лендингу",
+          "Структура пропозиції, варіанти доступу та шлях до реєстрації показані в прикладі",
         ],
         ctaLabel: "Обговорити подібний лендинг",
         liveLabel: "Переглянути живий проєкт",
@@ -2172,7 +2170,7 @@ export const CASE_DETAILS: CaseDetail[] = [
         name: "SerCrypto Academy",
         type: "Конверсионный лендинг · Веб-платформа",
         context:
-          "Живой публичный лендинг для бренда крипто-образования. Мой объём — публичный веб-опыт, а не само торговое образование.",
+          "Лендинг для бренда криптообразования. Работа охватывает публичный веб-интерфейс и путь к регистрации.",
         problem:
           "Бренду нужен был понятный премиальный публичный лендинг, презентующий предложение и ведущий посетителей к регистрации.",
         outcome:
@@ -2186,13 +2184,12 @@ export const CASE_DETAILS: CaseDetail[] = [
         ],
         flow: ["Посетитель попадает на предложение", "Читает механику и что включает доступ", "Просматривает пакеты", "Регистрируется"],
         result:
-          "Живой публичный лендинг, несущий предложение бренда сквозным образом: само предложение, как устроен доступ, пакеты и единственный однозначный путь к регистрации. Страница опубликована и доступна, а конверсионный путь — это и есть сданный объём.",
+          "Работа над лендингом объединяет предложение бренда, варианты доступа, пакеты и путь к регистрации. Сохранённый пример показывает структуру страницы и интерфейс.",
         capabilities: ["Архитектура лендинга", "Адаптивный веб", "Презентация предложения и тарифов", "Конверсионный путь"],
         tech: ["Адаптивный веб", "Информационная архитектура лендинга"],
         proof: [
-          "Живой, публично доступный лендинг на landing.ser-crypto.com",
-          "Публичная информационная архитектура и конверсионный путь — это и есть сданный объём",
-          "Здесь опубликован один подтверждённый скриншот — актуальную версию показывает живой сайт",
+          "Сохранённый скриншот интерфейса лендинга",
+          "Структура предложения, варианты доступа и путь к регистрации показаны в примере",
         ],
         ctaLabel: "Обсудить похожий лендинг",
         liveLabel: "Открыть живой проект",

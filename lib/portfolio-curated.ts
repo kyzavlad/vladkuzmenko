@@ -77,9 +77,9 @@ const PROFESSIONAL_STATUS: Record<string, Record<Lang, string>> = {
     ru: "Рабочее аудиодемо",
   },
   "ser-crypto": {
-    en: "Launched client website",
-    ua: "Запущений клієнтський сайт",
-    ru: "Запущенный клиентский сайт",
+    en: "Website case study",
+    ua: "Кейс сайту",
+    ru: "Кейс сайта",
   },
   "leather-clinic": {
     en: "Launched client website",
@@ -253,7 +253,7 @@ export const CURATED_PORTFOLIO: CuratedProject[] = SHOWCASE_PORTFOLIO
  *
  * turbotaai   — working AI SaaS, public URL, customer app + operations console.
  * tutorivo    — launched and tested MVP, real two-sided marketplace.
- * ser-crypto  — live client conversion landing; the closest proof to Conversion Engine.
+ * ser-crypto  — client landing case study with a saved interface preview.
  */
 export const HOME_FEATURED_KEYS = ["turbotaai", "tutorivo", "ser-crypto"] as const;
 
