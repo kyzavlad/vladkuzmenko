@@ -347,6 +347,7 @@ export function PortfolioShowcasePage() {
                 buttonLabel={x.discuss}
                 showBuildType={false}
                 compact
+                allowEmailOnly
                 context={{ source: "portfolio_index", locale, route }}
               >
                 <Button className="premium-button min-h-12 px-7">
@@ -438,6 +439,7 @@ export function PortfolioShowcasePage() {
                   buttonLabel={x.cta}
                   showBuildType={false}
                   compact
+                  allowEmailOnly
                   context={{ source: "portfolio_index_bottom", locale, route }}
                 >
                   <Button className="premium-button min-h-12 px-7">

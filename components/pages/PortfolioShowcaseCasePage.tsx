@@ -121,6 +121,7 @@ function CaseRequest({ locale, route, name }: { locale: Locale; route: string; n
       buttonLabel={`Case — ${name}`}
       showBuildType={false}
       compact
+      allowEmailOnly
       helpRequired
       helpLabel={ui.dialogHelp}
       context={{ source: "portfolio_case", project: name, locale, route }}
