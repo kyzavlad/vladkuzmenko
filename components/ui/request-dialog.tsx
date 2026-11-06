@@ -42,6 +42,8 @@ interface RequestDialogProps {
   /** Compact universal form: name + optional email + required Telegram/phone + message only
    *  (hides company & website). Opt-in; default behavior is unchanged. */
   compact?: boolean;
+  /** Compact portfolio requests can use a valid email in place of Telegram or phone. */
+  allowEmailOnly?: boolean;
   /** Index into the localized build-options list to pre-select. */
   presetBuildIndex?: number;
   helpLabel?: string;
@@ -64,6 +66,7 @@ export function RequestDialog({
   fields,
   showBuildType = true,
   compact = false,
+  allowEmailOnly = false,
   presetBuildIndex,
   helpLabel,
   helpPlaceholder,
@@ -74,6 +77,7 @@ export function RequestDialog({
 }: RequestDialogProps) {
   const { lang, t } = useI18n();
   const f = t.form;
+  const flexibleContact = compact && allowEmailOnly && !fields;
 
   const effectiveFields: RequestField[] =
     fields ??
@@ -81,7 +85,7 @@ export function RequestDialog({
       const list: RequestField[] = [
         { id: "name", label: f.name, required: true, placeholder: f.namePh },
         { id: "email", label: f.email, type: "email", required: !compact, placeholder: f.emailPh },
-        { id: "phone", label: f.phone, type: "tel", required: compact, placeholder: f.phonePh },
+        { id: "phone", label: f.phone, type: "tel", required: compact && !flexibleContact, placeholder: f.phonePh },
       ];
       // Compact mode: contact + description only (no company/website).
       if (!compact) {
@@ -123,9 +127,11 @@ export function RequestDialog({
   const [error, setError] = useState(false);
 
   const set = (id: string, v: string) => setData((p) => ({ ...p, [id]: v }));
-  const valid = effectiveFields.every(
+  const requiredFieldsFilled = effectiveFields.every(
     (field) => !field.required || (data[field.id] && data[field.id].trim() !== "")
   );
+  const hasContact = Boolean(data.phone?.trim()) || /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.email?.trim() ?? "");
+  const valid = requiredFieldsFilled && (!flexibleContact || hasContact);
 
   const reset = () => {
     setData(seed());
@@ -190,6 +196,7 @@ export function RequestDialog({
             {description && <p className="text-sm text-gray-400 mt-2">{description}</p>}
 
             <div className="space-y-4 mt-6">
+              {flexibleContact && <p className="text-sm text-gray-400">{f.contactEither}</p>}
               {effectiveFields.map((field) => (
                 <div key={field.id} className="space-y-1.5">
                   <label className="text-sm font-medium text-gray-200">
