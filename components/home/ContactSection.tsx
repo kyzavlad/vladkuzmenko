@@ -56,7 +56,7 @@ export function ContactSection() {
   const [form, setForm] = useState<Record<string, string>>({});
   const [submitting, setSubmitting] = useState(false);
   const [done, setDone] = useState(false);
-  const [error, setError] = useState(false);
+  const [error, setError] = useState<"validation" | "delivery" | null>(null);
 
   const set = (key: string, value: string) => setForm((previous) => ({ ...previous, [key]: value }));
   const valid = Boolean(form.name?.trim() && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email?.trim() || "") && form.message?.trim());
@@ -64,11 +64,11 @@ export function ContactSection() {
   const submit = async () => {
     if (submitting) return;
     if (!valid) {
-      setError(true);
+      setError("validation");
       return;
     }
     setSubmitting(true);
-    setError(false);
+    setError(null);
     const ok = await submitLead({
       intent: "general_request",
       language: lang,
@@ -77,7 +77,7 @@ export function ContactSection() {
     });
     setSubmitting(false);
     if (ok) setDone(true);
-    else setError(true);
+    else setError("delivery");
   };
 
   return (
@@ -133,7 +133,7 @@ export function ContactSection() {
                   </div>
                   <Input aria-label={c.contactPh} name="contact" value={form.phone || ""} onChange={(event) => set("phone", event.target.value)} placeholder={c.contactPh} className="border-white/10 bg-white/5 text-white placeholder:text-gray-500" />
                   <Textarea aria-label={c.messagePh} name="message" required value={form.message || ""} onChange={(event) => set("message", event.target.value)} placeholder={c.messagePh} className="min-h-[150px] border-white/10 bg-white/5 text-white placeholder:text-gray-500" />
-                  {error && <p role="alert" className="text-sm text-red-400">{c.errorMsg}</p>}
+                  {error && <p role="alert" className="text-sm text-red-400">{error === "delivery" ? c.deliveryErrorMsg : c.errorMsg}</p>}
                   <Button type="submit" disabled={submitting || !valid} className="premium-button h-auto min-h-12 w-full px-6 py-3.5 text-base disabled:opacity-50">
                     {submitting ? <><Loader2 className="mr-2 h-5 w-5 animate-spin" />{c.sending}</> : <><Send className="mr-2 h-5 w-5" />{c.send}</>}
                   </Button>
