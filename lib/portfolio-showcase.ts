@@ -807,6 +807,53 @@ projects = replaceProject(projects, "nikas-restaurant-assistant", {
   ),
 });
 
+projects = replaceProject(projects, "tutorivo", {
+  story: local(
+    {
+      context: "Tutorivo is an education marketplace for students and families looking for an online tutor, and for teachers who want to join the platform.",
+      previous: "Offers and applications were scattered across conversations and spreadsheets. Comparing teachers and keeping track of the information they submitted took manual work.",
+      desired: "Give families enough information to choose a tutor on their own, and give the operator a consistent way to review applications before publication.",
+      system: "I developed Tutorivo as a full-stack marketplace. The public catalogue and tutor profiles serve students. Applications go into a separate review workflow, where the operator decides which profiles appear in the catalogue.",
+      flow: [
+        "A student filters the catalogue by subject or language.",
+        "They open a tutor profile to check the teaching focus, experience and lesson price before choosing a lesson package and requesting a time.",
+        "A tutor submits an application with teaching subjects, languages, experience, rates and availability.",
+        "The operator reviews the application and publishes the profile after approval.",
+      ],
+      evidence: "The gallery shows the marketplace home page, tutor catalogue and application form. The live link opens the public product.",
+      resultNote: "The launched MVP brings tutor discovery, lesson enquiries and application review together in one product.",
+    },
+    {
+      context: "Tutorivo — освітній маркетплейс для учнів і родин, які шукають онлайн-репетитора, та викладачів, які хочуть приєднатися до платформи.",
+      previous: "Пропозиції й анкети зберігалися в окремих діалогах і таблицях. Порівнювати викладачів та впорядковувати інформацію з анкет доводилося вручну.",
+      desired: "Дати родинам достатньо інформації для самостійного вибору репетитора, а оператору — єдиний процес перевірки анкет перед публікацією.",
+      system: "Я розробив Tutorivo як full-stack маркетплейс. Для учнів доступні відкритий каталог і профілі. Анкети викладачів надходять на окрему перевірку, після якої оператор вирішує, які профілі з’являться в каталозі.",
+      flow: [
+        "Учень фільтрує каталог за предметом або мовою.",
+        "Відкриває профіль, переглядає напрям викладання, досвід і ціну, обирає пакет уроків та залишає запит на час.",
+        "Репетитор заповнює анкету й зазначає предмети, мови, досвід, вартість уроку та доступність.",
+        "Оператор перевіряє анкету й публікує профіль після схвалення.",
+      ],
+      evidence: "У галереї показано головну сторінку, каталог і форму анкети. За посиланням відкривається публічний продукт.",
+      resultNote: "Запущений MVP об’єднує пошук репетитора, запити на уроки й перевірку анкет викладачів в одному продукті.",
+    },
+    {
+      context: "Tutorivo — образовательный маркетплейс для учеников и семей, которые ищут онлайн-репетитора, и преподавателей, которые хотят присоединиться к платформе.",
+      previous: "Предложения и анкеты хранились в отдельных переписках и таблицах. Сравнивать преподавателей и упорядочивать данные из анкет приходилось вручную.",
+      desired: "Дать семьям достаточно информации для самостоятельного выбора репетитора, а оператору — единый процесс проверки анкет перед публикацией.",
+      system: "Я разработал Tutorivo как full-stack маркетплейс. Для учеников доступны открытый каталог и профили. Анкеты преподавателей поступают на отдельную проверку, после которой оператор решает, какие профили появятся в каталоге.",
+      flow: [
+        "Ученик фильтрует каталог по предмету или языку.",
+        "Открывает профиль, смотрит направление преподавания, опыт и цену, выбирает пакет занятий и оставляет запрос на время.",
+        "Репетитор заполняет анкету и указывает предметы, языки, опыт, стоимость урока и доступное время.",
+        "Оператор проверяет анкету и публикует профиль после одобрения.",
+      ],
+      evidence: "В галерее показаны главная страница, каталог и форма анкеты. По ссылке открывается публичный продукт.",
+      resultNote: "Запущенный MVP объединяет поиск репетитора, запросы на занятия и проверку анкет преподавателей в одном продукте.",
+    },
+  ),
+});
+
 projects = replaceProject(projects, "appointment-booking-automation", {
   story: local(
     {
