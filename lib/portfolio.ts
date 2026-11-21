@@ -237,10 +237,11 @@ export const PORTFOLIO: PortfolioCard[] = [
         problem:
           "Tutors and students lived in chats and spreadsheets — no single place to browse by subject and language, apply to teach, or keep requests in order.",
         built:
-          "A tutor marketplace: a filterable catalog, tutor profiles, a structured application flow, an admin review layer, lesson-package logic and a multilingual structure.",
+          "The delivery included a multilingual web app, a searchable catalogue, tutor profiles, lesson packages, an application form and an admin review workflow.",
         result:
           "A two-sided marketplace is launched and tested: students search and filter a verified catalogue, tutors apply through a structured form, and an operator approves who gets published. What used to live in chats and spreadsheets now runs as one product with roles, moderation and lesson-package logic.",
-        capabilities: ["Catalog & filters", "Profiles & roles", "Admin & moderation", "Payments", "Lesson packages", "Multilingual"],
+        value: "The MVP is live. On mobile, you can narrow the catalogue by subject, open a tutor profile and continue browsing in English. The application form is also public.",
+        capabilities: ["Catalog & filters", "Profiles & roles", "Application review", "Lesson packages", "Multilingual"],
         caption: "Tutorivo — home",
       },
       ua: {
@@ -251,10 +252,11 @@ export const PORTFOLIO: PortfolioCard[] = [
         problem:
           "Репетитори та учні жили в чатах і таблицях — не було єдиного місця, щоб шукати за предметом і мовою, подати заявку на викладання чи тримати запити в порядку.",
         built:
-          "Маркетплейс репетиторів: каталог із фільтрами, профілі викладачів, структурований потік заявки, шар адмін-модерації, логіка пакетів уроків і багатомовна структура.",
+          "Реалізовано багатомовний вебзастосунок, каталог із пошуком, профілі, пакети уроків, форму анкети й процес перевірки в адмінпанелі.",
         result:
           "Двосторонній маркетплейс запущено й протестовано: учні шукають і фільтрують перевірений каталог, репетитори подають структуровану заявку, а оператор вирішує, кого публікувати. Те, що жило в чатах і таблицях, тепер працює як один продукт із ролями, модерацією та логікою пакетів уроків.",
-        capabilities: ["Каталог і фільтри", "Профілі й ролі", "Адмін і модерація", "Оплати", "Пакети уроків", "Багатомовність"],
+        value: "MVP працює. На телефоні можна відфільтрувати каталог за предметом, відкрити профіль репетитора та продовжити перегляд англійською. Форма анкети також відкрита.",
+        capabilities: ["Каталог і фільтри", "Профілі й ролі", "Перевірка анкет", "Пакети уроків", "Багатомовність"],
         caption: "Tutorivo — головна",
       },
       ru: {
@@ -265,10 +267,11 @@ export const PORTFOLIO: PortfolioCard[] = [
         problem:
           "Репетиторы и ученики жили в чатах и таблицах — не было единого места, чтобы искать по предмету и языку, подать заявку на преподавание или держать запросы в порядке.",
         built:
-          "Маркетплейс репетиторов: каталог с фильтрами, профили преподавателей, структурированный поток заявки, слой админ-модерации, логика пакетов уроков и многоязычная структура.",
+          "Реализованы многоязычное веб-приложение, каталог с поиском, профили, пакеты занятий, форма анкеты и процесс проверки в админ-панели.",
         result:
           "Двусторонний маркетплейс запущен и протестирован: ученики ищут и фильтруют проверенный каталог, репетиторы подают структурированную заявку, а оператор решает, кого публиковать. То, что жило в чатах и таблицах, теперь работает как один продукт с ролями, модерацией и логикой пакетов уроков.",
-        capabilities: ["Каталог и фильтры", "Профили и роли", "Админ и модерация", "Оплаты", "Пакеты уроков", "Многоязычность"],
+        value: "MVP работает. С телефона можно отфильтровать каталог по предмету, открыть профиль репетитора и продолжить просмотр на английском. Форма анкеты также открыта.",
+        capabilities: ["Каталог и фильтры", "Профили и роли", "Проверка анкет", "Пакеты занятий", "Многоязычность"],
         caption: "Tutorivo — главная",
       },
     },
