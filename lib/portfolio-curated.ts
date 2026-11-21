@@ -14,6 +14,7 @@ export type CuratedProject = ShowcaseProject & {
 const COMMERCIAL_PRIORITY = [
   "turbotaai",
   "tutorivo",
+  "dacha-tv",
   "dating-crm",
   "status-auto",
   "ikorka",
