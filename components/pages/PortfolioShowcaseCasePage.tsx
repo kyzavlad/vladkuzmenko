@@ -1,5 +1,6 @@
 "use client";
 
+import dynamic from "next/dynamic";
 import { ArrowLeft, ArrowRight, ExternalLink, ShieldCheck } from "lucide-react";
 import { Header } from "@/components/ui/header";
 import { FooterSection } from "@/components/FooterSection";
@@ -14,6 +15,16 @@ import { getCuratedProject } from "@/lib/portfolio-curated";
 import { StableProjectImage } from "@/components/ui/stable-project-image";
 
 type Locale = "en" | "ua" | "ru";
+
+const BookingWorkflowDemo = dynamic(() =>
+  import("@/components/pages/BookingWorkflowDemo").then((module) => module.BookingWorkflowDemo),
+);
+
+const BOOKING_GALLERY_COPY = {
+  en: "Sample states from the interactive demo.",
+  ua: "Стани тестового запису з інтерактивного демо.",
+  ru: "Состояния тестовой записи из интерактивного демо.",
+} as const;
 
 const COPY = {
   en: {
@@ -180,6 +191,7 @@ export function PortfolioShowcaseCasePage({ slug }: { slug: string }) {
   const c = p.content[locale];
   const story = p.story?.[locale] ?? fallbackStory(p, locale);
   const route = `${workHref}/${p.caseSlug}`;
+  const isBookingCase = p.key === "appointment-booking-automation";
   const proofShots = p.caseShots?.length ? p.caseShots : p.shots;
   const materialsText = proofShots.length > 0
     ? locale === "ru"
@@ -241,12 +253,14 @@ export function PortfolioShowcaseCasePage({ slug }: { slug: string }) {
           </div>
         </section>
 
+        {isBookingCase && <BookingWorkflowDemo locale={locale} />}
+
         {proofShots.length > 0 && (
           <section className="py-8 sm:py-12">
             <div className="container mx-auto max-w-6xl px-4">
               <div className="mb-5">
                 <p className="text-xs font-semibold uppercase tracking-[.2em] text-amber-300/70">{x.proof}</p>
-                <p className="mt-2 max-w-2xl text-sm leading-6 text-zinc-500">{x.proofNote}</p>
+                <p className="mt-2 max-w-2xl text-sm leading-6 text-zinc-500">{isBookingCase ? BOOKING_GALLERY_COPY[locale] : x.proofNote}</p>
               </div>
               <div className="space-y-5">
                 {proofShots.map((shot, index) => (

@@ -775,6 +775,50 @@ let projects: ShowcaseProject[] = PORTFOLIO
   .filter((p) => p.key !== "nft-marketplace")
   .map(withCase);
 
+projects = replaceProject(projects, "appointment-booking-automation", {
+  story: local(
+    {
+      context: "A booking assistant built for an independent aesthetics practice. The practice is anonymized in this case.",
+      previous: "Choosing a time and handling a change are two steps in the same client journey. The design needed to account for both.",
+      desired: "Guide a client through an appointment conversation and handle each subsequent change as a calendar event.",
+      system: "Voiceflow holds the conversation. One n8n workflow runs the assistant. A second listens for Cal.com webhooks and routes booking events by type.",
+      flow: [
+        "The client starts an appointment conversation.",
+        "A booking creates a calendar event and enters the creation branch.",
+        "A change of time enters the reschedule branch. A cancellation enters its own branch.",
+      ],
+      evidence: "One original Voiceflow export and two original n8n exports were verified against the project archive. The gallery shows the reconstructed demo with sample data.",
+      resultNote: "The public demo lets you verify how the state changes as you create, move and cancel a sample booking.",
+    },
+    {
+      context: "Асистент запису для незалежного косметологічного кабінету. Назву кабінету в кейсі приховано.",
+      previous: "Вибір часу й подальша зміна запису є частинами одного клієнтського сценарію. Важливо було врахувати обидві.",
+      desired: "Спрямувати клієнта в діалозі про прийом і обробляти кожну наступну зміну як подію календаря.",
+      system: "Voiceflow веде діалог. Один сценарій n8n відповідає за асистента, другий слухає вебхуки Cal.com і розподіляє події за типом.",
+      flow: [
+        "Клієнт починає діалог про запис.",
+        "Створення запису викликає подію календаря й запускає відповідну гілку.",
+        "Зміна часу й скасування запускають окремі гілки.",
+      ],
+      evidence: "З архівом звірено оригінальний експорт Voiceflow та два експорти n8n. У галереї показано реконструкцію на тестових даних.",
+      resultNote: "У відкритому демо можна перевірити, як змінюється стан після створення, перенесення та скасування тестового запису.",
+    },
+    {
+      context: "Ассистент записи для независимого косметологического кабинета. Название кабинета в кейсе скрыто.",
+      previous: "Выбор времени и последующее изменение записи входят в один клиентский сценарий. Важно было учесть оба шага.",
+      desired: "Помочь клиенту в диалоге о приёме и обрабатывать каждое последующее изменение как событие календаря.",
+      system: "Voiceflow ведёт диалог. Один сценарий n8n отвечает за ассистента, второй слушает вебхуки Cal.com и распределяет события по типу.",
+      flow: [
+        "Клиент начинает диалог о записи.",
+        "Создание записи вызывает событие календаря и запускает соответствующую ветку.",
+        "Изменение времени и отмена запускают отдельные ветки.",
+      ],
+      evidence: "С архивом сверены оригинальный экспорт Voiceflow и два экспорта n8n. В галерее показана реконструкция на тестовых данных.",
+      resultNote: "В открытом демо можно проверить, как меняется состояние после создания, переноса и отмены тестовой записи.",
+    },
+  ),
+});
+
 projects = replaceProject(projects, "dating-crm", {
   caseSlug: "dating-crm",
   shots: ["/case-studies/dating-crm/hero.jpg"],
