@@ -18,6 +18,7 @@ const COMMERCIAL_PRIORITY = [
   "bukville-concierge",
   "hotel-natsionalny-wordpress",
   "vilson-hotel-assistant",
+  "ksuu-store-assistant",
   "dating-crm",
   "status-auto",
   "ikorka",
