@@ -15,6 +15,7 @@ const COMMERCIAL_PRIORITY = [
   "turbotaai",
   "tutorivo",
   "dacha-tv",
+  "bukville-concierge",
   "dating-crm",
   "status-auto",
   "ikorka",
