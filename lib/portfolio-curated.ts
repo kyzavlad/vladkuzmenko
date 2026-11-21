@@ -17,6 +17,7 @@ const COMMERCIAL_PRIORITY = [
   "dacha-tv",
   "bukville-concierge",
   "hotel-natsionalny-wordpress",
+  "vilson-hotel-assistant",
   "dating-crm",
   "status-auto",
   "ikorka",

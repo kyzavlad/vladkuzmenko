@@ -16,6 +16,7 @@ import { SITE } from "@/lib/site";
 
 export type Status =
   | "real_client"
+  | "archived"
   | "launched_mvp"
   | "in_development"
   | "prototype"
@@ -23,6 +24,7 @@ export type Status =
 
 export const STATUS_LABEL: Record<Status, Record<Lang, string>> = {
   real_client: { en: "Live client project", ua: "Живий клієнтський проєкт", ru: "Живой клиентский проект" },
+  archived: { en: "Archived implementation", ua: "Архівний проєкт", ru: "Архивный проект" },
   launched_mvp: { en: "Launched MVP", ua: "Запущений MVP", ru: "Запущенный MVP" },
   in_development: { en: "In development", ua: "У розробці", ru: "В разработке" },
   prototype: { en: "Completed interactive prototype", ua: "Завершений інтерактивний прототип", ru: "Завершённый интерактивный прототип" },
@@ -40,6 +42,7 @@ export function statusText(
 
 export const STATUS_TONE: Record<Status, "green" | "amber"> = {
   real_client: "green",
+  archived: "amber",
   launched_mvp: "green",
   in_development: "amber",
   prototype: "amber",
@@ -441,6 +444,51 @@ export const PORTFOLIO: PortfolioCard[] = [
           "Проверка на телефоне и компьютере",
         ],
         caption: "Английская статья, украинская мобильная версия и пустая форма запроса",
+      },
+    },
+  },
+  {
+    key: "vilson-hotel-assistant",
+    category: "automation",
+    status: "archived",
+    caseSlug: "vilson-hotel-assistant",
+    shots: [
+      "/case-studies/vilson-hotel-assistant/archived-widget.webp",
+      "/case-studies/vilson-hotel-assistant/workflow-overview.webp",
+    ],
+    content: {
+      en: {
+        name: "Vilson Hotel Assistant",
+        type: "Guest chat and hotel operations automation",
+        outcome: "A guest-facing chat for hotel questions, paired with workflows for staff to manage booking records.",
+        problem: "Hotel guests needed a place to ask about rooms and services. Staff also needed access to the same hotel information and booking records while working in Telegram.",
+        built: "I created the guest conversation flows in Voiceflow and the hotel workflows in n8n. The n8n workflow used Airtable for room and service information and supported searching, creating, updating and deleting booking records. The Telegram staff workflow also included transcription for voice messages, and separate scheduled workflows updated pricing data.",
+        value: "The guest interface and staff tools served different needs. Guests could ask questions on the website. Staff could find information and work with records in their own channel.",
+        result: "The archive preserves a March 2025 screenshot of the hotel’s web chat and September 2025 Voiceflow exports and three n8n workflows. These materials document an earlier implementation. Current operation and booking outcomes have not been verified.",
+        capabilities: ["Voiceflow conversation flows", "n8n workflows", "Airtable hotel data", "Telegram staff tools", "Scheduled price updates"],
+        caption: "Archived Vilson chat and a diagram based on the workflow exports",
+      },
+      ua: {
+        name: "Асистент готелю Vilson",
+        type: "Чат для гостей та автоматизація роботи готелю",
+        outcome: "Чат відповідав на запитання гостей, а окремі процеси допомагали персоналу працювати із записами бронювань.",
+        problem: "Гостям потрібне було місце, де можна запитати про номери й послуги. Персонал мав отримувати доступ до тієї самої інформації та записів бронювань у Telegram.",
+        built: "Я зібрав діалоги для гостей у Voiceflow та процеси готелю в n8n. Дані про номери й послуги зберігалися в Airtable. Процес у n8n передбачав пошук, створення, редагування й видалення записів бронювань. Для персоналу в Telegram додав розпізнавання голосових повідомлень. Окремі процеси за розкладом оновлювали ціни.",
+        value: "Гості могли ставити запитання на сайті. Персонал міг знаходити потрібну інформацію та працювати із записами у своєму каналі.",
+        result: "Зберігся знімок чату на сайті готелю за березень 2025 року й експорти Voiceflow за вересень 2025 року та три схеми n8n. Матеріали показують попередню реалізацію. Поточну роботу та результати бронювань не перевірено.",
+        capabilities: ["Діалоги Voiceflow", "Автоматизація n8n", "Дані готелю в Airtable", "Інструменти для персоналу в Telegram", "Оновлення цін за розкладом"],
+        caption: "Архівний чат Vilson і схема на основі експортів автоматизацій",
+      },
+      ru: {
+        name: "Ассистент отеля Vilson",
+        type: "Чат для гостей и автоматизация работы отеля",
+        outcome: "Чат отвечал на вопросы гостей, а отдельные процессы помогали персоналу работать с записями бронирований.",
+        problem: "Гостям нужно было место, где можно спросить о номерах и услугах. Персоналу требовался доступ к той же информации и записям бронирований в Telegram.",
+        built: "Я собрал диалоги для гостей в Voiceflow и рабочие процессы отеля в n8n. Данные о номерах и услугах хранились в Airtable. В n8n были настроены поиск, создание, редактирование и удаление записей бронирований. Для персонала в Telegram добавил расшифровку голосовых сообщений. Отдельные процессы по расписанию обновляли цены.",
+        value: "Гости могли задать вопросы на сайте. Персонал мог находить нужную информацию и работать с записями в своём канале.",
+        result: "Сохранились снимок чата на сайте отеля за март 2025 года и экспорты Voiceflow за сентябрь 2025 года и три схемы n8n. Материалы показывают прежнюю реализацию. Текущую работу и результаты бронирований не проверял.",
+        capabilities: ["Диалоги Voiceflow", "Автоматизация n8n", "Данные отеля в Airtable", "Инструменты для персонала в Telegram", "Обновление цен по расписанию"],
+        caption: "Архивный чат Vilson и схема по экспортам автоматизаций",
       },
     },
   },
