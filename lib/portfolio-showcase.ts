@@ -775,6 +775,38 @@ let projects: ShowcaseProject[] = PORTFOLIO
   .filter((p) => p.key !== "nft-marketplace")
   .map(withCase);
 
+projects = replaceProject(projects, "nikas-restaurant-assistant", {
+  story: local(
+    {
+      context: "A conversational prototype for the Nikas Restaurant use case, preserved as an original Voiceflow export.",
+      previous: "A guest may want to look at a menu or ask a more specific question about a table. Those requests need different paths.",
+      desired: "Give the guest two obvious starting points and make room for questions outside the initial options.",
+      system: "The main dialogue contains the menu and reservation topics. The export also includes the Ask Clarifying Question, Knowledge Base and Reduce Hallucinations components.",
+      flow: ["Open the guest dialogue.", "Choose a menu path or ask a table question.", "Use the assistant components when the question needs clarification or reference information."],
+      evidence: "Three views reconstructed from the original Voiceflow project export. The gallery shows the guest paths, assistant components and documented export contents.",
+      resultNote: "The archived project shows the design of the guest assistant. The API action has no verified live booking destination.",
+    },
+    {
+      context: "Діалоговий прототип для сценарію ресторану Nikas, збережений в оригінальному експорті Voiceflow.",
+      previous: "Гість може переглядати меню або ставити конкретне запитання про столик. Для цих запитів потрібні різні шляхи.",
+      desired: "Дати гостю два зрозумілі варіанти на початку і можливість поставити запитання поза початковими варіантами.",
+      system: "Основний діалог містить теми меню й бронювання. В експорті є компоненти Ask Clarifying Question, Knowledge Base та Reduce Hallucinations.",
+      flow: ["Відкрити діалог для гостей.", "Перейти до меню або запитати про столик.", "Коли потрібне уточнення або довідкова інформація, скористатися компонентами асистента."],
+      evidence: "Три схеми відтворено за оригінальним експортом Voiceflow. Галерея показує шляхи гостя, компоненти асистента й вміст експорту.",
+      resultNote: "Архів фіксує побудову асистента для гостей. Доставку бронювань через дію API не підтверджено.",
+    },
+    {
+      context: "Диалоговый прототип для сценария ресторана Nikas, сохранённый в оригинальном экспорте Voiceflow.",
+      previous: "Гость может смотреть меню или задать конкретный вопрос о столике. Для этих запросов нужны разные пути.",
+      desired: "Дать гостю два понятных варианта на входе и возможность задать вопрос вне них.",
+      system: "Основной диалог содержит темы меню и бронирования. В экспорте есть компоненты Ask Clarifying Question, Knowledge Base и Reduce Hallucinations.",
+      flow: ["Открыть диалог для гостей.", "Перейти к меню или задать вопрос о столике.", "При необходимости уточнить запрос или найти справочную информацию с помощью компонентов ассистента."],
+      evidence: "Три схемы восстановлены по оригинальному экспорту Voiceflow. Галерея показывает пути гостя, компоненты ассистента и состав экспорта.",
+      resultNote: "Архив показывает устройство гостевого ассистента. Доставка бронирований через действие API не подтверждена.",
+    },
+  ),
+});
+
 projects = replaceProject(projects, "appointment-booking-automation", {
   story: local(
     {

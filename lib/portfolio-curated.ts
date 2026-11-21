@@ -19,6 +19,7 @@ const COMMERCIAL_PRIORITY = [
   "hotel-natsionalny-wordpress",
   "vilson-hotel-assistant",
   "appointment-booking-automation",
+  "nikas-restaurant-assistant",
   "ksuu-store-assistant",
   "dating-crm",
   "status-auto",
