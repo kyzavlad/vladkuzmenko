@@ -596,7 +596,7 @@ export const PORTFOLIO: PortfolioCard[] = [
         value: "The guest interface and staff tools served different needs. Guests could ask questions on the website. Staff could find information and work with records in their own channel.",
         result: "The archive preserves a March 2025 screenshot of the hotel’s web chat and September 2025 Voiceflow exports and three n8n workflows. These materials document an earlier implementation. Current operation and booking outcomes have not been verified.",
         capabilities: ["Voiceflow conversation flows", "n8n workflows", "Airtable hotel data", "Telegram staff tools", "Scheduled price updates"],
-        caption: "Archived Vilson chat and a diagram based on the workflow exports",
+        caption: "Vilson guest chat and hotel operations workflow",
       },
       ua: {
         name: "Асистент готелю Vilson",
@@ -607,7 +607,7 @@ export const PORTFOLIO: PortfolioCard[] = [
         value: "Гості могли ставити запитання на сайті. Персонал міг знаходити потрібну інформацію та працювати із записами у своєму каналі.",
         result: "Зберігся знімок чату на сайті готелю за березень 2025 року й експорти Voiceflow за вересень 2025 року та три схеми n8n. Матеріали показують попередню реалізацію. Поточну роботу та результати бронювань не перевірено.",
         capabilities: ["Діалоги Voiceflow", "Автоматизація n8n", "Дані готелю в Airtable", "Інструменти для персоналу в Telegram", "Оновлення цін за розкладом"],
-        caption: "Архівний чат Vilson і схема на основі експортів автоматизацій",
+        caption: "Чат Vilson для гостей і процеси роботи готелю",
       },
       ru: {
         name: "Ассистент отеля Vilson",
@@ -618,7 +618,7 @@ export const PORTFOLIO: PortfolioCard[] = [
         value: "Гости могли задать вопросы на сайте. Персонал мог находить нужную информацию и работать с записями в своём канале.",
         result: "Сохранились снимок чата на сайте отеля за март 2025 года и экспорты Voiceflow за сентябрь 2025 года и три схемы n8n. Материалы показывают прежнюю реализацию. Текущую работу и результаты бронирований не проверял.",
         capabilities: ["Диалоги Voiceflow", "Автоматизация n8n", "Данные отеля в Airtable", "Инструменты для персонала в Telegram", "Обновление цен по расписанию"],
-        caption: "Архивный чат Vilson и схема по экспортам автоматизаций",
+        caption: "Гостевой чат Vilson и рабочие процессы отеля",
       },
     },
   },
@@ -748,7 +748,7 @@ export const PORTFOLIO: PortfolioCard[] = [
         value: "The recommendation flow starts with the shopper’s description. Product cards give them something concrete to compare, and the follow-up prompt lets them ask about an item or request a different suggestion.",
         result: "The archived preview demonstrates the path from a request for hair-care products to a carousel of recommendations. The export contains links to the store. Production integration, checkout and live order status were outside this verification.",
         capabilities: ["Voiceflow conversation flows", "Ukrainian interface", "Guided recommendations", "Product cards", "Store FAQ paths"],
-        caption: "Archived Voiceflow preview showing the recommendation conversation and product carousel",
+        caption: "Shopping assistant conversation and product recommendation carousel",
       },
       ua: {
         name: "Асистент покупців KSUU STORE",
@@ -759,7 +759,7 @@ export const PORTFOLIO: PortfolioCard[] = [
         value: "Підбір починається з опису потреби. Картки дають змогу порівняти варіанти, а наступне запитання пропонує дізнатися більше про товар або отримати іншу рекомендацію.",
         result: "Архівний попередній перегляд показує шлях від запиту про догляд за волоссям до каруселі рекомендацій. В експорті є посилання на магазин. Інтеграцію на чинному сайті, оплату й отримання статусу реальних замовлень не перевірено.",
         capabilities: ["Діалоги Voiceflow", "Українськомовний інтерфейс", "Підбір товарів", "Картки товарів", "Діалоги про правила магазину"],
-        caption: "Архівний перегляд Voiceflow з діалогом підбору та каруселлю товарів",
+        caption: "Діалог підбору та карусель рекомендацій товарів",
       },
       ru: {
         name: "Ассистент покупателей KSUU STORE",
@@ -770,7 +770,7 @@ export const PORTFOLIO: PortfolioCard[] = [
         value: "Подбор начинается с описания потребности. Карточки помогают сравнить варианты, а следующий вопрос предлагает узнать больше о товаре или получить другую рекомендацию.",
         result: "Архивный предпросмотр показывает путь от запроса об уходе за волосами до карусели рекомендаций. В экспорте есть ссылки на магазин. Интеграцию на действующем сайте, оплату и получение статуса реальных заказов не проверял.",
         capabilities: ["Диалоги Voiceflow", "Интерфейс на украинском", "Подбор товаров", "Карточки товаров", "Сценарии по правилам магазина"],
-        caption: "Архивный предпросмотр Voiceflow с диалогом подбора и каруселью товаров",
+        caption: "Диалог подбора и карусель рекомендаций товаров",
       },
     },
   },

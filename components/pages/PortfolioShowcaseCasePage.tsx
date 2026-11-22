@@ -9,7 +9,7 @@ import { RequestDialog } from "@/components/ui/request-dialog";
 import { useI18n } from "@/components/i18n-provider";
 import { cn } from "@/lib/utils";
 import { langHref } from "@/lib/i18n";
-import { CASE_UI, CATEGORY_SHORT, STATUS_TONE, statusText } from "@/lib/portfolio";
+import { CASE_UI, CATEGORY_SHORT } from "@/lib/portfolio";
 import { type ShowcaseProject, type ShowcaseStory } from "@/lib/portfolio-showcase";
 import { getCuratedProject } from "@/lib/portfolio-curated";
 import { StableProjectImage } from "@/components/ui/stable-project-image";
@@ -102,21 +102,6 @@ function fallbackStory(p: ShowcaseProject, locale: Locale): ShowcaseStory {
             : "The project is described on this page.",
     resultNote: c.value ?? "",
   };
-}
-
-function Badge({ p, locale }: { p: ShowcaseProject; locale: Locale }) {
-  const green = STATUS_TONE[p.status] === "green";
-  return (
-    <span
-      className={cn(
-        "inline-flex items-center gap-2 rounded-full border bg-white/[.035] px-3 py-1.5 text-[11px] font-semibold text-zinc-200",
-        green ? "border-emerald-300/20" : "border-amber-300/20",
-      )}
-    >
-      <span className={cn("h-1.5 w-1.5 shrink-0 rounded-full", green ? "bg-emerald-300" : "bg-amber-300")} />
-      {statusText(locale, p.status, p.statusLabel)}
-    </span>
-  );
 }
 
 function CaseRequest({ locale, route, name }: { locale: Locale; route: string; name: string }) {
@@ -233,7 +218,6 @@ export function PortfolioShowcaseCasePage({ slug }: { slug: string }) {
                 <span className="text-xs font-semibold uppercase tracking-[.18em] text-amber-300/75">
                   {CATEGORY_SHORT[p.category][locale]}
                 </span>
-                <Badge p={p} locale={locale} />
               </div>
               <h1 className="mt-5 text-4xl font-black tracking-[-.04em] sm:text-6xl lg:text-7xl">{c.name}</h1>
               <p className="mt-3 text-sm text-zinc-500 sm:text-base">{c.type}</p>

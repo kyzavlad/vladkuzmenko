@@ -14,16 +14,15 @@ export type CuratedProject = ShowcaseProject & {
 const COMMERCIAL_PRIORITY = [
   "turbotaai",
   "tutorivo",
+  "visibilityos-audit",
+  "dating-crm",
+  "appointment-booking-automation",
   "dacha-tv",
   "bukville-concierge",
   "hotel-natsionalny-wordpress",
-  "visibilityos-audit",
-  "portfolio-enquiry-intake",
   "vilson-hotel-assistant",
-  "appointment-booking-automation",
   "nikas-restaurant-assistant",
   "ksuu-store-assistant",
-  "dating-crm",
   "status-auto",
   "ikorka",
   "ser-crypto",
@@ -243,8 +242,10 @@ function curate(project: ShowcaseProject): CuratedProject {
   return curated;
 }
 
+const HIDDEN_PROJECT_KEYS = new Set(["reverie", "portfolio-enquiry-intake"]);
+
 export const CURATED_PORTFOLIO: CuratedProject[] = SHOWCASE_PORTFOLIO
-  .filter((project) => project.key !== "reverie")
+  .filter((project) => !HIDDEN_PROJECT_KEYS.has(project.key))
   .map(curate)
   .sort((a, b) => (rank.get(a.key) ?? 10_000) - (rank.get(b.key) ?? 10_000));
 
@@ -261,9 +262,9 @@ export const CURATED_PORTFOLIO: CuratedProject[] = SHOWCASE_PORTFOLIO
  *
  * turbotaai   — working AI SaaS, public URL, customer app + operations console.
  * tutorivo    — launched and tested MVP, real two-sided marketplace.
- * ser-crypto  — client landing case study with a saved interface preview.
+ * visibilityos-audit — interactive audit workflow with saved product screens.
  */
-export const HOME_FEATURED_KEYS = ["turbotaai", "tutorivo", "ser-crypto"] as const;
+export const HOME_FEATURED_KEYS = ["turbotaai", "tutorivo", "visibilityos-audit"] as const;
 
 export const HOME_FEATURED: CuratedProject[] = HOME_FEATURED_KEYS.map((key) =>
   CURATED_PORTFOLIO.find((project) => project.key === key),

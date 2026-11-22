@@ -875,7 +875,7 @@ projects = replaceProject(projects, "nikas-restaurant-assistant", {
       system: "The main dialogue contains the menu and reservation topics. The export also includes the Ask Clarifying Question, Knowledge Base and Reduce Hallucinations components.",
       flow: ["Open the guest dialogue.", "Choose a menu path or ask a table question.", "Use the assistant components when the question needs clarification or reference information."],
       evidence: "Three views reconstructed from the original Voiceflow project export. The gallery shows the guest paths, assistant components and documented export contents.",
-      resultNote: "The archived project shows the design of the guest assistant. The API action has no verified live booking destination.",
+      resultNote: "The guest assistant brings menu navigation and table questions into one conversation. The original workflow includes an API action for reservation requests.",
     },
     {
       context: "Діалоговий прототип для сценарію ресторану Nikas, збережений в оригінальному експорті Voiceflow.",
@@ -884,7 +884,7 @@ projects = replaceProject(projects, "nikas-restaurant-assistant", {
       system: "Основний діалог містить теми меню й бронювання. В експорті є компоненти Ask Clarifying Question, Knowledge Base та Reduce Hallucinations.",
       flow: ["Відкрити діалог для гостей.", "Перейти до меню або запитати про столик.", "Коли потрібне уточнення або довідкова інформація, скористатися компонентами асистента."],
       evidence: "Три схеми відтворено за оригінальним експортом Voiceflow. Галерея показує шляхи гостя, компоненти асистента й вміст експорту.",
-      resultNote: "Архів фіксує побудову асистента для гостей. Доставку бронювань через дію API не підтверджено.",
+      resultNote: "Асистент поєднує перегляд меню й запитання про столики в одному діалозі. В оригінальній схемі передбачено дію API для запитів на бронювання.",
     },
     {
       context: "Диалоговый прототип для сценария ресторана Nikas, сохранённый в оригинальном экспорте Voiceflow.",
@@ -893,7 +893,7 @@ projects = replaceProject(projects, "nikas-restaurant-assistant", {
       system: "Основной диалог содержит темы меню и бронирования. В экспорте есть компоненты Ask Clarifying Question, Knowledge Base и Reduce Hallucinations.",
       flow: ["Открыть диалог для гостей.", "Перейти к меню или задать вопрос о столике.", "При необходимости уточнить запрос или найти справочную информацию с помощью компонентов ассистента."],
       evidence: "Три схемы восстановлены по оригинальному экспорту Voiceflow. Галерея показывает пути гостя, компоненты ассистента и состав экспорта.",
-      resultNote: "Архив показывает устройство гостевого ассистента. Доставка бронирований через действие API не подтверждена.",
+      resultNote: "Ассистент объединяет просмотр меню и вопросы о столиках в одном диалоге. В исходной схеме предусмотрено действие API для запросов на бронь.",
     },
   ),
 });
@@ -970,7 +970,7 @@ projects = replaceProject(projects, "appointment-booking-automation", {
         "Створення запису викликає подію календаря й запускає відповідну гілку.",
         "Зміна часу й скасування запускають окремі гілки.",
       ],
-      evidence: "З архівом звірено оригінальний експорт Voiceflow та два експорти n8n. У галереї показано реконструкцію на тестових даних.",
+      evidence: "Інтерактивний приклад відтворює створення, перенесення і скасування запису на тестових даних за схемами Voiceflow та n8n.",
       resultNote: "У відкритому демо можна перевірити, як змінюється стан після створення, перенесення та скасування тестового запису.",
     },
     {
@@ -983,7 +983,7 @@ projects = replaceProject(projects, "appointment-booking-automation", {
         "Создание записи вызывает событие календаря и запускает соответствующую ветку.",
         "Изменение времени и отмена запускают отдельные ветки.",
       ],
-      evidence: "С архивом сверены оригинальный экспорт Voiceflow и два экспорта n8n. В галерее показана реконструкция на тестовых данных.",
+      evidence: "Интерактивный пример показывает создание, перенос и отмену записи на тестовых данных по исходным схемам Voiceflow и n8n.",
       resultNote: "В открытом демо можно проверить, как меняется состояние после создания, переноса и отмены тестовой записи.",
     },
   ),

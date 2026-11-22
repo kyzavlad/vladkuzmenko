@@ -4,9 +4,8 @@ import { motion } from "framer-motion";
 import { ArrowRight, ExternalLink, Layers3, ShieldCheck } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useI18n } from "@/components/i18n-provider";
-import { cn } from "@/lib/utils";
 import { langHref } from "@/lib/i18n";
-import { CATEGORY_SHORT, STATUS_TONE, statusText } from "@/lib/portfolio";
+import { CATEGORY_SHORT } from "@/lib/portfolio";
 import { CURATED_PORTFOLIO, HOME_FEATURED, type CuratedProject } from "@/lib/portfolio-curated";
 import { track } from "@/lib/analytics";
 import { StableProjectImage } from "@/components/ui/stable-project-image";
@@ -37,19 +36,6 @@ const COPY = {
   },
 } as const;
 
-function StatusBadge({ p, locale }: { p: CuratedProject; locale: Locale }) {
-  const green = STATUS_TONE[p.status] === "green";
-  return (
-    <span className={cn(
-      "inline-flex items-center gap-2 rounded-full border bg-white/[.035] px-3 py-1.5 text-[11px] font-semibold text-zinc-200 shadow-sm backdrop-blur-sm",
-      green ? "border-emerald-300/20" : "border-amber-300/20",
-    )}>
-      <span className={cn("h-1.5 w-1.5 shrink-0 rounded-full", green ? "bg-emerald-300" : "bg-amber-300")} />
-      {statusText(locale, p.status, p.statusLabel)}
-    </span>
-  );
-}
-
 function Preview({ p, locale, i }: { p: CuratedProject; locale: Locale; i: number }) {
   const x = COPY[locale];
   const c = p.content[locale];
@@ -75,7 +61,6 @@ function Preview({ p, locale, i }: { p: CuratedProject; locale: Locale; i: numbe
 
         <div className="p-5 sm:p-7 lg:p-8">
           <div className="flex flex-wrap items-center gap-2.5">
-            <StatusBadge p={p} locale={locale} />
             <span className="rounded-full border border-white/10 bg-white/[.035] px-3 py-1.5 text-[10px] font-bold uppercase tracking-[.16em] text-amber-200/80">{CATEGORY_SHORT[p.category][locale]}</span>
             <span className="ml-auto hidden text-[10px] font-semibold uppercase tracking-[.16em] text-zinc-700 sm:block">{String(i + 1).padStart(2, "0")}</span>
           </div>
