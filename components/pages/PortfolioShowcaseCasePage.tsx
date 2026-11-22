@@ -1,13 +1,14 @@
 "use client";
 
-import { ArrowLeft, ArrowRight, ExternalLink, ShieldCheck } from "lucide-react";
+import { ArrowLeft, ArrowRight, Calendar, ExternalLink, ShieldCheck } from "lucide-react";
 import { Header } from "@/components/ui/header";
 import { FooterSection } from "@/components/FooterSection";
 import { Button } from "@/components/ui/button";
 import { RequestDialog } from "@/components/ui/request-dialog";
 import { useI18n } from "@/components/i18n-provider";
 import { cn } from "@/lib/utils";
-import { langHref } from "@/lib/i18n";
+import { getDict, langHref } from "@/lib/i18n";
+import { SITE } from "@/lib/site";
 import { getCaseHighlights } from "@/lib/portfolio-case-highlights";
 import { HotelAssistantDemo } from "@/components/pages/HotelAssistantDemo";
 import { CASE_UI } from "@/lib/portfolio";
@@ -134,6 +135,24 @@ function CaseRequest({ locale, route, name }: { locale: Locale; route: string; n
   );
 }
 
+function CaseActions({ locale, route, name }: { locale: Locale; route: string; name: string }) {
+  return (
+    <div className="inline-flex max-w-full flex-col gap-3 sm:flex-row">
+      <CaseRequest locale={locale} route={route} name={name} />
+      <Button
+        asChild
+        variant="outline"
+        className="min-h-12 gap-2 border-white/15 bg-transparent px-7 text-zinc-100 hover:bg-white/10 hover:text-white"
+      >
+        <a href={SITE.calcom} target="_blank" rel="noopener noreferrer">
+          <Calendar aria-hidden="true" className="h-4 w-4" />
+          {getDict(locale).cta.bookCall}
+        </a>
+      </Button>
+    </div>
+  );
+}
+
 function ProofImage({ shot, name, label, eager = false, compact = false }: { shot: string; name: string; label: string; eager?: boolean; compact?: boolean }) {
   return (
     <a
@@ -230,7 +249,7 @@ function ImageLibraryCase({
           )}
         </section>
         <div className="mt-12 border-t border-white/10 pt-7">
-          <CaseRequest locale={locale} route={route} name={c.name} />
+          <CaseActions locale={locale} route={route} name={c.name} />
         </div>
       </main>
       <FooterSection />
@@ -472,7 +491,7 @@ export function PortfolioShowcaseCasePage({ slug }: { slug: string }) {
             <h2 className="text-3xl font-black tracking-tight sm:text-4xl">{ui.ctaTitle}</h2>
             <p className="mx-auto mt-4 max-w-2xl text-zinc-400">{ui.ctaBody}</p>
             <div className="mt-7 flex justify-center">
-              <CaseRequest locale={locale} route={route} name={c.name} />
+              <CaseActions locale={locale} route={route} name={c.name} />
             </div>
           </div>
         </section>
