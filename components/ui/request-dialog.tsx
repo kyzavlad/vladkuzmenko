@@ -10,6 +10,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+import { LeadDeliveryError } from "@/components/ui/lead-delivery-error";
 import { Loader2, CheckCircle, ArrowRight } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { submitLead } from "@/lib/site";
@@ -124,7 +125,7 @@ export function RequestDialog({
   const [data, setData] = useState<Record<string, string>>(seed);
   const [submitting, setSubmitting] = useState(false);
   const [done, setDone] = useState(false);
-  const [error, setError] = useState(false);
+  const [error, setError] = useState<"validation" | "delivery" | null>(null);
 
   const set = (id: string, v: string) => setData((p) => ({ ...p, [id]: v }));
   const requiredFieldsFilled = effectiveFields.every(
@@ -137,7 +138,7 @@ export function RequestDialog({
     setData(seed());
     setSubmitting(false);
     setDone(false);
-    setError(false);
+    setError(null);
   };
 
   const onOpenChange = (o: boolean) => {
@@ -148,11 +149,11 @@ export function RequestDialog({
 
   const submit = async () => {
     if (!valid) {
-      setError(true);
+      setError("validation");
       return;
     }
     setSubmitting(true);
-    setError(false);
+    setError(null);
     const ok = await submitLead({
       intent,
       language: lang,
@@ -164,7 +165,7 @@ export function RequestDialog({
     if (ok) {
       setDone(true);
       track("form_submit", { intent, ...(buttonLabel ? { buttonLabel } : {}) });
-    } else setError(true);
+    } else setError("delivery");
   };
 
   return (
@@ -237,7 +238,8 @@ export function RequestDialog({
                 </div>
               ))}
 
-              {error && <p className="text-sm text-red-400">{f.errorRequired}</p>}
+              {error === "delivery" && <LeadDeliveryError />}
+              {error === "validation" && <p role="alert" className="text-sm text-red-400">{f.errorRequired}</p>}
 
               <Button
                 onClick={submit}

@@ -285,7 +285,8 @@ const en = {
     send: "Send message", sending: "Sending…",
     sentTitle: "Message sent", sentMsg: "Thanks — this came straight to me. I'll get back to you shortly.",
     errorMsg: "Please add your name, email and a message.",
-    deliveryErrorMsg: "We could not confirm delivery. Your message is still here. Try again or use one of the contact options on this page.",
+    deliveryErrorMsg: "We could not confirm delivery. Your message is still in the form. You can try again.",
+    telegramContact: "Message me on Telegram",
   },
   footer: {
     newsletterTitle: "Stay in the loop",
@@ -577,7 +578,8 @@ const ua: Dict = {
     send: "Надіслати повідомлення", sending: "Надсилаємо…",
     sentTitle: "Повідомлення надіслано", sentMsg: "Дякую — це надійшло напряму до мене. Скоро відповім.",
     errorMsg: "Будь ласка, вкажіть ім'я, email і повідомлення.",
-    deliveryErrorMsg: "Не вдалося підтвердити доставку. Ваше повідомлення залишилося у формі. Спробуйте ще раз або скористайтеся іншим способом зв’язку на цій сторінці.",
+    deliveryErrorMsg: "Не вдалося підтвердити надсилання. Ваше повідомлення залишилося у формі. Можете спробувати ще раз.",
+    telegramContact: "Написати в Telegram",
   },
   footer: {
     newsletterTitle: "Залишайтесь на зв'язку",
@@ -867,7 +869,8 @@ const ru: Dict = {
     send: "Отправить сообщение", sending: "Отправляем…",
     sentTitle: "Сообщение отправлено", sentMsg: "Спасибо — это пришло напрямую мне. Скоро отвечу.",
     errorMsg: "Пожалуйста, укажите имя, email и сообщение.",
-    deliveryErrorMsg: "Не удалось подтвердить доставку. Сообщение осталось в форме. Попробуйте ещё раз или воспользуйтесь другим способом связи на этой странице.",
+    deliveryErrorMsg: "Не удалось подтвердить отправку. Ваше сообщение осталось в форме. Можно попробовать ещё раз.",
+    telegramContact: "Написать в Telegram",
   },
   footer: {
     newsletterTitle: "Оставайтесь на связи",

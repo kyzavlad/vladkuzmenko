@@ -6,6 +6,7 @@ import { Calendar, Mail, Loader2, CheckCircle, Send, MessageCircle, ArrowRight }
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+import { LeadDeliveryError } from "@/components/ui/lead-delivery-error";
 import { SITE, submitLead } from "@/lib/site";
 import { useI18n } from "@/components/i18n-provider";
 import type { Lang } from "@/lib/i18n";
@@ -133,7 +134,8 @@ export function ContactSection() {
                   </div>
                   <Input aria-label={c.contactPh} name="contact" value={form.phone || ""} onChange={(event) => set("phone", event.target.value)} placeholder={c.contactPh} className="border-white/10 bg-white/5 text-white placeholder:text-gray-500" />
                   <Textarea aria-label={c.messagePh} name="message" required value={form.message || ""} onChange={(event) => set("message", event.target.value)} placeholder={c.messagePh} className="min-h-[150px] border-white/10 bg-white/5 text-white placeholder:text-gray-500" />
-                  {error && <p role="alert" className="text-sm text-red-400">{error === "delivery" ? c.deliveryErrorMsg : c.errorMsg}</p>}
+                  {error === "delivery" && <LeadDeliveryError />}
+                  {error === "validation" && <p role="alert" className="text-sm text-red-400">{c.errorMsg}</p>}
                   <Button type="submit" disabled={submitting || !valid} className="premium-button h-auto min-h-12 w-full px-6 py-3.5 text-base disabled:opacity-50">
                     {submitting ? <><Loader2 className="mr-2 h-5 w-5 animate-spin" />{c.sending}</> : <><Send className="mr-2 h-5 w-5" />{c.send}</>}
                   </Button>
