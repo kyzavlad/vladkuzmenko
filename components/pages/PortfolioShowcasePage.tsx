@@ -20,8 +20,6 @@ import { langHref } from "@/lib/i18n";
 import {
   CATEGORY_ORDER,
   CATEGORY_SHORT,
-  STATUS_TONE,
-  statusText,
   type Category,
 } from "@/lib/portfolio";
 import { CURATED_PORTFOLIO } from "@/lib/portfolio-curated";
@@ -124,28 +122,6 @@ const COPY = {
   },
 } as const;
 
-function StatusBadge({ p, locale }: { p: ShowcaseProject; locale: Locale }) {
-  const green = STATUS_TONE[p.status] === "green";
-  return (
-    <span
-      className={cn(
-        "inline-flex items-center gap-2 rounded-full border bg-white/[.035] px-3 py-1.5 text-[11px] font-semibold text-zinc-200 shadow-sm backdrop-blur-sm",
-        green
-          ? "border-emerald-300/20"
-          : "border-amber-300/20",
-      )}
-    >
-      <span
-        className={cn(
-          "h-1.5 w-1.5 shrink-0 rounded-full",
-          green ? "bg-emerald-300" : "bg-amber-300",
-        )}
-      />
-      {statusText(locale, p.status, p.statusLabel)}
-    </span>
-  );
-}
-
 function VoiceProof({ p, locale }: { p: ShowcaseProject; locale: Locale }) {
   const x = COPY[locale];
   return (
@@ -227,7 +203,6 @@ function Card({ p, locale, index }: { p: ShowcaseProject; locale: Locale; index:
 
         <div className="p-5 sm:p-7 lg:p-8">
           <div className="flex flex-wrap items-center gap-2.5">
-            <StatusBadge p={p} locale={locale} />
             <span className="rounded-full border border-white/10 bg-white/[.035] px-3 py-1.5 text-[10px] font-bold uppercase tracking-[.16em] text-amber-200/80">
               {CATEGORY_SHORT[p.category][locale]}
             </span>

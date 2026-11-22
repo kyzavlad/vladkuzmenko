@@ -7,7 +7,7 @@ import { useI18n } from "@/components/i18n-provider";
 import { cn } from "@/lib/utils";
 import { langHref, type Lang } from "@/lib/i18n";
 import { StableProjectImage } from "@/components/ui/stable-project-image";
-import { CATEGORY_ORDER, CATEGORY_SHORT, STATUS_TONE, statusText, type Category } from "@/lib/portfolio";
+import { CATEGORY_ORDER, CATEGORY_SHORT, type Category } from "@/lib/portfolio";
 import { CURATED_PORTFOLIO } from "@/lib/portfolio-curated";
 import type { ShowcaseProject } from "@/lib/portfolio-showcase";
 
@@ -79,19 +79,6 @@ const COPY: Record<Lang, {
   },
 };
 
-function StatusBadge({ project, lang }: { project: ShowcaseProject; lang: Lang }) {
-  const green = STATUS_TONE[project.status] === "green";
-  return (
-    <span className={cn(
-      "inline-flex items-center gap-2 rounded-full border bg-white/[.03] px-3 py-1.5 text-[11px] font-semibold text-zinc-300",
-      green ? "border-emerald-300/18" : "border-amber-300/18",
-    )}>
-      <span className={cn("h-1.5 w-1.5 rounded-full", green ? "bg-emerald-300" : "bg-amber-300")} />
-      {statusText(lang, project.status, project.statusLabel)}
-    </span>
-  );
-}
-
 function ProjectCard({ project, lang, index }: { project: ShowcaseProject; lang: Lang; index: number }) {
   const x = COPY[lang];
   const c = project.content[lang];
@@ -139,7 +126,6 @@ function ProjectCard({ project, lang, index }: { project: ShowcaseProject; lang:
 
         <div className="p-6 sm:p-7 lg:p-8">
           <div className="flex flex-wrap items-center gap-2.5">
-            <StatusBadge project={project} lang={lang} />
             <span className="rounded-full border border-white/[.09] bg-white/[.025] px-3 py-1.5 text-[10px] font-semibold uppercase tracking-[.14em] text-amber-200/75">{CATEGORY_SHORT[project.category][lang]}</span>
             <span className="ml-auto hidden text-[10px] tracking-[.15em] text-zinc-700 sm:block">{String(index + 1).padStart(2, "0")}</span>
           </div>
