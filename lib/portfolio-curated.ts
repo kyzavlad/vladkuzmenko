@@ -55,11 +55,6 @@ const PROFESSIONAL_STATUS: Record<string, Record<Lang, string>> = {
     ua: "Запущений клієнтський сайт",
     ru: "Запущенный клиентский сайт",
   },
-  "scratch-lab": {
-    en: "Launched client website",
-    ua: "Запущений клієнтський сайт",
-    ru: "Запущенный клиентский сайт",
-  },
   "cod-power-group": {
     en: "Platform project",
     ua: "Проєкт платформи",
