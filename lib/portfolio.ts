@@ -405,7 +405,7 @@ export const PORTFOLIO: PortfolioCard[] = [
         "outcome": "Turn a public website scan into a concrete improvement task.",
         "problem": "A site owner needs to see which pages were sampled, what triggered a finding and what to do next.",
         "built": "I built the Next.js and React interface, the TypeScript scan API and the rules that classify findings and suggest follow-up. The API reads public HTML and metadata, finds same-site pages and returns a bounded sample with its evidence.",
-        "value": "Each suggested task shows the underlying observation, confidence and implementation effort. The audit communicates what was sampled so a reviewer can check the scope.",
+        "value": "The gallery shows a public-page screenshot and two formatted views of a live run on my site. It sampled five pages, passed 12 checks and flagged one. The suggested task includes the evidence, confidence and estimated effort.",
         "result": "In a production run on my own site, VisibilityOS sampled five pages and returned a prioritized recommendation with evidence. The example below shows the dated output.",
         "capabilities": [
           "Next.js",
@@ -423,7 +423,7 @@ export const PORTFOLIO: PortfolioCard[] = [
         "outcome": "Перетворює перевірку відкритого сайту на конкретне завдання з покращення.",
         "problem": "Власнику сайту потрібно бачити, які сторінки перевірили, що саме спричинило зауваження і яку дію варто зробити далі.",
         "built": "Я розробив інтерфейс на Next.js і React, API перевірки на TypeScript і правила для класифікації результатів та пропозиції наступних дій. API читає відкритий HTML і метадані та повертає обмежену вибірку сторінок сайту з доказами.",
-        "value": "Кожне запропоноване завдання містить спостереження, рівень впевненості й оцінку складності. У звіті видно, на яких сторінках ґрунтується висновок.",
+        "value": "У галереї є скриншот відкритої сторінки й два подання результату реального запуску на моєму сайті. Вибірка охопила п’ять сторінок. 12 перевірок пройдено, одна дала зауваження. У запропонованому завданні є докази, рівень упевненості й оцінка складності.",
         "result": "Під час запуску на робочій версії мого сайту VisibilityOS перевірив п’ять сторінок і повернув пріоритетну рекомендацію з доказами. Нижче наведено результат із датою.",
         "capabilities": [
           "Next.js",
@@ -441,7 +441,7 @@ export const PORTFOLIO: PortfolioCard[] = [
         "outcome": "Превращает проверку открытого сайта в конкретную задачу по улучшению.",
         "problem": "Владельцу сайта важно видеть, какие страницы проверили, что вызвало замечание и какое изменение стоит сделать.",
         "built": "Разработал интерфейс на Next.js и React, API проверки на TypeScript и правила, которые классифицируют замечания и предлагают следующий шаг. API читает открытый HTML и метаданные и возвращает ограниченную выборку страниц сайта с доказательствами.",
-        "value": "Каждая задача содержит исходное наблюдение, уровень уверенности и оценку трудоёмкости. По отчёту можно сверить, на каких страницах основан вывод.",
+        "value": "В галерее показаны скриншот публичной страницы и два представления результатов живого запуска на моём сайте. В выборке из пяти страниц пройдено 12 проверок и отмечено одно замечание. В предлагаемой задаче есть доказательство, уровень уверенности и оценка трудоёмкости.",
         "result": "На рабочей версии моего сайта VisibilityOS проверил пять страниц и вернул приоритетную рекомендацию с доказательствами. Ниже показан результат с датой запуска.",
         "capabilities": [
           "Next.js",
