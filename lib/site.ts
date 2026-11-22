@@ -7,6 +7,8 @@ const WEBHOOK_URL =
   process.env.NEXT_PUBLIC_LEAD_WEBHOOK_URL ||
   "https://n8n.vladkuzmenko.com/webhook/website-lead";
 
+const LEAD_REQUEST_TIMEOUT_MS = 15_000;
+
 export const SITE = {
   name: "Vlad Kuzmenko",
   domain: "vladkuzmenko.com",
@@ -51,7 +53,8 @@ function collectUtm(): Record<string, string> {
  * Callers should always pass at least an `intent`. Returns true only after the intake confirms a persisted record.
  */
 export async function submitLead(
-  payload: Record<string, unknown>
+  payload: Record<string, unknown>,
+  signal?: AbortSignal,
 ): Promise<boolean> {
   const enriched = {
     source: SITE.domain,
@@ -70,6 +73,7 @@ export async function submitLead(
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(enriched),
+      signal,
     });
     if (!res.ok) return false;
     const receipt: unknown = await res.json();
@@ -78,8 +82,39 @@ export async function submitLead(
     return result.ok === true && result.status === "persisted" &&
       typeof result.leadId === "string" && result.leadId.startsWith("WEB-");
   } catch (err) {
-    console.error("submitLead failed", err);
+    if (!signal?.aborted) console.error("submitLead failed", err);
     return false;
   }
+}
+
+/** Retain the request ID while an unchanged draft has no confirmed delivery. */
+export function createLeadSubmitter() {
+  let pending: { key: string; requestId: string; result?: Promise<boolean> } | undefined;
+
+  return (payload: Record<string, unknown>): Promise<boolean> => {
+    const key = JSON.stringify(payload);
+    if (pending?.key !== key) {
+      const randomBytes = globalThis.crypto.getRandomValues(new Uint8Array(16));
+      const requestId = Array.from(randomBytes, (byte) => byte.toString(16).padStart(2, "0")).join("");
+      pending = { key, requestId };
+    }
+
+    const attempt = pending;
+    if (attempt.result) return attempt.result;
+
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), LEAD_REQUEST_TIMEOUT_MS);
+    attempt.result = submitLead({ ...payload, requestId: attempt.requestId }, controller.signal)
+      .then((received) => {
+        if (received && pending === attempt) pending = undefined;
+        return received;
+      })
+      .finally(() => {
+        clearTimeout(timeout);
+        attempt.result = undefined;
+      });
+
+    return attempt.result;
+  };
 }
 

@@ -13,7 +13,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { LeadDeliveryError } from "@/components/ui/lead-delivery-error";
 import { Loader2, CheckCircle, ArrowRight } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { submitLead } from "@/lib/site";
+import { createLeadSubmitter } from "@/lib/site";
 import { track } from "@/lib/analytics";
 import { useI18n } from "@/components/i18n-provider";
 
@@ -122,6 +122,7 @@ export function RequestDialog({
   };
 
   const [open, setOpen] = useState(false);
+  const [sendLead] = useState(createLeadSubmitter);
   const [data, setData] = useState<Record<string, string>>(seed);
   const [submitting, setSubmitting] = useState(false);
   const [done, setDone] = useState(false);
@@ -148,13 +149,14 @@ export function RequestDialog({
   };
 
   const submit = async () => {
+    if (submitting) return;
     if (!valid) {
       setError("validation");
       return;
     }
     setSubmitting(true);
     setError(null);
-    const ok = await submitLead({
+    const ok = await sendLead({
       intent,
       language: lang,
       ...(buttonLabel ? { buttonLabel } : {}),

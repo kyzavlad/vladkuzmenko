@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { LeadDeliveryError } from "@/components/ui/lead-delivery-error";
-import { SITE, submitLead } from "@/lib/site";
+import { SITE, createLeadSubmitter } from "@/lib/site";
 import { useI18n } from "@/components/i18n-provider";
 import type { Lang } from "@/lib/i18n";
 
@@ -55,6 +55,7 @@ export function ContactSection() {
   const c = t.contact;
   const x = COPY[lang];
   const [form, setForm] = useState<Record<string, string>>({});
+  const [sendLead] = useState(createLeadSubmitter);
   const [submitting, setSubmitting] = useState(false);
   const [done, setDone] = useState(false);
   const [error, setError] = useState<"validation" | "delivery" | null>(null);
@@ -70,7 +71,7 @@ export function ContactSection() {
     }
     setSubmitting(true);
     setError(null);
-    const ok = await submitLead({
+    const ok = await sendLead({
       intent: "general_request",
       language: lang,
       buttonLabel: "Contact - Send message",
