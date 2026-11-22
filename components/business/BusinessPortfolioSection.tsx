@@ -125,12 +125,7 @@ function ProjectCard({ project, lang, index }: { project: ShowcaseProject; lang:
         </div>
 
         <div className="p-6 sm:p-7 lg:p-8">
-          <div className="flex flex-wrap items-center gap-2.5">
-            <span className="rounded-full border border-white/[.09] bg-white/[.025] px-3 py-1.5 text-[10px] font-semibold uppercase tracking-[.14em] text-amber-200/75">{CATEGORY_SHORT[project.category][lang]}</span>
-            <span className="ml-auto hidden text-[10px] tracking-[.15em] text-zinc-700 sm:block">{String(index + 1).padStart(2, "0")}</span>
-          </div>
-
-          <h3 className="mt-5 text-2xl font-semibold tracking-[-.03em] text-white sm:text-3xl">{c.name}</h3>
+          <h3 className="text-2xl font-semibold tracking-[-.03em] text-white sm:text-3xl">{c.name}</h3>
           <p className="mt-2 text-xs text-zinc-600">{c.type}</p>
           <p className="mt-4 text-sm font-medium leading-7 text-zinc-200 sm:text-base">{c.outcome}</p>
 

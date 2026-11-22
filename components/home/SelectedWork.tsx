@@ -5,7 +5,6 @@ import { ArrowRight, ExternalLink, Layers3, ShieldCheck } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useI18n } from "@/components/i18n-provider";
 import { langHref } from "@/lib/i18n";
-import { CATEGORY_SHORT } from "@/lib/portfolio";
 import { CURATED_PORTFOLIO, HOME_FEATURED, type CuratedProject } from "@/lib/portfolio-curated";
 import { track } from "@/lib/analytics";
 import { StableProjectImage } from "@/components/ui/stable-project-image";
@@ -60,12 +59,7 @@ function Preview({ p, locale, i }: { p: CuratedProject; locale: Locale; i: numbe
         </div>
 
         <div className="p-5 sm:p-7 lg:p-8">
-          <div className="flex flex-wrap items-center gap-2.5">
-            <span className="rounded-full border border-white/10 bg-white/[.035] px-3 py-1.5 text-[10px] font-bold uppercase tracking-[.16em] text-amber-200/80">{CATEGORY_SHORT[p.category][locale]}</span>
-            <span className="ml-auto hidden text-[10px] font-semibold uppercase tracking-[.16em] text-zinc-700 sm:block">{String(i + 1).padStart(2, "0")}</span>
-          </div>
-
-          <h3 className="mt-5 text-3xl font-black tracking-[-.035em] sm:text-4xl">{c.name}</h3>
+          <h3 className="text-3xl font-black tracking-[-.035em] sm:text-4xl">{c.name}</h3>
           <p className="mt-2 text-sm text-zinc-500">{c.type}</p>
           <p className="mt-4 text-base font-medium leading-7 text-zinc-100 sm:text-lg">{c.outcome}</p>
 

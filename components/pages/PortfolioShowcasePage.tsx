@@ -8,7 +8,6 @@ import {
   Layers3,
   Mic2,
   ShieldCheck,
-  Sparkles,
 } from "lucide-react";
 import { Header } from "@/components/ui/header";
 import { FooterSection } from "@/components/FooterSection";
@@ -31,16 +30,12 @@ type Filter = "all" | Category;
 
 const COPY = {
   en: {
-    eyebrow: "Projects",
-    title: "Completed projects and working products",
+    title: "Full-stack platforms and products",
     intro:
-      "SaaS platforms, AI products, automation, marketplaces and websites built for specific business and product needs.",
-    honesty: "Each project shows what was built and its current stage.",
+      "I build SaaS products, marketplaces and business software from the interface through to the backend and integrations. Explore the workflows and decisions behind each project.",
     discuss: "Discuss my project",
     browse: "Browse projects",
     all: "All work",
-    allTitle: "Projects",
-    allIntro: "A selection of client work, internal products and interface projects.",
     result: "Result",
     problem: "Task",
     built: "What was built",
@@ -53,7 +48,6 @@ const COPY = {
       "The assistant answers the first contact in natural speech, handles the opening conversation and routes the request to the right next step.",
     noVisual: "Project",
     noVisualBody: "A separate visual preview is not available for this project.",
-    projects: "projects",
     ctaEyebrow: "Portfolio",
     ctaTitle: "Have a product or process you want to improve?",
     ctaBody:
@@ -61,16 +55,12 @@ const COPY = {
     cta: "Describe the project",
   },
   ua: {
-    eyebrow: "Проєкти",
-    title: "Завершені проєкти та працюючі продукти",
+    title: "Full-stack розробка платформ і продуктів",
     intro:
-      "SaaS-платформи, AI-продукти, автоматизація, маркетплейси та сайти, створені під конкретні задачі бізнесу й продукту.",
-    honesty: "Для кожного проєкту показано, що було зроблено та на якому етапі він знаходиться.",
+      "Створюю SaaS, маркетплейси й сервіси для бізнесу. Від інтерфейсу та особистого кабінету до серверної логіки й інтеграцій. У кейсах показую, як працюють ключові сценарії.",
     discuss: "Обговорити мій проєкт",
     browse: "Переглянути проєкти",
     all: "Усі роботи",
-    allTitle: "Проєкти",
-    allIntro: "Добірка клієнтських робіт, власних продуктів та інтерфейсних проєктів.",
     result: "Результат",
     problem: "Завдання",
     built: "Що зроблено",
@@ -83,7 +73,6 @@ const COPY = {
       "Асистент відповідає на перший контакт природною мовою, веде початковий діалог і спрямовує звернення до правильного наступного кроку.",
     noVisual: "Проєкт",
     noVisualBody: "Для цього проєкту немає окремого візуального прев’ю.",
-    projects: "проєктів",
     ctaEyebrow: "Portfolio",
     ctaTitle: "Є продукт або процес, який хочете покращити?",
     ctaBody:
@@ -91,16 +80,12 @@ const COPY = {
     cta: "Описати проєкт",
   },
   ru: {
-    eyebrow: "Проекты",
-    title: "Завершённые проекты и работающие продукты",
+    title: "Full-stack разработка платформ и сервисов",
     intro:
-      "SaaS-платформы, AI-продукты, автоматизация, маркетплейсы и сайты, созданные под конкретные задачи бизнеса и продукта.",
-    honesty: "Для каждого проекта показано, что было сделано и на каком этапе он находится.",
+      "Создаю SaaS-продукты, маркетплейсы и системы для бизнеса. В кейсах показываю, как устроены интерфейсы, личные кабинеты, серверная логика и интеграции.",
     discuss: "Обсудить мой проект",
     browse: "Посмотреть проекты",
     all: "Все работы",
-    allTitle: "Проекты",
-    allIntro: "Подборка клиентских работ, собственных продуктов и интерфейсных проектов.",
     result: "Результат",
     problem: "Задача",
     built: "Что сделано",
@@ -113,7 +98,6 @@ const COPY = {
       "Ассистент отвечает на первый контакт естественной речью, ведёт начальный диалог и направляет обращение к правильному следующему шагу.",
     noVisual: "Проект",
     noVisualBody: "Для этого проекта нет отдельного визуального превью.",
-    projects: "проектов",
     ctaEyebrow: "Portfolio",
     ctaTitle: "Есть продукт или процесс, который хотите улучшить?",
     ctaBody:
@@ -202,16 +186,7 @@ function Card({ p, locale, index }: { p: ShowcaseProject; locale: Locale; index:
         </div>
 
         <div className="p-5 sm:p-7 lg:p-8">
-          <div className="flex flex-wrap items-center gap-2.5">
-            <span className="rounded-full border border-white/10 bg-white/[.035] px-3 py-1.5 text-[10px] font-bold uppercase tracking-[.16em] text-amber-200/80">
-              {CATEGORY_SHORT[p.category][locale]}
-            </span>
-            <span className="ml-auto hidden text-[10px] font-semibold uppercase tracking-[.16em] text-zinc-700 sm:block">
-              {String(index + 1).padStart(2, "0")}
-            </span>
-          </div>
-
-          <h2 className="mt-5 text-3xl font-black tracking-[-.035em] sm:text-4xl">{c.name}</h2>
+          <h2 className="text-3xl font-black tracking-[-.035em] sm:text-4xl">{c.name}</h2>
           <p className="mt-2 text-sm text-zinc-500">{c.type}</p>
           <p className="mt-4 text-base font-medium leading-7 text-zinc-100 sm:text-lg">{c.outcome}</p>
 
@@ -301,16 +276,8 @@ export function PortfolioShowcasePage() {
         <section className="relative overflow-hidden border-b border-white/[.07] pb-14 pt-36 sm:pb-20 sm:pt-40">
           <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_15%_0%,rgba(245,190,52,.13),transparent_34%),radial-gradient(circle_at_85%_20%,rgba(109,40,217,.09),transparent_28%)]" />
           <div className="container relative z-10 mx-auto max-w-6xl px-4">
-            <span className="inline-flex items-center gap-2 rounded-full border border-amber-300/20 bg-amber-300/[.06] px-3 py-1.5 text-xs font-semibold uppercase tracking-[.18em] text-amber-200">
-              <Sparkles className="h-3.5 w-3.5" />
-              {x.eyebrow}
-            </span>
-            <h1 className="mt-5 max-w-5xl text-4xl font-black tracking-[-.045em] sm:text-6xl lg:text-7xl">{x.title}</h1>
+            <h1 className="max-w-5xl text-4xl font-black tracking-[-.045em] sm:text-6xl lg:text-7xl">{x.title}</h1>
             <p className="mt-6 max-w-3xl text-lg leading-8 text-zinc-300 sm:text-xl">{x.intro}</p>
-            <p className="mt-5 flex max-w-3xl items-start gap-2.5 text-sm leading-6 text-zinc-500">
-              <ShieldCheck className="mt-0.5 h-4 w-4 shrink-0 text-amber-300" />
-              {x.honesty}
-            </p>
             <div className="mt-8 flex flex-col gap-3 sm:flex-row">
               <RequestDialog
                 intent="portfolio_request"
@@ -380,15 +347,6 @@ export function PortfolioShowcasePage() {
 
         <section className="py-12 sm:py-16 lg:py-20">
           <div className="container mx-auto max-w-6xl px-4">
-            <div className="mb-8 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
-              <div>
-                <p className="text-xs font-bold uppercase tracking-[.2em] text-amber-300/70">{x.all}</p>
-                <h2 className="mt-2 text-3xl font-black tracking-tight sm:text-4xl">{x.allTitle}</h2>
-                <p className="mt-3 max-w-2xl text-sm leading-6 text-zinc-500">{x.allIntro}</p>
-              </div>
-              <span className="text-xs text-zinc-600">{filtered.length} {x.projects}</span>
-            </div>
-
             <div className="space-y-6 sm:space-y-8">
               {filtered.map((project, index) => (
                 <Card key={project.key} p={project} locale={locale} index={index} />
