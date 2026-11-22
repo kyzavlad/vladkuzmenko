@@ -13,10 +13,16 @@ const nextConfig = {
     loaderFile: './image-loader.js'
   },
   async redirects() {
+    const portfolioRedirects = [
+      { from: '/work/visibilityos-audit', to: '/work' },
+      { from: '/work/dacha-tv', to: '/work' },
+      { from: '/work/appointment-booking-automation', to: '/work/portfolio-enquiry-intake' },
+    ];
+
     return ['', '/ua', '/ru'].flatMap((prefix) =>
-      ['visibilityos-audit', 'dacha-tv', 'appointment-booking-automation'].map((slug) => ({
-        source: `${prefix}/work/${slug}`,
-        destination: `${prefix}/work`,
+      portfolioRedirects.map(({ from, to }) => ({
+        source: `${prefix}${from}`,
+        destination: `${prefix}${to}`,
         permanent: false,
       })),
     );
