@@ -31,11 +31,9 @@ export function businessPortfolioJsonLd(lang: Lang) {
           url: caseUrl,
           ...(project.shots[0] ? { image: `https://vladkuzmenko.com${project.shots[0]}` } : {}),
           ...(project.liveUrl ? { sameAs: project.liveUrl } : {}),
-          creator: {
-            "@type": "Person",
-            name: "Vlad Kuzmenko",
-            url: "https://vladkuzmenko.com",
-          },
+          ...(!project.gallery && {
+            creator: { "@type": "Person", name: "Vlad Kuzmenko", url: "https://vladkuzmenko.com" },
+          }),
         },
       };
     }),

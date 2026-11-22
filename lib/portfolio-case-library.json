@@ -1,0 +1,1504 @@
+[
+  {
+    "slug": "zentra",
+    "category": "platforms",
+    "scope": "design",
+    "copy": {
+      "en": {
+        "name": "ZENTRA",
+        "type": "EV charging platform",
+        "description": "One product for charging-network operators and drivers. The web console covers station status, usage, revenue and energy. The mobile experience lets drivers locate a charger, navigate to it and check charging progress."
+      },
+      "ua": {
+        "name": "ZENTRA",
+        "type": "Платформа зарядних станцій",
+        "description": "Один продукт для операторів мережі зарядних станцій і водіїв. Вебпанель показує стан станцій, завантаженість, виручку й енергоспоживання. У застосунку водій може знайти станцію, прокласти маршрут і перевірити заряд."
+      },
+      "ru": {
+        "name": "ZENTRA",
+        "type": "Платформа для сети зарядных станций",
+        "description": "ZENTRA — платформа для управления сетью зарядных станций. Веб-панель помогает оператору отслеживать состояние станций, загрузку сети, выручку и энергопотребление. В мобильном приложении водитель может выбрать зарядку, построить маршрут и проверить уровень заряда автомобиля. Для платформы также разработаны фирменный стиль и дизайн сайта."
+      }
+    },
+    "images": [
+      "04-vehicle-dashboard.webp",
+      "05-station-finder.webp",
+      "06-station-details.webp",
+      "07-station-network.webp",
+      "08-light-interface.webp",
+      "09-charger-controls.webp",
+      "10-route-planning.webp",
+      "11-charger-analytics.webp",
+      "12-reservations.webp",
+      "13-charging-location.webp",
+      "14-website-overview.webp",
+      "15-electric-vehicle.webp",
+      "16-cap.webp",
+      "17-watch.webp",
+      "18-app-icon.webp",
+      "19-symbol-grid.webp",
+      "20-color-palette.webp",
+      "21-roadside-billboard.webp",
+      "22-charging-poster.webp",
+      "23-street-billboard.webp",
+      "24-app-store.webp",
+      "01-mobile-experience.webp",
+      "02-route-in-hand.webp",
+      "03-operator-workstation.webp"
+    ]
+  },
+  {
+    "slug": "buildora",
+    "category": "ai_products",
+    "scope": "design",
+    "copy": {
+      "en": {
+        "name": "Buildora",
+        "type": "AI website builder",
+        "description": "Turn a text prompt into a website layout and refine it in a visual editor. The case brings together a block library, device previews, a design system and marketing materials."
+      },
+      "ua": {
+        "name": "Buildora",
+        "type": "Конструктор сайтів зі ШІ",
+        "description": "Текстовий запит стає макетом сайту, який можна доопрацювати у візуальному редакторі. Кейс об’єднує бібліотеку блоків, попередній перегляд на різних екранах, дизайн-систему й промоматеріали."
+      },
+      "ru": {
+        "name": "Buildora",
+        "type": "Конструктор сайтов с ИИ",
+        "description": "Buildora — конструктор сайтов без кода, в котором ИИ собирает макет по текстовому запросу. Для проекта спроектировали визуальный редактор с библиотекой блоков и предпросмотром на разных экранах. Также подготовили дизайн-систему, макеты промосайта и графику для соцсетей."
+      }
+    },
+    "images": [
+      "09-responsive-layouts.webp",
+      "10-landing-page.webp",
+      "11-editor-monitor-detail.webp",
+      "12-editor-tools.webp",
+      "13-app-in-dock.webp",
+      "14-generated-section.webp",
+      "15-css-panel.webp",
+      "16-browser-address-bar.webp",
+      "17-prompt-field.webp",
+      "18-prompt-options.webp",
+      "19-inspector-tabs.webp",
+      "20-section-templates.webp",
+      "21-content-inspector.webp",
+      "22-style-inspector.webp",
+      "23-page-outline.webp",
+      "24-layer-tree.webp",
+      "25-assets-panel.webp",
+      "26-editor-features.webp",
+      "27-idea-to-layout.webp",
+      "28-colour-system.webp",
+      "29-social-cover.webp",
+      "30-facade.webp",
+      "31-social-post.webp",
+      "32-social-portrait.webp",
+      "33-template-artwork.webp",
+      "34-symbol.webp",
+      "01-ai-workspace.webp",
+      "02-stage-symbol.webp",
+      "03-illuminated-sign.webp",
+      "04-team-at-work.webp",
+      "05-ai-generation.webp",
+      "06-generated-wireframe.webp",
+      "07-visual-editor.webp",
+      "08-component-library.webp"
+    ]
+  },
+  {
+    "slug": "velora-energy",
+    "category": "platforms",
+    "scope": "design",
+    "copy": {
+      "en": {
+        "name": "Velora",
+        "type": "Solar monitoring platform",
+        "description": "Solar production, consumption and battery levels across web and mobile. The project also includes a responsive website with an energy solutions catalog and a matching brand system."
+      },
+      "ua": {
+        "name": "Velora",
+        "type": "Платформа моніторингу сонячних станцій",
+        "description": "Сонячна генерація, споживання й заряд батарей у вебкабінеті та застосунку. Кейс також охоплює адаптивний сайт із каталогом енергетичних рішень і фірмовий стиль."
+      },
+      "ru": {
+        "name": "Velora",
+        "type": "Платформа мониторинга солнечных станций",
+        "description": "Velora — платформа для мониторинга солнечных электростанций. В веб-панели и мобильном приложении видно, сколько энергии вырабатывают панели, сколько расходуется и какой заряд остаётся в аккумуляторах. Для проекта также разработаны фирменный стиль и адаптивный сайт с каталогом энергетических решений."
+      }
+    },
+    "images": [
+      "05-monitoring-dashboard.webp",
+      "06-generation-analytics.webp",
+      "07-mobile-overview.webp",
+      "08-mobile-energy-storage.webp",
+      "09-mobile-analytics.webp",
+      "10-generation-and-consumption.webp",
+      "11-energy-flow.webp",
+      "12-system-alerts.webp",
+      "13-storage-status.webp",
+      "14-panel-heatmap.webp",
+      "15-power-meter.webp",
+      "16-consumption-pattern.webp",
+      "17-charge-and-discharge.webp",
+      "18-battery-level.webp",
+      "19-solar-panel-layers.webp",
+      "20-website-homepage.webp",
+      "21-mobile-website.webp",
+      "22-website-solutions.webp",
+      "23-dashboard-overview.webp",
+      "24-smartwatch.webp",
+      "25-field-engineer.webp",
+      "26-symbol-construction.webp",
+      "27-brand-palette.webp",
+      "28-mobile-user.webp",
+      "29-solar-installation.webp",
+      "30-energy-site.webp",
+      "31-residential-solar.webp",
+      "32-urban-energy.webp",
+      "33-rooftop-system.webp",
+      "34-turbine-mechanism.webp",
+      "35-energy-storage-detail.webp",
+      "36-home-inverter.webp",
+      "37-home-power-unit.webp",
+      "38-field-badge.webp",
+      "39-symbol-transparent.webp",
+      "01-solar-rooftops.webp",
+      "02-energy-analytics.webp",
+      "03-website-on-display.webp",
+      "04-smartwatch.webp"
+    ]
+  },
+  {
+    "slug": "cilo",
+    "category": "ai_products",
+    "scope": "design",
+    "copy": {
+      "en": {
+        "name": "Cilo",
+        "type": "AI commerce support workspace",
+        "description": "Support conversations, order history and churn risk on one screen. The interface shows how the assistant suggests replies and how the team can relate support activity to retention and revenue. The gallery covers web, mobile and the marketing site."
+      },
+      "ua": {
+        "name": "Cilo",
+        "type": "ШІ-кабінет підтримки для e-commerce",
+        "description": "Листування, історія замовлень і ризик втрати клієнта на одному екрані. Інтерфейс показує підказки для відповідей та зв’язок звернень з утриманням і виручкою. Галерея охоплює вебверсію, мобільні екрани й промосайт."
+      },
+      "ru": {
+        "name": "Cilo",
+        "type": "ИИ-кабинет поддержки для e-commerce",
+        "description": "Cilo — ИИ-помощник для службы поддержки интернет-магазина. В одном окне команда видит переписку, историю заказов и риск ухода покупателя. ИИ предлагает ответ, а панель аналитики показывает, как обращения связаны с удержанием клиентов и выручкой. Для проекта разработаны дизайн веб- и мобильного приложений, промосайт и монохромный фирменный стиль."
+      }
+    },
+    "images": [
+      "07-shared-inbox.webp",
+      "08-customer-profile.webp",
+      "09-inbox-dark.webp",
+      "10-customer-profile-dark.webp",
+      "11-mobile-signup.webp",
+      "12-mobile-performance.webp",
+      "13-mobile-inbox.webp",
+      "14-mobile-customer-history.webp",
+      "15-desktop-onboarding.webp",
+      "16-website-homepage.webp",
+      "17-light-and-dark-tablets.webp",
+      "18-performance-trend.webp",
+      "19-revenue-card.webp",
+      "20-customer-cohorts.webp",
+      "21-reasons-for-contact.webp",
+      "22-churn-alert.webp",
+      "23-customer-context.webp",
+      "24-ticket-preview.webp",
+      "25-mobile-conversation.webp",
+      "26-mobile-support-impact.webp",
+      "27-website-introduction.webp",
+      "28-website-product-features.webp",
+      "29-dashboard-workspace.webp",
+      "30-light-and-dark-overview.webp",
+      "31-laptop-portrait.webp",
+      "32-order-context-portrait.webp",
+      "33-team-badge.webp",
+      "34-app-icon-dark.webp",
+      "35-app-icon-light.webp",
+      "36-tonal-scale.webp",
+      "37-color-palette.webp",
+      "38-brand-sign.webp",
+      "39-browser-tab.webp",
+      "40-app-launcher.webp",
+      "41-symbol-white-transparent.webp",
+      "42-identity-board.webp",
+      "43-app-icon-sequence.webp",
+      "44-customer-story.webp",
+      "01-dashboard-on-laptop.webp",
+      "02-marketing-website.webp",
+      "03-tablet-workspace.webp",
+      "04-brand-badge.webp",
+      "05-analytics-dashboard.webp",
+      "06-dashboard-dark.webp"
+    ]
+  },
+  {
+    "slug": "ramtabs",
+    "category": "platforms",
+    "scope": "design",
+    "copy": {
+      "en": {
+        "name": "Ramtabs",
+        "type": "Finance operations platform",
+        "description": "Budgets, supplier payments and spend approvals in one workspace. A summary charts revenue and costs, while transaction tables support a closer look. The case also covers the public site and brand."
+      },
+      "ua": {
+        "name": "Ramtabs",
+        "type": "Фінансова платформа для команди",
+        "description": "Бюджети, платежі постачальникам і погодження витрат в одному кабінеті. Зведення показує доходи й витрати, а таблиці дозволяють переглянути окремі операції. У кейсі також є сайт і фірмовий стиль."
+      },
+      "ru": {
+        "name": "Ramtabs",
+        "type": "Платформа финансовых операций",
+        "description": "Финансовая платформа для операционной команды. В интерфейсе связаны бюджеты, платежи поставщикам и согласование расходов. Для быстрых решений спроектировали сводку с динамикой выручки и затрат, а для детального разбора — таблицы операций. В кейс также входят сайт и фирменный стиль."
+      }
+    },
+    "images": [
+      "01.webp",
+      "02.webp",
+      "03.webp",
+      "04.webp",
+      "05.webp",
+      "06.webp",
+      "07.webp",
+      "08.webp",
+      "09.webp",
+      "10.webp",
+      "11.webp",
+      "12.webp",
+      "13.webp",
+      "14.webp",
+      "15.webp",
+      "16.webp",
+      "17.webp",
+      "18.webp",
+      "19.webp"
+    ]
+  },
+  {
+    "slug": "studyx",
+    "category": "platforms",
+    "scope": "design",
+    "copy": {
+      "en": {
+        "name": "Studyx",
+        "type": "Learning platform",
+        "description": "A learning platform with distinct workflows for instructors and students. Instructors create courses and monitor the group. Students follow lessons and track their own progress. The case includes role-specific dashboards, analytics and a public website."
+      },
+      "ua": {
+        "name": "Studyx",
+        "type": "Освітня платформа",
+        "description": "Освітня платформа з окремими сценаріями для викладачів і студентів. Викладач створює курс і бачить прогрес групи, студент проходить уроки й відстежує результати. У кейсі є обидва кабінети, аналітика й публічний сайт."
+      },
+      "ru": {
+        "name": "Studyx",
+        "type": "Платформа онлайн-обучения",
+        "description": "Система онлайн-обучения с двумя рабочими сценариями. Преподаватель создаёт курс и видит прогресс группы, а студент открывает уроки и следит за своими результатами. Для платформы спроектировали кабинеты, аналитику и публичный сайт."
+      }
+    },
+    "images": [
+      "01.webp",
+      "02.webp",
+      "03.webp",
+      "04.webp",
+      "05.webp",
+      "06.webp",
+      "07.webp",
+      "08.webp",
+      "09.webp",
+      "10.webp",
+      "11.webp",
+      "12.webp",
+      "13.webp",
+      "14.webp",
+      "15.webp",
+      "16.webp",
+      "17.webp",
+      "18.webp",
+      "19.webp",
+      "20.webp",
+      "21.webp",
+      "22.webp",
+      "23.webp",
+      "24.webp",
+      "25.webp",
+      "26.webp",
+      "27.webp",
+      "28.webp",
+      "29.webp",
+      "30.webp"
+    ]
+  },
+  {
+    "slug": "shipline",
+    "category": "platforms",
+    "scope": "design",
+    "copy": {
+      "en": {
+        "name": "ShipLine",
+        "type": "Shipping management platform",
+        "description": "A shipping console that guides operators through creating a shipment. Recipient details, carrier and delivery status are available from the same workspace. The case includes operator screens, a website and brand assets."
+      },
+      "ua": {
+        "name": "ShipLine",
+        "type": "Платформа керування доставкою",
+        "description": "Кабінет покроково веде оператора через створення відправлення. Дані одержувача, перевізника та статус доставки доступні в одному місці. Кейс охоплює робочі екрани, сайт і фірмові матеріали."
+      },
+      "ru": {
+        "name": "ShipLine",
+        "type": "Платформа управления доставкой",
+        "description": "Веб-платформа для управления доставкой. Создание отправления разбито на шаги, а сведения о получателе, перевозчике и статусе доступны в одном кабинете. Для проекта подготовили интерфейс оператора, сайт и фирменные материалы."
+      }
+    },
+    "images": [
+      "01.webp",
+      "02.webp",
+      "03.webp",
+      "04.webp",
+      "05.webp",
+      "06.webp",
+      "07.webp",
+      "08.webp",
+      "09.webp",
+      "10.webp",
+      "11.webp",
+      "12.webp",
+      "13.webp",
+      "14.webp",
+      "15.webp",
+      "16.webp",
+      "17.webp",
+      "18.webp",
+      "19.webp"
+    ]
+  },
+  {
+    "slug": "axella",
+    "category": "platforms",
+    "scope": "design",
+    "copy": {
+      "en": {
+        "name": "Axella",
+        "type": "Property management SaaS",
+        "description": "Occupancy, rent and maintenance in one workspace. From the property record, a manager can check lease dates, find overdue rent and open a service request. The gallery shows the administration interface, public website and brand system."
+      },
+      "ua": {
+        "name": "Axella",
+        "type": "SaaS для керування нерухомістю",
+        "description": "Заповнюваність, оренда й обслуговування в одному кабінеті. З картки об’єкта керівник може перевірити строк оренди, знайти прострочений платіж і створити заявку. Галерея показує кабінет, публічний сайт і фірмовий стиль."
+      },
+      "ru": {
+        "name": "Axella",
+        "type": "SaaS для управления недвижимостью",
+        "description": "Axella собирает объекты, арендаторов, платежи и заявки на ремонт в одном кабинете. На главной панели управляющий видит заполняемость и поступления, а в карточке объекта может проверить срок аренды, найти просроченный платёж или создать заявку на обслуживание. В кейсе показаны кабинет управляющего, публичный сайт и фирменный стиль продукта."
+      }
+    },
+    "images": [
+      "04-dashboard-monitor.webp",
+      "05-properties-tablet.webp",
+      "06-property-catalog.webp",
+      "07-property-details.webp",
+      "08-tenants-laptop.webp",
+      "09-tenant-profile.webp",
+      "10-maintenance-board.webp",
+      "11-landing-monitor.webp",
+      "12-landing-full.webp",
+      "13-interface-overview.webp",
+      "14-dashboard-detail.webp",
+      "15-wordmark-and-symbol.webp",
+      "16-app-icon.webp",
+      "17-lifestyle.webp",
+      "18-type-specimen.webp",
+      "19-color-palette.webp",
+      "20-street-display.webp",
+      "21-branded-cup.webp",
+      "22-social-profile.webp",
+      "23-exterior-sign.webp",
+      "24-architecture-billboard.webp",
+      "25-shopping-bag.webp",
+      "26-business-cards.webp",
+      "27-station-posters.webp",
+      "28-architectural-symbol.webp",
+      "01-architecture.webp",
+      "02-dashboard.webp",
+      "03-interface-grid.webp"
+    ],
+    "designSource": {
+      "name": "Chapter 24, Md Ali Akbar Hosen, Asad Sumon",
+      "url": "https://www.behance.net/gallery/245668645/Axella-Property-Management-SaaS"
+    }
+  },
+  {
+    "slug": "tripaxis",
+    "category": "platforms",
+    "scope": "design",
+    "copy": {
+      "en": {
+        "name": "TripAxis",
+        "type": "Travel booking platform",
+        "description": "A booking journey from discovering destinations and hotels to opening an itinerary and boarding pass on a phone. The web and mobile experiences share their cards, filters and navigation."
+      },
+      "ua": {
+        "name": "TripAxis",
+        "type": "Платформа бронювання подорожей",
+        "description": "Шлях від вибору напрямку й готелю до бронювання, маршруту й посадкового талона в телефоні. Вебверсія та мобільні екрани використовують спільні картки, фільтри й навігацію."
+      },
+      "ru": {
+        "name": "TripAxis",
+        "type": "Платформа бронирования путешествий",
+        "description": "Сервис для планирования путешествий. От выбора направления и отеля пользователь переходит к бронированию, а затем открывает маршрут и посадочный талон с телефона. Веб-версия и мобильные экраны используют общие карточки, фильтры и навигацию."
+      }
+    },
+    "images": [
+      "01.webp",
+      "02.webp",
+      "03.webp",
+      "04.webp",
+      "05.webp",
+      "06.webp",
+      "07.webp",
+      "08.webp",
+      "09.webp",
+      "10.webp",
+      "11.webp",
+      "12.webp",
+      "13.webp",
+      "14.webp",
+      "15.webp"
+    ]
+  },
+  {
+    "slug": "clinify",
+    "category": "platforms",
+    "scope": "design",
+    "copy": {
+      "en": {
+        "name": "Clinify",
+        "type": "Clinic operations platform",
+        "description": "Appointments, patient records and workload in one clinic console. The case shows the administrator workspace, a responsive website and brand materials for the clinic."
+      },
+      "ua": {
+        "name": "Clinify",
+        "type": "Платформа для клініки",
+        "description": "Запис на прийом, дані пацієнтів і завантаженість в одному кабінеті. Кейс показує інтерфейс адміністратора, адаптивний сайт і фірмові матеріали клініки."
+      },
+      "ru": {
+        "name": "Clinify",
+        "type": "Платформа для клиники",
+        "description": "Платформа для работы клиники. Администратор видит расписание приёмов, данные пациентов и сводку по загрузке. В кейсе представлены интерфейс рабочего кабинета, адаптивный сайт и фирменные материалы для клиники."
+      }
+    },
+    "images": [
+      "01.webp",
+      "02.webp",
+      "03.webp",
+      "04.webp",
+      "05.webp",
+      "06.webp",
+      "07.webp",
+      "08.webp",
+      "09.webp",
+      "10.webp",
+      "11.webp",
+      "12.webp",
+      "13.webp",
+      "14.webp"
+    ]
+  },
+  {
+    "slug": "academos",
+    "category": "platforms",
+    "scope": "design",
+    "copy": {
+      "en": {
+        "name": "Academos",
+        "type": "AI-enabled learning platform",
+        "description": "A learning platform that brings courses, activity metrics and student progress into the organizer's dashboard. The case includes workspaces, course screens and a public catalog page."
+      },
+      "ua": {
+        "name": "Academos",
+        "type": "Освітня платформа з ШІ",
+        "description": "Освітня платформа об’єднує курси, активність і прогрес студентів у кабінеті організатора. Кейс охоплює робочі кабінети, екрани курсу й публічний каталог."
+      },
+      "ru": {
+        "name": "Academos",
+        "type": "Образовательная платформа с ИИ",
+        "description": "Платформа онлайн-обучения с ИИ-функциями. Панель организатора объединяет курсы, показатели активности и прогресс учащихся. Для проекта подготовили кабинеты, интерфейс курса и публичную страницу с каталогом."
+      }
+    },
+    "images": [
+      "01.webp",
+      "02.webp",
+      "03.webp",
+      "04.webp",
+      "05.webp",
+      "06.webp",
+      "07.webp",
+      "08.webp",
+      "09.webp",
+      "10.webp",
+      "11.webp",
+      "12.webp",
+      "13.webp",
+      "14.webp"
+    ]
+  },
+  {
+    "slug": "mailpilot",
+    "category": "platforms",
+    "scope": "design",
+    "copy": {
+      "en": {
+        "name": "MailPilot",
+        "type": "Email marketing platform",
+        "description": "Campaign setup, audience segments and email A/B tests in one marketing workspace. The case includes campaign screens, analytics tables and the public product site."
+      },
+      "ua": {
+        "name": "MailPilot",
+        "type": "Платформа email-маркетингу",
+        "description": "Налаштування кампаній, сегменти аудиторії та A/B-тести листів в одному кабінеті. Кейс охоплює екрани розсилок, аналітичні таблиці й публічний сайт продукту."
+      },
+      "ru": {
+        "name": "MailPilot",
+        "type": "Платформа email-маркетинга",
+        "description": "Платформа для email-маркетинга. В рабочем кабинете команда формирует сегменты аудитории, настраивает кампании и сравнивает варианты писем в A/B-тестах. Спроектированы экраны рассылок, аналитические таблицы и сайт продукта."
+      }
+    },
+    "images": [
+      "01.webp",
+      "02.webp",
+      "03.webp",
+      "04.webp",
+      "05.webp",
+      "06.webp",
+      "07.webp",
+      "08.webp",
+      "09.webp",
+      "10.webp",
+      "11.webp",
+      "12.webp",
+      "13.webp"
+    ]
+  },
+  {
+    "slug": "hivohr",
+    "category": "platforms",
+    "scope": "design",
+    "copy": {
+      "en": {
+        "name": "HivoHR",
+        "type": "HR operations platform",
+        "description": "Employee data and team performance on one HR dashboard. The case includes operational screens, summary charts and a product site. An orange identity connects the interface with print and digital materials."
+      },
+      "ua": {
+        "name": "HivoHR",
+        "type": "Платформа для HR-команди",
+        "description": "Дані співробітників і показники команди на одній панелі. У кейсі показано робочі екрани, діаграми та сайт продукту. Помаранчевий фірмовий знак пов’язує інтерфейс із цифровими й друкованими матеріалами."
+      },
+      "ru": {
+        "name": "HivoHR",
+        "type": "Платформа для HR-команды",
+        "description": "HR-платформа, которая собирает сведения о сотрудниках и показатели команды на одной панели. Спроектированы рабочие экраны кадрового кабинета, сводные диаграммы и сайт продукта. Оранжевый фирменный знак связывает интерфейс с печатными и цифровыми материалами."
+      }
+    },
+    "images": [
+      "01.webp",
+      "02.webp",
+      "03.webp",
+      "04.webp",
+      "05.webp",
+      "06.webp",
+      "07.webp",
+      "08.webp",
+      "09.webp",
+      "10.webp",
+      "11.webp",
+      "12.webp",
+      "13.webp",
+      "14.webp"
+    ]
+  },
+  {
+    "slug": "teamtrek",
+    "category": "platforms",
+    "scope": "design",
+    "copy": {
+      "en": {
+        "name": "TeamTrek",
+        "type": "People operations platform",
+        "description": "An employee directory, organization chart, calendar and HR analytics in one workspace. A manager can move from the overview into a department or its schedule."
+      },
+      "ua": {
+        "name": "TeamTrek",
+        "type": "Платформа керування командою",
+        "description": "Каталог співробітників, організаційна структура, календар і кадрова аналітика в одному кабінеті. Зі зведення керівник може перейти до підрозділу або його розкладу."
+      },
+      "ru": {
+        "name": "TeamTrek",
+        "type": "Платформа управления командой",
+        "description": "HR-система для управления командой. Спроектированы каталог сотрудников, организационная структура, календарь и кадровая аналитика. Из общей сводки менеджер может перейти к составу подразделения или расписанию."
+      }
+    },
+    "images": [
+      "01.webp",
+      "02.webp",
+      "03.webp",
+      "04.webp",
+      "05.webp",
+      "06.webp",
+      "07.webp",
+      "08.webp",
+      "09.webp",
+      "10.webp",
+      "11.webp",
+      "12.webp",
+      "13.webp",
+      "14.webp",
+      "15.webp",
+      "16.webp",
+      "17.webp",
+      "18.webp",
+      "19.webp"
+    ]
+  },
+  {
+    "slug": "axora",
+    "category": "platforms",
+    "scope": "design",
+    "copy": {
+      "en": {
+        "name": "Axora",
+        "type": "Team project workspace",
+        "description": "Project tasks in a list and calendar, with details and discussion in the same workspace. The case shows the navigation, main working screens and public product page."
+      },
+      "ua": {
+        "name": "Axora",
+        "type": "Кабінет проєктної команди",
+        "description": "Проєктні завдання у списку й календарі, деталі та обговорення в тому самому кабінеті. Кейс показує навігацію, робочі екрани й публічну сторінку."
+      },
+      "ru": {
+        "name": "Axora",
+        "type": "Кабинет проектной команды",
+        "description": "Рабочее пространство для проектной команды. Задачи представлены в списке и календаре, а детали и переписка доступны из того же кабинета. Для продукта продумали структуру навигации, рабочие экраны и публичную страницу."
+      }
+    },
+    "images": [
+      "01.webp",
+      "02.webp",
+      "03.webp",
+      "04.webp",
+      "05.webp",
+      "06.webp",
+      "07.webp",
+      "08.webp",
+      "09.webp",
+      "10.webp",
+      "11.webp",
+      "12.webp",
+      "13.webp",
+      "14.webp",
+      "15.webp",
+      "16.webp",
+      "17.webp"
+    ]
+  },
+  {
+    "slug": "learnaxis",
+    "category": "platforms",
+    "scope": "design",
+    "copy": {
+      "en": {
+        "name": "LearnAxis",
+        "type": "Learning management system",
+        "description": "A dashboard for tracking learning activity and drilling into an individual course or learner. The case includes core instructor screens and the catalog page."
+      },
+      "ua": {
+        "name": "LearnAxis",
+        "type": "Система керування навчанням",
+        "description": "Панель для відстеження навчальної активності з переходом до окремого курсу або студента. Кейс охоплює основні екрани викладача й каталог."
+      },
+      "ru": {
+        "name": "LearnAxis",
+        "type": "Система управления обучением",
+        "description": "Система управления онлайн-обучением. На панели преподавателя видны учебные показатели и активность, а в таблицах можно перейти к конкретному курсу или учащемуся. Спроектированы основные экраны платформы и страница каталога."
+      }
+    },
+    "images": [
+      "01.webp",
+      "02.webp",
+      "03.webp",
+      "04.webp",
+      "05.webp",
+      "06.webp",
+      "07.webp",
+      "08.webp",
+      "09.webp",
+      "10.webp",
+      "11.webp",
+      "12.webp",
+      "13.webp",
+      "14.webp",
+      "15.webp"
+    ]
+  },
+  {
+    "slug": "leadflow",
+    "category": "automation",
+    "scope": "design",
+    "copy": {
+      "en": {
+        "name": "Leadflow",
+        "type": "Sales CRM",
+        "description": "A sales workspace for reviewing the pipeline, opening individual lead records and comparing team activity with dashboard metrics. The gallery includes the CRM interface, website and branded materials."
+      },
+      "ua": {
+        "name": "Leadflow",
+        "type": "CRM для продажів",
+        "description": "Кабінет продажів для перегляду воронки, карток лідів і показників команди. У галереї є інтерфейс CRM, сайт і фірмові матеріали."
+      },
+      "ru": {
+        "name": "Leadflow",
+        "type": "CRM для отдела продаж",
+        "description": "CRM для отдела продаж. В кабинете можно просмотреть воронку, открыть данные лида и сопоставить активность команды с показателями на главной панели. Для продукта подготовили дизайн интерфейса, сайта и фирменных носителей."
+      }
+    },
+    "images": [
+      "01.webp",
+      "02.webp",
+      "03.webp",
+      "04.webp",
+      "05.webp",
+      "06.webp",
+      "07.webp",
+      "08.webp",
+      "09.webp",
+      "10.webp",
+      "11.webp",
+      "12.webp",
+      "13.webp",
+      "14.webp",
+      "15.webp"
+    ]
+  },
+  {
+    "slug": "efficia",
+    "category": "automation",
+    "scope": "design",
+    "copy": {
+      "en": {
+        "name": "Efficia",
+        "type": "Sales CRM workspace",
+        "description": "A sales CRM interface with a dashboard, record lists, detail views and a calendar. The screens allow the team to move from a general overview to one contact or task."
+      },
+      "ua": {
+        "name": "Efficia",
+        "type": "Кабінет CRM для продажів",
+        "description": "Інтерфейс CRM для продажів із панеллю, списками записів, картками й календарем. Екрани допомагають перейти від загального огляду до конкретного контакту чи завдання."
+      },
+      "ru": {
+        "name": "Efficia",
+        "type": "Кабинет CRM для продаж",
+        "description": "CRM для сопровождения продаж. Для команды спроектировали рабочую панель, списки записей, карточки и календарь. Эти представления позволяют перейти от общей картины к конкретному контакту или задаче."
+      }
+    },
+    "images": [
+      "01.webp",
+      "02.webp",
+      "03.webp",
+      "04.webp",
+      "05.webp",
+      "06.webp",
+      "07.webp",
+      "08.webp",
+      "09.webp",
+      "10.webp",
+      "11.webp",
+      "12.webp",
+      "13.webp",
+      "14.webp",
+      "15.webp",
+      "16.webp"
+    ],
+    "designSource": {
+      "name": "Chapter 24",
+      "url": "https://www.behance.net/gallery/215393465/SaaS-CRM-UXUI-Design-Case-Study-Efficia"
+    }
+  },
+  {
+    "slug": "project-management-workspace",
+    "category": "platforms",
+    "scope": "design",
+    "copy": {
+      "en": {
+        "name": "Project Management Workspace",
+        "type": "Project operations web app",
+        "description": "Projects, a task board, team members and a timeline in one planning workspace. The case shows its dark interface and key working screens."
+      },
+      "ua": {
+        "name": "Кабінет керування проєктами",
+        "type": "Вебзастосунок для проєктних команд",
+        "description": "Проєкти, дошка завдань, учасники й часова шкала в одному кабінеті. Кейс показує темний інтерфейс і ключові робочі екрани."
+      },
+      "ru": {
+        "name": "Кабинет управления проектами",
+        "type": "Веб-приложение для проектных команд",
+        "description": "Веб-приложение для планирования командной работы. Структура кабинета объединяет проекты, доску задач, сотрудников и временную шкалу. Для продукта подготовили тёмный интерфейс и его ключевые рабочие экраны."
+      }
+    },
+    "images": [
+      "01.webp",
+      "02.webp",
+      "03.webp",
+      "04.webp",
+      "05.webp",
+      "06.webp",
+      "07.webp",
+      "08.webp"
+    ]
+  },
+  {
+    "slug": "healthcare-workspace",
+    "category": "platforms",
+    "scope": "design",
+    "copy": {
+      "en": {
+        "name": "Healthcare Workspace",
+        "type": "Patient records web app",
+        "description": "A patient records workspace with diagnosis history, an anatomical diagram and medical statistics. The interface leads from a general overview to an individual patient record."
+      },
+      "ua": {
+        "name": "Медичний кабінет",
+        "type": "Вебзастосунок для роботи з пацієнтами",
+        "description": "Кабінет для роботи з даними пацієнтів, історією діагнозів, анатомічною схемою та медичною статистикою. Зі зведення можна перейти до картки пацієнта."
+      },
+      "ru": {
+        "name": "Медицинский кабинет",
+        "type": "Веб-приложение для работы с пациентами",
+        "description": "Веб-приложение для работы с данными пациентов. Спроектированы история диагнозов с анатомической схемой, список пациентов и экран медицинской статистики. От общей сводки можно перейти к показателям конкретного пациента."
+      }
+    },
+    "images": [
+      "01.webp",
+      "02.webp",
+      "03.webp",
+      "04.webp",
+      "05.webp",
+      "06.webp",
+      "07.webp"
+    ]
+  },
+  {
+    "slug": "cryptofy",
+    "category": "web3",
+    "scope": "design",
+    "copy": {
+      "en": {
+        "name": "Cryptofy",
+        "type": "Crypto finance platform",
+        "description": "Balances, assets and operations in one crypto finance dashboard across desktop and mobile. The case shows light and dark themes and the public product page."
+      },
+      "ua": {
+        "name": "Cryptofy",
+        "type": "Криптофінансова платформа",
+        "description": "Баланс, активи й операції на одній панелі для вебу та мобільних пристроїв. У кейсі показано світлу й темну теми та публічну сторінку продукту."
+      },
+      "ru": {
+        "name": "Cryptofy",
+        "type": "Криптофинансовая платформа",
+        "description": "Криптофинансовая платформа с веб-кабинетом и мобильным интерфейсом. Баланс, активы и операции собраны в общей панели. Спроектированы светлая и тёмная темы, а также страница, которая знакомит с продуктом."
+      }
+    },
+    "images": [
+      "01.webp",
+      "02.webp",
+      "03.webp",
+      "04.webp",
+      "05.webp",
+      "06.webp",
+      "07.webp",
+      "08.webp",
+      "09.webp",
+      "10.webp",
+      "11.webp",
+      "12.webp",
+      "13.webp",
+      "14.webp"
+    ]
+  },
+  {
+    "slug": "finai",
+    "category": "ai_products",
+    "scope": "design",
+    "copy": {
+      "en": {
+        "name": "FinAI",
+        "type": "AI finance web app",
+        "description": "A finance dashboard with AI features, transaction history and forms for managing funds. Actions such as adding money sit beside the balance and latest transactions."
+      },
+      "ua": {
+        "name": "FinAI",
+        "type": "Фінансовий вебзастосунок зі ШІ",
+        "description": "Фінансова панель із ШІ-функціями, історією операцій і формами керування коштами. Поповнення й інші дії розташовані поруч із балансом та останніми транзакціями."
+      },
+      "ru": {
+        "name": "FinAI",
+        "type": "Финансовое веб-приложение с ИИ",
+        "description": "Финансовое веб-приложение с ИИ-функциями. Спроектированы главная панель, история операций и формы управления средствами, включая пополнение. Основные действия вынесены рядом с балансом и последними транзакциями."
+      }
+    },
+    "images": [
+      "01.webp",
+      "02.webp",
+      "03.webp",
+      "04.webp",
+      "05.webp",
+      "06.webp",
+      "07.webp",
+      "08.webp",
+      "09.webp",
+      "10.webp",
+      "11.webp",
+      "12.webp"
+    ]
+  },
+  {
+    "slug": "fluorine",
+    "category": "websites",
+    "scope": "site",
+    "copy": {
+      "en": {
+        "name": "Fluorine",
+        "type": "AI product website · Framer",
+        "description": "A responsive website for an AI service that turns team discussions into trackable tasks. Product examples show how it works and lead visitors from discovery to their first session. The pages were assembled in Framer."
+      },
+      "ua": {
+        "name": "Fluorine",
+        "type": "Сайт ШІ-продукту · Framer",
+        "description": "Адаптивний сайт ШІ-сервісу, що перетворює командні обговорення на завдання. Приклади показують роботу продукту та ведуть від знайомства до першого запуску. Сторінки зібрано у Framer."
+      },
+      "ru": {
+        "name": "Fluorine",
+        "type": "Сайт ИИ-продукта · Framer",
+        "description": "Сайт для ИИ-сервиса, который превращает командные обсуждения в задачи и помогает отслеживать договорённости. Для сайта продумали путь от знакомства с продуктом до первого запуска, показали рабочее пространство на реальных примерах и собрали адаптивные страницы во Framer."
+      }
+    },
+    "images": [
+      "01.webp",
+      "02.webp",
+      "03.webp",
+      "04.webp",
+      "05.webp",
+      "06.webp",
+      "07.webp",
+      "08.webp",
+      "09.webp",
+      "10.webp"
+    ]
+  },
+  {
+    "slug": "thrust",
+    "category": "websites",
+    "scope": "site",
+    "copy": {
+      "en": {
+        "name": "Thrust",
+        "type": "AI agency website · Framer",
+        "description": "A responsive agency site that connects services, case studies and articles to a project inquiry. The layouts and mobile pages were built in Framer."
+      },
+      "ua": {
+        "name": "Thrust",
+        "type": "Сайт ШІ-агенції · Framer",
+        "description": "Адаптивний сайт агенції, який об’єднує послуги, кейси й публікації та веде до заявки. Макети й мобільні сторінки реалізовано у Framer."
+      },
+      "ru": {
+        "name": "Thrust",
+        "type": "Сайт ИИ-агентства · Framer",
+        "description": "Адаптивный сайт для агентства, которое внедряет ИИ-решения. Услуги, кейсы и публикации собраны в единую структуру с переходом к заявке. Дизайн реализован во Framer, включая мобильные версии страниц."
+      }
+    },
+    "images": [
+      "01.webp",
+      "02.webp",
+      "03.webp",
+      "04.webp",
+      "05.webp",
+      "06.webp",
+      "07.webp",
+      "08.webp",
+      "09.webp",
+      "10.webp",
+      "11.webp",
+      "12.webp",
+      "13.webp",
+      "14.webp",
+      "15.webp",
+      "16.webp",
+      "17.webp"
+    ]
+  },
+  {
+    "slug": "nexfin-ai",
+    "category": "mobile",
+    "scope": "design",
+    "copy": {
+      "en": {
+        "name": "NexFin AI",
+        "type": "AI finance app",
+        "description": "A mobile finance app where balances, charts and an AI conversation share one dark interface. The gallery shows the mobile flows, components and visual identity."
+      },
+      "ua": {
+        "name": "NexFin AI",
+        "type": "Фінансовий застосунок із ШІ",
+        "description": "Мобільний застосунок поєднує фінансове зведення, графіки та розмову з ШІ в одному темному інтерфейсі. Галерея показує сценарії, компоненти й оформлення продукту."
+      },
+      "ru": {
+        "name": "NexFin AI",
+        "type": "Финансовое приложение с ИИ",
+        "description": "Финансовое приложение с ИИ-помощником. Тёмный интерфейс объединяет сводку по деньгам, графики и диалог с ассистентом. Проработаны мобильные сценарии, набор визуальных компонентов и оформление продукта."
+      }
+    },
+    "images": [
+      "01.webp",
+      "02.webp",
+      "03.webp",
+      "04.webp",
+      "05.webp",
+      "06.webp",
+      "07.webp",
+      "08.webp",
+      "09.webp",
+      "10.webp",
+      "11.webp",
+      "12.webp",
+      "13.webp",
+      "14.webp",
+      "15.webp"
+    ]
+  },
+  {
+    "slug": "nexfin-mobile",
+    "category": "mobile",
+    "scope": "design",
+    "copy": {
+      "en": {
+        "name": "NexFin Mobile",
+        "type": "Mobile banking workspace",
+        "description": "A mobile finance workspace for switching between cards, checking balances and opening transactions and activity charts. The gallery shows the card navigation and payment details."
+      },
+      "ua": {
+        "name": "NexFin Mobile",
+        "type": "Мобільний фінансовий кабінет",
+        "description": "Мобільний кабінет для вибору картки, перевірки балансу, перегляду операцій і графіків активності. Галерея показує навігацію між картками та деталі платежів."
+      },
+      "ru": {
+        "name": "NexFin Mobile",
+        "type": "Мобильный финансовый кабинет",
+        "description": "Мобильный финансовый кабинет. Пользователь выбирает карту, проверяет баланс и просматривает операции и график активности. В кейсе показаны навигация по картам, детализация платежей и визуальные компоненты приложения."
+      }
+    },
+    "images": [
+      "01.webp",
+      "02.webp",
+      "03.webp",
+      "04.webp",
+      "05.webp",
+      "06.webp"
+    ]
+  },
+  {
+    "slug": "video-sharing-mobile",
+    "category": "mobile",
+    "scope": "design",
+    "copy": {
+      "en": {
+        "name": "Short Video App",
+        "type": "Mobile video experience",
+        "description": "A mobile experience for watching and publishing short clips. The feed, publication screen and profile grid keep vertical video central throughout the main flows."
+      },
+      "ua": {
+        "name": "Застосунок коротких відео",
+        "type": "Мобільний відеосервіс",
+        "description": "Мобільний сервіс для перегляду й публікації коротких відео. Стрічка, екран публікації та сітка профілю зберігають вертикальне відео в центрі уваги."
+      },
+      "ru": {
+        "name": "Приложение коротких видео",
+        "type": "Мобильный видеосервис",
+        "description": "Мобильный сервис для просмотра и публикации роликов. Проработаны лента, экран публикации и профиль пользователя с сеткой контента. Вертикальный формат сохраняет видео в центре внимания при переходе между экранами."
+      }
+    },
+    "images": [
+      "01.webp",
+      "02.webp",
+      "03.webp",
+      "04.webp",
+      "05.webp",
+      "06.webp",
+      "07.webp",
+      "08.webp"
+    ]
+  },
+  {
+    "slug": "digital-art-marketplace",
+    "category": "web3",
+    "scope": "design",
+    "copy": {
+      "en": {
+        "name": "Digital Art Marketplace",
+        "type": "NFT marketplace",
+        "description": "A digital art marketplace that takes visitors from curated collections to creator profiles and individual works with a price and purchase action. A dark canvas keeps the artwork in focus."
+      },
+      "ua": {
+        "name": "Маркетплейс цифрового мистецтва",
+        "type": "NFT-маркетплейс",
+        "description": "Маркетплейс цифрового мистецтва веде від добірок до профілю автора й картки роботи з ціною та дією купівлі. Темне тло залишає мистецтво в центрі уваги."
+      },
+      "ru": {
+        "name": "Маркетплейс цифрового искусства",
+        "type": "NFT-маркетплейс",
+        "description": "Маркетплейс цифрового искусства. Лендинг ведёт к подборкам работ, профилю автора и карточке NFT с ценой и действием покупки. Тёмный фон оставляет главным элементом интерфейса сами работы."
+      }
+    },
+    "images": [
+      "01.webp",
+      "02.webp",
+      "03.webp",
+      "04.webp",
+      "05.webp",
+      "06.webp",
+      "07.webp",
+      "08.webp",
+      "09.webp"
+    ]
+  },
+  {
+    "slug": "fintech-website",
+    "category": "websites",
+    "scope": "design",
+    "copy": {
+      "en": {
+        "name": "Fintech Website",
+        "type": "Financial services website",
+        "description": "A website that introduces a financial service and guides visitors to registration. Compact sections, blue accents and registration forms share one visual system."
+      },
+      "ua": {
+        "name": "Сайт фінансового сервісу",
+        "type": "Сайт фінансових послуг",
+        "description": "Сайт знайомить із фінансовими послугами й веде до реєстрації. Компактні блоки, сині акценти та форми введення даних складають єдину візуальну систему."
+      },
+      "ru": {
+        "name": "Сайт финансового сервиса",
+        "type": "Сайт финансовых услуг",
+        "description": "Сайт знакомит посетителя с финансовыми услугами и переводит его к регистрации. Проработаны первый экран, последовательность разделов и формы ввода данных. Визуальная система сочетает компактные текстовые блоки и синие акценты."
+      }
+    },
+    "images": [
+      "01.webp",
+      "02.webp",
+      "03.webp",
+      "04.webp",
+      "05.webp",
+      "06.webp",
+      "07.webp",
+      "08.webp",
+      "09.webp"
+    ]
+  },
+  {
+    "slug": "growthgenius",
+    "category": "web3",
+    "scope": "design",
+    "copy": {
+      "en": {
+        "name": "GrowthGenius",
+        "type": "Personal finance web app",
+        "description": "A personal finance dashboard that brings accounts, transaction history and time-based analytics together. The core screens share a visual system for tracking money movement."
+      },
+      "ua": {
+        "name": "GrowthGenius",
+        "type": "Вебзастосунок для особистих фінансів",
+        "description": "Кабінет особистих фінансів поєднує рахунки, історію операцій і аналітику за період. Основні екрани мають спільну візуальну систему для відстеження руху коштів."
+      },
+      "ru": {
+        "name": "GrowthGenius",
+        "type": "Веб-приложение для личных финансов",
+        "description": "Веб-приложение для личных финансов. Панель объединяет счета, историю операций и аналитику, чтобы пользователь мог проследить движение денег за выбранный период. Для основных сценариев подготовлены рабочие экраны и единая визуальная система."
+      }
+    },
+    "images": [
+      "01.webp",
+      "02.webp",
+      "03.webp",
+      "04.webp",
+      "05.webp",
+      "06.webp",
+      "07.webp"
+    ]
+  },
+  {
+    "slug": "finance-wallet",
+    "category": "web3",
+    "scope": "design",
+    "copy": {
+      "en": {
+        "name": "Finance Wallet",
+        "type": "Personal finance dashboard",
+        "description": "Accounts, bank cards and recent transactions in one personal finance workspace. Chart colors relate categories of spending to the overall total."
+      },
+      "ua": {
+        "name": "Фінансовий гаманець",
+        "type": "Панель особистих фінансів",
+        "description": "Рахунки, банківські картки й останні операції в одному кабінеті. Кольори діаграм допомагають співвіднести категорії витрат із загальною сумою."
+      },
+      "ru": {
+        "name": "Финансовый кошелёк",
+        "type": "Панель личных финансов",
+        "description": "Веб-кабинет для личных финансов. На одном экране собраны баланс по счетам, банковские карты, последние операции и движение денег. Цвета диаграмм помогают соотнести категории расходов с общей суммой."
+      }
+    },
+    "images": [
+      "01.webp",
+      "02.webp",
+      "03.webp",
+      "04.webp"
+    ]
+  },
+  {
+    "slug": "seveers",
+    "category": "web3",
+    "scope": "design",
+    "copy": {
+      "en": {
+        "name": "Seveers",
+        "type": "Cash flow dashboard",
+        "description": "A dashboard that shows income, expenses, balance and payments together. Charts show movement over time and a nearby transaction table provides detail."
+      },
+      "ua": {
+        "name": "Seveers",
+        "type": "Панель руху коштів",
+        "description": "Панель показує надходження, витрати, залишок і платежі. Графіки відображають динаміку, а таблиця операцій допомагає розібратися в деталях."
+      },
+      "ru": {
+        "name": "Seveers",
+        "type": "Панель движения средств",
+        "description": "Финансовая панель, на которой видны поступления, расходы, остаток и текущие платежи. Диаграммы показывают динамику, а рядом расположена таблица операций для более детального просмотра."
+      }
+    },
+    "images": [
+      "01.webp",
+      "02.webp",
+      "03.webp",
+      "04.webp",
+      "05.webp",
+      "06.webp",
+      "07.webp",
+      "08.webp",
+      "09.webp"
+    ]
+  },
+  {
+    "slug": "medlife",
+    "category": "mobile",
+    "scope": "design",
+    "copy": {
+      "en": {
+        "name": "Medlife",
+        "type": "Meditation app",
+        "description": "A mobile experience that takes users from choosing a practice by mood to starting a session. A dark palette, nature illustrations and large controls keep attention on the practice."
+      },
+      "ua": {
+        "name": "Medlife",
+        "type": "Застосунок для медитації",
+        "description": "Мобільний застосунок веде від вибору практики за настроєм до початку сеансу. Темна палітра, природні ілюстрації та великі елементи керування допомагають зосередитися на медитації."
+      },
+      "ru": {
+        "name": "Medlife",
+        "type": "Приложение для медитации",
+        "description": "Мобильное приложение для медитации. Интерфейс ведёт от выбора практики по настроению до экрана сеанса. Тёмная палитра, природные иллюстрации и крупные элементы управления помогают сосредоточиться на самой практике."
+      }
+    },
+    "images": [
+      "01.webp",
+      "02.webp",
+      "03.webp",
+      "04.webp",
+      "05.webp",
+      "06.webp",
+      "07.webp",
+      "08.webp",
+      "09.webp",
+      "10.webp",
+      "11.webp",
+      "12.webp"
+    ]
+  },
+  {
+    "slug": "yumzio",
+    "category": "mobile",
+    "scope": "design",
+    "copy": {
+      "en": {
+        "name": "Yumzio",
+        "type": "Food delivery app",
+        "description": "A mobile ordering flow from browsing dishes by category to reviewing a dish and placing an order. The screens and brand graphics carry the same visual system through checkout."
+      },
+      "ua": {
+        "name": "Yumzio",
+        "type": "Застосунок доставки їжі",
+        "description": "Мобільний сценарій від вибору категорії та перегляду страви до оформлення замовлення. Екрани й фірмова графіка зберігають єдиний стиль на всіх кроках."
+      },
+      "ru": {
+        "name": "Yumzio",
+        "type": "Приложение доставки еды",
+        "description": "Мобильный сервис доставки еды. Главный экран помогает выбрать блюдо по категории, карточка показывает детали, а оформление заказа продолжает тот же сценарий. Для приложения подготовлены экраны заказа и фирменная графика."
+      }
+    },
+    "images": [
+      "01.webp",
+      "02.webp",
+      "03.webp",
+      "04.webp",
+      "05.webp",
+      "06.webp",
+      "07.webp",
+      "08.webp",
+      "09.webp",
+      "10.webp",
+      "11.webp",
+      "12.webp",
+      "13.webp"
+    ]
+  },
+  {
+    "slug": "food-delivery-mobile",
+    "category": "mobile",
+    "scope": "design",
+    "copy": {
+      "en": {
+        "name": "Food Delivery App",
+        "type": "Mobile ordering experience",
+        "description": "A mobile order flow from categories to a restaurant, dish and checkout. Illustrations and a consistent card system connect the home screen, catalog and order."
+      },
+      "ua": {
+        "name": "Застосунок доставки їжі",
+        "type": "Мобільний сценарій замовлення",
+        "description": "Мобільний сценарій від категорій до закладу, страви й оформлення замовлення. Ілюстрації й система карток об’єднують головний екран, каталог і замовлення."
+      },
+      "ru": {
+        "name": "Приложение доставки еды",
+        "type": "Мобильный сценарий заказа",
+        "description": "Мобильный интерфейс для выбора и заказа еды. От поиска по категориям пользователь переходит к заведению и блюду. Для главного экрана, каталога и заказа подготовлены иллюстрации и единая система карточек."
+      }
+    },
+    "images": [
+      "01.webp",
+      "02.webp",
+      "03.webp",
+      "04.webp",
+      "05.webp",
+      "06.webp"
+    ]
+  },
+  {
+    "slug": "kickerz",
+    "category": "ecommerce",
+    "scope": "design",
+    "copy": {
+      "en": {
+        "name": "Kickerz",
+        "type": "Sneaker storefront",
+        "description": "A sneaker storefront that takes shoppers from new releases and collections to a specific model, size selection and cart. Large product photography drives the catalog."
+      },
+      "ua": {
+        "name": "Kickerz",
+        "type": "Інтернет-магазин кросівок",
+        "description": "Інтернет-магазин кросівок веде від новинок і добірок до моделі, вибору розміру та кошика. У каталозі головну роль відіграють фотографії товарів."
+      },
+      "ru": {
+        "name": "Kickerz",
+        "type": "Интернет-магазин кроссовок",
+        "description": "Интернет-магазин кроссовок. Покупатель переходит от новинок и тематических подборок к карточке модели, выбору размера и корзине. Для магазина спроектировали витрину и каталог с акцентом на фотографии товара."
+      }
+    },
+    "images": [
+      "01.webp",
+      "02.webp",
+      "03.webp",
+      "04.webp",
+      "05.webp",
+      "06.webp",
+      "07.webp",
+      "08.webp",
+      "09.webp"
+    ]
+  },
+  {
+    "slug": "skincare-store",
+    "category": "ecommerce",
+    "scope": "design",
+    "copy": {
+      "en": {
+        "name": "Skincare Store",
+        "type": "Skincare storefront",
+        "description": "A skincare store organized around what the shopper's skin needs. The case shows product collections, item pages, cart and checkout, with ingredient photography tying the catalog to the homepage."
+      },
+      "ua": {
+        "name": "Магазин доглядової косметики",
+        "type": "Інтернет-магазин косметики",
+        "description": "Магазин пропонує підбір за потребою шкіри. У кейсі є добірки, картки товарів, кошик і оформлення замовлення. Фотографії інгредієнтів пов’язують каталог із головною сторінкою."
+      },
+      "ru": {
+        "name": "Магазин уходовой косметики",
+        "type": "Интернет-магазин косметики",
+        "description": "Интернет-магазин, в котором выбор начинается с потребности кожи и продолжается в каталоге средств. Подготовлены товарные подборки, карточки косметики, корзина и оформление заказа. Фотографии ингредиентов связывают каталог с главной страницей."
+      }
+    },
+    "images": [
+      "01.webp",
+      "02.webp",
+      "03.webp",
+      "04.webp",
+      "05.webp",
+      "06.webp",
+      "07.webp",
+      "08.webp",
+      "09.webp",
+      "10.webp",
+      "11.webp"
+    ]
+  },
+  {
+    "slug": "membo",
+    "category": "ecommerce",
+    "scope": "design",
+    "copy": {
+      "en": {
+        "name": "Membo",
+        "type": "Fresh food storefront",
+        "description": "A storefront for ordering fresh fruit boxes. The homepage introduces the offer before the shopper moves to the catalog, with fruit illustrations connecting the experience."
+      },
+      "ua": {
+        "name": "Membo",
+        "type": "Онлайн-вітрина свіжих продуктів",
+        "description": "Вітрина для замовлення наборів свіжих фруктів. Головна сторінка знайомить із пропозицією та веде до каталогу, а фруктові ілюстрації об’єднують інтерфейс."
+      },
+      "ru": {
+        "name": "Membo",
+        "type": "Онлайн-витрина свежих продуктов",
+        "description": "Продуктовая витрина для заказа наборов свежих фруктов. Главная страница объясняет предложение, а каталог помогает перейти к выбору набора. Для магазина подготовлены веб-интерфейс и узнаваемая графика на основе фруктовых иллюстраций."
+      }
+    },
+    "images": [
+      "01.webp",
+      "02.webp",
+      "03.webp",
+      "04.webp",
+      "05.webp",
+      "06.webp",
+      "07.webp"
+    ]
+  }
+]

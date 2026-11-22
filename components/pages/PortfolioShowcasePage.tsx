@@ -1,14 +1,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import {
-  ArrowDown,
-  ArrowRight,
-  ExternalLink,
-  Layers3,
-  Mic2,
-  ShieldCheck,
-} from "lucide-react";
+import { ArrowDown, ArrowRight } from "lucide-react";
 import { Header } from "@/components/ui/header";
 import { FooterSection } from "@/components/FooterSection";
 import { Button } from "@/components/ui/button";
@@ -22,234 +15,49 @@ import {
   type Category,
 } from "@/lib/portfolio";
 import { CURATED_PORTFOLIO } from "@/lib/portfolio-curated";
-import type { ShowcaseProject } from "@/lib/portfolio-showcase";
-import { StableProjectImage } from "@/components/ui/stable-project-image";
+import { PortfolioProjectGrid } from "@/components/ui/portfolio-project-grid";
 
 type Locale = "en" | "ua" | "ru";
 type Filter = "all" | Category;
 
 const COPY = {
   en: {
-    title: "Full-stack platforms and products",
+    title: "Software for the way people work",
     intro:
-      "I build SaaS products, marketplaces and business software from the interface through to the backend and integrations. Explore the workflows and decisions behind each project.",
+      "Explore SaaS platforms, web products and mobile apps through their interfaces, workflows and full-stack implementations.",
     discuss: "Discuss my project",
     browse: "Browse projects",
     all: "All work",
-    result: "Result",
-    problem: "Task",
-    built: "What was built",
-    capabilities: "Key features",
-    case: "Open project",
-    live: "Open live site",
-    voiceProof: "AI voice assistant",
-    voiceProofTitle: "Voice assistant for incoming calls",
-    voiceProofBody:
-      "The assistant answers the first contact in natural speech, handles the opening conversation and routes the request to the right next step.",
-    noVisual: "Project",
-    noVisualBody: "A separate visual preview is not available for this project.",
-    ctaEyebrow: "Portfolio",
     ctaTitle: "Have a product or process you want to improve?",
     ctaBody:
       "Tell me what you want to build or improve. I’ll suggest the most practical starting point and format.",
     cta: "Describe the project",
   },
   ua: {
-    title: "Full-stack розробка платформ і продуктів",
+    title: "Цифрові продукти для щоденної роботи",
     intro:
-      "Створюю SaaS, маркетплейси й сервіси для бізнесу. Від інтерфейсу та особистого кабінету до серверної логіки й інтеграцій. У кейсах показую, як працюють ключові сценарії.",
+      "SaaS-платформи, вебсервіси й мобільні застосунки. У кейсах показано інтерфейси, робочі сценарії та приклади full-stack розробки.",
     discuss: "Обговорити мій проєкт",
     browse: "Переглянути проєкти",
     all: "Усі роботи",
-    result: "Результат",
-    problem: "Завдання",
-    built: "Що зроблено",
-    capabilities: "Ключові можливості",
-    case: "Відкрити проєкт",
-    live: "Відкрити живий сайт",
-    voiceProof: "Голосовий AI-асистент",
-    voiceProofTitle: "Асистент для вхідних дзвінків",
-    voiceProofBody:
-      "Асистент відповідає на перший контакт природною мовою, веде початковий діалог і спрямовує звернення до правильного наступного кроку.",
-    noVisual: "Проєкт",
-    noVisualBody: "Для цього проєкту немає окремого візуального прев’ю.",
-    ctaEyebrow: "Portfolio",
     ctaTitle: "Є продукт або процес, який хочете покращити?",
     ctaBody:
       "Опишіть, що хочете створити або покращити. Я запропоную практичний перший крок і відповідний формат роботи.",
     cta: "Описати проєкт",
   },
   ru: {
-    title: "Full-stack разработка платформ и сервисов",
+    title: "Цифровые продукты для ежедневной работы",
     intro:
-      "Создаю SaaS-продукты, маркетплейсы и системы для бизнеса. В кейсах показываю, как устроены интерфейсы, личные кабинеты, серверная логика и интеграции.",
+      "SaaS-платформы, веб-сервисы и мобильные приложения. В кейсах показаны интерфейсы, рабочие сценарии и примеры full-stack разработки.",
     discuss: "Обсудить мой проект",
     browse: "Посмотреть проекты",
     all: "Все работы",
-    result: "Результат",
-    problem: "Задача",
-    built: "Что сделано",
-    capabilities: "Ключевые возможности",
-    case: "Открыть проект",
-    live: "Открыть живой сайт",
-    voiceProof: "Голосовой AI-ассистент",
-    voiceProofTitle: "Ассистент для входящих звонков",
-    voiceProofBody:
-      "Ассистент отвечает на первый контакт естественной речью, ведёт начальный диалог и направляет обращение к правильному следующему шагу.",
-    noVisual: "Проект",
-    noVisualBody: "Для этого проекта нет отдельного визуального превью.",
-    ctaEyebrow: "Portfolio",
     ctaTitle: "Есть продукт или процесс, который хотите улучшить?",
     ctaBody:
       "Опишите, что хотите создать или улучшить. Я предложу практичный первый шаг и подходящий формат работы.",
     cta: "Описать проект",
   },
 } as const;
-
-function VoiceProof({ p, locale }: { p: ShowcaseProject; locale: Locale }) {
-  const x = COPY[locale];
-  return (
-    <div className="relative flex min-h-[330px] h-full overflow-hidden bg-[radial-gradient(circle_at_20%_20%,rgba(245,190,52,.16),transparent_32%),radial-gradient(circle_at_82%_70%,rgba(109,40,217,.13),transparent_36%),#050505] p-5 sm:p-7">
-      <div className="absolute inset-0 opacity-20 [background-image:linear-gradient(rgba(255,255,255,.05)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,.05)_1px,transparent_1px)] [background-size:34px_34px]" />
-      <div className="relative z-10 m-auto w-full max-w-xl rounded-[24px] border border-amber-300/20 bg-black/60 p-5 shadow-[0_24px_80px_rgba(0,0,0,.45)] backdrop-blur-xl sm:p-7">
-        <div className="flex items-center gap-3">
-          <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl border border-amber-300/25 bg-amber-300/10 text-amber-200">
-            <Mic2 className="h-5 w-5" />
-          </div>
-          <div>
-            <p className="text-[10px] font-bold uppercase tracking-[.2em] text-amber-300/70">{x.voiceProof}</p>
-            <p className="mt-1 text-lg font-black text-white sm:text-xl">{x.voiceProofTitle}</p>
-          </div>
-        </div>
-        <p className="mt-5 text-sm leading-6 text-zinc-400">{x.voiceProofBody}</p>
-        {/* eslint-disable-next-line jsx-a11y/media-has-caption */}
-        <audio controls preload="metadata" src={p.audio} className="mt-6 w-full" />
-      </div>
-    </div>
-  );
-}
-
-function Media({
-  p,
-  locale,
-  href,
-  eager,
-}: {
-  p: ShowcaseProject;
-  locale: Locale;
-  href: string;
-  eager?: boolean;
-}) {
-  const x = COPY[locale];
-  const c = p.content[locale];
-  const shot = p.shots[0];
-
-  if (!shot && p.audio) return <VoiceProof p={p} locale={locale} />;
-
-  if (!shot) {
-    return (
-      <div className="relative flex min-h-[300px] h-full items-center justify-center overflow-hidden bg-[radial-gradient(circle_at_20%_20%,rgba(245,190,52,.11),transparent_34%),#050505] p-8 text-center">
-        <div className="absolute inset-0 opacity-25 [background-image:linear-gradient(rgba(255,255,255,.04)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,.04)_1px,transparent_1px)] [background-size:32px_32px]" />
-        <div className="relative z-10">
-          <Layers3 className="mx-auto h-8 w-8 text-amber-300/65" />
-          <p className="mt-4 text-xs font-bold uppercase tracking-[.2em] text-amber-300/70">{x.noVisual}</p>
-          <p className="mx-auto mt-2 max-w-md text-sm leading-6 text-zinc-500">{x.noVisualBody}</p>
-        </div>
-      </div>
-    );
-  }
-
-  return (
-    <a
-      href={href}
-      aria-label={`${c.name} — ${COPY[locale].case}`}
-      className="relative block h-[300px] overflow-hidden bg-[#050505] sm:h-[380px] lg:h-full lg:min-h-[420px]"
-    >
-      <StableProjectImage src={shot} alt={`${c.name} — ${c.caption ?? c.type}`} priority={eager} sizes="(max-width: 1024px) 100vw, 44vw" className="p-3 group-hover:scale-[1.006] sm:p-5" />
-      <div className="pointer-events-none absolute inset-0 ring-1 ring-inset ring-white/[.06]" />
-    </a>
-  );
-}
-
-function Card({ p, locale, index }: { p: ShowcaseProject; locale: Locale; index: number }) {
-  const x = COPY[locale];
-  const c = p.content[locale];
-  const base = langHref(locale);
-  const localeBase = base === "/" ? "" : base;
-  const href = p.caseSlug ? `${localeBase}/work/${p.caseSlug}` : `${localeBase}/work`;
-
-  return (
-    <article className="group overflow-hidden rounded-[28px] border border-white/[.09] bg-[#080808] shadow-[0_24px_80px_rgba(0,0,0,.3)] transition duration-300 hover:-translate-y-0.5 hover:border-amber-300/22">
-      <div className="grid lg:grid-cols-[.88fr_1.12fr]">
-        <div className="border-b border-white/[.07] lg:border-b-0 lg:border-r">
-          <Media p={p} locale={locale} href={href} eager={index < 2} />
-        </div>
-
-        <div className="p-5 sm:p-7 lg:p-8">
-          <h2 className="text-3xl font-black tracking-[-.035em] sm:text-4xl">{c.name}</h2>
-          <p className="mt-2 text-sm text-zinc-500">{c.type}</p>
-          <p className="mt-4 text-base font-medium leading-7 text-zinc-100 sm:text-lg">{c.outcome}</p>
-
-          <div className="mt-5 grid gap-3 sm:grid-cols-2">
-            <div className="rounded-2xl border border-white/[.08] bg-white/[.018] p-4">
-              <p className="text-[10px] font-bold uppercase tracking-[.18em] text-zinc-600">{x.problem}</p>
-              <p className="mt-2 text-sm leading-6 text-zinc-400">{c.problem}</p>
-            </div>
-            <div className="rounded-2xl border border-white/[.08] bg-white/[.018] p-4">
-              <p className="text-[10px] font-bold uppercase tracking-[.18em] text-zinc-600">{x.built}</p>
-              <p className="mt-2 text-sm leading-6 text-zinc-300">{c.built}</p>
-            </div>
-          </div>
-
-          {c.value && (
-            <div className="mt-4 rounded-2xl border border-amber-300/15 bg-[linear-gradient(135deg,rgba(245,190,52,.07),rgba(255,255,255,.015))] p-4">
-              <div className="mb-2 flex items-center gap-2 text-[10px] font-bold uppercase tracking-[.18em] text-amber-300/80">
-                <ShieldCheck className="h-3.5 w-3.5" />
-                {x.result}
-              </div>
-              <p className="text-sm leading-6 text-zinc-200">{c.value}</p>
-            </div>
-          )}
-
-          <div className="mt-5 border-t border-white/[.07] pt-4">
-            <p className="text-[10px] font-bold uppercase tracking-[.18em] text-zinc-600">{x.capabilities}</p>
-            <div className="mt-3 flex flex-wrap gap-2">
-              {c.capabilities.slice(0, 6).map((cap) => (
-                <span key={cap} className="rounded-full border border-white/10 bg-white/[.03] px-3 py-1.5 text-[11px] text-zinc-300">
-                  {cap}
-                </span>
-              ))}
-            </div>
-          </div>
-
-          {p.audio && p.shots.length > 0 && (
-            <div className="mt-5 rounded-2xl border border-amber-300/15 bg-black/45 p-4">
-              {/* eslint-disable-next-line jsx-a11y/media-has-caption */}
-              <audio controls preload="metadata" src={p.audio} className="w-full" />
-            </div>
-          )}
-
-          <div className="mt-5 flex flex-col gap-3 border-t border-white/[.07] pt-5 sm:flex-row">
-            <a href={href} className="sm:w-auto">
-              <Button className="premium-button min-h-11 w-full px-6 sm:w-auto">
-                {x.case}
-                <ArrowRight className="ml-2 h-4 w-4" />
-              </Button>
-            </a>
-            {p.liveUrl && (
-              <a href={p.liveUrl} target="_blank" rel="noopener noreferrer" className="sm:w-auto">
-                <Button className="min-h-11 w-full border border-white/15 bg-white/[.035] px-6 text-white hover:bg-white/[.08] sm:w-auto">
-                  {x.live}
-                  <ExternalLink className="ml-2 h-4 w-4" />
-                </Button>
-              </a>
-            )}
-          </div>
-        </div>
-      </div>
-    </article>
-  );
-}
 
 export function PortfolioShowcasePage() {
   const { lang } = useI18n();
@@ -313,6 +121,7 @@ export function PortfolioShowcasePage() {
               <button
                 type="button"
                 onClick={() => setFilter("all")}
+                aria-pressed={filter === "all"}
                 className={cn(
                   "shrink-0 rounded-full border px-3.5 py-2 text-xs font-medium transition",
                   filter === "all"
@@ -330,6 +139,7 @@ export function PortfolioShowcasePage() {
                     key={category}
                     type="button"
                     onClick={() => setFilter(category)}
+                    aria-pressed={filter === category}
                     className={cn(
                       "shrink-0 rounded-full border px-3.5 py-2 text-xs font-medium transition",
                       filter === category
@@ -347,19 +157,14 @@ export function PortfolioShowcasePage() {
 
         <section className="py-12 sm:py-16 lg:py-20">
           <div className="container mx-auto max-w-6xl px-4">
-            <div className="space-y-6 sm:space-y-8">
-              {filtered.map((project, index) => (
-                <Card key={project.key} p={project} locale={locale} index={index} />
-              ))}
-            </div>
+            <PortfolioProjectGrid projects={filtered} lang={locale} featured={filter === "all"} />
           </div>
         </section>
 
         <section className="border-t border-white/[.07] py-14 sm:py-20">
           <div className="container mx-auto max-w-5xl px-4">
             <div className="rounded-[28px] border border-amber-300/15 bg-[radial-gradient(circle_at_20%_0%,rgba(245,190,52,.12),transparent_38%),#080808] p-7 sm:p-10">
-              <p className="text-xs font-semibold uppercase tracking-[.2em] text-amber-300/75">{x.ctaEyebrow}</p>
-              <h2 className="mt-3 max-w-3xl text-3xl font-black tracking-tight sm:text-4xl">{x.ctaTitle}</h2>
+              <h2 className="max-w-3xl text-3xl font-black tracking-tight sm:text-4xl">{x.ctaTitle}</h2>
               <p className="mt-4 max-w-2xl text-zinc-400">{x.ctaBody}</p>
               <div className="mt-7">
                 <RequestDialog
