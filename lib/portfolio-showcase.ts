@@ -1040,6 +1040,54 @@ projects = replaceProject(projects, "ikorka", {
   ),
 });
 
+projects = replaceProject(projects, "visibilityos-audit", {
+  mediaFit: "contain",
+  story: {
+    "en": {
+      "context": "VisibilityOS is my own web product for turning website observations into improvements that can be checked again.",
+      "previous": "Audit findings often live in a document, away from the URL and evidence needed to decide what to fix.",
+      "desired": "Give a site owner a repeatable path from a public URL to a task with a clear reason, priority and next step.",
+      "system": "I developed the Next.js front end and the TypeScript server flow. The scan reads page signals, evaluates rules and groups potential work by priority and effort.",
+      "flow": [
+        "Choose the public site and a service topic to check.",
+        "The API reads the homepage and a limited sample of related pages.",
+        "Rules turn an observable finding into a task with evidence and a suggested action.",
+        "Run a fresh scan after the change and compare the evidence."
+      ],
+      "evidence": "The gallery pairs an actual public-page screenshot with two formatted views of a live API run against my own website. The private workspace has a separate sign-in.",
+      "resultNote": "The recorded sample covers five pages, 12 passed checks and one flagged check. The run describes public signals observed on that date."
+    },
+    "ua": {
+      "context": "VisibilityOS — мій вебпродукт, що перетворює спостереження за сайтом на зміни, які можна перевірити повторно.",
+      "previous": "Зауваження з аудиту часто залишаються в документі окремо від адреси сторінки й доказів, потрібних для рішення.",
+      "desired": "Дати власнику відтворюваний шлях від відкритої адреси до завдання з причиною, пріоритетом і наступною дією.",
+      "system": "Розробив фронтенд на Next.js і серверний процес на TypeScript. Сканер читає сигнали сторінок, застосовує правила та групує завдання за пріоритетом і складністю.",
+      "flow": [
+        "Вказати адресу відкритого сайту й напрям послуг для перевірки.",
+        "API читає головну сторінку й обмежену вибірку пов’язаних сторінок.",
+        "Спостереження стає завданням із доказами й дією.",
+        "Після змін повторити перевірку й порівняти результати."
+      ],
+      "evidence": "У галереї є скриншот відкритої сторінки й два подання результату реального виклику API для мого сайту. Для робочого кабінету потрібен окремий вхід.",
+      "resultNote": "У зафіксованій вибірці п’ять сторінок пройшли 12 перевірок і дали одне зауваження. Це результат спостереження на дату запуску."
+    },
+    "ru": {
+      "context": "VisibilityOS — мой веб-продукт для поиска улучшений сайта и повторной проверки результата.",
+      "previous": "Замечания аудита часто остаются в документе отдельно от ссылок и фактов, нужных для решения.",
+      "desired": "Дать владельцу повторяемый путь от публичного адреса до задачи с причиной, приоритетом и следующим действием.",
+      "system": "Разработал фронтенд на Next.js и серверный процесс на TypeScript. Сканер читает сигналы страниц, применяет правила и группирует задачи по приоритету и трудоёмкости.",
+      "flow": [
+        "Указать адрес открытого сайта и тему услуги для проверки.",
+        "API читает главную и ограниченную выборку связанных страниц.",
+        "Наблюдение превращается в задачу с доказательством и предлагаемым действием.",
+        "После изменений повторить запуск и сравнить наблюдения."
+      ],
+      "evidence": "В галерее показаны скриншот публичной страницы и два представления результата реального вызова API для моего сайта. Для рабочего кабинета предусмотрен отдельный вход.",
+      "resultNote": "В сохранённой выборке из пяти страниц — 12 успешно пройденных проверок и одно замечание. Результат отражает наблюдения на дату запуска."
+    }
+  },
+});
+
 projects.push(scratchLab, aiAgent, nftDiscovery, nftCollections, nftAuction);
 
 const priority = [

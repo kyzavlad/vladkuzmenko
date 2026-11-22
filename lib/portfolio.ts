@@ -383,6 +383,79 @@ export const PORTFOLIO: PortfolioCard[] = [
     },
   },
   {
+    "key": "visibilityos-audit",
+    "category": "platforms",
+    "status": "in_development",
+    "statusLabel": {
+      "en": "Own product · live scanner",
+      "ua": "Власний продукт · діючий сканер",
+      "ru": "Собственный продукт · действующий сканер"
+    },
+    "caseSlug": "visibilityos-audit",
+    "liveUrl": "https://www.vladkuzmenko.com/visibilityos",
+    "shots": [
+      "/case-studies/visibilityos-audit/public-audit.webp",
+      "/case-studies/visibilityos-audit/scan-sample.webp",
+      "/case-studies/visibilityos-audit/priority-task.webp"
+    ],
+    "content": {
+      "en": {
+        "name": "VisibilityOS",
+        "type": "Full-stack website audit product",
+        "outcome": "Turn a public website scan into a concrete improvement task.",
+        "problem": "A site owner needs to see which pages were sampled, what triggered a finding and what to do next.",
+        "built": "I built the Next.js and React interface, the TypeScript scan API and the rules that classify findings and suggest follow-up. The API reads public HTML and metadata, finds same-site pages and returns a bounded sample with its evidence.",
+        "value": "Each suggested task shows the underlying observation, confidence and implementation effort. The audit communicates what was sampled so a reviewer can check the scope.",
+        "result": "In a production run on my own site, VisibilityOS sampled five pages and returned a prioritized recommendation with evidence. The example below shows the dated output.",
+        "capabilities": [
+          "Next.js",
+          "React",
+          "TypeScript",
+          "Public site scan",
+          "Evidence-based findings",
+          "Prioritized action queue"
+        ],
+        "caption": "Public audit page and two views of output from the live scan API"
+      },
+      "ua": {
+        "name": "VisibilityOS",
+        "type": "Full-stack продукт для аудиту сайтів",
+        "outcome": "Перетворює перевірку відкритого сайту на конкретне завдання з покращення.",
+        "problem": "Власнику сайту потрібно бачити, які сторінки перевірили, що саме спричинило зауваження і яку дію варто зробити далі.",
+        "built": "Я розробив інтерфейс на Next.js і React, API перевірки на TypeScript і правила для класифікації результатів та пропозиції наступних дій. API читає відкритий HTML і метадані та повертає обмежену вибірку сторінок сайту з доказами.",
+        "value": "Кожне запропоноване завдання містить спостереження, рівень впевненості й оцінку складності. У звіті видно, на яких сторінках ґрунтується висновок.",
+        "result": "Під час запуску на робочій версії мого сайту VisibilityOS перевірив п’ять сторінок і повернув пріоритетну рекомендацію з доказами. Нижче наведено результат із датою.",
+        "capabilities": [
+          "Next.js",
+          "React",
+          "TypeScript",
+          "Перевірка відкритих сторінок",
+          "Зауваження з доказами",
+          "Черга пріоритетних дій"
+        ],
+        "caption": "Сторінка аудиту та два подання результату реального запуску API"
+      },
+      "ru": {
+        "name": "VisibilityOS",
+        "type": "Full-stack продукт для аудита сайтов",
+        "outcome": "Превращает проверку открытого сайта в конкретную задачу по улучшению.",
+        "problem": "Владельцу сайта важно видеть, какие страницы проверили, что вызвало замечание и какое изменение стоит сделать.",
+        "built": "Разработал интерфейс на Next.js и React, API проверки на TypeScript и правила, которые классифицируют замечания и предлагают следующий шаг. API читает открытый HTML и метаданные и возвращает ограниченную выборку страниц сайта с доказательствами.",
+        "value": "Каждая задача содержит исходное наблюдение, уровень уверенности и оценку трудоёмкости. По отчёту можно сверить, на каких страницах основан вывод.",
+        "result": "На рабочей версии моего сайта VisibilityOS проверил пять страниц и вернул приоритетную рекомендацию с доказательствами. Ниже показан результат с датой запуска.",
+        "capabilities": [
+          "Next.js",
+          "React",
+          "TypeScript",
+          "Проверка открытых страниц",
+          "Замечания с доказательствами",
+          "Очередь приоритетных действий"
+        ],
+        "caption": "Страница аудита и два представления результата реального запуска API"
+      }
+    }
+  },
+  {
     key: "bukville-concierge",
     category: "automation",
     status: "real_client",
