@@ -14,7 +14,7 @@ const nextConfig = {
   },
   async redirects() {
     return ['', '/ua', '/ru'].flatMap((prefix) =>
-      ['visibilityos-audit', 'dacha-tv'].map((slug) => ({
+      ['visibilityos-audit', 'dacha-tv', 'appointment-booking-automation'].map((slug) => ({
         source: `${prefix}/work/${slug}`,
         destination: `${prefix}/work`,
         permanent: false,

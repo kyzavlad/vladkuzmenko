@@ -1,6 +1,5 @@
 "use client";
 
-import dynamic from "next/dynamic";
 import { ArrowLeft, ArrowRight, ExternalLink, ShieldCheck } from "lucide-react";
 import { Header } from "@/components/ui/header";
 import { FooterSection } from "@/components/FooterSection";
@@ -9,6 +8,8 @@ import { RequestDialog } from "@/components/ui/request-dialog";
 import { useI18n } from "@/components/i18n-provider";
 import { cn } from "@/lib/utils";
 import { langHref } from "@/lib/i18n";
+import { getCaseHighlights } from "@/lib/portfolio-case-highlights";
+import { HotelAssistantDemo } from "@/components/pages/HotelAssistantDemo";
 import { CASE_UI } from "@/lib/portfolio";
 import { type ShowcaseProject, type ShowcaseStory } from "@/lib/portfolio-showcase";
 import { getCuratedProject, type CuratedProject } from "@/lib/portfolio-curated";
@@ -16,16 +17,6 @@ import { StableProjectImage } from "@/components/ui/stable-project-image";
 import { projectScope } from "@/components/ui/portfolio-project-grid";
 
 type Locale = "en" | "ua" | "ru";
-
-const BookingWorkflowDemo = dynamic(() =>
-  import("@/components/pages/BookingWorkflowDemo").then((module) => module.BookingWorkflowDemo),
-);
-
-const BOOKING_GALLERY_COPY = {
-  en: "Sample states from the interactive demo.",
-  ua: "Стани тестового запису з інтерактивного демо.",
-  ru: "Состояния тестовой записи из интерактивного демо.",
-} as const;
 
 const GALLERY_COPY = {
   en: { more: "See more images", source: "Original design" },
@@ -43,7 +34,9 @@ const COPY = {
     visit: "Open live project",
     missing: "Case not found",
     back: "Back to all work",
-    step: "Step",
+    scenarios: "Product scenarios",
+    tryDemo: "Try the demo",
+    playDemo: "Listen to the demo",
     audio: "Voice assistant demo",
     full: "Open image",
     proof: "Project gallery",
@@ -58,7 +51,9 @@ const COPY = {
     visit: "Відкрити живий проєкт",
     missing: "Кейс не знайдено",
     back: "Назад до всіх робіт",
-    step: "Крок",
+    scenarios: "Сценарії роботи",
+    tryDemo: "Спробувати демо",
+    playDemo: "Послухати демо",
     audio: "Аудіодемо асистента",
     full: "Відкрити зображення",
     proof: "Галерея проєкту",
@@ -73,7 +68,9 @@ const COPY = {
     visit: "Открыть живой проект",
     missing: "Кейс не найден",
     back: "Назад ко всем работам",
-    step: "Шаг",
+    scenarios: "Сценарии работы",
+    tryDemo: "Попробовать демо",
+    playDemo: "Послушать демо",
     audio: "Аудиодемо ассистента",
     full: "Открыть изображение",
     proof: "Галерея проекта",
@@ -209,6 +206,17 @@ function ImageLibraryCase({
           </div>
         </div>
         <ProofImage shot={gallery.cover} name={c.name} label={x.full} eager />
+        <section className="mt-10 rounded-[28px] border border-white/10 bg-[#0c0b09] p-5 sm:mt-14 sm:p-8" aria-labelledby="case-scenarios">
+          <h2 id="case-scenarios" className="text-2xl font-semibold tracking-tight">{x.scenarios}</h2>
+          <ol className="mt-5 grid gap-3 sm:grid-cols-3">
+            {getCaseHighlights(project.caseSlug, locale).map((scenario, index) => (
+              <li key={scenario} className="rounded-2xl border border-white/10 border-t-amber-300/40 bg-white/[.035] p-4 sm:p-5">
+                <span aria-hidden="true" className="mb-3 flex h-8 w-8 items-center justify-center rounded-full bg-amber-300/10 text-sm font-semibold text-amber-200">{index + 1}</span>
+                <p className="text-sm leading-6 text-zinc-200 sm:text-base">{scenario}</p>
+              </li>
+            ))}
+          </ol>
+        </section>
         <section className="mt-12" aria-labelledby="gallery-title">
           <h2 id="gallery-title" className="mb-5 text-2xl font-semibold tracking-tight">{x.proof}</h2>
           {galleryGrid(images.slice(0, 6))}
@@ -263,8 +271,8 @@ export function PortfolioShowcaseCasePage({ slug }: { slug: string }) {
   const c = p.content[locale];
   const story = p.story?.[locale] ?? fallbackStory(p, locale);
   const route = `${workHref}/${p.caseSlug}`;
-  const isBookingCase = p.key === "appointment-booking-automation";
-  const proofShots = p.caseShots?.length ? p.caseShots : p.shots;
+  const hasHotelDemo = p.key === "vilson-hotel-assistant";
+  const proofShots = p.caseShots ?? p.shots;
   const materialsText = proofShots.length > 0
     ? locale === "ru"
       ? "Изображения проекта доступны в галерее выше."
@@ -313,20 +321,28 @@ export function PortfolioShowcaseCasePage({ slug }: { slug: string }) {
                     </Button>
                   </a>
                 )}
+                {(hasHotelDemo || p.audio) && (
+                  <a
+                    href={hasHotelDemo ? "#assistant-demo" : "#voice-demo"}
+                    className="inline-flex min-h-12 items-center justify-center rounded-xl border border-amber-300/35 px-6 font-medium text-amber-100 transition hover:bg-amber-300/10"
+                  >
+                    {hasHotelDemo ? x.tryDemo : x.playDemo}
+                  </a>
+                )}
                 <CaseRequest locale={locale} route={route} name={c.name} />
               </div>
             </div>
           </div>
         </section>
 
-        {isBookingCase && <BookingWorkflowDemo locale={locale} />}
+        {hasHotelDemo && <HotelAssistantDemo locale={locale} />}
 
         {proofShots.length > 0 && (
           <section className="py-8 sm:py-12">
             <div className="container mx-auto max-w-6xl px-4">
               <div className="mb-5">
                 <p className="text-xs font-semibold uppercase tracking-[.2em] text-amber-300/70">{x.proof}</p>
-                <p className="mt-2 max-w-2xl text-sm leading-6 text-zinc-500">{isBookingCase ? BOOKING_GALLERY_COPY[locale] : x.proofNote}</p>
+                <p className="mt-2 max-w-2xl text-sm leading-6 text-zinc-500">{x.proofNote}</p>
               </div>
               <div className="space-y-5">
                 {proofShots.map((shot, index) => (
@@ -343,12 +359,17 @@ export function PortfolioShowcaseCasePage({ slug }: { slug: string }) {
           </section>
         )}
 
-        {p.audio && proofShots.length === 0 && (
-          <section className="py-8 sm:py-12">
+        {p.audio && (
+          <section id="voice-demo" className="scroll-mt-28 py-8 sm:py-12">
             <div className="container mx-auto max-w-6xl px-4">
               <div className="rounded-[28px] border border-amber-300/15 bg-[radial-gradient(circle_at_20%_0%,rgba(245,190,52,.12),transparent_38%),#070707] p-6 shadow-[0_30px_100px_rgba(0,0,0,.45)] sm:p-9">
                 <p className="text-xs font-bold uppercase tracking-[.19em] text-amber-300/75">{x.audio}</p>
-                <p className="mt-3 max-w-2xl text-lg leading-7 text-zinc-300">{materialsText}</p>
+                <p className="mt-3 max-w-2xl text-lg leading-7 text-zinc-300">{story.evidence}</p>
+                {p.shots[0] && proofShots.length === 0 && (
+                  <div aria-hidden="true" className="relative mt-5 h-24 overflow-hidden rounded-xl border border-white/10 bg-black/55 sm:h-36">
+                    <StableProjectImage src={p.shots[0]} alt="" sizes="(max-width: 1200px) 100vw, 1150px" className="object-contain" />
+                  </div>
+                )}
                 {/* eslint-disable-next-line jsx-a11y/media-has-caption */}
                 <audio controls preload="metadata" src={p.audio} className="mt-6 w-full" />
               </div>
@@ -400,10 +421,7 @@ export function PortfolioShowcaseCasePage({ slug }: { slug: string }) {
                   {story.flow.filter(Boolean).map((step, index) => (
                     <div key={`${p.key}-${index}`} className="flex gap-4 rounded-2xl border border-white/[.08] bg-[#090909] p-5">
                       <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-amber-300/25 bg-amber-300/[.07] text-xs font-bold text-amber-200">{index + 1}</div>
-                      <div>
-                        <p className="text-[10px] uppercase tracking-[.18em] text-zinc-600">{x.step} {index + 1}</p>
-                        <p className="mt-1.5 leading-6 text-zinc-200">{step}</p>
-                      </div>
+                      <p className="self-center leading-6 text-zinc-200">{step}</p>
                     </div>
                   ))}
                 </div>
@@ -445,13 +463,7 @@ export function PortfolioShowcaseCasePage({ slug }: { slug: string }) {
               </div>
             </div>
 
-            {p.audio && proofShots.length > 0 && (
-              <div className="mt-5 rounded-[26px] border border-white/[.08] bg-[#080808] p-6 sm:p-8">
-                <p className="text-xs font-semibold uppercase tracking-[.19em] text-zinc-600">{x.audio}</p>
-                {/* eslint-disable-next-line jsx-a11y/media-has-caption */}
-                <audio controls preload="none" src={p.audio} className="mt-4 w-full" />
-              </div>
-            )}
+
           </div>
         </section>
 
