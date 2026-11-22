@@ -12,43 +12,42 @@ export type CuratedProject = ShowcaseProject & {
 };
 
 const COMMERCIAL_PRIORITY = [
-  "turbotaai",
   "tutorivo",
-  "dacha-tv",
-  "visibilityos-audit",
+  "turbotaai",
   "cod-power-group",
   "status-auto",
-  "dating-crm",
   "portfolio-enquiry-intake",
-  "hotel-natsionalny-wordpress",
-  "leather-clinic",
   "scratch-lab",
-  "ser-crypto",
-  "un-amour",
+  "leather-clinic",
+  "dating-crm",
+  "oxhash",
+  "wallet",
+  "convex",
   "telegram-mining",
+  "iko",
+  "ser-crypto",
   "nft-auction",
   "nft-discovery",
   "nft-collections",
-  "iko",
-  "convex",
-  "wallet",
-  "oxhash",
+  "nevard",
+  "velora",
   "carluxe",
+  "ovulan",
   "pure",
   "kinex",
-  "velora",
   "aurea",
-  "nevard",
   "bonatica",
   "verna",
-  "ovulan",
-  "appointment-booking-automation",
+  "dacha-tv",
+  "un-amour",
+  "hotel-natsionalny-wordpress",
   "bukville-concierge",
+  "appointment-booking-automation",
   "vilson-hotel-assistant",
-  "nikas-restaurant-assistant",
-  "ksuu-store-assistant",
   "ai-agent-interface",
   "ikorka",
+  "ksuu-store-assistant",
+  "nikas-restaurant-assistant",
 ] as const;
 
 const rank = new Map<string, number>(COMMERCIAL_PRIORITY.map((key, index) => [key, index]));
@@ -243,8 +242,10 @@ function curate(project: ShowcaseProject): CuratedProject {
   return curated;
 }
 
+const HIDDEN_PROJECT_KEYS = new Set(["reverie", "visibilityos-audit"]);
+
 export const CURATED_PORTFOLIO: CuratedProject[] = SHOWCASE_PORTFOLIO
-  .filter((project) => project.key !== "reverie")
+  .filter((project) => !HIDDEN_PROJECT_KEYS.has(project.key))
   .map(curate)
   .sort((a, b) => (rank.get(a.key) ?? 10_000) - (rank.get(b.key) ?? 10_000));
 
@@ -259,11 +260,11 @@ export const CURATED_PORTFOLIO: CuratedProject[] = SHOWCASE_PORTFOLIO
  *   4. commercial relevance to the current Growth Systems offer;
  *   5. variety across AI product / platform / conversion web.
  *
- * turbotaai   — working AI SaaS, public URL, customer app + operations console.
- * tutorivo    — launched and tested MVP, real two-sided marketplace.
- * dacha-tv    — live ecommerce storefront with catalog search, product pages, and cart.
+ * tutorivo — launched, tested two-sided marketplace.
+ * turbotaai — AI SaaS with a customer app and operations console.
+ * portfolio-enquiry-intake — multilingual website with a tested enquiry workflow.
  */
-export const HOME_FEATURED_KEYS = ["turbotaai", "tutorivo", "dacha-tv"] as const;
+export const HOME_FEATURED_KEYS = ["tutorivo", "turbotaai", "portfolio-enquiry-intake"] as const;
 
 export const HOME_FEATURED: CuratedProject[] = HOME_FEATURED_KEYS.map((key) =>
   CURATED_PORTFOLIO.find((project) => project.key === key),
