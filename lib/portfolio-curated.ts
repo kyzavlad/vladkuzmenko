@@ -177,7 +177,8 @@ function curate(project: ShowcaseProject): CuratedProject {
       const story = project.story;
       curated = {
         ...curated,
-        shots: [],
+        shots: ["/case-studies/ikorka/voice-waveform.webp"],
+        caseShots: [],
         mediaFit: "contain",
         story: story
           ? {
@@ -203,7 +204,12 @@ function curate(project: ShowcaseProject): CuratedProject {
   return curated;
 }
 
-const REMOVED_CASE_KEYS = new Set(["dacha-tv", "reverie", "visibilityos-audit"]);
+const REMOVED_CASE_KEYS = new Set([
+  "dacha-tv",
+  "reverie",
+  "visibilityos-audit",
+  "appointment-booking-automation",
+]);
 const LEGACY_CASES = SHOWCASE_PORTFOLIO
   .filter((project) => !REMOVED_CASE_KEYS.has(project.key))
   .map(curate);
@@ -218,9 +224,9 @@ export const CURATED_PORTFOLIO: CuratedProject[] = [
   ...PORTFOLIO_CASE_LIBRARY.slice(0, 6),
   ...legacyCases(["tutorivo", "turbotaai"]),
   ...PORTFOLIO_CASE_LIBRARY.slice(6, 23),
-  ...legacyCases(["cod-power-group", "portfolio-enquiry-intake", "dating-crm"]),
+  ...legacyCases(["cod-power-group", "dating-crm"]),
   ...PORTFOLIO_CASE_LIBRARY.slice(23),
-  ...legacyCases(["scratch-lab", "appointment-booking-automation"]),
+  ...legacyCases(["scratch-lab", "portfolio-enquiry-intake", "vilson-hotel-assistant", "ikorka"]),
 ];
 
 const CASES_BY_SLUG = new Map(
