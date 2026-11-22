@@ -13,11 +13,13 @@ const nextConfig = {
     loaderFile: './image-loader.js'
   },
   async redirects() {
-    return ['', '/ua', '/ru'].map((prefix) => ({
-      source: `${prefix}/work/visibilityos-audit`,
-      destination: `${prefix}/work`,
-      permanent: false,
-    }));
+    return ['', '/ua', '/ru'].flatMap((prefix) =>
+      ['visibilityos-audit', 'dacha-tv'].map((slug) => ({
+        source: `${prefix}/work/${slug}`,
+        destination: `${prefix}/work`,
+        permanent: false,
+      })),
+    );
   },
   async headers() {
     return [

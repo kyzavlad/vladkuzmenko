@@ -1,4 +1,5 @@
 import { SHOWCASE_PORTFOLIO, type ShowcaseProject } from "@/lib/portfolio-showcase";
+import { PORTFOLIO_CASE_LIBRARY, type ProjectGallery } from "@/lib/portfolio-case-library";
 import type { Lang } from "@/lib/i18n";
 
 /**
@@ -9,48 +10,8 @@ import type { Lang } from "@/lib/i18n";
 export type CuratedProject = ShowcaseProject & {
   /** Full proof media used only on the individual case page. Card previews stay lightweight. */
   caseShots?: string[];
+  gallery?: ProjectGallery;
 };
-
-const COMMERCIAL_PRIORITY = [
-  "tutorivo",
-  "turbotaai",
-  "cod-power-group",
-  "status-auto",
-  "portfolio-enquiry-intake",
-  "scratch-lab",
-  "leather-clinic",
-  "dating-crm",
-  "oxhash",
-  "wallet",
-  "convex",
-  "telegram-mining",
-  "iko",
-  "ser-crypto",
-  "nft-auction",
-  "nft-discovery",
-  "nft-collections",
-  "nevard",
-  "velora",
-  "carluxe",
-  "ovulan",
-  "pure",
-  "kinex",
-  "aurea",
-  "bonatica",
-  "verna",
-  "dacha-tv",
-  "un-amour",
-  "hotel-natsionalny-wordpress",
-  "bukville-concierge",
-  "appointment-booking-automation",
-  "vilson-hotel-assistant",
-  "ai-agent-interface",
-  "ikorka",
-  "ksuu-store-assistant",
-  "nikas-restaurant-assistant",
-] as const;
-
-const rank = new Map<string, number>(COMMERCIAL_PRIORITY.map((key, index) => [key, index]));
 
 const COMPLETED = {
   en: "Completed project",
@@ -242,12 +203,29 @@ function curate(project: ShowcaseProject): CuratedProject {
   return curated;
 }
 
-const HIDDEN_PROJECT_KEYS = new Set(["reverie", "visibilityos-audit"]);
+const REMOVED_CASE_KEYS = new Set(["dacha-tv", "reverie", "visibilityos-audit"]);
+const LEGACY_CASES = SHOWCASE_PORTFOLIO
+  .filter((project) => !REMOVED_CASE_KEYS.has(project.key))
+  .map(curate);
 
-export const CURATED_PORTFOLIO: CuratedProject[] = SHOWCASE_PORTFOLIO
-  .filter((project) => !HIDDEN_PROJECT_KEYS.has(project.key))
-  .map(curate)
-  .sort((a, b) => (rank.get(a.key) ?? 10_000) - (rank.get(b.key) ?? 10_000));
+function legacyCases(keys: string[]): CuratedProject[] {
+  return keys
+    .map((key) => LEGACY_CASES.find((project) => project.key === key))
+    .filter((project): project is CuratedProject => Boolean(project));
+}
+
+export const CURATED_PORTFOLIO: CuratedProject[] = [
+  ...PORTFOLIO_CASE_LIBRARY.slice(0, 6),
+  ...legacyCases(["tutorivo", "turbotaai"]),
+  ...PORTFOLIO_CASE_LIBRARY.slice(6, 23),
+  ...legacyCases(["cod-power-group", "portfolio-enquiry-intake", "dating-crm"]),
+  ...PORTFOLIO_CASE_LIBRARY.slice(23),
+  ...legacyCases(["scratch-lab", "appointment-booking-automation"]),
+];
+
+const CASES_BY_SLUG = new Map(
+  [...LEGACY_CASES, ...CURATED_PORTFOLIO].map((project) => [project.caseSlug, project]),
+);
 
 /**
  * Homepage proof, curated explicitly.
@@ -274,8 +252,10 @@ export const CURATED_CASE_SLUGS = CURATED_PORTFOLIO.map(
   (project) => project.caseSlug ?? project.key,
 );
 
+export const AVAILABLE_CASE_SLUGS = [...CASES_BY_SLUG.keys()];
+
 export function getCuratedProject(slug: string): CuratedProject | undefined {
-  return CURATED_PORTFOLIO.find((project) => project.caseSlug === slug || project.key === slug);
+  return CASES_BY_SLUG.get(slug);
 }
 
 function localePath(lang: Lang): string {
@@ -284,7 +264,9 @@ function localePath(lang: Lang): string {
 
 export function curatedCaseJsonLd(lang: Lang, project: CuratedProject) {
   const c = project.content[lang];
-  const proofShots = project.caseShots?.length ? project.caseShots : project.shots;
+  const proofShots = project.gallery
+    ? [project.gallery.cover, ...project.gallery.images.slice(0, 3)]
+    : project.caseShots?.length ? project.caseShots : project.shots;
   const image = proofShots.length
     ? proofShots.map((shot) => `https://vladkuzmenko.com${shot}`)
     : undefined;
@@ -297,11 +279,10 @@ export function curatedCaseJsonLd(lang: Lang, project: CuratedProject) {
     url: `https://vladkuzmenko.com${localePath(lang)}/work/${project.caseSlug ?? project.key}`,
     ...(image ? { image } : {}),
     ...(project.liveUrl ? { sameAs: project.liveUrl } : {}),
-    creator: {
-      "@type": "Person",
-      name: "Vlad Kuzmenko",
-      url: "https://vladkuzmenko.com",
-    },
+    ...(!project.gallery && {
+      creator: { "@type": "Person", name: "Vlad Kuzmenko", url: "https://vladkuzmenko.com" },
+    }),
+    ...(project.gallery?.designSource && { isBasedOn: project.gallery.designSource.url }),
   };
 }
 

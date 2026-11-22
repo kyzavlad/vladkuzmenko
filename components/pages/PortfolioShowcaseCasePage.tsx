@@ -11,8 +11,9 @@ import { cn } from "@/lib/utils";
 import { langHref } from "@/lib/i18n";
 import { CASE_UI } from "@/lib/portfolio";
 import { type ShowcaseProject, type ShowcaseStory } from "@/lib/portfolio-showcase";
-import { getCuratedProject } from "@/lib/portfolio-curated";
+import { getCuratedProject, type CuratedProject } from "@/lib/portfolio-curated";
 import { StableProjectImage } from "@/components/ui/stable-project-image";
+import { projectScope } from "@/components/ui/portfolio-project-grid";
 
 type Locale = "en" | "ua" | "ru";
 
@@ -25,6 +26,12 @@ const BOOKING_GALLERY_COPY = {
   ua: "Стани тестового запису з інтерактивного демо.",
   ru: "Состояния тестовой записи из интерактивного демо.",
 } as const;
+
+const GALLERY_COPY = {
+  en: { more: "See more images", source: "Original design" },
+  ua: { more: "Переглянути більше зображень", source: "Оригінальний дизайн" },
+  ru: { more: "Смотреть больше изображений", source: "Оригинальный дизайн" },
+};
 
 const COPY = {
   en: {
@@ -130,20 +137,96 @@ function CaseRequest({ locale, route, name }: { locale: Locale; route: string; n
   );
 }
 
-function ProofImage({ shot, name, label, eager = false }: { shot: string; name: string; label: string; eager?: boolean }) {
+function ProofImage({ shot, name, label, eager = false, compact = false }: { shot: string; name: string; label: string; eager?: boolean; compact?: boolean }) {
   return (
     <a
       href={shot}
       target="_blank"
       rel="noopener noreferrer"
-      className="group relative block h-[420px] overflow-hidden rounded-[26px] border border-white/[.09] bg-[#070707] shadow-[0_24px_80px_rgba(0,0,0,.32)] sm:h-[620px]"
+      className={cn(
+        "group relative block overflow-hidden rounded-2xl border border-white/10 bg-[#111113] focus-visible:outline focus-visible:outline-2 focus-visible:outline-amber-300",
+        compact ? "aspect-[16/11]" : "aspect-[16/10]",
+      )}
     >
-      <StableProjectImage src={shot} alt={name} priority={eager} sizes="(max-width: 768px) 100vw, 1040px" className="p-3 group-hover:scale-[1.003] sm:p-5" />
+      <StableProjectImage
+        src={shot}
+        alt={name}
+        priority={eager}
+        sizes={compact ? "(max-width: 640px) 100vw, 560px" : "(max-width: 1200px) 100vw, 1150px"}
+        className="!object-center motion-safe:group-hover:scale-[1.01]"
+      />
       <span className="absolute bottom-4 right-4 inline-flex items-center gap-2 rounded-full border border-white/15 bg-black/80 px-3.5 py-2 text-[11px] font-semibold text-white shadow-xl backdrop-blur-md transition group-hover:border-amber-300/35 group-hover:text-amber-200">
         {label}
         <ExternalLink className="h-3.5 w-3.5" />
       </span>
     </a>
+  );
+}
+
+function ImageLibraryCase({
+  project, locale, workHref,
+}: {
+  project: CuratedProject & { gallery: NonNullable<CuratedProject["gallery"]> };
+  locale: Locale;
+  workHref: string;
+}) {
+  const { gallery } = project;
+  const c = project.content[locale];
+  const x = COPY[locale];
+  const labels = GALLERY_COPY[locale];
+  const route = `${workHref}/${project.caseSlug}`;
+  const images = gallery.images;
+  const galleryGrid = (shots: string[]) => (
+    <div className="grid gap-4 sm:grid-cols-2">
+      {shots.map((shot) => (
+        <ProofImage key={shot} shot={shot} name={c.name} label={x.full} compact />
+      ))}
+    </div>
+  );
+
+  return (
+    <div className="min-h-screen bg-black text-white">
+      <Header />
+      <main className="mx-auto max-w-6xl px-4 pb-20 pt-32 sm:pt-40">
+        <a href={workHref} className="inline-flex items-center gap-2 text-sm text-zinc-400 hover:text-amber-200">
+          <ArrowLeft className="h-4 w-4" aria-hidden="true" />
+          {x.back}
+        </a>
+        <div className="mb-9 mt-8 grid gap-6 md:grid-cols-[.85fr_1.15fr] md:items-end">
+          <div>
+            <p className="mb-3 text-sm font-medium text-amber-200">{c.type}</p>
+            <h1 className="text-4xl font-semibold tracking-tight sm:text-6xl">{c.name}</h1>
+            <p className="mt-3 text-sm text-zinc-400">{projectScope(project, locale)}</p>
+          </div>
+          <div>
+            <p className="text-base leading-7 text-zinc-200 sm:text-lg">{c.built}</p>
+            {gallery.designSource && (
+              <a href={gallery.designSource.url} target="_blank" rel="noopener noreferrer" className="mt-3 inline-flex items-center gap-2 text-sm text-zinc-400 underline underline-offset-4 hover:text-amber-200">
+                {labels.source} · {gallery.designSource.name}
+                <ExternalLink className="h-3.5 w-3.5" aria-hidden="true" />
+              </a>
+            )}
+          </div>
+        </div>
+        <ProofImage shot={gallery.cover} name={c.name} label={x.full} eager />
+        <section className="mt-12" aria-labelledby="gallery-title">
+          <h2 id="gallery-title" className="mb-5 text-2xl font-semibold tracking-tight">{x.proof}</h2>
+          {galleryGrid(images.slice(0, 6))}
+          {images.length > 6 && (
+            <details className="mt-5 rounded-2xl border border-white/10 bg-[#0d0d0f] p-4 sm:p-5">
+              <summary className="cursor-pointer font-medium text-zinc-200 hover:text-amber-200">
+                {labels.more}
+              </summary>
+              <div className="mt-5">{galleryGrid(images.slice(6))}</div>
+            </details>
+          )}
+        </section>
+        <div className="mt-12 border-t border-white/10 pt-7">
+          <CaseRequest locale={locale} route={route} name={c.name} />
+        </div>
+      </main>
+      <FooterSection />
+    </div>
   );
 }
 
@@ -171,6 +254,10 @@ export function PortfolioShowcaseCasePage({ slug }: { slug: string }) {
         <FooterSection />
       </div>
     );
+  }
+
+  if (p.gallery) {
+    return <ImageLibraryCase project={{ ...p, gallery: p.gallery }} locale={locale} workHref={workHref} />;
   }
 
   const c = p.content[locale];

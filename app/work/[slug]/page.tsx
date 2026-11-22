@@ -2,19 +2,19 @@ import type { Metadata } from "next";
 import { I18nProvider } from "@/components/i18n-provider";
 import { PortfolioShowcaseCasePage } from "@/components/pages/PortfolioShowcaseCasePage";
 import { pageMeta } from "@/lib/page-meta";
-import { CURATED_CASE_SLUGS, getCuratedProject, curatedCaseJsonLd } from "@/lib/portfolio-curated";
+import { AVAILABLE_CASE_SLUGS, getCuratedProject, curatedCaseJsonLd } from "@/lib/portfolio-curated";
 
 export const dynamicParams = false;
 
 export function generateStaticParams() {
-  return CURATED_CASE_SLUGS.map((slug) => ({ slug }));
+  return AVAILABLE_CASE_SLUGS.map((slug) => ({ slug }));
 }
 
 export function generateMetadata({ params }: { params: { slug: string } }): Metadata {
   const project = getCuratedProject(params.slug);
   if (!project) return {};
   const c = project.content.en;
-  const shareImage = project.caseShots?.[0] ?? project.shots[0];
+  const shareImage = project.gallery?.cover ?? project.caseShots?.[0] ?? project.shots[0];
   return pageMeta("en", `work/${params.slug}`, `${c.name} — ${c.type} | Vlad Kuzmenko`, c.outcome, shareImage);
 }
 
