@@ -92,8 +92,6 @@ export function PortfolioShowcasePage() {
                 title={x.ctaTitle}
                 description={x.ctaBody}
                 submitLabel={x.cta}
-                successTitle={x.ctaTitle}
-                successMessage={x.ctaBody}
                 buttonLabel={x.discuss}
                 showBuildType={false}
                 compact
@@ -172,8 +170,6 @@ export function PortfolioShowcasePage() {
                   title={x.ctaTitle}
                   description={x.ctaBody}
                   submitLabel={x.cta}
-                  successTitle={x.ctaTitle}
-                  successMessage={x.ctaBody}
                   buttonLabel={x.cta}
                   showBuildType={false}
                   compact
