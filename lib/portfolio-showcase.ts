@@ -775,6 +775,50 @@ let projects: ShowcaseProject[] = PORTFOLIO
   .filter((p) => p.key !== "nft-marketplace")
   .map(withCase);
 
+projects = replaceProject(projects, "portfolio-enquiry-intake", {
+  story: local(
+    {
+      context: "My portfolio shares the same site as my project contact form. A visitor can explore case studies and reach the contact section in any of the three site languages.",
+      previous: "A portfolio link alone left the visitor to start a new conversation elsewhere. I wanted them to be able to leave a brief with their question and contact details while the project was still fresh in mind.",
+      desired: "Keep the form short and give the visitor a clear outcome on every attempt.",
+      system: "I built the frontend and connected it to n8n. The workflow checks the submission, writes it to Google Sheets, then returns a receipt with the enquiry ID. The browser shows confirmation only after it receives that receipt.",
+      flow: [
+        "Review a case and open the contact section in your language.",
+        "Enter your name, email and project description. A second contact method is optional.",
+        "Send the form and wait for confirmation. If delivery fails, review the message and try again with the same draft.",
+      ],
+      evidence: "The screenshots show the live contact section on desktop and mobile. A controlled test on the public site matched the browser confirmation to the saved enquiry record.",
+      resultNote: "The site and form are public and working. The case covers the implemented intake path and its verified delivery behavior.",
+    },
+    {
+      context: "Портфоліо й форма проєктних заявок розміщені на моєму сайті. Відвідувач може переглянути кейси й відкрити контакти однією з трьох мов сайту.",
+      previous: "Посилання на портфоліо саме по собі залишає відвідувачу окремий крок для початку розмови. Я хотів дати можливість описати проєкт і залишити контакт прямо на сайті.",
+      desired: "Зробити форму короткою й показувати відвідувачу зрозумілий результат кожної спроби.",
+      system: "Розробив інтерфейс і під’єднав n8n. Процес перевіряє дані, записує заявку в Google Sheets і повертає квитанцію з її ідентифікатором. Браузер показує підтвердження після отримання цієї квитанції.",
+      flow: [
+        "Перегляньте кейс і відкрийте контакти своєю мовою.",
+        "Вкажіть ім’я, електронну пошту й опис проєкту. Додатковий контакт необов’язковий.",
+        "Надішліть форму й дочекайтеся підтвердження. Якщо сталася помилка, прочитайте повідомлення і повторіть спробу зі збереженим текстом.",
+      ],
+      evidence: "На знімках — діючий розділ контактів на комп’ютері й телефоні. Контрольна перевірка на робочому сайті підтвердила відповідність між повідомленням у браузері та збереженою заявкою.",
+      resultNote: "Сайт і форма працюють публічно. Кейс описує реалізований шлях заявки й перевірену доставку.",
+    },
+    {
+      context: "Портфолио и форма проектных заявок находятся на моём сайте. Посетитель может посмотреть кейсы и открыть контакты на любом из трёх языков сайта.",
+      previous: "Одной ссылки на портфолио мало, чтобы начать разговор. Я хотел дать посетителю возможность описать проект и оставить контакты сразу на сайте.",
+      desired: "Сделать форму короткой и показать понятный результат каждой попытки отправки.",
+      system: "Разработал интерфейс и подключил n8n. Процесс проверяет данные, записывает заявку в Google Sheets и возвращает квитанцию с её идентификатором. Браузер показывает подтверждение после получения этой квитанции.",
+      flow: [
+        "Посмотрите кейс и откройте контакты на своём языке.",
+        "Введите имя, почту и описание проекта. Дополнительный контакт можно указать по желанию.",
+        "Отправьте форму и дождитесь подтверждения. Если возникла ошибка, прочитайте сообщение и повторите попытку с сохранённым текстом.",
+      ],
+      evidence: "На снимках рабочий раздел контактов на компьютере и телефоне. При контрольной проверке на действующем сайте подтверждение в браузере совпало с сохранённой заявкой.",
+      resultNote: "Сайт и форма открыты для посетителей. Кейс описывает реализованный путь заявки и проверенную доставку.",
+    },
+  ),
+});
+
 projects = replaceProject(projects, "turbotaai", {
   story: local(
     {
