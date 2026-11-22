@@ -177,7 +177,6 @@ function curate(project: ShowcaseProject): CuratedProject {
     case "turbotaai":
       curated = {
         ...curated,
-        shots: ["/case-studies/turbotaai/home-2026-08-16.webp"],
         mediaFit: "contain",
       };
       break;

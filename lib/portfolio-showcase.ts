@@ -775,6 +775,53 @@ let projects: ShowcaseProject[] = PORTFOLIO
   .filter((p) => p.key !== "nft-marketplace")
   .map(withCase);
 
+projects = replaceProject(projects, "turbotaai", {
+  story: local(
+    {
+      context: "TurbotaAI brings emotional support, astrology, numerology and style into a single web product in English, Ukrainian and Russian.",
+      previous: "Each direction has its own prompts and inputs. The product needed to preserve those differences while keeping onboarding, trial access and consent consistent.",
+      desired: "Let a visitor open daily content immediately, then choose where to start and decide which details to share when personalizing the experience.",
+      system: "I built the public web routes and account workflows in Next.js, with server-side access rules for trials and Premium. The separate operations console gives authorized staff access to activation, subscription status, AI usage and support lookups.",
+      flow: [
+        "Open Today as a guest and browse the daily card or one of the four directions.",
+        "Follow the personalization prompt to sign in and add the details needed for that direction.",
+        "Compare free access with Premium on the pricing page.",
+        "Manage permissions and account data from the profile. Staff use a separate console to monitor usage and support accounts.",
+      ],
+      evidence: "Public screenshots from the live home, Today and pricing pages.",
+      resultNote: "The public web product is live and remains in active development.",
+    },
+    {
+      context: "TurbotaAI об’єднує емоційну підтримку, астрологію, нумерологію та стиль в одному вебпродукті українською, англійською й російською.",
+      previous: "Кожен напрям має свої запити й потрібні йому дані. Водночас для всіх напрямів потрібні спільні правила входу, пробного доступу та згоди.",
+      desired: "Дати відвідувачу доступ до щоденного контенту відразу, а далі — можливість обрати напрям і вирішити, які дані надати для персоналізації.",
+      system: "Я розробив публічні сторінки й сценарії акаунта на Next.js із серверними правилами пробного й Premium-доступу. Окрема консоль дає уповноваженим працівникам дані про активацію, статус підписки, використання AI та пошук акаунтів для підтримки.",
+      flow: [
+        "Відкрити «Сьогодні» як гість і переглянути картку дня або один із чотирьох напрямів.",
+        "Перейти до входу за підказкою персоналізації й надати потрібні для обраного напряму дані.",
+        "Порівняти безплатний доступ із Premium на сторінці тарифів.",
+        "Керувати дозволами й даними у профілі. Команда користується окремою консоллю для моніторингу й підтримки.",
+      ],
+      evidence: "Кадри з робочих публічних сторінок головної, розділу «Сьогодні» й тарифів.",
+      resultNote: "Публічний вебпродукт працює й далі розвивається.",
+    },
+    {
+      context: "TurbotaAI объединяет эмоциональную поддержку, астрологию, нумерологию и стиль в одном веб-продукте на русском, украинском и английском.",
+      previous: "У каждого направления свои запросы и необходимые данные. Вместе с этим для всех направлений нужны общие правила входа, пробного доступа и согласия.",
+      desired: "Открыть посетителю ежедневный контент сразу, затем дать выбрать направление и решить, какие данные предоставить для персонализации.",
+      system: "Я разработал публичные страницы и сценарии аккаунта на Next.js с серверными правилами пробного и Premium-доступа. Отдельная консоль даёт сотрудникам с нужной ролью доступ к данным об активации, статусе подписок, использовании AI и поиску аккаунтов для поддержки.",
+      flow: [
+        "Открыть «Сегодня» без входа и посмотреть карточку дня или одно из четырёх направлений.",
+        "Перейти ко входу по подсказке персонализации и добавить данные для выбранного направления.",
+        "Сравнить бесплатный доступ с Premium на странице тарифов.",
+        "Управлять разрешениями и данными в профиле. Команда пользуется отдельной консолью для мониторинга и поддержки.",
+      ],
+      evidence: "Кадры с рабочих публичных страниц главной, раздела «Сегодня» и тарифов.",
+      resultNote: "Публичный веб-продукт работает и продолжает развиваться.",
+    },
+  ),
+});
+
 projects = replaceProject(projects, "nikas-restaurant-assistant", {
   story: local(
     {
