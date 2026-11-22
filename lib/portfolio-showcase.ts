@@ -293,28 +293,27 @@ const scratchLab: ShowcaseProject = {
   category: "websites",
   status: "real_client",
   statusLabel: local(
-    "Live local-service website",
-    "Живий сайт локального сервісу",
-    "Живой сайт локального сервиса",
+    "Archived client website",
+    "Архівний клієнтський сайт",
+    "Архивный клиентский сайт",
   ),
   caseSlug: "scratch-lab",
-  liveUrl: "https://thescratchlab.org/",
   shots: ["/case-studies/scratch-lab/hero.jpg"],
   mediaFit: "cover",
   content: {
     en: {
       name: "Coastal Mobile Boat Detailing",
-      type: "Live service website · Boat, car & RV detailing",
+      type: "Website for mobile boat, car and RV detailing",
       outcome:
-        "The first screen tells a local visitor exactly what is restored, where the mobile service works and how to call or schedule.",
+        "Visitors could see what the mobile team restores, where it operates and how to book from the first screen.",
       problem:
         "A broad detailing service can feel generic unless the site quickly anchors the core transformation, service area and booking action.",
       built:
-        "A live service site centred on Surface Restoration & Protection with a mobile-service proposition, service list, phone CTA and appointment CTA.",
+        "I built a responsive service website with a detailing catalog, a service area and direct actions to call or request an appointment.",
       value:
         "The page turns a wide service menu into one coherent high-intent journey for local traffic.",
       result:
-        "A public live website now presents the offer, Myrtle Beach service area and two direct conversion paths. The screenshot is the actual delivered page; no unsupported performance metric is added.",
+        "The delivered site presented the Myrtle Beach service area and both contact options in one place. The gallery shows the published design.",
       capabilities: [
         "Local-service website",
         "Offer hierarchy",
@@ -323,21 +322,21 @@ const scratchLab: ShowcaseProject = {
         "Service catalog",
         "Responsive landing",
       ],
-      caption: "Coastal Mobile Boat Detailing — live hero",
+      caption: "Homepage at launch",
     },
     ua: {
       name: "Coastal Mobile Boat Detailing",
-      type: "Живий сервісний сайт · Boat, car & RV detailing",
+      type: "Сайт виїзного детейлінгу човнів, авто та автобудинків",
       outcome:
-        "Перший екран одразу пояснює локальному клієнту, що відновлюється, де працює мобільний сервіс і як зателефонувати або записатися.",
+        "З першого екрана клієнт міг дізнатися, що відновлює виїзна команда, де вона працює та як записатися.",
       problem:
         "Широкий detailing-сервіс легко виглядає загально, якщо сайт швидко не фіксує головну трансформацію, зону роботи та дію для бронювання.",
       built:
-        "Живий сервісний сайт навколо Surface Restoration & Protection із позиціонуванням мобільного сервісу, списком послуг, CTA на дзвінок і CTA на запис.",
+        "Я розробив адаптивний сайт із каталогом послуг, зоною виїзду, кнопкою дзвінка та записом на візит.",
       value:
         "Сторінка збирає широкий набір послуг в один зрозумілий high-intent маршрут для локального трафіку.",
       result:
-        "Публічний живий сайт показує пропозицію, зону Myrtle Beach і два прямі конверсійні шляхи. Скриншот — реальна виконана сторінка; непідтверджені метрики не додаються.",
+        "На сайті клієнт бачив зону обслуговування в районі Міртл-Біч і міг одразу зателефонувати або записатися. У галереї збережено опублікований вигляд сайту.",
       capabilities: [
         "Локальний сервісний сайт",
         "Ієрархія оферу",
@@ -346,21 +345,21 @@ const scratchLab: ShowcaseProject = {
         "Каталог послуг",
         "Responsive landing",
       ],
-      caption: "Coastal Mobile Boat Detailing — hero живого сайту",
+      caption: "Головна сторінка на момент запуску",
     },
     ru: {
       name: "Coastal Mobile Boat Detailing",
-      type: "Живой сервисный сайт · Boat, car & RV detailing",
+      type: "Сайт выездного детейлинга лодок, автомобилей и автодомов",
       outcome:
-        "Первый экран сразу объясняет локальному клиенту, что восстанавливается, где работает мобильный сервис и как позвонить или записаться.",
+        "С первого экрана клиент мог узнать, что восстанавливает выездная команда, где она работает и как записаться.",
       problem:
         "Широкий detailing-сервис легко выглядит общим, если сайт быстро не фиксирует главную трансформацию, зону работы и действие для бронирования.",
       built:
-        "Живой сервисный сайт вокруг Surface Restoration & Protection с позиционированием мобильного сервиса, списком услуг, CTA на звонок и CTA на запись.",
+        "Я разработал адаптивный сайт с каталогом услуг, зоной выезда, кнопкой звонка и записью на визит.",
       value:
         "Страница собирает широкий набор услуг в один понятный high-intent маршрут для локального трафика.",
       result:
-        "Публичный живой сайт показывает предложение, зону Myrtle Beach и два прямых конверсионных пути. Скриншот — реальная выполненная страница; неподтверждённые метрики не добавляются.",
+        "На сайте клиент видел зону обслуживания в районе Мертл-Бич и мог сразу позвонить или записаться. В галерее сохранён опубликованный вид сайта.",
       capabilities: [
         "Локальный сервисный сайт",
         "Иерархия оффера",
@@ -369,7 +368,7 @@ const scratchLab: ShowcaseProject = {
         "Каталог услуг",
         "Responsive landing",
       ],
-      caption: "Coastal Mobile Boat Detailing — hero живого сайта",
+      caption: "Главная страница на момент запуска",
     },
   },
   story: local(
@@ -377,40 +376,40 @@ const scratchLab: ShowcaseProject = {
       context: "A mobile detailing business covering boats, cars and RVs around Myrtle Beach.",
       previous: "The service range needed to read as one clear commercial offer rather than a disconnected list of treatments.",
       desired: "Make the transformation, mobile-service model and next action obvious above the fold.",
-      system: "A live conversion page built around restoration and protection, with service scope and direct booking paths.",
+      system: "A responsive page for restoration and protection services, with service details and direct booking actions.",
       flow: [
         "Arrive on the restoration & protection promise.",
         "Understand the mobile service and the core detailing options.",
         "Call immediately or schedule an appointment from the primary CTA pair.",
       ],
-      evidence: "Public live site at thescratchlab.org plus the current delivered hero screenshot.",
-      resultNote: "Verified: the website is publicly reachable. Performance metrics are not asserted without analytics evidence.",
+      evidence: "The gallery shows the client website as it appeared at launch.",
+      resultNote: "From the homepage, customers could call or request an appointment.",
     },
     {
       context: "Мобільний detailing-бізнес для човнів, авто та RV у районі Myrtle Beach.",
       previous: "Широкий набір послуг потрібно було подати як одну комерційно зрозумілу пропозицію, а не як розрізнений список робіт.",
       desired: "Зробити трансформацію, мобільну модель сервісу та наступну дію очевидними вже на першому екрані.",
-      system: "Жива конверсійна сторінка навколо restoration & protection, зі scope послуг і прямими шляхами до бронювання.",
+      system: "Адаптивна сторінка послуг із відновлення та захисту, описом робіт і прямим записом на візит.",
       flow: [
         "Потрапити на зрозумілу обіцянку restoration & protection.",
         "Зрозуміти мобільний формат і ключові detailing-послуги.",
         "Одразу зателефонувати або запланувати візит через пару головних CTA.",
       ],
-      evidence: "Публічний сайт thescratchlab.org і актуальний скриншот виконаного hero.",
-      resultNote: "Підтверджено: сайт публічно доступний. Метрики ефективності без аналітичних даних не заявляються.",
+      evidence: "У галереї показано клієнтський сайт на момент запуску.",
+      resultNote: "Клієнти могли зателефонувати або записатися на візит із головної сторінки.",
     },
     {
       context: "Мобильный detailing-бизнес для лодок, авто и RV в районе Myrtle Beach.",
       previous: "Широкий набор услуг нужно было подать как одно коммерчески понятное предложение, а не как разрозненный список работ.",
       desired: "Сделать трансформацию, мобильную модель сервиса и следующее действие очевидными уже на первом экране.",
-      system: "Живая конверсионная страница вокруг restoration & protection, со scope услуг и прямыми путями к бронированию.",
+      system: "Адаптивная страница услуг по восстановлению и защите с описанием работ и записью на визит.",
       flow: [
         "Попасть на понятное обещание restoration & protection.",
         "Понять мобильный формат и ключевые detailing-услуги.",
         "Сразу позвонить или запланировать визит через пару главных CTA.",
       ],
-      evidence: "Публичный сайт thescratchlab.org и актуальный скриншот выполненного hero.",
-      resultNote: "Подтверждено: сайт публично доступен. Метрики эффективности без аналитических данных не заявляются.",
+      evidence: "В галерее показан клиентский сайт на момент запуска.",
+      resultNote: "Клиенты могли позвонить или записаться на визит с главной страницы.",
     },
   ),
 };
