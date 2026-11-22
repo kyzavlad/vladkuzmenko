@@ -167,52 +167,55 @@ export const PORTFOLIO: PortfolioCard[] = [
     // A public URL evidences a reachable page only — it does not upgrade the build stage.
     liveUrl: "https://turbotaai.com/",
     shots: [
-      "/case-studies/turbotaai/landing.webp",
-      "/case-studies/turbotaai/pricing.webp",
-      "/case-studies/turbotaai/admin-ops.webp",
+      "/case-studies/turbotaai/public-home.webp",
+      "/case-studies/turbotaai/public-today.webp",
+      "/case-studies/turbotaai/public-pricing.webp",
     ],
     content: {
       en: {
         name: "TurbotaAI",
-        type: "AI SaaS product · Customer app + operations console",
+        type: "AI SaaS · Full-stack web product",
         outcome:
-          "Customers sign up, try the AI, subscribe and manage their own data — while the business runs it from an admin console instead of by hand.",
+          "A working web product with four AI directions, a daily entry point, account controls and an operations console.",
         problem:
-          "An AI demo is not a business. The conversation, the account, the trial limit, the payment, the consent record and the people who operate it all have to work as one product.",
+          "Four different AI experiences needed a shared account, trial and consent model, plus a daily experience that visitors could explore before signing in.",
         built:
-          "A full AI SaaS: a customer app in three languages with accounts, trial limits, subscription and consent controls — plus an operations console for activation, subscriptions, AI cost, system health and support lookups.",
+          "I developed the Next.js interface, account and trial access, localized pricing, consent controls and the role-protected operations console.",
         result:
-          "A complete AI SaaS is standing: the customer journey from first trial question to paid subscription and self-managed data, and the operator side that runs it — activation, subscriptions, AI cost, system health, support lookup and an append-only audit trail. Development continues against a working product, not a specification.",
-        capabilities: ["User accounts", "Subscription & paywall", "Admin & operations console", "Role-based access", "Consent & data controls", "Multilingual"],
-        caption: "TurbotaAI — landing",
+          "Visitors can explore Today and compare free and Premium access on the live web product. Account, consent and operations workflows are part of the same application.",
+        value: "The three screenshots show the live public home page, daily content and pricing. The live link opens the same web product.",
+        capabilities: ["Next.js", "AI conversation", "Daily content", "Accounts & access", "Consent controls", "Operations console", "EN / UA / RU"],
+        caption: "TurbotaAI home page and its four AI directions",
       },
       ua: {
         name: "TurbotaAI",
-        type: "AI SaaS-продукт · Клієнтський застосунок + операційна консоль",
+        type: "AI SaaS · Full-stack вебпродукт",
         outcome:
-          "Клієнти реєструються, пробують AI, оформлюють підписку й керують своїми даними — а бізнес веде це з адмін-консолі, а не вручну.",
+          "Робочий вебпродукт із чотирма AI-напрямами, щоденним розділом, налаштуваннями акаунта й операційною консоллю.",
         problem:
-          "AI-демо — це ще не бізнес. Розмова, акаунт, ліміт пробного доступу, оплата, запис згоди та люди, які цим оперують, мають працювати як один продукт.",
+          "Чотирьом AI-напрямам потрібні були спільний акаунт, пробний доступ і правила згоди, а відвідувачам — щоденний розділ, доступний до входу.",
         built:
-          "Повноцінний AI SaaS: клієнтський застосунок трьома мовами з акаунтами, лімітами пробного доступу, підпискою та контролем згоди — плюс операційна консоль для активації, підписок, вартості AI, стану системи й підтримки.",
+          "Я розробив інтерфейс на Next.js, акаунти й пробний доступ, локалізовані тарифи, керування згодою та операційну консоль з доступом за ролями.",
         result:
-          "Повноцінний AI SaaS уже стоїть: шлях клієнта від першого пробного запиту до платної підписки й самостійного керування даними, і бік оператора, що цим керує — активація, підписки, вартість AI, стан системи, пошук для підтримки та незмінюваний журнал дій. Розробка триває на робочому продукті, а не на специфікації.",
-        capabilities: ["Акаунти", "Підписка й пейволл", "Адмін- і операційна консоль", "Рольовий доступ", "Згода й контроль даних", "Багатомовність"],
-        caption: "TurbotaAI — головна сторінка",
+          "На робочому сайті відвідувачі можуть відкрити «Сьогодні» й порівняти безплатний доступ із Premium. Акаунт, згода та робота команди підтримки належать до одного застосунку.",
+        value: "Три кадри показують публічну головну, щоденний розділ і тарифи. За посиланням відкривається той самий вебпродукт.",
+        capabilities: ["Next.js", "AI-діалог", "Щоденний контент", "Акаунти й доступ", "Керування згодою", "Операційна консоль", "EN / UA / RU"],
+        caption: "Головна сторінка TurbotaAI і чотири AI-напрями",
       },
       ru: {
         name: "TurbotaAI",
-        type: "AI SaaS-продукт · Клиентское приложение + операционная консоль",
+        type: "AI SaaS · Full-stack веб-продукт",
         outcome:
-          "Клиенты регистрируются, пробуют AI, оформляют подписку и управляют своими данными — а бизнес ведёт это из админ-консоли, а не вручную.",
+          "Рабочий веб-продукт с четырьмя направлениями AI, ежедневным разделом, настройками аккаунта и операционной консолью.",
         problem:
-          "AI-демо — это ещё не бизнес. Разговор, аккаунт, лимит пробного доступа, оплата, запись согласия и люди, которые этим оперируют, должны работать как один продукт.",
+          "Четырём направлениям AI нужны были общий аккаунт, пробный доступ и правила согласия, а посетителям — ежедневный раздел, доступный до входа.",
         built:
-          "Полноценный AI SaaS: клиентское приложение на трёх языках с аккаунтами, лимитами пробного доступа, подпиской и контролем согласия — плюс операционная консоль для активации, подписок, стоимости AI, состояния системы и поддержки.",
+          "Я разработал интерфейс на Next.js, аккаунты и пробный доступ, локализованные тарифы, управление согласием и операционную консоль с доступом по ролям.",
         result:
-          "Полноценный AI SaaS уже стоит: путь клиента от первого пробного запроса до платной подписки и самостоятельного управления данными, и сторона оператора, которая этим управляет — активация, подписки, стоимость AI, состояние системы, поиск для поддержки и неизменяемый журнал действий. Разработка идёт на работающем продукте, а не на спецификации.",
-        capabilities: ["Аккаунты", "Подписка и пейволл", "Админ- и операционная консоль", "Ролевой доступ", "Согласие и контроль данных", "Многоязычность"],
-        caption: "TurbotaAI — главная страница",
+          "На рабочем сайте посетители могут открыть «Сегодня» и сравнить бесплатный доступ с Premium. Аккаунт, согласие и работа команды поддержки входят в одно приложение.",
+        value: "На трёх кадрах показаны публичная главная, ежедневный раздел и тарифы. По ссылке открывается тот же веб-продукт.",
+        capabilities: ["Next.js", "AI-диалог", "Ежедневный контент", "Аккаунты и доступ", "Управление согласием", "Операционная консоль", "EN / UA / RU"],
+        caption: "Главная страница TurbotaAI и четыре направления AI",
       },
     },
   },
