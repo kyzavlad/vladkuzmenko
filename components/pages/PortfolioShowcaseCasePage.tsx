@@ -9,7 +9,7 @@ import { RequestDialog } from "@/components/ui/request-dialog";
 import { useI18n } from "@/components/i18n-provider";
 import { cn } from "@/lib/utils";
 import { langHref } from "@/lib/i18n";
-import { CASE_UI, CATEGORY_SHORT } from "@/lib/portfolio";
+import { CASE_UI } from "@/lib/portfolio";
 import { type ShowcaseProject, type ShowcaseStory } from "@/lib/portfolio-showcase";
 import { getCuratedProject } from "@/lib/portfolio-curated";
 import { StableProjectImage } from "@/components/ui/stable-project-image";
@@ -214,12 +214,7 @@ export function PortfolioShowcaseCasePage({ slug }: { slug: string }) {
               {x.back}
             </a>
             <div className="mt-8 max-w-4xl">
-              <div className="flex flex-wrap items-center gap-2.5">
-                <span className="text-xs font-semibold uppercase tracking-[.18em] text-amber-300/75">
-                  {CATEGORY_SHORT[p.category][locale]}
-                </span>
-              </div>
-              <h1 className="mt-5 text-4xl font-black tracking-[-.04em] sm:text-6xl lg:text-7xl">{c.name}</h1>
+              <h1 className="text-4xl font-black tracking-[-.04em] sm:text-6xl lg:text-7xl">{c.name}</h1>
               <p className="mt-3 text-sm text-zinc-500 sm:text-base">{c.type}</p>
               <p className="mt-6 max-w-3xl text-lg leading-8 text-zinc-200 sm:text-xl">{c.outcome}</p>
               <div className="mt-8 flex flex-col gap-3 sm:flex-row">

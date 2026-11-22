@@ -14,24 +14,18 @@ export type CuratedProject = ShowcaseProject & {
 const COMMERCIAL_PRIORITY = [
   "turbotaai",
   "tutorivo",
-  "visibilityos-audit",
-  "dating-crm",
-  "appointment-booking-automation",
   "dacha-tv",
-  "bukville-concierge",
-  "hotel-natsionalny-wordpress",
-  "vilson-hotel-assistant",
-  "nikas-restaurant-assistant",
-  "ksuu-store-assistant",
+  "visibilityos-audit",
+  "cod-power-group",
   "status-auto",
-  "ikorka",
-  "ser-crypto",
+  "dating-crm",
+  "portfolio-enquiry-intake",
+  "hotel-natsionalny-wordpress",
   "leather-clinic",
   "scratch-lab",
-  "cod-power-group",
-  "ai-agent-interface",
-  "telegram-mining",
+  "ser-crypto",
   "un-amour",
+  "telegram-mining",
   "nft-auction",
   "nft-discovery",
   "nft-collections",
@@ -48,6 +42,13 @@ const COMMERCIAL_PRIORITY = [
   "bonatica",
   "verna",
   "ovulan",
+  "appointment-booking-automation",
+  "bukville-concierge",
+  "vilson-hotel-assistant",
+  "nikas-restaurant-assistant",
+  "ksuu-store-assistant",
+  "ai-agent-interface",
+  "ikorka",
 ] as const;
 
 const rank = new Map<string, number>(COMMERCIAL_PRIORITY.map((key, index) => [key, index]));
@@ -242,10 +243,8 @@ function curate(project: ShowcaseProject): CuratedProject {
   return curated;
 }
 
-const HIDDEN_PROJECT_KEYS = new Set(["reverie", "portfolio-enquiry-intake"]);
-
 export const CURATED_PORTFOLIO: CuratedProject[] = SHOWCASE_PORTFOLIO
-  .filter((project) => !HIDDEN_PROJECT_KEYS.has(project.key))
+  .filter((project) => project.key !== "reverie")
   .map(curate)
   .sort((a, b) => (rank.get(a.key) ?? 10_000) - (rank.get(b.key) ?? 10_000));
 
@@ -262,9 +261,9 @@ export const CURATED_PORTFOLIO: CuratedProject[] = SHOWCASE_PORTFOLIO
  *
  * turbotaai   — working AI SaaS, public URL, customer app + operations console.
  * tutorivo    — launched and tested MVP, real two-sided marketplace.
- * visibilityos-audit — interactive audit workflow with saved product screens.
+ * dacha-tv    — live ecommerce storefront with catalog search, product pages, and cart.
  */
-export const HOME_FEATURED_KEYS = ["turbotaai", "tutorivo", "visibilityos-audit"] as const;
+export const HOME_FEATURED_KEYS = ["turbotaai", "tutorivo", "dacha-tv"] as const;
 
 export const HOME_FEATURED: CuratedProject[] = HOME_FEATURED_KEYS.map((key) =>
   CURATED_PORTFOLIO.find((project) => project.key === key),

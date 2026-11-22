@@ -12,13 +12,6 @@ const nextConfig = {
     loader: 'custom',
     loaderFile: './image-loader.js'
   },
-  async redirects() {
-    return ['', '/ua', '/ru'].map((prefix) => ({
-      source: `${prefix}/work/portfolio-enquiry-intake`,
-      destination: `${prefix}/work`,
-      permanent: true,
-    }));
-  },
   async headers() {
     return [
       {
