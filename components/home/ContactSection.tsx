@@ -135,7 +135,14 @@ export function ContactSection() {
                   </div>
                   <Input aria-label={c.contactPh} name="contact" value={form.phone || ""} onChange={(event) => set("phone", event.target.value)} placeholder={c.contactPh} className="border-white/10 bg-white/5 text-white placeholder:text-gray-500" />
                   <Textarea aria-label={c.messagePh} name="message" required value={form.message || ""} onChange={(event) => set("message", event.target.value)} placeholder={c.messagePh} className="min-h-[150px] border-white/10 bg-white/5 text-white placeholder:text-gray-500" />
-                  {error === "delivery" && <LeadDeliveryError />}
+                  {error === "delivery" && (
+                    <LeadDeliveryError fields={[
+                      { label: c.namePh, value: form.name },
+                      { label: c.emailPh, value: form.email },
+                      { label: c.contactPh, value: form.phone },
+                      { label: c.messagePh, value: form.message },
+                    ]} />
+                  )}
                   {error === "validation" && <p role="alert" className="text-sm text-red-400">{c.errorMsg}</p>}
                   <Button type="submit" disabled={submitting || !valid} className="premium-button h-auto min-h-12 w-full px-6 py-3.5 text-base disabled:opacity-50">
                     {submitting ? <><Loader2 className="mr-2 h-5 w-5 animate-spin" />{c.sending}</> : <><Send className="mr-2 h-5 w-5" />{c.send}</>}

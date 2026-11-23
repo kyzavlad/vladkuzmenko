@@ -240,7 +240,9 @@ export function RequestDialog({
                 </div>
               ))}
 
-              {error === "delivery" && <LeadDeliveryError />}
+              {error === "delivery" && (
+                <LeadDeliveryError fields={effectiveFields.map(({ id, label }) => ({ label, value: data[id] }))} />
+              )}
               {error === "validation" && <p role="alert" className="text-sm text-red-400">{f.errorRequired}</p>}
 
               <Button

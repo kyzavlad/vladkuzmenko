@@ -287,6 +287,9 @@ const en = {
     errorMsg: "Please add your name, email and a message.",
     deliveryErrorMsg: "We could not confirm delivery. Your message is still in the form. You can try again.",
     telegramContact: "Message me on Telegram",
+    copyRequest: "Copy request",
+    requestCopied: "Copied. Paste your request in Telegram.",
+    manualCopy: "Select and copy your request, then paste it in Telegram.",
   },
   footer: {
     newsletterTitle: "Stay in the loop",
@@ -580,6 +583,9 @@ const ua: Dict = {
     errorMsg: "Будь ласка, вкажіть ім'я, email і повідомлення.",
     deliveryErrorMsg: "Не вдалося підтвердити надсилання. Ваше повідомлення залишилося у формі. Можете спробувати ще раз.",
     telegramContact: "Написати в Telegram",
+    copyRequest: "Скопіювати заявку",
+    requestCopied: "Скопійовано. Вставте заявку в Telegram.",
+    manualCopy: "Виділіть і скопіюйте заявку, потім вставте її в Telegram.",
   },
   footer: {
     newsletterTitle: "Залишайтесь на зв'язку",
@@ -871,6 +877,9 @@ const ru: Dict = {
     errorMsg: "Пожалуйста, укажите имя, email и сообщение.",
     deliveryErrorMsg: "Не удалось подтвердить отправку. Ваше сообщение осталось в форме. Можно попробовать ещё раз.",
     telegramContact: "Написать в Telegram",
+    copyRequest: "Скопировать заявку",
+    requestCopied: "Скопировано. Вставьте заявку в Telegram.",
+    manualCopy: "Выделите и скопируйте заявку, затем вставьте её в Telegram.",
   },
   footer: {
     newsletterTitle: "Оставайтесь на связи",
